@@ -9,7 +9,7 @@
 class stRandom : JMath::TRandom_fast_ {
 public:
     static void createAllRandom();
-    u32 getRandomMax(unsigned long);
+    u32 getRandomMax(u32 max);
     f32 getArbitUnitVec(JGeometry::TVec3<f32>&, f32, f32);
     f32 getArbitUnitVecSimple(JGeometry::TVec3<f32>&, f32);
     f32 getArbitUnitVecXZ(JGeometry::TVec3<f32>&, f32);

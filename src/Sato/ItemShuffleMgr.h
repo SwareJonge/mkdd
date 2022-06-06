@@ -20,23 +20,31 @@ private:
         u8 kartCount;
         u8 useableSlots;
         u8 totalSlots;
-        KartSlotList* slotList;
+        KartSlotList* mList;
     };
 
     static u8 sSlotNormalItemNum; // 9
     static u8 sSlotSpecialItemNum; // 9
     static u32 *sSlotKindIndexArray;
     struct KartSlotRankDataSet {
-        KartSlotData* slotData;
-        u32 specialItemOffset;
+        KartSlotData* data;
+        u32 specialItemIndex;
         u32 specialItemChance;
-        s32 rank;
+        s32 rankIdx;
         s32 total;
         s32 _0x14;
         s32 _0x18;
     };
 public:
     virtual ~ItemShuffleMgr();
+    virtual void calcRaceUseNormalItem(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32);
+    virtual void calcSpecialItemNum(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32, bool);
+    virtual s32 calcRank(ItemShuffleMgr::KartSlotRankDataSet);
+};
+
+class ItemRndSpecialShuffleMgr : public ItemShuffleMgr {
+public:
+    virtual ~ItemRndSpecialShuffleMgr();
     virtual void calcRaceUseNormalItem(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32);
     virtual void calcSpecialItemNum(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32, bool);
     virtual s32 calcRank(ItemShuffleMgr::KartSlotRankDataSet);
