@@ -21,13 +21,11 @@ public:
     static stRandom* sRndMgr[6];
 
 private:
-    /* ==== NOT MATCHING ==== */
-    static stRandom* sMgr;
+    static stRandom* sMgr; // not sure if this get's accesssed by something else, more research needed
     stRandom() {
         permission = true;
         sMgr = this;
     }
-    /* ===================== */
     u16 _0x4; // sin
     u16 _0x6; // cos
     f32 _0x8; // angle?
