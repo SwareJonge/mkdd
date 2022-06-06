@@ -12,6 +12,8 @@ public:
     inline RaceInfo(); // this is not inlined in the debug version 
     ~RaceInfo();
 
+    void reset();
+
 private:
     bool isTinyProcess;
     bool isLanMode;
@@ -23,6 +25,7 @@ private:
     s32 itemSlotType; // perhaps this is an enum too
     s16 vsLapNum;
     s16 lapNumLAN;
+    s16 kartNum;
     s16 playerNum;
     s16 consoleNum;
     s16 statusNum;
