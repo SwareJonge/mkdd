@@ -10,8 +10,8 @@ namespace JMath {
     public:
         TRandom_fast_(u32 num);
         u32 get(void) {
-            random = (random * 0x19660d) + 0x3c6ef35f;
-            return random;
+            seed = (seed * 0x19660d) + 0x3c6ef35f;
+            return seed;
         }
 
         // from TP decomp
@@ -26,10 +26,10 @@ namespace JMath {
             return out.f - 1;
         }
 
-        void setSeed(u32 seed) { random = seed; }
+        void setSeed(u32 Seed) { seed = Seed; }
 
     private:
-        u32 random;
+        u32 seed;
     };
 }
 
