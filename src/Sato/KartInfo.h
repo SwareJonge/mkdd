@@ -64,7 +64,7 @@ public:
 private:
     SKartDB kartDB;
     KartCharacter kartCharacter[2]; // one for the driver, other for the one doing nothing
-    s32 _0x14; // unknown what this does, 
+    s32 kartType; // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
 
 };
 
