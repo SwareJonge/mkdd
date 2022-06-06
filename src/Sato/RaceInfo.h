@@ -9,6 +9,7 @@
 
 class RaceInfo {
 public:
+    inline RaceInfo(); // this is not inlined in the debug version 
     ~RaceInfo();
 
 private:

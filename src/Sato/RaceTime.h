@@ -6,7 +6,6 @@ class RaceTime
 public:
     RaceTime();
     RaceTime(RaceTime const &);
-    ~RaceTime();
 
 private:
     u32 time;
