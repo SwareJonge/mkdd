@@ -93,7 +93,6 @@ void RaceInfo::shuffleStartNo() {
         startPosIndex[i] = startPosIndex[newidx];
         startPosIndex[newidx] = playerStartIdx;
     }
-
 }
 
 void RaceInfo::hideConsole(u32 param_2) {

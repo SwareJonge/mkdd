@@ -1,9 +1,35 @@
+#include <JSystem/JUT/JUTDbPrint.h>
+
 #include "ItemShuffleMgr.h"
 #include "ItemObjMgr.h"
 #include "stMath.h"
 
 bool sTempSlotUseItem[18];
 int sTempSpecialRatio[9];
+
+void ItemObjMgr::draw() {
+    JUTReport(20, 60, "SlotTable");
+    // i have a feeling this is inlined
+    ItemShuffleMgr::KartSlotData * slotData = &ItemShuffleMgr::mSlotList;
+    JUTReport(100, 80, "Player");
+
+    for (u8 kartNum = 0; kartNum < slotData->kartCount; kartNum++) {
+        for (u8 slotNum = 0; slotNum < slotData->totalSlots; slotNum++) {
+            JUTReport(kartNum * 33 + 20, slotNum * 12 + 100, "%u", slotData->mList[kartNum].slotTable[0]->chance[slotNum]);
+        }
+    }
+    // might need to use some inline functions to get this because of private members
+    if (RaceMgr::sRaceManager->raceInfo->raceMode == GRAND_PRIX) {
+        ItemShuffleMgr::KartSlotData * slotData = &ItemShuffleMgr::mSlotListEnemy;
+        JUTReport(400, 80, "Enemy");
+        for (u8 kartNum = 0; kartNum < slotData->kartCount; kartNum++) {
+            for (u8 slotNum = 0; slotNum < slotData->totalSlots; slotNum++) {
+                JUTReport(kartNum * 33 + 320, slotNum * 12 + 100, "%u", slotData->mList[kartNum].slotTable[0]->chance[slotNum]);
+            }
+        }
+    }
+}
+
 
 s32 ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
 
@@ -34,6 +60,18 @@ s32 ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
 
     return ret;
 
+}
+
+s32 ItemShuffleMgr::calcSlot(KartSlotRankDataSet & slotRankData, s32 p2, s32 p3, bool p4) {
+
+    u32 total = 0;
+
+    calcRaceUseNormalItem(&total, &slotRankData, p3);
+    calcSpecialItemNum(&total, &slotRankData, p2, p3, p4);
+
+    slotRankData.total = total;
+
+    return calcRank(slotRankData);
 }
 
 s32 ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {

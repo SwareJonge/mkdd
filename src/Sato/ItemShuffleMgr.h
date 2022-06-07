@@ -23,6 +23,9 @@ private:
         KartSlotList* mList;
     };
 
+    static KartSlotData mSlotList;
+    static KartSlotData mSlotListEnemy;
+
     static u8 sSlotNormalItemNum; // 9
     static u8 sSlotSpecialItemNum; // 9
     static u32 *sSlotKindIndexArray;
@@ -33,21 +36,22 @@ private:
         s32 rankIdx;
         s32 total;
         s32 _0x14;
-        s32 _0x18;
     };
 public:
+    s32 calcSlot(KartSlotRankDataSet & slotRankData, s32 p2, s32 p3, bool p4);
+
     virtual ~ItemShuffleMgr();
-    virtual void calcRaceUseNormalItem(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32);
-    virtual void calcSpecialItemNum(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32, bool);
-    virtual s32 calcRank(ItemShuffleMgr::KartSlotRankDataSet);
+    virtual void calcRaceUseNormalItem(u32 *, KartSlotRankDataSet *, s32);
+    virtual void calcSpecialItemNum(u32 *, KartSlotRankDataSet *, s32, s32, bool);
+    virtual s32 calcRank(KartSlotRankDataSet);
 };
 
 class ItemRndSpecialShuffleMgr : public ItemShuffleMgr {
 public:
     virtual ~ItemRndSpecialShuffleMgr();
-    virtual void calcRaceUseNormalItem(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32);
-    virtual void calcSpecialItemNum(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, s32, bool);
-    virtual s32 calcRank(ItemShuffleMgr::KartSlotRankDataSet);
+    virtual void calcRaceUseNormalItem(u32 *, KartSlotRankDataSet *, s32);
+    virtual void calcSpecialItemNum(u32 *, KartSlotRankDataSet *, s32, s32, bool);
+    virtual s32 calcRank(KartSlotRankDataSet);
 };
 
 #endif // !ITEMSHUFFLEMGR_H
