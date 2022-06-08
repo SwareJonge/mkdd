@@ -4,8 +4,8 @@
 class RaceTime
 {
 public:
-    RaceTime();
-    RaceTime(RaceTime const &);
+    inline RaceTime();
+    inline RaceTime(RaceTime const &);
 
 private:
     u32 time;
