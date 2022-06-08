@@ -37,7 +37,17 @@ private:
         s32 total;
         s32 _0x14;
     };
+    u16 _0x4; // might be the amount of button presses to speed up the shuffle
+    u8 _0x5; // 
+    u8 _0x6;
+    u8 _0x7;
+    s32 idx;
 public:
+    ItemShuffleMgr() {
+        _0x4 = 0;
+        _0x5 = 0;
+    }
+
     s32 calcSlot(KartSlotRankDataSet & slotRankData, s32 p2, s32 p3, bool p4);
 
     virtual ~ItemShuffleMgr();

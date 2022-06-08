@@ -15,7 +15,7 @@ class KartChecker {
 public:
     KartChecker(int, KartInfo *, int, int);
 
-    void setPlayerKartColor(KartInfo *);
+    //void setPlayerKartColor(KartInfo *);
 private:
     u16 raceFlags;
     s16 kartIndex;

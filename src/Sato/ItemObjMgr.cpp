@@ -3,6 +3,7 @@
 #include "ItemShuffleMgr.h"
 #include "ItemObjMgr.h"
 #include "stMath.h"
+#include "..//Kaneshige/RaceMgr.h"
 
 bool sTempSlotUseItem[18];
 int sTempSpecialRatio[9];

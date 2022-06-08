@@ -70,7 +70,7 @@ private:
     s16 statusNum;
     u16 lod;
     s16 gpStageNo;
-    s32 _0x28;
+    s32 inWaitDemo;
     bool isMirror;
     // padding bytes
     KartInfo kartInfo[8];
