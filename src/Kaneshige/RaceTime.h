@@ -7,23 +7,26 @@ class RaceTime
 {
 public:
     inline RaceTime();
+    //inline RaceTime(RaceTime const &);
+    //inline void operator=(const RaceTime &);
     inline void reset();
     inline void zero();
-    inline void set(s32);
+    inline void set(int);
+    inline void set(RaceTime const &);
     inline bool isAvailable();
-    inline u32 isLittle(const RaceTime &) const; // might be a boolean, however ghidra thinks is uint
-    inline operator =(const RaceTime &);
+    inline bool isLittle(const RaceTime &) const; 
+    
     inline void sub(const RaceTime &, const RaceTime &);
-    inline s32 get() const;
-    inline s32 sub(int);
-    inline RaceTime(RaceTime const &);
-    inline setFrame(s32);
+    inline int get() const;
+    inline int sub(int);
+    
+    inline void setFrame(int);
     inline int getUpwardMSec() const;
 
-    void get(s32 *, s32 *, s32 *) const;
+    void get(int *, int *, int *) const;
 
 private:
-    s32 time;
+    int time;
 };
 
 #endif
