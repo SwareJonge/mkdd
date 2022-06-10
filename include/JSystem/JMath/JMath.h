@@ -9,13 +9,10 @@ namespace JMath {
     {
     public:
         TRandom_fast_(u32 num);
-        u32 get(void) {
-            seed = (seed * 0x19660d) + 0x3c6ef35f;
-            return seed;
-        }
+        inline u32 get();
 
         // from TP decomp
-        float get_ufloat_1(void) {
+        float get_ufloat_1() {
             // !@bug UB: in C++ it's not legal to read from an union member other
             // than the last one that was written to.
             union {
@@ -26,7 +23,7 @@ namespace JMath {
             return out.f - 1;
         }
 
-        void setSeed(u32 Seed) { seed = Seed; }
+        inline setSeed(u32 Seed);
 
     private:
         u32 seed;
