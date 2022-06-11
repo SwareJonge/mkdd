@@ -7,4 +7,3 @@
 *.ninja
 .ninja_log
 /deps/
-/include
