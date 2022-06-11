@@ -24,7 +24,7 @@ class FunctionLibrary:
         self.functions.clear()
 
         # Load CSV files
-        for file in os.listdir("csv"):            
+        for file in os.listdir("csv"):
             library = file[0:file.rfind(".")]
             symbols = OrderedDict()
 
@@ -84,7 +84,7 @@ class FunctionLibrary:
     def is_marked_decompiled(self, library_name, symbol, obj_file):
         if library_name in self.libraries:
             library = self.libraries[library_name]
-            
+
             if (symbol, obj_file) in library:
                 return library[(symbol, obj_file)][1]
 
@@ -93,7 +93,7 @@ class FunctionLibrary:
     def mark_symbol_decompiled(self, library_name, symbol, obj_file, decompiled):
         if library_name in self.libraries:
             library = self.libraries[library_name]
-            
+
             if (symbol, obj_file) in library:
                 library[(symbol, obj_file)] = (library[(symbol, obj_file)][0], decompiled)
 
@@ -109,7 +109,7 @@ class FunctionLibrary:
             return self.functions[symbol][0]
 
         return None
-        
+
     def get_size_from_symbol(self, symbol):
         if symbol in self.functions:
             return self.functions[symbol][1]
@@ -141,12 +141,12 @@ def is_dol_correct():
         data = input.read()
 
         hash = hashlib.sha256(data).hexdigest().upper()
-        return hash == "8B7F28D193170F998F92E02EA638107822FB72073691D0893EB18857BE0C6FCF" or hash == "69F93FCC0FA34837347B5AC05168BC783ADCACB3C02697CFDA087A3B63ABC9E0"
+        return hash == "10A3290B191D7672972785045989FEFD3AE415101EB19D044ABAB4001E15EE9C"
 
 def get_code_from_dol(address, size):
     with open("baserom.dol", "rb") as input:
         data = input.read()
-        
+
         # Grab .text offset and start offset
         txt_offset, = struct.unpack_from(">I", data, 4)
         start_address, = struct.unpack_from(">I", data, 0x4C)
@@ -293,7 +293,7 @@ def check_symbol(function_library, mangled_symbol, obj_name, readonly):
             line = i * 4
             line_string = f"{hex(line)} (Original: {hex(original_address + line)})"
 
-            original_instruction = original_instructions[i]            
+            original_instruction = original_instructions[i]
             custom_instruction = custom_instructions[i]
 
             original_operands = original_instruction.operands
@@ -308,7 +308,7 @@ def check_symbol(function_library, mangled_symbol, obj_name, readonly):
                 print_warning(f"Skipping blacklisted instruction at line {line_string}.")
                 warning_count += 1
                 continue
-            
+
             if original_instruction.id == custom_instruction.id:
                 assert(len(original_operands) == len(custom_operands))
 
@@ -327,7 +327,7 @@ def check_symbol(function_library, mangled_symbol, obj_name, readonly):
                         #print_instruction_comparison_hint(f"Skipping r13 issue at line {line_string}.", original_instruction, custom_instruction)
                         hint_count += 1
                         continue
-                    
+
                 if original_instruction.id in { PPC_INS_LWZ, PPC_INS_LFS, PPC_INS_LHZ, PPC_INS_LFS }:
                     assert(len(original_operands) == 2 and len(custom_operands) == 2)
 
@@ -338,11 +338,11 @@ def check_symbol(function_library, mangled_symbol, obj_name, readonly):
                             custom_operands[1].mem.disp == 0 and original_operands[0].reg == custom_operands[0].reg:
                         print(f"{Fore.YELLOW}{str(original_instruction):<80}{custom_instruction}{Style.RESET_ALL}")
                         #print_instruction_comparison_hint(f"Skipping r2 issue at line {line_string}.", original_instruction, custom_instruction)
-                        hint_count += 1 
+                        hint_count += 1
                         continue
 
                 # Check if all registers are equal
-                registers_equal = True 
+                registers_equal = True
 
                 for j in range(len(original_operands)):
                     if original_operands[j].reg != custom_operands[j].reg:
@@ -370,11 +370,11 @@ def check_symbol(function_library, mangled_symbol, obj_name, readonly):
                     # to that function. Then it's not possible to compare this
                     print(f"{Fore.YELLOW}{str(original_instruction):<80}{custom_instruction}{Style.RESET_ALL}")
                     #print_instruction_comparison_warning(f"Skipping branch instruction at line {line_string}.", original_instruction, custom_instruction)
-                    warning_count += 1                
+                    warning_count += 1
                 else:
                     print(f"{Fore.RED}{str(original_instruction):<80}{custom_instruction}{Style.RESET_ALL}")
                     #print_instruction_comparison_error(f"Instruction mismatch on line {line_string}.", original_instruction, custom_instruction)
-                    error_count += 1                
+                    error_count += 1
             elif original_instruction.id == PPC_INS_ADDI and custom_instruction.id == PPC_INS_LI:
                 assert(len(original_operands) == 3 and len(custom_operands) == 2)
 
@@ -471,7 +471,7 @@ if check_all:
     for (symbol, obj_name) in function_library.get_symbols_marked_as_decompiled():
         print(f"Checking {symbol}...")
         total_count += 1
-        
+
         if check_symbol(function_library, symbol, obj_name, True):
             success_count += 1
 
@@ -488,7 +488,7 @@ if compare:
 
     for (symbol, obj_name) in function_library.get_symbols_marked_as_decompiled():
         print(f"Checking {symbol}...")
-        
+
         if check_symbol(function_library, symbol, obj_name, True):
             success_count_a += 1
             matched_a.add((symbol, obj_name))
@@ -503,7 +503,7 @@ if compare:
     print("First run of tests are now done.")
     print("Now, please make the code changes you wish to test, and then recompile everything.")
     input("Press Enter to contiue...")
-    
+
     success_count_b = 0
     fail_count_b = 0
     matched_b = set()
@@ -511,7 +511,7 @@ if compare:
 
     for (symbol, obj_name) in function_library.get_symbols_marked_as_decompiled():
         print(f"Checking {symbol}...")
-        
+
         if check_symbol(function_library, symbol, obj_name, True):
             success_count_b += 1
             matched_b.add((symbol, obj_name))
@@ -520,12 +520,12 @@ if compare:
             failed_b.add((symbol, obj_name))
 
             print()
-            
+
     print()
     print()
     print("Second run of tests are now done.")
     print()
-    
+
     print(f"First run: {success_count_a} matched and {fail_count_a} failed.")
     print(f"Second run: {success_count_b} matched and {fail_count_b} failed.")
     print()
