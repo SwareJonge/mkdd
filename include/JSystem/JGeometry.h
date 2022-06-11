@@ -1,6 +1,8 @@
 #ifndef JGEOMETRY_H
 #define JGEOMETRY_H
 
+#include "types.h"
+
 // from SMS decomp
 namespace JGeometry {
     template <typename T> class TVec3 {
@@ -21,7 +23,7 @@ namespace JGeometry {
         void scale(f32 scale);
         void scale(f32 scale, const TVec3& operand);
         void scaleAdd(f32 scale, const TVec3& operand, const TVec3& translate);
-        void set(const Vec&);
+        //void set(const Vec&);
 
         template <typename TY> void set(TY x, TY y, TY z);
         template <typename TY> void set(const TVec3<TY>&);

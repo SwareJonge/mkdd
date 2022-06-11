@@ -1,12 +1,9 @@
-#include <JSystem/JUT/JUTDbPrint.h>
+#include "Sato/ItemObjMgr.h"
+#include "Sato/stMath.h"
 
-#include "ItemShuffleMgr.h"
-#include "ItemObjMgr.h"
-#include "stMath.h"
-#include "..//Kaneshige/RaceMgr.h"
+#include "JSystem/JUtility/JUTDbPrint.h"
+#include "Kaneshige/RaceMgr.h"
 
-bool sTempSlotUseItem[18];
-int sTempSpecialRatio[9];
 
 void ItemObjMgr::draw() {
     JUTReport(20, 60, "SlotTable");
@@ -31,25 +28,23 @@ void ItemObjMgr::draw() {
     }
 }
 
-
-s32 ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
-
-    s32 ret = -1;
+int ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
+    int ret = -1;
     u32 randomNum = stGetRnd(0)->getRandomMax(slotRankData.total - 1);
 
-    s32 uVar3 = 0;
-    s32 uVar2 = 0;
+    int uVar3 = 0;
+    int uVar2 = 0;
 
-    for (s32 i = 0; i < sSlotNormalItemNum + 1; i++, uVar3 = uVar2)
+    for (int i = 0; i < sSlotNormalItemNum + 1; i++, uVar3 = uVar2)
     {
-        s32 itemChance = slotRankData.data->mList[slotRankData.rankIdx].slotTable[1]->chance[i];
-        s32 itemIdx = i;
-        if (i >= (s32)sSlotNormalItemNum) {
+        int itemChance = slotRankData.data->mList[slotRankData.rankIdx].slotTable[1]->chance[i];
+        int itemIdx = i;
+        if (i >= (int)sSlotNormalItemNum) {
             itemIdx = slotRankData.specialItemIndex;
             itemChance = slotRankData.specialItemChance;
         }
 
-        uVar2 = uVar2 + (itemChance & (-(sTempSlotUseItem[i] != false)));
+        uVar2 = uVar2 + (itemChance & (-(ItemObjMgr::sTempSlotUseItem[i] != false)));
         if ((uVar3 <= randomNum) && (uVar2 > randomNum)) {
             ret = sSlotKindIndexArray[itemIdx];
             break;
@@ -63,7 +58,7 @@ s32 ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
 
 }
 
-s32 ItemShuffleMgr::calcSlot(KartSlotRankDataSet & slotRankData, s32 p2, s32 p3, bool p4) {
+int ItemShuffleMgr::calcSlot(KartSlotRankDataSet & slotRankData, int p2, int p3, bool p4) {
 
     u32 total = 0;
 
@@ -75,23 +70,23 @@ s32 ItemShuffleMgr::calcSlot(KartSlotRankDataSet & slotRankData, s32 p2, s32 p3,
     return calcRank(slotRankData);
 }
 
-s32 ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
-    s32 ret = -1;
+int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
+    int ret = -1;
     u32 randomNum = stGetRnd(0)->getRandomMax(slotRankData.total - 1);
 
-    s32 uVar3 = 0;
-    s32 uVar2 = 0;
+    int uVar3 = 0;
+    int uVar2 = 0;
 
-    for (s32 idx = 0; idx < (s32)slotRankData.data->totalSlots; idx++, uVar3 = uVar2) {
+    for (int idx = 0; idx < (int)slotRankData.data->totalSlots; idx++, uVar3 = uVar2) {
         u32 chance;
-        if (idx >= (s32)sSlotNormalItemNum) {
-            chance = sTempSpecialRatio[idx - sSlotNormalItemNum];
+        if (idx >= (int)sSlotNormalItemNum) {
+            chance = ItemObjMgr::sTempSpecialRatio[idx - sSlotNormalItemNum];
         }
         else {
             chance = slotRankData.data->mList[slotRankData.rankIdx].slotTable[1]->chance[idx];
         }
 
-        uVar2 = uVar2 + (chance & (-(sTempSlotUseItem[idx] != false)));
+        uVar2 = uVar2 + (chance & (-(ItemObjMgr::sTempSlotUseItem[idx] != false)));
         if ((uVar3 <= randomNum) && (uVar2 > randomNum)) {
             ret = sSlotKindIndexArray[idx];
             break;

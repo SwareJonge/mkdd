@@ -1,6 +1,8 @@
 #ifndef JKRDISPOSER_H
 #define JKRDISPOSER_H
 
+#include "types.h"
+
 #include "JSystem/JSupport/JSUList.h"
 
 class JKRHeap;

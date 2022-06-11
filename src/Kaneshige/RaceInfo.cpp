@@ -1,13 +1,15 @@
-#include "RaceInfo.h"
+#include "Kaneshige/RaceInfo.h"
+
+#include "JSystem/JMath/JMath.h"
 
 void RaceInfo::reset() {
     isTinyProcess = false;
     isLanMode = false;
     isTrueEnding = false;
     randomSeed = 0;
-    gpCup = -1;
-    raceMode = 0;
-    raceLevel = -1;
+    gpCup = INV_CUP;
+    raceMode = INV_MODE;
+    raceLevel = LVL_INV;
     itemSlotType = 0;
     vsLapNum = 0;
     lapNumLAN = 0;
@@ -17,10 +19,10 @@ void RaceInfo::reset() {
     statusNum = 0;
     lod = 0;
     gpStageNo = 0;
-    _0x28 = 0;
+    inWaitDemo = 0;
     isMirror = false;
     _0x298 = 0;
-    hideConsole = 0;
+    HideConsole = 0;
 
     for (s32 i = 0; i < 8; i++) {
         kartInfo[i].reset();
@@ -67,7 +69,7 @@ void RaceInfo::setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 c
 }
 
 void RaceInfo::setRaceLevel(ERaceLevel raceLvl) {
-    raceLevel = raceLvl;
+    this->raceLevel = raceLvl;
     if (raceLvl == LVL_MIRROR)
         isMirror = true;
     else
@@ -96,5 +98,5 @@ void RaceInfo::shuffleStartNo() {
 }
 
 void RaceInfo::hideConsole(u32 param_2) {
-    hideConsole = hideConsole | (u16)(1 << param_2);
+    HideConsole = HideConsole | (u16)(1 << param_2);
 }

@@ -1,7 +1,7 @@
 #include "KartLocale.h"
 
 namespace KartLocale {
-    void localize() {
+    void KartLocale::localize() {
         switch (msRegion) {
         case JAPAN:
             msLanguage = JAPANESE;
@@ -10,10 +10,10 @@ namespace KartLocale {
             msVideoFrameMode = EURGB60;
             return;
         case UNITED_STATES:
-            msVideoMode = NTSC;
-            msVideoFrameMode = EURGB60;
             msLanguage = ENGLISH;
             msSpeedUnit = MPH;
+            msVideoMode = NTSC;
+            msVideoFrameMode = EURGB60;
             return;
         case UNITED_KINGDOM:
             msLanguage = ENGLISH;

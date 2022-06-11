@@ -1,5 +1,9 @@
-#include <runtime.h>
-#include "stMath.h"
+#include "Sato/stMath.h"
+#include "types.h"
+
+#include <runtime.c>
+#include "JSystem/JMath/JMATrigonometric.h"
+#include "JSystem/JGeometry.h"
 
 void stRandom::createAllRandom() {
     for (u32 i = 0; i < 6; i++) {
@@ -8,7 +12,7 @@ void stRandom::createAllRandom() {
 }
 
 u32 stRandom::getRandomMax(u32 max) {
-    return __cvt_fp2unsigned((max + 1) * this->get_ufloat_1());
+    return __cvt_fp2unsigned((max + 1) * get_ufloat_1());
 }
 
 f32 stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& p1, f32 p2, f32 p3) {

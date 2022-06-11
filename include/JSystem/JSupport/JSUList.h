@@ -1,7 +1,7 @@
 #ifndef JSULIST_H
 #define JSULIST_H
 
-#include <types.h>
+#include "types.h"
 
 class JSUPtrLink;
 
@@ -11,47 +11,52 @@ public:
         initiate();
     }
 
-    JSUPtrList(bool hasBeenInit);
+    JSUPtrList(bool);
     ~JSUPtrList();
 
     void initiate();
-    void setFirst(JSUPtrLink *pNode);
-    void append(JSUPtrLink *pNode);
-    void prepend(JSUPtrLink *pNode);
-    void insert(JSUPtrLink *, JSUPtrLink *);
-    void remove(JSUPtrLink *pNode);
+    void setFirst(JSUPtrLink *);
+    bool append(JSUPtrLink *);
+    bool prepend(JSUPtrLink *);
+    bool insert(JSUPtrLink *, JSUPtrLink *);
+    bool remove(JSUPtrLink *);
 
-    JSUPtrLink* mHead; // _0
-    JSUPtrLink* mTail; // _4
-    u32 mNodeCount;    // _8
+    JSUPtrLink *mHead;  // _0
+    JSUPtrLink *mTail;  // _4
+    u32 mNodeCount;     // _8
 };
 
 class JSUPtrLink {
 public:
-    JSUPtrLink(void *pData);
+    JSUPtrLink(void *);
     ~JSUPtrLink();
 
-    void *mData;          // _0
-    JSUPtrList* mPtrList; // _4
-    JSUPtrLink* mPrev;    // _8
-    JSUPtrLink* mNext;    // _C
+    void *mData;            // _0
+    JSUPtrList *mPtrList;   // _4
+    JSUPtrLink *mPrev;      // _8
+    JSUPtrLink *mNext;      // _C
 };
 
-template<typename T>
+template<class T>
 class JSULink : public JSUPtrLink {
 public:
-    JSULink(void *pData) : JSUPtrLink(pData) { }
+    JSULink(void *pData) : JSUPtrLink(pData) {
+
+    }
 
     ~JSULink();
 };
 
-template<typename T>
+template<class T>
 class JSUList : public JSUPtrList {
 public:
-    JSUList() : JSUPtrList() { }
-    JSUList(bool hasBeenInit) : JSUPtrList(hasBeenInit) { }
+    JSUList() : JSUPtrList() {
 
-    ~JSUList();
+    }
+
+    JSUList(bool thing) : JSUPtrList(thing) {
+
+    }
 };
 
-#endif
+#endif /* JSULIST_H */

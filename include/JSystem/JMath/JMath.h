@@ -1,15 +1,20 @@
 #ifndef JMATH_H
 #define JMATH_H
 
-#include <types.h>
-#include "JMATrigonometric.h"
+#include "types.h"
+#include "JSystem/JMath/JMATrigonometric.h"
 
 namespace JMath {
+    TSinCosTable sincosTable_;
+
     class TRandom_fast_
     {
     public:
-        TRandom_fast_(u32 num);
-        inline u32 get();
+        inline TRandom_fast_(u32 num);
+        u32 get() {
+            seed = (seed * 0x19660d) + 0x3c6ef35f;
+            return seed;
+        }
 
         // from TP decomp
         float get_ufloat_1() {
@@ -23,7 +28,9 @@ namespace JMath {
             return out.f - 1;
         }
 
-        inline setSeed(u32 Seed);
+        void setSeed(u32 Seed) {
+            seed = Seed;
+        }
 
     private:
         u32 seed;

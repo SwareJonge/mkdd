@@ -1,4 +1,4 @@
-#include "RaceTime.h"
+#include "Kaneshige/RaceTime.h"
 
 #define MAX_TIME 5999999
 #define MAX_MS 999
@@ -68,7 +68,7 @@ void RaceTime::sub(const RaceTime & split1, const RaceTime & split2) {
 }
 
 void RaceTime::sub(int p1) {
-    time -= p1;
+    time = time - p1;
 }
 
 void RaceTime::zero() {

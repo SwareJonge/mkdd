@@ -1,5 +1,10 @@
+*.o
 *.s
 *.dol
 *.elf
 *.exe
 *.MAP
+*.ninja
+.ninja_log
+/deps/
+/include

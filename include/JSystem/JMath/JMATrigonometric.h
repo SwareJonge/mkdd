@@ -1,7 +1,7 @@
 #ifndef JMATRIGONOMETRIC_H
 #define JMATRIGONOMETRIC_H
 
-#include <types.h>
+#include "types.h"
 #include <utility> // std::pair
 
 // from TP decomp
