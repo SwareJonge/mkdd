@@ -42,15 +42,7 @@ def get_containing_slice(addr: int) -> Tuple[Binary, SourceDesc]:
 
     dol_raw = get_cmd_stdout(f"{SLICES} {DOL} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
     containing = json.loads(dol_raw)
-    if containing is None:
-        rel_raw = get_cmd_stdout(
-            f"{SLICES} {REL} {REL_SLICES} {PPCDIS_REL_FLAGS} -p {REL_SRCDIR}/ --containing {addr:x}"
-        )
-        containing = json.loads(rel_raw)
-        assert containing is not None, f"Unknown address {addr:x}"
-        return (Binary.REL, containing)
-    else:
-        return (Binary.DOL, containing)
+    return (Binary.DOL, containing)
 
 def find_headers(dirname: str, base=None) -> List[str]:
     """Returns a list of all headers in a folder recursively"""
