@@ -3,7 +3,9 @@
 *.dol
 *.elf
 *.exe
+*.dll
 *.MAP
 *.ninja
+/__pycache__/
 .ninja_log
 /deps/

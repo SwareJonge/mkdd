@@ -2,7 +2,7 @@
 
 namespace KartLocale {
     void KartLocale::localize() {
-        switch (msRegion) {
+        switch (msCountry) {
         case JAPAN:
             msLanguage = JAPANESE;
             msSpeedUnit = KMH;

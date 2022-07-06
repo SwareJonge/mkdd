@@ -1,0 +1,19 @@
+global:
+ # .init
+ 0x80003100 __check_pad3
+ 0x80003140 __set_debug_bba
+ 0x8000314c __get_debug_bba
+ 0x80003154 __start
+ 0x800032b0 __init_registers
+ 0x80003340 __init_data
+ 0x80003400 __init_hardware
+ 0x80003424 __flush_cache
+ 0x80003458 memset
+ 0x80003488 __fill_mem
+ 0x80003540 memcpy
+ 0x80003590 TRK_memset
+ 0x800035c0 TRK_memcpy
+ 0x80005518 __TRK_reset
+
+ #kartLocale.cpp
+ 0x800056c0 localize__10KartLocaleFv

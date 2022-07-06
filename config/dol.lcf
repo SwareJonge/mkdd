@@ -1,3 +1,4 @@
+ENTRY(__start)
 MEMORY
 {
 text : origin = 0x80003100
