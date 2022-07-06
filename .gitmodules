@@ -1,0 +1,3 @@
+[submodule "tools/ppcdis"]
+	path = tools/ppcdis
+	url = https://github.com/SeekyCt/ppcdis
