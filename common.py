@@ -162,28 +162,22 @@ ASFLAGS = ' '.join([
 ])
 
 CFLAGS = [
-    "-enc SJIS",
-    "-lang c99",
-    "-W all",
+    "-lang=c++",
+    #"-W all",
     "-fp fmadd",
+    "-fp_contract on",
     "-Cpp_exceptions off",
     "-O4",
     "-use_lmw_stmw on",
     "-str pool",
     "-rostr",
-    "-sym on",
-    "-ipa file"
+    "-char signed",
+    "-enum int"
 ]
 BASE_DOL_CFLAGS = CFLAGS + [
-    "-inline all",
+    #"-inline all",
     "-sdata 4",
     "-sdata2 4"
-]
-BASE_REL_CFLAGS = CFLAGS + [
-     "-sdata 0",
-     "-sdata2 0",
-     "-pool off",
-     "-ordered-fp-compares"
 ]
 
 LOCAL_CFLAGS = [
