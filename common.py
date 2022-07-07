@@ -194,7 +194,6 @@ EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
 
 LDFLAGS = ' '.join([
     "-fp hard",
-    "-linkmode moreram",
     "-maxerrors 1",
     "-mapunused"
 ])
