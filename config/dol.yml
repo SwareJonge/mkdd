@@ -1,0 +1,26 @@
+path: orig/main.dol
+r13: 0x8041bf80
+r2: 0x8041f1c0
+
+section_defs:
+    text:
+        .init:
+        .text:
+    data:
+        extab_:
+            attr: a
+        extab_:
+            attr: a
+        extabindex_:
+        .ctors:
+        .dtors:
+        .BINARY:
+            attr: wa
+        .rodata:
+        .data:
+        .sdata:
+        .sdata2:
+    bss:
+        .bss:
+        .sbss:
+        .sbss2:

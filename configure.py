@@ -79,7 +79,6 @@ n.newline()
 # Tool flags #
 ##############
 
-n.variable("sda", c.SDA)
 n.variable("asflags", c.ASFLAGS)
 n.variable("ldflags", c.LDFLAGS)
 n.variable("ppcdis_analysis_flags", c.PPCDIS_ANALYSIS_FLAGS)
@@ -95,26 +94,26 @@ ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
 
 n.rule(
     "analyse",
-    command = "$analyser $in $sda $out $analysisflags",
+    command = "$analyser $in $out $analysisflags",
     description = "ppcdis analysis $in",
     pool="console"
 )
 
 n.rule(
     "disasm_slice",
-    command = "$disassembler $in $sda $out -q $disasmflags -s $slice",
+    command = "$disassembler $in $out -q $disasmflags -s $slice",
     description = "ppcdis disassembly $out",
 )
 
 n.rule(
     "disasm_single",
-    command = "$disassembler $in $sda $out -f $addr -i -q $disasmflags",
+    command = "$disassembler $in $out -f $addr -i -q $disasmflags",
     description = "ppcdis function disassembly $addr"
 )
 
 n.rule(
     "jumptable",
-    command = "$disassembler $in $sda $out -j $addr -q $disasmflags",
+    command = "$disassembler $in $out -j $addr -q $disasmflags",
     description = "Jumptable $addr"
 )
 
@@ -191,7 +190,6 @@ class SourceContext:
     relocs: str
     slices: str
     sdata2_threshold: int
-    binflags: str = ""
 
 class GeneratedInclude(ABC):
     def __init__(self, source_name: str, path: str):
@@ -229,7 +227,7 @@ class AsmInclude(GeneratedInclude):
             inputs=[ctx.binary, ctx.labels, ctx.relocs],
             implicit=[c.SYMBOLS, c.DISASM_OVERRIDES],
             variables={
-                "disasmflags" : f"$ppcdis_disasm_flags {ctx.binflags} -n {self.source_name}",
+                "disasmflags" : f"$ppcdis_disasm_flags -n {self.source_name}",
                 "addr" : self.addr
             }
         )
@@ -251,7 +249,7 @@ class JumptableInclude(GeneratedInclude):
             inputs=[ctx.binary, ctx.labels, ctx.relocs],
             implicit=[c.SYMBOLS, c.DISASM_OVERRIDES],
             variables={
-                "disasmflags" : f"$ppcdis_disasm_flags {ctx.binflags} -n {self.source_name}",
+                "disasmflags" : f"$ppcdis_disasm_flags -n {self.source_name}",
                 "addr" : self.addr
             }
         )
@@ -272,8 +270,7 @@ class StringInclude(GeneratedInclude):
             rule="orderstrings",
             inputs=ctx.binary,
             variables={
-                "addrs" : f"{self.start} {self.end}",
-                "flags" : ctx.binflags
+                "addrs" : f"{self.start} {self.end}"
             }
         )
 
@@ -297,7 +294,7 @@ class FloatInclude(GeneratedInclude):
             inputs=ctx.binary,
             variables={
                 "addrs" : f"{self.start} {self.end}",
-                "flags" : f"{ctx.binflags} {sda} {asm}"
+                "flags" : f"{sda} {asm}"
             }
         )
 
@@ -318,7 +315,7 @@ class DoubleInclude(GeneratedInclude):
             inputs=ctx.binary,
             variables={
                 "addrs" : f"{self.start} {self.end}",
-                "flags" : f"{ctx.binflags} --double"
+                "flags" : f"--double"
             }
         )
 
@@ -365,7 +362,7 @@ class GenAsmSource(Source):
             implicit = [c.SYMBOLS, c.DISASM_OVERRIDES],
             variables = {
                 "slice" : f"{self.start:x} {self.end:x}",
-                "disasmflags" : f"$ppcdis_disasm_flags {self.ctx.binflags}"
+                "disasmflags" : f"$ppcdis_disasm_flags"
             }
         )
         n.build(
@@ -428,11 +425,11 @@ class CSource(Source):
 
 def load_sources(ctx: SourceContext):
     raw = c.get_cmd_stdout(
-        f"{c.SLICES} {ctx.binary} {ctx.slices} {ctx.binflags} -o -p {ctx.srcdir}/"
+        f"{c.SLICES} {ctx.binary} {ctx.slices} -o -p {ctx.srcdir}/"
     )
     return [Source.make(ctx, s) for s in json.loads(raw)]
 
-dol_ctx = SourceContext(c.DOL_SRCDIR, c.DOL_CFLAGS, c.DOL, c.DOL_LABELS,
+dol_ctx = SourceContext(c.DOL_SRCDIR, c.DOL_CFLAGS, c.DOL_YML, c.DOL_LABELS,
                         c.DOL_RELOCS, c.DOL_SLICES, 4)
 
 dol_sources = load_sources(dol_ctx)
@@ -446,7 +443,7 @@ dol_gen_includes = [inc for source in dol_c_sources for inc in source.gen_includ
 n.build(
     [c.DOL_LABELS, c.DOL_RELOCS],
     rule = "analyse",
-    inputs = c.DOL,
+    inputs = c.DOL_YML,
     implicit = [c.ANALYSIS_OVERRIDES],
     variables = {
         "analysisflags" : f"$ppcdis_analysis_flags"

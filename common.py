@@ -40,7 +40,7 @@ def get_containing_slice(addr: int) -> Tuple[Binary, SourceDesc]:
     """Finds the binary containing an address and its source file
     Source file is empty string if not decompiled"""
 
-    dol_raw = get_cmd_stdout(f"{SLICES} {DOL} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
+    dol_raw = get_cmd_stdout(f"{SLICES} {DOL_YML} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
     containing = json.loads(dol_raw)
     return (Binary.DOL, containing)
 
@@ -132,6 +132,7 @@ DISASM_OVERRIDES = f"{CONFIG}/disasm_overrides.yml"
 
 # Binaries
 DOL = f"{ORIG}/main.dol" # read in python code
+DOL_YML = f"{CONFIG}/dol.yml"
 DOL_SHA = f"{ORIG}/main.dol.sha1"
 
 # Symbols
@@ -152,8 +153,6 @@ DOL_MAP = f"{OUTDIR}/main.map"
 ##############
 # Tool Flags #
 ##############
-
-SDA = "805b5f00 805b7260" #r13 r2
 
 ASFLAGS = ' '.join([
     "-m gekko",
