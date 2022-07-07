@@ -10,6 +10,7 @@ section_defs:
         extab_:
             attr: a
         extabindex_:
+            attr: a
         .ctors:
         .dtors:
         .BINARY:
@@ -22,3 +23,4 @@ section_defs:
         .bss:
         .sbss:
         .sbss2:
+            nobits: true

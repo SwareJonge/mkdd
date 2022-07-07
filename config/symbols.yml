@@ -15,5 +15,17 @@ global:
  0x800035c0: TRK_memcpy
  0x80005518: __TRK_reset
 
-src/kartLocale.cpp:
+#src/kartLocale.cpp:
+ #.text
  0x800056c0: localize__10KartLocaleFv
+ #.data
+ 0x803879c0: mscpaLanguageName__10KartLocale
+ #.sdata
+ 0x80413f80: msCountry__10KartLocale
+ 0x80413f84: msRegion__10KartLocale
+ 0x80413f88: msDatingMode__10KartLocale
+ #.sbss
+ 0x804156e0: msLanguage__10KartLocale
+ 0x804156e4: msSpeedUnit__10KartLocale
+ 0x804156e8: msVideoMode__10KartLocale
+ 0x804156ec: msVideoFrameMode__10KartLocale
