@@ -1,4 +1,4 @@
-#include "KartLocale.h"
+#include "kartLocale.h"
 
 namespace KartLocale {
     void KartLocale::localize() {
