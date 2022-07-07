@@ -3,6 +3,7 @@ __pycache__
 build
 expected
 out
+*.d
 *.o
 *.s
 *.dol

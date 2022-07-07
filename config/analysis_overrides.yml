@@ -1,0 +1,3 @@
+blocked_pointers:
+  - 0x80117670
+  - 0x80117744
