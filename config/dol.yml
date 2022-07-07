@@ -9,8 +9,6 @@ section_defs:
     data:
         extab_:
             attr: a
-        extab_:
-            attr: a
         extabindex_:
         .ctors:
         .dtors:

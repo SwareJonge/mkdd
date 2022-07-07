@@ -15,5 +15,5 @@ global:
  0x800035c0: TRK_memcpy
  0x80005518: __TRK_reset
 
- #kartLocale.cpp
+src/kartLocale.cpp:
  0x800056c0: localize__10KartLocaleFv
