@@ -5,3 +5,6 @@ kartLocale.cpp:
     .sdata: [0x80413f80, 0x80413f90]
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
+
+Kaneshige/KartInfo.cpp:
+    .text: [0x801a8844, 0x801a89c8]

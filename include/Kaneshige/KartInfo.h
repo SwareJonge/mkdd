@@ -59,6 +59,7 @@ public:
     public:
         KartCharacter();
         ~KartCharacter();
+        void reset();
         void* kartGamePad; // inherited from JUTGamePad
         SCharDB* charDB;
     };

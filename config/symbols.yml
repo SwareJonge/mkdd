@@ -29,3 +29,28 @@ global:
  0x804156e4: msSpeedUnit__10KartLocale
  0x804156e8: msVideoMode__10KartLocale
  0x804156ec: msVideoFrameMode__10KartLocale
+
+# JKRHeap.cpp
+ 0x80084d9c: __nw__FUl
+ 0x80084e28: __nw__FUli
+ 0x80084eb8: __nw__FUlP7JKRHeapi
+ 0x80084fa4: __nwa__FUl
+ 0x80085030: __nwa__FUli
+ 0x800850c0: __nwa__FUlP7JKRHeapi
+ 0x800851ac: __dl__FPv
+ 0x800851d0: __dla__FPv
+
+# NMWException.cp
+ 0x80105af8: __destroy_new_array
+ 0x80105b74: __destroy_arr
+ 0x80105bec: __construct_array
+ 0x80105ce8: __dt__26__partial_array_destructorFv
+ 0x80105da0: __construct_new_array
+
+ # KartInfo.cpp
+ 0x801a8844: __ct__8KartInfoFv
+ 0x801a8898: __dt__Q28KartInfo13KartCharacterFv
+ 0x801a88d4: __ct__Q28KartInfo13KartCharacterFv
+ 0x801a8904: reset__Q28KartInfo13KartCharacterFv
+ 0x801a8914: reset__8KartInfoFv
+ 0x801a896c: __dt__8KartInfoFv
