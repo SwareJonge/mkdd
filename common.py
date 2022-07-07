@@ -176,8 +176,8 @@ CFLAGS = [
 ]
 BASE_DOL_CFLAGS = CFLAGS + [
     #"-inline all",
-    "-sdata 4",
-    "-sdata2 8"
+    #"-sdata 8",
+    #"-sdata2 8"
 ]
 
 LOCAL_CFLAGS = [
