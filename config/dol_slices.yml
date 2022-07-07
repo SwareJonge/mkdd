@@ -1,7 +1,3 @@
-extab.s:
-    extab_: [0x80005600, 0x80005660]
-    extab_: [0x80005660, 0x800056c0]
-
 kartLocale.cpp:
     .text: [0x800056c0,  0x800057b4]
     .rodata: [0x80360900, 0x80360910]
