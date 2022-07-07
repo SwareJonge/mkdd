@@ -169,7 +169,7 @@ CFLAGS = [
     "-Cpp_exceptions off",
     "-O4",
     "-use_lmw_stmw on",
-    "-str pool",
+    #"-str pool",
     "-rostr",
     "-char signed",
     "-enum int"
@@ -177,7 +177,7 @@ CFLAGS = [
 BASE_DOL_CFLAGS = CFLAGS + [
     #"-inline all",
     "-sdata 4",
-    "-sdata2 4"
+    "-sdata2 8"
 ]
 
 LOCAL_CFLAGS = [

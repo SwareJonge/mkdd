@@ -1,7 +1,20 @@
 #include "kartLocale.h"
 
 namespace KartLocale {
-    void KartLocale::localize() {
+    Country msCountry = UNITED_STATES;
+    Region msRegion = NA;
+    DatingMode msDatingMode = MM_DD_YYYY;
+
+    const char * mscpaLanguageName[] = {
+        "English",
+        "French",
+        "German",
+        "Italian",
+        "Japanese",
+        "Spanish"
+    };
+
+    void localize() {
         switch (msCountry) {
         case JAPAN:
             msLanguage = JAPANESE;

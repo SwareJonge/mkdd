@@ -48,23 +48,11 @@ enum VideoMode {
 };
 
 namespace KartLocale {
-    void localize();
-    static Country msCountry;
-    static Region msRegion;
-    static Language msLanguage;
-    static SpeedUnit msSpeedUnit;
-    static VideoMode msVideoMode;
-    static VideoFrameMode msVideoFrameMode;
-    static DatingMode msDatingMode;
-
-    static const char * mscpaLanguageName[] = {
-        "English",
-        "French",
-        "German",
-        "Italian",
-        "Japanese",
-        "Spanish"
-    };
+    void localize();    
+    Language msLanguage;
+    SpeedUnit msSpeedUnit;
+    VideoMode msVideoMode;
+    VideoFrameMode msVideoFrameMode;
 };
 
 #endif // !KARTLOCALE_H
