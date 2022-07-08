@@ -8,3 +8,9 @@ kartLocale.cpp:
 
 Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a89c8]
+
+#Sato/stMath.cpp: # can't be compiled currently
+    #.text: [0x8021f5fc, 0x8021f6e0] 
+    #.rodata: [0x8037eec8, 0x8037eef0]
+    #.data: [0x8039d6f0, 0x8039d708]
+    #.sbss: [0x80416ac8, 0x80416ad0]

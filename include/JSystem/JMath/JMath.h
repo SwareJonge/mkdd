@@ -10,7 +10,7 @@ namespace JMath {
     class TRandom_fast_
     {
     public:
-        inline TRandom_fast_(u32 num);
+        TRandom_fast_(u32 num);
         u32 get() {
             seed = (seed * 0x19660d) + 0x3c6ef35f;
             return seed;
@@ -34,6 +34,11 @@ namespace JMath {
 
     private:
         u32 seed;
+    };
+    template <class T>
+    class TRandom_ : TRandom_fast_{
+    public:
+        TRandom_(u32 num) : TRandom_fast_(num) {}; 
     };
 }
 

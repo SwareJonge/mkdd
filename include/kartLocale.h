@@ -49,10 +49,10 @@ enum VideoMode {
 
 namespace KartLocale {
     void localize();    
-    extern Language msLanguage;
-    extern SpeedUnit msSpeedUnit;
-    extern VideoMode msVideoMode;
-    extern VideoFrameMode msVideoFrameMode;
+    Language msLanguage;
+    SpeedUnit msSpeedUnit;
+    VideoMode msVideoMode;
+    VideoFrameMode msVideoFrameMode;
 };
 
 #endif // !KARTLOCALE_H

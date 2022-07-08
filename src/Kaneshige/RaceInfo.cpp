@@ -1,6 +1,8 @@
 #include "Kaneshige/RaceInfo.h"
 
 #include "JSystem/JMath/JMath.h"
+#include "JSystem/JUtility/JUTAssert.h"
+#include "Dolphin/OS.h"
 
 void RaceInfo::reset() {
     isTinyProcess = false;
@@ -77,20 +79,21 @@ void RaceInfo::setRaceLevel(ERaceLevel raceLvl) {
 }
 
 void RaceInfo::shuffleRandomSeed() {
-    // maybe randomSeed is TRandom_fast_? uses a template function in the debug version, probably inlined here
-    JMath::TRandom_fast_ rndm(randomSeed);
-    randomSeed = rndm.get();
+    JMath::TRandom_<JMath::TRandom_fast_> rndm(randomSeed);
+    randomSeed = ((JMath::TRandom_fast_)rndm).get();
 }
 
 void RaceInfo::shuffleStartNo() {
-    JMath::TRandom_fast_ rndm(randomSeed);
-    u32 seed;
-
+    JMath::TRandom_<JMath::TRandom_fast_> rndm(randomSeed);
+    
     for (u32 i = 0; i < (u32)getKartNumber(); i++) {
-        s32 kartIdx = getKartNumber();
-        u32 seed = rndm.get();
+        u32 newidx = i + (((JMath::TRandom_fast_)rndm).get() % (getKartNumber() - i));
 
-        u32 newidx = i + (seed % (kartIdx - i));
+        if(newidx >=  getKartNumber()) {            
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 751, "range over: %d <= dst=%d < %d", 0, newidx,  getKartNumber());
+            OSPanic("RaceInfo.cpp", 751, "Halt");
+        }
+        
         s32 playerStartIdx = startPosIndex[i];
         startPosIndex[i] = startPosIndex[newidx];
         startPosIndex[newidx] = playerStartIdx;

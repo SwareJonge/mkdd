@@ -1,13 +1,16 @@
 #include "Sato/stMath.h"
+#include "runtime.h"
 #include "types.h"
 
-#include <runtime.c>
 #include "JSystem/JMath/JMATrigonometric.h"
 #include "JSystem/JGeometry.h"
 
+#include "JSystem/JUtility/JUTAssert.h"
+#include "Dolphin/OS.h"
+
 void stRandom::createAllRandom() {
     for (u32 i = 0; i < 6; i++) {
-        sRndMgr[i] = new stRandom();
+        stRandom::sRndMgr[i] = new stRandom();
     }
 }
 
@@ -53,9 +56,13 @@ f32 stRandom::getArbitUnitVecXZ(JGeometry::TVec3<f32>& p1, f32 p2) {
 }
 
 stRandom * stGetRnd(u32 idx) {
+    if(stRandom::sRndMgr[idx]->permission == false) {
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "stMath.cpp", 924, "Random can\'t get :%d", idx);
+        OSPanic("stMath.cpp", 924, "Halt");
+    }
     return stRandom::sRndMgr[idx];
 }
 
 void stSetRndPermission(u32 idx, bool perm) {
-    stRandom::sRndMgr[idx]->setPermission(perm); // i'm actually not sure at all if this is inlined, 
+    stRandom::sRndMgr[idx]->permission = perm; // i'm actually not sure at all if this is inlined, 
 }

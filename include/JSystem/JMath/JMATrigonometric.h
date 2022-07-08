@@ -2,9 +2,9 @@
 #define JMATRIGONOMETRIC_H
 
 #include "types.h"
-#include <utility> // std::pair
+#include "std/pair.h"
 
-// from TP decomp
+// from TP decomp and pikmin decomp
 struct TSinCosTable {
     std::pair<f32, f32> table[0x2000];
 

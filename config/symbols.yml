@@ -15,7 +15,7 @@ global:
  0x800035c0: TRK_memcpy
  0x80005518: __TRK_reset
 
-#src/kartLocale.cpp:
+ # kartLocale.cpp:
  #.text
  0x800056c0: localize__10KartLocaleFv
  #.data
@@ -30,7 +30,14 @@ global:
  0x804156e8: msVideoMode__10KartLocale
  0x804156ec: msVideoFrameMode__10KartLocale
 
-# JKRHeap.cpp
+ # random.cpp
+ 0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
+
+ # JUTAssert.cpp
+ 0x80069af4: getSDevice__12JUTAssertionFv
+ 0x80069bd8: showAssert_f__12JUTAssertionFUlPCciPCce
+
+ # JKRHeap.cpp
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
  0x80084eb8: __nw__FUlP7JKRHeapi
@@ -40,17 +47,34 @@ global:
  0x800851ac: __dl__FPv
  0x800851d0: __dla__FPv
 
-# NMWException.cp
+ # OSError.c
+ 0x800eeaec: OSPanic
+
+ # NMWException.cp
  0x80105af8: __destroy_new_array
  0x80105b74: __destroy_arr
  0x80105bec: __construct_array
  0x80105ce8: __dt__26__partial_array_destructorFv
  0x80105da0: __construct_new_array
 
+ # runtime.c
+ 0x80105f24: __cvt_fp2unsigned
+
  # KartInfo.cpp
  0x801a8844: __ct__8KartInfoFv
  0x801a8898: __dt__Q28KartInfo13KartCharacterFv
  0x801a88d4: __ct__Q28KartInfo13KartCharacterFv
  0x801a8904: reset__Q28KartInfo13KartCharacterFv
- 0x801a8914: reset__8KartInfoFv
+ 0x801a8914: reset__8KartInfoFv 
  0x801a896c: __dt__8KartInfoFv
+
+ # stMath.cpp
+ 0x8021f5fc: createAllRandom__8stRandomFv
+ 0x8021f668: getRandomMax__8stRandomFUl
+ 0x8021f6e0: getArbitUnitVec__8stRandomFRQ29JGeometry8TVec3<f>ff
+ 0x8021f7f4: getArbitUnitVecSimple__8stRandomFRQ29JGeometry8TVec3<f>f
+ 0x8021f908: getArbitUnitVecXZ__8stRandomFRQ29JGeometry8TVec3<f>f
+ 0x8021f9a4: stGetRnd__FUl
+ 0x8021fa28: stSetRndPermission__FUlb
+ 0x8039d6f0: sRndMgr__8stRandom
+ 0x80416ac8: sMgr__8stRandom

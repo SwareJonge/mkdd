@@ -50,7 +50,7 @@ public:
     void shuffleStartNo();
     void hideConsole(u32 param_2);
 
-    s16 getKartNumber() {
+    s32 getKartNumber() {
         return kartNum;
     }
 
@@ -93,6 +93,6 @@ public:
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 
-RaceInfo gRaceInfo;
+//RaceInfo gRaceInfo;
 
 #endif // !RACEINFO_H
