@@ -8,6 +8,9 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
+stRandom* stRandom::sRndMgr[6];
+stRandom* stRandom::sMgr;
+
 void stRandom::createAllRandom() {
     for (u32 i = 0; i < 6; i++) {
         stRandom::sRndMgr[i] = new stRandom();
@@ -18,7 +21,7 @@ u32 stRandom::getRandomMax(u32 max) {
     return __cvt_fp2unsigned((max + 1) * get_ufloat_1());
 }
 
-f32 stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& p1, f32 p2, f32 p3) {
+/*f32 stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& p1, f32 p2, f32 p3) {
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
     _0x6 = p3 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
@@ -65,4 +68,4 @@ stRandom * stGetRnd(u32 idx) {
 
 void stSetRndPermission(u32 idx, bool perm) {
     stRandom::sRndMgr[idx]->permission = perm; // i'm actually not sure at all if this is inlined, 
-}
+}*/

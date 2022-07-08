@@ -13,21 +13,21 @@ public:
     stRandom() : JMath::TRandom_fast_(0) {
         permission = true;
         sMgr = this;
-    };
+    }
 
     static void createAllRandom();
 
     u32 getRandomMax(u32 max);
-    f32 getArbitUnitVec(JGeometry::TVec3<f32>&, f32, f32);
-    f32 getArbitUnitVecSimple(JGeometry::TVec3<f32>&, f32);
-    f32 getArbitUnitVecXZ(JGeometry::TVec3<f32>&, f32);
+    //f32 getArbitUnitVec(JGeometry::TVec3<f32>&, f32, f32);
+    //f32 getArbitUnitVecSimple(JGeometry::TVec3<f32>&, f32);
+    //f32 getArbitUnitVecXZ(JGeometry::TVec3<f32>&, f32);
 private:    
     u16 _0x4; // sin
     u16 _0x6; // cos
     f32 _0x8; // angle?
     u8 _0xC[4]; // unknown
     u32 randomSeed;
-    public:
+public:
     bool permission;
     // padding bytes
 };
