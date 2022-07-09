@@ -130,24 +130,6 @@ public:
     bool isGhostKart() const;
     bool isPlayerKart() const;
 
-    inline KartCharacter * getKartCharacter(int driverNo) {
-        bool assertFlag = false;
-        if((driverNo >= 0) && (driverNo < 2))
-            assertFlag = true;
-            
-        if(!assertFlag) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "KartInfo.cpp", __LINE__, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
-            OSPanic("KartInfo.cpp", __LINE__, "Halt");
-        }
-        return &kartCharacter[driverNo];
-    }
-
-    //inline void checkDriverNoValid(int driverNo);
-    /*KartGamePad * getPad(int driverNo) {
-        checkDriverNoValid(driverNo);
-        return kartCharacter[driverNo].kartGamePad;
-    }*/
-
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;
     static const SCharDB cPatapataCharDB;
@@ -197,14 +179,6 @@ private:
 };
 
 char lbl_80377338[] : 0x80377338;
-void order_strings_80377338();
-#pragma push
-#pragma force_active on
-void FORCESTRIP order_strings_80377338() {
-    //__dummy_str("KartInfo.cpp");
-    //__dummy_str("range over: %d <= driverNo=%d < %d");
-    __dummy_str("KartInfo.h");
-}
-#pragma pop
+//void order_strings_80377338();
 
 #endif // !KARTINFO_H

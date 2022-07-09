@@ -87,7 +87,7 @@ const KartInfo::SCharDB KartInfo::cBabyLuigiCharDB = {
         DONKEYJR,
         2,
         DK_JUMBO,
-        1,
+        2,
         0
     };
     const KartInfo::SCharDB KartInfo::cDonkeyJrCharDB = {
@@ -501,3 +501,13 @@ const KartInfo::SKartDB * KartInfo::getKartDB(EKartID kartID) {
     }
     return kartDB;
 }
+
+// this is currently required because this doesn't get generated, not sure if it stays like this
+#pragma push
+#pragma force_active on
+void FORCESTRIP order_strings_80377338() {
+    //__dummy_str("KartInfo.cpp");
+    //__dummy_str("range over: %d <= driverNo=%d < %d");
+    __dummy_str("KartInfo.h");
+}
+#pragma pop
