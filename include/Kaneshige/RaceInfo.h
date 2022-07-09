@@ -12,11 +12,11 @@ enum ERaceMode {
     GRAND_PRIX = 0x2,
     VERSUS_RACE = 0x3,
     BALLOON_BATTLE = 0x4,
-    ROBBERY_BATTLE =	0x5,
-    BOMB_BATTLE =	0x6,
-    ESCAPE_BATTLE =	0x7,
-    AWARD_DEMO	= 0x8,
-    STAFF_ROLL =	0x9,
+    ROBBERY_BATTLE = 0x5,
+    BOMB_BATTLE = 0x6,
+    ESCAPE_BATTLE = 0x7,
+    AWARD_DEMO = 0x8,
+    STAFF_ROLL = 0x9,
 };
 
 enum ERaceLevel { // unsure of this
@@ -54,7 +54,7 @@ public:
         return kartNum;
     }
 
-//private:
+    //private:
     bool isTinyProcess;
     bool isLanMode;
     bool isTrueEnding;
@@ -78,7 +78,7 @@ public:
     s16 startPosIndex[8];
     s16 pointTable[8];
     s16 rivalKarts[2];
-    
+
     s16 _0x114[4];
     bool _0x11c[4]; // not sure what these two arrays do, setConsoleTarget sets this so maybe this bool array means isActive and the other the console number
 

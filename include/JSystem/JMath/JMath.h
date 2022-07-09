@@ -36,9 +36,9 @@ namespace JMath {
         u32 seed;
     };
     template <class T>
-    class TRandom_ : TRandom_fast_{
+    class TRandom_ : TRandom_fast_ {
     public:
-        TRandom_(u32 num) : TRandom_fast_(num) {}; 
+        TRandom_(u32 num) : TRandom_fast_(num) {};
     };
 }
 

@@ -7,7 +7,7 @@
 #include "JSystem/JUtility/JUTAssert.h"
 
 extern "C" {
-    #include <ppcdis.h>
+#include <ppcdis.h>
 }
 
 class KartGamePad; // usee placeholder for now so i don't have to edit symbols
@@ -91,28 +91,28 @@ public:
     public:
         KartCharacter() {
             reset();
-        };
+        }
         ~KartCharacter() {};
         void reset() {
             kartGamePad = 0;
             charDB = 0;
-        };
-        void setPad(KartGamePad * gamepad); 
+        }
+        void setPad(KartGamePad * gamepad);
         void setCharDB(const SCharDB  * sCharDB) {
             charDB = sCharDB;
         }
         ECharID getCharID() const;
         ECharID getPartnerID() const;
         bool isAvailable() const;
-        s32 convPlayerKind() const;        
-        
+        s32 convPlayerKind() const;
+
         KartGamePad* kartGamePad; // inherited from JUTGamePad
         const SCharDB* charDB;
     };
     KartInfo();
     ~KartInfo();
 
-    void reset();   
+    void reset();
 
     static const SCharDB * getCharDB(ECharID charID);
     void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);

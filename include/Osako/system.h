@@ -7,7 +7,7 @@
 #include "types.h"
 
 namespace System {
-    void startAudioTask(void* p1); 
+    void startAudioTask(void* p1);
     void init();
     void reset();
     void changeProgressive();

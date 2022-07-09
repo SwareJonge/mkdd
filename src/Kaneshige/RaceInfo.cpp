@@ -85,15 +85,15 @@ void RaceInfo::shuffleRandomSeed() {
 
 void RaceInfo::shuffleStartNo() {
     JMath::TRandom_<JMath::TRandom_fast_> rndm(randomSeed);
-    
+
     for (u32 i = 0; i < (u32)getKartNumber(); i++) {
         u32 newidx = i + (((JMath::TRandom_fast_)rndm).get() % (getKartNumber() - i));
 
-        if(newidx >=  getKartNumber()) {            
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 751, "range over: %d <= dst=%d < %d", 0, newidx,  getKartNumber());
+        if (newidx >= getKartNumber()) {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 751, "range over: %d <= dst=%d < %d", 0, newidx, getKartNumber());
             OSPanic("RaceInfo.cpp", 751, "Halt");
         }
-        
+
         s32 playerStartIdx = startPosIndex[i];
         startPosIndex[i] = startPosIndex[newidx];
         startPosIndex[newidx] = playerStartIdx;

@@ -13,7 +13,7 @@ class RaceMgr : JKRDisposer {
 public:
     RaceMgr(RaceInfo *);
     virtual ~RaceMgr();
-    
+
     static RaceMgr * sRaceManager;
     static s16 sForceTotalLapNum;
     static s16 sDispFrameCounter;
@@ -29,9 +29,9 @@ public:
         u8 _0x4;
         s32 _0x8;
         u16 _0xc;
-    };     
+    };
 
-//private:
+    //private:
     void * raceDirector;
     void * raceDrawer;
     u16 areaLight;
@@ -53,7 +53,7 @@ public:
     RaceTime bestLapTime;
     RaceTime bestTotalTime[5];
     s16 events;
-    
+
     // these values store the amount of time/frames it took to execute a certain set of functions
     // 0x0 GX Issue
     // 0x100 Calc

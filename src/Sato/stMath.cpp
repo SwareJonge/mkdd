@@ -24,7 +24,7 @@ f32 stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& p1, f32 p2, f32 p3) {
 
     _0x8 = JMath::sincosTable_.sinShort(_0x4);
     // according to ghidra it shifts 2 bytes to the right and doe an AND operation with 0x3ff8
-    p1.x = _0x8 *  JMath::sincosTable_.cosShort(_0x6);
+    p1.x = _0x8 * JMath::sincosTable_.cosShort(_0x6);
     f32 ret = _0x8;
     p1.y = _0x8 * JMath::sincosTable_.sinShort(_0x6);
     p1.z = JMath::sincosTable_.cosShort(_0x4);
@@ -38,7 +38,7 @@ f32 stRandom::getArbitUnitVecSimple(JGeometry::TVec3<f32>& p1, f32 p2) {
     _0x6 = _1f * (2.0f * (32767.0f *  get_ufloat_1() - _1f));
     _0x8 = JMath::sincosTable_.sinShort(_0x4);
 
-    p1.x = _0x8 *  JMath::sincosTable_.cosShort(_0x6);
+    p1.x = _0x8 * JMath::sincosTable_.cosShort(_0x6);
     f32 ret = _0x8;
     p1.y = _0x8 * JMath::sincosTable_.sinShort(_0x6);
     p1.z = JMath::sincosTable_.cosShort(_0x4);
@@ -56,7 +56,7 @@ f32 stRandom::getArbitUnitVecXZ(JGeometry::TVec3<f32>& p1, f32 p2) {
 }
 
 stRandom * stGetRnd(u32 idx) {
-    if(stRandom::sRndMgr[idx]->permission == false) {
+    if (stRandom::sRndMgr[idx]->permission == false) {
         JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "stMath.cpp", 924, "Random can\'t get :%d", idx);
         OSPanic("stMath.cpp", 924, "Halt");
     }

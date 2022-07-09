@@ -48,7 +48,7 @@ enum VideoMode {
 };
 
 namespace KartLocale {
-    void localize();    
+    void localize();
     Language msLanguage;
     SpeedUnit msSpeedUnit;
     VideoMode msVideoMode;

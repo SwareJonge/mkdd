@@ -10,7 +10,7 @@ RaceTime::RaceTime() {
 // this constructor might not be needed
 /*RaceTime::RaceTime(RaceTime const & racetime) {
     time = racetime.time;
-}*/ 
+}*/
 
 int RaceTime::get() const {
     return time;
