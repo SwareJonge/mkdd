@@ -60,6 +60,9 @@ global:
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
 
+ # Result2D.cpp
+ 0x8014972c: getPad__8KartInfoFi
+
  # KartInfo.cpp
  0x801a8844: __ct__8KartInfoFv
  0x801a8898: __dt__Q28KartInfo13KartCharacterFv
@@ -67,6 +70,54 @@ global:
  0x801a8904: reset__Q28KartInfo13KartCharacterFv
  0x801a8914: reset__8KartInfoFv 
  0x801a896c: __dt__8KartInfoFv
+ 0x801a89c8: setDriver__8KartInfoFi7ECharIDP11KartGamePad
+ 0x801a8a90: setCharDB__Q28KartInfo13KartCharacterFPCQ28KartInfo7SCharDB
+ 0x801a8a98: getCharDB__8KartInfoF7ECharID
+ 0x801a8b68: getKartDB__8KartInfoF7EKartID
+
+ 0x801a8e64: setPad__Q28KartInfo13KartCharacterFP11KartGamePad 
+ #rodata
+ 0x803770f8: cBabyMarioCharDB__8KartInfo
+ 0x80377104: cBabyLuigiCharDB__8KartInfo
+ 0x80377110: cPatapataCharDB__8KartInfo
+ 0x8037711c: cNokonokoCharDB__8KartInfo
+ 0x80377128: cPeachCharDB__8KartInfo 
+ 0x80377134: cDaisyCharDB__8KartInfo 
+ 0x80377140: cMarioCharDB__8KartInfo
+ 0x8037714c: cLuigiCharDB__8KartInfo
+ 0x80377158: cWarioCharDB__8KartInfo
+ 0x80377164: cWaluigiCharDB__8KartInfo
+ 0x80377170: cDonkeyCharDB__8KartInfo 
+ 0x8037717c: cDonkeyJrCharDB__8KartInfo
+ 0x80377188: cYoshiCharDB__8KartInfo
+ 0x80377194: cCatherineCharDB__8KartInfo
+ 0x803771a0: cKoopaCharDB__8KartInfo
+ 0x803771ac: cKoopaJrCharDB__8KartInfo
+ 0x803771b8: cKinopioCharDB__8KartInfo
+ 0x803771c4: cKinopicoCharDB__8KartInfo
+ 0x803771d0: cKingTeresaCharDB__8KartInfo 
+ 0x803771dc: cBossPakkunCharDB__8KartInfo
+ 0x803771e8: cMustacheKartDB__8KartInfo
+ 0x803771f8: cMonkeyKartDB__8KartInfo
+ 0x80377208: cLizardKartDB__8KartInfo
+ 0x80377218: cSmallFishKartDB__8KartInfo
+ 0x80377228: cPrincessKartDB__8KartInfo
+ 0x80377238: cChildKartDB__8KartInfo
+ 0x80377248: cBadKartDB__8KartInfo
+ 0x80377258: cSatanKartDB__8KartInfo
+ 0x80377268: cLuigiKartDB__8KartInfo
+ 0x80377278: cDiddyKartDB__8KartInfo
+ 0x80377288: cCatherineKartDB__8KartInfo
+ 0x80377298: cPatapataKartDB__8KartInfo
+ 0x803772a8: cDaisyKartDB__8KartInfo
+ 0x803772b8: cBabyLuigiKartDB__8KartInfo
+ 0x803772c8: cWaluigiKartDB__8KartInfo
+ 0x803772d8: cKoopaJrKartDB__8KartInfo
+ 0x803772e8: cKinopioKartDB__8KartInfo
+ 0x803772f8: cKinopicoKartDB__8KartInfo
+ 0x80377308: cKingTeresaKartDB__8KartInfo
+ 0x80377318: cBossPakkunKartDB__8KartInfo
+ 0x80377328: cBonusKartDB__8KartInfo
 
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
