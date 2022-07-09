@@ -8,7 +8,7 @@ kartLocale.cpp:
 
 Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a8c40]
-    .rodata: [0x803770f8, 0x80377338]    
+    .rodata: [0x803770f8, 0x80377378]    
     .data: [0x80395bf0, 0x80395c98]
     .sdata2: [0x80419dc8, 0x80419dd0]
 

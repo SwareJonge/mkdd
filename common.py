@@ -163,6 +163,7 @@ ASFLAGS = ' '.join([
 
 CFLAGS = [
     "-lang=c++",
+    "-inline off",
     #"-W all",
     "-fp fmadd",
     "-fp_contract on",

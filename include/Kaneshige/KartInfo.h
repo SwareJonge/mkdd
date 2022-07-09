@@ -1,10 +1,14 @@
+
 #ifndef KARTINFO_H
 #define KARTINFO_H
 
 #include "types.h"
-
 #include "Dolphin/OS.h"
 #include "JSystem/JUtility/JUTAssert.h"
+
+extern "C" {
+    #include <ppcdis.h>
+}
 
 class KartGamePad; // usee placeholder for now so i don't have to edit symbols
 
@@ -62,11 +66,6 @@ enum EKartWeight {
 
 class KartInfo {
 public:
-    KartInfo();
-    ~KartInfo();
-
-    void reset();    
-
     struct SCharDB
     {
         s16 id;
@@ -90,14 +89,65 @@ public:
 
     class KartCharacter {
     public:
-        KartCharacter();
-        ~KartCharacter();
-        void setCharDB(const SCharDB  * sCharDB);
-        void setPad(KartGamePad * gamepad);
-        void reset();
+        KartCharacter() {
+            reset();
+        };
+        ~KartCharacter() {};
+        void reset() {
+            kartGamePad = 0;
+            charDB = 0;
+        };
+        void setPad(KartGamePad * gamepad); 
+        void setCharDB(const SCharDB  * sCharDB) {
+            charDB = sCharDB;
+        }
+        ECharID getCharID() const;
+        ECharID getPartnerID() const;
+        bool isAvailable() const;
+        s32 convPlayerKind() const;        
+        
         KartGamePad* kartGamePad; // inherited from JUTGamePad
         const SCharDB* charDB;
     };
+    KartInfo();
+    ~KartInfo();
+
+    void reset();   
+
+    static const SCharDB * getCharDB(ECharID charID);
+    void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);
+    static const SKartDB * getKartDB(EKartID charID);
+    s32 getKartWeight(EKartID);
+    ECharID getDefaultDriver(EKartID);
+    ECharID getDefaultPartner(ECharID);
+    s32 getDriverWeight(ECharID);
+    EKartID getDefaultKartID(ECharID);
+    ECharID getPartnerKartID(ECharID);
+    bool isDefaultCharCombi();
+    KartGamePad * getYoungestPad();
+    bool isRealPlayerKart();
+    s32 getPlayerKind();
+    bool isGhostKart() const;
+    bool isPlayerKart() const;
+
+    inline KartCharacter * getKartCharacter(int driverNo) {
+        bool assertFlag = false;
+        if((driverNo >= 0) && (driverNo < 2))
+            assertFlag = true;
+            
+        if(!assertFlag) {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "KartInfo.cpp", __LINE__, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
+            OSPanic("KartInfo.cpp", __LINE__, "Halt");
+        }
+        return &kartCharacter[driverNo];
+    }
+
+    //inline void checkDriverNoValid(int driverNo);
+    /*KartGamePad * getPad(int driverNo) {
+        checkDriverNoValid(driverNo);
+        return kartCharacter[driverNo].kartGamePad;
+    }*/
+
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;
     static const SCharDB cPatapataCharDB;
@@ -139,29 +189,22 @@ public:
     static const SKartDB cKingTeresaKartDB;
     static const SKartDB cBossPakkunKartDB;
     static const SKartDB cBonusKartDB;
-    
-    static const SCharDB * getCharDB(ECharID charID);
-    void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);
-    static const SKartDB * getKartDB(EKartID charID);
-
-    KartGamePad * getPad(int driverNo) {
-        bool assertFlag = false;
-        if((driverNo >= 0) && (driverNo < 2))
-            assertFlag = true;
-            
-        if(!assertFlag) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 126, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
-            OSPanic(__FILE__, 126, "Halt");
-        }
-        return kartCharacter[driverNo].kartGamePad;
-    }
 
 private:
     SKartDB * kartDB;
     KartCharacter kartCharacter[2]; // one for the driver, other for the one doing nothing
     s32 kartType; // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
-
-
 };
+
+char lbl_80377338[] : 0x80377338;
+void order_strings_80377338();
+#pragma push
+#pragma force_active on
+void FORCESTRIP order_strings_80377338() {
+    //__dummy_str("KartInfo.cpp");
+    //__dummy_str("range over: %d <= driverNo=%d < %d");
+    __dummy_str("KartInfo.h");
+}
+#pragma pop
 
 #endif // !KARTINFO_H
