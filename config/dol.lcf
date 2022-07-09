@@ -1,6 +1,7 @@
 MEMORY
 {
 text : origin = 0x80003100
+forcestrip : origin = 0
 }
 
 SECTIONS
@@ -23,6 +24,9 @@ SECTIONS
 		.sbss2       ALIGN(0x20) : {}
 		.stack       ALIGN(0x100) : {}
 	} > text
+	GROUP:{
+        forcestrip ALIGN(0x20):{}
+    } > forcestrip
 
 	_stack_addr = (_f_sbss2 + SIZEOF(.sbss2) + 65536 + 0x7) & ~0x7;
 	_stack_end = _f_sbss2 + SIZEOF(.sbss2);
@@ -32,3 +36,8 @@ SECTIONS
 	__ArenaHi = 0x81700000;
 	_eti_init_info = 8000569c;
 }
+
+__dummy_str = 0;
+__dummy_float = 0;
+__dummy_double = 0;
+__dummy_pointer = 0;
