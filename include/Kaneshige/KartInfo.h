@@ -5,12 +5,11 @@
 #include "types.h"
 #include "Dolphin/OS.h"
 #include "JSystem/JUtility/JUTAssert.h"
+#include "Osako/kartPad.h"
 
 extern "C" {
 #include <ppcdis.h>
 }
-
-class KartGamePad; // usee placeholder for now so i don't have to edit symbols
 
 enum ECharID {
     NONE = 0,
@@ -61,17 +60,19 @@ enum EKartID {
 };
 
 enum EKartWeight {
-
+    LIGHT = 0,
+    NORMAL = 1,
+    HEAVY = 2
 };
 
 class KartInfo {
 public:
     struct SCharDB
     {
-        s16 id;
-        s16 defaultPartnerID;
-        s16 weight;
-        s16 defaultKartID;
+        u16 id;
+        u16 defaultPartnerID;
+        u16 weight;
+        u16 defaultKartID;
         u8 _8;
         u8 _9;
         //u8 _9[3]; // this is padding data most likely
@@ -81,10 +82,10 @@ public:
     {
         EKartID id;
         s32 weight; // use enum
-        s16 wheelCount;
+        u16 wheelCount;
         s8 _a;
-        s16 defaultDriverID;
-        s16 _e;
+        u16 defaultDriverID;
+        u16 _e;
     };
 
     class KartCharacter {
@@ -101,10 +102,18 @@ public:
         void setCharDB(const SCharDB  * sCharDB) {
             charDB = sCharDB;
         }
-        ECharID getCharID() const;
-        ECharID getPartnerID() const;
+        ECharID getCharID() const {
+            if (charDB != 0)
+                return (ECharID)charDB->id;
+            return NONE;
+        }
+        ECharID getPartnerID() const {
+            if (charDB != 0)
+                return (ECharID)charDB->defaultPartnerID;
+            return NONE;
+        }
         bool isAvailable() const;
-        s32 convPlayerKind() const;
+        static s32 convPlayerKind(KartGamePad *);
 
         KartGamePad* kartGamePad; // inherited from JUTGamePad
         const SCharDB* charDB;
@@ -117,18 +126,19 @@ public:
     static const SCharDB * getCharDB(ECharID charID);
     void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);
     static const SKartDB * getKartDB(EKartID charID);
-    s32 getKartWeight(EKartID);
-    ECharID getDefaultDriver(EKartID);
-    ECharID getDefaultPartner(ECharID);
-    s32 getDriverWeight(ECharID);
-    EKartID getDefaultKartID(ECharID);
-    ECharID getPartnerKartID(ECharID);
+    static s32 getKartWeight(EKartID);
+    static ECharID getDefaultDriver(EKartID);
+    static ECharID getDefaultPartner(ECharID);
+    static s32 getDriverWeight(ECharID);
+    static EKartID getDefaultKartID(ECharID);
+    static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
-    bool isRealPlayerKart();
-    s32 getPlayerKind();
-    bool isGhostKart() const;
-    bool isPlayerKart() const;
+    KartGamePad* getPad(int IDX); // INLINE
+    //bool isRealPlayerKart();
+    //s32 getPlayerKind();
+    //bool isGhostKart() const;
+    //bool isPlayerKart() const;
 
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;

@@ -1,6 +1,11 @@
 #ifndef OS_H
 #define OS_H
 
+#include "types.h"
+
+typedef u32 OSTick;
+typedef u64 OSTime;
+
 extern "C" void OSPanic(const char* file, int line, const char* msg, ...);
 
 typedef struct OSContext {

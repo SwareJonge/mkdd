@@ -502,6 +502,103 @@ const KartInfo::SKartDB * KartInfo::getKartDB(EKartID kartID) {
     return kartDB;
 }
 
+s32 KartInfo::getKartWeight(EKartID kartID) {
+    return getKartDB(kartID)->weight;
+}
+
+ECharID KartInfo::getDefaultDriver(EKartID kartID) {
+    return (ECharID)getKartDB(kartID)->defaultDriverID;
+}
+
+ECharID KartInfo::getDefaultPartner(ECharID charID) {
+    return (ECharID)getCharDB(charID)->defaultPartnerID;
+}
+
+s32 KartInfo::getDriverWeight(ECharID charID) {
+    return getCharDB(charID)->weight;
+}
+
+EKartID KartInfo::getDefaultKartID(ECharID charID) {
+    return (EKartID)getCharDB(charID)->defaultKartID;
+}
+
+EKartID KartInfo::getPartnerKartID(ECharID charID) {
+    return (EKartID)getDefaultKartID(getDefaultPartner(charID));
+}
+
+bool KartInfo::isDefaultCharCombi() {
+    bool ret = false;
+    if (kartCharacter[0].getPartnerID() == kartCharacter[1].getCharID())
+        ret = true;
+    return ret;
+}
+
+KartGamePad* KartInfo::getYoungestPad() {
+    KartGamePad* youngestPad = 0;
+    s32 iVar2 = 100; // what even is this for?
+    for (int i = 0; i < 2; i++) {
+        KartGamePad* curPad = getPad(i);
+        s32 iVar1 = 100;
+        if (curPad) {
+            int padPort = curPad->getPadPort();
+            switch (padPort) {
+            case 0:
+                iVar1 = 0;
+                break;
+            case 1:
+                iVar1 = 1;
+                break;
+            case 2:
+                iVar1 = 2;
+                break;
+            case 3:
+                iVar1 = 3;
+                break;
+            }
+        }
+        if (youngestPad == 0 || (iVar1 < iVar2)) {
+            youngestPad = curPad;
+            iVar2 = iVar1;
+        }
+    }
+    return youngestPad;
+}
+
+void KartInfo::KartCharacter::setPad(KartGamePad* gamepad) {
+    kartGamePad = gamepad;
+}
+
+bool KartInfo::KartCharacter::isAvailable() const {
+    bool ret = false;
+    if (kartGamePad == 0 || kartGamePad->getPadState() == 0)
+        ret = true;
+    return ret;
+}
+
+s32 KartInfo::KartCharacter::convPlayerKind(KartGamePad* gamePad) {
+    s32 playerKind = 0;
+    if (gamePad == 0)
+        playerKind = 2;
+    else {
+        switch (gamePad->getPadType()) {
+        case 0:
+            playerKind = 1;
+            break;
+        case 1: {
+            if (gamePad->getPadPort() == -2)
+                playerKind = 3;
+            else
+                playerKind = 1;
+            break;
+        }
+        case 2:
+            playerKind = 4;
+            break;
+        }
+    }
+    return playerKind;
+}
+
 // this is currently required because this doesn't get generated, not sure if it stays like this
 #pragma push
 #pragma force_active on

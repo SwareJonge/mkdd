@@ -74,8 +74,22 @@ global:
  0x801a8a90: setCharDB__Q28KartInfo13KartCharacterFPCQ28KartInfo7SCharDB
  0x801a8a98: getCharDB__8KartInfoF7ECharID
  0x801a8b68: getKartDB__8KartInfoF7EKartID
-
+ 0x801a8c40: getKartWeight__8KartInfoF7EKartID
+ 0x801a8c64: getDefaultDriver__8KartInfoF7EKartID
+ 0x801a8c88: getDefaultPartner__8KartInfoF7ECharID
+ 0x801a8cac: getDriverWeight__8KartInfoF7ECharID 
+ 0x801a8cd0: getDefaultKartID__8KartInfoF7ECharID
+ 0x801a8cf4: getPartnerKartID__8KartInfoF7ECharID
+ 0x801a8d18: isDefaultCharCombi__8KartInfoFv
+ 0x801a8d68: getCharID__Q28KartInfo13KartCharacterCFv
+ 0x801a8d84: getPartnerID__Q28KartInfo13KartCharacterCFv
+ 0x801a8da0: getYoungestPad__8KartInfoFv
+ 0x801a8e5c: getPadPort__11KartGamePadFv
  0x801a8e64: setPad__Q28KartInfo13KartCharacterFP11KartGamePad 
+ 0x801a8e6c: isAvailable__Q28KartInfo13KartCharacterCFv
+ 0x801a8eb4: getPadState__11KartGamePadFv
+ 0x801a8ebc: convPlayerKind__Q28KartInfo13KartCharacterFP11KartGamePad
+ 0x801a8f4c: getPadType__11KartGamePadFv
  #rodata
  0x803770f8: cBabyMarioCharDB__8KartInfo
  0x80377104: cBabyLuigiCharDB__8KartInfo
