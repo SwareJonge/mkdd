@@ -148,11 +148,13 @@ n.rule(
     description = "AS $in"
 )
 
-# Due to CW dumbness with .d output location, $outstem must be defined without the .o
+# CW places the .d file in the root with the same name as the file but the extension replaced with .d
 n.rule(
     "cc",
     command = f"$cc $cflags -I- -i {c.INCDIR} -i {c.PPCDIS_INCDIR} -i {c.BUILD_INCDIR} -MD -c $in -o $out",
     description = "CC $in",
+    deps="gcc",
+    depfile="$dep"
 )
 
 n.rule(
@@ -324,7 +326,8 @@ class Source(ABC):
         self.decompiled = decompiled
         self.src_path = src_path
         self.o_path = o_path
-        self.o_stem = o_path[:-2]
+        filename = src_path.split('/')[-1]
+        self.dep = filename.rpartition('.')[0] + '.d'
         self.gen_includes = gen_includes
 
     def build(self):
@@ -404,7 +407,7 @@ class CSource(Source):
             implicit = [inc.path for inc in self.gen_includes],
             variables = {
                 "cflags" : self.cflags,
-                "outstem" : self.o_stem
+                "dep" : self.dep
             }
         )
         # Optional manual debug target
@@ -415,7 +418,7 @@ class CSource(Source):
             implicit = [inc.path for inc in self.gen_includes],
             variables = {
                 "cflags" : self.cflags,
-                "outstem" : self.o_stem
+                "dep" : self.dep
             }
         )
 
