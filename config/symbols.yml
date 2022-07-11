@@ -138,6 +138,9 @@ global:
  0x801b5124: reset__8RaceInfoFv
  0x801b5264: setConsoleTarget__8RaceInfoFiib
 
+ # RaceTime.cpp
+ 0x801a9828: __ct__8RaceTimeFv
+
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
  0x8021f668: getRandomMax__8stRandomFUl

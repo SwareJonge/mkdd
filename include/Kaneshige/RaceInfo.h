@@ -41,8 +41,23 @@ public:
     RaceInfo(); // inlined in release version, inline auto?
     ~RaceInfo();
 
+    static short sWaitDemoSelector;
+    static ERaceGpCup sAwardDebugCup;
+
+    static int sForceDemoNo;
+    static u32 sForceRandomSeed;
+    static ERaceLevel sAwardDebugLevel;
+    static short sAwardDebugRank;
+
+    static EKartID sAwardDebugKartIDTable[3];
+    static ECharID sAwardDebugDriver1IDTable[3];
+    static ECharID sAwardDebugDriver2IDTable[3];
+
     void reset();
     void setConsoleTarget(int idx, short p2, bool p3);
+    void settingForWaitDemo(bool demoSettingThing);
+    void settingForAwardDemo();
+    void settingForStaffRoll(bool trueEnding);
     void setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5);
     void setRaceLevel(ERaceLevel raceLvl);
 
@@ -50,11 +65,48 @@ public:
     void shuffleStartNo();
     void hideConsole(u32 param_2);
 
-    s32 getKartNumber() {
-        return kartNum;
+    void setKart(int, EKartID, ECharID, KartGamePad *, ECharID, KartGamePad *);
+
+    void setAwardKartNo(int kartNo) {
+        awardKartNo = kartNo;
     }
 
-    //private:
+    void setGpCup(ERaceGpCup cup)
+    {
+        gpCup = cup;
+    }
+
+    void setRandomSeed(u32 value)
+    {
+        randomSeed = value;
+    }
+
+    void RaceInfo::setRivalKartNo(int rivalNo, int kartNo)
+    {
+        bool valid = false;
+        if (rivalNo >= 0 && rivalNo < 2)
+            valid = true;
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 114, "range over: %d <= rivalNo=%d < %d", 0, rivalNo, 2);
+            OSPanic("RaceInfo.h", 114, "Halt");
+        }
+        bool valid2 = false;
+        if (kartNo >= 0 && kartNo < 2)
+            valid2 = true;
+        if (!valid2)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 115, "range over: %d <= kartNo=%d < %d", 0, kartNo, 8);
+            OSPanic("RaceInfo.h", 115, "Halt");
+        }
+        rivalKarts[rivalNo] = kartNo;
+    }
+
+    s32 getKartNumber(); /*{
+        return kartNum;
+    }*/
+
+    private:
     bool isTinyProcess;
     bool isLanMode;
     bool isTrueEnding;
@@ -71,7 +123,7 @@ public:
     s16 statusNum;
     u16 lod;
     s16 gpStageNo;
-    s32 inWaitDemo;
+    s32 demoType;
     bool isMirror;
     // padding bytes
     KartInfo kartInfo[8];

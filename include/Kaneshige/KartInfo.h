@@ -125,7 +125,7 @@ public:
 
     static const SCharDB * getCharDB(ECharID charID);
     void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);
-    static const SKartDB * getKartDB(EKartID charID);
+    static const SKartDB * getKartDB(EKartID kartID);
     static s32 getKartWeight(EKartID);
     static ECharID getDefaultDriver(EKartID);
     static ECharID getDefaultPartner(ECharID);
@@ -135,10 +135,15 @@ public:
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
     KartGamePad* getPad(int IDX); // INLINE
-    //bool isRealPlayerKart();
-    //s32 getPlayerKind();
-    //bool isGhostKart() const;
-    //bool isPlayerKart() const;
+
+    void setKartID(EKartID kartID) {
+        kartDB = getKartDB(kartID);
+    }
+
+        // bool isRealPlayerKart();
+        // s32 getPlayerKind();
+        // bool isGhostKart() const;
+        // bool isPlayerKart() const;
 
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;
@@ -183,7 +188,7 @@ public:
     static const SKartDB cBonusKartDB;
 
 private:
-    SKartDB * kartDB;
+    const SKartDB * kartDB;
     KartCharacter kartCharacter[2]; // one for the driver, other for the one doing nothing
     s32 kartType; // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
 };

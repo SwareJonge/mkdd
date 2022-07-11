@@ -7,6 +7,7 @@ typedef u32 OSTick;
 typedef u64 OSTime;
 
 extern "C" void OSPanic(const char* file, int line, const char* msg, ...);
+extern "C" OSTime OSGetTime();
 
 typedef struct OSContext {
   // General-purpose registers
