@@ -133,6 +133,11 @@ global:
  0x80377318: cBossPakkunKartDB__8KartInfo
  0x80377328: cBonusKartDB__8KartInfo
 
+ # RaceInfo.cpp
+ 0x801b5098: __ct__8RaceInfoFv
+ 0x801b5124: reset__8RaceInfoFv
+ 0x801b5264: setConsoleTarget__8RaceInfoFiib
+
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
  0x8021f668: getRandomMax__8stRandomFUl

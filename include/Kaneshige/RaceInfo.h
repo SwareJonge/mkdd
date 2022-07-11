@@ -38,11 +38,11 @@ enum ERaceGpCup {
 
 class RaceInfo {
 public:
-    inline RaceInfo(); // this is not inlined in the debug version 
+    RaceInfo(); // inlined in release version, inline auto?
     ~RaceInfo();
 
     void reset();
-    void setConsoleTarget(s32 idx, s16 p2, bool p3);
+    void setConsoleTarget(int idx, short p2, bool p3);
     void setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5);
     void setRaceLevel(ERaceLevel raceLvl);
 
@@ -80,7 +80,7 @@ public:
     s16 rivalKarts[2];
 
     s16 _0x114[4];
-    bool _0x11c[4]; // not sure what these two arrays do, setConsoleTarget sets this so maybe this bool array means isActive and the other the console number
+    bool _0x11c[4]; // not sure what these two arrays do, setConsoleTarget sets this so maybe this bool array means isActive and the other the console number / consoleTarget
 
     s16 awardKartNo;
     // padding bytes
@@ -92,7 +92,7 @@ public:
     s16 HideConsole;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
-
+// unfortunately i can't enable this yet
 //RaceInfo gRaceInfo;
 
 #endif // !RACEINFO_H

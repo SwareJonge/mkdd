@@ -12,6 +12,9 @@ Kaneshige/KartInfo.cpp:
     .data: [0x80395bf0, 0x80395c98]
     .sdata2: [0x80419dc8, 0x80419dd0]
 
+Kaneshige/RaceInfo.cpp:
+    .text: [0x801b5098, 0x801b530c]
+
 #Sato/stMath.cpp: # can't be compiled currently
     #.text: [0x8021f5fc, 0x8021f6e0] 
     #.rodata: [0x8037eec8, 0x8037eef0]

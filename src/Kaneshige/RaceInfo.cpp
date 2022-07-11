@@ -4,6 +4,10 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
+RaceInfo::RaceInfo() {
+    reset();
+}
+
 void RaceInfo::reset() {
     isTinyProcess = false;
     isLanMode = false;
@@ -49,12 +53,20 @@ void RaceInfo::reset() {
     demoNextPhase = 6;
 }
 
-void RaceInfo::setConsoleTarget(s32 idx, s16 p2, bool p3) {
-    _0x114[idx] = p2;
+void RaceInfo::setConsoleTarget(int idx, short cnsNo, bool p3) {
+    bool valid = false;
+    if (-1 < cnsNo && cnsNo < 4)
+        valid = true;
+    if(!valid) {
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 453, "range over: %d <= cnsNo=%d < %d", 0, cnsNo, 4);
+        OSPanic(__FILE__, 453, "Halt");
+    }
+
+    _0x114[idx] = cnsNo;
     _0x11c[idx] = p3;
 }
 
-void RaceInfo::setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5) {
+/*void RaceInfo::setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5) {
     reset();
     raceMode = RaceMode;
     kartNum = (s16)kartCount;
@@ -90,8 +102,8 @@ void RaceInfo::shuffleStartNo() {
         u32 newidx = i + (((JMath::TRandom_fast_)rndm).get() % (getKartNumber() - i));
 
         if (newidx >= getKartNumber()) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 751, "range over: %d <= dst=%d < %d", 0, newidx, getKartNumber());
-            OSPanic("RaceInfo.cpp", 751, "Halt");
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 751, "range over: %d <= dst=%d < %d", 0, newidx, getKartNumber());
+            OSPanic(__FILE__, 751, "Halt");
         }
 
         s32 playerStartIdx = startPosIndex[i];
@@ -102,4 +114,4 @@ void RaceInfo::shuffleStartNo() {
 
 void RaceInfo::hideConsole(u32 param_2) {
     HideConsole = HideConsole | (u16)(1 << param_2);
-}
+}*/
