@@ -86,6 +86,8 @@ global:
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
 
+ 0x80118cac: getEngineType__11EngineSoundF7EKartID 
+
  # Result2D.cpp
  0x8014972c: getPad__8KartInfoFi
 

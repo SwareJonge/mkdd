@@ -17,6 +17,10 @@ JSystem/JSupport/JSUList.cpp:
     #.bss: [0x803f2540, 0x803fa5c0]
     #.sdata2: [0x80417798, 0x804177e0]
 
+Bando/EngineSound.cpp:
+    .text: [0x80118cac, 0x80118d1c]
+    .data: [0x80393760, 0x803937b8]
+
 Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a8f54]
     .rodata: [0x803770f8, 0x80377378]    
