@@ -20,6 +20,7 @@ public:
     bool prepend(JSUPtrLink *);
     bool insert(JSUPtrLink *, JSUPtrLink *);
     bool remove(JSUPtrLink *);
+    JSUPtrLink *getNthLink(u32 idx) const;
 
     JSUPtrLink *mHead;  // _0
     JSUPtrLink *mTail;  // _4

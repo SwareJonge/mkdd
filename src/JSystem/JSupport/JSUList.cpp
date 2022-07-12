@@ -1,5 +1,7 @@
 #include "JSystem/JSupport/JSUList.h"
 
+// from pikmin decomp
+
 JSUPtrLink::JSUPtrLink(void *pData) {
     mPtrList = 0;
     mData = pData;
@@ -149,4 +151,18 @@ bool JSUPtrList::remove(JSUPtrLink *pLink) {
     }
 
     return isSameList;
+}
+
+JSUPtrLink *JSUPtrList::getNthLink(u32 n) const
+{
+    if (n >= mNodeCount)
+    {
+        return nullptr;
+    }
+    JSUPtrLink *curHead = mHead;
+    for (int i = 0; i < n; i++)
+    {
+        curHead = curHead->mNext;
+    }
+    return curHead;
 }

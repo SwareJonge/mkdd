@@ -55,6 +55,7 @@ global:
  0x80078d10: prepend__10JSUPtrListFP10JSUPtrLink
  0x80078dc8: insert__10JSUPtrListFP10JSUPtrLinkP10JSUPtrLink
  0x80078f98: remove__10JSUPtrListFP10JSUPtrLink
+ 0x80079048: getNthLink__10JSUPtrListCFUl
 
  # JKRHeap.cpp
  0x80084d9c: __nw__FUl

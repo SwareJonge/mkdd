@@ -29,4 +29,7 @@ typedef volatile f64 vf64;
 
 typedef int BOOL;
 
+#define nullptr 0
+#define null 0
+
 #endif // !TYPES_H
