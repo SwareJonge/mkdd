@@ -19,7 +19,7 @@ Kaneshige/KartInfo.cpp:
 
 Kaneshige/RaceInfo.cpp:
     .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv
-    .rodata: [0x80378510, 0x80378698]    
+    .rodata: [0x80378500, 0x80378698]    
     .data: [0x80395e08, 0x80395e30]
     #.bss: [0x803ca8e8, 0x803ca928]
     .sdata: [0x80414630, 0x80414640]

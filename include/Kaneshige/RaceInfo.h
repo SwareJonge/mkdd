@@ -93,7 +93,7 @@ public:
         if (!valid)
         {
             JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 114, "range over: %d <= rivalNo=%d < %d", 0, rivalNo, 2);
-            OSPanic("RaceInfo.h", 114, "Halt");
+            OSPanic(__FILE__, 114, "Halt");
         }
         bool valid2 = false;
         if (kartNo >= 0 && kartNo < 8)
@@ -101,7 +101,7 @@ public:
         if (!valid2)
         {
             JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 115, "range over: %d <= kartNo=%d < %d", 0, kartNo, 8);
-            OSPanic("RaceInfo.h", 115, "Halt");
+            OSPanic(__FILE__, 115, "Halt");
         }
         rivalKarts[rivalNo] = kartNo;
     }

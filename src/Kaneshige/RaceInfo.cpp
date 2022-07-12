@@ -5,6 +5,14 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
+// i assume this data is from some include related to audio
+// also thanks seeky
+static const float lbl_80378500[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+#pragma push
+#pragma force_active on
+DUMMY_POINTER(lbl_80378500)
+#pragma pop
+
 u16 RaceInfo::sWaitDemoSelector;
 ERaceGpCup RaceInfo::sAwardDebugCup;
 
@@ -85,8 +93,8 @@ void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
     if (0 <= cnsNo && cnsNo < 4)
         valid = true;
     if (!valid) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 453, "range over: %d <= cnsNo=%d < %d", 0, cnsNo, 4);
-        OSPanic("RaceInfo.cpp", 453, "Halt");
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 453, "range over: %d <= cnsNo=%d < %d", 0, cnsNo, 4);
+        OSPanic(__FILE__, 453, "Halt");
     }
 
     _0x114[cnsNo] = target;
@@ -312,8 +320,8 @@ void RaceInfo::hideConsole(u32 viewNo)
         valid = true;
     if (!valid)
     {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 772, "range over: %d <= viewNo=%d < %d", 1, viewNo, 5);
-        OSPanic("RaceInfo.cpp", 772, "Halt");
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 772, "range over: %d <= viewNo=%d < %d", 1, viewNo, 5);
+        OSPanic(__FILE__, 772, "Halt");
     }
 
     HideConsole = HideConsole | (1 << viewNo);
