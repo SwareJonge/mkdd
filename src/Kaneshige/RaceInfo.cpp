@@ -5,7 +5,32 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
-RaceInfo::RaceInfo() {
+u16 RaceInfo::sWaitDemoSelector;
+ERaceGpCup RaceInfo::sAwardDebugCup;
+
+int RaceInfo::sForceDemoNo = 0xFFFFFFFF;
+u32 RaceInfo::sForceRandomSeed = 0xFFFFFFFF;
+ERaceLevel RaceInfo::sAwardDebugLevel = LVL_150CC;
+short RaceInfo::sAwardDebugRank = 1;
+
+EKartID RaceInfo::sAwardDebugKartIDTable[] = {
+    PARADE_KART,
+    KOOPA_KING,
+    HEART_COACH
+};
+ECharID RaceInfo::sAwardDebugDriver1IDTable[] = {
+    MARIO,
+    BOWSER, 
+    PEACH
+};
+ECharID RaceInfo::sAwardDebugDriver2IDTable[] = {
+    LUIGI, 
+    BOWSERJR,
+    DAISY
+};
+
+RaceInfo::RaceInfo()
+{
     reset();
 }
 
@@ -54,17 +79,18 @@ void RaceInfo::reset() {
     demoNextPhase = 6;
 }
 
-void RaceInfo::setConsoleTarget(int idx, short cnsNo, bool p3) {
+void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
+{
     bool valid = false;
-    if (-1 < cnsNo && cnsNo < 4)
+    if (0 <= cnsNo && cnsNo < 4)
         valid = true;
-    if(!valid) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 453, "range over: %d <= cnsNo=%d < %d", 0, cnsNo, 4);
-        OSPanic(__FILE__, 453, "Halt");
+    if (!valid) {
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 453, "range over: %d <= cnsNo=%d < %d", 0, cnsNo, 4);
+        OSPanic("RaceInfo.cpp", 453, "Halt");
     }
 
-    _0x114[idx] = cnsNo;
-    _0x11c[idx] = p3;
+    _0x114[cnsNo] = target;
+    _0x11c[cnsNo] = p3;
 }
 
 void RaceInfo::settingForWaitDemo(bool settingThing)
@@ -198,9 +224,7 @@ void RaceInfo::settingForStaffRoll(bool trueEnding) {
     }
 }
 
-
-
-void RaceInfo::setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5)
+void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int consoleCount, int p5)
 {
     reset();
     raceMode = RaceMode;
@@ -281,6 +305,16 @@ void RaceInfo::shuffleStartNo() {
     }
 }
 
-void RaceInfo::hideConsole(u32 param_2) {
-    HideConsole = HideConsole | (u16)(1 << param_2);
+void RaceInfo::hideConsole(u32 viewNo)
+{
+    bool valid = false;
+    if (viewNo >= 1 && (viewNo < 5))
+        valid = true;
+    if (!valid)
+    {
+        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "RaceInfo.cpp", 772, "range over: %d <= viewNo=%d < %d", 1, viewNo, 5);
+        OSPanic("RaceInfo.cpp", 772, "Halt");
+    }
+
+    HideConsole = HideConsole | (1 << viewNo);
 }

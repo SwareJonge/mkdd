@@ -35,6 +35,6 @@ class SequenceInfo {
     u8 _0x390[0x44c - 0x390];
 };
 
-SequenceInfo gSequenceInfo;
+extern SequenceInfo gSequenceInfo;
 
 #endif

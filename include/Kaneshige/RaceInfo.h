@@ -7,7 +7,7 @@
 #include "Kaneshige/RaceTime.h"
 
 enum ERaceMode {
-    INV_MODE = -1,
+    INV_MODE = 0,
     TIME_ATTACK = 0x1,
     GRAND_PRIX = 0x2,
     VERSUS_RACE = 0x3,
@@ -41,7 +41,7 @@ public:
     RaceInfo(); // inlined in release version, inline auto?
     ~RaceInfo();
 
-    static short sWaitDemoSelector;
+    static u16 sWaitDemoSelector;
     static ERaceGpCup sAwardDebugCup;
 
     static int sForceDemoNo;
@@ -49,16 +49,21 @@ public:
     static ERaceLevel sAwardDebugLevel;
     static short sAwardDebugRank;
 
-    static EKartID sAwardDebugKartIDTable[3];
-    static ECharID sAwardDebugDriver1IDTable[3];
-    static ECharID sAwardDebugDriver2IDTable[3];
+    static EKartID sAwardDebugKartIDTable[];
+    static ECharID sAwardDebugDriver1IDTable[];
+    static ECharID sAwardDebugDriver2IDTable[];
 
     void reset();
-    void setConsoleTarget(int idx, short p2, bool p3);
+
+    s32 getKartNumber() const; /*{
+        return kartNum;
+    }*/
+
+    void setConsoleTarget(int idx, int p2, bool p3);
     void settingForWaitDemo(bool demoSettingThing);
     void settingForAwardDemo();
     void settingForStaffRoll(bool trueEnding);
-    void setRace(ERaceMode RaceMode, s32 kartCount, s32 playerCount, s32 consoleCount, s32 p5);
+    void setRace(ERaceMode RaceMode, int kartCount, int playerCount, int consoleCount, int p5);
     void setRaceLevel(ERaceLevel raceLvl);
 
     void shuffleRandomSeed();
@@ -81,8 +86,7 @@ public:
         randomSeed = value;
     }
 
-    void RaceInfo::setRivalKartNo(int rivalNo, int kartNo)
-    {
+    void setRivalKartNo(int rivalNo, int kartNo) {
         bool valid = false;
         if (rivalNo >= 0 && rivalNo < 2)
             valid = true;
@@ -92,7 +96,7 @@ public:
             OSPanic("RaceInfo.h", 114, "Halt");
         }
         bool valid2 = false;
-        if (kartNo >= 0 && kartNo < 2)
+        if (kartNo >= 0 && kartNo < 8)
             valid2 = true;
         if (!valid2)
         {
@@ -101,10 +105,6 @@ public:
         }
         rivalKarts[rivalNo] = kartNo;
     }
-
-    s32 getKartNumber(); /*{
-        return kartNum;
-    }*/
 
     private:
     bool isTinyProcess;
@@ -141,7 +141,7 @@ public:
     RaceTime finishTime[8];
     RaceTime lapTimes[80]; // 10 per player so perhaps it's lapTimes[8][10] or lapTimes[10][8](why do i not know how arrays work)
     s32 _0x298;
-    s16 HideConsole;
+    u16 HideConsole;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 // unfortunately i can't enable this yet

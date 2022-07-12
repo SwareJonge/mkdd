@@ -384,7 +384,10 @@ class AsmSource(Source):
 
 class CSource(Source):
     def __init__(self, ctx: SourceContext, path: str):
-        self.cflags = ctx.cflags
+        if path.startswith("src/Kaneshige/"):
+            self.cflags = c.KANESHIGE_CFLAGS
+        else:
+            self.cflags = ctx.cflags
         self.iconv_path = f"$builddir/iconv/{path}"
 
         # Find generated includes

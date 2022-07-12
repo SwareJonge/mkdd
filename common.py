@@ -163,22 +163,22 @@ ASFLAGS = ' '.join([
 
 CFLAGS = [
     "-lang=c++",
-    "-inline off",
-    #"-W all",
     "-fp fmadd",
     "-fp_contract on",
     "-Cpp_exceptions off",
     "-O4",
     "-use_lmw_stmw on",
-    #"-str pool",
     "-rostr",
     "-char signed",
     "-enum int"
 ]
+
 BASE_DOL_CFLAGS = CFLAGS + [
-    #"-inline all",
-    #"-sdata 8",
-    #"-sdata2 8"
+    "-inline on",
+]
+
+KANESHIGE = CFLAGS + [
+    "-inline off"
 ]
 
 LOCAL_CFLAGS = [
@@ -191,6 +191,7 @@ LOCAL_CFLAGS = [
     f"-i {BUILD_INCDIR}"
 ]
 DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS + LOCAL_CFLAGS)
+KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
 EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
 
 LDFLAGS = ' '.join([
