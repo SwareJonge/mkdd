@@ -9,6 +9,9 @@ kartLocale.cpp:
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
 
+JSystem/JSupport/JSUList.cpp:
+    .text: [0x80078b2c, 0x80079048]
+
 #JSystem/JMath/JMATrigonometric.cpp:
     #.text: [0x800693d0, 0x800697f8]
     #.bss: [0x803f2540, 0x803fa5c0]

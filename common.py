@@ -165,19 +165,28 @@ CFLAGS = [
     "-lang=c++",
     "-fp fmadd",
     "-fp_contract on",
-    "-Cpp_exceptions off",
-    "-O4",
-    "-use_lmw_stmw on",
+    "-Cpp_exceptions off",   
     "-rostr",
     "-char signed",
     "-enum int"
 ]
 
-BASE_DOL_CFLAGS = CFLAGS + [
-    "-inline on",
+JSYSTEM = CFLAGS + [
+    "-inline auto",
+    "-O4,p" 
+
 ]
 
-KANESHIGE = CFLAGS + [
+BASE_GAME_CFLAGS = CFLAGS + [
+    "-use_lmw_stmw on",
+    "-O4" 
+]
+
+BASE_DOL_CFLAGS = BASE_GAME_CFLAGS + [
+    "-inline on, auto"
+]
+
+KANESHIGE = BASE_GAME_CFLAGS + [
     "-inline off"
 ]
 
@@ -191,6 +200,7 @@ LOCAL_CFLAGS = [
     f"-i {BUILD_INCDIR}"
 ]
 DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS + LOCAL_CFLAGS)
+JSYSTEM_CFLAGS = ' '.join(JSYSTEM + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
 EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
 

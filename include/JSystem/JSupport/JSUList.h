@@ -7,7 +7,7 @@ class JSUPtrLink;
 
 class JSUPtrList {
 public:
-    inline JSUPtrList() {
+    JSUPtrList() {
         initiate();
     }
 

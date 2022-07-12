@@ -45,6 +45,17 @@ global:
  0x80069af4: getSDevice__12JUTAssertionFv
  0x80069bd8: showAssert_f__12JUTAssertionFUlPCciPCce
 
+ # JSUList.cpp
+ 0x80078b2c: __ct__10JSUPtrLinkFPv
+ 0x80078b44: __dt__10JSUPtrLinkFv
+ 0x80078ba4: __ct__10JSUPtrListFb
+ 0x80078bdc: __dt__10JSUPtrListFv 
+ 0x80078c44: initiate__10JSUPtrListFv 
+ 0x80078c58: append__10JSUPtrListFP10JSUPtrLink
+ 0x80078d10: prepend__10JSUPtrListFP10JSUPtrLink
+ 0x80078dc8: insert__10JSUPtrListFP10JSUPtrLinkP10JSUPtrLink
+ 0x80078f98: remove__10JSUPtrListFP10JSUPtrLink
+
  # JKRHeap.cpp
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
