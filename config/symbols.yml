@@ -192,6 +192,9 @@ global:
  0x804163d0: sWaitDemoSelector__8RaceInfo
  0x804163d4: sAwardDebugCup__8RaceInfo
 
+ # RaceTime.cpp
+ 0x801d9e4c: get__8RaceTimeCFPiPiPi
+
  # SequenceInfo.cpp
  0x803fba80: gSequenceInfo
 
