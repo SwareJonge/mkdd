@@ -6,6 +6,9 @@ kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
+JSystem/JMath/random.cpp:
+    .text: [0x800693c8, 0x800693d0]
+
 #JSystem/JMath/JMATrigonometric.cpp:
     #.text: [0x800693d0, 0x800697f8]
     #.bss: [0x803f2540, 0x803fa5c0]
