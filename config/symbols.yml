@@ -209,6 +209,8 @@ global:
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 
+ 0x80205c2c: __sinit_systemData_cpp
+
  # SequenceInfo.cpp
  0x803fba80: gSequenceInfo
 

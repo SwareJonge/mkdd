@@ -39,8 +39,5 @@ Kaneshige/RaceInfo.cpp:
 Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
-#Sato/stMath.cpp: # can't be compiled currently
-    #.text: [0x8021f5fc, 0x8021f6e0] 
-    #.rodata: [0x8037eec8, 0x8037eef0]
-    #.data: [0x8039d6f0, 0x8039d708]
-    #.sbss: [0x80416ac8, 0x80416ad0]
+Osako/systemData.cpp:
+	.text: [0x80205c2c, 0x80205db4]
