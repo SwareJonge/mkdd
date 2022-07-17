@@ -73,8 +73,15 @@ global:
  # OSError.c
  0x800eeaec: OSPanic
 
+ 0x800eddd0: LCQueueWait 
+
  # OSTime.c
  0x800f2d3c: OSGetTime
+
+ # __ppc_eabi_init.cpp
+ 0x800f31b8: __init_user
+ 0x800f31d8: __init_cpp
+ 0x800f322c: _ExitProcess
 
  # NMWException.cp
  0x80105af8: __destroy_new_array
@@ -86,6 +93,7 @@ global:
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
 
+ #EngineSound.cpp
  0x80118cac: getEngineType__11EngineSoundF7EKartID 
 
  # Result2D.cpp
@@ -209,7 +217,37 @@ global:
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 
+# systemData.cpp
  0x80205c2c: __sinit_systemData_cpp
+ 0x8037d938: sc3DViewPort__10SystemData
+ 0x8037d948: sc3DScissor__10SystemData
+ 0x8037d958: sc3DAwardScissor__10SystemData
+ 0x8037d968: scOrtho__10SystemData
+ 0x8037d978: sc3DViewPortSub__10SystemData
+ 0x8037d988: sc3DScissorSub__10SystemData
+ 0x8037d998: scNtscInt448Df__10SystemData
+ 0x8037d9d4: scNtscInt448__10SystemData
+ 0x8037da10: scNtscProg448Soft__10SystemData
+ 0x8037da4c: scNtscProg448__10SystemData
+ 0x8039cd28: sca3DViewPortDiv2__10SystemData
+ 0x8039cd48: sca3DScissorDiv2__10SystemData 
+ 0x8039cd68: sca3DViewPortDiv4__10SystemData
+ 0x8039cda8: sca3DScissorDiv4__10SystemData
+ 0x80416a00: scAspect__10SystemData
+ 0x80416a04: scAspectDiv2__10SystemData
+ 0x80416a08: scAspectSub__10SystemData 
+ 0x8041b758: scNumStandardHeaps__10SystemData
+ 0x8041b75c: scDefaultFifoSize__10SystemData
+ 0x8041b760: scSystemHeapSize__10SystemData
+ 0x8041b764: scAudioHeapSize__10SystemData
+ 0x8041b768: scAudioAramSize__10SystemData
+
+ # main.cpp
+ 0x801f75f4: main
+ 
+ # system.cpp
+ 0x801feba0: init__6SystemFv
+ 0x801ff334: run__6SystemFv
 
  # SequenceInfo.cpp
  0x803fba80: gSequenceInfo
