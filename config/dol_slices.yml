@@ -12,9 +12,9 @@ JSystem/JMath/random.cpp:
 JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
 
-Dolphin/__ppc_eabi_init.s:
-    .text: [0x800f31d8, 0x800f322c]
-    .ctors: [0x803160a0, 0x803160a4]    
+#Dolphin/__ppc_eabi_init.s:
+    #.text: [0x800f31d8, 0x800f322c]
+    #.ctors: [0x803160a0, 0x803160a4]    
 
 #JSystem/JMath/JMATrigonometric.cpp:
     #.text: [0x800693d0, 0x800697f8]
@@ -43,13 +43,13 @@ Kaneshige/RaceInfo.cpp:
 Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
-#Osako/main.cpp:
-    #.text: [0x801f75f4, 0x801f7618]
+Osako/main.cpp:
+    .text: [0x801f75f4, 0x801f7618]
 
-Osako/systemData.cpp:
-    .text: [0x80205c2c, 0x80205db4]
-    .ctors: [0x80316394, 0x80316398]
-    .rodata: [0x8037d938, 0x8037da88]
-    .data: [0x8039cd28, 0x8039cde8]
-    .sbss: [0x80416a00, 0x80416a10]
-    .sdata2: [0x8041b758, 0x8041b778]
+#Osako/systemData.cpp:
+    #.text: [0x80205c2c, 0x80205db4]
+    #.ctors: [0x80316394, 0x80316398]
+    #.rodata: [0x8037d938, 0x8037da88]
+    #.data: [0x8039cd28, 0x8039cde8]
+    #.sbss: [0x80416a00, 0x80416a10]
+    #.sdata2: [0x8041b758, 0x8041b778]
