@@ -19,9 +19,11 @@ import common as c
 ####################
 
 # Check CW was added
+       #os.path.exists("tools/1.2.5/mwcceppc.exe") and \
+       #os.path.exists("tools/1.2.5/mwldeppc.exe"), \
 assert os.path.exists("tools/2.5/mwcceppc.exe") and \
-       os.path.exists("tools/2.5/mwldeppc.exe"), \
-       "Error: Codewarrior not found in tools/2.5"
+       os.path.exists("tools/2.5/mwldeppc.exe") and  \
+       "Error: Codewarrior not found in tools/1.2.5 ortools/2.5"
 
 # Check binaries were added
 assert os.path.exists(c.DOL), \
