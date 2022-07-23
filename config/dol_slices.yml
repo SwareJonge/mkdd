@@ -53,3 +53,16 @@ Osako/main.cpp:
     #.data: [0x8039cd28, 0x8039cde8]
     #.sbss: [0x80416a00, 0x80416a10]
     #.sdata2: [0x8041b758, 0x8041b778]
+
+#Osako/SaveFile.cpp:
+    #.text: [0x8020c230, 0x8020c3ac]
+    #.rodata: [0x8037e060, 0x8037e090]
+    #.bss: [0x80407334, 0x80407740]
+    #.sbss: [0x80416a48, 0x80416a50]
+    #.sdata2: [0x8041b840, 0x8041b858]
+
+#Sato/stMath.cpp: # can't be compiled currently
+    #.text: [0x8021f5fc, 0x8021f6e0] 
+    #.rodata: [0x8037eec8, 0x8037eef0]
+    #.data: [0x8039d6f0, 0x8039d708]
+    #.sbss: [0x80416ac8, 0x80416ad0]

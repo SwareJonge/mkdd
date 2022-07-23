@@ -252,6 +252,11 @@ global:
  # SequenceInfo.cpp
  0x803fba80: gSequenceInfo
 
+ # SaveFile.cpp
+ 0x8020c230: getCRC__8SaveFileFPUcPUc
+ 0x80407334: msaCRCTable__8SaveFile
+ 0x80416a48: msCRCTableComputed__8SaveFile
+
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
  0x8021f668: getRandomMax__8stRandomFUl
