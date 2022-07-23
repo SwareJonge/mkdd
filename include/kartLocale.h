@@ -47,12 +47,49 @@ enum VideoMode {
     PAL = 1
 };
 
-namespace KartLocale {
-    void localize();
-    Language msLanguage;
-    SpeedUnit msSpeedUnit;
-    VideoMode msVideoMode;
-    VideoFrameMode msVideoFrameMode;
+// is this even a class?
+class KartLocale {
+public:
+    static void localize();
+protected:
+    static Country msCountry;
+    static Region msRegion;
+    static DatingMode msDatingMode;
+    static const char *mscpaLanguageName[];
+private:
+    static Language msLanguage;
+    static SpeedUnit msSpeedUnit;
+    static VideoMode msVideoMode;
+    static VideoFrameMode msVideoFrameMode;
+public:
+    static Country getCountry() {
+        return msCountry;
+    }
+
+    static DatingMode getDatingMode() {
+        return msDatingMode;
+    }
+
+    static Region getRegion() {
+        return msRegion;
+    }
+
+    static Language getLanguage() {
+        return msLanguage;
+    }
+
+    static SpeedUnit getSpeedUnit() {
+        return msSpeedUnit;
+    }
+
+    static VideoFrameMode getVideoFrameMode() {
+        return msVideoFrameMode;
+    }
+
+    static VideoMode getVideoMode() {
+        return msVideoMode;
+    }
+
 };
 
 #endif // !KARTLOCALE_H
