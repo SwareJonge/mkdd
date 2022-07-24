@@ -49,19 +49,19 @@ enum VideoMode {
 
 // is this even a class?
 class KartLocale {
-public:
-    static void localize();
-protected:
+private:
     static Country msCountry;
     static Region msRegion;
     static DatingMode msDatingMode;
     static const char *mscpaLanguageName[];
-private:
+
     static Language msLanguage;
     static SpeedUnit msSpeedUnit;
     static VideoMode msVideoMode;
     static VideoFrameMode msVideoFrameMode;
 public:
+    static void localize();
+
     static Country getCountry() {
         return msCountry;
     }
@@ -76,6 +76,10 @@ public:
 
     static Language getLanguage() {
         return msLanguage;
+    }
+
+    static const char * getLanguageName() {
+        return mscpaLanguageName[(int)getLanguage()];
     }
 
     static SpeedUnit getSpeedUnit() {
