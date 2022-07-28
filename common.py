@@ -99,7 +99,7 @@ ANALYSER = f"{PYTHON} {PPCDIS}/analyser.py"
 DISASSEMBLER = f"{PYTHON} {PPCDIS}/disassembler.py"
 ORDERSTRINGS = f"{PYTHON} {PPCDIS}/orderstrings.py"
 ORDERFLOATS = f"{PYTHON} {PPCDIS}/orderfloats.py"
-FORCEACTIVE = f"{PYTHON} {PPCDIS}/forceactive.py"
+FORCEFILESGEN = f"{PYTHON} {PPCDIS}/forcefilesgen.py"
 ELF2DOL = f"{PYTHON} {PPCDIS}/elf2dol.py"
 SLICES = f"{PYTHON} {PPCDIS}/slices.py"
 
@@ -143,7 +143,8 @@ DOL_LABELS = f"{BUILDDIR}/labels.pickle"
 DOL_RELOCS = f"{BUILDDIR}/relocs.pickle"
 
 # Linker
-DOL_LCF = f"{CONFIG}/dol.lcf"
+DOL_LCF_TEMPLATE = f"{CONFIG}/dol.lcf"
+DOL_LCF = f"{BUILDDIR}/dol.lcf"
 
 # Outputs
 DOL_ELF = f"{BUILDDIR}/main.elf"

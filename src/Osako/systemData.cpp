@@ -93,7 +93,7 @@ const _GXRenderModeObj SystemData::scNtscProg448Soft = {
     16, // (MAX_NTSC_HEIGTH - SCREEN_HEIGHT) / 2 0
     666,
     SCREEN_HEIGHT,
-    1,
+    0,
     0,
     0,
     {{6, 6},
@@ -121,7 +121,7 @@ const _GXRenderModeObj SystemData::scNtscProg448 = {
     16, // (MAX_NTSC_HEIGTH - SCREEN_HEIGHT) / 2 0
     666,
     SCREEN_HEIGHT,
-    1,
+    0,
     0,
     0,
     {{6, 6},

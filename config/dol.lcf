@@ -37,6 +37,11 @@ SECTIONS
 	_eti_init_info = 8000569c;
 }
 
+FORCEFILES
+{
+	PPCDIS_FORCEFILES
+}
+
 __dummy_str = 0;
 __dummy_float = 0;
 __dummy_double = 0;
