@@ -68,6 +68,7 @@ n.variable("analyser", c.ANALYSER)
 n.variable("disassembler", c.DISASSEMBLER)
 n.variable("orderstrings", c.ORDERSTRINGS)
 n.variable("orderfloats", c.ORDERFLOATS)
+n.variable("forcefilesgen", c.FORCEFILESGEN)
 n.variable("elf2dol", c.ELF2DOL)
 n.variable("codewarrior", c.CODEWARRIOR)
 n.variable("cc", c.CC)
@@ -129,6 +130,12 @@ n.rule(
     "orderfloats",
     command = "$orderfloats $in $addrs $out $flags",
     description = "Order floats $in $addrs"
+)
+
+n.rule(
+    "forcefiles",
+    command = "$forcefilesgen $in $out $forcefiles",
+    description = "LCF FORCEFILES generation $in"
 )
 
 n.rule(
@@ -352,8 +359,13 @@ class GenAsmSource(Source):
         self.start = start
         self.end = end
         self.ctx = ctx
-        src_path = f"$builddir/asm/{section}_{start:x}_{end:x}.s"
+        name = f"{section}_{start:x}_{end:x}.s"
+        src_path = f"$builddir/asm/{name}"
         super().__init__(False, src_path, src_path + ".o")
+
+        # Add ctors to forcefiles
+        if section == ".ctors":
+            forcefiles.append(name + ".o")
 
     def build(self):
         n.build(
@@ -435,6 +447,8 @@ def load_sources(ctx: SourceContext):
     )
     return [Source.make(ctx, s) for s in json.loads(raw)]
 
+forcefiles = []
+
 dol_ctx = SourceContext(c.DOL_SRCDIR, c.DOL_CFLAGS, c.DOL_YML, c.DOL_LABELS,
                         c.DOL_RELOCS, c.DOL_SLICES, 4)
 
@@ -461,6 +475,15 @@ for inc in dol_gen_includes:
 
 for source in dol_sources:
     source.build()
+
+n.build(
+    c.DOL_LCF,
+    rule="forcefiles",
+    inputs=c.DOL_LCF_TEMPLATE,
+    variables={
+        "forcefiles" : ' '.join(forcefiles)
+    }
+)
 
 n.build(
     c.DOL_ELF,

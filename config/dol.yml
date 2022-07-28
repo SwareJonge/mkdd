@@ -12,7 +12,9 @@ section_defs:
         extabindex_:
             attr: a
         .ctors:
+            balign: 0
         .dtors:
+            balign: 0
         .BINARY:
             attr: wa
         .rodata:
