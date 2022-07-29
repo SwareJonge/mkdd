@@ -7,17 +7,48 @@
 
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
+#include "Kaneshige/SysDebug.h"
+#include "Osako/kartPad.h"
+
 
 //#include "JugemPoint.h"
 //#include "Course.h"
-//#include "KartGamePad"
+
 
 
 class KartChecker {
 public:
     KartChecker(int, KartInfo *, int, int);
 
-    //void setPlayerKartColor(KartInfo *);
+    void setLapChecking()
+    {
+        raceFlags |= 1;
+    }
+
+    void setDemoRank()
+    {
+        raceFlags |= 16;
+    }
+
+    void setRabbitCtrl()
+    {
+        raceFlags |= 8;
+    }
+
+    void setBombCtrl()
+    {
+        raceFlags |= 4;
+    }
+
+    void setBalloonCtrl()
+    {
+        raceFlags |= 2;
+    }
+
+    void setPlayerKartColor(KartInfo *);
+    void createGamePad(KartInfo *);
+    void reset();
+
 private:
     u16 raceFlags;
     s16 kartIndex;
@@ -28,8 +59,8 @@ private:
     RaceTime* laptimes1;
     RaceTime* laptimes2;
     s32 playerKartColor;
-    void* kartGamePad1;
-    void* kartGamePad2;
+    KartGamePad* kartGamePad1;
+    KartGamePad *kartGamePad2;
     bool showLapSplit;
     bool raceEnd;
     u8 _0x2a; // only seems to get set in the constructor
@@ -61,13 +92,23 @@ private:
     u8 _0x92[2]; // this is probaby padding
     RaceTime deathTime;
     RaceTime markTime;
-    u8 _0x9c[010];
+    u8 _0x9c[0xa6 - 0x9C];
     s16 bombPoint;
     s16 rabbitWinFrame;
     s32 demoPoint;
     // these only get set in the constructor?
     JGeometry::TVec3<f32> _0xb0;
     s32 _0xbc;
+};
+
+class KartChkUsrPage : SysDbUsrPage
+{
+    friend class KartChecker;
+    KartChkUsrPage(KartChecker *kartChecker); /*{
+       mKartChecker = kartChecker;
+   }*/
+
+    KartChecker *mKartChecker;
 };
 
 #endif // !KARTCHECKER_H

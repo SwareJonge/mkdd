@@ -34,6 +34,12 @@ namespace JGeometry {
         void sub(const TVec3& translate);
         void sub(const TVec3& base, const TVec3& translate);
 
+        void zero(); /*{
+            x = 0;
+            y = 0;
+            z = 0;
+        }*/
+
         T x;
         T y;
         T z;

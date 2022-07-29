@@ -31,7 +31,15 @@ public:
         u16 _0xc;
     };
 
-    //private:
+    static RaceMgr *getManager(); /*{
+        return sRaceManager;
+    }*/
+
+    ERaceMode getRaceMode() const; /*{
+        return raceInfo->getRaceMode();
+    }*/
+
+private:
     void * raceDirector;
     void * raceDrawer;
     u16 areaLight;

@@ -70,6 +70,8 @@ global:
  # JASHeapCtrl.cpp
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
 
+ 0x800a5fe0: __ct__Q29JGeometry8TVec3<f>Fv 
+
  # OSError.c
  0x800eeaec: OSPanic
 
@@ -98,9 +100,15 @@ global:
 
  # Result2D.cpp
  0x8014972c: getPad__8KartInfoFi
+ 0x80149bd4: getRaceMode__7RaceMgrCFv
 
  # SequenceInfo.cpp
  0x801528e8: rndDemo__12SequenceInfoFUl
+
+ # Course.cpp
+ 0x80198f98: getManager__7RaceMgrFv
+ 0x80199688: zero__Q29JGeometry8TVec3<f>Fv
+ 0x8019bcf0: getManager__8SysDebugFv
 
  # CrsData.cpp
  0x801a11f0: getKartNumber__8RaceInfoCFv
@@ -175,8 +183,22 @@ global:
  0x80377318: cBossPakkunKartDB__8KartInfo
  0x80377328: cBonusKartDB__8KartInfo
 
-  # RaceTime.cpp
+ # KartChecker.cpp
+ 0x801a9040: __ct__14KartChkUsrPageFP11KartChecker
+ 0x801a9604: __ct__11KartCheckerFiP8KartInfoii
+ 0x801a97d8: setLapChecking__11KartCheckerFv
+ 0x801a97e8: setDemoRank__11KartCheckerFv
+ 0x801a97f8: setRabbitCtrl__11KartCheckerFv
+ 0x801a9808: setBombCtrl__11KartCheckerFv
+ 0x801a9818: setBalloonCtrl__11KartCheckerFv
+ 0x801a9858: reset__8RaceTimeFv
+ 0x801a9868: reset__11KartCheckerFv
  0x801a9828: __ct__8RaceTimeFv
+ 0x801a9ac4: setPlayerKartColor__11KartCheckerFP8KartInfo
+ 0x801a9c28: createGamePad__11KartCheckerFP8KartInfo
+
+ # RaceMgr.cpp
+ 0x801aff04: getRaceMode__8RaceInfoCFv
 
  # RaceInfo.cpp
  0x801b5098: __ct__8RaceInfoFv
@@ -213,6 +235,9 @@ global:
 
  0x804163d0: sWaitDemoSelector__8RaceInfo
  0x804163d4: sAwardDebugCup__8RaceInfo
+
+ # SysDebug.cpp
+ 0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
 
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
