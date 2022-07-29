@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include "JSystem/JGeometry.h"
+#include "JSystem/JUtility/JUTDbPrint.h"
 
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
@@ -19,6 +20,14 @@
 class KartChecker {
 public:
     KartChecker(int, KartInfo *, int, int);
+
+    void KartChecker::printPass(int x, int y)
+    {
+        for (int i = 0; i < bitfieldCnt; i++)
+        {
+            JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, cpBitfields[i]);
+        }
+    }
 
     void setLapChecking()
     {
