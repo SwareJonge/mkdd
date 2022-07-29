@@ -191,9 +191,17 @@ global:
  0x801a97f8: setRabbitCtrl__11KartCheckerFv
  0x801a9808: setBombCtrl__11KartCheckerFv
  0x801a9818: setBalloonCtrl__11KartCheckerFv
+ 0x801a9828: __ct__8RaceTimeFv
  0x801a9858: reset__8RaceTimeFv
  0x801a9868: reset__11KartCheckerFv
- 0x801a9828: __ct__8RaceTimeFv
+ 0x801a99b4: getWinFrame__23GeoRabbitMarkSupervisorCFv 
+ 0x801a99c4: getSupervisor__13GeoRabbitMarkFv
+ 0x801a99cc: setRank__11KartCheckerFi
+ 0x801a99d4: tstDemoRank__11KartCheckerCFv
+ 0x801a99e0: clrRank__11KartCheckerFv
+ 0x801a99ec: zero__8RaceTimeFv
+ 0x801a99f8: clrCheckPointIndex__11KartCheckerFv
+
  0x801a9ac4: setPlayerKartColor__11KartCheckerFP8KartInfo
  0x801a9c28: createGamePad__11KartCheckerFP8KartInfo
 
@@ -239,6 +247,9 @@ global:
  # SysDebug.cpp
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
 
+ # GeoRabbitMark.cpp
+ 0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 
+ 0x804164bc: sSupervisor__13GeoRabbitMark
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 

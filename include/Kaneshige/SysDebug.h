@@ -16,7 +16,9 @@ private:
 class SysDebug
 {
 public:
-    static SysDebug *getManager();
+    static SysDebug *getManager(); /* {
+        return sManager;
+    }*/
     int appendPage(SysDbUsrPage *);
 
 private:

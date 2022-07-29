@@ -45,6 +45,23 @@ public:
         raceFlags |= 2;
     }
 
+    void setRank(int rank)
+    {
+        mRank = rank;
+    }
+
+    void clrCheckPointIndex();
+
+    void clrRank() 
+    {
+        mRank = 0;
+    }
+
+    bool tstDemoRank() const
+    {
+        return raceFlags & 16;
+    }
+
     void setPlayerKartColor(KartInfo *);
     void createGamePad(KartInfo *);
     void reset();
@@ -61,8 +78,8 @@ private:
     s32 playerKartColor;
     KartGamePad* kartGamePad1;
     KartGamePad *kartGamePad2;
-    bool showLapSplit;
-    bool raceEnd;
+    bool mLapRenewal;
+    bool mRaceEnd;
     u8 _0x2a; // only seems to get set in the constructor
     u8 _0x2b; // probably padding
     s32 lapIndex;
@@ -84,15 +101,15 @@ private:
     u8 _0x79[3];
     s32 curFrame;
     s32 goalFrame;
-    RaceTime Timer;
-    s32 rank;
+    RaceTime mTotalTime;
+    s32 mRank;
     s16 battleFlags;
-    s16 _0x8e;
+    s16 mBalForbiddenTime;
     s16 balloonNumber;
     u8 _0x92[2]; // this is probaby padding
-    RaceTime deathTime;
-    RaceTime markTime;
-    u8 _0x9c[0xa6 - 0x9C];
+    RaceTime mDeathTime;
+    RaceTime mMarkTime;
+    s8 bombPointTable[0xa6 - 0x9C];
     s16 bombPoint;
     s16 rabbitWinFrame;
     s32 demoPoint;
@@ -101,13 +118,12 @@ private:
     s32 _0xbc;
 };
 
-class KartChkUsrPage : SysDbUsrPage
+class KartChkUsrPage : public SysDbUsrPage
 {
-    friend class KartChecker;
-    KartChkUsrPage(KartChecker *kartChecker); /*{
-       mKartChecker = kartChecker;
-   }*/
+    public:
+    KartChkUsrPage(KartChecker *kartChecker);
 
+private:
     KartChecker *mKartChecker;
 };
 
