@@ -274,9 +274,10 @@ void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad 
         JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, 695, "charID2 != cCharIDNone");
         OSPanic(__FILE__, 695, "Halt");
     }
-    for (int idx = 0; idx < 2; idx++) // the most useful loop ever
+
+    for (int idx = 0; 2 > idx; ++idx) // the most useful loop ever
     {
-        if (idx == 0)
+        if (!idx != false)
             kartInfo[kartNo].setDriver(idx, charID1, kartPad1);
         else
             kartInfo[kartNo].setDriver(idx, charID2, kartPad2);
