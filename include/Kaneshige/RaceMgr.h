@@ -9,6 +9,8 @@
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/KartChecker.h"
 
+#include "Kaneshige/Course/Course.h"
+
 class RaceMgr : JKRDisposer {
 public:
     RaceMgr(RaceInfo *);
@@ -23,7 +25,7 @@ public:
     class Console {
     public:
         Console();
-        void changeTargetNo(s32, bool);
+        void changeTargetNo(int, bool);
     private:
         s32 _0x0;
         u8 _0x4;
@@ -34,6 +36,10 @@ public:
     static RaceMgr *getManager(); /*{
         return sRaceManager;
     }*/
+
+    Course * getCourse() const; /*
+        return course;
+    */
 
     ERaceMode getRaceMode() const; /*{
         return raceInfo->getRaceMode();
@@ -54,7 +60,7 @@ private:
     RaceInfo * raceInfo;
     void * raceBGMPlayer;
     Console * console;
-    void * course;
+    Course * course;
     KartChecker * kartChecker[8];
     void * kartLoader[8];
     void * staffRoll2D;
@@ -71,8 +77,10 @@ private:
     s16 proctime2;
     s16 proctime3;
     s16 proctime4;
-
-
 };
+
+Course * RCMGetCourse() { // might be inline off, auto?(Kameda)
+    return RaceMgr::getManager()->getCourse();
+}
 
 #endif // RACEMGR_H

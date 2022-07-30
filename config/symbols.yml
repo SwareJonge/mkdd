@@ -45,6 +45,15 @@ global:
  0x80069af4: getSDevice__12JUTAssertionFv
  0x80069bd8: showAssert_f__12JUTAssertionFUlPCciPCce
 
+ # JUTDbPrint.cpp
+ 0x8006b8c0: start__10JUTDbPrintFP7JUTFontP7JKRHeap
+ 0x8006b964: changeFont__10JUTDbPrintFP7JUTFont
+ 0x8006b97c: flush__10JUTDbPrintFv
+ 0x8006b9b4: flush__10JUTDbPrintFiiii
+ 0x8006bb10: drawString__10JUTDbPrintFiiiPCUc
+ 0x8006bbf8: JUTReport__FiiPCce
+ 0x8006bd1c: JUTReport__FiiiPCce
+
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
  0x80078b44: __dt__10JSUPtrLinkFv

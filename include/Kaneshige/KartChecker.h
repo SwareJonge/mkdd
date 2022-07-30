@@ -9,19 +9,32 @@
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/SysDebug.h"
-#include "Osako/kartPad.h"
+#include "Kaneshige/Course/Course.h"
 
+#include "Osako/kartPad.h"
 
 //#include "JugemPoint.h"
 //#include "Course.h"
 
-
-
-class KartChecker {
+class KartChecker
+{
 public:
     KartChecker(int, KartInfo *, int, int);
 
-    void KartChecker::printPass(int x, int y)
+    int getRank() const
+    {
+        return mRank;
+    }
+
+    bool isBestTotalTimeRenewal(int);
+    bool isBestLapTimeRenewal();
+
+    bool isLapRenewal() const
+    {
+        return mLapRenewal;
+    }
+
+    void printPass(int x, int y)
     {
         for (int i = 0; i < bitfieldCnt; i++)
         {
@@ -61,7 +74,7 @@ public:
 
     void clrCheckPointIndex();
 
-    void clrRank() 
+    void clrRank()
     {
         mRank = 0;
     }
@@ -75,37 +88,37 @@ public:
     void createGamePad(KartInfo *);
     void reset();
 
-private:
+    // private: // i'm not really sure how else KartChkUsrPage got acces to this
     u16 raceFlags;
     s16 kartIndex;
     s32 sectorCount;
     s32 bitfieldCnt;
     s32 trackLapCount;
     s32 _0x10; // i think this stores the index of the fastest lap
-    RaceTime* laptimes1;
-    RaceTime* laptimes2;
+    RaceTime *laptimes1;
+    RaceTime *laptimes2;
     s32 playerKartColor;
-    KartGamePad* kartGamePad1;
+    KartGamePad *kartGamePad1;
     KartGamePad *kartGamePad2;
     bool mLapRenewal;
     bool mRaceEnd;
     u8 _0x2a; // only seems to get set in the constructor
     u8 _0x2b; // probably padding
-    s32 lapIndex;
+    s32 mLap;
     f32 sectorProgression;
     s32 warpState;
     s32 _0x38;
     s32 sectorIndex;
-    void * sector1;
-    void * sector2;
-    f32 lapProgession;
-    f32 prevlapProgession;
+    Course::Sector *sector1;
+    Course::Sector *sector2;
+    f32 lapProgression;
+    f32 prevlapProgression;
     f32 lapProgression2; // might be max Lap Progression
     f32 raceProgression;
-    s32* cpBitfields; // seems to store what checkpoint have been passed
+    s32 *cpBitfields; // seems to store what checkpoint have been passed
     JGeometry::TVec3<f32> curPos;
     JGeometry::TVec3<f32> prevPos;
-    void * jugemPoint;
+    void *jugemPoint;
     bool _0x78; // true = in race | false = finished
     u8 _0x79[3];
     s32 curFrame;
@@ -129,8 +142,10 @@ private:
 
 class KartChkUsrPage : public SysDbUsrPage
 {
-    public:
+public:
     KartChkUsrPage(KartChecker *kartChecker);
+    virtual ~KartChkUsrPage();
+    virtual void draw();
 
 private:
     KartChecker *mKartChecker;

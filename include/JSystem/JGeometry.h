@@ -19,6 +19,7 @@ namespace JGeometry {
         void add(const TVec3& operand);
         void div(f32 divisor);
         f32 dot(const TVec3& operand) const;
+        f32 length() const;
         void negate();
         void scale(f32 scale);
         void scale(f32 scale, const TVec3& operand);
