@@ -9,11 +9,11 @@ public:
     class Sector
     {
     public:
-        s32 isMainSector();
-        u8 getGeneration();
+        s32 isMainSector() const;
+        u8 getGeneration() const;
     };
 
-    f32 getTrackSectorDist()
+    f32 getTrackSectorDist() const
     {
         return mTrackSectorDist;
     }

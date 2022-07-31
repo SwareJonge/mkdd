@@ -14,7 +14,6 @@
 #include "Osako/kartPad.h"
 
 //#include "JugemPoint.h"
-//#include "Course.h"
 
 class KartChecker
 {
@@ -144,8 +143,8 @@ class KartChkUsrPage : public SysDbUsrPage
 {
 public:
     KartChkUsrPage(KartChecker *kartChecker);
-    virtual ~KartChkUsrPage();
-    virtual void draw();
+    // virtual ~KartChkUsrPage();
+    /*virtual */ void draw();
 
 private:
     KartChecker *mKartChecker;

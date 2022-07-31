@@ -79,8 +79,8 @@ private:
     s16 proctime4;
 };
 
-Course * RCMGetCourse() { // might be inline off, auto?(Kameda)
+Course * RCMGetCourse();/* { // might be inline off, auto?(Kameda)
     return RaceMgr::getManager()->getCourse();
-}
+}*/
 
 #endif // RACEMGR_H

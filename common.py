@@ -168,6 +168,7 @@ CFLAGS = [
     "-fp_contract on",
     "-Cpp_exceptions off",   
     "-rostr",
+    "-RTTI off",
     "-char signed",
     "-enum int"
 ]

@@ -114,12 +114,32 @@ global:
  # SequenceInfo.cpp
  0x801528e8: rndDemo__12SequenceInfoFUl
 
+ # Race2D.cpp
+ 0x801574a8: RCMGetCourse__Fv
+
  # Course.cpp
  0x80198f98: getManager__7RaceMgrFv
  0x80199688: zero__Q29JGeometry8TVec3<f>Fv
+ 0x80199f84: getGeneration__Q26Course6SectorCFv
+ 0x80199f8c: isMainSector__Q26Course6SectorCFv
+ 0x8019acf4: length__Q29JGeometry8TVec3<f>CFv
  0x8019bcf0: getManager__8SysDebugFv
 
+ # CrsGround.cpp
+ 0x801a17ac: __ct__9CrsGroundFP6Course
+ 0x801a18f0: search__9CrsGroundFRCQ29JGeometry8TVec3<f> 
+ 0x801a3268: getAddThickness__9CrsGroundCFv
+ 0x801a319c: getCameraCode__9CrsGroundCFv
+ 0x801a32c0: getStaggerCode__9CrsGroundCFv 
+ 0x801a3338: getSpiralCode__9CrsGroundCFv
+ 0x801a338c: getSplashCode__9CrsGroundCFv
+ 0x801a33e4: getSplashHeight__9CrsGroundFv 
+ 0x801a36c4: getAttrIndex__9CrsGroundCFv
+ 0x801a36cc: getAttribute__9CrsGroundCFv
+ 0x801a37e8: getWaterHeight__9CrsGroundFv
+
  # CrsData.cpp
+ 0x801a0064: getAddThickness__Q27CrsData6GroundCFv
  0x801a11f0: getKartNumber__8RaceInfoCFv
 
  # KartInfo.cpp
@@ -194,6 +214,20 @@ global:
 
  # KartChecker.cpp
  0x801a9040: __ct__14KartChkUsrPageFP11KartChecker
+ 0x801a9084: draw__14KartChkUsrPageFv
+ 0x801a9450: getRank__11KartCheckerCFv
+ 0x801a9458: getShadowRate__7CrsAreaCFv
+ 0x801a9478: getRate__7CrsAreaCFv
+ 0x801a9480: getMaterial__9CrsGroundCFv
+ 0x801a9488: isLapRenewal__11KartCheckerCFv
+ 0x801a9490: printPass__11KartCheckerFii
+ 0x801a9514: getTrackSectorDist__6CourseCFv
+ 0x801a951c: searchLight__7CrsAreaFRCQ29JGeometry8TVec3<f>
+ 0x801a9544: searchCamera__7CrsAreaFRCQ29JGeometry8TVec3<f>
+ 0x801a956c: searchRoof__7CrsAreaFRCQ29JGeometry8TVec3<f>
+ 0x801a9594: searchShadow__7CrsAreaFRCQ29JGeometry8TVec3<f>
+ 0x801a95bc: getVelocity__9CrsGroundCFPQ29JGeometry8TVec3<f>
+ 0x801a95e8: set<f>__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f> 
  0x801a9604: __ct__11KartCheckerFiP8KartInfoii
  0x801a97d8: setLapChecking__11KartCheckerFv
  0x801a97e8: setDemoRank__11KartCheckerFv
@@ -214,8 +248,21 @@ global:
  0x801a9ac4: setPlayerKartColor__11KartCheckerFP8KartInfo
  0x801a9c28: createGamePad__11KartCheckerFP8KartInfo
 
+ 0x801ab82c: isBestLapTimeRenewal__11KartCheckerFv
+ 0x801ab8bc: isBestTotalTimeRenewal__11KartCheckerFi
+
+ 0x80395cc4: __vt__14KartChkUsrPage
+
  # RaceMgr.cpp
  0x801aff04: getRaceMode__8RaceInfoCFv
+
+ # CrsArea.cpp
+ 0x801b35f8: __ct__7CrsAreaFv
+ 0x801b366c: search__7CrsAreaFUcRCQ29JGeometry8TVec3<f>
+ 0x801b37c8: getCameraID__7CrsAreaCFv
+ 0x801b3908: getEchoRate__7CrsAreaFv
+ 0x801b39c0: getLightParamID__7CrsAreaFv
+ 0x801b3a4c: getLightParamID__Q26Course4AreaCFv
 
  # RaceInfo.cpp
  0x801b5098: __ct__8RaceInfoFv
