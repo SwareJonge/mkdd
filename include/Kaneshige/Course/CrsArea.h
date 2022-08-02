@@ -10,6 +10,16 @@ class CrsArea
 public:
     CrsArea();
 
+    struct SCheckPoint
+    {
+        JGeometry::TVec3<f32> cpStart;
+        JGeometry::TVec3<f32> cpEnd;
+        u8 mShortcutID;
+        u8 _0x19;
+        bool mRevSearchEnable;
+        u8 _0x1b;
+    };
+
     void search(u8 id, JGeometry::TVec3<f32> const &p2);
     void searchShadow(JGeometry::TVec3<f32> const &p1)
     {

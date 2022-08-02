@@ -4,39 +4,53 @@
 #include "types.h"
 #include "JSystem/JUtility/JUTGamePad.h"
 
-class KartGamePad : JUTGamePad {
-    public:
+class KartGamePad : JUTGamePad
+{
+public:
     // placeholder Enums
-    enum PadPort {
-        
+    enum PadPort
+    {
+        PORT_1 = 0,
+        PORT_2 = 1,
+        PORT_3 = 2,
+        PORT_4 = 3,
     };
 
-    enum PadType {
+    enum PadType
+    {
 
     };
 
-    enum PadState {
+    enum PadState
+    {
 
     };
-    KartGamePad(JUTGamePad::EPadPort, PadPort, PadType, PadState); // defined here
+    KartGamePad(JUTGamePad::EPadPort ePadPort, PadPort padPort, PadType padType, PadState padState) : JUTGamePad(ePadPort)
+    {
+        mPadType = padType;
+        mPadPort = padPort;
+        mPadState = padState;
+    }
     virtual ~KartGamePad(); // defined here
 
-    PadType getPadType() {
-        return padType;
+    PadType getPadType()
+    {
+        return mPadType;
     }
 
-    PadPort getPadPort() {
-        return padPort;
+    PadPort getPadPort()
+    {
+        return mPadPort;
     }
-    PadState getPadState() {
-        return padState;
+    PadState getPadState()
+    {
+        return mPadState;
     }
 
-    private:
-    PadType padType;
-    PadPort padPort;
-    PadState padState;
-        
+private:
+    PadType mPadType;
+    PadPort mPadPort;
+    PadState mPadState;
 };
 
 #endif KARTPAD_H

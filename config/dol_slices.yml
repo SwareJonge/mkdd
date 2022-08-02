@@ -31,10 +31,10 @@ Kaneshige/KartInfo.cpp:
     .sdata2: [0x80419dc8, 0x80419dd0]
 
 Kaneshige/KartChecker.cpp:
-    .text: [0x801a9084, 0x801a99f8]   
+    .text: [0x801a9040, 0x801aadd0]   
     .rodata: [0x80377378, 0x80377494] 
-    #.data: [0x80395cc4, 0x80395cd8]
-    .sdata2: [0x80419dd0, 0x80419de8]
+    .data: [0x80395c98, 0x80395cd8]
+    .sdata2: [0x80419dd0, 0x80419e04]
 
 Kaneshige/RaceInfo.cpp:
     .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv

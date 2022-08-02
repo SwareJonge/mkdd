@@ -81,6 +81,9 @@ global:
 
  0x800a5fe0: __ct__Q29JGeometry8TVec3<f>Fv 
 
+ # JUTGamePad.cpp
+ 0x8006f93c: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
+
  # OSError.c
  0x800eeaec: OSPanic
 
@@ -108,6 +111,7 @@ global:
  0x80118cac: getEngineType__11EngineSoundF7EKartID 
 
  # Result2D.cpp
+ 0x80149534: getKartInfo__7RaceMgrFi
  0x8014972c: getPad__8KartInfoFi
  0x80149bd4: getRaceMode__7RaceMgrCFv
 
@@ -120,10 +124,18 @@ global:
  # Course.cpp
  0x80198f98: getManager__7RaceMgrFv
  0x80199688: zero__Q29JGeometry8TVec3<f>Fv
+ 0x80199f7c: getSectorDist__Q26Course6SectorCFv
  0x80199f84: getGeneration__Q26Course6SectorCFv
  0x80199f8c: isMainSector__Q26Course6SectorCFv
+ 0x8019a20c: searchSector__6CourseFs
  0x8019acf4: length__Q29JGeometry8TVec3<f>CFv
  0x8019bcf0: getManager__8SysDebugFv
+ 0x8019caf4: getKartCtrl__8KartCtrlFv
+ 0x8019e2b8: getPrevSector__Q26Course6SectorFi
+ 0x8019e350: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
+
+ 0x80199edc: getNextNum__Q26Course6SectorCFv 
+ 0x80199ee4: getNextSector__Q26Course6SectorFi
 
  # CrsGround.cpp
  0x801a17ac: __ct__9CrsGroundFP6Course
@@ -227,7 +239,7 @@ global:
  0x801a956c: searchRoof__7CrsAreaFRCQ29JGeometry8TVec3<f>
  0x801a9594: searchShadow__7CrsAreaFRCQ29JGeometry8TVec3<f>
  0x801a95bc: getVelocity__9CrsGroundCFPQ29JGeometry8TVec3<f>
- 0x801a95e8: set<f>__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f> 
+ 0x801a95e8: set<f>__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>
  0x801a9604: __ct__11KartCheckerFiP8KartInfoii
  0x801a97d8: setLapChecking__11KartCheckerFv
  0x801a97e8: setDemoRank__11KartCheckerFv
@@ -244,14 +256,64 @@ global:
  0x801a99e0: clrRank__11KartCheckerFv
  0x801a99ec: zero__8RaceTimeFv
  0x801a99f8: clrCheckPointIndex__11KartCheckerFv
-
+ 0x801a9abc: getStartSector__6CourseCFv
  0x801a9ac4: setPlayerKartColor__11KartCheckerFP8KartInfo
+ 0x801a9bfc: isLANMode__7RaceMgrCFv
+ 0x801a9c20: isLANMode__8RaceInfoFv
  0x801a9c28: createGamePad__11KartCheckerFP8KartInfo
+ 0x801a9cb4: __ct__11KartGamePadFQ210JUTGamePad8EPadPortQ211KartGamePad7PadPortQ211KartGamePad7PadTypeQ211KartGamePad8PadState
+ 0x801a9d08: searchCurrentSector__11KartCheckerFPfRCQ29JGeometry8TVec3<f>PQ26Course6Sectori
+ 0x801aa050: isInvalid__Q26Course6SectorCFv
+ 0x801aa064: getPrevNum__Q26Course6SectorCFv
+ 0x801aa06c: getTotalSectorNumber__6CourseCFv
+ 0x801aa074: isInsideSector__11KartCheckerFf
+ 0x801aa09c: getSector__6CourseCFi
+ 0x801aa138: isDiv__Q26Course6SectorCFv
+ 0x801aa140: checkKart__11KartCheckerFv
+ 0x801aa240: tstRabbitCtrl__11KartCheckerCFv
+ 0x801aa24c: isBombPointFull__11KartCheckerCFv
+ 0x801aa268: tstBombCtrl__11KartCheckerCFv
+ 0x801aa274: set__8RaceTimeFi
+ 0x801aa294: isDead__11KartCheckerCFv
+ 0x801aa2b4: tstDead__11KartCheckerCFv
+ 0x801aa2c0: isAvailable__8RaceTimeCFv
+ 0x801aa2dc: tstBalloonCtrl__11KartCheckerCFv
+ 0x801aa2e8: tstLapChecking__11KartCheckerCFv
+ 0x801aa2f4: checkKartLap__11KartCheckerFv
+ 0x801aa638: getTotalPriorDist__Q26Course6SectorCFv
+ 0x801aa640: getMainSector__Q26Course6SectorFv
+ 0x801aa648: getSectorID__10JugemPointCFv
+ 0x801aa654: getMainSector__6CourseCFi
+ 0x801aa6f0: isRevSearchEnable__Q26Course6SectorCFv
+ 0x801aa704: isUDValid__11KartCheckerFv
+ 0x801aa734: getBestLapTime__11KartCheckerFv
+ 0x801aa7ac: isLittle__8RaceTimeCFRC8RaceTime
+ 0x801aa7cc: checkLap__11KartCheckerFb
+ 0x801aab60: isComKart__8KartInfoCFv
+ 0x801aab84: isComDriver__8KartInfoCFi
+ 0x801aac20: isComPlayer__Q28KartInfo13KartCharacterCFv
+ 0x801aac30: clrPass__11KartCheckerFi
+ 0x801aac6c: setGoalTime__11KartCheckerFv
+ 0x801aacb8: __as__8RaceTimeFRC8RaceTime 
+ 0x801aacc4: setGoal__11KartCheckerFv
+ 0x801aacd8: isGoal__11KartCheckerCFv
+ 0x801aace0: incLap__11KartCheckerFv
+ 0x801aacfc: isPass__11KartCheckerFi
+ 0x801aadc4: getShortcutID__Q26Course6SectorCFv 
+ 0x801aadd0: setLapTime__11KartCheckerFv 
 
+ 0x801ab128: setForceGoal__11KartCheckerFv
+ 0x801ab324: setPass__11KartCheckerFi 
+ 0x801ab438: isPassAll__11KartCheckerFi
  0x801ab82c: isBestLapTimeRenewal__11KartCheckerFv
  0x801ab8bc: isBestTotalTimeRenewal__11KartCheckerFi
 
+ 0x801ac0bc: calcRabbitTime__11KartCheckerFv
+
+ 0x80395c98: sPlayerKartColorTable__11KartChecker
+ 0x80395cb8: __vt__11KartGamePad
  0x80395cc4: __vt__14KartChkUsrPage
+ 0x80414622: sBombPointFull__11KartChecker
 
  # RaceMgr.cpp
  0x801aff04: getRaceMode__8RaceInfoCFv
@@ -302,6 +364,7 @@ global:
 
  # SysDebug.cpp
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
+ 0x801b34c0: __ct__12SysDbUsrPageFv
 
  # GeoRabbitMark.cpp
  0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 
@@ -359,3 +422,6 @@ global:
  0x8021fa28: stSetRndPermission__FUlb
  0x8039d6f0: sRndMgr__8stRandom
  0x80416ac8: sMgr__8stRandom
+
+ # kartCtrlInfo.cpp
+ 0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>

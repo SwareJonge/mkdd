@@ -6,16 +6,25 @@
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"
 
+#include "Yamamoto/kartCtrl.h"
+
+/*#define SDA2_BASE 0x8041f1c0
+#include "orderfloats/80419de8_80419df0.inc"
+#include "orderfloats/80419df8_80419e04.inc"*/
+
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_80377378)
 #pragma pop
 
-/*KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
+int KartChecker::sPlayerKartColorTable[] = {
+    0, 1, 2, 3, 4, 5, 6, 7};
+
+KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
 {
     mKartChecker = kartChecker;
-}*/
+}
 
 void KartChkUsrPage::draw()
 {
@@ -41,8 +50,8 @@ void KartChkUsrPage::draw()
 
     if (mKartChecker->sector2)
     {
-        JUTReport(280, 90, "CUR  %08d:%f:%d", mKartChecker->sector2->isMainSector(), mKartChecker->sectorProgression,
-                  mKartChecker->sector2->getGeneration());
+        JUTReport(280, 90, "CUR  %08d:%f:%d", mKartChecker->sector2->getGeneration(),
+                  mKartChecker->sectorProgression, mKartChecker->sector2->isMainSector());
     }
 
     JUTReport(280, 110, "U/T  %f", mKartChecker->lapProgression);
@@ -92,7 +101,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
         break;
     }
 
-    kartIndex = kartNum;
+    mTargetKartNo = kartNum;
     sectorCount = sectorNum;
     bitfieldCnt = (sectorCount + 31) / 32;
     cpBitfields = new s32[bitfieldCnt];
@@ -108,7 +117,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     _0xb0.zero();
     _0xbc = 0;
 
-    if (kartIndex == 0)
+    if (mTargetKartNo == 0)
     {
         KartChkUsrPage *usrPage = new KartChkUsrPage(this);
         SysDebug::getManager()->appendPage(usrPage);
@@ -134,12 +143,12 @@ void KartChecker::reset()
     clrRank();
 
     if (tstDemoRank())
-        setRank(kartIndex + 1);
+        setRank(mTargetKartNo + 1);
 
     curPos.zero();
     prevPos.zero();
 
-    jugemPoint = 0;
+    mJugemPoint = nullptr;
     battleFlags = 0;
     balloonNumber = 3;
     mBalForbiddenTime = 0;
@@ -157,4 +166,448 @@ void KartChecker::reset()
         rabbitWinFrame = 0;
 
     demoPoint = 0;
+}
+
+void KartChecker::clrCheckPointIndex()
+{
+    mLap = -1;
+    sectorProgression = 0.0f;
+    warpState = 0;
+    mGeneration = -1;
+    sectorIndex = 0;
+    sector2 = nullptr;
+
+    if (RCMGetCourse()->getStartSector() != nullptr)
+    {
+        sector2 = RCMGetCourse()->getStartSector()->getPrevSector(0);
+    }
+    sector1 = sector2;
+    lapProgression = 1.0f;
+    prevlapProgression = lapProgression;
+    lapProgression2 = lapProgression;
+
+    for (int i = 0; i < bitfieldCnt; i++)
+    {
+        cpBitfields[i] = 0;
+    }
+
+    raceProgression = 0.0f;
+}
+
+void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
+{
+    if (RaceMgr::getManager()->isLANMode())
+    {
+        mPlayerKartColor = -1;
+        if (kartInfo->getYoungestPad() != nullptr)
+        {
+            switch ((int)kartInfo->getYoungestPad()->getPadPort())
+            {
+            case 0:
+                mPlayerKartColor = 0;
+                break;
+            case 1:
+                mPlayerKartColor = 1;
+                break;
+            case 2:
+                mPlayerKartColor = 2;
+                break;
+            case 3:
+                mPlayerKartColor = 3;
+                break;
+            }
+        }
+    }
+    else
+    {
+        bool valid = false;
+        if (mTargetKartNo > 0 && mTargetKartNo < 8)
+        {
+            valid = true;
+        }
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1004, "range over: %d <= mTargetKartNo=%d < %d", 0, mTargetKartNo, 8);
+            OSPanic(__FILE__, 1004, "Halt");
+        }
+        mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
+    }
+}
+
+void KartChecker::createGamePad(KartInfo *kartInfo)
+{
+    for (int i = 0; i < 2; i++)
+    {
+        KartGamePad *gamePad = kartInfo->getPad(i);
+        if (gamePad == nullptr)
+        {
+            gamePad = new KartGamePad((JUTGamePad::EPadPort)0xfffffc19, (KartGamePad::PadPort)-1,
+                                      (KartGamePad::PadType)0, (KartGamePad::PadState)0);
+        }
+        mKartGamePads[i] = gamePad;
+    }
+}
+
+/*
+Decompilation failure:
+
+Syntax error when parsing C context.
+before: "C" at line 12, column 8
+
+extern "C" {
+*/
+
+Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3<f32> const &pos, Course::Sector *curSector, int sectorCnt)
+{
+    Course::Sector *ret = nullptr;
+    if (curSector->isDiv())
+    {
+        for (int i = 0; i < RCMGetCourse()->getTotalSectorNumber(); i++)
+        {
+            if (curSector == RCMGetCourse()->getSector(i))
+                continue;
+
+            if (curSector->getGeneration() != RCMGetCourse()->getSector(i)->getGeneration())
+                continue;
+
+            *unitDist = RCMGetCourse()->getSector(i)->calcUnitDist(pos);
+            if (!isInsideSector(*unitDist))
+                continue;
+
+            ret = RCMGetCourse()->getSector(i);
+            break;
+        }
+    }
+
+    if (ret == nullptr)
+    {
+        if (curSector->isDiv())
+        {
+            for (int i = 0; i < RCMGetCourse()->getTotalSectorNumber(); i++)
+            {
+                int curGeneration = (curSector->getGeneration() + 1) % sectorCnt;
+                if (curGeneration != RCMGetCourse()->getSector(i)->getGeneration())
+                    continue;
+
+                *unitDist = RCMGetCourse()->getSector(i)->calcUnitDist(pos);
+                if (!isInsideSector(*unitDist))
+                    continue;
+
+                ret = RCMGetCourse()->getSector(i);
+                break;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < curSector->getNextNum(); i++)
+            {
+                *unitDist = curSector->getNextSector(i)->calcUnitDist(pos);
+                if (!isInsideSector(*unitDist))
+                    continue;
+
+                ret = curSector->getNextSector(i);
+                break;
+            }
+        }
+    }
+
+    if (ret == nullptr)
+    {
+        if (curSector->isDiv())
+        {
+            for (int i = 0; i < RCMGetCourse()->getTotalSectorNumber(); i++)
+            {
+                int curGeneration = curSector->getGeneration();
+                curGeneration--;
+                if (curGeneration < 0)
+                    curGeneration += sectorCnt;
+
+                if (curGeneration != RCMGetCourse()->getSector(i)->getGeneration())
+                    continue;
+
+                *unitDist = RCMGetCourse()->getSector(i)->calcUnitDist(pos);
+                if (!isInsideSector(*unitDist))
+                    continue;
+
+                ret = RCMGetCourse()->getSector(i);
+                break;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < curSector->getPrevNum(); i++)
+            {
+                *unitDist = curSector->getPrevSector(i)->calcUnitDist(pos);
+                if (!isInsideSector(*unitDist))
+                    continue;
+
+                ret = curSector->getPrevSector(i);
+                break;
+            }
+        }
+    }
+
+    if (ret == nullptr)
+    {
+        for (int i = 0; i < RCMGetCourse()->getTotalSectorNumber(); i++)
+        {
+            *unitDist = RCMGetCourse()->getSector(i)->calcUnitDist(pos);
+            if (RCMGetCourse()->getSector(i)->isInvalid())
+                continue;
+            if (!isInsideSector(*unitDist))
+                continue;
+
+            ret = RCMGetCourse()->getSector(i);
+            break;
+        }
+    }
+
+    return ret;
+}
+
+void KartChecker::checkKart()
+{
+    prevPos.set(curPos);
+    KartCtrl::getKartCtrl()->GetBodyPos(mTargetKartNo, &curPos);
+
+    if (tstLapChecking())
+        checkKartLap();
+    if (tstBalloonCtrl())
+    {
+        if (mBalForbiddenTime > 0)
+            mBalForbiddenTime--;
+        if (!mDeathTime.isAvailable() && isDead())
+            mDeathTime.set(curFrame);
+    }
+    if (tstBombCtrl() && !mMarkTime.isAvailable() && isBombPointFull())
+        mMarkTime.set(curFrame);
+    if (tstRabbitCtrl())
+        calcRabbitTime();
+}
+
+void KartChecker::checkKartLap()
+{
+    Course::Sector *nextSector = nullptr;
+    sector1 = sector2;
+
+    if (sector2->isRevSearchEnable())
+    {
+        for (int i = sectorIndex; i >= 0; i--)
+        {
+            if (isInsideSector(RCMGetCourse()->getMainSector(i)->calcUnitDist(curPos)))
+            {
+                nextSector = RCMGetCourse()->getMainSector(i);
+                break;
+            }
+        }
+    }
+    else
+    {
+        if (warpState == 3 && mJugemPoint != nullptr)
+        {
+            s16 respawnSectorID = mJugemPoint->getSectorID();
+            if (respawnSectorID >= 0)
+            {
+                nextSector = RCMGetCourse()->searchSector(respawnSectorID);
+                bool inSector = isInsideSector(nextSector->calcUnitDist(curPos));
+                if (!inSector)
+                {
+                    for (int i = 0; i < nextSector->getPrevNum(); i++)
+                    {
+                        inSector = isInsideSector(nextSector->getPrevSector(i)->calcUnitDist(curPos));
+                        if (inSector)
+                            break;
+                    }
+                }
+                if (!inSector)
+                {
+                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1293, "NOT INSIDE SCT%d", nextSector->getGeneration());
+                    OSPanic(__FILE__, 1293, "Halt");
+                }
+                if (!inSector)
+                    nextSector = nullptr;
+            }
+        }
+    }
+    if (nextSector == nullptr)
+    {
+        if (sector2 == RCMGetCourse()->getStartSector()->getPrevSector(0))
+        {
+            if (isInsideSector(RCMGetCourse()->getStartSector()->calcUnitDist(curPos)))
+            {
+                nextSector = RCMGetCourse()->getStartSector();
+            }
+        }
+        if (nextSector == nullptr)
+        {
+            f32 unitDist = sector2->calcUnitDist(curPos);
+            if (!isInsideSector(unitDist))
+                nextSector = searchCurrentSector(&unitDist, curPos, sector2, sectorCount);
+        }
+    }
+    if (nextSector != nullptr)
+        sector2 = nextSector;
+
+    f32 unitDist = sector2->calcUnitDist(curPos);
+    prevlapProgression = lapProgression;
+    if (unitDist >= 0.0f && unitDist <= 1.0f)
+    {
+        sectorProgression = unitDist;
+        lapProgression = (sectorProgression * sector2->getMainSector()->getSectorDist() + sector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
+
+        if (!isUDValid())
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1388, "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, curPos.x, curPos.y, curPos.z);
+            OSPanic(__FILE__, 1388, "Halt");
+        }
+    }
+
+    f32 lapProgDiff = lapProgression - prevlapProgression;
+
+    if (lapProgDiff < -0.5f)
+    {
+        lapProgDiff += 1.0f;
+    }
+    else if (lapProgDiff > 0.5f)
+    {
+        lapProgDiff -= 1.0f;
+    }
+
+    raceProgression += lapProgDiff;
+
+    // failsafe to prevent underflows
+    if (raceProgression < -100.0f)
+        raceProgression = -100.0f;
+}
+
+bool KartChecker::isUDValid()
+{
+    return (lapProgression >= 1.0f && lapProgression <= 0.0f);
+}
+
+RaceTime *KartChecker::getBestLapTime()
+{
+    RaceTime *bestLapTime = nullptr;
+    for (int i = 0; i < mLap; i++)
+    {
+        RaceTime *curLapTime = &laptimes1[i];
+        if (bestLapTime == nullptr || curLapTime->isLittle(*bestLapTime))
+            bestLapTime = curLapTime;
+    }
+    return bestLapTime;
+}
+
+void KartChecker::checkLap(bool raceEnd)
+{
+    if (tstLapChecking())
+    {
+        int curGeneration;
+        mLapRenewal = false;
+        if (warpState == 3)
+        {
+
+            if (sector2->getGeneration() > mGeneration)
+            {
+                curGeneration = mGeneration;
+                int sectorGeneration = -1;
+                for (; curGeneration <= sector2->getGeneration(); curGeneration++)
+                {
+                    if (setPass(curGeneration))
+                        sectorGeneration = curGeneration;
+                }
+                if (sectorGeneration != -1)
+                    sectorIndex = (sectorGeneration + 1) % sectorCount;
+            }
+        }
+        else
+        {
+            if (sector2->getShortcutID() != 0)
+            {
+                Course::Sector *prevSector = sector2->getPrevSector(0);
+                while (prevSector->getShortcutID() == sector2->getShortcutID())
+                    prevSector = prevSector->getPrevSector(0);
+
+                if (isPass(prevSector->getGeneration()))
+                {
+                    int shortcutID = sector2->getShortcutID();
+                    sectorIndex = sector2->getGeneration();
+                    for (curGeneration = 0; RCMGetCourse()->getTotalSectorNumber() > curGeneration; curGeneration++)
+                    {
+                        Course::Sector *pSector = RCMGetCourse()->getSector(curGeneration);
+                        if (shortcutID == pSector->getShortcutID())
+                        {
+                            setPass(pSector->getGeneration());
+                            if (pSector->getGeneration() > sectorIndex)
+                                sectorIndex = pSector->getGeneration();
+                        }
+                    }
+
+                    int nextSectorId = sectorIndex + 1; // stupid code
+                    sectorIndex = nextSectorId;
+
+                    if (nextSectorId >= sectorCount)
+                        sectorIndex = 0;
+                }
+            }
+            else
+            {
+                if (sectorIndex == sector2->getGeneration())
+                {
+                    setPass(sectorIndex);
+                    int nextSectorId = sectorIndex + 1; // stupid code
+                    sectorIndex = nextSectorId;
+
+                    if (nextSectorId >= sectorCount)
+                        sectorIndex = 0;
+                }
+            }
+        }
+        if (sector2->getGeneration() == 0)
+        {
+            if (mLap < 0)
+                incLap();
+            else
+            {
+                if (isPassAll(sectorCount) && (int)raceProgression > mLap)
+                {
+                    if (!isGoal())
+                        setLapTime();
+
+                    mLapRenewal = true;
+                    incLap();
+                    if (!isGoal() && mLap >= trackLapCount)
+                    {
+                        setGoal();
+                        setGoalTime();
+                    }
+                    for (int i = 1; i < sectorCount; i++)
+                        clrPass(i);
+                }
+            }
+        }
+
+        if ((RaceMgr::getManager()->getKartInfo(mTargetKartNo)->isComKart() && raceEnd) && !isGoal())
+            setForceGoal();
+
+        int sector = sectorIndex;
+        if (sector == 0)
+            sector = sectorCount;
+
+        if (sector2->getGeneration() < sector)
+            lapProgression2 = lapProgression;
+
+        switch (warpState)
+        {
+        case 0:
+        case 1:
+            mGeneration = sector2->getGeneration();
+            warpState = 2;
+            break;
+        case 3:
+            mGeneration = -1;
+            warpState = 0;
+            mJugemPoint = nullptr;
+            break;
+        }
+    }
 }

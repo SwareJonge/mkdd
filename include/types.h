@@ -11,6 +11,7 @@ typedef unsigned long u32;
 typedef unsigned long size_t;
 typedef unsigned long long u64;
 
+typedef unsigned short ushort;
 typedef unsigned int uint;
 
 typedef volatile u8 vu8;

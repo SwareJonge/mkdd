@@ -9,7 +9,8 @@
 class RaceTime
 {
 public:
-    RaceTime() {
+    RaceTime()
+    {
         reset();
     }
     // this constructor might not be needed
@@ -17,31 +18,37 @@ public:
         value = racetime.value;
     }*/
 
-    //inline void operator=(const RaceTime &);
+    // inline void operator=(const RaceTime &);
     void get(int *, int *, int *) const;
 
-    int get() const {
+    int get() const
+    {
         return value;
     }
 
-    int getUpwardMSec() const {
+    int getUpwardMSec() const
+    {
         return value + MAX_MS;
     }
 
-    bool isAvailable() {
+    bool isAvailable() const
+    {
         return value != MAX_TIME;
     }
 
-    bool isLittle(RaceTime const & raceTime) const {
+    bool isLittle(RaceTime const &raceTime) const
+    {
         return value < raceTime.value;
     }
 
-    void reset() {
+    void reset()
+    {
         value = MAX_TIME;
     }
 
-    void set(int frame) {
-        value = frame; // no idea why framecount is used here, 
+    void set(int frame)
+    {
+        value = frame; // no idea why framecount is used here,
         if (value > MAX_TIME)
             value = MAX_TIME;
     }
@@ -50,21 +57,25 @@ public:
         *this = raceTime;
     }*/
 
-    void setFrame(int frame) {
+    void setFrame(int frame)
+    {
         value = (frame * 1000) / 60;
         if (value > MAX_TIME)
             value = MAX_TIME;
     }
 
-    void sub(const RaceTime & split1, const RaceTime & split2) {
+    void sub(const RaceTime &split1, const RaceTime &split2)
+    {
         value = split1.value - split2.value;
     }
 
-    void sub(int p1) {
+    void sub(int p1)
+    {
         value = value - p1;
     }
 
-    void zero() {
+    void zero()
+    {
         value = 0;
     }
 

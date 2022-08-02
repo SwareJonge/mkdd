@@ -11,59 +11,69 @@
 
 #include "Kaneshige/Course/Course.h"
 
-class RaceMgr : JKRDisposer {
+class RaceMgr : JKRDisposer
+{
 public:
     RaceMgr(RaceInfo *);
     virtual ~RaceMgr();
 
-    static RaceMgr * sRaceManager;
-    static s16 sForceTotalLapNum;
-    static s16 sDispFrameCounter;
+    static RaceMgr *sRaceManager;
+    static short sForceTotalLapNum;
+    static short sDispFrameCounter;
 
-    static s16 sMyStartPointID;
+    static short sMyStartPointID;
 
-    class Console {
+    class Console
+    {
     public:
         Console();
         void changeTargetNo(int, bool);
+
     private:
-        s32 _0x0;
+        int _0x0;
         u8 _0x4;
-        s32 _0x8;
-        u16 _0xc;
+        int _0x8;
+        ushort _0xc;
     };
 
-    static RaceMgr *getManager(); /*{
+    bool isLANMode() const
+    {
+        return raceInfo->isLANMode();
+    }
+
+    static RaceMgr * getManager(); /*{
         return sRaceManager;
     }*/
 
-    Course * getCourse() const; /*
-        return course;
-    */
+    Course *getCourse() const; /*
+       return course;
+   */
+  
+    KartInfo * getKartInfo(int index);
 
     ERaceMode getRaceMode() const; /*{
         return raceInfo->getRaceMode();
     }*/
 
 private:
-    void * raceDirector;
-    void * raceDrawer;
+    void *raceDirector;
+    void *raceDrawer;
     u16 areaLight;
     u8 _0x22;
     u8 _0x23; // probably padding
     u32 frame;
-    JKRHeap * raceHeap;
+    JKRHeap *raceHeap;
     s16 replayMode;
     s16 totalLapNumber;
     s32 _0x30;
     bool _0x31;
-    RaceInfo * raceInfo;
-    void * raceBGMPlayer;
-    Console * console;
-    Course * course;
-    KartChecker * kartChecker[8];
-    void * kartLoader[8];
-    void * staffRoll2D;
+    RaceInfo *raceInfo;
+    void *raceBGMPlayer;
+    Console *console;
+    Course *course;
+    KartChecker *kartChecker[8];
+    void *kartLoader[8];
+    void *staffRoll2D;
     RaceTime bestLapTime;
     RaceTime bestTotalTime[5];
     s16 events;
@@ -79,7 +89,7 @@ private:
     s16 proctime4;
 };
 
-Course * RCMGetCourse();/* { // might be inline off, auto?(Kameda)
+Course *RCMGetCourse(); /* { // might be inline off, auto?(Kameda)
     return RaceMgr::getManager()->getCourse();
 }*/
 

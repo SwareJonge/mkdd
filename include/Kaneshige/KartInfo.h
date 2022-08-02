@@ -98,6 +98,11 @@ public:
             kartGamePad = 0;
             charDB = 0;
         }
+
+        bool isComPlayer() const {
+            return kartGamePad == nullptr;
+        }
+
         void setPad(KartGamePad * gamepad);
         void setCharDB(const SCharDB  * sCharDB) {
             charDB = sCharDB;
@@ -135,6 +140,22 @@ public:
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
     KartGamePad* getPad(int IDX); // INLINE
+
+    bool isComDriver(int driverNo) const {
+        bool valid = false;
+        if(driverNo >= 0 && driverNo < 2)
+            valid = true;
+
+        if(!valid) {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 113, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
+            OSPanic(__FILE__, 113, "Halt");
+        }
+        return kartCharacter[driverNo].isComPlayer();
+    }
+
+    bool isComKart() const {
+        return isComDriver(0);
+    }
 
     void setKartID(EKartID kartID) {
         kartDB = getKartDB(kartID);
