@@ -129,8 +129,15 @@ global:
  0x80199f8c: isMainSector__Q26Course6SectorCFv
  0x8019a20c: searchSector__6CourseFs
  0x8019acf4: length__Q29JGeometry8TVec3<f>CFv
+
+ 0x8019ad14: sub__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019ad48: PSVECSubtract__14JMathInlineVECFPC3VecPC3VecP3Vec 
+
+ 0x8019ac30: scale__Q29JGeometry8TVec3<f>Ff
+
  0x8019bcf0: getManager__8SysDebugFv
  0x8019caf4: getKartCtrl__8KartCtrlFv
+ 0x8019cc68: __ct__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>
  0x8019e2b8: getPrevSector__Q26Course6SectorFi
  0x8019e350: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
 
@@ -300,7 +307,15 @@ global:
  0x801aace0: incLap__11KartCheckerFv
  0x801aacfc: isPass__11KartCheckerFi
  0x801aadc4: getShortcutID__Q26Course6SectorCFv 
- 0x801aadd0: setLapTime__11KartCheckerFv 
+ 0x801aadd0: setLapTime__11KartCheckerFv
+ 0x801ab050: sub__8RaceTimeFRC8RaceTimeRC8RaceTime
+ 0x801ab064: get__8RaceTimeCFv
+ 0x801ab06c: sub__8RaceTimeFi
+ 0x801ab07c: set__8RaceTimeFRC8RaceTime
+ 0x801ab09c: sub__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f> 
+ 0x801ab0c0: isMaxTotalTime__11KartCheckerCFv
+ 0x801ab0f0: __ct__8RaceTimeFRC8RaceTime
+ 0x801ab0fc: setFrame__8RaceTimeFi
 
  0x801ab128: setForceGoal__11KartCheckerFv
  0x801ab324: setPass__11KartCheckerFi 
@@ -365,6 +380,9 @@ global:
  # SysDebug.cpp
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
  0x801b34c0: __ct__12SysDbUsrPageFv
+
+ # GeoItemCar.cpp
+ 0x801c2850: scale__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f> 
 
  # GeoRabbitMark.cpp
  0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 

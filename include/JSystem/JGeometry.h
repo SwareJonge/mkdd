@@ -2,6 +2,7 @@
 #define JGEOMETRY_H
 
 #include "types.h"
+#include "JSystem/JMath/JMath.h"
 
 // from SMS decomp
 namespace JGeometry
@@ -43,7 +44,10 @@ namespace JGeometry
         void setLength(const TVec3 &operand, f32 length);
         void setMax(const TVec3 &other);
         void setMin(const TVec3 &other);
-        void sub(const TVec3 &translate);
+        void sub(const TVec3<T> &translate)
+        { // i'm bad coder please implement correctly
+            JMathInlineVEC::PSVECSubtract(reinterpret_cast<const Vec *>(this), reinterpret_cast<const Vec *>(&translate), reinterpret_cast<Vec *>(this));
+        }
         void sub(const TVec3 &base, const TVec3 &translate);
 
         void zero(); /*{

@@ -14,8 +14,6 @@
 
 #include "Osako/kartPad.h"
 
-//#include "JugemPoint.h"
-
 class KartChecker
 {
 public:
@@ -83,8 +81,8 @@ public:
 
     void setGoalTime()
     {
-        mTotalTime = laptimes2[trackLapCount - 1];
-        goalFrame = curFrame;
+        mTotalTime = mBestLapTimes[mMaxLap - 1];
+        mGoalFrame = curFrame;
     }
 
     void setLapTime();
@@ -173,8 +171,12 @@ public:
 
     void incLap()
     {
-        if (trackLapCount > mLap)
+        if (mMaxLap > mLap)
             mLap++;
+    }
+
+    bool isMaxTotalTime() const {
+        return mTotalTime.isAvailable();
     }
 
     bool isUDValid();
@@ -199,10 +201,10 @@ public:
     s16 mTargetKartNo;
     s32 sectorCount;
     s32 bitfieldCnt;
-    s32 trackLapCount;
-    s32 _0x10; // i think this stores the index of the fastest lap
-    RaceTime *laptimes1;
-    RaceTime *laptimes2;
+    s32 mMaxLap;
+    s32 mBestLapIdx; // i think this stores the index of the fastest lap
+    RaceTime *mLapTimes; // i'm not sure of these 2 names, it could be the other way around or something completely different
+    RaceTime *mBestLapTimes;
     s32 mPlayerKartColor;
     KartGamePad *mKartGamePads[2];
     bool mLapRenewal;
@@ -221,13 +223,13 @@ public:
     f32 lapProgression2; // might be max Lap Progression
     f32 raceProgression;
     s32 *cpBitfields; // seems to store what checkpoint have been passed
-    JGeometry::TVec3<f32> curPos;
-    JGeometry::TVec3<f32> prevPos;
+    JGeometry::TVec3<f32> mPos;
+    JGeometry::TVec3<f32> mPrevPos;
     JugemPoint *mJugemPoint;
     bool _0x78; // true = in race | false = finished
     u8 _0x79[3];
     s32 curFrame;
-    s32 goalFrame;
+    s32 mGoalFrame;
     RaceTime mTotalTime;
     s32 mRank;
     u16 battleFlags;

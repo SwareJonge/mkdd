@@ -29,18 +29,18 @@ KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
 void KartChkUsrPage::draw()
 {
     CrsGround ground;
-    ground.search(mKartChecker->curPos);
+    ground.search(mKartChecker->mPos);
     JGeometry::TVec3<f32> vel;
     ground.getVelocity(&vel);
 
     CrsArea shadow;
-    shadow.searchShadow(mKartChecker->curPos);
+    shadow.searchShadow(mKartChecker->mPos);
     CrsArea roof;
-    roof.searchRoof(mKartChecker->curPos);
+    roof.searchRoof(mKartChecker->mPos);
     CrsArea camera;
-    camera.searchCamera(mKartChecker->curPos);
+    camera.searchCamera(mKartChecker->mPos);
     CrsArea light;
-    light.searchLight(mKartChecker->curPos);
+    light.searchLight(mKartChecker->mPos);
 
     JUTReport(40, 80, "CRS: %f", RCMGetCourse()->getTrackSectorDist());
     mKartChecker->printPass(80, 100);
@@ -58,7 +58,7 @@ void KartChkUsrPage::draw()
     JUTReport(280, 130, "TUD  %f", mKartChecker->raceProgression);
     JUTReport(280, 150, "LAP  %4d", mKartChecker->mLap);
 
-    JUTReport(180, 170, "POS  %8.3f,%8.3f,%8.3f", mKartChecker->curPos.x, mKartChecker->curPos.y, mKartChecker->curPos.z);
+    JUTReport(180, 170, "POS  %8.3f,%8.3f,%8.3f", mKartChecker->mPos.x, mKartChecker->mPos.y, mKartChecker->mPos.z);
 
     JUTReport(280, 190, "GND  %04d:%3d:%02x", ground.getAttribute(), ground.getAttrIndex(), ground.getMaterial());
     JUTReport(280, 210, "SPL%03d:SPI%03d", ground.getSplashCode(), ground.getSpiralCode());
@@ -105,10 +105,10 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     sectorCount = sectorNum;
     bitfieldCnt = (sectorCount + 31) / 32;
     cpBitfields = new s32[bitfieldCnt];
-    trackLapCount = lapNum;
+    mMaxLap = lapNum;
 
-    laptimes1 = new RaceTime[trackLapCount];
-    laptimes2 = new RaceTime[trackLapCount];
+    mLapTimes = new RaceTime[mMaxLap];
+    mBestLapTimes = new RaceTime[mMaxLap];
 
     setPlayerKartColor(kartInfo);
     createGamePad(kartInfo);
@@ -132,21 +132,21 @@ void KartChecker::reset()
     clrCheckPointIndex();
     _0x78 = true;
     curFrame = 0;
-    goalFrame = 0;
+    mGoalFrame = 0;
     mTotalTime.zero();
-    _0x10 = -1;
-    for (int i = 0; i < trackLapCount; i++)
+    mBestLapIdx = -1;
+    for (int i = 0; i < mMaxLap; i++)
     {
-        laptimes1[i].reset();
-        laptimes2[i].reset();
+        mLapTimes[i].reset();
+        mBestLapTimes[i].reset();
     }
     clrRank();
 
     if (tstDemoRank())
         setRank(mTargetKartNo + 1);
 
-    curPos.zero();
-    prevPos.zero();
+    mPos.zero();
+    mPrevPos.zero();
 
     mJugemPoint = nullptr;
     battleFlags = 0;
@@ -367,8 +367,8 @@ Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3
 
 void KartChecker::checkKart()
 {
-    prevPos.set(curPos);
-    KartCtrl::getKartCtrl()->GetBodyPos(mTargetKartNo, &curPos);
+    mPos.set(mPos);
+    KartCtrl::getKartCtrl()->GetBodyPos(mTargetKartNo, &mPos);
 
     if (tstLapChecking())
         checkKartLap();
@@ -394,7 +394,7 @@ void KartChecker::checkKartLap()
     {
         for (int i = sectorIndex; i >= 0; i--)
         {
-            if (isInsideSector(RCMGetCourse()->getMainSector(i)->calcUnitDist(curPos)))
+            if (isInsideSector(RCMGetCourse()->getMainSector(i)->calcUnitDist(mPos)))
             {
                 nextSector = RCMGetCourse()->getMainSector(i);
                 break;
@@ -409,12 +409,12 @@ void KartChecker::checkKartLap()
             if (respawnSectorID >= 0)
             {
                 nextSector = RCMGetCourse()->searchSector(respawnSectorID);
-                bool inSector = isInsideSector(nextSector->calcUnitDist(curPos));
+                bool inSector = isInsideSector(nextSector->calcUnitDist(mPos));
                 if (!inSector)
                 {
                     for (int i = 0; i < nextSector->getPrevNum(); i++)
                     {
-                        inSector = isInsideSector(nextSector->getPrevSector(i)->calcUnitDist(curPos));
+                        inSector = isInsideSector(nextSector->getPrevSector(i)->calcUnitDist(mPos));
                         if (inSector)
                             break;
                     }
@@ -433,22 +433,22 @@ void KartChecker::checkKartLap()
     {
         if (sector2 == RCMGetCourse()->getStartSector()->getPrevSector(0))
         {
-            if (isInsideSector(RCMGetCourse()->getStartSector()->calcUnitDist(curPos)))
+            if (isInsideSector(RCMGetCourse()->getStartSector()->calcUnitDist(mPos)))
             {
                 nextSector = RCMGetCourse()->getStartSector();
             }
         }
         if (nextSector == nullptr)
         {
-            f32 unitDist = sector2->calcUnitDist(curPos);
+            f32 unitDist = sector2->calcUnitDist(mPos);
             if (!isInsideSector(unitDist))
-                nextSector = searchCurrentSector(&unitDist, curPos, sector2, sectorCount);
+                nextSector = searchCurrentSector(&unitDist, mPos, sector2, sectorCount);
         }
     }
     if (nextSector != nullptr)
         sector2 = nextSector;
 
-    f32 unitDist = sector2->calcUnitDist(curPos);
+    f32 unitDist = sector2->calcUnitDist(mPos);
     prevlapProgression = lapProgression;
     if (unitDist >= 0.0f && unitDist <= 1.0f)
     {
@@ -457,7 +457,7 @@ void KartChecker::checkKartLap()
 
         if (!isUDValid())
         {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1388, "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, curPos.x, curPos.y, curPos.z);
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1388, "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
             OSPanic(__FILE__, 1388, "Halt");
         }
     }
@@ -490,7 +490,7 @@ RaceTime *KartChecker::getBestLapTime()
     RaceTime *bestLapTime = nullptr;
     for (int i = 0; i < mLap; i++)
     {
-        RaceTime *curLapTime = &laptimes1[i];
+        RaceTime *curLapTime = &mLapTimes[i];
         if (bestLapTime == nullptr || curLapTime->isLittle(*bestLapTime))
             bestLapTime = curLapTime;
     }
@@ -575,7 +575,7 @@ void KartChecker::checkLap(bool raceEnd)
 
                     mLapRenewal = true;
                     incLap();
-                    if (!isGoal() && mLap >= trackLapCount)
+                    if (!isGoal() && mLap >= mMaxLap)
                     {
                         setGoal();
                         setGoalTime();
@@ -609,5 +609,66 @@ void KartChecker::checkLap(bool raceEnd)
             mJugemPoint = nullptr;
             break;
         }
+    }
+}
+
+void KartChecker::setLapTime()
+{
+    if (mLap < mMaxLap)
+    {
+        JGeometry::TVec3<f32> velocity;
+        velocity.sub(mPos, mPrevPos);
+        JGeometry::TVec3<f32> velPerMs = velocity;
+        velPerMs.scale(0.06f);
+        JGeometry::TVec3<f32> curPos = mPos;
+
+        int prevgoalframe = mGoalFrame + -1;
+        if (prevgoalframe < 0)
+            prevgoalframe = 0;
+
+        RaceTime goalTime;
+        goalTime.setFrame(prevgoalframe);
+        RaceTime finalTime = mTotalTime;
+        RaceTime computedTime = finalTime;
+        if (!isMaxTotalTime())
+        {
+            while (RCMGetCourse()->getStartSector()->calcUnitDist(curPos) >= 0.0f)
+            {
+                curPos.sub(velPerMs);
+                computedTime.set(finalTime);
+                finalTime.sub(1);
+                if (goalTime.get() < computedTime.get())
+                {
+                    computedTime.set(goalTime);
+                    break;
+                }
+            }
+        }
+
+        bool valid = false;
+        // Make assert function, this is crap
+        prevgoalframe = mLap;
+        if (mLap >= 0 && mLap < mMaxLap)
+            valid = true;
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1687, "range over: %d <= mLap=%d < %d", 0, prevgoalframe, mMaxLap);
+            OSPanic(__FILE__, 1687, "Halt");
+        }
+        mBestLapTimes[mLap].set(computedTime);
+        if (!isMaxTotalTime())
+        {
+            if (mLap == 0)
+                mLapTimes[mLap].set(mBestLapTimes[mLap]);
+            else
+                mLapTimes[mLap].sub(mBestLapTimes[mLap], mBestLapTimes[mLap - 1]);
+
+            if (mBestLapIdx < 0)
+                mBestLapIdx = mLap;
+            else if (mLapTimes[mLap].isLittle(mLapTimes[mBestLapIdx]))
+                mBestLapIdx = mLap;
+        }
+        else
+            mLapTimes[mLap].reset();
     }
 }

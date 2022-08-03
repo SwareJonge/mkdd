@@ -53,9 +53,9 @@ public:
             value = MAX_TIME;
     }
 
-    /*void set(RaceTime const & raceTime) {
+    void set(RaceTime const & raceTime) {
         *this = raceTime;
-    }*/
+    }
 
     void setFrame(int frame)
     {
