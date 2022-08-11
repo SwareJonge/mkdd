@@ -26,6 +26,7 @@ KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
     mKartChecker = kartChecker;
 }
 
+// https://decomp.me/scratch/9s4i7
 void KartChkUsrPage::draw()
 {
     CrsGround ground;
@@ -75,6 +76,7 @@ void KartChkUsrPage::draw()
     JUTReport(280, 410, "RANK %1d", mKartChecker->getRank());
 }
 
+// https://decomp.me/scratch/DJxMp
 KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lapNum)
 {
     raceFlags = 0;
@@ -124,6 +126,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     }
 }
 
+// https://decomp.me/scratch/yvJRl
 void KartChecker::reset()
 {
     mLapRenewal = false;
@@ -168,6 +171,7 @@ void KartChecker::reset()
     demoPoint = 0;
 }
 
+// https://decomp.me/scratch/zVUdm
 void KartChecker::clrCheckPointIndex()
 {
     mLap = -1;
@@ -194,9 +198,24 @@ void KartChecker::clrCheckPointIndex()
     raceProgression = 0.0f;
 }
 
+// https://decomp.me/scratch/8JI09
 void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
 {
     if (RaceMgr::getManager()->isLANMode())
+    {
+        bool valid = false;
+        if (mTargetKartNo >= 0 && mTargetKartNo < 8)
+        {
+            valid = true;
+        }
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1004, "range over: %d <= mTargetKartNo=%d < %d", 0, mTargetKartNo, 8);
+            OSPanic(__FILE__, 1004, "Halt");
+        }
+        mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
+    }
+    else
     {
         mPlayerKartColor = -1;
         if (kartInfo->getYoungestPad() != nullptr)
@@ -218,22 +237,9 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
             }
         }
     }
-    else
-    {
-        bool valid = false;
-        if (mTargetKartNo > 0 && mTargetKartNo < 8)
-        {
-            valid = true;
-        }
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1004, "range over: %d <= mTargetKartNo=%d < %d", 0, mTargetKartNo, 8);
-            OSPanic(__FILE__, 1004, "Halt");
-        }
-        mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
-    }
 }
 
+// https://decomp.me/scratch/gfNGd doesn't match on decomp.me because i'm too lazy to add classes
 void KartChecker::createGamePad(KartInfo *kartInfo)
 {
     for (int i = 0; i < 2; i++)
@@ -248,15 +254,7 @@ void KartChecker::createGamePad(KartInfo *kartInfo)
     }
 }
 
-/*
-Decompilation failure:
-
-Syntax error when parsing C context.
-before: "C" at line 12, column 8
-
-extern "C" {
-*/
-
+// https://decomp.me/scratch/ijLhU
 Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3<f32> const &pos, Course::Sector *curSector, int sectorCnt)
 {
     Course::Sector *ret = nullptr;
@@ -365,6 +363,7 @@ Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3
     return ret;
 }
 
+// https://decomp.me/scratch/BQ18K
 void KartChecker::checkKart()
 {
     mPos.set(mPos);
@@ -385,6 +384,7 @@ void KartChecker::checkKart()
         calcRabbitTime();
 }
 
+// https://decomp.me/scratch/lCRXb
 void KartChecker::checkKartLap()
 {
     Course::Sector *nextSector = nullptr;
@@ -485,10 +485,11 @@ bool KartChecker::isUDValid()
     return (lapProgression >= 1.0f && lapProgression <= 0.0f);
 }
 
+// https://decomp.me/scratch/7mQAF
 RaceTime *KartChecker::getBestLapTime()
 {
     RaceTime *bestLapTime = nullptr;
-    for (int i = 0; i < mLap; i++)
+    for (int i = 0; i < mMaxLap; i++)
     {
         RaceTime *curLapTime = &mLapTimes[i];
         if (bestLapTime == nullptr || curLapTime->isLittle(*bestLapTime))
@@ -497,6 +498,7 @@ RaceTime *KartChecker::getBestLapTime()
     return bestLapTime;
 }
 
+// https://decomp.me/scratch/0lnEb also includes a lot of inlines
 void KartChecker::checkLap(bool raceEnd)
 {
     if (tstLapChecking())
@@ -598,7 +600,6 @@ void KartChecker::checkLap(bool raceEnd)
 
         switch (warpState)
         {
-        case 0:
         case 1:
             mGeneration = sector2->getGeneration();
             warpState = 2;
@@ -612,6 +613,8 @@ void KartChecker::checkLap(bool raceEnd)
     }
 }
 
+// not sure if this matches
+// https://decomp.me/scratch/JVpLz
 void KartChecker::setLapTime()
 {
     if (mLap < mMaxLap)
@@ -671,4 +674,141 @@ void KartChecker::setLapTime()
         else
             mLapTimes[mLap].reset();
     }
+}
+
+// not sure this matches either
+// https://decomp.me/scratch/m3ZyI
+void KartChecker::setForceGoal()
+{
+    float distToGoal = 0.0f;
+    if (mTotalTime.get() > 0)
+    {
+        distToGoal = raceProgression / (float)mTotalTime.get();
+    }
+    if (distToGoal < 0.0f)
+    {
+        distToGoal = -distToGoal;
+    }
+    if (distToGoal < 1.0E6f)
+    {
+        distToGoal = 3.3333333E6f;
+    }
+
+    RaceTime forcedTime;
+    forcedTime.reset();
+    for (int i = mLap; i < mMaxLap; i++)
+    {
+        if (!mBestLapTimes[i].isAvailable())
+        {
+            float lapDist = (((i + 1) - raceProgression) / distToGoal) + (mTotalTime.get());
+            if (lapDist > (float)forcedTime.get())
+            {
+                lapDist = (float)forcedTime.get();
+            }
+            mBestLapTimes[i].set(lapDist + 0.5f);
+            if (i <= 0)
+            {
+                mLapTimes[i].set(mBestLapTimes[i]);
+            }
+            else
+            {
+                mLapTimes[i].sub(mBestLapTimes[i], mBestLapTimes[i - 1]);
+            }
+        }
+    }
+    mLap = mMaxLap;
+    setGoal();
+    setGoalTime();
+}
+
+// https://decomp.me/scratch/DJhtT also includes isPass()
+bool KartChecker::setPass(int sectorIdx)
+{
+    bool pass = false;
+    bool valid = true;
+    if (sectorIdx != 0)
+    {
+        for (int i = 0; i < sectorIdx; i++)
+        {
+            if (!isPass(i))
+            {
+                valid = false;
+                break;
+            }
+        }
+    }
+
+    if (valid)
+    {
+        int index = sectorIdx / 32;
+        pass = true;
+        int bitIndex = sectorIdx % 32;
+        valid = false;
+        if (index >= 0 && index < bitfieldCnt)
+            valid = true;
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1791, "range over: %d <= index=%d < %d", 0, index, bitfieldCnt);
+            OSPanic(__FILE__, 1791, "Halt");
+        }
+        cpBitfields[index] |= (1 << bitIndex);
+    }
+    return pass;
+}
+
+// https://decomp.me/scratch/Wp30Q
+bool KartChecker::isPassAll(int SectorCnt)
+{
+    bool allPassed = true;
+    int thing = -1;
+    for (int i = 0; i < SectorCnt; i++)
+    {
+        if (!isPass(i))
+        {
+            allPassed = false;
+            if (thing == -1)
+                thing = i;
+        }
+    }
+    return allPassed;
+}
+
+// https://decomp.me/scratch/mCXI2
+void KartChecker::incTime()
+{
+    if (_0x78)
+    {
+        if (curFrame < MAX_FRAME)
+        {
+            curFrame++;
+        }
+        mTotalTime.setFrame(curFrame);
+    }
+}
+
+/*bool KartChecker::isReverse() {
+    bool reverse = false;
+
+    if(tstLapChecking()) {
+        RaceMgr::getManager()->getkartLoader();
+    }
+    return reverse;
+}*/
+
+// https://decomp.me/scratch/JeodW
+bool KartChecker::isCurrentLapTimeRenewal()
+{
+    bool currentLapRenewal = false;
+    if (mLap > 0)
+    {
+        const RaceTime &laptime = getLapTime(mLap - 1);
+        if (laptime.isAvailable())
+        {
+            if (laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == mLap - 1)
+            {
+                currentLapRenewal = true;
+            }
+        }
+    }
+    return currentLapRenewal;
 }

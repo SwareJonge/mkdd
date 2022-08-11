@@ -316,10 +316,18 @@ global:
  0x801ab0c0: isMaxTotalTime__11KartCheckerCFv
  0x801ab0f0: __ct__8RaceTimeFRC8RaceTime
  0x801ab0fc: setFrame__8RaceTimeFi
-
  0x801ab128: setForceGoal__11KartCheckerFv
  0x801ab324: setPass__11KartCheckerFi 
  0x801ab438: isPassAll__11KartCheckerFi
+ 0x801ab4a8: incTime__11KartCheckerFv
+ 0x801ab4f8: isReverse__11KartCheckerFv 
+ 0x801ab5a4: getBNormal__Q26Course6SectorFPQ29JGeometry8TVec3<f>
+ 0x801ab5fc: getKartLoader__7RaceMgrCFi
+ 0x801ab694: isFinalLapRenewal__11KartCheckerCFv
+ 0x801ab6e4: isFinalLap__11KartCheckerCFv
+ 0x801ab700: isCurrentLapTimeRenewal__11KartCheckerFv
+ 0x801ab788: getBestLapTime__7RaceMgrFv 
+ 0x801ab790: getLapTime__11KartCheckerFi 
  0x801ab82c: isBestLapTimeRenewal__11KartCheckerFv
  0x801ab8bc: isBestTotalTimeRenewal__11KartCheckerFi
 

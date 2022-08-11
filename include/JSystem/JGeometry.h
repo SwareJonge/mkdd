@@ -26,12 +26,17 @@ namespace JGeometry
         f32 dot(const TVec3 &operand) const;
         f32 length() const;
         void negate();
+        f32 normalize();
         void scale(f32 scale);
         void scale(f32 scale, const TVec3 &operand);
         void scaleAdd(f32 scale, const TVec3 &operand, const TVec3 &translate);
 
         template <typename TY>
-        void set(TY x, TY y, TY z);
+        void set(TY X, TY Y, TY Z) {
+            x = X;
+            y = Y;
+            z = Z;
+        }
         
         template <typename TY>
         void set(const TVec3<TY> &src)

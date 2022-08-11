@@ -48,8 +48,24 @@ public:
     Course *getCourse() const; /*
        return course;
    */
-  
+
+    const RaceTime &getBestLapTime() {
+        return mBestLapTime;
+    }
+
     KartInfo * getKartInfo(int index);
+
+    void * getKartLoader(int index) {
+        bool valid = false;
+        if(index >= 0 && index < 8)
+            valid = true;
+
+        if(!valid) {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 257, "range over: %d <= index=%d < %d", 0, index, 8);
+            OSPanic(__FILE__, 257, "Halt");
+        }
+        return kartLoader[index];
+    }
 
     ERaceMode getRaceMode() const; /*{
         return raceInfo->getRaceMode();
@@ -74,7 +90,7 @@ private:
     KartChecker *kartChecker[8];
     void *kartLoader[8];
     void *staffRoll2D;
-    RaceTime bestLapTime;
+    RaceTime mBestLapTime;
     RaceTime bestTotalTime[5];
     s16 events;
 

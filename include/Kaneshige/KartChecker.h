@@ -14,6 +14,8 @@
 
 #include "Osako/kartPad.h"
 
+#define MAX_FRAME 2147483
+
 class KartChecker
 {
 public:
@@ -31,14 +33,41 @@ public:
         return mRank;
     }
 
-    RaceTime *getBestLapTime();
+    RaceTime *getBestLapTime() ;
+
+    const RaceTime & getLapTime(int no)
+    {
+        bool valid = false;
+        if(no >= 0 && mMaxLap)
+            valid = true;
+
+        if(!valid) {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 206, "range over: %d <= no=%d < %d", 0, no, mMaxLap);
+            OSPanic(__FILE__, 206, "Halt");
+        }
+        return mLapTimes[no];
+    }
 
     bool isBestTotalTimeRenewal(int);
     bool isBestLapTimeRenewal();
+    bool isCurrentLapTimeRenewal();
 
     bool isLapRenewal() const
     {
         return mLapRenewal;
+    }
+
+    bool isFinalLap() const {
+        return mLap == mMaxLap -1;
+    }
+
+    bool isFinalLapRenewal() const
+    {
+        bool renewal = false;
+        if (isLapRenewal() && isFinalLap())
+            renewal = true;
+
+        return renewal;
     }
 
     bool isGoal() const
@@ -63,6 +92,9 @@ public:
     }
     bool isPassAll(int sectorCnt);
 
+    bool isReverse();
+
+    // https://decomp.me/scratch/RWx4a
     void printPass(int x, int y)
     {
         for (int i = 0; i < bitfieldCnt; i++)
@@ -175,7 +207,10 @@ public:
             mLap++;
     }
 
-    bool isMaxTotalTime() const {
+    void incTime();
+
+    bool isMaxTotalTime() const
+    {
         return mTotalTime.isAvailable();
     }
 
@@ -202,7 +237,7 @@ public:
     s32 sectorCount;
     s32 bitfieldCnt;
     s32 mMaxLap;
-    s32 mBestLapIdx; // i think this stores the index of the fastest lap
+    s32 mBestLapIdx;     // i think this stores the index of the fastest lap
     RaceTime *mLapTimes; // i'm not sure of these 2 names, it could be the other way around or something completely different
     RaceTime *mBestLapTimes;
     s32 mPlayerKartColor;
