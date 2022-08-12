@@ -26,9 +26,10 @@ public:
             return mCheckPoint->mRevSearchEnable != 0;
         }
 
-        void getBNormal(JGeometry::TVec3<f32> bNormal) {
-            bNormal.set(_0x70[0], 0.0f, _0x70[1]);
-            bNormal.normalize();
+        void getBNormal(JGeometry::TVec3<f32> *out)
+        {
+            out->set(_0x70[0], 0.0f, _0x70[1]);
+            out->normalize();
         }
 
         uint getShortcutID() const

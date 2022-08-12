@@ -786,14 +786,34 @@ void KartChecker::incTime()
     }
 }
 
-/*bool KartChecker::isReverse() {
+// https://decomp.me/scratch/74FW0
+bool KartChecker::isReverse()
+{
     bool reverse = false;
 
-    if(tstLapChecking()) {
-        RaceMgr::getManager()->getkartLoader();
+    if (tstLapChecking())
+    {
+        MTX34 *baseMtx = RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
+        JGeometry::TVec3<f32> thing;
+        thing.set(baseMtx->mMtx[0][2], baseMtx->mMtx[1][2], baseMtx->mMtx[2][2]);
+        thing.normalize();
+
+        JGeometry::TVec3<f32> courseNormal;
+        sector2->getBNormal(&courseNormal);
+        if (thing.dot(courseNormal) <= -0.5f)
+            reverse = true;
     }
     return reverse;
-}*/
+}
+
+bool KartChecker::isFinalLapRenewal() const
+{
+    bool renewal = false;
+    if (isLapRenewal() && isFinalLap())
+        renewal = true;
+
+    return renewal;
+}
 
 // https://decomp.me/scratch/JeodW
 bool KartChecker::isCurrentLapTimeRenewal()

@@ -8,6 +8,7 @@
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/KartChecker.h"
+#include "Kaneshige/KartLoader.h"
 
 #include "Kaneshige/Course/Course.h"
 
@@ -49,13 +50,9 @@ public:
        return course;
    */
 
-    const RaceTime &getBestLapTime() {
-        return mBestLapTime;
-    }
-
     KartInfo * getKartInfo(int index);
 
-    void * getKartLoader(int index) {
+    KartLoader * getKartLoader(int index) {
         bool valid = false;
         if(index >= 0 && index < 8)
             valid = true;
@@ -70,6 +67,25 @@ public:
     ERaceMode getRaceMode() const; /*{
         return raceInfo->getRaceMode();
     }*/
+
+    const RaceTime &getBestLapTime()
+    {
+        return mBestLapTime;
+    }
+
+    const RaceTime &getBestTotalTime(int recID)
+    {
+        bool valid = false;
+        if (recID >= 0 && recID < 5)
+            valid = true;
+
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 328, "range over: %d <= recID=%d < %d", 0, recID, 5);
+            OSPanic(__FILE__, 328, "Halt");
+        }
+        return mBestTotalTimes[recID];
+    }
 
 private:
     void *raceDirector;
@@ -88,10 +104,10 @@ private:
     Console *console;
     Course *course;
     KartChecker *kartChecker[8];
-    void *kartLoader[8];
+    KartLoader *kartLoader[8];
     void *staffRoll2D;
     RaceTime mBestLapTime;
-    RaceTime bestTotalTime[5];
+    RaceTime mBestTotalTimes[5];
     s16 events;
 
     // these values store the amount of time/frames it took to execute a certain set of functions

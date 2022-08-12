@@ -61,14 +61,7 @@ public:
         return mLap == mMaxLap -1;
     }
 
-    bool isFinalLapRenewal() const
-    {
-        bool renewal = false;
-        if (isLapRenewal() && isFinalLap())
-            renewal = true;
-
-        return renewal;
-    }
+    bool isFinalLapRenewal() const;
 
     bool isGoal() const
     {
