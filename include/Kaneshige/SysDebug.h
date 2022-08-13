@@ -7,7 +7,7 @@ class SysDbUsrPage : JKRDisposer
 {
 public:
     SysDbUsrPage();
-    ~SysDbUsrPage();
+    virtual ~SysDbUsrPage();
 
 private:
     JSULink<SysDbUsrPage> link;

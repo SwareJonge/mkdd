@@ -31,7 +31,7 @@ public:
         mPadPort = padPort;
         mPadState = padState;
     }
-    virtual ~KartGamePad(); // defined here
+    virtual ~KartGamePad() {}
 
     PadType getPadType()
     {

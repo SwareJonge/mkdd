@@ -54,6 +54,9 @@ global:
  0x8006bbf8: JUTReport__FiiPCce
  0x8006bd1c: JUTReport__FiiiPCce
 
+ # JUTGamePad.cpp
+ 0x8006fa08: __dt__10JUTGamePadFv
+
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
  0x80078b44: __dt__10JSUPtrLinkFv
@@ -107,8 +110,11 @@ global:
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
 
- #EngineSound.cpp
+ # EngineSound.cpp
  0x80118cac: getEngineType__11EngineSoundF7EKartID 
+
+ # GameAudioMain.cpp
+ 0x8011e540: startSystemSe__Q29GameAudio4MainFUl 
 
  # Result2D.cpp
  0x80149534: getKartInfo__7RaceMgrFi
@@ -133,11 +139,17 @@ global:
  0x8019ad14: sub__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
  0x8019ad48: PSVECSubtract__14JMathInlineVECFPC3VecPC3VecP3Vec 
 
+ 0x8019ab70: dot__Q29JGeometry8TVec3<f>CFRCQ29JGeometry8TVec3<f>
+ 0x8019abb0: normalize__Q29JGeometry8TVec3<f>Fv
  0x8019ac30: scale__Q29JGeometry8TVec3<f>Ff
 
  0x8019bcf0: getManager__8SysDebugFv
  0x8019caf4: getKartCtrl__8KartCtrlFv
+ 0x8019c368: getAudio__Q29GameAudio4MainFv 
  0x8019cc68: __ct__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>
+
+ 0x8019d628: getBaseTRMtx__7ExModelFv
+
  0x8019e2b8: getPrevSector__Q26Course6SectorFi
  0x8019e350: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
 
@@ -160,6 +172,9 @@ global:
  # CrsData.cpp
  0x801a0064: getAddThickness__Q27CrsData6GroundCFv
  0x801a11f0: getKartNumber__8RaceInfoCFv
+
+ # KartLoader.cpp
+ 0x801a808c: getExModelBody__10KartLoaderFv
 
  # KartInfo.cpp
  0x801a8844: __ct__8KartInfoFv
@@ -330,13 +345,55 @@ global:
  0x801ab790: getLapTime__11KartCheckerFi 
  0x801ab82c: isBestLapTimeRenewal__11KartCheckerFv
  0x801ab8bc: isBestTotalTimeRenewal__11KartCheckerFi
-
+ 0x801ab92c: getBestTotalTime__7RaceMgrFi
+ 0x801ab9c4: getTotalTime__11KartCheckerFv
+ 0x801ab9cc: incBalloon__11KartCheckerFv
+ 0x801aba38: tstFixMiniPoint__11KartCheckerCFv 
+ 0x801aba44: decBalloon__11KartCheckerFv
+ 0x801abb00: setDead__11KartCheckerFv
+ 0x801abb10: checkRaceEnd__7RaceMgrFv
+ 0x801abb34: incMyBombPoint__11KartCheckerFii
+ 0x801abd14: GetKartCtrl__Fv
+ 0x801abd34: incYourBombPoint__11KartCheckerFiii
+ 0x801abd7c: getKartChecker__7RaceMgrCFi
+ 0x801abe14: setBombEvent__11KartCheckerFQ211KartChecker10EBombEventP7ItemObj
+ 0x801abf28: getDirectHitKartNo__7ItemObjCFv
+ 0x801abf30: getKartReaction__7ItemObjCFv
+ 0x801abf38: getOwnerNum__7ItemObjCFv
+ 0x801abf40: getRobberyItemNumber__11KartCheckerFv
+ 0x801abf9c: GetItemObjMgr__Fv
+ 0x801abfbc: getItemObjMgr__10ItemObjMgrFv 
+ 0x801abfc4: releaseRabbitMark__11KartCheckerFv
+ 0x801ac048: isRabbitWinner__11KartCheckerCFv
+ 0x801ac05c: isRabbit__11KartCheckerCFv
  0x801ac0bc: calcRabbitTime__11KartCheckerFv
+ 0x801ac1ec: resumeRabbitTimer__11KartCheckerFv
+ 0x801ac1fc: getWinTime__23GeoRabbitMarkSupervisorCFv 
+ 0x801ac204: getUpwardMSec__8RaceTimeCFv
+ 0x801ac210: tstStillRabbitTimer__11KartCheckerCFv
+ 0x801ac21c: __ct__10LapCheckerFv 
+ 0x801ac24c: reset__10LapCheckerFv 
+ 0x801ac264: start__10LapCheckerFPQ26Course6Sector
+ 0x801ac26c: calc__10LapCheckerFRCQ29JGeometry8TVec3<f>
+ 0x801ac3cc: getTrackSectorNumber__6CourseCFv
+ 0x801ac3d4: isUDValid__10LapCheckerFv
+ 0x801ac404: __dt__11KartGamePadFv 
+ 0x801ac45c: __dt__14KartChkUsrPageFv 
 
  0x80395c98: sPlayerKartColorTable__11KartChecker
  0x80395cb8: __vt__11KartGamePad
  0x80395cc4: __vt__14KartChkUsrPage
+
+ 0x80414618: sBalForbiddenTime__11KartChecker
+ 0x8041461a: sBombPointDirect__11KartChecker
+ 0x8041461c: sBombPointSpin__11KartChecker
+ 0x8041461e: sBombPointIndirect__11KartChecker
+ 0x80414620: sBombPointAttacked__11KartChecker
  0x80414622: sBombPointFull__11KartChecker
+ 0x80414624: sBombPointFullS__11KartChecker
+ 0x80414626: sBombPointFullL__11KartChecker
+
+ 0x804163a0: sBombPointCrushOneself__11KartChecker
 
  # RaceMgr.cpp
  0x801aff04: getRaceMode__8RaceInfoCFv
@@ -389,12 +446,24 @@ global:
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
  0x801b34c0: __ct__12SysDbUsrPageFv
 
+ 0x801b3584: __dt__12SysDbUsrPageFv 
+
  # GeoItemCar.cpp
  0x801c2850: scale__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f> 
 
  # GeoRabbitMark.cpp
+
+ 0x801cd674: getRabbitKartNo__23GeoRabbitMarkSupervisorFv
+ 0x801cd680: release__23GeoRabbitMarkSupervisorFv
+
+ 0x801cd740: startWinnerEffect__23GeoRabbitMarkSupervisorFv
+
  0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 
  0x804164bc: sSupervisor__13GeoRabbitMark
+
+# RaceDirector.cpp
+ 0x801c8a24: checkRaceEnd__12RaceDirectorFv
+
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 
@@ -449,5 +518,10 @@ global:
  0x8039d6f0: sRndMgr__8stRandom
  0x80416ac8: sMgr__8stRandom
 
+ # ItemObjMgr.cpp
+ 0x80241928: getRobberyItemNum__10ItemObjMgrFiUc
+
  # kartCtrlInfo.cpp
  0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
+
+ 0x802f34dc: GetKartSoundMgr__8KartCtrlFi 

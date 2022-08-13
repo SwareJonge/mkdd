@@ -153,7 +153,7 @@ void KartChecker::reset()
 
     mJugemPoint = nullptr;
     battleFlags = 0;
-    balloonNumber = 3;
+    mBalloonNum = 3;
     mBalForbiddenTime = 0;
     mDeathTime.reset();
 
@@ -822,13 +822,88 @@ bool KartChecker::isCurrentLapTimeRenewal()
     if (mLap > 0)
     {
         const RaceTime &laptime = getLapTime(mLap - 1);
-        if (laptime.isAvailable())
+        if (laptime.isAvailable() && laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == mLap - 1)
+            currentLapRenewal = true;
+    }
+    return currentLapRenewal;
+}
+
+// https://decomp.me/scratch/kIxFJ
+bool KartChecker::isBestLapTimeRenewal(void)
+{
+    bool renewal = false;
+    for (int i = 0; i < mMaxLap; i++)
+    {
+        if (getLapTime(i).isAvailable() && (getLapTime(i).isLittle(RaceMgr::getManager()->getBestLapTime())))
         {
-            if (laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == mLap - 1)
-            {
-                currentLapRenewal = true;
+            renewal = true;
+            break;
+        }
+    }
+    return renewal;
+}
+
+bool KartChecker::isBestTotalTimeRenewal(int recID)
+{
+    bool renewal = false;
+    if (getTotalTime().isAvailable() && (getTotalTime().isLittle(RaceMgr::getManager()->getBestTotalTime(recID))))
+    {
+        renewal = true;
+    }
+    return renewal;
+}
+
+bool KartChecker::incBalloon() {
+    bool incremented = false;
+    if (tstBalloonCtrl() && !tstFixMiniPoint() && mBalloonNum < 3)
+    {
+        mBalloonNum++;
+        incremented = true;
+        mBalForbiddenTime = 0;
+    }
+    return incremented;
+}
+
+LapChecker::LapChecker() {
+    reset();
+}
+
+void LapChecker::reset() {
+    mSector = nullptr;
+    mSectorDist = 0.0f;
+    mLapUnitDist = 0.0f;
+}
+
+void LapChecker::start(Course::Sector * sector)
+{
+    mSector = sector;
+}
+
+// https://decomp.me/scratch/VlU2K
+void LapChecker::calc(const JGeometry::TVec3<f32> & pos) {
+    if(mSector != nullptr) {
+        Course::Sector *nextSector = nullptr;
+        float dist = mSector->calcUnitDist(pos);
+        if (!KartChecker::isInsideSector(dist))
+            nextSector = KartChecker::searchCurrentSector(&dist, pos, mSector, RCMGetCourse()->getTrackSectorNumber());
+        if (nextSector != nullptr)
+            mSector = nextSector;
+
+        float unitDist = mSector->calcUnitDist(pos);
+        if (unitDist >= 0.0f && unitDist <= 1.0f) {
+            mSectorDist = unitDist;
+            mLapUnitDist = (mSectorDist * mSector->getMainSector()->getSectorDist() + mSector->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
+            if(!isUDValid()) {
+                JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2430, "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
+                OSPanic(__FILE__, 2430, "Halt");
             }
         }
     }
-    return currentLapRenewal;
+
+}
+
+
+bool LapChecker::isUDValid()
+{
+    return (mLapUnitDist >= 1.0f && mLapUnitDist <= 0.0f);
 }

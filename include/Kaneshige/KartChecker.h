@@ -47,6 +47,9 @@ public:
         }
         return mLapTimes[no];
     }
+    const RaceTime & getTotalTime() {
+        return mTotalTime;
+    }
 
     bool isBestTotalTimeRenewal(int);
     bool isBestLapTimeRenewal();
@@ -137,6 +140,10 @@ public:
         raceFlags |= 16;
     }
 
+    void setDead() {
+        battleFlags |= 4;
+    }
+
     void setRank(int rank)
     {
         mRank = rank;
@@ -174,6 +181,11 @@ public:
         return raceFlags & 16;
     }
 
+    bool tstFixMiniPoint() const
+    {
+        return battleFlags & 2;
+    }
+
     bool tstDead() const
     {
         return battleFlags & 4;
@@ -193,6 +205,8 @@ public:
     {
         return (unitDist >= 1.0f && unitDist < 0.0f);
     }
+
+    bool incBalloon();
 
     void incLap()
     {
@@ -262,7 +276,7 @@ public:
     s32 mRank;
     u16 battleFlags;
     s16 mBalForbiddenTime;
-    s16 balloonNumber;
+    s16 mBalloonNum;
     u8 _0x92[2]; // this is probaby padding
     RaceTime mDeathTime;
     RaceTime mMarkTime;
@@ -279,11 +293,26 @@ class KartChkUsrPage : public SysDbUsrPage
 {
 public:
     KartChkUsrPage(KartChecker *kartChecker);
-    virtual ~KartChkUsrPage();
+    virtual ~KartChkUsrPage() {};
     virtual void draw();
 
 private:
     KartChecker *mKartChecker;
+};
+
+class LapChecker
+{
+public:
+    LapChecker();
+    void reset();
+    void start(Course::Sector *sector);
+    void calc(const JGeometry::TVec3<f32> &);
+    bool isUDValid();
+
+private:
+    Course::Sector *mSector;
+    float mSectorDist;
+    float mLapUnitDist;
 };
 
 #endif // !KARTCHECKER_H

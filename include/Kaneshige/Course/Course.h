@@ -112,6 +112,10 @@ public:
         return mTotalSectors;
     }
 
+    int getTrackSectorNumber() const {
+        return mTrackSectorNum;
+    }
+
     Sector *getSector(int no) const
     {
         bool valid = false;
