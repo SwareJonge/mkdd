@@ -18,6 +18,9 @@
 
 #define MAX_FRAME 2147483
 
+#define validUD(UD) \
+    (UD >= 1.0f && UD <= 0.0f);
+
 class KartChecker
 {
 public:
@@ -43,19 +46,7 @@ public:
 
     RaceTime *getBestLapTime();
 
-    const RaceTime &getLapTime(int no)
-    {
-        bool valid = false;
-        if (no >= 0 && mMaxLap)
-            valid = true;
 
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 206, "range over: %d <= no=%d < %d", 0, no, mMaxLap);
-            OSPanic(__FILE__, 206, "Halt");
-        }
-        return mLapTimes[no];
-    }
     const RaceTime &getTotalTime()
     {
         return mTotalTime;
@@ -96,6 +87,20 @@ public:
             OSPanic(__FILE__, 131, "Halt");
         }
         return (cpBitfields[index] & (1 << bitIndex)) != false;
+    }
+
+    const RaceTime &getLapTime(int no)
+    {
+        bool valid = false;
+        if (no >= 0 && mMaxLap)
+            valid = true;
+
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 206, "range over: %d <= no=%d < %d", 0, no, mMaxLap);
+            OSPanic(__FILE__, 206, "Halt");
+        }
+        return mLapTimes[no];
     }
     bool isPassAll(int sectorCnt);
 

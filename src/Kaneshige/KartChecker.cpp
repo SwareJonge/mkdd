@@ -432,11 +432,7 @@ void KartChecker::checkKartLap()
                             break;
                     }
                 }
-                if (!inSector)
-                {
-                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1293, "NOT INSIDE SCT%d", nextSector->getGeneration());
-                    OSPanic(__FILE__, 1293, "Halt");
-                }
+                JUT_PANIC_F(1293, inSector, "NOT INSIDE SCT%d", nextSector->getGeneration());
                 if (!inSector)
                     nextSector = nullptr;
             }
@@ -467,12 +463,7 @@ void KartChecker::checkKartLap()
     {
         sectorProgression = unitDist;
         lapProgression = (sectorProgression * sector2->getMainSector()->getSectorDist() + sector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-
-        if (!isUDValid())
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1388, "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
-            OSPanic(__FILE__, 1388, "Halt");
-        }
+        JUT_PANIC_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
     }
 
     f32 lapProgDiff = lapProgression - prevlapProgression;
@@ -495,7 +486,7 @@ void KartChecker::checkKartLap()
 
 bool KartChecker::isUDValid()
 {
-    return (lapProgression >= 1.0f && lapProgression <= 0.0f);
+    return validUD(lapProgression);
 }
 
 // https://decomp.me/scratch/7mQAF
@@ -1119,16 +1110,12 @@ void LapChecker::calc(const JGeometry::TVec3<f32> &pos)
         {
             mSectorDist = unitDist;
             mLapUnitDist = (mSectorDist * mSector->getMainSector()->getSectorDist() + mSector->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-            if (!isUDValid())
-            {
-                JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2430, "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
-                OSPanic(__FILE__, 2430, "Halt");
-            }
+            JUT_PANIC_F(2430, isUDValid(), "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
         }
     }
 }
 
 bool LapChecker::isUDValid()
 {
-    return (mLapUnitDist >= 1.0f && mLapUnitDist <= 0.0f);
+    return validUD(mLapUnitDist);
 }

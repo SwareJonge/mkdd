@@ -12,4 +12,22 @@ public:
   }*/
 };
 
+#define JUT_ASSERT(LINE, COND)                                                   \
+  if (!COND)                                                                     \
+  {                                                                              \
+    JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, LINE, #COND); \
+    OSPanic(__FILE__, LINE, "Halt");                                             \
+  }
+
+#define JUT_PANIC(LINE, TEXT)                                                 \
+  JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, LINE, TEXT); \
+  OSPanic(__FILE__, LINE, "Halt");
+
+#define JUT_PANIC_F(LINE, COND, ...)                                                     \
+  if (!COND)                                                                             \
+  {                                                                                      \
+    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__); \
+    OSPanic(__FILE__, LINE, "Halt");                                                     \
+  }
+
 #endif
