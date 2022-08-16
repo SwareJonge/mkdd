@@ -35,6 +35,11 @@ struct MTX34
     float mMtx[3][4];
 };
 
+struct Vec
+{
+    float x, y, z;
+};
+
 #define nullptr 0
 #define null 0
 

@@ -10,6 +10,13 @@ public:
     virtual void draw();
     virtual void callbackColGeoObj();
 
+    int getRobberyItemNum(int, u8);
+
+    static ItemObjMgr *getItemObjMgr()
+    {
+        return gItemMgr;
+    }
+
     static ItemObjMgr * gItemMgr;
 
     static bool sTempSlotUseItem[18];
@@ -18,8 +25,13 @@ private:
     unsigned char _0x4[0x828 - 0x4];
 };
 
+ItemObjMgr *GetItemObjMgr()
+{
+    return ItemObjMgr::getItemObjMgr();
+}
+
 class ItemShuffleMgr {
-private:
+public:
     struct SlotTable {
         u8 chance[27];
         u8 total; // i don't know wheter or not this is used but 1 byte is not always enough to store this
@@ -46,12 +58,6 @@ private:
         int total;
         int _0x14;
     };
-    u16 _0x4; // might be the amount of button presses to speed up the shuffle
-    u8 _0x5; // 
-    u8 _0x6;
-    u8 _0x7;
-    int idx;
-public:
     static KartSlotData mSlotList;
     static KartSlotData mSlotListEnemy;
 
@@ -70,6 +76,13 @@ public:
     virtual void calcRaceUseNormalItem(u32 *, KartSlotRankDataSet *, int);
     virtual void calcSpecialItemNum(u32 *, KartSlotRankDataSet *, int, int, bool);
     virtual int calcRank(KartSlotRankDataSet);
+
+private:
+    u16 _0x4; // might be the amount of button presses to speed up the shuffle
+    u8 _0x5;  //
+    u8 _0x6;
+    u8 _0x7;
+    int idx;
 };
 
 class ItemRndSpecialShuffleMgr : public ItemShuffleMgr {

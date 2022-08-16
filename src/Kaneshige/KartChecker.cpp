@@ -5,6 +5,7 @@
 
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"
+#include "Sato/ItemObjMgr.h"
 
 #include "Yamamoto/kartCtrl.h"
 
@@ -75,6 +76,8 @@ void KartChkUsrPage::draw()
     JUTReport(280, 390, "LAP%1d:TOTAL%1d", mKartChecker->isBestLapTimeRenewal(), mKartChecker->isBestTotalTimeRenewal(0));
     JUTReport(280, 410, "RANK %1d", mKartChecker->getRank());
 }
+
+short KartChecker::sBalForbiddenTime = 180;
 
 // https://decomp.me/scratch/DJxMp
 KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lapNum)
@@ -160,7 +163,7 @@ void KartChecker::reset()
     for (int i = 0; i < 10; i++)
         bombPointTable[i] = -1;
 
-    bombPoint = 0;
+    mBombPoint = 0;
     mMarkTime.reset();
 
     if (GeoRabbitMark::getSupervisor())
@@ -847,9 +850,8 @@ bool KartChecker::isBestTotalTimeRenewal(int recID)
 {
     bool renewal = false;
     if (getTotalTime().isAvailable() && (getTotalTime().isLittle(RaceMgr::getManager()->getBestTotalTime(recID))))
-    {
         renewal = true;
-    }
+
     return renewal;
 }
 
@@ -863,6 +865,129 @@ bool KartChecker::incBalloon() {
     }
     return incremented;
 }
+
+// Dumb code incoming
+// https://decomp.me/scratch/5J3WZ
+bool KartChecker::decBalloon()
+{
+    bool decreased = false;
+    if (!tstBalloonCtrl())
+        return false;
+    else if (mBalForbiddenTime > 0)
+        return false;
+    else
+    {
+        if (tstFixMiniPoint())
+            return false;
+        else
+        {
+            if (RaceMgr::getManager()->checkRaceEnd())
+                return false;
+            else if (mBalloonNum > 0)
+            {
+                mBalloonNum--;
+                mBalForbiddenTime = sBalForbiddenTime;
+                if (mBalloonNum <= 0)
+                    setDead();
+                decreased = true;
+            }
+        }
+    }
+
+    return decreased;
+}
+
+// https://decomp.me/scratch/bDxAr
+bool KartChecker::incMyBombPoint(int pnt, int increment)
+{
+    bool increased = false;
+    int bombPoint = mBombPoint;
+
+    if (!isBombPointFull() && !tstFixMiniPoint())
+    {
+        mBombPoint += increment;
+        if (mBombPoint > sBombPointFull)
+            mBombPoint = sBombPointFull;
+        else if (mBombPoint < 0)
+            mBombPoint = 0;
+
+        if (mBombPoint < bombPoint)
+        {
+            for (int pntNo = mBombPoint; pntNo < bombPoint; pntNo++)
+            {
+                bool valid = false;
+                if (pntNo >= 0 && pntNo < 10)
+                    valid = true;
+                if (!valid)
+                {
+                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2071, "range over: %d <= pntNo=%d < %d", 0, pntNo, 10);
+                    OSPanic(__FILE__, 2071, "Halt");
+                }
+                bombPointTable[pntNo] = -1;
+            }
+            if (bombPoint == sBombPointFull - 1)
+                GetKartCtrl()->GetKartSoundMgr(mTargetKartNo)->setSe(0x1009a);
+        }
+        else if (mBombPoint > bombPoint)
+        {
+            for (int pntNo = bombPoint; pntNo < mBombPoint; pntNo++)
+            {
+                bool valid = false;
+                if (pntNo >= 0 && pntNo < 10)
+                    valid = true;
+                if (!valid)
+                {
+                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2097, "range over: %d <= pntNo=%d < %d", 0, pntNo, 10);
+                    OSPanic(__FILE__, 2097, "Halt");
+                }
+                bombPointTable[pntNo] = pnt;
+            }
+        }
+        increased = true;
+    }
+
+    return increased;
+}
+
+// https://decomp.me/scratch/fBBv9
+bool KartChecker::incYourBombPoint(int idx, int pnt, int increment)
+{
+    return RaceMgr::getManager()->getKartChecker(idx)->incMyBombPoint(pnt, increment);
+}
+
+// KartChecker::setBombEvent(KartChecker::EBombEvent, ItemObj *)
+
+// https://decomp.me/scratch/uXEO9
+int KartChecker::getRobberyItemNumber(void)
+{
+    int num = 0;
+    for (u8 i = 0; i < 2; i++)
+        num += GetItemObjMgr()->getRobberyItemNum(mTargetKartNo, (int)i);
+    return num;
+}
+
+// https://decomp.me/scratch/0guno
+bool KartChecker::releaseRabbitMark()
+{
+    bool released = false;
+    if (tstRabbitCtrl() && !tstFixMiniPoint())
+    {
+        GeoRabbitMarkSupervisor *supervisor = GeoRabbitMark::getSupervisor();
+        if (supervisor != nullptr)
+        {
+            if (mTargetKartNo == supervisor->getRabbitKartNo() && !isRabbitWinner())
+            {
+                supervisor->release();
+                released = true;
+            }
+        }
+    }
+    return released;
+}
+
+// KartChecker::isRabbit()
+
+// KartChecker::calcRabbitTime()
 
 LapChecker::LapChecker() {
     reset();
@@ -899,9 +1024,7 @@ void LapChecker::calc(const JGeometry::TVec3<f32> & pos) {
             }
         }
     }
-
 }
-
 
 bool LapChecker::isUDValid()
 {

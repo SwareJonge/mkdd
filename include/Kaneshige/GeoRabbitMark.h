@@ -8,6 +8,8 @@
 class GeoRabbitMarkSupervisor
 {
 public:
+    void release();
+    int getRabbitKartNo();
     short getWinFrame() const
     {
         return mWinFrame * 60;

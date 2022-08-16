@@ -5,6 +5,7 @@
 
 #include "JSystem/JKernel/JKRHeap.h"
 
+#include "Kaneshige/RaceDirector.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/KartChecker.h"
@@ -46,6 +47,11 @@ public:
         return sRaceManager;
     }*/
 
+    bool checkRaceEnd()
+    {
+        return mRaceDirector->checkRaceEnd();
+    }
+
     Course *getCourse() const; /*
        return course;
    */
@@ -62,6 +68,19 @@ public:
             OSPanic(__FILE__, 257, "Halt");
         }
         return kartLoader[index];
+    }
+
+    KartChecker *getKartChecker(int index) const
+    {
+        bool valid = false;
+        if (index >= 0 && index < 8)
+            valid = true;
+        if (!valid)
+        {
+            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 267, "range over: %d <= index=%d < %d", 0, index, 8);
+            OSPanic(__FILE__, 267, "Halt");
+        }
+        return kartChecker[index];
     }
 
     ERaceMode getRaceMode() const; /*{
@@ -88,7 +107,7 @@ public:
     }
 
 private:
-    void *raceDirector;
+    RaceDirector *mRaceDirector;
     void *raceDrawer;
     u16 areaLight;
     u8 _0x22;

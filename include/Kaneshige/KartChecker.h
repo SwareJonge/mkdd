@@ -88,6 +88,11 @@ public:
     }
     bool isPassAll(int sectorCnt);
 
+    bool isRabbitWinner() const
+    {
+        return (rabbitWinFrame <= 0);
+    }
+
     bool isReverse();
 
     // https://decomp.me/scratch/RWx4a
@@ -198,7 +203,7 @@ public:
 
     bool isBombPointFull() const
     {
-        return bombPoint >= sBombPointFull;
+        return mBombPoint >= sBombPointFull;
     }
 
     static bool isInsideSector(f32 unitDist)
@@ -207,6 +212,7 @@ public:
     }
 
     bool incBalloon();
+    bool decBalloon();
 
     void incLap()
     {
@@ -215,6 +221,8 @@ public:
     }
 
     void incTime();
+    bool incMyBombPoint(int, int);
+    static bool incYourBombPoint(int idx, int pnt, int increment);
 
     bool isMaxTotalTime() const
     {
@@ -233,10 +241,13 @@ public:
     void checkKartLap();
     void checkLap(bool);
 
+    int getRobberyItemNumber();
+    bool releaseRabbitMark();
     void calcRabbitTime();
 
     static int sPlayerKartColorTable[];
     static short sBombPointFull;
+    static short sBalForbiddenTime;
 
     // private: // i'm not really sure how else KartChkUsrPage got access to this
     u16 raceFlags;
@@ -281,7 +292,7 @@ public:
     RaceTime mDeathTime;
     RaceTime mMarkTime;
     s8 bombPointTable[0xa6 - 0x9C];
-    s16 bombPoint;
+    s16 mBombPoint;
     s16 rabbitWinFrame;
     s32 demoPoint;
     // these only get set in the constructor?
