@@ -8,16 +8,22 @@
 class GeoRabbitMarkSupervisor
 {
 public:
-    void release();
+    void release();    
     int getRabbitKartNo();
     short getWinFrame() const
     {
-        return mWinFrame * 60;
+        return mWinTime * 60;
     }
+
+    short getWinTime() const
+    {
+        return mWinTime;
+    }
+    void startWinnerEffect();
 
 private:
     u8 _0[0x40];
-    s16 mWinFrame;
+    s16 mWinTime;
 };
 
 class GeoRabbitMark

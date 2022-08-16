@@ -9,8 +9,8 @@ class KartCtrl
 {
 public:
     static KartCtrl *getKartCtrl(); /*{
-       return mCtrl;
-   }*/
+        return mCtrl;
+    }*/
 
     KartSound *getKartSound(int idx)
     {
@@ -18,8 +18,8 @@ public:
     }
 
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /* {
-    return getKartSound(idx)->mKartSoundMgr;
-}*/
+        return getKartSound(idx)->mKartSoundMgr;
+    }*/
 
     void GetBodyPos(int idx, JGeometry::TVec3<f32> *playerPos);
 
@@ -29,7 +29,7 @@ private:
     KartSound *mKartSounds[8];
 };
 
-KartCtrl *GetKartCtrl() {
+inline KartCtrl *GetKartCtrl() {
     return KartCtrl::getKartCtrl();
 }
 

@@ -25,7 +25,7 @@ private:
     unsigned char _0x4[0x828 - 0x4];
 };
 
-ItemObjMgr *GetItemObjMgr()
+inline ItemObjMgr *GetItemObjMgr()
 {
     return ItemObjMgr::getItemObjMgr();
 }

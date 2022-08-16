@@ -14,11 +14,18 @@
 
 #include "Osako/kartPad.h"
 
+#include "Sato/ItemObj.h"
+
 #define MAX_FRAME 2147483
 
 class KartChecker
 {
 public:
+enum EBombEvent {
+    EVENT_1,
+    EVENT_2,
+    EVENT_3
+};
     KartChecker(int, KartInfo *, int, int);
 
     void clrPass(int sectoridx)
@@ -226,7 +233,7 @@ public:
 
     bool isMaxTotalTime() const
     {
-        return mTotalTime.isAvailable();
+        return !mTotalTime.isAvailable();
     }
 
     bool isUDValid();
@@ -243,11 +250,31 @@ public:
 
     int getRobberyItemNumber();
     bool releaseRabbitMark();
+    bool isRabbit() const;
     void calcRabbitTime();
 
-    static int sPlayerKartColorTable[];
-    static short sBombPointFull;
+    void resumeRabbitTimer() {
+        battleFlags &= 0xfffe;
+    }
+
+    bool tstStillRabbitTimer() const {
+        return battleFlags & 1;
+    }
+
+    void setBombEvent(KartChecker::EBombEvent, ItemObj *);
+
+    static int sPlayerKartColorTable[];    
     static short sBalForbiddenTime;
+
+    static short sBombPointDirect; // 1
+    static short sBombPointSpin; // 1
+    static short sBombPointIndirect; // 1
+    static short sBombPointAttacked; // -1
+    static short sBombPointFull; // 4
+    static short sBombPointFullS; // 3
+    static short sBombPointFullL; // 4
+
+    static short sBombPointCrushOneself;
 
     // private: // i'm not really sure how else KartChkUsrPage got access to this
     u16 raceFlags;

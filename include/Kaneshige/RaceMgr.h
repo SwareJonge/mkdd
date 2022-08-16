@@ -58,7 +58,7 @@ public:
 
     KartInfo * getKartInfo(int index);
 
-    KartLoader * getKartLoader(int index) {
+    KartLoader * getKartLoader(int index) const {
         bool valid = false;
         if(index >= 0 && index < 8)
             valid = true;

@@ -525,3 +525,5 @@ global:
  0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
 
  0x802f34dc: GetKartSoundMgr__8KartCtrlFi 
+
+ 0x80416b50: gItemMgr__10ItemObjMgr

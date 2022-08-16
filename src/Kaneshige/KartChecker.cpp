@@ -1,11 +1,13 @@
+#include "Inagaki/GameAudioMain.h"
 #include "Kaneshige/KartChecker.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/GeoRabbitMark.h"
-
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"
+
 #include "Sato/ItemObjMgr.h"
+#include "Sato/ItemObj.h"
 
 #include "Yamamoto/kartCtrl.h"
 
@@ -78,6 +80,14 @@ void KartChkUsrPage::draw()
 }
 
 short KartChecker::sBalForbiddenTime = 180;
+short KartChecker::sBombPointDirect = 1; // 1
+short KartChecker::sBombPointSpin = 1; // 1
+short KartChecker::sBombPointIndirect = 1; // 1
+short KartChecker::sBombPointAttacked = -1; // -1
+short KartChecker::sBombPointFull = 4; // 4
+short KartChecker::sBombPointFullS = 3; // 3
+short KartChecker::sBombPointFullL = 4; // 4
+short KartChecker::sBombPointCrushOneself = 0;
 
 // https://decomp.me/scratch/DJxMp
 KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lapNum)
@@ -955,7 +965,38 @@ bool KartChecker::incYourBombPoint(int idx, int pnt, int increment)
     return RaceMgr::getManager()->getKartChecker(idx)->incMyBombPoint(pnt, increment);
 }
 
-// KartChecker::setBombEvent(KartChecker::EBombEvent, ItemObj *)
+// https://decomp.me/scratch/Pl4Wz
+void KartChecker::setBombEvent(KartChecker::EBombEvent bombEvent, ItemObj * itemObj) {
+    if(tstBombCtrl() && !isBombPointFull()) {
+        int ownerNum = -1;
+        if(itemObj != nullptr)
+            ownerNum = itemObj->getOwnerNum();
+        switch(bombEvent) {
+            case EVENT_1:
+            int increment = sBombPointCrushOneself;
+            if(ownerNum != mTargetKartNo)
+                increment = sBombPointAttacked;
+            if(increment != 0)
+                incMyBombPoint(-1, increment);
+            if(ownerNum != mTargetKartNo) {
+                if(itemObj->getKartReaction() != 8)
+                    increment = sBombPointSpin;              
+                else {
+                    if(mTargetKartNo != itemObj->getDirectHitKartNo())
+                        increment = sBombPointIndirect;                        
+                    else                       
+                        increment = sBombPointDirect;
+                }
+                    
+                incYourBombPoint(ownerNum, mTargetKartNo, increment);                
+            }
+            break;
+            case EVENT_3:
+            incMyBombPoint(-1, -1);
+            break;
+        }
+    }
+}
 
 // https://decomp.me/scratch/uXEO9
 int KartChecker::getRobberyItemNumber(void)
@@ -985,9 +1026,47 @@ bool KartChecker::releaseRabbitMark()
     return released;
 }
 
-// KartChecker::isRabbit()
+// https://decomp.me/scratch/9G0Hj
+bool KartChecker::isRabbit() const {
+    bool rabbit = false;    
+    if(GeoRabbitMark::getSupervisor() != nullptr) {
+        GeoRabbitMarkSupervisor * supervisor = GeoRabbitMark::getSupervisor();
+        rabbit = supervisor->getWinFrame() > rabbitWinFrame;
+    }
+    return rabbit;
+}
 
-// KartChecker::calcRabbitTime()
+void KartChecker::calcRabbitTime() {
+    GeoRabbitMarkSupervisor * supervisor = GeoRabbitMark::getSupervisor();
+    if(supervisor != nullptr) {
+        if(rabbitWinFrame > 0)
+            if(mTargetKartNo == supervisor->getRabbitKartNo()) {
+                if(!tstStillRabbitTimer()) {
+                    rabbitWinFrame--;
+                    RaceTime rabbitTime;
+                    rabbitTime.setFrame(rabbitWinFrame);
+                    int ms = rabbitTime.getUpwardMSec() / 1000;
+                    if(!(rabbitTime.get() % 1000)) {
+                        if(ms == 0)
+                            GameAudio::Main::getAudio()->startSystemSe(0x20027);
+                        else if(ms <= 10) {
+                            GameAudio::Main::getAudio()->startSystemSe(0x20026);    
+                        }                                                
+                        else if((ms > 10) && ms <= GeoRabbitMark::getSupervisor()->getWinTime() - 2) {                            
+                            GameAudio::Main::getAudio()->startSystemSe(0x20025);
+                        }                            
+                    }
+                }
+            }
+            else {
+                rabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
+                resumeRabbitTimer();
+            }            
+        else {
+            supervisor->startWinnerEffect();
+        }
+    }
+}
 
 LapChecker::LapChecker() {
     reset();

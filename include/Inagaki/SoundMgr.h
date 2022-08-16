@@ -4,6 +4,7 @@
 #include "types.h"
 #include "JSystem/JAudio/JAUSoundObject.h"
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JMath/JMath.h"
 
 namespace GameAudio
 {
