@@ -21,11 +21,12 @@
 class KartChecker
 {
 public:
-enum EBombEvent {
-    EVENT_1,
-    EVENT_2,
-    EVENT_3
-};
+    enum EBombEvent
+    {
+        EVENT_1 = 1,
+        EVENT_2 = 2,
+        EVENT_3 = 3
+    };
     KartChecker(int, KartInfo *, int, int);
 
     void clrPass(int sectoridx)
@@ -40,21 +41,23 @@ enum EBombEvent {
         return mRank;
     }
 
-    RaceTime *getBestLapTime() ;
+    RaceTime *getBestLapTime();
 
-    const RaceTime & getLapTime(int no)
+    const RaceTime &getLapTime(int no)
     {
         bool valid = false;
-        if(no >= 0 && mMaxLap)
+        if (no >= 0 && mMaxLap)
             valid = true;
 
-        if(!valid) {
+        if (!valid)
+        {
             JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 206, "range over: %d <= no=%d < %d", 0, no, mMaxLap);
             OSPanic(__FILE__, 206, "Halt");
         }
         return mLapTimes[no];
     }
-    const RaceTime & getTotalTime() {
+    const RaceTime &getTotalTime()
+    {
         return mTotalTime;
     }
 
@@ -67,8 +70,9 @@ enum EBombEvent {
         return mLapRenewal;
     }
 
-    bool isFinalLap() const {
-        return mLap == mMaxLap -1;
+    bool isFinalLap() const
+    {
+        return mLap == mMaxLap - 1;
     }
 
     bool isFinalLapRenewal() const;
@@ -152,7 +156,8 @@ enum EBombEvent {
         raceFlags |= 16;
     }
 
-    void setDead() {
+    void setDead()
+    {
         battleFlags |= 4;
     }
 
@@ -253,26 +258,28 @@ enum EBombEvent {
     bool isRabbit() const;
     void calcRabbitTime();
 
-    void resumeRabbitTimer() {
+    void resumeRabbitTimer()
+    {
         battleFlags &= 0xfffe;
     }
 
-    bool tstStillRabbitTimer() const {
+    bool tstStillRabbitTimer() const
+    {
         return battleFlags & 1;
     }
 
     void setBombEvent(KartChecker::EBombEvent, ItemObj *);
 
-    static int sPlayerKartColorTable[];    
+    static int sPlayerKartColorTable[];
     static short sBalForbiddenTime;
 
-    static short sBombPointDirect; // 1
-    static short sBombPointSpin; // 1
+    static short sBombPointDirect;   // 1
+    static short sBombPointSpin;     // 1
     static short sBombPointIndirect; // 1
     static short sBombPointAttacked; // -1
-    static short sBombPointFull; // 4
-    static short sBombPointFullS; // 3
-    static short sBombPointFullL; // 4
+    static short sBombPointFull;     // 4
+    static short sBombPointFullS;    // 3
+    static short sBombPointFullL;    // 4
 
     static short sBombPointCrushOneself;
 
@@ -331,7 +338,7 @@ class KartChkUsrPage : public SysDbUsrPage
 {
 public:
     KartChkUsrPage(KartChecker *kartChecker);
-    virtual ~KartChkUsrPage() {};
+    virtual ~KartChkUsrPage(){};
     virtual void draw();
 
 private:
