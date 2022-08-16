@@ -31,7 +31,7 @@ Kaneshige/KartInfo.cpp:
     .sdata2: [0x80419dc8, 0x80419dd0]
 
 Kaneshige/KartChecker.cpp:
-    .text: [0x801a9040, 0x801ac5a0]   
+    .text: [0x801a9040, 0x801ac4b0]   
     .rodata: [0x80377378, 0x80377640] 
     .data: [0x80395c98, 0x80395cd8]
     .sdata: [0x80414618, 0x80414628]
