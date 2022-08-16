@@ -98,22 +98,8 @@ public:
 
     void setRivalKartNo(int rivalNo, int kartNo)
     {
-        bool valid = false;
-        if (rivalNo >= 0 && rivalNo < 2)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 114, "range over: %d <= rivalNo=%d < %d", 0, rivalNo, 2);
-            OSPanic(__FILE__, 114, "Halt");
-        }
-        bool valid2 = false;
-        if (kartNo >= 0 && kartNo < 8)
-            valid2 = true;
-        if (!valid2)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 115, "range over: %d <= kartNo=%d < %d", 0, kartNo, 8);
-            OSPanic(__FILE__, 115, "Halt");
-        }
+        JUT_RANGE_ASSERT(114, 0, rivalNo, 2);
+        JUT_RANGE_ASSERT(115, 0, kartNo, 8)
         rivalKarts[rivalNo] = kartNo;
     }
 

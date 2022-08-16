@@ -5,15 +5,12 @@
 
 #include "JSystem/JGeometry.h"
 #include "JSystem/JUtility/JUTDbPrint.h"
-
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Kaneshige/JugemPoint.h"
+#include "Kaneshige/Course/Course.h"
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/SysDebug.h"
-#include "Kaneshige/Course/Course.h"
-
-#include "Osako/kartPad.h"
-
 #include "Sato/ItemObj.h"
 
 #define MAX_FRAME 2147483

@@ -11,8 +11,9 @@ extern "C" {
 #include <ppcdis.h>
 }
 
-enum ECharID {
-    NONE = 0,
+enum ECharID
+{
+    cCharIDNone = 0,
     BABY_MARIO = 1,
     BABY_LUIGI = 2,
     PARATROOPA = 3,
@@ -110,12 +111,12 @@ public:
         ECharID getCharID() const {
             if (charDB != 0)
                 return (ECharID)charDB->id;
-            return NONE;
+            return cCharIDNone;
         }
         ECharID getPartnerID() const {
             if (charDB != 0)
                 return (ECharID)charDB->defaultPartnerID;
-            return NONE;
+            return cCharIDNone;
         }
         bool isAvailable() const;
         static s32 convPlayerKind(KartGamePad *);

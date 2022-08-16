@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#include "Dolphin/OS.h"
+
 class JUTAssertion {
 public:
     static u32 getSDevice(void);
@@ -32,5 +34,8 @@ public:
 
 #define JUT_RANGE_ASSERT(LINE, min, cur, max) \
   JUT_ASSERT_F(LINE, (((cur) >= (min)) && ((cur) < (max))) != false, "range over: %d <= " #cur "=%d < %d", (min), (cur), (max))
+
+#define JUT_MAX_ASSERT(LINE, cur, max) \
+  JUT_ASSERT_F(LINE, ((cur) < (max)) , "range over: %d <= " #cur "=%d < %d", 0, (cur), (max))
 
 #endif

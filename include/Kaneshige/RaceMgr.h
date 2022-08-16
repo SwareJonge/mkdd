@@ -3,15 +3,15 @@
 
 #include "types.h"
 
-#include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JUtility/JUTAssert.h"
 
+#include "JSystem/JKernel/JKRHeap.h"
+#include "Kaneshige/Course/Course.h"
 #include "Kaneshige/RaceDirector.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceTime.h"
 #include "Kaneshige/KartChecker.h"
 #include "Kaneshige/KartLoader.h"
-
-#include "Kaneshige/Course/Course.h"
 
 class RaceMgr : JKRDisposer
 {

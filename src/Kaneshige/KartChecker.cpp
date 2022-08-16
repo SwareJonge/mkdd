@@ -1,19 +1,17 @@
+#include "Kaneshige/KartChecker.h"
 #include "Inagaki/GameAudioMain.h"
-#include "Kaneshige/RaceInfo.h"
-#include "Kaneshige/RaceMgr.h"
-#include "Kaneshige/GeoRabbitMark.h"
+#include "Kaneshige/JugemPoint.h"
+#include "Kaneshige/Course/Course.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"
-
+#include "Kaneshige/GeoRabbitMark.h"
+#include "Kaneshige/KartInfo.h"
+#include "Kaneshige/RaceInfo.h"
+#include "Kaneshige/RaceMgr.h"
+#include "Kaneshige/SysDebug.h"
+#include "Osako/kartPad.h"
 #include "Sato/ItemObjMgr.h"
-#include "Sato/ItemObj.h"
-
 #include "Yamamoto/kartCtrl.h"
-#include "Kaneshige/KartChecker.h"
-
-/*#define SDA2_BASE 0x8041f1c0
-#include "orderfloats/80419de8_80419df0.inc"
-#include "orderfloats/80419df8_80419e04.inc"*/
 
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push

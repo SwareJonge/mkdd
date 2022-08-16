@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#include "JSystem/JUtility/JUTAssert.h"
+
 #include "Kaneshige/Course/CrsArea.h"
 
 class Course
