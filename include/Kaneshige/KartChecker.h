@@ -63,7 +63,7 @@ public:
 
     bool isFinalLap() const
     {
-        return mLap == mMaxLap - 1;
+        return lap == mMaxLap - 1;
     }
 
     bool isFinalLapRenewal() const;
@@ -75,31 +75,16 @@ public:
 
     bool isPass(int sectoridx)
     {
+        
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
-        bool valid = false;
-        if (index >= 0 && index < bitfieldCnt)
-            valid = true;
-
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 131, "range over: %d <= index=%d < %d", 0, index, bitfieldCnt);
-            OSPanic(__FILE__, 131, "Halt");
-        }
+        JUT_RANGE_ASSERT(131, 0, index, bitfieldCnt);
         return (cpBitfields[index] & (1 << bitIndex)) != false;
     }
 
     const RaceTime &getLapTime(int no)
     {
-        bool valid = false;
-        if (no >= 0 && mMaxLap)
-            valid = true;
-
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 206, "range over: %d <= no=%d < %d", 0, no, mMaxLap);
-            OSPanic(__FILE__, 206, "Halt");
-        }
+        JUT_RANGE_ASSERT(206, 0, no, mMaxLap);
         return mLapTimes[no];
     }
     bool isPassAll(int sectorCnt);
@@ -233,8 +218,8 @@ public:
 
     void incLap()
     {
-        if (mMaxLap > mLap)
-            mLap++;
+        if (lap < mMaxLap)
+            lap++;
     }
 
     void incTime();
@@ -303,7 +288,7 @@ public:
     bool mRaceEnd;
     u8 _0x2a; // only seems to get set in the constructor
     u8 _0x2b; // probably padding
-    s32 mLap;
+    s32 lap;
     f32 sectorProgression;
     s32 warpState;
     s32 mGeneration;

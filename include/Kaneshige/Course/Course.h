@@ -118,28 +118,13 @@ public:
 
     Sector *getSector(int no) const
     {
-        bool valid = false;
-        if (no >= 0 && no < mTotalSectors)
-            valid = true;
-
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 300, "range over: %d <= no=%d < %d", 0, no, mTotalSectors);
-            OSPanic(__FILE__, 300, "Halt");
-        }
+        JUT_RANGE_ASSERT(300, 0, no, mTotalSectors);
         return &mSectors[no];
     }
 
     Sector *getMainSector(int gen) const
     {
-        bool valid = false;
-        if (gen >= 0 && gen < mTrackSectorNum)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 306, "range over: %d <= gen=%d < %d", 0, gen, mTrackSectorNum);
-            OSPanic(__FILE__, 306, "Halt");
-        }
+        JUT_RANGE_ASSERT(306, 0, gen, mTrackSectorNum);
         return mMainSector[gen];
     }
 

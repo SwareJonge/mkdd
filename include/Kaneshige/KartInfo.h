@@ -142,14 +142,7 @@ public:
     KartGamePad* getPad(int IDX); // INLINE
 
     bool isComDriver(int driverNo) const {
-        bool valid = false;
-        if(driverNo >= 0 && driverNo < 2)
-            valid = true;
-
-        if(!valid) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 113, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
-            OSPanic(__FILE__, 113, "Halt");
-        }
+        JUT_RANGE_ASSERT(113, 0, driverNo, 2);
         return kartCharacter[driverNo].isComPlayer();
     }
 

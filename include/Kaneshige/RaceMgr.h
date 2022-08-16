@@ -59,27 +59,13 @@ public:
     KartInfo * getKartInfo(int index);
 
     KartLoader * getKartLoader(int index) const {
-        bool valid = false;
-        if(index >= 0 && index < 8)
-            valid = true;
-
-        if(!valid) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 257, "range over: %d <= index=%d < %d", 0, index, 8);
-            OSPanic(__FILE__, 257, "Halt");
-        }
+        JUT_RANGE_ASSERT(257, 0, index, 8);
         return kartLoader[index];
     }
 
     KartChecker *getKartChecker(int index) const
     {
-        bool valid = false;
-        if (index >= 0 && index < 8)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 267, "range over: %d <= index=%d < %d", 0, index, 8);
-            OSPanic(__FILE__, 267, "Halt");
-        }
+        JUT_RANGE_ASSERT(267, 0, index, 8);
         return kartChecker[index];
     }
 
@@ -94,15 +80,7 @@ public:
 
     const RaceTime &getBestTotalTime(int recID)
     {
-        bool valid = false;
-        if (recID >= 0 && recID < 5)
-            valid = true;
-
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 328, "range over: %d <= recID=%d < %d", 0, recID, 5);
-            OSPanic(__FILE__, 328, "Halt");
-        }
+        JUT_RANGE_ASSERT(328, 0, recID, 5);
         return mBestTotalTimes[recID];
     }
 
@@ -124,7 +102,9 @@ private:
     Course *course;
     KartChecker *kartChecker[8];
     KartLoader *kartLoader[8];
+    void * mAward2D;
     void *staffRoll2D;
+    void * mResMgr;
     RaceTime mBestLapTime;
     RaceTime mBestTotalTimes[5];
     s16 events;

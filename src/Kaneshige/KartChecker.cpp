@@ -60,7 +60,7 @@ void KartChkUsrPage::draw()
 
     JUTReport(280, 110, "U/T  %f", mKartChecker->lapProgression);
     JUTReport(280, 130, "TUD  %f", mKartChecker->raceProgression);
-    JUTReport(280, 150, "LAP  %4d", mKartChecker->mLap);
+    JUTReport(280, 150, "LAP  %4d", mKartChecker->lap);
 
     JUTReport(180, 170, "POS  %8.3f,%8.3f,%8.3f", mKartChecker->mPos.x, mKartChecker->mPos.y, mKartChecker->mPos.z);
 
@@ -187,7 +187,7 @@ void KartChecker::reset()
 // https://decomp.me/scratch/zVUdm
 void KartChecker::clrCheckPointIndex()
 {
-    mLap = -1;
+    lap = -1;
     sectorProgression = 0.0f;
     warpState = 0;
     mGeneration = -1;
@@ -216,16 +216,7 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
 {
     if (RaceMgr::getManager()->isLANMode())
     {
-        bool valid = false;
-        if (mTargetKartNo >= 0 && mTargetKartNo < 8)
-        {
-            valid = true;
-        }
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1004, "range over: %d <= mTargetKartNo=%d < %d", 0, mTargetKartNo, 8);
-            OSPanic(__FILE__, 1004, "Halt");
-        }
+        JUT_RANGE_ASSERT(1004, 0, mTargetKartNo, 8);
         mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
     }
     else
@@ -432,7 +423,7 @@ void KartChecker::checkKartLap()
                             break;
                     }
                 }
-                JUT_PANIC_F(1293, inSector, "NOT INSIDE SCT%d", nextSector->getGeneration());
+                JUT_ASSERT_F(1293, inSector, "NOT INSIDE SCT%d", nextSector->getGeneration());
                 if (!inSector)
                     nextSector = nullptr;
             }
@@ -463,7 +454,7 @@ void KartChecker::checkKartLap()
     {
         sectorProgression = unitDist;
         lapProgression = (sectorProgression * sector2->getMainSector()->getSectorDist() + sector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-        JUT_PANIC_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
+        JUT_ASSERT_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
     }
 
     f32 lapProgDiff = lapProgression - prevlapProgression;
@@ -570,18 +561,18 @@ void KartChecker::checkLap(bool raceEnd)
         }
         if (sector2->getGeneration() == 0)
         {
-            if (mLap < 0)
+            if (lap < 0)
                 incLap();
             else
             {
-                if (isPassAll(sectorCount) && (int)raceProgression > mLap)
+                if (isPassAll(sectorCount) && (int)raceProgression > lap)
                 {
                     if (!isGoal())
                         setLapTime();
 
                     mLapRenewal = true;
                     incLap();
-                    if (!isGoal() && mLap >= mMaxLap)
+                    if (!isGoal() && lap >= mMaxLap)
                     {
                         setGoal();
                         setGoalTime();
@@ -621,7 +612,7 @@ void KartChecker::checkLap(bool raceEnd)
 // https://decomp.me/scratch/JVpLz
 void KartChecker::setLapTime()
 {
-    if (mLap < mMaxLap)
+    if (lap < mMaxLap)
     {
         JGeometry::TVec3<f32> velocity;
         velocity.sub(mPos, mPrevPos);
@@ -629,7 +620,7 @@ void KartChecker::setLapTime()
         velPerMs.scale(0.06f);
         JGeometry::TVec3<f32> curPos = mPos;
 
-        int prevgoalframe = mGoalFrame + -1;
+        int prevgoalframe = curFrame - 1;
         if (prevgoalframe < 0)
             prevgoalframe = 0;
 
@@ -644,7 +635,7 @@ void KartChecker::setLapTime()
                 curPos.sub(velPerMs);
                 computedTime.set(finalTime);
                 finalTime.sub(1);
-                if (goalTime.get() < computedTime.get())
+                if (computedTime.get() < goalTime.get())
                 {
                     computedTime.set(goalTime);
                     break;
@@ -652,31 +643,24 @@ void KartChecker::setLapTime()
             }
         }
 
-        bool valid = false;
-        // Make assert function, this is crap
-        prevgoalframe = mLap;
-        if (mLap >= 0 && mLap < mMaxLap)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1687, "range over: %d <= mLap=%d < %d", 0, prevgoalframe, mMaxLap);
-            OSPanic(__FILE__, 1687, "Halt");
-        }
-        mBestLapTimes[mLap].set(computedTime);
+        int mLap = lap;
+        JUT_RANGE_ASSERT(1687, 0, mLap, mMaxLap);
+
+        mBestLapTimes[lap].set(computedTime);
         if (!isMaxTotalTime())
         {
-            if (mLap == 0)
-                mLapTimes[mLap].set(mBestLapTimes[mLap]);
+            if (lap == 0)
+                mLapTimes[lap].set(mBestLapTimes[lap]);
             else
-                mLapTimes[mLap].sub(mBestLapTimes[mLap], mBestLapTimes[mLap - 1]);
+                mLapTimes[lap].sub(mBestLapTimes[lap], mBestLapTimes[lap - 1]);
 
             if (mBestLapIdx < 0)
-                mBestLapIdx = mLap;
-            else if (mLapTimes[mLap].isLittle(mLapTimes[mBestLapIdx]))
-                mBestLapIdx = mLap;
+                mBestLapIdx = lap;
+            else if (mLapTimes[lap].isLittle(mLapTimes[mBestLapIdx]))
+                mBestLapIdx = lap;
         }
         else
-            mLapTimes[mLap].reset();
+            mLapTimes[lap].reset();
     }
 }
 
@@ -700,7 +684,7 @@ void KartChecker::setForceGoal()
 
     RaceTime forcedTime;
     forcedTime.reset();
-    for (int i = mLap; i < mMaxLap; i++)
+    for (int i = lap; i < mMaxLap; i++)
     {
         if (!mBestLapTimes[i].isAvailable())
         {
@@ -720,7 +704,7 @@ void KartChecker::setForceGoal()
             }
         }
     }
-    mLap = mMaxLap;
+    lap = mMaxLap;
     setGoal();
     setGoalTime();
 }
@@ -748,13 +732,8 @@ bool KartChecker::setPass(int sectorIdx)
         pass = true;
         int bitIndex = sectorIdx % 32;
         valid = false;
-        if (index >= 0 && index < bitfieldCnt)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 1791, "range over: %d <= index=%d < %d", 0, index, bitfieldCnt);
-            OSPanic(__FILE__, 1791, "Halt");
-        }
+
+        JUT_RANGE_ASSERT(1791, 0, index, bitfieldCnt);
         cpBitfields[index] |= (1 << bitIndex);
     }
     return pass;
@@ -823,10 +802,10 @@ bool KartChecker::isFinalLapRenewal() const
 bool KartChecker::isCurrentLapTimeRenewal()
 {
     bool currentLapRenewal = false;
-    if (mLap > 0)
+    if (lap > 0)
     {
-        const RaceTime &laptime = getLapTime(mLap - 1);
-        if (laptime.isAvailable() && laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == mLap - 1)
+        const RaceTime &laptime = getLapTime(lap - 1);
+        if (laptime.isAvailable() && laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == lap - 1)
             currentLapRenewal = true;
     }
     return currentLapRenewal;
@@ -917,14 +896,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = mBombPoint; pntNo < bombPoint; pntNo++)
             {
-                bool valid = false;
-                if (pntNo >= 0 && pntNo < 10)
-                    valid = true;
-                if (!valid)
-                {
-                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2071, "range over: %d <= pntNo=%d < %d", 0, pntNo, 10);
-                    OSPanic(__FILE__, 2071, "Halt");
-                }
+                JUT_RANGE_ASSERT(2071, 0, pntNo, 10);
                 bombPointTable[pntNo] = -1;
             }
             if (bombPoint == sBombPointFull - 1)
@@ -934,14 +906,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = bombPoint; pntNo < mBombPoint; pntNo++)
             {
-                bool valid = false;
-                if (pntNo >= 0 && pntNo < 10)
-                    valid = true;
-                if (!valid)
-                {
-                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 2097, "range over: %d <= pntNo=%d < %d", 0, pntNo, 10);
-                    OSPanic(__FILE__, 2097, "Halt");
-                }
+                JUT_RANGE_ASSERT(2097, 0, pntNo, 10);
                 bombPointTable[pntNo] = pnt;
             }
         }
@@ -1110,7 +1075,7 @@ void LapChecker::calc(const JGeometry::TVec3<f32> &pos)
         {
             mSectorDist = unitDist;
             mLapUnitDist = (mSectorDist * mSector->getMainSector()->getSectorDist() + mSector->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-            JUT_PANIC_F(2430, isUDValid(), "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
+            JUT_ASSERT_F(2430, isUDValid(), "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
         }
     }
 }
