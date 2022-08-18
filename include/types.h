@@ -11,6 +11,7 @@ typedef unsigned long u32;
 typedef unsigned long size_t;
 typedef unsigned long long u64;
 
+typedef unsigned short ushort;
 typedef unsigned int uint;
 
 typedef volatile u8 vu8;
@@ -28,6 +29,11 @@ typedef volatile f32 vf32;
 typedef volatile f64 vf64;
 
 typedef int BOOL;
+
+struct MTX34
+{
+    float mMtx[3][4];
+};
 
 #define nullptr 0
 #define null 0

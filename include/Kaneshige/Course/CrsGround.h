@@ -13,11 +13,20 @@ public:
     CrsGround(Course *course = nullptr);
     void reset();
     void search(JGeometry::TVec3<f32> const &);
-    u8 getAddThickness(void) const;
-    void getVelocity(JGeometry::TVec3<f32> *) const;
+    u8 getAddThickness() const;
 
-    s32 getMaterial() const;
-    s32 getAttrIndex() const;
+    void getVelocity(JGeometry::TVec3<f32> *dest) const
+    {
+        dest->set(mVelocity);
+    }
+    s32 getMaterial() const
+    {
+        return mMaterial;
+    }
+    s32 getAttrIndex() const; /*
+    {
+        return mAttrIdx;
+    }*/
     s32 getAttribute() const;
     u8 getSpiralCode() const;
     u8 getSplashCode() const;
@@ -36,8 +45,8 @@ private:
     JGeometry::TVec3<f32> mNormal;
     JGeometry::TVec3<f32> mVelocity;
     JGeometry::TVec3<f32> _0x40;
-    s32 _0x4c;
-    s32 _0x50;
+    s32 mAttribute;
+    s32 mAttrIdx;
     s32 mMaterial;
     f32 mHeight;
     f32 _0x5C;

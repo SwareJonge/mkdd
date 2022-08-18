@@ -328,7 +328,7 @@ const KartInfo::SKartDB KartInfo::cBonusKartDB = {
     2,
     4,
     0,
-    NONE,
+    cCharIDNone,
     0
 };
 
@@ -350,14 +350,7 @@ KartInfo::~KartInfo() {
 }
 
 void KartInfo::setDriver(int driverNo, ECharID charID, KartGamePad * gamePad) {
-    bool assertFlag = false;
-    if ((driverNo >= 0) && (driverNo < 2))
-        assertFlag = true;
-
-    if (!assertFlag) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "KartInfo.cpp", 632, "range over: %d <= driverNo=%d < %d", 0, driverNo, 2);
-        OSPanic("KartInfo.cpp", 632, "Halt");
-    }
+    JUT_RANGE_ASSERT(632, 0, driverNo, 2);
     kartCharacter[driverNo].reset();
     kartCharacter[driverNo].setPad(gamePad);
     kartCharacter[driverNo].setCharDB(getCharDB(charID));

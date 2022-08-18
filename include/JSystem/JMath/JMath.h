@@ -103,4 +103,21 @@ namespace JMath
     extern const TAtanTable<1024, float> atanTable_;
 }
 
+struct Vec
+{
+    f32 x;
+    f32 y;
+    f32 z;
+};
+
+namespace JMathInlineVEC
+{
+    void PSVECSubtract(const Vec *vec1, const Vec *vec2, Vec *dst); /*{
+     dst->x = vec1->x - vec2->x;
+     dst->y = vec1->y - vec2->y;
+     dst->z = vec1->z - vec2->z;
+ }*/
+
+}
+
 #endif // !JMATH_H

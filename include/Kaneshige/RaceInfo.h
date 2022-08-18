@@ -6,7 +6,8 @@
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
 
-enum ERaceMode {
+enum ERaceMode
+{
     INV_MODE = 0,
     TIME_ATTACK = 0x1,
     GRAND_PRIX = 0x2,
@@ -19,7 +20,8 @@ enum ERaceMode {
     STAFF_ROLL = 0x9,
 };
 
-enum ERaceLevel { // unsure of this
+enum ERaceLevel
+{ // unsure of this
     LVL_INV = -1,
     LVL_50CC = 0,
     LVL_100CC = 1,
@@ -27,7 +29,8 @@ enum ERaceLevel { // unsure of this
     LVL_MIRROR = 3,
 };
 
-enum ERaceGpCup {
+enum ERaceGpCup
+{
     INV_CUP = -1,
     MUSHROOM_CUP = 0,
     FLOWER_CUP = 1,
@@ -36,7 +39,8 @@ enum ERaceGpCup {
     REVERSE2_CUP = 4,
 };
 
-class RaceInfo {
+class RaceInfo
+{
 public:
     RaceInfo(); // inlined in release version, inline auto?
     ~RaceInfo();
@@ -53,11 +57,21 @@ public:
     static ECharID sAwardDebugDriver1IDTable[];
     static ECharID sAwardDebugDriver2IDTable[];
 
+    bool isLANMode()
+    {
+        return mLanMode;
+    }
+
     void reset();
 
     s32 getKartNumber() const; /*{
         return kartNum;
     }*/
+
+    KartInfo * getKartInfo(int kartNo) {
+        JUT_RANGE_ASSERT(173, 0, kartNo, 8);
+        return &kartInfo[kartNo];
+    }
 
     void setConsoleTarget(int idx, int p2, bool p3);
     void settingForWaitDemo(bool demoSettingThing);
@@ -72,7 +86,8 @@ public:
 
     void setKart(int, EKartID, ECharID, KartGamePad *, ECharID, KartGamePad *);
 
-    void setAwardKartNo(int kartNo) {
+    void setAwardKartNo(int kartNo)
+    {
         awardKartNo = kartNo;
     }
 
@@ -86,29 +101,16 @@ public:
         randomSeed = value;
     }
 
-    void setRivalKartNo(int rivalNo, int kartNo) {
-        bool valid = false;
-        if (rivalNo >= 0 && rivalNo < 2)
-            valid = true;
-        if (!valid)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 114, "range over: %d <= rivalNo=%d < %d", 0, rivalNo, 2);
-            OSPanic(__FILE__, 114, "Halt");
-        }
-        bool valid2 = false;
-        if (kartNo >= 0 && kartNo < 8)
-            valid2 = true;
-        if (!valid2)
-        {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 115, "range over: %d <= kartNo=%d < %d", 0, kartNo, 8);
-            OSPanic(__FILE__, 115, "Halt");
-        }
+    void setRivalKartNo(int rivalNo, int kartNo)
+    {
+        JUT_RANGE_ASSERT(114, 0, rivalNo, 2);
+        JUT_RANGE_ASSERT(115, 0, kartNo, 8)
         rivalKarts[rivalNo] = kartNo;
     }
 
-    private:
+//private:
     bool isTinyProcess;
-    bool isLanMode;
+    bool mLanMode;
     bool isTrueEnding;
     u32 randomSeed;
     ERaceMode raceMode;
@@ -145,6 +147,6 @@ public:
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 // unfortunately i can't enable this yet
-//RaceInfo gRaceInfo;
+// RaceInfo gRaceInfo;
 
 #endif // !RACEINFO_H

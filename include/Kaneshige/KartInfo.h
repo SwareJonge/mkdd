@@ -11,8 +11,9 @@ extern "C" {
 #include <ppcdis.h>
 }
 
-enum ECharID {
-    NONE = 0,
+enum ECharID
+{
+    cCharIDNone = 0,
     BABY_MARIO = 1,
     BABY_LUIGI = 2,
     PARATROOPA = 3,
@@ -98,6 +99,11 @@ public:
             kartGamePad = 0;
             charDB = 0;
         }
+
+        bool isComPlayer() const {
+            return kartGamePad == nullptr;
+        }
+
         void setPad(KartGamePad * gamepad);
         void setCharDB(const SCharDB  * sCharDB) {
             charDB = sCharDB;
@@ -105,12 +111,12 @@ public:
         ECharID getCharID() const {
             if (charDB != 0)
                 return (ECharID)charDB->id;
-            return NONE;
+            return cCharIDNone;
         }
         ECharID getPartnerID() const {
             if (charDB != 0)
                 return (ECharID)charDB->defaultPartnerID;
-            return NONE;
+            return cCharIDNone;
         }
         bool isAvailable() const;
         static s32 convPlayerKind(KartGamePad *);
@@ -134,7 +140,19 @@ public:
     static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
-    KartGamePad* getPad(int IDX); // INLINE
+    KartGamePad* getPad(int driverNo) {
+        JUT_RANGE_ASSERT(126, 0, driverNo, 2);
+        return kartCharacter[driverNo].kartGamePad; // probably inline
+    }
+
+    bool isComDriver(int driverNo) const {
+        JUT_RANGE_ASSERT(113, 0, driverNo, 2);
+        return kartCharacter[driverNo].isComPlayer();
+    }
+
+    bool isComKart() const {
+        return isComDriver(0);
+    }
 
     void setKartID(EKartID kartID) {
         kartDB = getKartDB(kartID);

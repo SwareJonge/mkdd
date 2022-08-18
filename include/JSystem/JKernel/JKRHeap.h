@@ -10,21 +10,21 @@ public:
 
     virtual ~JKRHeap();
     virtual void callAllDisposer();
-    virtual s32 getHeapType() = 0;
-    virtual void check() = 0;
+    virtual s32 getHeapType();
+    virtual void check();
     virtual s32 dump_sort();
-    virtual JKRHeap* dump() = 0;
-    virtual void do_destroy() = 0;
-    virtual void* do_alloc(u32, s32) = 0;
-    virtual void do_free(void *) = 0;
-    virtual void do_freeAll() = 0;
-    virtual void do_freeTail() = 0;
-    virtual void do_fillFreeArea() = 0;
-    virtual s32 do_resize(void *, u32) = 0;
-    virtual s32 do_getSize(void *) = 0;
-    virtual s32 do_getFreeSize() = 0;
-    virtual s32 do_getMaxFreeBlock() = 0;
-    virtual s32 do_getTotalFreeSize() = 0;
+    virtual JKRHeap* dump();
+    virtual void do_destroy();
+    virtual void* do_alloc(u32, s32);
+    virtual void do_free(void *);
+    virtual void do_freeAll();
+    virtual void do_freeTail();
+    virtual void do_fillFreeArea();
+    virtual s32 do_resize(void *, u32);
+    virtual s32 do_getSize(void *);
+    virtual s32 do_getFreeSize();
+    virtual s32 do_getMaxFreeBlock();
+    virtual s32 do_getTotalFreeSize();
 
     u32 initArena(char **, u32 *, s32);
     JKRHeap* becomeSystemHeap();
