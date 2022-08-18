@@ -678,9 +678,9 @@ void KartChecker::setForceGoal()
     {
         distToGoal = -distToGoal;
     }
-    if (distToGoal < 1.0E6f)
+    if (distToGoal < 1E-6f)
     {
-        distToGoal = 3.3333333E6f;
+        distToGoal = 3.3333333E-6f;
     }
 
     RaceTime forcedTime;
