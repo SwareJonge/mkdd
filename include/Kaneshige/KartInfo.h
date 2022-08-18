@@ -211,7 +211,4 @@ private:
     s32 kartType; // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
 };
 
-char lbl_80377338[] : 0x80377338;
-//void order_strings_80377338();
-
 #endif // !KARTINFO_H

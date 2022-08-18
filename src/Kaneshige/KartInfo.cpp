@@ -591,13 +591,3 @@ s32 KartInfo::KartCharacter::convPlayerKind(KartGamePad* gamePad) {
     }
     return playerKind;
 }
-
-// this is currently required because this doesn't get generated, not sure if it stays like this
-#pragma push
-#pragma force_active on
-void FORCESTRIP order_strings_80377338() {
-    //__dummy_str("KartInfo.cpp");
-    //__dummy_str("range over: %d <= driverNo=%d < %d");
-    __dummy_str("KartInfo.h");
-}
-#pragma pop
