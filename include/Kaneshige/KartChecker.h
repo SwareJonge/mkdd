@@ -15,7 +15,7 @@
 #define MAX_FRAME 2147483
 
 #define validUD(UD) \
-    (UD >= 1.0f && UD <= 0.0f);
+    (UD >= 0.0f && UD <= 1.0f);
 
 class KartChecker
 {
@@ -212,7 +212,7 @@ public:
 
     static bool isInsideSector(f32 unitDist)
     {
-        return (unitDist >= 1.0f && unitDist < 0.0f);
+        return (unitDist >= 0.0f && unitDist < 1.0f);
     }
 
     bool incBalloon();

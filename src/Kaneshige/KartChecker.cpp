@@ -56,7 +56,7 @@ void KartChkUsrPage::draw()
     if (mKartChecker->sector2)
     {
         JUTReport(280, 90, "CUR  %08d:%f:%d", mKartChecker->sector2->getGeneration(),
-                  mKartChecker->sectorProgression, mKartChecker->sector2->isMainSector());
+                  mKartChecker->sectorProgression, (u8)mKartChecker->sector2->isMainSector());
     }
 
     JUTReport(280, 110, "U/T  %f", mKartChecker->lapProgression);
@@ -371,7 +371,7 @@ Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3
 // https://decomp.me/scratch/BQ18K
 void KartChecker::checkKart()
 {
-    mPos.set(mPos);
+    mPrevPos.set(mPos);
     KartCtrl::getKartCtrl()->GetBodyPos(mTargetKartNo, &mPos);
 
     if (tstLapChecking())
