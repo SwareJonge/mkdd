@@ -119,6 +119,7 @@ global:
  # Result2D.cpp
  0x80149534: getKartInfo__7RaceMgrFi
  0x8014972c: getPad__8KartInfoFi
+ 0x801497d4: getKartInfo__8RaceInfoFi
  0x80149bd4: getRaceMode__7RaceMgrCFv
 
  # SequenceInfo.cpp
@@ -150,6 +151,7 @@ global:
 
  0x8019d628: getBaseTRMtx__7ExModelFv
 
+ 0x8019e26c: calcGeneration__Q26Course6SectorFPQ26Course6Sector
  0x8019e2b8: getPrevSector__Q26Course6SectorFi
  0x8019e350: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
 
@@ -520,6 +522,9 @@ global:
 
  # ItemObjMgr.cpp
  0x80241928: getRobberyItemNum__10ItemObjMgrFiUc
+
+ # kartCtrl.cpp
+ 0x802e1968: getDriverPad__11KartCheckerCFi
 
  # kartCtrlInfo.cpp
  0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>

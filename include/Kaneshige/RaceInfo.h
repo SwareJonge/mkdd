@@ -68,6 +68,11 @@ public:
         return kartNum;
     }*/
 
+    KartInfo * getKartInfo(int kartNo) {
+        JUT_RANGE_ASSERT(173, 0, kartNo, 8);
+        return &kartInfo[kartNo];
+    }
+
     void setConsoleTarget(int idx, int p2, bool p3);
     void settingForWaitDemo(bool demoSettingThing);
     void settingForAwardDemo();
@@ -103,7 +108,7 @@ public:
         rivalKarts[rivalNo] = kartNo;
     }
 
-private:
+//private:
     bool isTinyProcess;
     bool mLanMode;
     bool isTrueEnding;

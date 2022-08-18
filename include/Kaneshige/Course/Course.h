@@ -15,8 +15,8 @@ public:
     public:
         int isMainSector() const;
         int getGeneration() const;
-        Sector *getPrevSector(int);
         float calcUnitDist(JGeometry::TVec3<float> const &);
+        void calcGeneration(Sector * sector);
 
         bool isDiv() const
         {
@@ -48,19 +48,15 @@ public:
             return mPrevNum;
         }
 
-        Sector *getNextSector(int no); /*{
-           bool valid = false;
-           if(no >= 0 && no < 4)
-               valid = true;
+        Sector * getPrevSector(int no) {
+            JUT_RANGE_ASSERT(100, 0, no, 4);
+            return mPrevSectors[no];
+        }
 
-           if(!valid) {
-               JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 105, "range over: %d <= no=%d < %d", 0, no, 4);
-               OSPanic(__FILE__, 105, "Halt");
-           }
-
-
+        Sector *getNextSector(int no) {
+           JUT_RANGE_ASSERT(105, 0, no, 4);
            return mNextSectors[no];
-       }*/
+       }
 
         Sector *getMainSector()
         {

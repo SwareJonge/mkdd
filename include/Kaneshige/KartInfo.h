@@ -140,7 +140,10 @@ public:
     static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
-    KartGamePad* getPad(int IDX); // INLINE
+    KartGamePad* getPad(int driverNo) {
+        JUT_RANGE_ASSERT(126, 0, driverNo, 2);
+        return kartCharacter[driverNo].kartGamePad; // probably inline
+    }
 
     bool isComDriver(int driverNo) const {
         JUT_RANGE_ASSERT(113, 0, driverNo, 2);

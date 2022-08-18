@@ -10,7 +10,6 @@
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
-#include "Kaneshige/SysDebug.h"
 #include "Sato/ItemObj.h"
 
 #define MAX_FRAME 2147483
@@ -79,11 +78,6 @@ public:
         return (cpBitfields[index] & (1 << bitIndex)) != false;
     }
 
-    const RaceTime &getLapTime(int no)
-    {
-        JUT_RANGE_ASSERT(206, 0, no, mMaxLap);
-        return mLapTimes[no];
-    }
     bool isPassAll(int sectorCnt);
 
     bool isRabbitWinner() const
@@ -100,6 +94,17 @@ public:
         {
             JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, cpBitfields[i]);
         }
+    }
+
+        const RaceTime &getLapTime(int no)
+    {
+        JUT_RANGE_ASSERT(206, 0, no, mMaxLap);
+        return mLapTimes[no];
+    }
+
+    KartGamePad * getDriverPad(int driverNo) const {
+        JUT_RANGE_ASSERT(220, 0, driverNo, 2);
+        return mKartGamePads[driverNo];
     }
 
     void setGoal()
@@ -319,17 +324,6 @@ public:
     // these only get set in the constructor?
     JGeometry::TVec3<f32> _0xb0;
     s32 _0xbc;
-};
-
-class KartChkUsrPage : public SysDbUsrPage
-{
-public:
-    KartChkUsrPage(KartChecker *kartChecker);
-    virtual ~KartChkUsrPage(){};
-    virtual void draw();
-
-private:
-    KartChecker *mKartChecker;
 };
 
 class LapChecker

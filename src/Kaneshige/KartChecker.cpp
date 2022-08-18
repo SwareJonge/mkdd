@@ -1,4 +1,4 @@
-#include "Kaneshige/KartChecker.h"
+
 #include "Inagaki/GameAudioMain.h"
 #include "Kaneshige/JugemPoint.h"
 #include "Kaneshige/Course/Course.h"
@@ -12,6 +12,9 @@
 #include "Osako/kartPad.h"
 #include "Sato/ItemObjMgr.h"
 #include "Yamamoto/kartCtrl.h"
+
+#include "Kaneshige/KartChkUsrPage.h"
+#include "Kaneshige/KartChecker.h"
 
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push

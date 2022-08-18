@@ -56,7 +56,10 @@ public:
        return course;
    */
 
-    KartInfo * getKartInfo(int index);
+    KartInfo * getKartInfo(int index) {
+        JUT_RANGE_ASSERT(170, 0, index, 170);
+        return &raceInfo->kartInfo[index];
+    }
 
     KartLoader * getKartLoader(int index) const {
         JUT_RANGE_ASSERT(257, 0, index, 8);
@@ -95,7 +98,7 @@ private:
     s16 replayMode;
     s16 totalLapNumber;
     s32 _0x30;
-    bool _0x31;
+    bool _0x31; // this is 0x35 i'm dum
     RaceInfo *raceInfo;
     void *raceBGMPlayer;
     Console *console;
