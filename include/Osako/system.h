@@ -6,6 +6,12 @@
 
 #include "types.h"
 
+class JFWDisplay;
+class JKRTask;
+class J2DOrthoGraph;
+class J2DPrint;
+
+// Make this a class?
 namespace System {
     void startAudioTask(void* p1);
     void init();
@@ -17,18 +23,17 @@ namespace System {
     void haltRumble();
     void run();
 
-    /*JFWDisplay * mspDisplay;
-    JKRHeap * mspAppHeap;
-    int msDvdState;
-    int msRenderMode;
-    JKRTask * mspSendTask;
-    JKRTask * mspRecvTask;
-    JKRTask * mspAramTask;
-    JKRTask * mspLoTask;
-    J2DPrint * mspJ2DPrint;
-    J2DOrthoGraph * mspJ2DOrtho;
-    JKRHeap * mspAudioHeap;*/
-
+    extern JFWDisplay * mspDisplay;
+    extern JKRHeap * mspAppHeap;
+    extern int msDvdState;
+    extern int msRenderMode;
+    extern JKRTask * mspSendTask;
+    extern JKRTask * mspRecvTask;
+    extern JKRTask * mspAramTask;
+    extern JKRTask * mspLoTask;
+    extern J2DPrint * mspJ2DPrint;
+    extern J2DOrthoGraph * mspJ2DOrtho;
+    extern JKRHeap * mspAudioHeap;
 }
 
 #endif

@@ -24,6 +24,12 @@ Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
     .data: [0x80393760, 0x803937b8]
 
+Kameda/Scene.cpp:
+    .text: [0x8013c1e8, 0x8013c2b8]
+    .rodata: [0x8036da48, 0x8036da58]
+    .data: [0x80394b70, 0x80394b88]
+    .sdata2: [0x80418e78, 0x80418e90]
+
 Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a8f54]
     .rodata: [0x803770f8, 0x80377378]    

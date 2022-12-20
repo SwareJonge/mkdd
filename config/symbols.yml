@@ -450,6 +450,11 @@ global:
 
  0x801b3584: __dt__12SysDbUsrPageFv 
 
+ # Scene.cpp
+ 0x8013c1e8: __ct__5SceneFP10JKRArchiveP7JKRHeap
+ 0x8013c270: __dt__5SceneFv
+ 0x80394b70: __vt__5Scene
+
  # GeoItemCar.cpp
  0x801c2850: scale__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f> 
 
@@ -468,6 +473,19 @@ global:
 
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
+
+# system.cpp
+ 0x80416968: mspDisplay__6System
+ 0x8041696c: mspAppHeap__6System
+ 0x80416970: msDvdState__6System
+ 0x80416974: msRenderMode__6System
+ 0x80416978: mspSendTask__6System
+ 0x8041697c: mspRecvTask__6System
+ 0x80416980: mspAramTask__6System
+ 0x80416984: mspLoTask__6System
+ 0x80416988: mspJ2DPrint__6System
+ 0x8041698c: mspJ2DOrtho__6System
+ 0x80416990: mspAudioHeap__6System
 
 # systemData.cpp
  0x80205c2c: __sinit_systemData_cpp
