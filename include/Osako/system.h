@@ -3,6 +3,7 @@
 
 #include "Dolphin/OS.h"
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JKernel/JKRAssertHeap.h"
 
 #include "types.h"
 
@@ -24,7 +25,7 @@ namespace System {
     void run();
 
     extern JFWDisplay * mspDisplay;
-    extern JKRHeap * mspAppHeap;
+    extern JKRAssertHeap *mspAppHeap;
     extern int msDvdState;
     extern int msRenderMode;
     extern JKRTask * mspSendTask;
@@ -33,7 +34,7 @@ namespace System {
     extern JKRTask * mspLoTask;
     extern J2DPrint * mspJ2DPrint;
     extern J2DOrthoGraph * mspJ2DOrtho;
-    extern JKRHeap * mspAudioHeap;
+    extern JKRHeap * mspAudioHeap; // JKRSolidHeap
 }
 
 #endif

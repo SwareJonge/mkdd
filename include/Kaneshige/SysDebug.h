@@ -16,10 +16,12 @@ private:
 class SysDebug
 {
 public:
-    static SysDebug *getManager(); /* {
+    static SysDebug *getManager() {
         return sManager;
-    }*/
+    }
     int appendPage(SysDbUsrPage *);
+    void createHeapInfo(JKRHeap *, char *);
+    void destroyHeapInfo(JKRHeap *);
 
 private:
     static SysDebug *sManager;

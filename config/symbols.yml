@@ -69,7 +69,14 @@ global:
  0x80078f98: remove__10JSUPtrListFP10JSUPtrLink
  0x80079048: getNthLink__10JSUPtrListCFUl
 
+ # JKRExpHeap.cpp
+ 0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
+ 0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
+
  # JKRHeap.cpp
+ 0x800840f8: becomeSystemHeap__7JKRHeapFv 
+ 0x80084108: becomeCurrentHeap__7JKRHeapFv
+ 0x80084118: destroy__7JKRHeapFv
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
  0x80084eb8: __nw__FUlP7JKRHeapi
@@ -78,6 +85,9 @@ global:
  0x800850c0: __nwa__FUlP7JKRHeapi
  0x800851ac: __dl__FPv
  0x800851d0: __dla__FPv
+
+ # JKRAssertHeap.cpp
+ 0x800872ac: create__13JKRAssertHeapFP7JKRHeap
 
  # JASHeapCtrl.cpp
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
@@ -445,10 +455,15 @@ global:
  0x804163d4: sAwardDebugCup__8RaceInfo
 
  # SysDebug.cpp
+ 0x801b2834: createHeapInfo__8SysDebugFP7JKRHeapPc
+ 0x801b2900: destroyHeapInfo__8SysDebugFP7JKRHeap 
+
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
  0x801b34c0: __ct__12SysDbUsrPageFv
 
  0x801b3584: __dt__12SysDbUsrPageFv 
+
+ 0x804163b0: sManager__8SysDebug
 
  # Scene.cpp
  0x8013c1e8: __ct__5SceneFP10JKRArchiveP7JKRHeap
@@ -511,6 +526,16 @@ global:
  0x8041b760: scSystemHeapSize__10SystemData
  0x8041b764: scAudioHeapSize__10SystemData
  0x8041b768: scAudioAramSize__10SystemData
+
+ # GameApp.cpp
+ 0x801f74dc: __ct__7GameAppFUlPCcPv
+ 0x801f7580: __dt__7GameAppFv
+ 0x801f75ec: draw__7GameAppFv
+ 0x801f75f0: calc__7GameAppFv
+ 0x8013c5d0: reset__7GameAppFv 
+ 0x801d7a88: getHeap__7GameAppFv
+
+ 0x8039c460: __vt__7GameApp
 
  # main.cpp
  0x801f75f4: main

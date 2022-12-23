@@ -56,6 +56,10 @@ Kaneshige/RaceInfo.cpp:
 Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
+Osako/GameApp.cpp:
+    .text: [0x801f74dc, 0x801f75f4]
+    .data: [0x8039c460, 0x8039c478]
+
 Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
 
