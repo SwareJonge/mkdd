@@ -15,14 +15,7 @@ class SequenceInfo {
     void rndDemo(u32);
     void getDemoKart(int no, ECharID &charID1, ECharID &charID2, EKartID &kartID)
     {
-        bool valid = false;
-        if (no >= 0 && (no < 8))
-            valid = true;
-
-        if (!valid) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 413, "range over: %d <= no=%d < %d", 0, no, 8);
-            OSPanic(__FILE__, 413, "Halt");
-        }
+        JUT_RANGE_ASSERT(413, 0, no, 8);
 
         charID1 = mDemoKart[no].char1;
         charID2 = mDemoKart[no].char2;

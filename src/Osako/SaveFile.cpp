@@ -29,21 +29,11 @@ void SaveFile::makeCRCTable()
 u32 SaveFile::getCRC(u8 *pBegin, u8 *pEndNext)
 {
     u32 crc = -1;
-    if (!pBegin)
-    {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 59, "%s", "pBegin");
-        OSPanic(__FILE__, 59, "Halt");
-    }
-    if (!pEndNext)
-    {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 60, "%s", "pEndNext");
-        OSPanic(__FILE__, 60, "Halt");
-    }
-    if (pBegin >= pEndNext)
-    {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, 61, "%s", "pBegin < pEndNext");
-        OSPanic(__FILE__, 61, "Halt");
-    }
+
+    JUT_VALIDATE(59, pBegin);
+    JUT_VALIDATE(60, pEndNext);
+    JUT_VALIDATE(61, pBegin < pEndNext);
+    
     if (!msCRCTableComputed)
     {
         makeCRCTable();

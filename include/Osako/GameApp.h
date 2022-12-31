@@ -13,7 +13,8 @@ public:
     virtual void calc() { return; };
     virtual void reset() { return; };
 
-    JKRHeap * getHeap() { return mHeap;
+    JKRHeap * getHeap() { 
+        return mHeap;
     }
 
 private:

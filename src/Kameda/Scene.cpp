@@ -3,9 +3,9 @@
 #include "JSystem/JUtility/JUTAssert.h"
 
 Scene::Scene(JKRArchive * archive, JKRHeap* heap) {
-    JUT_ASSERT_F(27, heap, "%s", "heap"); // There probably is a different type of assert for this, however if it works it works
+    JUT_VALIDATE(27, heap);
     mArchive = archive;
-    mOrtho = System::mspJ2DOrtho;
+    mOrtho = System::getJ2DOrtho();
 }
 
 Scene::~Scene() { }
