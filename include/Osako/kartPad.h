@@ -53,23 +53,29 @@ private:
     PadState mPadState;
 };
 
-extern KartGamePad gGamePad1P;
+extern KartGamePad gGamePad1P[20];
 extern KartGamePad gGamePad2P;
 extern KartGamePad gGamePad3P;
 extern KartGamePad gGamePad4P;
-extern KartGamePad gGamePad5P;
-extern KartGamePad gGamePad6P;
-extern KartGamePad gGamePad7P;
-extern KartGamePad gGamePad8P;
-extern KartGamePad gGamePad9P;
-extern KartGamePad gGamePad10P;
-extern KartGamePad gGamePad11P;
-extern KartGamePad gGamePad12P;
-extern KartGamePad gGamePad13P;
-extern KartGamePad gGamePad14P;
-extern KartGamePad gGamePad15P;
-extern KartGamePad gGamePad16P;
 
-extern KartGamePad * gpaGamePad[16];
+extern KartGamePad gKartPad1P;
+extern KartGamePad gKartPad2P;
+extern KartGamePad gKartPad3P;
+extern KartGamePad gKartPad4P;
+extern KartGamePad gKartPad5P;
+extern KartGamePad gKartPad6P;
+extern KartGamePad gKartPad7P;
+extern KartGamePad gKartPad8P;
+extern KartGamePad gKartPad9P;
+extern KartGamePad gKartPad10P;
+extern KartGamePad gKartPad11P;
+extern KartGamePad gKartPad12P;
+extern KartGamePad gKartPad13P;
+extern KartGamePad gKartPad14P;
+extern KartGamePad gKartPad15P;
+extern KartGamePad gKartPad16P;
+
+extern KartGamePad * gpaGamePad[4];
+extern KartGamePad * gpaKartPad[16];
 
 #endif KARTPAD_H

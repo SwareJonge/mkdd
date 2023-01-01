@@ -31,7 +31,7 @@ void TestApp::draw() {
 }
 
 void TestApp::calc() {
-    if (gGamePad1P.testTrigger(0x200)) {
+    if (gGamePad1P[0].testTrigger(0x200)) {
         AppMgr::msRequest |= 1;
         MainMenuApp::call();
     }
