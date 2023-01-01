@@ -2,15 +2,16 @@
 #define SYSTEM_H
 
 #include "Dolphin/OS.h"
+#include "JSystem/J2D/J2DGrafContext.h"
+#include "JSystem/J2D/J2DPrint.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
+
 
 #include "types.h"
 
 class JFWDisplay;
 class JKRTask;
-class J2DOrthoGraph;
-class J2DPrint;
 
 class System {
     static JFWDisplay *mspDisplay;
@@ -33,10 +34,13 @@ public:
     static void changeNormalRenderMode();
     static void callbackException(u16, OSContext, u32, u32);
     static void haltRumble();
-    static void run();
+    static void run();    
     static JKRAssertHeap *getAppHeap() {
         return mspAppHeap;
     }
+    static J2DPrint *getJ2DPrint() {
+        return mspJ2DPrint;
+    } 
     static J2DOrthoGraph *getJ2DOrtho() {
         return mspJ2DOrtho;
     }

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "JSystem/JUtility/JUTGamePad.h"
 
-class KartGamePad : JUTGamePad
+class KartGamePad : public JUTGamePad
 {
 public:
     // placeholder Enums
@@ -52,5 +52,24 @@ private:
     PadPort mPadPort;
     PadState mPadState;
 };
+
+extern KartGamePad gGamePad1P;
+extern KartGamePad gGamePad2P;
+extern KartGamePad gGamePad3P;
+extern KartGamePad gGamePad4P;
+extern KartGamePad gGamePad5P;
+extern KartGamePad gGamePad6P;
+extern KartGamePad gGamePad7P;
+extern KartGamePad gGamePad8P;
+extern KartGamePad gGamePad9P;
+extern KartGamePad gGamePad10P;
+extern KartGamePad gGamePad11P;
+extern KartGamePad gGamePad12P;
+extern KartGamePad gGamePad13P;
+extern KartGamePad gGamePad14P;
+extern KartGamePad gGamePad15P;
+extern KartGamePad gGamePad16P;
+
+extern KartGamePad * gpaGamePad[16];
 
 #endif KARTPAD_H

@@ -24,6 +24,8 @@ extern "C" {
 
 #define LONG_TAU 6.2831854820251465
 
+double asin(double);
+
 double cos(double);
 float cosf(float);
 double sin(double);

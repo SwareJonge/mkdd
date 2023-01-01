@@ -2,9 +2,6 @@
 #include "types.h"
 
 namespace JMath {
-    const TSinCosTable<2048, float> sincosTable_;
-    const TAtanTable<1024, float> atanTable_;
-
     float JMath::TAtanTable<1024, float>::atan2_(float param_1, float param_2) const
     {
         // const register float zero = 0.0f;
@@ -118,4 +115,8 @@ namespace JMath {
         // return fVar1;
         return result;
     }
+    const TSinCosTable<2048, float> sincosTable_ = TSinCosTable<2048, float>();
+    const TAtanTable<1024, float> atanTable_ = TAtanTable<1024, float>();
+    const TAsinAcosTable<1024, float> asinAcosTable_ = TAsinAcosTable<1024, float>();
 }
+    

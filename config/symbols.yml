@@ -30,9 +30,19 @@ global:
  0x804156e8: msVideoMode__10KartLocale
  0x804156ec: msVideoFrameMode__10KartLocale
 
+ # J2DOrthoGraph.cpp
+ 0x80043d68: setPort__13J2DOrthoGraphFv
+
+ 0x80389d00: __vt__13J2DOrthoGraph
+
+ # J2DPrint
+ 0x8004b024: initiate__8J2DPrintFv
+
+ 0x8004b43c: print__8J2DPrintFffPCce
+ 0x80389fe0: __vt__8J2DPrint
+
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
-
  0x800693d0: atan2___Q25JMath18TAtanTable<1024,f>CFff
  0x80069628: __sinit_JMATrigonometric_cpp
  0x800697e8: __ct__Q23std9pair<f,f>Fv
@@ -120,6 +130,15 @@ global:
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
 
+ # math.h
+ 0x80112040: atan
+ 0x801123c4: cos
+ 0x80112498: floor
+ 0x8011292c: sin
+ 0x80112a04: tan
+ 0x80112a7c: asin
+ 0x80112a9c: atan2
+
  # EngineSound.cpp
  0x80118cac: getEngineType__11EngineSoundF7EKartID 
 
@@ -131,6 +150,8 @@ global:
  0x8014972c: getPad__8KartInfoFi
  0x801497d4: getKartInfo__8RaceInfoFi
  0x80149bd4: getRaceMode__7RaceMgrCFv
+
+ 0x80149be8: getJ2DOrtho__6SystemFv
 
  # SequenceInfo.cpp
  0x801528e8: rndDemo__12SequenceInfoFUl
@@ -410,6 +431,9 @@ global:
  # RaceMgr.cpp
  0x801aff04: getRaceMode__8RaceInfoCFv
 
+ 0x801b059c: testButton__10JUTGamePadCFUl
+ 0x801b0bd8: testTrigger__10JUTGamePadCFUl
+
  # CrsArea.cpp
  0x801b35f8: __ct__7CrsAreaFv
  0x801b366c: search__7CrsAreaFUcRCQ29JGeometry8TVec3<f>
@@ -489,20 +513,30 @@ global:
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 
-# system.cpp
- 0x80416968: mspDisplay__6System
- 0x8041696c: mspAppHeap__6System
- 0x80416970: msDvdState__6System
- 0x80416974: msRenderMode__6System
- 0x80416978: mspSendTask__6System
- 0x8041697c: mspRecvTask__6System
- 0x80416980: mspAramTask__6System
- 0x80416984: mspLoTask__6System
- 0x80416988: mspJ2DPrint__6System
- 0x8041698c: mspJ2DOrtho__6System
- 0x80416990: mspAudioHeap__6System
+ 0x801d7a80: getAppHeap__6SystemF
+ 0x801d7a88: getHeap__7GameAppFv
 
-# systemData.cpp
+ # AppMgr.cpp
+ 0x80200a28: draw__6AppMgrFv
+ 0x80200a80: calc__6AppMgrFv
+ 0x80200c90: setNextApp__6AppMgrFQ26AppMgr11KartAppEnum
+ 0x80200cd4: insertErrorViewApp__6AppMgrFv
+ 0x80200d08: createApp__6AppMgrFQ26AppMgr11KartAppEnum
+ 0x80200db4: restartApp__6AppMgrFv
+ 0x80200fb0: isRestartable__6AppMgrFv
+ 0x80201028: __sinit_AppMgr_cpp 
+
+ 0x80416998: msGameApp__6AppMgr
+ 0x8041699c: msNextGameApp__6AppMgr
+ 0x804169a0: msNextNextGameApp__6AppMgr
+ 0x804169a4: msPrevGameApp__6AppMgr
+ 0x804169a8: mspGameApp__6AppMgr
+ 0x804169ac: msRequest__6AppMgr
+ 0x804169b0: msDrawStallFrame__6AppMgr
+ 0x804169b1: msCalcStallFrame__6AppMgr
+ 0x804169b2: msChangeStallFrame__6AppMgr
+
+ # systemData.cpp
  0x80205c2c: __sinit_systemData_cpp
  0x8037d938: sc3DViewPort__10SystemData
  0x8037d948: sc3DScissor__10SystemData
@@ -527,6 +561,16 @@ global:
  0x8041b764: scAudioHeapSize__10SystemData
  0x8041b768: scAudioAramSize__10SystemData
 
+ # TestApp.cpp
+ 0x801f6fc0: create__7TestAppFv
+ 0x801f7010: __ct__7TestAppFv
+ 0x801f7058: __dt__7TestAppFv
+ 0x801f70b8: draw__7TestAppFv
+ 0x801f7114: calc__7TestAppFv
+
+ 0x8039c400: __vt__7TestApp
+ 0x804168d8: mspTestApp__7TestApp
+ 
  # GameApp.cpp
  0x801f74dc: __ct__7GameAppFUlPCcPv
  0x801f7580: __dt__7GameAppFv
@@ -537,20 +581,44 @@ global:
 
  0x8039c460: __vt__7GameApp
 
+ # MainMenuApp
+ 0x801f7668: call__11MainMenuAppFv 
+
  # main.cpp
  0x801f75f4: main
  
  # system.cpp
  0x801feba0: init__6SystemFv
  0x801ff334: run__6SystemFv
+ 0x80416968: mspDisplay__6System
+ 0x8041696c: mspAppHeap__6System
+ 0x80416970: msDvdState__6System
+ 0x80416974: msRenderMode__6System
+ 0x80416978: mspSendTask__6System
+ 0x8041697c: mspRecvTask__6System
+ 0x80416980: mspAramTask__6System
+ 0x80416984: mspLoTask__6System
+ 0x80416988: mspJ2DPrint__6System
+ 0x8041698c: mspJ2DOrtho__6System
+ 0x80416990: mspAudioHeap__6System
 
  # SequenceInfo.cpp
  0x803fba80: gSequenceInfo
+
+ # kartpad.cpp
+ 0x801fff8c: compress__11KartGamePadFRC9PADStatusP11KartPadData
+ 0x80200110: compress__11KartGamePadFRC10LGPositionP11KartPadData
+ 0x80200328: expand__11KartGamePadFRC11KartPadData
 
  # SaveFile.cpp
  0x8020c230: getCRC__8SaveFileFPUcPUc
  0x80407334: msaCRCTable__8SaveFile
  0x80416a48: msCRCTableComputed__8SaveFile
+ 0x802004b4: __sinit_kartPad_cpp
+
+ 0x8039caf8: gpaGamePad
+ 0x8039cb08: gpaKartPad
+ 0x803fef60: gGamePad1P
 
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv

@@ -17,7 +17,8 @@ Dolphin/__ppc_eabi_init.s:
 
 #JSystem/JMath/JMATrigonometric.cpp:
     #.text: [0x800693d0, 0x800697f8]
-    #.bss: [0x803f2540, 0x803fa5c0]
+    #.ctors: [0x803160c4, 0x803160c8]
+    #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
     #.sdata2: [0x80417798, 0x804177e0]
 
 Bando/EngineSound.cpp:
@@ -56,6 +57,12 @@ Kaneshige/RaceInfo.cpp:
 Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
+Osako/testApp.cpp:
+    .text: [0x801f6fc0, 0x801f7154]
+    .data: [0x8039c400, 0x8039c418]
+    .sbss: [0x804168d8, 0x804168e0]
+    .sdata2: [0x8041aee0, 0x8041aef0]
+
 Osako/GameApp.cpp:
     .text: [0x801f74dc, 0x801f75f4]
     .data: [0x8039c460, 0x8039c478]
@@ -71,7 +78,7 @@ Osako/systemData.cpp:
     .sbss: [0x80416a00, 0x80416a10]
     .sdata2: [0x8041b758, 0x8041b778]
 
-#Osako/SaveFile.cpp:
+#Osako/SaveFile.cpp: due to bss shit this doesn't compile properly
     #.text: [0x8020c230, 0x8020c3ac]
     #.rodata: [0x8037e060, 0x8037e090]
     #.bss: [0x80407334, 0x80407740]

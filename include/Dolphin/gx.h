@@ -1,6 +1,17 @@
 #ifndef GX_H
 #define GX_H
 
+typedef struct _GXColor
+{
+    u8 r, g, b, a;
+} GXColor;
+
+typedef struct _SDK_GXColorS10
+{
+    s16 r, g, b, a;
+} GXColorS10;
+typedef GXColorS10 _GXColorS10;
+
 typedef struct _GXRenderModeObj
 {
     s32 tvMode;

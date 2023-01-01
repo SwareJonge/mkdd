@@ -18,7 +18,7 @@ namespace JMath
     template <>
     struct TAtanTable<1024, float>
     {
-        TAtanTable()
+        inline TAtanTable()
         {
             u32 i = 0;
             do
@@ -28,6 +28,30 @@ namespace JMath
         }
         float atan2_(float, float) const;
         float atan_(float) const;
+        float m_table[1024];
+    };
+
+    template <int length, typename T>
+    struct TAsinAcosTable
+    {
+        T acos2_(T, T) const;
+        T acos_(T) const;
+        T m_table[length];
+    };
+
+    template <>
+    struct TAsinAcosTable<1024, float>
+    {
+        inline TAsinAcosTable()
+        {
+            u32 i = 0;
+            do
+            {
+                m_table[i] = asin((double)i * 9.765625E-4);
+            } while (i < 1024);
+        }
+        float acos2_(float, float) const;
+        float acos_(float) const;
         float m_table[1024];
     };
 
@@ -101,7 +125,12 @@ namespace JMath
 
     extern const TSinCosTable<2048, float> sincosTable_;
     extern const TAtanTable<1024, float> atanTable_;
+    extern const TAsinAcosTable<1024, float> asinAcosTable_;
+
+    inline const TSinCosTable<2048, float> *getSinCosTable() { return &sincosTable_; }
 }
+
+
 
 struct Vec
 {

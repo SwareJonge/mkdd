@@ -67,6 +67,14 @@ public:
     void setButtonRepeat(u32, u32, u32);
     void update();
 
+    bool testButton(u32 mask) {
+        return mButtons.mInput & mask;
+    }
+
+    bool testTrigger(u32 mask) {
+        return mButtons.mFrameInput & mask;
+    }
+
     class CButton
     {
     public:
