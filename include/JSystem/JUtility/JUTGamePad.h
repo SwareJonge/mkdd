@@ -60,7 +60,7 @@ public:
     void assign();
     void checkResetSwitch();
     void clearForReset();
-    void init();
+    static void init();
     void initList();
     void read();
     bool recalibrate(u32);

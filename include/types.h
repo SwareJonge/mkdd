@@ -35,6 +35,8 @@ struct MTX34
     float mMtx[3][4];
 };
 
+typedef int unknown;
+
 #define nullptr 0
 #define null 0
 

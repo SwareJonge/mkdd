@@ -8,6 +8,7 @@
 class JUTAssertion
 {
 public:
+  static void create();
   static u32 getSDevice(void);
   static void showAssert_f(u32 device, char const *file, int line, char const *errormsg, ...);
   static void showAssert(u32 device, char const *file, int line, char const *errormsg); /* {

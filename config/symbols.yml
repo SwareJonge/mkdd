@@ -30,6 +30,29 @@ global:
  0x804156e8: msVideoMode__10KartLocale
  0x804156ec: msVideoFrameMode__10KartLocale
 
+ # JFWSystem.cpp
+ 0x800157b8: init__9JFWSystemFv
+ 0x80413f98: maxStdHeaps__Q29JFWSystem11CSetUpParam
+ 0x80413f9c: sysHeapSize__Q29JFWSystem11CSetUpParam
+ 0x80413fa0: fifoBufSize__Q29JFWSystem11CSetUpParam
+ 0x80413fa4: aramAudioBufSize__Q29JFWSystem11CSetUpParam
+ 0x80413fa8: aramGraphBufSize__Q29JFWSystem11CSetUpParam
+ 0x80413fac: streamPriority__Q29JFWSystem11CSetUpParam
+ 0x80413fb0: decompPriority__Q29JFWSystem11CSetUpParam
+ 0x80413fb4: aPiecePriority__Q29JFWSystem11CSetUpParam 
+ 0x80413fb8: systemFontRes__Q29JFWSystem11CSetUpParam
+ 0x80413fbc: renderMode__Q29JFWSystem11CSetUpParam
+ 0x80413fc0: exConsoleBufferSize__Q29JFWSystem11CSetUpParam
+
+ 0x804156f8: rootHeap__9JFWSystem
+ 0x804156fc: systemHeap__9JFWSystem
+ 0x80415700: mainThread__9JFWSystem
+ 0x80415704: debugPrint__9JFWSystem
+ 0x80415708: systemFont__9JFWSystem
+ 0x8041570c: systemConsoleManager__9JFWSystem
+ 0x80415710: systemConsole__9JFWSystem
+ 0x80415714: sInitCalled__9JFWSystem
+
  # J2DOrthoGraph.cpp
  0x80043d68: setPort__13J2DOrthoGraphFv
 
@@ -52,8 +75,25 @@ global:
  0x803f95a0: asinAcosTable___5JMath
 
  # JUTAssert.cpp
+ 0x800697f8: create__12JUTAssertionFv
  0x80069af4: getSDevice__12JUTAssertionFv
  0x80069bd8: showAssert_f__12JUTAssertionFUlPCciPCce
+
+ # JUTConsole.cpp
+ 0x8006a0dc: create__10JUTConsoleFUiUiP7JKRHeap
+ 0x8006b588: JUTSetReportConsole
+ 0x8006b590: JUTGetReportConsole
+ 0x8006b598: JUTSetWarningConsole
+ 0x8006b5a0: JUTGetWarningConsole
+ 0x8006b5a8: JUTReportConsole_f_va
+ 0x8006b624: JUTReportConsole_f
+ 0x8006b708: JUTReportConsole
+ 0x8006b734: JUTWarningConsole_f_va
+ 0x8006b7b0: JUTWarningConsole_f
+ 0x8006b894: JUTWarningConsole
+
+ # JUTConsoleManager.cpp
+ 0x8006af68: createManager__17JUTConsoleManagerFP7JKRHeap
 
  # JUTDbPrint.cpp
  0x8006b8c0: start__10JUTDbPrintFP7JUTFontP7JKRHeap
@@ -63,9 +103,31 @@ global:
  0x8006bb10: drawString__10JUTDbPrintFiiiPCUc
  0x8006bbf8: JUTReport__FiiPCce
  0x8006bd1c: JUTReport__FiiiPCce
+ 
+ # JUTDirectPrint.cpp
+ 0x8006c1cc: start__14JUTDirectPrintFv
+
+ # JUTException.cpp
+ 0x8006c87c: create__12JUTExceptionFP14JUTDirectPrint
+
+ 0x8006f140: createConsole__12JUTExceptionFPvUl
 
  # JUTGamePad.cpp
  0x8006fa08: __dt__10JUTGamePadFv
+ 0x8006fae8: init__10JUTGamePadFv
+
+ # JUTResFont.cpp
+ 0x80073a9c: __ct__10JUTResFontFPC7ResFONTP7JKRHeap
+ 0x80074938: getWidth__10JUTResFontCFv 
+
+ # JUTFontData_Ascfont_fix12.s
+ 0x80362160: JUTResFONT_Ascfont_fix12
+
+ # JUTGraphFifo.cpp
+ 0x8007140c: __ct__12JUTGraphFifoFUl
+
+ # JUTVideo
+ 0x80075698: createManager__8JUTVideoFPC16_GXRenderModeObj
 
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
@@ -79,6 +141,9 @@ global:
  0x80078f98: remove__10JSUPtrListFP10JSUPtrLink
  0x80079048: getNthLink__10JSUPtrListCFUl
 
+ # JKRAram.cpp
+ 0x8007949c: create__7JKRAramFUlUllll
+
  # JKRExpHeap.cpp
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
@@ -87,6 +152,8 @@ global:
  0x800840f8: becomeSystemHeap__7JKRHeapFv 
  0x80084108: becomeCurrentHeap__7JKRHeapFv
  0x80084118: destroy__7JKRHeapFv
+ 0x80084144: alloc__7JKRHeapFUliP7JKRHeap 
+ 0x800841a4: alloc__7JKRHeapFUli
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
  0x80084eb8: __nw__FUlP7JKRHeapi
@@ -99,6 +166,14 @@ global:
  # JKRAssertHeap.cpp
  0x800872ac: create__13JKRAssertHeapFP7JKRHeap
 
+ # JKRExpHeap.cpp
+ 0x80081bcc: createRoot__10JKRExpHeapFib
+ 0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
+ 0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
+
+ # JKRThread.h
+ 0x80086874: __ct__9JKRThreadFP8OSThreadi
+ 
  # JASHeapCtrl.cpp
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
 
@@ -106,11 +181,28 @@ global:
 
  # JUTGamePad.cpp
  0x8006f93c: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
+ 
+ # dvd.c
+ 0x800b1e48: DVDInit 
 
- # OSError.c
+ # gx.h
+ 0x80390698: GXNtsc480IntDf
+ 0x803906d4: GXNtsc480Int
+ 0x80390710: GXMpal480IntDf
+ 0x8039074c: GXPal528IntDf
+ 0x80390788: GXEurgb60Hz480IntDf
+
+ # OS.c
+ 0x800ec580: OSInit
+
+ # OSCache.c
+ 0x800eddd0: LCQueueWait 
+
+  # OSError.c
  0x800eeaec: OSPanic
 
- 0x800eddd0: LCQueueWait 
+ # OSThread.c
+ 0x800f1b78: OSGetCurrentThread
 
  # OSTime.c
  0x800f2d3c: OSGetTime

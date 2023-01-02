@@ -33,7 +33,7 @@ public:
     virtual bool dump_sort();
     virtual bool dump()/* = 0 */ ;
     virtual void do_destroy()/* = 0 */ ;
-    virtual void *do_alloc(u32, s32)/* = 0 */ ;
+    virtual void *do_alloc(u32, int)/* = 0 */ ;
     virtual void do_free(void *)/* = 0 */ ;
     virtual void do_freeAll()/* = 0 */ ;
     virtual void do_freeTail()/* = 0 */ ;
@@ -53,7 +53,8 @@ public:
     JKRHeap* becomeSystemHeap();
     JKRHeap* becomeCurrentHeap();
     void destroy();
-    static void* alloc(u32, s32, JKRHeap *);
+    static void *alloc(u32, int, JKRHeap *);
+    void *alloc(u32, int);
     static void free(void *, JKRHeap *);
     void free(void *);
     void freeAll();
