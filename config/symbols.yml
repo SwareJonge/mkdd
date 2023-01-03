@@ -53,6 +53,14 @@ global:
  0x80415710: systemConsole__9JFWSystem
  0x80415714: sInitCalled__9JFWSystem
 
+ # JFWDisplay.cpp
+ 0x80015b80: __dt__10JFWDisplayFv
+ 0x80015bfc: createManager__10JFWDisplayFPC16_GXRenderModeObjP7JKRHeapQ26JUTXfb10EXfbNumberb
+
+ 0x8001684c: waitBlanking__10JFWDisplayFi 
+
+ 0x80388140: __vt__10JFWDisplay
+
  # J2DOrthoGraph.cpp
  0x80043d68: setPort__13J2DOrthoGraphFv
 
@@ -126,8 +134,32 @@ global:
  # JUTGraphFifo.cpp
  0x8007140c: __ct__12JUTGraphFifoFUl
 
- # JUTVideo
+ # JUTProcBar.cpp
+ 0x80071920: __ct__Q210JUTProcBar5CTimeFv
+ 0x80071934: create__10JUTProcBarFv
+ 0x80071a64: destroy__10JUTProcBarFv
+ 0x80071b74: draw__10JUTProcBarFv
+ 0x80071ba8: drawProcessBar__10JUTProcBarFv
+ 0x8007335c: drawHeapBar__10JUTProcBarFv
+ 0x801b1628: getGpCost__10JUTProcBarCFv
+ 0x801b1630: getCpuCost__10JUTProcBarCFv
+ 0x801b1638: setVisible__10JUTProcBarFb
+ 0x801b1640: getManager__10JUTProcBarFv
+ 0x801b1818: userStart__10JUTProcBarFiUcUcUc
+ 0x801b1878: start__Q210JUTProcBar5CTimeFUcUcUc
+ 0x801b1904: userEnd__10JUTProcBarFi
+ 0x801b1934: end__Q210JUTProcBar5CTimeFv
+ 0x801b1efc: getUserCost__10JUTProcBarFi
+
+ 0x80415868: sManager__10JUTProcBar
+
+ # JUTVideo.cpp
  0x80075698: createManager__8JUTVideoFPC16_GXRenderModeObj
+
+ 0x80415880: sManager__8JUTVideo
+
+ # JUTXfb.cpp
+ 0x80075cd0: destroyManager__6JUTXfbFv
 
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
@@ -206,6 +238,7 @@ global:
 
  # OSTime.c
  0x800f2d3c: OSGetTime
+ 0x800f2d54: OSGetTick
 
  # __ppc_eabi_init.cpp
  0x800f31b8: __init_user

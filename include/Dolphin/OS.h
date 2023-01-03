@@ -15,7 +15,19 @@ extern "C"
 #define OS_UNCACHED_REGION_PREFIX 0xC000
 #define OS_PHYSICAL_MASK 0x3FFF
 
-#define CONSOLE_BUS_SPEED 0x800000F8
+u32 __OSBusClock : (0x800000F8);
+
+#define OS_BUS_CLOCK __OSBusClock
+#define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)
+
+#define OSTicksToSeconds(ticks) ((ticks) / OS_TIMER_CLOCK)
+#define OSTicksToMilliseconds(ticks) ((ticks) / (OS_TIMER_CLOCK / 1000))
+#define OSTicksToMicroseconds(ticks) (((ticks) * 8) / (OS_TIMER_CLOCK / 125000))
+#define OSTicksToNanoseconds(ticks) (((ticks) * 8000) / (OS_TIMER_CLOCK / 125000))
+
+#define OSMicrosecondsToTicks(usec) (((usec) * (OS_TIMER_CLOCK / 125000)) / 8)
+#define OSNanosecondsToTicks(nsec) (((nsec) * (OS_TIMER_CLOCK / 125000)) / 8000)
+#define OSDiffTick(tick1, tick0) ((s32)(tick1) - (s32)(tick0))
 
   // __ppc_eabi_init
   extern void __OSPSInit();

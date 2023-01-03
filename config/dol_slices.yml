@@ -6,12 +6,15 @@ kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
-JSystem/JFramework/JFWSystem.cpp:
+JSystem/JFrameWork/JFWSystem.cpp:
     .text: [0x800157b8, 0x80015b80]
     .rodata: [0x80360fa0, 0x80360fd8]
     .sdata: [0x80413f98, 0x80413fc8]
     .sbss: [0x804156f8, 0x80415718]
     .sdata2: [0x80417398, 0x804173b8]
+
+JSystem/JFrameWork/JFWDisplay.cpp:
+    .text: [0x80015b80, 0x80015bfc]
 
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]

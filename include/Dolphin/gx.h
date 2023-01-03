@@ -119,7 +119,8 @@ extern "C"
         u8 _20[0x60];      // _20
     } GXFifoObj;
 
-
+    u16 GXGetNumXfbLines(float, u16);
+    float GXGetYScaleFactor(u16, u16);
 
 #ifdef __cplusplus
 };
