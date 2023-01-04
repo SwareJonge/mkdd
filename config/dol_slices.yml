@@ -19,11 +19,11 @@ JSystem/JFrameWork/JFWDisplay.cpp:
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
 
-JSystem/JUtility/JUTProcBar.cpp:
-    .text: [0x80071920, 0x80073a5c]
-    .sdata: [0x80414070, 0x80414078]
-    .sbss: [0x80415868, 0x80415880]
-    .sdata2: [0x80417978, 0x804179c0]
+#JSystem/JUtility/JUTProcBar.cpp:
+    #.text: [0x80071920, 0x80073a5c]
+    #.sdata: [0x80414070, 0x80414078]
+    #.sbss: [0x80415868, 0x80415880]
+    #.sdata2: [0x80417978, 0x804179c0]
 
 JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
