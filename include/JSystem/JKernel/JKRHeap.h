@@ -1,8 +1,12 @@
 #ifndef JKRHEAP_H
 #define JKRHEAP_H
 
-#include "types.h"
+#include "Dolphin/OS.h"
 #include "JSystem/JKernel/JKRDisposer.h"
+
+#include "types.h"
+
+typedef void (*JKRErrorHandler)(void *, u32, int);
 
 class JKRHeap : public JKRDisposer {
 public:
@@ -64,9 +68,28 @@ public:
 
     // ... more functions
 
+    s32 getSize(void *ptr);
+    s32 getFreeSize();
+    void *getMaxFreeBlock();
+    s32 getTotalFreeSize();
+    s32 changeGroupID(u8 newGroupId);
+    u32 getMaxAllocatableSize(int alignment);
+
     static JKRHeap* findFromRoot(void *);
     static void copyMemory(void *dest, void *src, u32 len);
     static void* setErrorHandler(void(*)(void *, u32, s32));
+
+    void setDebugFill(bool debugFill) { mDebugFill = debugFill; }
+    bool getDebugFill() const { return mDebugFill; }
+    void* getStartAddr() const { return (void*)mStart; }
+    void* getEndAddr() const { return (void*)mEnd; }
+    u32 getSize() const { return mSize; }
+    bool getErrorFlag() const { return mErrorFlag; }
+    void callErrorHandler(JKRHeap *heap, u32 size, int alignment) {
+        if (mErrorHandler)        {
+            (*mErrorHandler)(heap, size, alignment);
+        }
+    }
 
     static void* mCodeStart;
     static void* mCodeEnd;
@@ -79,10 +102,24 @@ public:
     static JKRHeap* sRootHeap;
     static void* sErrorHandler;
 
-private:
-    u8 _C[0x5C - 0xC];
-    JSUPtrList mPtrList; // _5C
+    static JKRErrorHandler mErrorHandler;
 
+protected:
+    /* 0x00 */ // vtable
+    /* 0x04 */ // JKRDisposer
+    /* 0x18 */ OSMutex mMutex;
+    /* 0x30 */ u8 *mStart;
+    /* 0x34 */ u8 *mEnd;
+    /* 0x38 */ u32 mSize;
+    /* 0x3C */ bool mDebugFill;
+    /* 0x3D */ bool mCheckMemoryFilled;
+    /* 0x3E */ u8 mAllocationMode; // EAllocMode?
+    /* 0x3F */ u8 mGroupId;
+    /* 0x40 */ JSUTree<JKRHeap> mChildTree;
+    /* 0x5C */ JSUList<JKRDisposer> mDisposerList;
+    /* 0x68 */ bool mErrorFlag;
+    /* 0x69 */ bool mInitFlag;
+    /* 0x6A */ u8 padding_0x6a[2];
 };
 
 void JKRDefaultMemoryErrorRoutine(void *, u32, s32);

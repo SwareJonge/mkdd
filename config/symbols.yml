@@ -139,6 +139,7 @@ global:
  0x80071934: create__10JUTProcBarFv
  0x80071a64: destroy__10JUTProcBarFv
  0x80071b74: draw__10JUTProcBarFv
+ 0x80071aa4: clear__10JUTProcBarFv
  0x80071ba8: drawProcessBar__10JUTProcBarFv
  0x8007335c: drawHeapBar__10JUTProcBarFv
  0x801b1628: getGpCost__10JUTProcBarCFv
@@ -150,6 +151,9 @@ global:
  0x801b1904: userEnd__10JUTProcBarFi
  0x801b1934: end__Q210JUTProcBar5CTimeFv
  0x801b1efc: getUserCost__10JUTProcBarFi
+
+ 0x80414070: oneFrameRate
+ 0x80414074: oneFrameRateUser
 
  0x80415868: sManager__10JUTProcBar
 
