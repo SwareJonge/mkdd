@@ -33,6 +33,13 @@ public:
                 cost = 1;
         }
 
+        void inc() { // fabricated
+            if (++_0C >= 0x10 || cost >= _08) {
+                _08 = cost;
+                _0C = 0;
+            }
+        }
+
         CTime() { // weak
             cost = 0;
             _08 = 0;
@@ -62,7 +69,7 @@ public:
     // Unused Functions / Inlines
     void bar_subroutine(int, int, int, int, int, int, int, JUtility::TColor, JUtility::TColor);
     void adjustMeterLength(u32, f32 *, f32, f32, int *);
-    void getUnuseUserBar();
+    void getUnuseUserBar(); // might be used in drawHeapBar?
 
     u32 getGpCost() const {
         return mGp.cost;
@@ -104,6 +111,10 @@ public:
 
     inline int calcBarSize(int p1, int p2) { // fabricated
         return mGpWait.cost * p1 / p2;
+    }
+
+    int calcBarHeight() { // fabricated
+        return mParams.mBarWidth * 2;
     }
 
     static JUTProcBar *sManager;    // might be private too

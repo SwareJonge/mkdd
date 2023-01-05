@@ -133,21 +133,10 @@ void JUTProcBar::drawProcessBar() {
         int r26 = mParams.mBarWidth * 2;
         int r25 = mParams.mBarWidth * 10;
         int r24 = (mParams.mWidth - 4 + r28) / r28;
-        if (++mIdle._0C >= 0x10 || mIdle.cost >= mIdle._08) // possible inlines?
-        {
-            mIdle._08 = mIdle.cost;
-            mIdle._0C = 0;
-        }
-        if (++mGp._0C >= 0x10 || mGp.cost >= mGp._08)
-        {
-            mGp._08 = mGp.cost;
-            mGp._0C = 0;
-        }
-        if (++mCpu._0C >= 0x10 || mCpu.cost >= mCpu._08)
-        {
-            mCpu._08 = mCpu.cost;
-            mCpu._0C = 0;
-        }
+
+        mIdle.inc();
+        mGp.inc();
+        mCpu.inc();
 
         u32 totalTime = calcGPUTime() - mCpu.cost; // unsure of types
         u32 gpuTime = calcGPUTime();
@@ -254,59 +243,40 @@ int byteToXLen(int param_0, int param_1) {
 }
 
 // Size mismatch for MKDD
-void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_4,
-                    int param_5) {
+void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_4, int param_5) {
     int stack52 = param_1 + addrToXPos(param_0->getStartAddr(), param_4);
     int var1 = param_1 + addrToXPos(param_0->getEndAddr(), param_4);
     int stack36 = byteToXLen(param_0->getTotalFreeSize(), param_4);
-    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, var1 - stack52, param_5 / 2,
-               JUtility::TColor(255, 0, 200, 255));
-    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2,
-               JUtility::TColor(255, 180, 250, 255));
+    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, var1 - stack52, param_5 / 2, JUtility::TColor(255, 0, 200, 255));
+    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2, JUtility::TColor(255, 180, 250, 255));
 }
 
-// regswaps, https://decomp.me/scratch/Mi52V
-void JUTProcBar::drawHeapBar()
-{
-    int var1;
-    JKRHeap *heap;
-    int userRamStart;
-    int userRamEnd;
-    int codeStart;
-    int codeEnd;
-    int barWidth;
-
-    int posX;
-    int posY;
-    int width;
-    int totalFreeSize;
-
-    if (mHeapBarVisible)
-    {
-        posX = mParams.mPosX;
+// https://decomp.me/scratch/Mi52V
+// Size Mismatch for MKDD
+void JUTProcBar::drawHeapBar() {
+    int var1, barWidth, userRamStart, userRamEnd, posX, posY, width; // this is probably incorrect, however it fixed the regswap for TP
+    if (mHeapBarVisible) {
+        posX = mParams.mPosX; // could this possibly be getUnuseUserBar__10JUTProcBarFv?
         posY = mParams.mPosY;
         barWidth = mParams.mBarWidth;
-        var1 = mParams.mBarWidth * 2;
+        var1 = calcBarHeight();
         width = mParams.mWidth;
         J2DFillBox(posX, posY - barWidth * 4, width, var1, JUtility::TColor(100, 0, 50, 200));
         J2DDrawFrame(posX, posY - barWidth * 4, width, var1, JUtility::TColor(100, 50, 150, 255), 6);
-        codeStart = posX + addrToXPos(JKRHeap::mCodeStart, width);
-        codeEnd = posX + addrToXPos(JKRHeap::mCodeEnd, width);
+        int codeStart = posX + addrToXPos(JKRHeap::mCodeStart, width);
+        int codeEnd = posX + addrToXPos(JKRHeap::mCodeEnd, width);
         J2DFillBox(codeStart, posY - barWidth * 4, codeEnd - codeStart, var1, JUtility::TColor(255, 50, 150, 255));
         userRamStart = posX + addrToXPos(JKRHeap::mUserRamStart, width);
         userRamEnd = posX + addrToXPos(JKRHeap::mUserRamEnd, width);
         J2DFillBox(userRamStart, posY - barWidth * 4, userRamEnd - userRamStart, var1, JUtility::TColor(0, 50, 150, 255));
-        totalFreeSize = byteToXLen(JKRHeap::sRootHeap->getTotalFreeSize(), width);
+        int totalFreeSize = byteToXLen(JKRHeap::sRootHeap->getTotalFreeSize(), width);
         J2DFillBox(userRamStart, posY - barWidth * 4, totalFreeSize, var1 / 2, JUtility::TColor(0, 250, 250, 255));
-        if (_128 != 0)
+        if (_128 == 0)
         {
-            return;
+            JKRHeap *heap = mWatchHeap ? mWatchHeap : JKRHeap::sCurrentHeap;
+            if (heap != JKRHeap::sSystemHeap)
+                heapBar(heap, posX, posY, var1, width, var1);
         }
-        heap = mWatchHeap ? mWatchHeap : JKRHeap::sCurrentHeap;
-        if (heap != JKRHeap::sSystemHeap)
-        {
-            heapBar(heap, posX, posY, var1, width, var1);
-        }
+
     }
- 
 }
