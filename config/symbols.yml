@@ -63,6 +63,11 @@ global:
 
  # J2DOrthoGraph.cpp
  0x80043d68: setPort__13J2DOrthoGraphFv
+ 0x80043f3c: J2DDrawLine__FffffQ28JUtility6TColori
+ 0x80044094: J2DFillBox__FffffQ28JUtility6TColor
+ 0x800440dc: J2DFillBox__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColor
+ 0x80044198: J2DDrawFrame__FffffQ28JUtility6TColorUc
+ 0x800441e4: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
 
  0x80389d00: __vt__13J2DOrthoGraph
 
@@ -190,6 +195,7 @@ global:
  0x80084118: destroy__7JKRHeapFv
  0x80084144: alloc__7JKRHeapFUliP7JKRHeap 
  0x800841a4: alloc__7JKRHeapFUli
+ 0x800844bc: getTotalFreeSize__7JKRHeapFv
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
  0x80084eb8: __nw__FUlP7JKRHeapi
@@ -198,6 +204,17 @@ global:
  0x800850c0: __nwa__FUlP7JKRHeapi
  0x800851ac: __dl__FPv
  0x800851d0: __dla__FPv
+
+ 0x804159a8: sSystemHeap__7JKRHeap
+ 0x804159ac: sCurrentHeap__7JKRHeap
+ 0x804159b0: sRootHeap__7JKRHeap
+ 0x804159b4: mErrorHandler__7JKRHeap
+ 0x804159b8: sDefaultFillCheckFlag__7JKRHeap
+ 0x804159bc: mCodeStart__7JKRHeap
+ 0x804159c0: mCodeEnd__7JKRHeap
+ 0x804159c4: mUserRamStart__7JKRHeap
+ 0x804159c8: mUserRamEnd__7JKRHeap
+ 0x804159cc: mMemorySize__7JKRHeap
 
  # JKRAssertHeap.cpp
  0x800872ac: create__13JKRAssertHeapFP7JKRHeap

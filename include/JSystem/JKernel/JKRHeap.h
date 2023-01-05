@@ -95,7 +95,7 @@ public:
     static void* mCodeEnd;
     static void* mUserRamStart;
     static void* mUserRamEnd;
-    static s32 mMemorySize;
+    static u32 mMemorySize;
 
     static JKRHeap* sSystemHeap;
     static JKRHeap* sCurrentHeap;
