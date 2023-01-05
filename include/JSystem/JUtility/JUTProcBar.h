@@ -33,10 +33,12 @@ public:
                 cost = 1;
         }
 
-        void inc() { // fabricated
+        // https://decomp.me/scratch/npFYY
+        void accumePeek() { // found in TP
             if (++_0C >= 0x10 || cost >= _08) {
-                _08 = cost;
+                u32 _cost = cost; // Nintendo code will never make sense to me
                 _0C = 0;
+                _08 = _cost;
             }
         }
 
@@ -109,7 +111,7 @@ public:
         return mGp.cost - mGpWait.cost;
     }
 
-    inline int calcBarSize(int p1, int p2) { // fabricated
+    int calcBarSize(int p1, int p2) { // fabricated
         return mGpWait.cost * p1 / p2;
     }
 
@@ -136,8 +138,5 @@ private:
 
 private:
 }; // 0x134 size
-
-extern f32 oneFrameRate; // 8.0f
-extern f32 oneFrameRateUser; // 10.0f
 
 #endif

@@ -134,9 +134,9 @@ void JUTProcBar::drawProcessBar() {
         int r25 = mParams.mBarWidth * 10;
         int r24 = (mParams.mWidth - 4 + r28) / r28;
 
-        mIdle.inc();
-        mGp.inc();
-        mCpu.inc();
+        mIdle.accumePeek();
+        mGp.accumePeek();
+        mCpu.accumePeek();
 
         u32 totalTime = calcGPUTime() - mCpu.cost; // unsure of types
         u32 gpuTime = calcGPUTime();
@@ -185,11 +185,7 @@ void JUTProcBar::drawProcessBar() {
         for (int i = 0; i < 8; i++)
         {
             CTime *time = &mUsers[i];
-            if (++time->_0C >= 0x10 || time->cost > time->_08)
-            {
-                time->_08 = time->cost;
-                time->_0C = 0;
-            }
+            time->accumePeek();
             if (time->_08 > temp3)
                 temp3 = time->_08;
         }
@@ -203,11 +199,7 @@ void JUTProcBar::drawProcessBar() {
             for (int i = 0; i < 8; i++)
             {
                 CTime *time = &mUsers[i];
-                if (++time->_0C >= 0x10 || time->cost > time->_08)
-                {
-                    time->_08 = time->cost;
-                    time->_0C = 0;
-                }
+                time->accumePeek();
                 if (time->cost != 0 || time->_08 != 0)
                 {
                     int temp4 = time->cost * r21 / frameDuration;
