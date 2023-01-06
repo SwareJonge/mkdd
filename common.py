@@ -173,11 +173,10 @@ CFLAGS = [
     "-enum int"
 ]
 
-JSYSTEM = CFLAGS + [ # perhaps this differs per library
+JSYSTEM = CFLAGS + [
     "-inline auto",
     "-use_lmw_stmw on",
     "-O4,p" 
-
 ]
 
 BASE_GAME_CFLAGS = CFLAGS + [

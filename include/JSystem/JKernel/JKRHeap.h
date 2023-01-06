@@ -91,6 +91,38 @@ public:
         }
     }
 
+    static void * getCodeStart() {
+        return mCodeStart;
+    }
+
+    static void *getCodeEnd() {
+        return mCodeEnd;
+    }
+
+    static void *getUserRamStart() {
+        return mUserRamStart;
+    }
+
+    static void *getUserRamEnd() {
+        return mUserRamEnd;
+    }
+
+    static u32 getMemorySize() {
+        return mMemorySize;
+    }
+
+    static JKRHeap * getCurrentHeap() {
+        return sCurrentHeap;
+    }
+
+    static JKRHeap *getRootHeap()    {
+        return sRootHeap;
+    }
+
+    static JKRHeap *getSystemHeap() {
+        return sSystemHeap;
+    }
+
     static void* mCodeStart;
     static void* mCodeEnd;
     static void* mUserRamStart;
@@ -121,6 +153,10 @@ protected:
     /* 0x69 */ bool mInitFlag;
     /* 0x6A */ u8 padding_0x6a[2];
 };
+
+inline JKRHeap * JKRGetCurrentHeap() {
+    return JKRHeap::getCurrentHeap();
+}
 
 void JKRDefaultMemoryErrorRoutine(void *, u32, s32);
 

@@ -401,6 +401,8 @@ class CSource(Source):
         if path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
         elif path.startswith("src/JSystem/"):
+            self.cflags = c.DOL_CFLAGS
+        elif path.startswith("src/JSystem/"):
             self.cflags = c.JSYSTEM_CFLAGS
         else:
             self.cflags = ctx.cflags

@@ -349,6 +349,7 @@ global:
  0x801a37e8: getWaterHeight__9CrsGroundFv
 
  # CrsData.cpp
+ 0x8019f438: set__Q28JUtility6TColorFUcUcUcUc
  0x801a0064: getAddThickness__Q27CrsData6GroundCFv
  0x801a11f0: getKartNumber__8RaceInfoCFv
 
@@ -578,6 +579,8 @@ global:
  0x801aff04: getRaceMode__8RaceInfoCFv
 
  0x801b059c: testButton__10JUTGamePadCFUl
+ 0x801b064c: JKRGetCurrentHeap__Fv
+ 0x801b066c: getCurrentHeap__7JKRHeapFv
  0x801b0bd8: testTrigger__10JUTGamePadCFUl
 
  # CrsArea.cpp
@@ -587,6 +590,14 @@ global:
  0x801b3908: getEchoRate__7CrsAreaFv
  0x801b39c0: getLightParamID__7CrsAreaFv
  0x801b3a4c: getLightParamID__Q26Course4AreaCFv
+
+ # ScrnShot.cpp
+ 0x801b4764: getEfbHeight__10JFWDisplayCFv
+ 0x801b478c: getEfbHeight__8JUTVideoCFv
+ 0x801b4798: getManager__8JUTVideoFv 
+ 0x801b47a0: getEfbWidth__10JFWDisplayCFv
+ 0x801b47c8: getFbWidth__8JUTVideoCFv
+ 0x801b47d4: capture__8ScrnShotFv
 
  # RaceInfo.cpp
  0x801b5098: __ct__8RaceInfoFv
@@ -625,6 +636,13 @@ global:
  0x804163d4: sAwardDebugCup__8RaceInfo
 
  # SysDebug.cpp
+
+ 0x801b0f94: __ct__Q28JUtility6TColorFUcUcUcUc
+ 0x801b0fc4: getManager__10JUTDbPrintFv
+ 0x801b0fcc: getRootHeap__7JKRHeapFv
+ 0x801b1034: ctrlDebugMode__8SysDebugFv
+ 0x801b15d0: getSystemHeap__7JKRHeapFv
+
  0x801b2834: createHeapInfo__8SysDebugFP7JKRHeapPc
  0x801b2900: destroyHeapInfo__8SysDebugFP7JKRHeap 
 

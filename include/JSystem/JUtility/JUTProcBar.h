@@ -34,12 +34,15 @@ public:
         }
 
         // https://decomp.me/scratch/npFYY
-        void accumePeek() { // found in TP
+        void accumePeek() { // found in TP, for some reason is different here
             if (++_0C >= 0x10 || cost >= _08) {
-                u32 _cost = cost; // Nintendo code will never make sense to me
+                _08 = cost;
                 _0C = 0;
-                _08 = _cost;
             }
+        }
+
+        int calcBarSize(int p1, int p2) { // fabricated
+            return cost * p1 / p2;
         }
 
         CTime() { // weak
@@ -109,10 +112,6 @@ public:
 
     inline u32 calcGPUTime() { // fabricated
         return mGp.cost - mGpWait.cost;
-    }
-
-    int calcBarSize(int p1, int p2) { // fabricated
-        return mGpWait.cost * p1 / p2;
     }
 
     int calcBarHeight() { // fabricated
