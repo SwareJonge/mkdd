@@ -120,13 +120,16 @@ void JUTProcBar::draw() {
     drawHeapBar();
 }
 
-// Matches the one from TP, size mismatch for MKDD https://decomp.me/scratch/YKjcF
+/*
+MKDD: https://decomp.me/scratch/1Q2Ke
+TP: https://decomp.me/scratch/YKjcF
+*/
 void JUTProcBar::drawProcessBar() {
     if (mVisible)
     {
         int frameDuration = 16666; // duration in miliseconds? for how long a frame takes,
         if (JUTVideo::getManager() && ((JUTVideo::getManager()->getRenderMode()->tvMode >> 2) & 0x0f) == 1) // possibly a define
-            frameDuration = 20000; // duration for PAL        
+            frameDuration = 20000; // duration for PAL
 
         static int cnt = 0;
         adjustMeterLength(mWholeLoop.cost, &oneFrameRate, 1.0f, 10.0f, &cnt);
@@ -148,7 +151,7 @@ void JUTProcBar::drawProcessBar() {
             J2DFillBox(mParams.mPosX, mParams.mPosY + r27 + 1, mParams.mWidth, 1.0f, JUtility::TColor(250, 0, 0, 200));
         else
             J2DFillBox(mParams.mPosX, mParams.mPosY + r27 + 1, mCostFrame * r28 + 2, 1.0f, JUtility::TColor(0, 250, 250, 200));
-        
+
         int stack92 = mWholeLoop.cost * r28 / frameDuration;
         if (stack92 > mParams.mWidth)
             J2DFillBox(mParams.mPosX, mParams.mPosY, mParams.mWidth, 1.0f, JUtility::TColor(255, 100, 0, 255));
@@ -214,7 +217,7 @@ void JUTProcBar::drawProcessBar() {
                     int temp5 = time->_08 * r21 / frameDuration;
                     time->cost = 0;
                     J2DFillBox(mParams.mPosX + 1, mParams.mUserPosition + mParams.mBarWidth + i * mParams.mBarWidth, temp4, mParams.mBarWidth, JUtility::TColor(time->r, time->g, time->b, 255));
-                    
+
                     if (temp5 < 3u)
                         J2DFillBox(mParams.mPosX, mParams.mUserPosition + mParams.mBarWidth + i * mParams.mBarWidth, temp5, mParams.mBarWidth, JUtility::TColor(255, 200, 50, 255));
                     else
@@ -242,7 +245,7 @@ int byteToXLen(int param_0, int param_1) {
     return param_1 * (param_0 / (float)JKRHeap::getMemorySize());
 }
 
-// Size mismatch for MKDD
+// TP: https://decomp.me/scratch/7uyoR
 void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_4, int param_5) {
     int stack52 = param_1 + addrToXPos(param_0->getStartAddr(), param_4);
     int var1 = param_1 + addrToXPos(param_0->getEndAddr(), param_4);
@@ -251,6 +254,10 @@ void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_
     J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2, JUtility::TColor(255, 180, 250, 255));
 }
 
+/*
+MKDD: https://decomp.me/scratch/L9TUx
+TP: https://decomp.me/scratch/Mi52V
+*/
 #define intmul(a, b) (a * b)
 void JUTProcBar::drawHeapBar() {                                          // a match is a match
     int barWidth, var1, posX, width, posY; // this is probably incorrect, however it fixed the regswap for TP
