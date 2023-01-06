@@ -251,32 +251,29 @@ void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_
     J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2, JUtility::TColor(255, 180, 250, 255));
 }
 
-// https://decomp.me/scratch/Mi52V
-// Size Mismatch for MKDD
-void JUTProcBar::drawHeapBar() {
-    int var1, barWidth, userRamStart, userRamEnd, posX, posY, width; // this is probably incorrect, however it fixed the regswap for TP
-    if (mHeapBarVisible) {
+#define intmul(a, b) (a * b)
+void JUTProcBar::drawHeapBar() {                                          // a match is a match
+    int barWidth, var1, posX, width, posY; // this is probably incorrect, however it fixed the regswap for TP
+    if (mHeapBarVisible)    {
         posX = mParams.mPosX; // could this possibly be getUnuseUserBar__10JUTProcBarFv?
         posY = mParams.mPosY;
         barWidth = mParams.mBarWidth;
-        var1 = calcBarHeight();
         width = mParams.mWidth;
-        J2DFillBox(posX, posY - barWidth * 4, width, var1, JUtility::TColor(100, 0, 50, 200));
-        J2DDrawFrame(posX, posY - barWidth * 4, width, var1, JUtility::TColor(100, 50, 150, 255), 6);
+        int thing = intmul(barWidth, 2);
+        J2DFillBox(posX, posY - barWidth * 4, width, thing, JUtility::TColor(100, 0, 50, 200));
+        J2DDrawFrame(posX, posY - barWidth * 4, width, thing, JUtility::TColor(100, 50, 150, 255), 6);
         int codeStart = posX + addrToXPos(JKRHeap::getCodeStart(), width);
         int codeEnd = posX + addrToXPos(JKRHeap::getCodeEnd(), width);
-        J2DFillBox(codeStart, posY - barWidth * 4, codeEnd - codeStart, var1, JUtility::TColor(255, 50, 150, 255));
-        userRamStart = posX + addrToXPos(JKRHeap::getUserRamStart(), width);
-        userRamEnd = posX + addrToXPos(JKRHeap::getUserRamEnd(), width);
-        J2DFillBox(userRamStart, posY - barWidth * 4, userRamEnd - userRamStart, var1, JUtility::TColor(0, 50, 150, 255));
+        J2DFillBox(codeStart, posY - barWidth * 4, codeEnd - codeStart, thing, JUtility::TColor(255, 50, 150, 255));
+        int userRamStart = posX + addrToXPos(JKRHeap::getUserRamStart(), width);
+        int userRamEnd = posX + addrToXPos(JKRHeap::getUserRamEnd(), width);
+        J2DFillBox(userRamStart, posY - barWidth * 4, userRamEnd - userRamStart, thing, JUtility::TColor(0, 50, 150, 255));
         int totalFreeSize = byteToXLen(JKRHeap::getRootHeap()->getTotalFreeSize(), width);
-        J2DFillBox(userRamStart, posY - barWidth * 4, totalFreeSize, var1 / 2, JUtility::TColor(0, 250, 250, 255));
-        if (_128 == 0)
-        {
+        J2DFillBox(userRamStart, posY - barWidth * 4, totalFreeSize, barWidth * 2 / 2, JUtility::TColor(0, 250, 250, 255));
+        if (_128 == 0) {
             JKRHeap *heap = mWatchHeap ? mWatchHeap : JKRGetCurrentHeap();
             if (heap != JKRHeap::getSystemHeap())
-                heapBar(heap, posX, posY, var1, width, var1);
+                heapBar(heap, posX, posY, barWidth * 2, width, barWidth * 2);
         }
-
     }
 }

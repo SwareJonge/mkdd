@@ -205,6 +205,8 @@ global:
  0x800851ac: __dl__FPv
  0x800851d0: __dla__FPv
 
+ 0x8038b418: __vt__7JKRHeap 
+
  0x804159a8: sSystemHeap__7JKRHeap
  0x804159ac: sCurrentHeap__7JKRHeap
  0x804159b0: sRootHeap__7JKRHeap
