@@ -131,7 +131,7 @@ private:
     bool mVisible;          // _10C
     int _110;               // _110
     CParamSet mParams;      // _114
-    u32 _128;               // _128
+    int _128;               // _128
     JKRHeap *mWatchHeap;    // _12C
     bool mHeapBarVisible;   // _130
 

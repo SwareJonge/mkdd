@@ -400,8 +400,8 @@ class CSource(Source):
     def __init__(self, ctx: SourceContext, path: str):
         if path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
-        elif path.startswith("src/JSystem/"):
-            self.cflags = c.DOL_CFLAGS
+        elif path.startswith("src/JSystem/JUtility/"):
+            self.cflags = c.JUTILITY_CFLAGS
         elif path.startswith("src/JSystem/"):
             self.cflags = c.JSYSTEM_CFLAGS
         else:

@@ -170,27 +170,16 @@ CFLAGS = [
     "-rostr",
     "-RTTI off",
     "-char signed",
-    "-enum int"
+    "-enum int",
+    "-use_lmw_stmw on"
 ]
 
-JSYSTEM = CFLAGS + [
-    "-inline auto",
-    "-use_lmw_stmw on",
-    "-O4,p" 
-]
-
-BASE_GAME_CFLAGS = CFLAGS + [
-    "-use_lmw_stmw on",
-    "-O4" 
-]
-
-BASE_DOL_CFLAGS = BASE_GAME_CFLAGS + [
-    "-inline on, auto"
-]
-
-KANESHIGE = BASE_GAME_CFLAGS + [
-    "-inline off"
-]
+JSYSTEM_BASE = CFLAGS + [ "-inline auto" ]
+JSYSTEM = JSYSTEM_BASE + [ "-O4,p" ]
+JUTILITY = JSYSTEM_BASE + [ "-O4,s" ]
+BASE_GAME_CFLAGS = CFLAGS + [ "-O4" ]
+BASE_DOL_CFLAGS = BASE_GAME_CFLAGS + [ "-inline on, auto" ]
+KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
 
 LOCAL_CFLAGS = [
     "-nostdinc",
@@ -202,6 +191,7 @@ LOCAL_CFLAGS = [
     f"-i {BUILD_INCDIR}"
 ]
 DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS + LOCAL_CFLAGS)
+JUTILITY_CFLAGS = ' '.join(JUTILITY + LOCAL_CFLAGS)
 JSYSTEM_CFLAGS = ' '.join(JSYSTEM + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
 EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
