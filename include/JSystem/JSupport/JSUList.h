@@ -32,21 +32,19 @@ public:
     JSUPtrLink(void *);
     ~JSUPtrLink();
 
+    void *getObjectPtr() const { return mData; }
+    JSUPtrList *getList() const { return mPtrList; }
+    JSUPtrLink *getNext() const { return mNext; }
+    JSUPtrLink *getPrev() const { return mPrev; }
+
     void *mData;            // _0
     JSUPtrList *mPtrList;   // _4
     JSUPtrLink *mPrev;      // _8
     JSUPtrLink *mNext;      // _C
 };
 
-template<class T>
-class JSULink : public JSUPtrLink {
-public:
-    JSULink(void *pData) : JSUPtrLink(pData) {
-
-    }
-
-    ~JSULink();
-};
+template <class T>
+class JSULink; // friend class? i'm C++ noob
 
 template<class T>
 class JSUList : public JSUPtrList {
@@ -55,8 +53,30 @@ public:
 
     }
 
+    bool remove(JSULink<T> *link) { // is this even correct?
+        return JSUPtrList::remove(link);
+    }
+
     JSUList(bool thing) : JSUPtrList(thing) {
 
+    }
+};
+
+template <class T>
+class JSULink : public JSUPtrLink
+{
+public:
+    JSULink(void *pData) : JSUPtrLink(pData)
+    {
+    }
+
+    inline T *getObject() const { return (T *)getObjectPtr(); }
+    inline JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated
+    inline JSULink<T> *getNext() const { return (JSULink<T> *)JSUPtrLink::getNext(); }
+    inline JSULink<T> *getPrev() const { return (JSULink<T> *)JSUPtrLink::getPrev(); }
+
+    ~JSULink() {
+        
     }
 };
 
@@ -69,7 +89,9 @@ public:
 
     bool appendChild(JSUTree<T> *child) { return this->append(child); }
 
-    bool removeChild(JSUTree<T> *child) { return this->remove(child); }
+    bool removeChild(JSUTree<T> *child) {
+        return remove(child);
+    }
 
     bool insertChild(JSUTree<T> *before, JSUTree<T> *child) { return this->insert(before, child); }
 
@@ -87,7 +109,7 @@ public:
 
     T *getObject() const { return (T *)this->getObjectPtr(); }
 
-    JSUTree<T> *getParent() const { return (JSUTree<T> *)this->getList(); }
+    JSUTree<T> *getParent() const { return (JSUTree<T> *)this->mPtrList; }
 };
 
 template <typename T>

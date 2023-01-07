@@ -185,6 +185,10 @@ global:
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll
 
+ # JKRDisposer.cpp
+ 0x8007ecdc: __dt__11JKRDisposerFv
+ 0x8007ec74: __ct__11JKRDisposerFv
+
  # JKRExpHeap.cpp
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
@@ -354,6 +358,23 @@ global:
  0x8019f438: set__Q28JUtility6TColorFUcUcUcUc
  0x801a0064: getAddThickness__Q27CrsData6GroundCFv
  0x801a11f0: getKartNumber__8RaceInfoCFv
+
+ # ExModel.cpp
+ 0x801a40fc: __ct__10JSUPtrListFv
+
+ # HioMgr.cpp
+ 0x801a6960: __ct__7HioNodeFPCcP13JORReflexibleUlUl
+ 0x801a69c8: __dt__17JSUTree<7HioNode>Fv
+ 0x801a6a24: __dt__17JSUList<7HioNode>Fv
+ 0x801a6a70: __dt__17JSULink<7HioNode>Fv
+ 0x801a6abc: __ct__17JSUTree<7HioNode>FP7HioNode
+ 0x801a6afc: __ct__17JSULink<7HioNode>FP7HioNode
+ 0x801a6b2c: __ct__17JSUList<7HioNode>Fv
+ 0x801a6b5c: __dt__7HioNodeFv
+ 0x801a6bdc: removeChild__17JSUTree<7HioNode>FP17JSUTree<7HioNode>
+ 0x801a6c08: remove__17JSUList<7HioNode>FP17JSULink<7HioNode>
+ 0x801a6c28: getParent__17JSUTree<7HioNode>CFv
+ 0x80395bb8: __vt__7HioNode 	KaneshigeM.a HioMgr.cpp
 
  # KartLoader.cpp
  0x801a808c: getExModelBody__10KartLoaderFv
@@ -638,7 +659,6 @@ global:
  0x804163d4: sAwardDebugCup__8RaceInfo
 
  # SysDebug.cpp
-
  0x801b0f94: __ct__Q28JUtility6TColorFUcUcUcUc
  0x801b0fc4: getManager__10JUTDbPrintFv
  0x801b0fcc: getRootHeap__7JKRHeapFv
@@ -673,7 +693,7 @@ global:
  0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 
  0x804164bc: sSupervisor__13GeoRabbitMark
 
-# RaceDirector.cpp
+ # RaceDirector.cpp
  0x801c8a24: checkRaceEnd__12RaceDirectorFv
 
  # RaceTime.cpp
