@@ -53,7 +53,7 @@ private:
     PadState mPadState;
 };
 
-extern KartGamePad gGamePad1P[20];
+extern KartGamePad gGamePad1P; // has -common on and bss bug
 extern KartGamePad gGamePad2P;
 extern KartGamePad gGamePad3P;
 extern KartGamePad gGamePad4P;
