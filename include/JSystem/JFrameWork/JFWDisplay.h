@@ -3,6 +3,7 @@
 
 #include "JSystem/JUtility/TColor.h"
 #include "JSystem/JUtility/JUTXfb.h"
+#include "JSystem/JUtility/JUTVideo.h"
 
 struct JUTFader;
 struct JKRHeap;
@@ -52,11 +53,15 @@ struct JFWDisplay
     void clearAllXfb();
     void frameToTick(float);
 
-    u16 getEfbHeight() const {
+    static JFWDisplay *getManager() {
+        return sManager;
+    }
+
+    int getEfbHeight() const {
         return JUTVideo::getManager()->getEfbHeight();
     }
 
-    u16 getEfbWidth() const {
+    int getEfbWidth() const {
         return JUTVideo::getManager()->getFbWidth();
     }
 

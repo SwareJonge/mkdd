@@ -398,12 +398,14 @@ class AsmSource(Source):
 
 class CSource(Source):
     def __init__(self, ctx: SourceContext, path: str):
-        if path.startswith("src/Kaneshige/"):
-            self.cflags = c.KANESHIGE_CFLAGS
-        elif path.startswith("src/JSystem/JUtility/"):
+        if path.startswith("src/JSystem/JUtility/"):
             self.cflags = c.JUTILITY_CFLAGS
         elif path.startswith("src/JSystem/"):
             self.cflags = c.JSYSTEM_CFLAGS
+        elif path.startswith("src/Kaneshige/"):
+            self.cflags = c.KANESHIGE_CFLAGS
+        elif path.startswith("src/Osako/"):
+            self.cflags = c.OSAKO_CFLAGS
         else:
             self.cflags = ctx.cflags
         self.iconv_path = f"$builddir/iconv/{path}"

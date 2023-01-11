@@ -258,7 +258,7 @@ void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_
 MKDD: https://decomp.me/scratch/7oBDG
 TP: https://decomp.me/scratch/Mi52V
 */
-void JUTProcBar::drawHeapBar() {
+void JUTProcBar::drawHeapBar() { // There could be some inlines in here that i don't know of
     if (mHeapBarVisible) {
         int barWidth = mParams.mBarWidth;
         int posX = mParams.mPosX; // could this possibly be getUnuseUserBar__10JUTProcBarFv?

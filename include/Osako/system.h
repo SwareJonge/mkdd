@@ -34,7 +34,10 @@ public:
     static void changeNormalRenderMode();
     static void callbackException(u16, OSContext, u32, u32);
     static void haltRumble();
-    static void run();    
+    static void run();
+    static JFWDisplay *getDisplay() {
+        return mspDisplay;
+    }
     static JKRAssertHeap *getAppHeap() {
         return mspAppHeap;
     }

@@ -244,6 +244,16 @@ global:
  # dvd.c
  0x800b1e48: DVDInit 
 
+ # GXMisc.c
+ 0x800c43d4: GXDrawDone
+ 0x800c4454: GXPixModeSync
+
+ # GXFrameBuf.c
+ 0x800c4b7c: GXSetTexCopySrc
+
+ 0x800c4c2c: GXSetTexCopyDst
+
+ 0x800c5568: GXCopyTex 
  # gx.h
  0x80390698: GXNtsc480IntDf
  0x803906d4: GXNtsc480Int
@@ -257,7 +267,7 @@ global:
  # OSCache.c
  0x800eddd0: LCQueueWait 
 
-  # OSError.c
+ # OSError.c
  0x800eeaec: OSPanic
 
  # OSThread.c
@@ -301,6 +311,7 @@ global:
  0x80149534: getKartInfo__7RaceMgrFi
  0x8014972c: getPad__8KartInfoFi
  0x801497d4: getKartInfo__8RaceInfoFi
+ 0x80149af8: getLanguage__10KartLocaleFv
  0x80149bd4: getRaceMode__7RaceMgrCFv
 
  0x80149be8: getJ2DOrtho__6SystemFv
@@ -333,6 +344,7 @@ global:
  0x8019cc68: __ct__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>
 
  0x8019d628: getBaseTRMtx__7ExModelFv
+ 0x8019db44: getVideoMode__10KartLocaleFv
 
  0x8019e26c: calcGeneration__Q26Course6SectorFPQ26Course6Sector
  0x8019e2b8: getPrevSector__Q26Course6SectorFi
@@ -340,6 +352,12 @@ global:
 
  0x80199edc: getNextNum__Q26Course6SectorCFv 
  0x80199ee4: getNextSector__Q26Course6SectorFi
+
+ # CrsData.cpp
+ 0x8019f438: set__Q28JUtility6TColorFUcUcUcUc
+ 0x8019fafc: getCourse__7RaceMgrCFv
+ 0x801a0064: getAddThickness__Q27CrsData6GroundCFv
+ 0x801a11f0: getKartNumber__8RaceInfoCFv
 
  # CrsGround.cpp
  0x801a17ac: __ct__9CrsGroundFP6Course
@@ -353,11 +371,6 @@ global:
  0x801a36c4: getAttrIndex__9CrsGroundCFv
  0x801a36cc: getAttribute__9CrsGroundCFv
  0x801a37e8: getWaterHeight__9CrsGroundFv
-
- # CrsData.cpp
- 0x8019f438: set__Q28JUtility6TColorFUcUcUcUc
- 0x801a0064: getAddThickness__Q27CrsData6GroundCFv
- 0x801a11f0: getKartNumber__8RaceInfoCFv
 
  # ExModel.cpp
  0x801a40fc: __ct__10JSUPtrListFv
@@ -599,12 +612,17 @@ global:
  0x804163a0: sBombPointCrushOneself__11KartChecker
 
  # RaceMgr.cpp
+ 0x801ac5a0: __ct__7RaceMgrFP8RaceInfo
  0x801aff04: getRaceMode__8RaceInfoCFv
 
  0x801b059c: testButton__10JUTGamePadCFUl
  0x801b064c: JKRGetCurrentHeap__Fv
  0x801b066c: getCurrentHeap__7JKRHeapFv
  0x801b0bd8: testTrigger__10JUTGamePadCFUl
+
+ 0x804163a8: sRaceManager__7RaceMgr
+
+ 0x801b0c14: getDisplay__6SystemFv
 
  # CrsArea.cpp
  0x801b35f8: __ct__7CrsAreaFv
@@ -621,6 +639,8 @@ global:
  0x801b47a0: getEfbWidth__10JFWDisplayCFv
  0x801b47c8: getFbWidth__8JUTVideoCFv
  0x801b47d4: capture__8ScrnShotFv
+
+ 0x804163c0: sScrnShot__8ScrnShot
 
  # RaceInfo.cpp
  0x801b5098: __ct__8RaceInfoFv
@@ -658,12 +678,17 @@ global:
  0x804163d0: sWaitDemoSelector__8RaceInfo
  0x804163d4: sAwardDebugCup__8RaceInfo
 
+ 0x804163d0: sWaitDemoSelector__8RaceInfo
+ 0x804163d4: sAwardDebugCup__8RaceInfo
+
  # SysDebug.cpp
  0x801b0f94: __ct__Q28JUtility6TColorFUcUcUcUc
  0x801b0fc4: getManager__10JUTDbPrintFv
  0x801b0fcc: getRootHeap__7JKRHeapFv
  0x801b1034: ctrlDebugMode__8SysDebugFv
  0x801b15d0: getSystemHeap__7JKRHeapFv
+
+ 0x801b1648: setHeapGroup__8SysDebugFPCcP7JKRHeap
 
  0x801b2834: createHeapInfo__8SysDebugFP7JKRHeapPc
  0x801b2900: destroyHeapInfo__8SysDebugFP7JKRHeap 
@@ -822,6 +847,7 @@ global:
 
  # kartCtrl.cpp
  0x802e1968: getDriverPad__11KartCheckerCFi
+ 0x804171a0: mCtrl__8KartCtrl
 
  # kartCtrlInfo.cpp
  0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>

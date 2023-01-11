@@ -65,6 +65,10 @@ Kaneshige/KartChecker.cpp:
     .sbss: [0x804163a0, 0x804163a8]
     .sdata2: [0x80419dd0, 0x80419e18]
 
+Kaneshige/ScrnShot.cpp:
+    .text: [0x801b4764, 0x801b4860]
+    .sbss: [0x804163c0, 0x804163c8]
+
 Kaneshige/RaceInfo.cpp:
     .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv
     .rodata: [0x80378500, 0x80378698]    
@@ -98,7 +102,7 @@ Osako/systemData.cpp:
     .sbss: [0x80416a00, 0x80416a10]
     .sdata2: [0x8041b758, 0x8041b778]
 
-#Osako/SaveFile.cpp: due to bss shit this doesn't compile properly
+#Osako/SaveFile.cpp: # common on issue?
     #.text: [0x8020c230, 0x8020c3ac]
     #.rodata: [0x8037e060, 0x8037e090]
     #.bss: [0x80407334, 0x80407740]
