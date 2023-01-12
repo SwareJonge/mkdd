@@ -16,6 +16,7 @@ public:
 }*/
 };
 
+#if DEBUG
 #define JUT_ASSERT(LINE, COND)                                                   \
   if (!(COND))                                                                   \
   {                                                                              \
@@ -31,8 +32,10 @@ public:
   }
 
 #define JUT_PANIC(LINE, TEXT)                                                 \
+  { \
   JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, LINE, TEXT); \
-  OSPanic(__FILE__, LINE, "Halt");
+  OSPanic(__FILE__, LINE, "Halt"); \
+  }
 
 #define JUT_RANGE_ASSERT(LINE, min, cur, max) \
   JUT_ASSERT_F(LINE, (((cur) >= (min)) && ((cur) < (max))) != false, "range over: %d <= " #cur "=%d < %d", (min), (cur), (max))
@@ -42,5 +45,14 @@ public:
 
 #define JUT_VALIDATE(LINE, COND) \
   JUT_ASSERT_F(LINE, COND, "%s", #COND)
+
+#else // This will be changed in the future
+#define JUT_ASSERT(LINE, COND)
+#define JUT_ASSERT_F(LINE, COND, ...)
+#define JUT_PANIC(LINE, TEXT)
+#define JUT_RANGE_ASSERT(LINE, min, cur, max)
+#define JUT_MAX_ASSERT(LINE, cur, max)
+#define JUT_VALIDATE(LINE, COND)
+#endif
 
 #endif

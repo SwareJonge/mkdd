@@ -171,7 +171,8 @@ CFLAGS = [
     "-RTTI off",
     "-char signed",
     "-enum int",
-    "-use_lmw_stmw on"
+    "-use_lmw_stmw on",
+    "-DDEBUG" # do i need -g too?
 ]
 
 JSYSTEM_BASE = CFLAGS + [ "-inline auto" ]
