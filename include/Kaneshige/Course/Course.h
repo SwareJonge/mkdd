@@ -135,6 +135,7 @@ public:
         float mTotalPriorDist;
     };
     Course(CrsData *, int, bool);
+    ECourseID getCourseID() const { return mID; }
     Sector *getStartSector() const { return &mSectors[0]; }
     float getTrackSectorDist() const { return mTrackSectorDist; }
     int getTotalSectorNumber() const { return mTotalSectors;  }
@@ -154,7 +155,8 @@ public:
     Sector *searchSector(short);
 
 private: // add all documented stuff from Ghidra
-    u8 _0[0x50c];
+    ECourseID mID;
+    u8 _4[0x508];
     s16 mTotalSectors;
     s16 mTrackSectorNum;
     Sector *mSectors;

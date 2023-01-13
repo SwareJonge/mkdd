@@ -16,6 +16,7 @@
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Osako/kartPad.h"
+#include "Osako/SystemRecord.h"
 #include "Osako/shadowMgr.h"
 #include "Sato/EffectScreen.h"
 #include "Sato/GeographyObjMgr.h"
@@ -315,4 +316,19 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     SysDebug::getManager()->setUserTimeLabel(5, nullptr);
     SysDebug::getManager()->setUserTimeLabel(6, "VIEWCALC");
     SysDebug::getManager()->setUserTimeLabel(7, nullptr);
+}
+
+void RaceMgr::updateBestTime() {
+    ECourseID courseID = RCMGetCourse()->getCourseID();
+    if (gSystemRecord.getBestLap(courseID)->isValid())
+        mBestLapTime.set(gSystemRecord.getBestLap(courseID)->getRaceTime());
+    else
+        mBestLapTime.reset();
+
+    for (int i = 0; i < 5; i++) {
+        if (gSystemRecord.getTARecord(courseID, i)->isValid())
+            mBestTotalTimes[i].set(gSystemRecord.getTARecord(courseID, i)->getRaceTime());
+        else
+            mBestTotalTimes[i].reset();
+    }
 }
