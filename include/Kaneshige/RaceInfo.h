@@ -56,94 +56,93 @@ public:
     static EKartID sAwardDebugKartIDTable[];
     static ECharID sAwardDebugDriver1IDTable[];
     static ECharID sAwardDebugDriver2IDTable[];
-
-    bool isLANMode()
-    {
-        return mLanMode;
-    }
-
+    
     void reset();
-
-    s32 getKartNumber() const; /*{
-        return kartNum;
-    }*/
-
-    KartInfo * getKartInfo(int kartNo) {
-        JUT_RANGE_ASSERT(173, 0, kartNo, 8);
-        return &kartInfo[kartNo];
-    }
-
     void setConsoleTarget(int idx, int p2, bool p3);
     void settingForWaitDemo(bool demoSettingThing);
     void settingForAwardDemo();
     void settingForStaffRoll(bool trueEnding);
     void setRace(ERaceMode RaceMode, int kartCount, int playerCount, int consoleCount, int p5);
     void setRaceLevel(ERaceLevel raceLvl);
-
     void shuffleRandomSeed();
     void shuffleStartNo();
     void hideConsole(u32 param_2);
-
     void setKart(int, EKartID, ECharID, KartGamePad *, ECharID, KartGamePad *);
 
-    void setAwardKartNo(int kartNo)
-    {
-        awardKartNo = kartNo;
-    }
+    // Inline Functions
+    int getLANLapNumber() const { return mLapNumLAN; }
+    int getVSLapNumber() const { return mVsLapNum; }
+    int getKartNumber() const { return mKartNum; }
+    int getConsoleNumber() const { return mConsoleNum; }
+    int getStatusNumber() const { return mStatusNum; }
+    ERaceMode getRaceMode() const { return mRaceMode; }
 
-    void setGpCup(ERaceGpCup cup)
-    {
-        gpCup = cup;
-    }
+    bool isLANMode() { return mLanMode; }
+    bool isTrueEnding() const { return mTrueEnding; }
+    bool isMirror() const { return mMirror; }
+    bool isWaitDemo() const { return mDemoType != 0; }
+    bool isDriverLODOn() const /* { return mLOD & 1; } */;
+    void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
+    void setGpCup(ERaceGpCup cup) { mGpCup = cup; }
+    void setRandomSeed(u32 value) { mRandomSeed = value; }
 
-    void setRandomSeed(u32 value)
-    {
-        randomSeed = value;
-    }
-
-    void setRivalKartNo(int rivalNo, int kartNo)
-    {
+    void setRivalKartNo(int rivalNo, int kartNo) {
         JUT_RANGE_ASSERT(114, 0, rivalNo, 2);
         JUT_RANGE_ASSERT(115, 0, kartNo, 8)
-        rivalKarts[rivalNo] = kartNo;
+        mRivalKarts[rivalNo] = kartNo;
+    }
+
+    int getConsoleTarget(int cnsNo) const {
+        JUT_RANGE_ASSERT(124, 0, cnsNo, 4);
+        return _0x114[cnsNo];
+    }
+
+    bool isDemoConsole(int cnsNo) const {
+        JUT_RANGE_ASSERT(129, 0, cnsNo, 4);
+        return _0x11c[cnsNo];
+    }
+
+    KartInfo *getKartInfo(int kartNo) {
+        JUT_RANGE_ASSERT(173, 0, kartNo, 8);
+        return &mKartInfo[kartNo];
     }
 
 //private:
-    bool isTinyProcess;
+    bool mTinyProcess;
     bool mLanMode;
-    bool isTrueEnding;
-    u32 randomSeed;
-    ERaceMode raceMode;
-    ERaceGpCup gpCup;
-    ERaceLevel raceLevel;
-    s32 itemSlotType; // perhaps this is an enum too
-    s16 vsLapNum;
-    s16 lapNumLAN;
-    s16 kartNum;
-    s16 playerNum;
-    s16 consoleNum;
-    s16 statusNum;
-    u16 lod;
-    s16 gpStageNo;
-    s32 demoType;
-    bool isMirror;
+    bool mTrueEnding;
+    u32 mRandomSeed;
+    ERaceMode mRaceMode;
+    ERaceGpCup mGpCup;
+    ERaceLevel mRaceLevel;
+    s32 mItemSlotType; // perhaps this is an enum too
+    s16 mVsLapNum;
+    s16 mLapNumLAN;
+    s16 mKartNum;
+    s16 mPlayerNum;
+    s16 mConsoleNum;
+    s16 mStatusNum;
+    u16 mLOD;
+    s16 mGpStageNo;
+    s32 mDemoType;
+    bool mMirror;
     // padding bytes
-    KartInfo kartInfo[8];
-    s16 startPosIndex[8];
-    s16 pointTable[8];
-    s16 rivalKarts[2];
+    KartInfo mKartInfo[8];
+    s16 mStartPosIndex[8];
+    s16 mPointTable[8];
+    s16 mRivalKarts[2];
 
     s16 _0x114[4];
     bool _0x11c[4]; // not sure what these two arrays do, setConsoleTarget sets this so maybe this bool array means isActive and the other the console number / consoleTarget
 
-    s16 awardKartNo;
+    s16 mAwardKartNo;
     // padding bytes
-    s32 demoNextPhase;
-    s16 rank[8]; // stores what rank you finished at previous race, basically the same as startPosIndex
-    RaceTime finishTime[8];
-    RaceTime lapTimes[80]; // 10 per player so perhaps it's lapTimes[8][10] or lapTimes[10][8](why do i not know how arrays work)
+    s32 mDemoNextPhase;
+    s16 mRank[8]; // stores what rank you finished at previous race, basically the same as startPosIndex
+    RaceTime mFinishTime[8];
+    RaceTime mLapTimes[80]; // 10 per player so perhaps it's lapTimes[8][10] or lapTimes[10][8](why do i not know how arrays work)
     s32 _0x298;
-    u16 HideConsole;
+    u16 mHideConsole;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 // unfortunately i can't enable this yet

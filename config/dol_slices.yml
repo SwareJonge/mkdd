@@ -65,6 +65,9 @@ Kaneshige/KartChecker.cpp:
     .sbss: [0x804163a0, 0x804163a8]
     .sdata2: [0x80419dd0, 0x80419e18]
 
+#Kaneshige/RaceMgr.cpp:
+    #.text: [0x801ac5a0, 0x801ad064]
+
 Kaneshige/ScrnShot.cpp:
     .text: [0x801b4764, 0x801b4860]
     .sbss: [0x804163c0, 0x804163c8]

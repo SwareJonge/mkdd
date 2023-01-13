@@ -5,6 +5,13 @@
 #include "Dolphin/math.h"
 #include "std/pair.h"
 
+struct Quaternion {
+	float _00;
+	float _04;
+	float _08;
+	float _0C;
+};
+
 namespace JMath
 {
     template <int length, typename T>

@@ -7,6 +7,8 @@
 class KartLoader
 {
 public:
+    KartLoader(int, const KartInfo *, u16, bool, bool);
+    void setDemoBodyBmd(void *);
     ExModel *getExModelBody(); /* {
         return mModelBody;
     }*/

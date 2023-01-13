@@ -54,12 +54,26 @@ global:
  0x80415714: sInitCalled__9JFWSystem
 
  # JFWDisplay.cpp
+ # JFWDisplay.cpp
  0x80015b80: __dt__10JFWDisplayFv
  0x80015bfc: createManager__10JFWDisplayFPC16_GXRenderModeObjP7JKRHeapQ26JUTXfb10EXfbNumberb
-
- 0x8001684c: waitBlanking__10JFWDisplayFi 
+ 0x80015d5c: __dt__13J2DOrthoGraphFv
+ 0x80015e0c: beginRender__10JFWDisplayFv
+ 0x8001633c: endRender__10JFWDisplayFv
+ 0x8001669c: endFrame__10JFWDisplayFv
+ 0x8001684c: waitBlanking__10JFWDisplayFi
+ 0x800169fc: threadSleep__10JFWDisplayFx
+ 0x80016ab8: clearEfb_init__10JFWDisplayFv
+ 0x80016b2c: clearEfb__10JFWDisplayFv
+ 0x80016b58: clearEfb__10JFWDisplayF8_GXColor
+ 0x80016b9c: clearEfb__10JFWDisplayFiiii8_GXColor
+ 0x80016f0c: calcCombinationRatio__10JFWDisplayFv
+ 0x800172b4: __dt__18JSUList<8JFWAlarm>Fv
 
  0x80388140: __vt__10JFWDisplay
+ 0x803880c0: e_mtx
+ 0x803ef5c0: sList__8JFWAlarm
+ 0x80415718: sManager__10JFWDisplay
 
  # J2DOrthoGraph.cpp
  0x80043d68: setPort__13J2DOrthoGraphFv
@@ -126,8 +140,64 @@ global:
  0x8006f140: createConsole__12JUTExceptionFPvUl
 
  # JUTGamePad.cpp
+ 0x8006f93c: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
  0x8006fa08: __dt__10JUTGamePadFv
+ 0x8006faac: initList__10JUTGamePadFv
  0x8006fae8: init__10JUTGamePadFv
+ 0x8006fb50: clear__10JUTGamePadFv
+ 0x8006fb5c: read__10JUTGamePadFv
+ 0x8006ff30: assign__10JUTGamePadFv
+ 0x8006ffe0: checkResetCallback__10JUTGamePadFx
+ 0x80070058: update__10JUTGamePadFv
+ 0x8007034c: checkResetSwitch__10JUTGamePadFv
+ 0x800703cc: clear__Q210JUTGamePad7CButtonFv
+ 0x80070408: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
+ 0x80070598: update__Q210JUTGamePad7CButtonFPC10LGPositionUl
+ 0x800707a8: clear__Q210JUTGamePad6CStickFv
+ 0x800707c4: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
+ 0x80070a6c: update__Q210JUTGamePad6CStickFScUl
+ 0x80070af0: getButton__Q210JUTGamePad6CStickFUl
+ 0x80070ba4: clear__Q210JUTGamePad7CRumbleFP10JUTGamePad
+ 0x80070c18: startMotor__Q210JUTGamePad7CRumbleFi
+ 0x80070ca4: stopMotor__Q210JUTGamePad7CRumbleFib
+ 0x80070d44: update__Q210JUTGamePad7CRumbleFs
+ 0x800710e4: setRepeat__Q210JUTGamePad7CButtonFUlUlUl
+ 0x80071100: setButtonRepeat__10JUTGamePadFUlUlUl
+ 0x8007114c: recalibrate__10JUTGamePadFUl
+ 0x800711b0: checkCallback__19JUTGamePadLongPressFiUl
+ 0x8007131c: __dt__30JSUList<19JUTGamePadLongPress>Fv
+ 0x80071368: __ct__Q210JUTGamePad6CStickFv
+ 0x80071384: __ct__Q210JUTGamePad7CButtonFv
+ 0x800713c0: __dt__21JSUList<10JUTGamePad>Fv
+ 0x8038af50: sChannelMask__Q210JUTGamePad7CRumble
+ 0x803fa5cc: mPadList__10JUTGamePad
+ 0x803fa764: mPadStatus__10JUTGamePad
+ 0x803fa794: mPadButton__10JUTGamePad
+ 0x803fa854: mPadMStick__10JUTGamePad
+ 0x803fa894: mPadSStick__10JUTGamePad
+ 0x803fa8d4: msaSIType__10JUTGamePad
+ 0x803fa8e4: sPatternList__19JUTGamePadLongPress
+ 0x80414058: sStickMode__10JUTGamePad
+ 0x8041405c: sClampMode__10JUTGamePad
+ 0x80414060: sPressPoint__Q210JUTGamePad6CStick
+ 0x80414064: sReleasePoint__Q210JUTGamePad6CStick
+ 0x80414068: sResetPattern__Q210JUTGamePad13C3ButtonReset
+ 0x8041406c: sResetMaskPattern__Q210JUTGamePad13C3ButtonReset
+ 0x80415818: mListInitialized__10JUTGamePad
+ 0x8041581c: mPadAssign__10JUTGamePad
+ 0x80415820: mspLGWheels__10JUTGamePad
+ 0x80415824: sSuppressPadReset__10JUTGamePad
+ 0x80415828: sErrorReport__10JUTGamePad
+ 0x8041582c: sAnalogMode__10JUTGamePad
+ 0x80415830: sRumbleSupported__10JUTGamePad
+ 0x80415834: mStatus__Q210JUTGamePad7CRumble
+ 0x80415838: mEnabled__Q210JUTGamePad7CRumble
+ 0x8041583c: sCallback__Q210JUTGamePad13C3ButtonReset
+ 0x80415840: sCallbackArg__Q210JUTGamePad13C3ButtonReset
+ 0x80415848: sThreshold__Q210JUTGamePad13C3ButtonReset
+ 0x80415850: sResetSwitchPushing__Q210JUTGamePad13C3ButtonReset
+ 0x80415851: sResetOccurred__Q210JUTGamePad13C3ButtonReset
+ 0x80415854: sResetOccurredPort__Q210JUTGamePad13C3ButtonReset
 
  # JUTResFont.cpp
  0x80073a9c: __ct__10JUTResFontFPC7ResFONTP7JKRHeap
@@ -147,15 +217,6 @@ global:
  0x80071aa4: clear__10JUTProcBarFv
  0x80071ba8: drawProcessBar__10JUTProcBarFv
  0x8007335c: drawHeapBar__10JUTProcBarFv
- 0x801b1628: getGpCost__10JUTProcBarCFv
- 0x801b1630: getCpuCost__10JUTProcBarCFv
- 0x801b1638: setVisible__10JUTProcBarFb
- 0x801b1640: getManager__10JUTProcBarFv
- 0x801b1818: userStart__10JUTProcBarFiUcUcUc
- 0x801b1878: start__Q210JUTProcBar5CTimeFUcUcUc
- 0x801b1904: userEnd__10JUTProcBarFi
- 0x801b1934: end__Q210JUTProcBar5CTimeFv
- 0x801b1efc: getUserCost__10JUTProcBarFi
 
  0x80414070: oneFrameRate
  0x80414074: oneFrameRateUser
@@ -194,12 +255,43 @@ global:
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
 
  # JKRHeap.cpp
- 0x800840f8: becomeSystemHeap__7JKRHeapFv 
+ 0x80083e20: __ct__7JKRHeapFPvUlP7JKRHeapb
+ 0x80083f44: __dt__7JKRHeapFv
+ 0x80084050: initArena__7JKRHeapFPPcPUli
+ 0x800840f8: becomeSystemHeap__7JKRHeapFv
  0x80084108: becomeCurrentHeap__7JKRHeapFv
  0x80084118: destroy__7JKRHeapFv
- 0x80084144: alloc__7JKRHeapFUliP7JKRHeap 
+ 0x80084144: alloc__7JKRHeapFUliP7JKRHeap
  0x800841a4: alloc__7JKRHeapFUli
+ 0x80084224: free__7JKRHeapFPvP7JKRHeap
+ 0x8008426c: free__7JKRHeapFPv
+ 0x800842e4: callAllDisposer__7JKRHeapFv
+ 0x80084334: freeAll__7JKRHeapFv
+ 0x800843a0: freeTail__7JKRHeapFv
+ 0x8008440c: resize__7JKRHeapFPvUl
+ 0x80084490: getFreeSize__7JKRHeapFv
  0x800844bc: getTotalFreeSize__7JKRHeapFv
+ 0x800844e8: changeGroupID__7JKRHeapFUc
+ 0x80084560: do_changeGroupID__7JKRHeapFUc
+ 0x80084568: do_getCurrentGroupId__7JKRHeapFv
+ 0x80084570: getMaxAllocatableSize__7JKRHeapFi
+ 0x800845e0: findFromRoot__7JKRHeapFPv
+ 0x80084640: find__7JKRHeapCFPv
+ 0x800848b0: getNextChild__17JSUTree<7JKRHeap>CFv
+ 0x800848c4: __ne__25JSUTreeIterator<7JKRHeap>CFPC17JSUTree<7JKRHeap>
+ 0x800848d8: getEndChild__17JSUTree<7JKRHeap>CFv
+ 0x800848e0: __pp__25JSUTreeIterator<7JKRHeap>Fv
+ 0x800848fc: __rf__25JSUTreeIterator<7JKRHeap>CFv
+ 0x80084908: __ct__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap>
+ 0x80084910: getNumChildren__17JSUTree<7JKRHeap>CFv
+ 0x80084918: getFirstChild__17JSUTree<7JKRHeap>CFv
+ 0x8008492c: findAllHeap__7JKRHeapCFPv
+ 0x80084b9c: dispose__7JKRHeapFPvUl
+ 0x80084c2c: dispose__7JKRHeapFPvPv
+ 0x80084cb8: dispose__7JKRHeapFv
+ 0x80084d08: copyMemory__7JKRHeapFPvPvUl
+ 0x80084d88: getObject__25JSUTreeIterator<7JKRHeap>CFv
+ 0x80084d94: getObject__17JSUTree<7JKRHeap>CFv
  0x80084d9c: __nw__FUl
  0x80084e28: __nw__FUli
  0x80084eb8: __nw__FUlP7JKRHeapi
@@ -208,9 +300,14 @@ global:
  0x800850c0: __nwa__FUlP7JKRHeapi
  0x800851ac: __dl__FPv
  0x800851d0: __dla__FPv
+ 0x800851f4: state_register__7JKRHeapCFPQ27JKRHeap6TStateUl
+ 0x800852a4: state_compare__7JKRHeapCFRCQ27JKRHeap6TStateRCQ27JKRHeap6TState
+ 0x80085330: state_dump__7JKRHeapCFRCQ27JKRHeap6TState
+ 0x800853b4: dump_sort__7JKRHeapFv
 
  0x8038b418: __vt__7JKRHeap 
 
+ 0x80414098: sDefaultFillFlag__7JKRHeap
  0x804159a8: sSystemHeap__7JKRHeap
  0x804159ac: sCurrentHeap__7JKRHeap
  0x804159b0: sRootHeap__7JKRHeap
@@ -237,9 +334,6 @@ global:
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
 
  0x800a5fe0: __ct__Q29JGeometry8TVec3<f>Fv 
-
- # JUTGamePad.cpp
- 0x8006f93c: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
  
  # dvd.c
  0x800b1e48: DVDInit 
@@ -268,7 +362,12 @@ global:
  0x800eddd0: LCQueueWait 
 
  # OSError.c
+ 0x800eea6c: OSReport
  0x800eeaec: OSPanic
+ 0x800eec18: OSSetErrorHandler
+ 0x800eee30: __OSUnhandledException
+ 0x803bf8b0: __OSErrorTable
+ 0x80414250: __OSFpscrEnableBits
 
  # OSThread.c
  0x800f1b78: OSGetCurrentThread
@@ -291,6 +390,14 @@ global:
 
  # runtime.c
  0x80105f24: __cvt_fp2unsigned
+ 0x801060b0: __div2u
+ 0x8010619c: __div2i
+ 0x801062d4: __mod2u
+ 0x801063b8: __mod2i
+ 0x801064c4: __shl2i
+ 0x801064e8: __shr2u
+ 0x8010650c: __shr2i
+ 0x80106534: __cvt_dbl_usll
 
  # math.h
  0x80112040: atan
@@ -307,51 +414,533 @@ global:
  # GameAudioMain.cpp
  0x8011e540: startSystemSe__Q29GameAudio4MainFUl 
 
- # Result2D.cpp
- 0x80149534: getKartInfo__7RaceMgrFi
- 0x8014972c: getPad__8KartInfoFi
- 0x801497d4: getKartInfo__8RaceInfoFi
- 0x80149af8: getLanguage__10KartLocaleFv
- 0x80149bd4: getRaceMode__7RaceMgrCFv
+  # MotorManager.cpp
+ 0x80130e58: __ct__12MotorManagerFP7JKRHeap
+ 0x80130ee0: __dt__12MotorManagerFv
+ 0x80130f48: reset__12MotorManagerFv
+ 0x80130fc0: exec__12MotorManagerFv
+ 0x8013103c: setMotor__12MotorManagerFQ212MotorManager9MotorTypei
+ 0x80131218: setAwardMotor__12MotorManagerFQ212MotorManager9MotorType
+ 0x801312e8: setPowerMotor__12MotorManagerFifUcUc
+ 0x803fb640: mCountFrame__12MotorManager
+ 0x80416280: mThis__12MotorManager
 
+ # Scene.cpp
+ 0x8013c1e8: __ct__5SceneFP10JKRArchiveP7JKRHeap
+ 0x8013c270: __dt__5SceneFv
+ 0x80394b70: __vt__5Scene
+
+ # Result2D.cpp
+ 0x8014634c: __ct__8Result2DFP7JKRHeap
+ 0x80149534: getKartInfo__7RaceMgrFi
+ 0x801495d0: getStatusNumber__7RaceMgrCFv
+ 0x801495dc: getDriverCharID__8KartInfoCFi
+ 0x80149688: setCornerColor__10J2DPictureFQ28JUtility6TColor
+ 0x8014972c: getPad__8KartInfoFi
+ 0x801497c4: isTagMode__8KartInfoCFv
+ 0x801497d4: getKartInfo__8RaceInfoFi
+ 0x8014986c: getScaleY__7J2DPaneCFv
+ 0x80149874: getScaleX__7J2DPaneCFv
+ 0x8014987c: setFrame__10J2DAnmBaseFf
+ 0x80149884: JKRGetNameResource__FPCcP13JKRFileLoader
+ 0x801498a4: setCornerColor__10J2DPictureFQ210J2DPicture12TCornerColor
+ 0x80149950: getCornerColor__10J2DPictureFRQ210J2DPicture12TCornerColor
+ 0x801499d4: getRankPic__6Race2DFii
+ 0x80149acc: getRace2D__10J2DManagerFv
+ 0x80149ad4: __as__Q28JUtility6TColorFRCQ28JUtility6TColor
+ 0x80149af8: getLanguage__10KartLocaleFv
+ 0x80149b00: getNumberTexture__12Kart2DCommonFQ212Kart2DCommon15NumberTextureID
+ 0x80149b10: getRaceLevel__7RaceMgrCFv
+ 0x80149b1c: getCupIconTexture__12Kart2DCommonF10ERaceGpCup
+ 0x80149b2c: getCupNameTexture__12Kart2DCommonF10ERaceGpCup
+ 0x80149b3c: getCup__12SequenceInfoCFv
+ 0x80149b44: ptr__12Kart2DCommonFv
+ 0x80149b4c: show__7J2DPaneFv
+ 0x80149b58: __as__Q29JGeometry8TVec2<f>FRCQ29JGeometry8TVec2<f>
+ 0x80149b6c: hide__7J2DPaneFv
+ 0x80149b78: __ct__Q29JGeometry8TBox2<f>FRCQ29JGeometry8TBox2<f>
+ 0x80149b9c: set__9J2DScreenFPCcP10JKRArchive
+ 0x80149bc4: getArchive__10J2DManagerCFv
+ 0x80149bcc: GETJ2DManager__Fv
+ 0x80149bd4: getRaceMode__7RaceMgrCFv
+ 0x80149be0: RCMGetManager__Fv
  0x80149be8: getJ2DOrtho__6SystemFv
+ 0x80149bf0: __ct__15Result2DHioNodeFPCc
+ 0x80149c54: __dt__13Result2DParamFv
+ 0x80149ce8: __ct__Q28Result2D6data2DFv
+ 0x80149cec: init__8Result2DFv
+ 0x8014a070: __dt__15Result2DHioNodeFv
+ 0x8014a0e0: draw__8Result2DFv
+ 0x8014a184: drawGP__8Result2DFv
+ 0x8014a514: drawVS__8Result2DFv
+ 0x8014a838: drawTA__8Result2DFv
+ 0x8014ab54: drawMG__8Result2DFv
+ 0x8014add0: calc__8Result2DFP11KartGamePad
+ 0x8014b2a0: calcRaceRank__8Result2DFv
+ 0x8014b484: calcGPRank__8Result2DFv
+ 0x8014b634: calcResult__8Result2DFv
+ 0x8014b65c: calcVS__8Result2DFv
+ 0x8014b798: calcTA__8Result2DFP11KartGamePad
+ 0x8014bd30: calcMG__8Result2DFv
+ 0x8014be40: calcPASSWD__8Result2DFP11KartGamePad
+ 0x8014bf3c: selectorGP__8Result2DFP11KartGamePad
+ 0x8014c2f4: selectorVS__8Result2DFP11KartGamePad
+ 0x8014c480: selectorTA__8Result2DFP11KartGamePad
+ 0x8014c7a0: selectorMG__8Result2DFP11KartGamePad
+ 0x8014c924: selectorCommon__8Result2DFv
+ 0x8014c968: setDrawGP__8Result2DFv
+ 0x8014cb58: setDrawVS__8Result2DFv
+ 0x8014cc10: setDrawTA__8Result2DFv
+ 0x8014cd94: setDrawMG__8Result2DFv
+ 0x8014ce48: getResultSelector__8Result2DFv
+ 0x8014ce50: setRaceRank__8Result2DFv
+ 0x8014d924: setGPRank__8Result2DFv
+ 0x8014df84: setVS__8Result2DFv
+ 0x8014e368: setTA__8Result2DFv
+ 0x8014eee4: setMG__8Result2DFv
+ 0x8014f16c: setBattleCharacter__8Result2DFv
+ 0x8014f514: getRaceRankLayoutAlpha__8Result2DFiRUc
+ 0x8014f550: getGPRankLayoutAlpha__8Result2DFiRUc
+ 0x8014f594: getRaceRankLinePos__8Result2DFiiRf
+ 0x8014f71c: getGPRankLinePos__8Result2DFiiRf
+ 0x8014f8a4: getResultLinePos__8Result2DFiRf
+ 0x8014f9d4: getRaceRankLineScale__8Result2DFiiRQ29JGeometry8TVec2<f>RQ29JGeometry8TVec2<f>
+ 0x8014fb60: getGPRankLineScale__8Result2DFiiRQ29JGeometry8TVec2<f>RQ29JGeometry8TVec2<f>
+ 0x8014fcf0: getFrameClr__8Result2DFiRQ28JUtility6TColorRUc
+ 0x8014fedc: getVSPointYPos__8Result2DFiiRf
+ 0x8014ff4c: getMGPointYPos__8Result2DFiRf
+ 0x8014ffb8: getVSScale__8Result2DFiRf
+ 0x8014fff8: getMGScale__8Result2DFiRf
+ 0x80150038: getVSColor__8Result2DFiRQ28JUtility6TColor
+ 0x8015029c: getMGColor__8Result2DFiRQ28JUtility6TColor
+ 0x80150500: getFrameColor__8Result2DFRQ28JUtility6TColor
+ 0x8015057c: getScale__8Result2DFi
+ 0x801505c4: setScale__8Result2DFi
+ 0x80150804: setGPClr__8Result2DFv
+ 0x80150830: getAnmEnd__8Result2DFv
+ 0x80195358: __ct__11LANResult2DFP7JKRHeap
+ 0x80195460: __dt__16LANResult2DParamFv
+ 0x801954a8: init__11LANResult2DFv
+ 0x801954e4: __dt__18LANResult2DHioNodeFv
+ 0x80195554: draw__11LANResult2DFv
+ 0x801955f0: calc__11LANResult2DFv
+ 0x80195664: start__11LANResult2DFi
+ 0x8036ec18: mSetWordLineTag__8Result2D
+ 0x8036ec60: mResultLayoutTag__8Result2D
+ 0x8036ecb8: mResultLineTag__8Result2D
+ 0x8036ed58: mGetPointTag__8Result2D
+ 0x8036ed78: mVSBattleCharacterTag__8Result2D
+ 0x8036ede8: mVSBattlePointTag__8Result2D
+ 0x80394cc0: mRankName__8Result2D
+ 0x80394ce0: mPlayerNumberName__8Result2D
+ 0x80394cf0: mResultArrowName__8Result2D
+ 0x803fba20: mWhiteColor__8Result2D
+ 0x804162e8: mDrawFlag__8Result2D
+ 0x804162ec: mResultSelector__8Result2D
+ 0x804162f0: mResultState__8Result2D
+ 0x80418f80: mOverBackTag__8Result2D
 
  # SequenceInfo.cpp
+ 0x801515f0: init__12SequenceInfoFv
+ 0x80151760: setRandomSeed__12SequenceInfoFv
+ 0x80151790: getRandom__12SequenceInfoFv
+ 0x801517b4: getDecidePad__12SequenceInfoFv
+ 0x801517d0: setClrGPCourse__12SequenceInfoFv
+ 0x80151df0: isEndGP__12SequenceInfoFv
+ 0x80151e34: isGameClr__12SequenceInfoFv
+ 0x80151f7c: getPlayerRankGP__12SequenceInfoFv
+ 0x801520c8: getPad2Player__12SequenceInfoFP11KartGamePad
+ 0x80152110: setSecretFlag__12SequenceInfoFv
+ 0x80152890: setSecretGameAppear__12SequenceInfoFQ212SystemRecord8GameFlag
+ 0x801528bc: setSecretKartAppear__12SequenceInfoFQ212SystemRecord12SecretKartID
  0x801528e8: rndDemo__12SequenceInfoFUl
+ 0x80152a4c: getDemoKart__12SequenceInfoF7ECharID
+ 0x80152b10: rndAllCupCourse__12SequenceInfoFv
+ 0x8036f410: RANKPOINT__12SequenceInfo
+ 0x803fba80: gSequenceInfo
 
  # Race2D.cpp
+ 0x801531b8: __ct__6Race2DFP7JKRHeap
+ 0x8015743c: getTranslateY__7J2DPaneCFv
+ 0x80157444: getTranslateX__7J2DPaneCFv
+ 0x8015744c: __ct__Q28JUtility6TColorFRCQ28JUtility6TColor
+ 0x80157464: getTotalLapNumber__7RaceMgrCFv
+ 0x8015746c: getPlayerNumber__7RaceMgrCFv
+ 0x80157478: getKartNumber__7RaceMgrCFv
+ 0x80157484: atan2__3stdFff
  0x801574a8: RCMGetCourse__Fv
+ 0x801574b4: __ct__Q28JUtility6TColorFUl
+ 0x801574bc: isMirror__7RaceMgrCFv
+ 0x801574c8: setS__11Race2DParamFf
+ 0x801574d0: setY__11Race2DParamFf
+ 0x801574d8: setX__11Race2DParamFf
+ 0x801574e0: getCourseID__6ResMgrFv
+ 0x801574e8: getParam__13Race2DHioNodeFv
+ 0x801574f0: set__Q28JUtility6TColorF8_GXColor
+ 0x80157514: getNetFlag__10J2DManagerFv
+ 0x8015751c: getConsoleNumber__7RaceMgrCFv
+ 0x80157528: __ct__13Race2DHioNodeFPCc
+ 0x8015759c: __dt__11Race2DParamFv
+ 0x80157714: init__6Race2DFv
+ 0x8015831c: __dt__13Race2DHioNodeFv
+ 0x8015838c: drawPlayerMark__6Race2DFv
+ 0x801588b0: drawMask__6Race2DFv
+ 0x80158998: draw__6Race2DFv
+ 0x80159a90: drawAlarm__6Race2DFv
+ 0x80159f00: anmTA__6Race2DFi
+ 0x8015a688: getAlphaAnmTA__6Race2DFiRUc
+ 0x8015a758: getBestTimeColor__6Race2DFiRQ28JUtility6TColorRQ210J2DPicture12TCornerColor
+ 0x8015a874: getBestLapColor__6Race2DFiRQ28JUtility6TColor
+ 0x8015a90c: drawMiniGame__6Race2DFv
+ 0x8015a978: drawBomb__6Race2DFv
+ 0x8015af34: getWinBombPoint__11KartCheckerFv
+ 0x8015af3c: getBombScale__6Race2DFiii
+ 0x8015b13c: getReachBombScale__6Race2DFii
+ 0x8015b1e8: drawEscape__6Race2DFv
+ 0x8015b42c: getStartShineTimeScale__6Race2DFi
+ 0x8015b4b8: drawCourse__6Race2DFv
+ 0x8015c7ec: calc__6Race2DFv
+ 0x8015cfdc: calcPlayerMark__6Race2DFv
+ 0x8015d394: calcParticle__6Race2DFv
+ 0x8015da18: setLayoutData__6Race2DFv
+ 0x8015f688: calcMiniGame__6Race2DFv
+ 0x8015f6f4: calcBomb__6Race2DFv
+ 0x80160590: getBombColor__6Race2DFQ28JUtility6TColorQ28JUtility6TColor
+ 0x80160708: isBombReach__6Race2DFi
+ 0x80160864: isBombWinner__6Race2DFi
+ 0x80160980: setEffectPos__6Race2DFi
+ 0x80160c14: calcEscape__6Race2DFv
+ 0x80161114: calcTimeFrame__6Race2DFbi
+ 0x8016152c: getCornerColor__6Race2DFi
+ 0x80161894: setEscapeColor__6Race2DFi
+ 0x80162844: getTimeColor__6Race2DFQ28JUtility6TColorQ28JUtility6TColor
+ 0x801629bc: startBombDemo__6Race2DFv
+ 0x801629e0: isAlarm__6Race2DFi
+ 0x80162a40: getMapPos__6Race2DFiRQ29JGeometry8TVec3<f>RQ29JGeometry8TVec2<f>
+ 0x80162dac: getCharacterInfo__6Race2DFiiRfRfRf
+ 0x80162ec8: getCharacterClr__6Race2DFiiiRQ28JUtility6TColorRQ28JUtility6TColorRUc
+ 0x801635d0: getItemInfo__6Race2DFiiiRfRfRf
+ 0x8016374c: decideItem__6Race2DFiUcRi
+ 0x80163b74: calcLapInit__6Race2DFv
+ 0x80163c00: calcLap__6Race2DFv
+ 0x80164128: lapInit__6Race2DFv
+ 0x80164168: lapMain__6Race2DFv
+ 0x80164188: lapTimeInit__6Race2DFv
+ 0x8016451c: lapTimeMain__6Race2DFv
+ 0x801651b4: calcItem__6Race2DFv
+ 0x801655d0: itemStartInit__6Race2DFv
+ 0x80165620: itemStart__6Race2DFv
+ 0x80166348: itemBlinkInit__6Race2DFv
+ 0x80166398: itemBlink__6Race2DFv
+ 0x80166dd8: itemGetInit__6Race2DFv
+ 0x80166e2c: itemGetMain__6Race2DFv
+ 0x80167464: itemSpecialInit__6Race2DFv
+ 0x801674a4: itemSpecialMain__6Race2DFv
+ 0x80167b08: setUsisi__6Race2DFi7ECharID
+ 0x80167b0c: alarmX__6Race2DFiRf
+ 0x80167b5c: getStartScaleA__6Race2DFiRf
+ 0x80167c50: getStartScaleB__6Race2DFiRf
+ 0x80167d4c: getStartSpeedMeterScale__6Race2DFiiRf
+ 0x80167df8: getGoalSpeedMeterPos__6Race2DFiRf
+ 0x80167e48: getStartLapPos__6Race2DFiiRf
+ 0x8016804c: getGoalLapPos__6Race2DFiRf
+ 0x8016809c: getStartCharPos__6Race2DFiiRf
+ 0x8016819c: getGoalCharPos__6Race2DFiiRf
+ 0x80168214: getThunderCharScale__6Race2DFi
+ 0x801682ec: getStartRankPos__6Race2DFiiRQ29JGeometry8TVec2<f>
+ 0x8016851c: getRaceRankScale__6Race2DFi
+ 0x801685e4: getGoalRankPos__6Race2DFiiRQ29JGeometry8TVec2<f>
+ 0x801689e4: getGoalRankScale__6Race2DFiiRf
+ 0x80168cb4: getGoalRankRot__6Race2DFiRf
+ 0x80168d1c: getStartLapTimePos__6Race2DFiiRf
+ 0x80168e30: getGoalLapTimePos__6Race2DFiiRf
+ 0x8016cecc: __ct__9PreRace2DFP7JKRHeap
+ 0x8016d70c: __dt__14PreRace2DParamFv
+ 0x8016d754: init__9PreRace2DFv
+ 0x8016d7a4: __dt__16PreRace2DHioNodeFv
+ 0x8016d814: draw__9PreRace2DFv
+ 0x8016d8d8: calc__9PreRace2DFv
+ 0x8016db38: setGP__9PreRace2DFv
+ 0x8016df3c: setVS__9PreRace2DFv
+ 0x8016df40: setTA__9PreRace2DFv
+ 0x8016df44: setBalloon__9PreRace2DFv
+ 0x8016e13c: setBomb__9PreRace2DFv
+ 0x8016e334: setEscape__9PreRace2DFv
+ 0x8016e524: setLap__9PreRace2DFv
+ 0x8016e6d0: setMirror__9PreRace2DFv
+ 0x8016e84c: changeTexture__9PreRace2DFPCcP10J2DPicture
+ 0x8016e8b0: start__9PreRace2DFv
+ 0x8036fb10: mLapTag__6Race2D
+ 0x8036fb90: mItemExTag__6Race2D
+ 0x8036fc10: mItemExDrawTag__6Race2D
+ 0x8036ff80: mRankTag__6Race2D
+ 0x80370080: mRankGoalTag__6Race2D
+ 0x80370100: mTimeDrawTag__6Race2D
+ 0x803701a0: mLapTimeDrawTag__6Race2D
+ 0x803707d0: mSpeedTag__6Race2D
+ 0x803707e8: mSpeedChipTag__6Race2D
+ 0x80370820: mSpeedDrawTag__6Race2D
+ 0x803708f0: mShineTimeTag__6Race2D
+ 0x80371070: mPreRaceBckTag__9PreRace2D
+ 0x803950b8: mPlayerNumberName__6Race2D
+ 0x803950d8: mLANPlayerNumberName__6Race2D
+ 0x803950f8: mDriverName__6Race2D
+ 0x80395148: mPlayerName__6Race2D
+ 0x80395168: mLANPlayerName__6Race2D
+ 0x80395188: mCharacterName__6Race2D
+ 0x803951d8: mItemName__6Race2D
+ 0x80395254: mSpeedName__6Race2D
+ 0x803fbecc: mPlayerNumberColor__6Race2D
+ 0x804145d8: mTimeLapName__6Race2D
+ 0x80416300: mThis__6Race2D
+ 0x80416304: mTask__6Race2D
 
  # Course.cpp
+ 0x80198cd4: __ct__6CourseFP7CrsDataib
+ 0x80198f60: __defctor__7ExModelFv
+ 0x80198f84: isSkyFollow__7CrsDataCFv
  0x80198f98: getManager__7RaceMgrFv
+ 0x80198fa0: getCourseID__7CrsDataCFv
+ 0x80198fac: __ct__Q29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Fv
+ 0x80198fdc: __ct__Q29JGeometry64TRotation3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Fv
+ 0x8019900c: __ct__Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>Fv
+ 0x8019903c: __ct__Q29JGeometry13SMatrix34C<f>Fv
+ 0x80199040: __dt__17J3DAnmObjMaterialFv
+ 0x80199098: __dt__13J3DAnmObjBaseFv
+ 0x801990f4: __dt__12J3DFrameCtrlFv
+ 0x8019913c: __ct__17J3DAnmObjMaterialFv
+ 0x80199180: __ct__13J3DAnmObjBaseFv
+ 0x801991c8: __ct__12J3DFrameCtrlFv
+ 0x80199208: init__12J3DFrameCtrlFi
+ 0x8019922c: reset__6CourseFv
+ 0x80199494: isTevRegAnmEnable__6CourseCFi
+ 0x80199534: isTexPatAnmEnable__6CourseCFv
+ 0x80199544: resetFrame__13J3DAnmObjBaseFv
+ 0x80199568: reset__12J3DFrameCtrlFv
+ 0x801995a8: isTexSRTAnmEnable__6CourseCFi
+ 0x80199648: getShaking__7CrsDataCFv
+ 0x80199654: getCrsData__6CourseCFv
+ 0x8019965c: isCrsDemoMode__7RaceMgrFv
  0x80199688: zero__Q29JGeometry8TVec3<f>Fv
+ 0x801996c8: loadCrsData__6CourseFb
+ 0x80199830: setPosition__7AIPointFPC3Vec
+ 0x80199838: getPoint__6AIPathFi
+ 0x8019985c: init__6AIPathFi
+ 0x801998c8: __ct__7AIPointFv
+ 0x801998d4: __dt__6AIPathFv
+ 0x80199910: __ct__6AIPathFv
+ 0x80199944: getPathNumber__7CrsDataCFv
+ 0x80199950: getCheckPathNumber__7CrsDataCFv
+ 0x8019995c: createSector__6CourseFv
+ 0x80199edc: getNextNum__Q26Course6SectorCFv
+ 0x80199ee4: getNextSector__Q26Course6SectorFi
  0x80199f7c: getSectorDist__Q26Course6SectorCFv
  0x80199f84: getGeneration__Q26Course6SectorCFv
  0x80199f8c: isMainSector__Q26Course6SectorCFv
+ 0x80199f94: setDivFlag__Q26Course6SectorFv
+ 0x80199fa0: setID__Q26Course6SectorFs
+ 0x80199fa8: isMainPath__Q27CrsData9CheckPathCFv
+ 0x80199fbc: getCheckPathTable__7CrsDataCFv
+ 0x80199fcc: createJugemPoint__6CourseFv
+ 0x8019a074: setPointData__10JugemPointFPCQ27CrsData11SJugemPoint
+ 0x8019a07c: getJugemPointNumber__7CrsDataCFv
+ 0x8019a088: getJugemPointTable__7CrsDataCFv
+ 0x8019a098: setLinkJugemPoint__6CourseFP7CLPointUs
+ 0x8019a110: setCLPoint__10JugemPointFP7CLPoint
+ 0x8019a118: isSameCPointID__10JugemPointCFUs
+ 0x8019a134: searchJugemPoint__6CourseFUs
+ 0x8019a1f0: isSameJPointID__10JugemPointCFUs
  0x8019a20c: searchSector__6CourseFs
- 0x8019acf4: length__Q29JGeometry8TVec3<f>CFv
-
- 0x8019ad14: sub__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
- 0x8019ad48: PSVECSubtract__14JMathInlineVECFPC3VecPC3VecP3Vec 
-
+ 0x8019a28c: getID__Q26Course6SectorCFv
+ 0x8019a294: createCLPoint__6CourseFb
+ 0x8019a9b0: getPrevPoint__7CLPointFi
+ 0x8019aa90: getNextPoint__7CLPointFi
  0x8019ab70: dot__Q29JGeometry8TVec3<f>CFRCQ29JGeometry8TVec3<f>
+ 0x8019ab90: PSVECDotProduct__14JMathInlineVECFPC3VecPC3Vec
  0x8019abb0: normalize__Q29JGeometry8TVec3<f>Fv
  0x8019ac30: scale__Q29JGeometry8TVec3<f>Ff
-
+ 0x8019ac54: PSVECScale__14JMathInlineVECFPC3VecP3Vecf
+ 0x8019ac74: inv_sqrt__Q29JGeometry8TUtil<f>Ff
+ 0x8019aca8: epsilon__Q29JGeometry8TUtil<f>Fv
+ 0x8019acbc: squared__Q29JGeometry8TVec3<f>CFv
+ 0x8019acdc: PSVECSquareMag__14JMathInlineVECFPC3Vec
+ 0x8019acf4: length__Q29JGeometry8TVec3<f>CFv
+ 0x8019ad14: sub__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019ad48: PSVECSubtract__14JMathInlineVECFPC3VecPC3VecP3Vec
+ 0x8019ad6c: getPosition__7CLPointFPQ29JGeometry8TVec3<f>
+ 0x8019adac: getID__10JugemPointCFv
+ 0x8019adb8: getPosition__10JugemPointFPQ29JGeometry8TVec3<f>
+ 0x8019adf8: getFrDirection__10JugemPointCFPQ29JGeometry8TVec3<f>
+ 0x8019ae7c: __ct__Q27CrsData8SCLPointFv
+ 0x8019aeac: getPointNumber__Q27CrsData8PathDataCFv
+ 0x8019aeb4: getKind__7CLPointCFv
+ 0x8019aebc: getPointData__7CLPointFv
+ 0x8019aec4: setKind__7CLPointFUs
+ 0x8019aecc: setPointData__7CLPointFPCQ27CrsData8SCLPoint
+ 0x8019aed4: getCLPointNumber__7CrsDataCFv
+ 0x8019aee0: getCLPointTable__7CrsDataCFv
+ 0x8019aef0: getFirstCLPoint__6CourseCFi
+ 0x8019afa0: createArea__6CourseFv
+ 0x8019b044: init__Q26Course4AreaFPCQ27CrsData5SArea
+ 0x8019b068: __ct__Q26Course4AreaFv
+ 0x8019b124: getAreaNumber__7CrsDataCFv
+ 0x8019b130: getAreaTable__7CrsDataCFv
+ 0x8019b140: getKind__Q26Course4AreaCFv
+ 0x8019b1ec: getYounger__8J3DJointFv
+ 0x8019b1f4: getChild__8J3DJointFv
+ 0x8019b1fc: getJntNo__8J3DJointCFv
+ 0x8019b204: getTransformInfo__8J3DJointFv
+ 0x8019b20c: setFogInfo__6CourseFP12J3DModelData
+ 0x8019b24c: setFogInfo__6CourseFP7ExModel
+ 0x8019b298: getModelData__7ExModelCFv
+ 0x8019b2a4: loadModelData__6CourseFv
+ 0x8019bae8: simpleCalcMaterial__12J3DModelDataFPA4_f
+ 0x8019bb10: setSimpleTevReg__7ExModelFUl
+ 0x8019bb28: getMaterialName__12J3DModelDataCFv
+ 0x8019bb4c: getMaterialName__16J3DMaterialTableCFv
+ 0x8019bb54: isDrawModeXlu__11J3DMaterialFv
+ 0x8019bb60: getMaterialID__11J3DMaterialCFv
+ 0x8019bb68: isDrawModeOpaTexEdge__11J3DMaterialFv
+ 0x8019bb80: getMaterialNodePointer__12J3DModelDataCFUs
+ 0x8019bba4: getMaterialNodePointer__16J3DMaterialTableCFUs
+ 0x8019bbb4: getMaterialInitNum__12J3DModelDataCFv
+ 0x8019bbd8: getMaterialInitNum__16J3DMaterialTableCFv
+ 0x8019bbe0: getMaterialNum__12J3DModelDataCFv
+ 0x8019bc04: getMaterialNum__16J3DMaterialTableCFv
+ 0x8019bc0c: getJointNodePointer__12J3DModelDataCFUs
+ 0x8019bc30: getJointNodePointer__12J3DJointTreeCFUs
+ 0x8019bcb8: setExModel__13J3DAnmObjBaseFP7ExModel
+ 0x8019bcc0: getGeographyLODBias__13TexLODControlFv
+ 0x8019bce8: getManager__13TexLODControlFv
  0x8019bcf0: getManager__8SysDebugFv
+ 0x8019bcf8: searchMaterial__6CourseFUlPUls
+ 0x8019bd30: isHighPriority__6CourseFPCc
+ 0x8019be10: createModel__6CourseFP12JKRSolidHeapUl
+ 0x8019be14: calcShaking__6CourseFv
+ 0x8019c28c: cross__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019c2c0: scaleAdd__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019c324: tan__3stdFf
+ 0x8019c344: tanf__3stdFf
+ 0x8019c368: getAudio__Q29GameAudio4MainFv
+ 0x8019c370: JMASSin__Fs
+ 0x8019c390: JMASinShort__Fs
+ 0x8019c3bc: sinShort__Q25JMath18TSinCosTable<11,f>CFs
+ 0x8019c3c8: isShaking__6CourseCFv
+ 0x8019c3ec: isShaking__7CrsDataCFv
+ 0x8019c400: calc__6CourseFv
+ 0x8019c824: getConsoleNumber__8RaceInfoCFv
+ 0x8019c82c: GetMtx__7KartCamFv
+ 0x8019c834: GetClipper__7KartCamFv
+ 0x8019c83c: add__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019c870: PSVECAdd__14JMathInlineVECFPC3VecPC3VecP3Vec
+ 0x8019c894: getMax__8J3DShapeFv
+ 0x8019c89c: __ct__Q29JGeometry8TVec3<f>FRC3Vec
+ 0x8019c8d4: setTVec3f__9JGeometryFPCfPf
+ 0x8019c8e8: getMin__8J3DShapeFv
+ 0x8019c8f0: getShape__11J3DMaterialFv
+ 0x8019c8f8: frameProc__13J3DAnmObjBaseFv
+ 0x8019c91c: __opPA4_f__Q29JGeometry13SMatrix34C<f>CFv
+ 0x8019c920: setXYZDir__Q29JGeometry64TRotation3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019ca38: ref__Q29JGeometry13SMatrix34C<f>FUlUl
+ 0x8019ca50: getCamera__7RaceMgrCFi
+ 0x8019cae4: getKartCam__8KartCtrlFi
  0x8019caf4: getKartCtrl__8KartCtrlFv
- 0x8019c368: getAudio__Q29GameAudio4MainFv 
+ 0x8019cafc: convWorldPosToMapCoord__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019cb90: convWorldPosToGridCoord__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
  0x8019cc68: __ct__Q29JGeometry8TVec3<f>FRCQ29JGeometry8TVec3<f>
-
+ 0x8019cca0: convMapCoordToWorldPos__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019cd34: calcGroundNormal__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019cdc4: calcPlaneParam__6CourseFP12stPlaneParamffffRCQ29JGeometry8TVec3<f>
+ 0x8019ced0: getShakeVelocity__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019cf94: update__6CourseFv
+ 0x8019cfc4: updateSky__6CourseFv
+ 0x8019d028: drawBase__6CourseFUlPUlsb
+ 0x8019d54c: getNext__11J3DMaterialFv
+ 0x8019d554: getTexGenBlock__11J3DMaterialFv
+ 0x8019d55c: getTexture__12J3DModelDataCFv
+ 0x8019d580: getTexture__16J3DMaterialTableCFv
+ 0x8019d588: getTevBlock__11J3DMaterialFv
+ 0x8019d590: getMtx__9J3DTexMtxFv
+ 0x8019d598: getTexMtxInfo__9J3DTexMtxFv
+ 0x8019d59c: getTexMtx__11J3DMaterialFUl
+ 0x8019d5cc: getMaterialAnm__11J3DMaterialFv
+ 0x8019d5e4: getUpdateEnable__8J3DZModeCFv
+ 0x8019d600: getPEBlock__11J3DMaterialFv
+ 0x8019d608: getIndex__11J3DMaterialFv
+ 0x8019d610: getMesh__8J3DJointFv
+ 0x8019d618: resetVcdVatCache__8J3DShapeFv
+ 0x8019d624: getViewMtx__6J3DSysFv
  0x8019d628: getBaseTRMtx__7ExModelFv
+ 0x8019d630: syncJ3DSys__12J3DModelDataCFv
+ 0x8019d664: anmFrameProc__17J3DAnmObjMaterialFv
+ 0x8019d69c: setFrame__10J3DAnmBaseFf
+ 0x8019d6a4: getFrame__12J3DFrameCtrlCFv
+ 0x8019d6ac: drawSky__6CourseFUl
+ 0x8019d7c0: simpleDraw__7ExModelFUl
+ 0x8019d7e8: getStartLine__6CourseFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+ 0x8019d870: getFrDirection__Q27CrsData10StartPointCFPQ29JGeometry8TVec3<f>
+ 0x8019d8e8: getPosition__Q27CrsData10StartPointCFPQ29JGeometry8TVec3<f>
+ 0x8019d914: getLightColor__6CourseFPQ28JUtility6TColor
+ 0x8019d948: getLightOffsetPosition__6CourseFPQ29JGeometry8TVec3<f>
+ 0x8019d97c: getAmbientColor__6CourseFPQ28JUtility6TColor
+ 0x8019d9b0: getCourseBGM__6CourseFv
+ 0x8019db3c: getVideoFrameMode__10KartLocaleFv
  0x8019db44: getVideoMode__10KartLocaleFv
-
+ 0x8019db4c: getAwardKartNo__7RaceMgrCFv
+ 0x8019db70: getAwardKartNo__8RaceInfoCFv
+ 0x8019db78: getFinalLapBGM__6CourseFv
+ 0x8019dc2c: drawModelForDebug__6CourseFUl
+ 0x8019dcd0: __ct__Q26Course6SectorFv
+ 0x8019dde4: zero__Q29JGeometry8TVec2<f>Fv
+ 0x8019ddf4: setPointData__Q26Course6SectorFPCQ27CrsData11SCheckPointPCQ27CrsData11SCheckPointb
+ 0x8019dfc4: normalize__Q29JGeometry8TVec2<f>Fv
+ 0x8019e044: scale__Q29JGeometry8TVec2<f>Ff
+ 0x8019e060: squared__Q29JGeometry8TVec2<f>CFv
+ 0x8019e084: dot__Q29JGeometry8TVec2<f>CFRCQ29JGeometry8TVec2<f>
+ 0x8019e0ac: setPrevSector__Q26Course6SectorFPQ26Course6Sector
+ 0x8019e18c: setNextSector__Q26Course6SectorFPQ26Course6Sector
  0x8019e26c: calcGeneration__Q26Course6SectorFPQ26Course6Sector
  0x8019e2b8: getPrevSector__Q26Course6SectorFi
  0x8019e350: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
-
- 0x80199edc: getNextNum__Q26Course6SectorCFv 
- 0x80199ee4: getNextSector__Q26Course6SectorFi
+ 0x8019e434: isLRInside__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
+ 0x8019e4fc: stAbs__Ff
+ 0x8019e510: reset__Q26Course4AreaFv
+ 0x8019e6fc: check__Q26Course4AreaFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8019e848: getRate__Q26Course4AreaFRCQ29JGeometry8TVec3<f>
+ 0x8019e98c: JMAFastSqrt__Ff
+ 0x8019e9a4: drawDebugModel__Q26Course4AreaFUl
+ 0x8019eb90: sqrtf__3stdFf
+ 0x8019ec48: getShape__Q26Course4AreaCFv
+ 0x8019ec54: RCMGetCamera__Fi
+ 0x8019ec88: zeroTrans__Q29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Fv
+ 0x8019ed04: searchAppendGround__6CourseFRCQ29JGeometry8TVec3<f>
+ 0x8019edd0: getCourseID__6CourseCFv
+ 0x8019eec4: __ct__18JASMemPool<5JAISe>Fv
+ 0x8019eef4: __ct__38JASMemPool_MultiThreaded<10JASChannel>Fv
+ 0x8019ef24: __ct__35JASMemPool_MultiThreaded<8JASTrack>Fv
+ 0x8019ef54: __ct__50JASMemPool_MultiThreaded<Q28JASTrack11TChannelMgr>Fv
+ 0x803768e0: cCourseTexSRTAnmTable__6Course
+ 0x804145e0: sAddShakeVel__6Course
+ 0x804145e4: sBoundsScale__6Course
+ 0x804145e8: sGndThickness__6Course
+ 0x804145ec: sShakeMaxAngle__6Course
+ 0x804145f0: sShakeFirstRippleTime__6Course
+ 0x804145f2: sShakeRoughTime__6Course
+ 0x804145f4: sShakeKeepTime__6Course
+ 0x804145f6: sShakeRecoverTime__6Course
+ 0x804145f8: sShakeFirstRippleTimeDemo__6Course
+ 0x804145fc: sShakeMaxAngleMini__6Course
+ 0x80414600: sShakeFirstRippleTimeMini__6Course
+ 0x80414602: sShakeRippleTimeMini__6Course
+ 0x80414604: sShakeRoughTimeMini__6Course
+ 0x80414606: sShakeKeepTimeMini__6Course
+ 0x80414608: sShakeRecoverTimeMini__6Course
+ 0x80416390: sDrawAreaModel__6Course
+ 0x80416392: sForceDebugFogSetting__6Course
+ 0x80416393: sConfigFog__6Course
+ 0x80416396: sShakeRippleTime__6Course
+ 0x80419bd8: cGXTexMtxLabel__6Course
+ 0x80419bdc: cCourseTevRegAnmTable__6Course
 
  # CrsData.cpp
  0x8019f438: set__Q28JUtility6TColorFUcUcUcUc
@@ -373,7 +962,141 @@ global:
  0x801a37e8: getWaterHeight__9CrsGroundFv
 
  # ExModel.cpp
+ 0x801a4008: __ct__12ExMdlDataMgrFb
+ 0x801a4060: initiate__21JSUList<10ExMDRecord>Fv
+ 0x801a4080: __dt__21JSUList<10ExMDRecord>Fv
+ 0x801a40cc: __ct__21JSUList<10ExMDRecord>Fv
  0x801a40fc: __ct__10JSUPtrListFv
+ 0x801a412c: __dt__12ExMdlDataMgrFv
+ 0x801a419c: entryModelData__12ExMdlDataMgrFP12J3DModelData
+ 0x801a4208: append__21JSUList<10ExMDRecord>FP21JSULink<10ExMDRecord>
+ 0x801a4228: searchRecord__12ExMdlDataMgrFP12J3DModelData
+ 0x801a42c4: __ne__29JSUListIterator<10ExMDRecord>CFPC21JSULink<10ExMDRecord>
+ 0x801a42d8: getEnd__21JSUList<10ExMDRecord>CFv
+ 0x801a42e0: __pp__29JSUListIterator<10ExMDRecord>Fi
+ 0x801a432c: getNext__21JSULink<10ExMDRecord>CFv
+ 0x801a4334: __ct__29JSUListIterator<10ExMDRecord>FRC29JSUListIterator<10ExMDRecord>
+ 0x801a4340: getObject__29JSUListIterator<10ExMDRecord>CFv
+ 0x801a4364: getObject__21JSULink<10ExMDRecord>CFv
+ 0x801a436c: __rf__29JSUListIterator<10ExMDRecord>CFv
+ 0x801a4390: __ct__29JSUListIterator<10ExMDRecord>FP21JSULink<10ExMDRecord>
+ 0x801a4398: getFirst__21JSUList<10ExMDRecord>CFv
+ 0x801a43b8: __ct__10ExMDRecordFP12J3DModelData
+ 0x801a43f4: __ct__21JSULink<10ExMDRecord>FP10ExMDRecord
+ 0x801a4424: patch__10ExMDRecordFb
+ 0x801a4450: __ct__7ExModelFUs
+ 0x801a4538: __dt__7ExModelFv
+ 0x801a4598: setModelData__7ExModelFP12J3DModelData
+ 0x801a45c0: setModelData__7ExModelFUsP12J3DModelData
+ 0x801a46c0: getJointNum__12J3DModelDataCFv
+ 0x801a46e4: getJointNum__12J3DJointTreeCFv
+ 0x801a46ec: patchModelData__7ExModelFP12J3DModelData
+ 0x801a4724: setLODBias__7ExModelFf
+ 0x801a4790: setLODBias__7ExModelFP12J3DModelDataf
+ 0x801a4824: getNum__10J3DTextureCFv
+ 0x801a482c: getResTIMG__10J3DTextureCFUs
+ 0x801a483c: disableTexLOD__7ExModelFP12J3DModelData
+ 0x801a48ac: setFogInfo__7ExModelFP12J3DModelDataUcffffPQ28JUtility6TColor
+ 0x801a499c: setFogColor__6J3DFogFR8_GXColor
+ 0x801a49c0: setFarZ__6J3DFogFf
+ 0x801a49c8: setNearZ__6J3DFogFf
+ 0x801a49d0: setEndZ__6J3DFogFf
+ 0x801a49d8: setStartZ__6J3DFogFf
+ 0x801a49e0: setType__6J3DFogFUc
+ 0x801a49e8: getType__6J3DFogCFv
+ 0x801a49f0: reverseCullMode__7ExModelFP12J3DModelData
+ 0x801a4ab4: getColorBlock__11J3DMaterialFv
+ 0x801a4abc: setLightMask__7ExModelFP12J3DModelData10_GXLightID
+ 0x801a4b6c: setLightMask__12J3DColorChanFUc
+ 0x801a4b88: setTevColor__7ExModelFP12J3DModelDataUlRC13J3DGXColorS10
+ 0x801a4c20: __ct__13J3DGXColorS10FRC13J3DGXColorS10
+ 0x801a4c34: setTevColor__7ExModelFUlRC13J3DGXColorS10
+ 0x801a4c70: createModel__7ExModelFP12JKRSolidHeapUlUl
+ 0x801a4d80: setUserArea__8J3DModelFUl
+ 0x801a4d88: getAnmMtx__8J3DModelFi
+ 0x801a4dac: getAnmMtx__12J3DMtxBufferFi
+ 0x801a4dbc: __ct__8J3DModelFP12J3DModelDataUlUl
+ 0x801a4e3c: __ct__15J3DVertexBufferFv
+ 0x801a4e6c: createDifferedModel__7ExModelFP12JKRSolidHeapUlUlb
+ 0x801a4f08: makeSharedDL__7ExModelFv
+ 0x801a4f90: lock__7ExModelFv
+ 0x801a4fec: setShapePktControl__7ExModelFUs
+ 0x801a5108: setUserArea__9J3DPacketFUl
+ 0x801a5110: isAllShapePacketHidding__7ExModelFUsUl
+ 0x801a523c: setCurMtx__7ExModelFv
+ 0x801a5280: getBaseTRMtx__8J3DModelFv
+ 0x801a5288: calc__7ExModelFv
+ 0x801a52b8: calc__7ExModelFUs
+ 0x801a53cc: getWEvlpMtxNum__12J3DModelDataCFv
+ 0x801a53f0: getWEvlpMtxNum__12J3DJointTreeCFv
+ 0x801a53f8: getWeightAnmMtx__8J3DModelFi
+ 0x801a541c: getWeightAnmMtx__12J3DMtxBufferFi
+ 0x801a542c: getModelData__8J3DModelFv
+ 0x801a5434: update__7ExModelFUs
+ 0x801a5614: setCurrentViewNo__7ExModelFUl
+ 0x801a56f8: calcBBoardMtx__7ExModelFPA4_fPA4_f
+ 0x801a58ac: simpleDraw__7ExModelFUlPA4_fUl
+ 0x801a5d6c: show__7ExModelFv
+ 0x801a5e64: show__14J3DShapePacketFv
+ 0x801a5e88: offFlag__13J3DDrawPacketFUl
+ 0x801a5e98: hide__7ExModelFv
+ 0x801a5f94: hide__14J3DShapePacketFv
+ 0x801a5fb8: onFlag__13J3DDrawPacketFUl
+ 0x801a5fc8: clipAll__7ExModelFUlb
+ 0x801a6040: clipBySphere__7ExModelFUlP11J3DUClipperPA4_Cff
+ 0x801a6240: getRadius__8J3DJointCFv
+ 0x801a6248: getKind__8J3DJointCFv
+ 0x801a6254: clipJoint__7ExModelFUlUsb
+ 0x801a63c8: setBaseTRMtx__7ExModelFPA4_f
+ 0x801a6448: setBaseTRMtx__8J3DModelFPA4_f
+ 0x801a6474: setBaseScale__7ExModelFRQ29JGeometry8TVec3<f>
+ 0x801a6510: setBaseScale__8J3DModelFRC3Vec
+ 0x801a6534: __as__3VecFRC3Vec
+ 0x801a6550: tstDiffTexMtxMode__7ExModelFv
+ 0x801a659c: getTexMtxObj__13J3DDrawPacketFv
+ 0x801a65a4: setEffectMtx__7ExModelFPA4_fUl
+ 0x801a668c: setEffectMtx__12J3DTexMtxObjFUsRA3_A4_f
+ 0x801a670c: getMaterial__8J3DShapeCFv
+ 0x801a6714: getShape__14J3DShapePacketCFv
+ 0x801a671c: tstConcatViewMode__7ExModelCFv
+ 0x801a6748: checkFlag__12J3DModelDataCFUl
+ 0x801a6760: getManager__12ExMdlDataMgrFv
+ 0x801a6768: tstSimpleTevReg__7ExModelCFUl
+ 0x801a6784: getAnmTevReg__15J3DTevKColorAnmCFv
+ 0x801a678c: getTevKColorAnm__14J3DMaterialAnmCFi
+ 0x801a67a0: getAnmTransform__12J3DTexMtxAnmCFv
+ 0x801a67a8: getTexMtxAnm__14J3DMaterialAnmCFi
+ 0x801a67bc: getAnmTexPattern__11J3DTexNoAnmCFv
+ 0x801a67c4: getTexNoAnm__14J3DMaterialAnmCFi
+ 0x801a67d8: setEffectMtx__9J3DTexMtxFPA4_f
+ 0x801a67f8: getMtxType__8J3DJointCFv
+ 0x801a6804: tstKartBBoardOn__7ExModelFv
+ 0x801a6810: isAvailable__7ExModelCFv
+ 0x801a6824: viewCalc__7ExModelFUl
+ 0x801a6828: setShapePacket__15ShapePktControlFP14J3DShapePacket
+ 0x801a6830: getShapePacket__8J3DModelCFUs
+ 0x801a6844: getShapeNum__12J3DModelDataCFv
+ 0x801a6868: getShapeNum__13J3DShapeTableCFv
+ 0x801a6870: isHidding__15ShapePktControlCFUl
+ 0x801a688c: isValid__15ShapePktControlCFv
+ 0x801a68a8: getUserArea__9J3DPacketCFv
+ 0x801a68b0: show__15ShapePktControlFv
+ 0x801a68bc: hide__15ShapePktControlFv
+ 0x801a68cc: hide__15ShapePktControlFUl
+ 0x801a68e4: show__15ShapePktControlFUl
+ 0x801a68fc: getIndex__8J3DShapeCFv
+ 0x801a6904: isValidDrawBuffer__10DrawBufferFP13J3DDrawBuffer
+ 0x801a691c: getDrawBuffer__6J3DSysFi
+ 0x801a692c: getDiffFlag__8J3DModelCFv
+ 0x801a6934: getDrawingMaterial__12SimpleDrawerFv
+ 0x801a693c: enableDrawMaterial__12SimpleDrawerFv
+ 0x801a6948: isPhaseCheckHidding__12SimpleDrawerFv
+ 0x801a6958: getDrawingDrawer__12SimpleDrawerFv
+ 0x80414610: sClippingOn__7ExModel
+ 0x80416398: sMtxCombinationOn__7ExModel
+ 0x80416399: sDrawingOnlyUpdZMat__7ExModel
+ 0x8041639c: sManager__12ExMdlDataMgr
+ 0x80419d90: sExModelInvalidLODBias__7ExModel
 
  # HioMgr.cpp
  0x801a6960: __ct__7HioNodeFPCcP13JORReflexibleUlUl
@@ -387,10 +1110,62 @@ global:
  0x801a6bdc: removeChild__17JSUTree<7HioNode>FP17JSUTree<7HioNode>
  0x801a6c08: remove__17JSUList<7HioNode>FP17JSULink<7HioNode>
  0x801a6c28: getParent__17JSUTree<7HioNode>CFv
- 0x80395bb8: __vt__7HioNode 	KaneshigeM.a HioMgr.cpp
+ 0x80395bb8: __vt__7HioNode
 
  # KartLoader.cpp
+ 0x801a6c30: __ct__10KartLoaderFiPC8KartInfoUsbb
+ 0x801a6dfc: getWheelNumber__8KartInfoCFv
+ 0x801a6e18: __ct__15KartShadowModelFv
+ 0x801a6e6c: __ct__11ShadowModelFUcQ211ShadowModel10ShadowKindUc
+ 0x801a6ec0: __ct__13ViewCtrlModelFUc
+ 0x801a6f08: reset__10KartLoaderFv
+ 0x801a6f58: load__10KartLoaderFv
+ 0x801a738c: setAnmCluster__15KartShadowModelFP13J3DAnmCluster
+ 0x801a7394: setDeformData__15KartShadowModelFP13J3DDeformData
+ 0x801a739c: getCharacterLODBias__13TexLODControlFv
+ 0x801a73c4: getKartID__8KartInfoCFv
+ 0x801a73e0: patchTevRegKey__10KartLoaderFP12J3DModelDataP15J3DAnmTevRegKey
+ 0x801a745c: setKRegAnmNum__15J3DAnmTevRegKeyFUs
+ 0x801a7464: getKRegAnmNum__15J3DAnmTevRegKeyCFv
+ 0x801a746c: setCRegAnmNum__15J3DAnmTevRegKeyFUs
+ 0x801a7474: getCRegAnmNum__15J3DAnmTevRegKeyCFv
+ 0x801a747c: loadTevAnm__10KartLoaderFi
+ 0x801a7720: isShockExist__10KartLoaderCFv
+ 0x801a774c: GetJ3DEfctKartAnmMgr__Fv
+ 0x801a776c: getMgr__17J3DEfctKartAnmMgrFv
+ 0x801a7774: createMaterialAnmInUpdateMaterial__10KartLoaderFP12J3DModelDataP15J3DAnmTevRegKey
+ 0x801a7888: getKRegUpdateMaterialNum__15J3DAnmTevRegKeyCFv
+ 0x801a7890: getKRegUpdateMaterialID__15J3DAnmTevRegKeyCFUs
+ 0x801a78a0: getCRegUpdateMaterialNum__15J3DAnmTevRegKeyCFv
+ 0x801a78a8: getCRegUpdateMaterialID__15J3DAnmTevRegKeyCFUs
+ 0x801a78b8: createMaterialAnm__10KartLoaderFP11J3DMaterial
+ 0x801a7928: setMaterialAnm__11J3DMaterialFP14J3DMaterialAnm
+ 0x801a7930: __ct__14J3DMaterialAnmFv
+ 0x801a7a10: entryTevRegAnimator__10KartLoaderFi
+ 0x801a7bcc: getShockTevRegKey__10KartLoaderFi
+ 0x801a7c64: getExModelShock__10KartLoaderFi
+ 0x801a7cfc: getWheelRTevRegKey__10KartLoaderFi
+ 0x801a7d94: getWheelLTevRegKey__10KartLoaderFi
+ 0x801a7e2c: getExModelWheel__10KartLoaderFi
+ 0x801a7ec4: getArmTevRegKey__10KartLoaderFi
+ 0x801a7f5c: getExModelArm__10KartLoaderFi
+ 0x801a7ff4: getBodyTevRegKey__10KartLoaderFi
  0x801a808c: getExModelBody__10KartLoaderFv
+ 0x801a8094: isKartTevAnmEnable__10KartLoaderFi
+ 0x801a80cc: getAccessoryTevRegKey__10KartLoaderFii
+ 0x801a81c4: entryTevRegAnimator__12J3DModelDataFP15J3DAnmTevRegKey
+ 0x801a81e8: getExModelDriver__10KartLoaderFi
+ 0x801a8280: getDriverTevRegKey__10KartLoaderFii
+ 0x801a8378: isDriverTevAnmEnable__10KartLoaderFi
+ 0x801a83b8: removeTevRegAnimator__10KartLoaderFi
+ 0x801a8574: removeTevRegAnimator__12J3DModelDataFP15J3DAnmTevRegKey
+ 0x801a8598: createModel__10KartLoaderFP12JKRSolidHeapUl
+ 0x801a8624: isCommonWheelModelData__10KartLoaderFv
+ 0x801a8674: viewCalc__13ViewCtrlModelFUl
+ 0x801a86e8: hide__7ExModelFUl
+ 0x801a870c: show__7ExModelFUl
+ 0x801a8730: isVisible__13ViewCtrlModelFUl
+ 0x801a874c: isDetailFlg__13ViewCtrlModelFv
 
  # KartInfo.cpp
  0x801a8844: __ct__8KartInfoFv
@@ -613,24 +1388,212 @@ global:
 
  # RaceMgr.cpp
  0x801ac5a0: __ct__7RaceMgrFP8RaceInfo
+ 0x801ad064: updateBestTime__7RaceMgrFv
+ 0x801ad164: setRandomSeed__7RaceMgrFv
+ 0x801ad1bc: editRaceInfoForDebug__7RaceMgrFv
+ 0x801ad210: createConsole__7RaceMgrFv
+ 0x801ad2e8: resetConsole__7RaceMgrFv
+ 0x801ad368: hideConsole__7RaceMgrFUl
+ 0x801ad3c0: createModel__7RaceMgrFv
+ 0x801ad480: setViewMtx__6J3DSysFPA4_Cf
+ 0x801ad4ac: createKartModel__7RaceMgrFv
+ 0x801ad578: createCourseModel__7RaceMgrFv
+ 0x801ad604: createObjectModel__7RaceMgrFv
+ 0x801ad694: createItemModel__7RaceMgrFv
+ 0x801ad724: createEffectModel__7RaceMgrFv
+ 0x801ad7d0: createLight__7RaceMgrFv
+ 0x801ad9c4: resetRace__7RaceMgrFv
+ 0x801ada58: resetRaceForResetEvent__7RaceMgrFv
+ 0x801ada98: resetRaceForRestartEvent__7RaceMgrFv
+ 0x801adb04: resetRaceForReplayEvent__7RaceMgrFv
+ 0x801adb48: resetRaceCommon__7RaceMgrFv
+ 0x801add38: getCurrentConsoleNumber__7RaceMgrFv
+ 0x801add84: drawRace__7RaceMgrFv
+ 0x801ade64: checkKart__7RaceMgrFv
+ 0x801ae00c: checkRank__7RaceMgrFv
+ 0x801ae0dc: checkRankForBalloonBattle__7RaceMgrFv
+ 0x801ae238: checkRankForRobberyBattle__7RaceMgrFv
+ 0x801ae324: checkRankForBombBattle__7RaceMgrFv
+ 0x801ae4b8: checkRankForEscapeBattle__7RaceMgrFv
+ 0x801ae5a8: checkRankForAwardDemo__7RaceMgrFv
+ 0x801ae600: checkRankForRace__7RaceMgrFv
+ 0x801ae774: setRaceResult__7RaceMgrFv
+ 0x801ae870: calcRace__7RaceMgrFv
+ 0x801ae9d0: frameWork__7RaceMgrFv
+ 0x801aeac0: updateRace__7RaceMgrFv
+ 0x801aeeb8: __dt__7RaceMgrFv
+ 0x801aef94: getHeapTree__7JKRHeapFv
+ 0x801aef9c: isRaceModeMiniGame__7RaceMgrFv
+ 0x801aefe4: getRacePhase__7RaceMgrFv
+ 0x801af008: getMiniGameTime__7RaceMgrFv
+ 0x801af02c: searchNRankKart__7RaceMgrFi
+ 0x801af09c: isAbleStart__7RaceMgrCFv
+ 0x801af0dc: setJugemZClr__7RaceMgrFUlb
+ 0x801af18c: getStartID__7RaceMgrFi
+ 0x801af1d8: getStartPoint__7RaceMgrFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>i
+ 0x801af550: getStartJugemOffsetY__7RaceMgrFi
+ 0x801af654: getProcLevel__7RaceMgrFv
+ 0x801af6a4: isItemBoxValid__7RaceMgrFv
+ 0x801af718: beginProcTime__7RaceMgrFs
+ 0x801af7cc: endProcTime__7RaceMgrFs
+ 0x801af864: searchEventInfo__7RaceMgrFs
+ 0x801af8a0: isJugemCountStart__7RaceMgrFv
+ 0x801af8e0: isKartGoal__7RaceMgrFi
+ 0x801af904: getGoalKartNumber__7RaceMgrFv
+ 0x801af96c: getPadRecorderFrame__7RaceMgrFv
+ 0x801af9c4: getTotalLapNumberForDisplay__7RaceMgrCFv
+ 0x801af9e4: __ct__Q27RaceMgr7ConsoleFv
+ 0x801afa0c: changeTargetNo__Q27RaceMgr7ConsoleFib
+ 0x801afa84: robRivalOfBalloon__7RaceMgrFii
+ 0x801afb48: robRivalOfRabbitMark__7RaceMgrFii
+ 0x801afbbc: draw__11RaceUsrPageFv
+ 0x801afd7c: GetHeight__7KartCamFv
+ 0x801afd84: GetWidth__7KartCamFv
+ 0x801afd8c: GetPosh__7KartCamFv
+ 0x801afd94: GetPosv__7KartCamFv
+ 0x801afd9c: isDemoConsole__8RaceInfoCFi
+ 0x801afe30: getConsoleTarget__8RaceInfoCFi
+ 0x801afec8: isTrueEnding__8RaceInfoCFv
+ 0x801afed0: getVSLapNumber__8RaceInfoCFv
+ 0x801afed8: getLANLapNumber__8RaceInfoCFv
+ 0x801afee0: isDriverLODOn__8RaceInfoCFv
+ 0x801afeec: isWaitDemo__8RaceInfoCFv
+ 0x801afefc: getStatusNumber__8RaceInfoCFv
  0x801aff04: getRaceMode__8RaceInfoCFv
-
+ 0x801aff0c: isHiddingConsole__8RaceInfoCFUl
+ 0x801aff28: getItemSlotType__8RaceInfoCFv
+ 0x801aff30: signalGo__6TJugemFv
+ 0x801aff60: isCallThree__6TJugemFv
+ 0x801aff94: CreateGeoObjMgr__FPC7CrsData
+ 0x801affb4: createMgr__19GeographyObjManagerFRC7CrsData
+ 0x801afffc: setDrawFlag__10J2DManagerFb
+ 0x801b0004: getManager__10J2DManagerFv
+ 0x801b000c: setExecFlag__12PauseManagerFb
+ 0x801b0014: enablePause__12PauseManagerFv
+ 0x801b0020: getManager__12PauseManagerFv
+ 0x801b0028: CreateEfctScreenMgr__Fv
+ 0x801b0048: createMgr__15EffectScreenMgrFv
+ 0x801b0080: GetEfctScreenMgr__Fv
+ 0x801b00a0: getThis__15EffectScreenMgrFv
+ 0x801b00a8: isMtxCombinationOn__7ExModelFv
+ 0x801b00b0: CreateItemObjMgr__Fv
+ 0x801b00d0: createMgr__10ItemObjMgrFv
+ 0x801b0108: CreateJ3DEfctKarAnmMgr__Fv
+ 0x801b0128: createMgr__17J3DEfctKartAnmMgrFv
+ 0x801b0160: CreateJ3DEfctMgr__Fv
+ 0x801b0180: createMgr__12J3DEffectMgrFv
+ 0x801b01b8: GetJ3DEfctMgr__Fv
+ 0x801b01d8: getJ3DEffectMgr__12J3DEffectMgrFv
+ 0x801b01e0: GetStEfctMgr__Fv
+ 0x801b0200: getMgr__11stEffectMgrFv
+ 0x801b0208: CreateStEfctMgr__Fv
+ 0x801b0228: createMgr__11stEffectMgrFv
+ 0x801b0260: GetJPAMgr__Fv
+ 0x801b0280: getEffectMgr__11JPEffectMgrFv
+ 0x801b0288: setDemoBodyBmd__10KartLoaderFPv
+ 0x801b0290: getCameraNumber__7RaceMgrCFv
+ 0x801b02b0: isStaffRoll__7RaceMgrFv
+ 0x801b02dc: isAwardDemoMode__7RaceMgrFv
+ 0x801b0308: isWaitDemoMode__7RaceMgrCFv
+ 0x801b032c: activeAreaLight__7RaceMgrFv
+ 0x801b033c: setDraw__Q27RaceMgr7ConsoleFv
+ 0x801b034c: setConsoleNo__Q27RaceMgr7ConsoleFi
+ 0x801b0354: clrDraw__Q27RaceMgr7ConsoleFv
+ 0x801b0364: isDraw__Q27RaceMgr7ConsoleCFv
+ 0x801b0370: getKartDrawer__7RaceMgrFi
+ 0x801b0394: isRaceEnd__7RaceMgrCFv
+ 0x801b03b8: isActiveAreaLight__7RaceMgrCFv
+ 0x801b03c4: clrJugemZClr__Q27RaceMgr7ConsoleFv
+ 0x801b03d4: setJugemZClr__Q27RaceMgr7ConsoleFv
+ 0x801b03e4: isNoStat__Q27RaceMgr7ConsoleCFv
+ 0x801b03f0: isValid__Q27RaceMgr7ConsoleCFv
+ 0x801b0400: RCMGetKartChecker__Fi
+ 0x801b0434: getWinBombPointForMenu__11KartCheckerFi
+ 0x801b0448: getDeathTime__11KartCheckerFv
+ 0x801b0450: getBalloonNumber__11KartCheckerCFv
+ 0x801b0458: isRankAvailable__11KartCheckerCFv
+ 0x801b0468: getBombPoint__11KartCheckerCFv
+ 0x801b0470: getMarkTime__11KartCheckerFv
+ 0x801b0478: getTotalUnitDist__11KartCheckerCFv
+ 0x801b0480: getGoalFrame__11KartCheckerCFv
+ 0x801b0488: CreateCharIKParamMgr__Fv
+ 0x801b04a8: createMgr__14CharIKParamMgrFv
+ 0x801b04e0: getArchive__6ResMgrFQ26ResMgr9ArchiveId
+ 0x801b04f4: setShadowDepth__13ShadowManagerFUc
+ 0x801b04fc: setShadowColor__13ShadowManagerFRQ28JUtility6TColor
+ 0x801b0520: setMirror__13ShadowManagerFb
+ 0x801b0528: ptr__13ShadowManagerFv
+ 0x801b0570: getShadowDepth__7CrsDataCFv
+ 0x801b057c: isTexLODBiasOn__7CrsDataCFv
+ 0x801b0590: getTotalLapNumber__7CrsDataCFv
  0x801b059c: testButton__10JUTGamePadCFUl
+ 0x801b05b4: isRight__Q27CrsData10StartPointCFv
+ 0x801b05d4: getJugemOffsetY__Q27CrsData10StartPointCFv
+ 0x801b0600: setGeographyLODBiasOn__13TexLODControlFb
+ 0x801b0608: __ct__11RaceUsrPageFP8RaceInfo
  0x801b064c: JKRGetCurrentHeap__Fv
  0x801b066c: getCurrentHeap__7JKRHeapFv
+ 0x801b0674: getRaceTime__8TARecordCFv
+ 0x801b0698: isValid__8TARecordFv
+ 0x801b06dc: setSeed__8stRandomFUl
+ 0x801b0704: setSeed__Q25JMath13TRandom_fast_FUl
+ 0x801b070c: getKartDrawer__10RaceDrawerFi
+ 0x801b07a8: JKRCreateSolidHeap__FUlP7JKRHeapb
+ 0x801b07c8: getEffectDrawBuffer__10RaceDrawerFv
+ 0x801b07d0: getItemDrawBuffer__10RaceDrawerFi
+ 0x801b087c: getFeelDrawBuffer__10RaceDrawerFv
+ 0x801b0884: getJugemDrawBuffer__10RaceDrawerFv
+ 0x801b088c: getGeoDrawBuffer__10RaceDrawerFv
+ 0x801b0894: getShadowGeoDrawBuffer__10RaceDrawerFv
+ 0x801b089c: setLight__10KartDrawerFUlP13RaceKartLight
+ 0x801b0924: getManager__8LightMgrFv
+ 0x801b092c: setTagName__8LightObjFUl
+ 0x801b0934: __ct__12LtObjAmbientFPCcQ28JUtility6TColor
+ 0x801b0994: getSupervisor__14TBalloonStringFv
+ 0x801b099c: getRacePhase__12RaceDirectorCFv
+ 0x801b09a4: isRaceEnd__12RaceDirectorCFv
+ 0x801b09ac: isFrameRenewal__12RaceDirectorCFv
+ 0x801b09d0: getWaitDemoResult__12RaceDirectorCFv
+ 0x801b09d8: getMiniGameTime__12RaceDirectorFv
+ 0x801b09e0: still__7Award2DFv
+ 0x801b09ec: getManager__12MotorManagerFv
+ 0x801b09f4: setLowestKartNo__13RaceBGMPlayerFi
+ 0x801b0a08: setGoalKartNo__13RaceBGMPlayerFi
+ 0x801b0a1c: setFinalLapKartNo__13RaceBGMPlayerFi
+ 0x801b0a24: isRealPlayerKart__8KartInfoCFv
+ 0x801b0a54: getPlayerKind__8KartInfoCFi
+ 0x801b0af0: getPlayerKind__Q28KartInfo13KartCharacterCFv
+ 0x801b0b14: isGhostKart__8KartInfoCFv
+ 0x801b0b44: isPlayerKart__8KartInfoCFv
+ 0x801b0b70: __dt__11RaceUsrPageFv
+ 0x801b0bc8: getPadRecorder__7RaceAppFv
+ 0x801b0bd0: ptr__7RaceAppFv
  0x801b0bd8: testTrigger__10JUTGamePadCFUl
-
- 0x804163a8: sRaceManager__7RaceMgr
-
+ 0x801b0bf0: isCallThree__15TJugemRodSignalFv
+ 0x801b0c0c: getFrame__11PadRecorderFv
  0x801b0c14: getDisplay__6SystemFv
+ 0x80377864: sEventTable__7RaceMgr
+ 0x80414628: sMyStartPointID__7RaceMgr
+ 0x804163a8: sRaceManager__7RaceMgr
+ 0x804163ac: sForceTotalLapNum__7RaceMgr
+ 0x804163ae: sDispFrameCounter__7RaceMgr
 
  # CrsArea.cpp
  0x801b35f8: __ct__7CrsAreaFv
+ 0x801b3630: reset__7CrsAreaFv
  0x801b366c: search__7CrsAreaFUcRCQ29JGeometry8TVec3<f>
+ 0x801b3794: getArea__6CourseCFi
+ 0x801b37a4: getAreaNumber__6CourseCFv
  0x801b37c8: getCameraID__7CrsAreaCFv
+ 0x801b3824: isInside__7CrsAreaCFv
+ 0x801b3834: getRoofPosition__7CrsAreaFPQ29JGeometry8TVec3<f>
  0x801b3908: getEchoRate__7CrsAreaFv
+ 0x801b3964: getEchoScale__Q26Course4AreaCFv
+ 0x801b396c: enableLightParam__7CrsAreaFv
  0x801b39c0: getLightParamID__7CrsAreaFv
  0x801b3a4c: getLightParamID__Q26Course4AreaCFv
+ 0x801b3a58: getShadowID__7CrsAreaCFv
+ 0x801b3ae4: getShadowID__Q26Course4AreaCFv
 
  # ScrnShot.cpp
  0x801b4764: getEfbHeight__10JFWDisplayCFv
@@ -682,28 +1645,102 @@ global:
  0x804163d4: sAwardDebugCup__8RaceInfo
 
  # SysDebug.cpp
+ 0x801b0d08: createManager__8SysDebugFv
+ 0x801b0d50: __ct__8SysDebugFv
+ 0x801b0f50: setColor__14J2DGrafContextFQ28JUtility6TColor
  0x801b0f94: __ct__Q28JUtility6TColorFUcUcUcUc
  0x801b0fc4: getManager__10JUTDbPrintFv
  0x801b0fcc: getRootHeap__7JKRHeapFv
+ 0x801b0fd4: __ct__29JSUList<Q28SysDebug8HeapInfo>Fv
+ 0x801b1004: __ct__23JSUList<12SysDbUsrPage>Fv
  0x801b1034: ctrlDebugMode__8SysDebugFv
  0x801b15d0: getSystemHeap__7JKRHeapFv
-
+ 0x801b15d8: getParent__17JSUTree<7JKRHeap>CFv
+ 0x801b15e0: getLastChild__17JSUTree<7JKRHeap>CFv
+ 0x801b160c: getLastLink__10JSUPtrListCFv
+ 0x801b1614: getPrevChild__17JSUTree<7JKRHeap>CFv
+ 0x801b1628: getGpCost__10JUTProcBarCFv
+ 0x801b1630: getCpuCost__10JUTProcBarCFv
+ 0x801b1638: setVisible__10JUTProcBarFb
+ 0x801b1640: getManager__10JUTProcBarFv
  0x801b1648: setHeapGroup__8SysDebugFPCcP7JKRHeap
-
+ 0x801b16c8: setDefaultHeapGroup__8SysDebugFP7JKRHeap
+ 0x801b1740: setDefaultGroup__Q28SysDebug8HeapInfoFv
+ 0x801b1768: setUserTimeLabel__8SysDebugFiPCc
+ 0x801b1788: clrAllUserTimeLabel__8SysDebugFv
+ 0x801b17ac: beginUserTime__8SysDebugFi
+ 0x801b1818: userStart__10JUTProcBarFiUcUcUc
+ 0x801b1878: start__Q210JUTProcBar5CTimeFUcUcUc
+ 0x801b18b4: endUserTime__8SysDebugFi
+ 0x801b1904: userEnd__10JUTProcBarFi
+ 0x801b1934: end__Q210JUTProcBar5CTimeFv
+ 0x801b19a4: draw__8SysDebugFv
+ 0x801b1a64: fillBox__14J2DGrafContextFffff
+ 0x801b1aa8: __ct__Q29JGeometry8TBox2<f>Fffff
+ 0x801b1b10: set__Q29JGeometry8TBox2<f>Fffff
+ 0x801b1b70: __ct__Q29JGeometry27TBox<Q29JGeometry8TVec2<f>>Fv
+ 0x801b1ba8: drawProcTime__8SysDebugFv
+ 0x801b1efc: getUserCost__10JUTProcBarFi
+ 0x801b1f10: getHeapLabel__8SysDebugFP7JKRHeap
+ 0x801b1fa4: getHeapTypeName__8SysDebugFP7JKRHeap
+ 0x801b2048: printHeap__8SysDebugFllP7JKRHeap
+ 0x801b212c: sizeKByte__8SysDebugFl
+ 0x801b213c: getStartAddr__7JKRHeapFv
+ 0x801b2144: getEndAddr__7JKRHeapFv
+ 0x801b214c: printHeapTree__8SysDebugFP7JKRHeaplPl
+ 0x801b225c: drawMemMap__8SysDebugFv
+ 0x801b2330: getCodeStart__7JKRHeapFv
+ 0x801b2338: getCodeEnd__7JKRHeapFv
+ 0x801b2340: drawUsrPage__8SysDebugFv
+ 0x801b23f4: __ne__31JSUListIterator<12SysDbUsrPage>CFPC23JSULink<12SysDbUsrPage>
+ 0x801b2408: getEnd__23JSUList<12SysDbUsrPage>CFv
+ 0x801b2410: __pp__31JSUListIterator<12SysDbUsrPage>Fv
+ 0x801b2448: getNext__23JSULink<12SysDbUsrPage>CFv
+ 0x801b2450: __rf__31JSUListIterator<12SysDbUsrPage>CFv
+ 0x801b2474: getObject__23JSULink<12SysDbUsrPage>CFv
+ 0x801b247c: __ct__31JSUListIterator<12SysDbUsrPage>FP23JSULink<12SysDbUsrPage>
+ 0x801b2484: getFirst__23JSUList<12SysDbUsrPage>CFv
+ 0x801b24a4: drawHeapSpec__8SysDebugFv
+ 0x801b27ac: beginDebugHeap__8SysDebugFv
+ 0x801b27f4: endDebugHeap__8SysDebugFv
  0x801b2834: createHeapInfo__8SysDebugFP7JKRHeapPc
- 0x801b2900: destroyHeapInfo__8SysDebugFP7JKRHeap 
-
+ 0x801b28b8: appendInfo__8SysDebugFPQ28SysDebug8HeapInfo
+ 0x801b28e0: append__29JSUList<Q28SysDebug8HeapInfo>FP29JSULink<Q28SysDebug8HeapInfo>
+ 0x801b2900: destroyHeapInfo__8SysDebugFP7JKRHeap
+ 0x801b296c: findHeapInfo__8SysDebugFP7JKRHeap
+ 0x801b2a00: __ne__37JSUListIterator<Q28SysDebug8HeapInfo>CFPC29JSULink<Q28SysDebug8HeapInfo>
+ 0x801b2a14: getEnd__29JSUList<Q28SysDebug8HeapInfo>CFv
+ 0x801b2a1c: __pp__37JSUListIterator<Q28SysDebug8HeapInfo>Fv
+ 0x801b2a54: getNext__29JSULink<Q28SysDebug8HeapInfo>CFv
+ 0x801b2a5c: getObject__37JSUListIterator<Q28SysDebug8HeapInfo>CFv
+ 0x801b2a80: getObject__29JSULink<Q28SysDebug8HeapInfo>CFv
+ 0x801b2a88: __rf__37JSUListIterator<Q28SysDebug8HeapInfo>CFv
+ 0x801b2aac: __ct__37JSUListIterator<Q28SysDebug8HeapInfo>FP29JSULink<Q28SysDebug8HeapInfo>
+ 0x801b2ab4: getFirst__29JSUList<Q28SysDebug8HeapInfo>CFv
+ 0x801b2ad4: __ct__Q28SysDebug8HeapInfoFP7JKRHeapPc
+ 0x801b2b8c: __dt__29JSULink<Q28SysDebug8HeapInfo>Fv
+ 0x801b2bd8: __ct__29JSULink<Q28SysDebug8HeapInfo>FPQ28SysDebug8HeapInfo
+ 0x801b2c08: __dt__Q28SysDebug8HeapInfoFv
+ 0x801b2c88: removeInfo__8SysDebugFPQ28SysDebug8HeapInfo
+ 0x801b2cb0: remove__29JSUList<Q28SysDebug8HeapInfo>FP29JSULink<Q28SysDebug8HeapInfo>
+ 0x801b2cd0: clrGroup__Q28SysDebug8HeapInfoFv
+ 0x801b2d04: setGroup__Q28SysDebug8HeapInfoFPCc
+ 0x801b2d74: searchSameName__Q28SysDebug8HeapInfoFPCc
  0x801b2df4: appendPage__8SysDebugFP12SysDbUsrPage
+ 0x801b2e20: append__23JSUList<12SysDbUsrPage>FP23JSULink<12SysDbUsrPage>
+ 0x801b2e40: removePage__8SysDebugFP12SysDbUsrPage
+ 0x801b2e68: remove__23JSUList<12SysDbUsrPage>FP23JSULink<12SysDbUsrPage>
+ 0x801b2e88: checkInvalidFloat__8SysDebugFfPc
+ 0x801b2f40: checkInvalidMatrix__8SysDebugFPA4_fPc
+ 0x801b304c: checkInvalidMatrix__8SysDebugFPA4_fUl
+ 0x801b3158: checkInvalidVector__8SysDebugFP3VecPc
+ 0x801b330c: checkInvalidVector__8SysDebugFP3VecUl
  0x801b34c0: __ct__12SysDbUsrPageFv
-
- 0x801b3584: __dt__12SysDbUsrPageFv 
-
+ 0x801b3508: __dt__23JSULink<12SysDbUsrPage>Fv
+ 0x801b3554: __ct__23JSULink<12SysDbUsrPage>FP12SysDbUsrPage
+ 0x801b3584: __dt__12SysDbUsrPageFv
+ 0x803780c0: cUserBarColorTable__8SysDebug
  0x804163b0: sManager__8SysDebug
-
- # Scene.cpp
- 0x8013c1e8: __ct__5SceneFP10JKRArchiveP7JKRHeap
- 0x8013c270: __dt__5SceneFv
- 0x80394b70: __vt__5Scene
 
  # GeoItemCar.cpp
  0x801c2850: scale__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f> 
@@ -718,12 +1755,161 @@ global:
  0x804164b8: sSupervisorCreateNum__13GeoRabbitMark 
  0x804164bc: sSupervisor__13GeoRabbitMark
 
+ # RaceBGMPlayer.cpp
+ 0x801c6da0: __ct__13RaceBGMPlayerFv
+ 0x801c6dd0: reset__13RaceBGMPlayerFv
+ 0x801c6e54: stopCrsDemo__13RaceBGMPlayerFv
+ 0x801c6e64: getCrsDemoBGMLabel__13RaceBGMPlayerFv
+ 0x801c6eac: getRaceStartBGMLabel__13RaceBGMPlayerFv
+ 0x801c6f2c: isRaceModeVs__7RaceMgrCFv
+ 0x801c6f58: isRaceModeTA__7RaceMgrCFv
+ 0x801c6f84: calc__13RaceBGMPlayerFv
+ 0x801c7288: isMiniGameEnd__13RaceBGMPlayerCFv
+ 0x801c7294: isLastTime__13RaceBGMPlayerCFv
+ 0x801c72a0: isExecPrepare__13RaceBGMPlayerCFv
+ 0x801c72ac: isPlay__13RaceBGMPlayerCFv
+ 0x801c72b8: execPrepare__13RaceBGMPlayerFv
+ 0x801c72c8: isPrepare__13RaceBGMPlayerCFv
+ 0x801c72d4: isCrsDemoEnd__13RaceBGMPlayerCFv
+ 0x801c72e0: getGoalBGMLabel__13RaceBGMPlayerFv
+ 0x804146f0: sCrsBGMDelayTime__13RaceBGMPlayer
+
  # RaceDirector.cpp
+ 0x801c752c: __ct__12RaceDirectorFbP14DemoTimeKeeperi
+ 0x801c7638: startFadeIn__10JFWDisplayFi
+ 0x801c7678: isStartFadeIn__14DemoTimeKeeperFv
+ 0x801c7680: reset__12RaceDirectorFv
+ 0x801c76d0: resetCommon__12RaceDirectorFv
+ 0x801c775c: appearRace2D__12RaceDirectorFQ212RaceDirector11ERace2DMode
+ 0x801c77b0: isReplayMode__7RaceMgrCFv
+ 0x801c77bc: calc__12RaceDirectorFv
+ 0x801c78cc: setPauseEndFlag__12PauseManagerFb
+ 0x801c78d4: doCrsDemo__12RaceDirectorFv
+ 0x801c7968: doNoCrsDemo__12RaceDirectorFv
+ 0x801c79b0: checkCrsDemoEvent__12RaceDirectorFv
+ 0x801c7a94: getNextCameraID__Q27CrsData6CameraCFv
+ 0x801c7a9c: getGPStageNo__7RaceMgrCFv
+ 0x801c7ac0: getGpStageNo__8RaceInfoCFv
+ 0x801c7ac8: isRaceModeGp__7RaceMgrCFv
+ 0x801c7af4: GetDemoCam__7KartCamFv
+ 0x801c7afc: checkCrsDemoEventHanabi__12RaceDirectorFs
+ 0x801c7b6c: getSupervisor__13TMapObjHanabiFv
+ 0x801c7b74: doReset__12RaceDirectorFv
+ 0x801c7b80: doWait__12RaceDirectorFv
+ 0x801c7bb4: doSafety__12RaceDirectorFv
+ 0x801c7c14: doRunning__12RaceDirectorFb
+ 0x801c7f58: disableShaking__6CourseFv
+ 0x801c7f64: fixMiniPoint__11KartCheckerFv
+ 0x801c7f74: getDemoNextPhase__7RaceMgrCFv
+ 0x801c7f98: getDemoNextPhase__8RaceInfoCFv
+ 0x801c7fa0: isDemoEnd__14DemoTimeKeeperCFv
+ 0x801c7fa8: isLastWaitDemo__7RaceMgrCFv
+ 0x801c7fcc: isLastWaitDemo__8RaceInfoCFv
+ 0x801c7fe0: play__13RaceBGMPlayerFv
+ 0x801c7ff0: prepare__13RaceBGMPlayerFv
+ 0x801c8000: getRabbitTimer__11KartCheckerCFv
+ 0x801c8008: checkZoomWinConsoleNo__12RaceDirectorFv
+ 0x801c80f8: getTargetNo__Q27RaceMgr7ConsoleCFv
+ 0x801c8100: isDemo__Q27RaceMgr7ConsoleCFv
+ 0x801c8108: isAllGoalAnmEnd__12RaceDirectorFv
+ 0x801c81a8: doEnding__12RaceDirectorFv
+ 0x801c8564: changeWinningPos__15TBalloonManagerFv
+ 0x801c85a8: setMiniGameEnd__13RaceBGMPlayerFv
+ 0x801c85b8: startWinnerAnm__10J2DManagerFi
+ 0x801c85c8: setResultStartFlag__12PauseManagerFb
+ 0x801c85d0: isZoomWinConsole__12RaceDirectorCFv
+ 0x801c85e0: setGameOverFlag__12PauseManagerFb
+ 0x801c85e8: GETPauseManager__Fv
+ 0x801c8608: setEndingPhaseZoomConsole__12RaceDirectorFv
+ 0x801c865c: checkPauseChoice__12RaceDirectorFv
+ 0x801c8808: isExitWaitDemo__12RaceDirectorFv
+ 0x801c88a8: setPhaseWait__12RaceDirectorF10ERacePhasebbi
+ 0x801c89a0: startFadeOut__10JFWDisplayFi
+ 0x801c89e0: setColor__8JUTFaderFQ28JUtility6TColor
+ 0x801c8a1c: getFader__10JFWDisplayCFv
  0x801c8a24: checkRaceEnd__12RaceDirectorFv
+ 0x801c8afc: checkRaceEndForRace__12RaceDirectorFv
+ 0x801c8c08: getPlayerKartNumber__8RaceInfoCFv
+ 0x801c8c10: checkRaceEndForBalloonBattle__12RaceDirectorFv
+ 0x801c8c84: checkRaceEndForBombBattle__12RaceDirectorFv
+ 0x801c8cf8: checkRaceEndForEscapeBattle__12RaceDirectorFv
+ 0x801c8d60: requestDemoCameraID__12RaceDirectorCFv
+ 0x801c8da4: requestDemoCameraID__14DemoTimeKeeperCFv
+ 0x801c8dac: isPlayingDemoWinnerAnm__12RaceDirectorCFv
+ 0x801c8df0: isPlayingEndingWinAnm__14DemoTimeKeeperCFv
+ 0x801c8df8: getDemoCameraTagName__12RaceDirectorCFv
+ 0x801c8e30: getDemoCameraTagName__14DemoTimeKeeperCFv
+ 0x804146f8: sRace2DDelayTime__12RaceDirector
+ 0x80416480: sForceStopFrame__12RaceDirector
+ 0x80416482: sForceWaitDemoTime__12RaceDirector
+ 0x8041a3a8: cFadeOutTime__12RaceDirector
+
+  # RaceDrawer.cpp
+ 0x801c8f24: __ct__10RaceDrawerFUsb
+ 0x801c92f8: lodOff__10KartDrawerFv
+ 0x801c9304: getGhostKind__8KartInfoFv
+ 0x801c930c: __dt__10KartDrawerFv
+ 0x801c93bc: __ct__14FeelDrawBufferFUl
+ 0x801c93f8: __ct__15JugemDrawBufferFUl
+ 0x801c9434: __ct__16EffectDrawBufferFUl
+ 0x801c9470: setTargetKart__14ItemDrawBufferFs
+ 0x801c9478: __ct__14ItemDrawBufferFUl
+ 0x801c94bc: __ct__13GeoDrawBufferFUl
+ 0x801c94f8: __ct__19ShadowGeoDrawBufferFUl
+ 0x801c9534: reset__10RaceDrawerFv
+ 0x801c9644: hide__11GhostScreenFv
+ 0x801c9650: isGhostActive__10RaceDrawerCFv
+ 0x801c9660: initJ3D__10RaceDrawerFv
+ 0x801c9698: drawSceneFirstStage__10RaceDrawerFUl
+ 0x801c9cb0: drawHigh__6CourseFUl
+ 0x801c9cdc: isDrawJugem__10RaceDrawerCFv
+ 0x801c9ce8: isDrawGeoObj__10RaceDrawerCFv
+ 0x801c9cf4: isDrawItem__10RaceDrawerCFv
+ 0x801c9d00: drawDriverFirstStage__10KartDrawerFUl
+ 0x801c9d24: isDrawDriver__10RaceDrawerCFv
+ 0x801c9d30: drawKartFirstStage__10KartDrawerFUl
+ 0x801c9d54: isDrawKart__10RaceDrawerCFv
+ 0x801c9d60: drawShadowVolume__13ShadowManagerFUlQ211ShadowModel10ShadowKind
+ 0x801c9da4: drawNormal__6CourseFUl
+ 0x801c9dd0: isDrawCrs__10RaceDrawerCFv
+ 0x801c9ddc: isDrawSky__10RaceDrawerCFv
+ 0x801c9de8: setCurrentViewNo__8LightMgrFUl
+ 0x801c9df0: getSceneLightTagName__14RaceSceneLightFUl
+ 0x801c9dfc: drawMidScene__10RaceDrawerFv
+ 0x801c9ef8: isDrawGhostScene__10RaceDrawerCFv
+ 0x801c9f04: isHide__11GhostScreenCFv
+ 0x801c9f0c: drawSceneSecondStage__10RaceDrawerFUl
+ 0x801ca220: drawDriverSecondStage__10KartDrawerFUl
+ 0x801ca244: drawKartSecondStage__10KartDrawerFUl
+ 0x801ca268: isDrawCup__10RaceDrawerCFv
+ 0x801ca274: getTagName__12RaceCupLightFUl
+ 0x801ca280: getSupervisor__10TLensFlareFv
+ 0x801ca288: isSecondStage__10KartDrawerCFv
+ 0x801ca29c: drawPreScene__10RaceDrawerFv
+ 0x801ca31c: isBlurActive__10RaceDrawerCFv
+ 0x801ca32c: drawPostScene__10RaceDrawerFv
+ 0x801ca488: getAward2D__7RaceMgrFv
+ 0x801ca490: getMaskScreen__10RaceDrawerFv
+ 0x801ca498: getStaffRoll2D__7RaceMgrFv
+ 0x801ca4a0: isMaskActive__10RaceDrawerCFv
+ 0x801ca4b0: getSupervisor__10GeoShimmerFv
+ 0x801ca4b8: drawGhost__10RaceDrawerFv
+ 0x801ca630: drawDriverGhostStage__10KartDrawerFUl
+ 0x801ca654: drawKartGhostStage__10KartDrawerFUl
+ 0x801ca678: getGhostAlpha__10KartDrawerCFv
+ 0x801ca680: showAllGhost__10RaceDrawerFv
+ 0x801ca6bc: show__11GhostScreenFv
+ 0x80414700: sBlurA0__10RaceDrawer
+ 0x80414701: sBlurDefaultDecrease__10RaceDrawer
+ 0x80414704: sBlurAddY__10RaceDrawer
+ 0x80416488: sBlurAddX__10RaceDrawer
+ 0x8041648c: sBlurDefaultColor__10RaceDrawer
+ 0x80416490: sForceGhostKind__10RaceDrawer
 
  # RaceTime.cpp
  0x801d9e4c: get__8RaceTimeCFPiPiPi
 
+ # MovieApp.cpp
  0x801d7a80: getAppHeap__6SystemF
  0x801d7a88: getHeap__7GameAppFv
 
@@ -797,10 +1983,112 @@ global:
 
  # main.cpp
  0x801f75f4: main
+
+ # ResMgr.cpp
+ 0x801fc5dc: getCrsArcName__6ResMgrF9ECourseID
+ 0x801fc860: create__6ResMgrFP7JKRHeap
+ 0x801fc940: loadKeepTask__6ResMgrFPv
+ 0x801fcbe8: loadCourseTask__6ResMgrFPv
+ 0x801fcda4: loadAwardTask__6ResMgrFPv
+ 0x801fcf20: loadOpeningTask__6ResMgrFPv
+ 0x801fcf84: loadKeepData__6ResMgrFv
+ 0x801fcff4: loadCourseData__6ResMgrF9ECourseIDQ26ResMgr11CourseOrder
+ 0x801fd098: loadAwardData__6ResMgrF10ERaceGpCupP7JKRHeap
+ 0x801fd128: loadOpeningData__6ResMgrFP7JKRHeap
+ 0x801fd1a4: isFinishLoadingArc__6ResMgrFQ26ResMgr9ArchiveId
+ 0x801fd1c0: isLoadingArc__6ResMgrFQ26ResMgr9ArchiveId
+ 0x801fd1dc: getPtr__6ResMgrFQ26ResMgr10KartDataId7EKartID
+ 0x801fd4dc: getPtr__6ResMgrFQ26ResMgr12DriverDataIdQ26ResMgr8DriverId
+ 0x801fd6ac: getPtr__6ResMgrFQ26ResMgr12ShadowDataId7EKartID
+ 0x801fd8e8: getPtr__6ResMgrFQ26ResMgr12CourseDataId
+ 0x801fda40: getPtr__6ResMgrFQ26ResMgr13MessageDataId
+ 0x801fdb70: getPtr__6ResMgrFQ26ResMgr9ArchiveIdPCc
+ 0x801fdc20: getResSize__6ResMgrFQ26ResMgr9ArchiveIdPCv
+ 0x801fdcd0: readResourceAsync__6ResMgrFPvUlPcPcPQ26ResMgr14AramAsyncState
+ 0x801fddb4: readAnmResTask__6ResMgrFPv
+ 0x801fde70: findResource__6ResMgrFQ26ResMgr9ArchiveIdPc
+ 0x801fdf2c: isFinishLoadingAram__6ResMgrFv
+ 0x803fe2f8: mspaLoader__6ResMgr
+ 0x803fe95c: msaAramResArg__6ResMgr
+ 0x80414858: msCupID__6ResMgr
+ 0x8041485c: msUsedArgArray__6ResMgr
+ 0x80416920: mspKeepHeap__6ResMgr
+ 0x80416924: mspCourseHeap__6ResMgr
+ 0x80416928: mspAwardHeap__6ResMgr
+ 0x8041692c: mspOpeningHeap__6ResMgr
+ 0x80416930: msLoadFlag__6ResMgr
+ 0x80416934: msLoadingFlag__6ResMgr
+ 0x80416938: msRequestLoadingKeepData__6ResMgr
+ 0x8041693c: msCourseID__6ResMgr
+ 0x80416940: msCourseOrder__6ResMgr
+ 0x80416944: msMountCourseID__6ResMgr
+ 0x80416948: msMountCourseOrder__6ResMgr
+ 0x8041694c: mspCourseName__6ResMgr
+ 0x80416950: mspStaffGhost__6ResMgr
+ 0x80416954: msFreeArgArray__6ResMgr
+ 0x80416958: msAramTaskNum__6ResMgr
  
  # system.cpp
+ 0x801feb10: startAudioTask__6SystemFPv
  0x801feba0: init__6SystemFv
+ 0x801ff0c8: reset__6SystemFv
+ 0x801ff0f4: changeProgressive__6SystemFv
+ 0x801ff160: changeMovieRenderMode__6SystemFv
+ 0x801ff1d8: changeNormalRenderMode__6SystemFv
+ 0x801ff250: callbackException__6SystemFUsP9OSContextUlUl
+ 0x801ff294: haltRumble__6SystemFv
  0x801ff334: run__6SystemFv
+ 0x801ff490: get2DVpX__6SystemFv
+ 0x801ff49c: get2DVpY__6SystemFv
+ 0x801ff4ac: get2DVpW__6SystemFv
+ 0x801ff4bc: get2DVpH__6SystemFv
+ 0x801ff4cc: get3DVpX__6SystemFv
+ 0x801ff4d8: get3DVpY__6SystemFv
+ 0x801ff4e8: get3DVpW__6SystemFv
+ 0x801ff4f8: get3DVpH__6SystemFv
+ 0x801ff508: get3DVpDiv2X__6SystemFUc
+ 0x801ff584: get3DVpDiv2Y__6SystemFUc
+ 0x801ff604: get3DVpDiv2W__6SystemFUc
+ 0x801ff684: get3DVpDiv2H__6SystemFUc
+ 0x801ff704: get3DVpDiv4X__6SystemFUc
+ 0x801ff780: get3DVpDiv4Y__6SystemFUc
+ 0x801ff800: get3DVpDiv4W__6SystemFUc
+ 0x801ff880: get3DVpDiv4H__6SystemFUc
+ 0x801ff900: get3DVpSubX__6SystemFv
+ 0x801ff90c: get3DVpSubY__6SystemFv
+ 0x801ff91c: get3DVpSubW__6SystemFv
+ 0x801ff92c: get2DScisX__6SystemFv
+ 0x801ff93c: get2DScisY__6SystemFv
+ 0x801ff94c: get2DScisW__6SystemFv
+ 0x801ff95c: get2DScisH__6SystemFv
+ 0x801ff96c: get3DScisX__6SystemFv
+ 0x801ff97c: get3DScisY__6SystemFv
+ 0x801ff98c: get3DScisW__6SystemFv
+ 0x801ff99c: get3DScisH__6SystemFv
+ 0x801ff9ac: get3DAwardScisX__6SystemFv
+ 0x801ff9bc: get3DAwardScisY__6SystemFv
+ 0x801ff9cc: get3DAwardScisW__6SystemFv
+ 0x801ff9dc: get3DAwardScisH__6SystemFv
+ 0x801ff9ec: get3DScisDiv2X__6SystemFUc
+ 0x801ffa68: get3DScisDiv2Y__6SystemFUc
+ 0x801ffae8: get3DScisDiv2W__6SystemFUc
+ 0x801ffb68: get3DScisDiv2H__6SystemFUc
+ 0x801ffbe8: get3DScisDiv4X__6SystemFUc
+ 0x801ffc64: get3DScisDiv4Y__6SystemFUc
+ 0x801ffce4: get3DScisDiv4W__6SystemFUc
+ 0x801ffd64: get3DScisDiv4H__6SystemFUc
+ 0x801ffde4: get3DScisSubX__6SystemFv
+ 0x801ffdf4: get3DScisSubY__6SystemFv
+ 0x801ffe04: get3DScisSubW__6SystemFv
+ 0x801ffe14: get3DScisSubH__6SystemFv
+ 0x801ffe24: getOrthoL__6SystemFv
+ 0x801ffe30: getOrthoR__6SystemFv
+ 0x801ffe40: getOrthoT__6SystemFv
+ 0x801ffe50: getOrthoB__6SystemFv
+ 0x801ffe60: getPerspAspect__6SystemFv
+ 0x801ffe68: getPerspAspectDiv2__6SystemFv
+ 0x801ffe70: getPerspAspectDiv4__6SystemFv
+ 0x801ffe78: getPerspAspectSub__6SystemFv
  0x80416968: mspDisplay__6System
  0x8041696c: mspAppHeap__6System
  0x80416970: msDvdState__6System
@@ -813,23 +2101,38 @@ global:
  0x8041698c: mspJ2DOrtho__6System
  0x80416990: mspAudioHeap__6System
 
- # SequenceInfo.cpp
- 0x803fba80: gSequenceInfo
-
  # kartpad.cpp
  0x801fff8c: compress__11KartGamePadFRC9PADStatusP11KartPadData
  0x80200110: compress__11KartGamePadFRC10LGPositionP11KartPadData
  0x80200328: expand__11KartGamePadFRC11KartPadData
+ 0x802004b4: __sinit_kartPad_cpp
+ 0x8039caf8: gpaGamePad
+ 0x8039cb08: gpaKartPad
+ 0x803fef60: gGamePad1P
+ 0x803ffdc0: gGamePad2P
+ 0x803ffe78: gGamePad3P
+ 0x803fff30: gGamePad4P
+ 0x803fffe8: gKartPad1P
+ 0x804000a0: gKartPad2P
+ 0x80400158: gKartPad3P
+ 0x80400210: gKartPad4P
+ 0x804002c8: gKartPad5P
+ 0x80400380: gKartPad6P
+ 0x80400438: gKartPad7P
+ 0x804004f0: gKartPad8P
+ 0x804005a8: gKartPad9P
+ 0x80400660: gKartPad10P
+ 0x80400718: gKartPad11P
+ 0x804007d0: gKartPad12P
+ 0x80400888: gKartPad13P
+ 0x80400940: gKartPad14P
+ 0x804009f8: gKartPad15P
+ 0x80400ab0: gKartPad16P
 
  # SaveFile.cpp
  0x8020c230: getCRC__8SaveFileFPUcPUc
  0x80407334: msaCRCTable__8SaveFile
  0x80416a48: msCRCTableComputed__8SaveFile
- 0x802004b4: __sinit_kartPad_cpp
-
- 0x8039caf8: gpaGamePad
- 0x8039cb08: gpaKartPad
- 0x803fef60: gGamePad1P
 
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
@@ -843,7 +2146,129 @@ global:
  0x80416ac8: sMgr__8stRandom
 
  # ItemObjMgr.cpp
+ 0x8023cc44: __ct__10ItemObjMgrFv
+ 0x8023d010: __ct__Q210ItemObjMgr26SLAN_DebugKartPadDataArrayFv
+ 0x8023d054: __ct__Q210ItemObjMgr21SLAN_DebugKartPadDataFv
+ 0x8023d08c: __ct__Q210ItemObjMgr23SLAN_DebugItemDataArrayFv
+ 0x8023d0d0: __ct__Q210ItemObjMgr18SLAN_DebugItemDataFv
+ 0x8023d0d4: __dt__17JSUList<7ItemObj>Fv
+ 0x8023d120: __ct__17JSUList<7ItemObj>Fv
+ 0x8023d150: __dt__10ItemObjMgrFv
+ 0x8023d24c: initItemMaxNums__10ItemObjMgrFv
+ 0x8023d29c: createShuffleMgr__10ItemObjMgrFv
+ 0x8023d4d0: __dt__14ItemShuffleMgrFv
+ 0x8023d518: reset__10ItemObjMgrFv
+ 0x8023d55c: resetLists__10ItemObjMgrFv
+ 0x8023d734: clrKartHittingList__10ItemObjMgrFv
+ 0x8023d7b0: clrKartItemEquipTriggerList__10ItemObjMgrFv
+ 0x8023d808: clrKartItemUseTriggerList__10ItemObjMgrFv
+ 0x8023d860: clrKartStockingEquipItemList__10ItemObjMgrFv
+ 0x8023d908: createAllObj__10ItemObjMgrFv
+ 0x8023dfa0: equipItemSuccession__10ItemObjMgrFUliUc
+ 0x8023e140: robRivalOfItem__10ItemObjMgrFiiUc
+ 0x8023e28c: transferPartnerOfItem__10ItemObjMgrFib
+ 0x8023e39c: stockItemToKart__10ItemObjMgrFiiUcbUc
+ 0x8023e3d0: equipItemToKart__10ItemObjMgrFiiUcbUc
+ 0x8023e5c4: occurItem__10ItemObjMgrFUlRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+ 0x8023e658: delete_stockItemToKart__10ItemObjMgrFiUc
+ 0x8023e680: removeItem__10ItemObjMgrFP7ItemObj
+ 0x8023e8b0: append__17JSUList<7ItemObj>FP17JSULink<7ItemObj>
+ 0x8023e8d0: isAvailable__25JSUListIterator<7ItemObj>Fv
+ 0x8023e8e0: __as__25JSUListIterator<7ItemObj>FP17JSULink<7ItemObj>
+ 0x8023e8e8: remove__17JSUList<7ItemObj>FP17JSULink<7ItemObj>
+ 0x8023e908: __ct__25JSUListIterator<7ItemObj>FP17JSULink<7ItemObj>
+ 0x8023e910: getObject__25JSUListIterator<7ItemObj>CFv
+ 0x8023e91c: __rf__25JSUListIterator<7ItemObj>CFv
+ 0x8023e928: getFirst__17JSUList<7ItemObj>CFv
+ 0x8023e930: getObject__17JSULink<7ItemObj>CFv
+ 0x8023e938: removeItem__10ItemObjMgrFR25JSUListIterator<7ItemObj>
+ 0x8023ea14: deleteItemByMoveList__10ItemObjMgrFP7ItemObj
+ 0x8023ea70: deleteItemByKartEquipItemList__10ItemObjMgrFP7ItemObj
+ 0x8023eabc: deleteItemByKartEquipItemListSuc__10ItemObjMgrFP7ItemObj
+ 0x8023eadc: deleteItemKeepMax__10ItemObjMgrFP7ItemObj
+ 0x8023ebd8: deleteMaxOverItem__10ItemObjMgrFRC17JSUList<7ItemObj>
+ 0x8023ec48: getDeleteObjByPriorityList__10ItemObjMgrFP17JSUList<7ItemObj>
+ 0x8023ed54: releaseItemByKartEquipItemList__10ItemObjMgrFP7ItemObj
+ 0x8023ed84: getKartEquipItem__10ItemObjMgrFiUc
+ 0x8023ed9c: getKartEquipItem__10ItemObjMgrFi
+ 0x8023ede4: getStockItem__10ItemObjMgrFiUc
+ 0x8023ee1c: tstColReactionKart__10ItemObjMgrFiP7ItemObj
+ 0x8023ee40: getModelDataAppendLoadFlg__7ItemObjFv
+ 0x8023ee48: loadOtherModelData__10ItemObjMgrFv
+ 0x8023eef4: getOtherBmdFileName__10ItemObjMgrFUl
+ 0x8023ef14: load__10ItemObjMgrFv
+ 0x8023f1dc: createModel__10ItemObjMgrFP12JKRSolidHeapUl
+ 0x8023f39c: initCharShadowModelData__10ItemObjMgrFv
+ 0x8023f540: createCharShadowModel__10ItemObjMgrFP12JKRSolidHeapUl
+ 0x8023f5f8: calcCharShadowModel__10ItemObjMgrFv
+ 0x8023fc00: calc__10ItemObjMgrFv
+ 0x8024048c: calcIsHitItem__10ItemObjMgrFR25JSUListIterator<7ItemObj>R25JSUListIterator<7ItemObj>
+ 0x802405d8: setKartHittingList__10ItemObjMgrFR25JSUListIterator<7ItemObj>i
+ 0x8024087c: checkItemByShuffle__10ItemObjMgrFv
+ 0x80240c00: abortItemShuffle__10ItemObjMgrFi
+ 0x80240c3c: getItemWanWanObj__10ItemObjMgrFP7ItemObj
+ 0x80240c58: getItemFireBall__10ItemObjMgrFP7ItemObj
+ 0x80240c74: getItemFireBallSuc__10ItemObjMgrFP7ItemObj
+ 0x80240c90: getItemYoshiEgg__10ItemObjMgrFP7ItemObj
+ 0x80240cac: setHeartItem__10ItemObjMgrFiP9ItemHeart
+ 0x80240d48: deleteHeartItem__10ItemObjMgrFi
+ 0x80240e28: tstHaveItemHeart__10ItemObjMgrFi
+ 0x80240edc: executeColHitHeart__10ItemObjMgrFP7ItemObji
+ 0x80240f80: getHeartItem__10ItemObjMgrFi
+ 0x80241018: setItemUseTrigger__10ItemObjMgrFiUc
+ 0x80241100: tstItemUseTrigger__10ItemObjMgrCFiUc
+ 0x802411e4: setThunderDisableUseCounter__10ItemObjMgrFv
+ 0x8024123c: getNowTandemDriverNum__10ItemObjMgrFi
+ 0x80241294: IsSpecialCharacter__10ItemObjMgrFl
+ 0x802412b8: IsRollingSlot__10ItemObjMgrFi
+ 0x8024131c: IsRollingSlot__10ItemObjMgrFiUc
+ 0x80241360: IsAvailableRollingSlot__10ItemObjMgrFiUl
+ 0x80241534: startItemShuffleSingle__10ItemObjMgrFib
+ 0x80241608: startItemShuffleDouble__10ItemObjMgrFi
+ 0x802416d0: getHandOffsetData__10ItemObjMgrFP7ItemObj
  0x80241928: getRobberyItemNum__10ItemObjMgrFiUc
+ 0x80241970: removeMiniGameList__10ItemObjMgrFP7ItemObj
+ 0x80241998: update__10ItemObjMgrFQ210ItemObjMgr23eDrawSimplModelItemTypei
+ 0x80241adc: viewCalc__10ItemObjMgrFUl
+ 0x80241bf0: setCurrentViewNo__10ItemObjMgrFUl
+ 0x80241cf4: drawSimpleModel__10ItemObjMgrFUlQ210ItemObjMgr23eDrawSimplModelItemTypeiP8LightObj
+ 0x80241f64: drawColModel__10ItemObjMgrFUl
+ 0x80241f68: setLANDebugInfo__10ItemObjMgrFv
+ 0x80242158: draw__10ItemObjMgrFv
+ 0x802422b8: getRndItemKindPossibilityGetting__14ItemShuffleMgrFP8stRandomiUc
+ 0x80242510: loadSlotData__14ItemShuffleMgrFv
+ 0x80242818: calcBufOffset__14ItemShuffleMgrFPUci
+ 0x80242850: setToList__14ItemShuffleMgrFPUcPQ214ItemShuffleMgr12KartSlotData
+ 0x80242964: __ct__Q214ItemShuffleMgr12KartSlotListFv
+ 0x80242974: setToListLAN__14ItemShuffleMgrFPQ214ItemShuffleMgr12KartSlotDataRCUcPCi
+ 0x80242a60: setAllDynamicRate__14ItemShuffleMgrFv
+ 0x80242ab4: setDynamicRate__14ItemShuffleMgrFPQ214ItemShuffleMgr12KartSlotDatab
+ 0x80242cdc: SlotItem__14ItemShuffleMgrFiUc
+ 0x80243018: doShuffle__14ItemShuffleMgrFv
+ 0x80243140: resetRolling__14ItemShuffleMgrFv
+ 0x80243164: calcRaceUseNormalItem__14ItemShuffleMgrFPUlPQ214ItemShuffleMgr19KartSlotRankDataSeti
+ 0x80243208: calcSpecialItemNum__14ItemShuffleMgrFPUlPQ214ItemShuffleMgr19KartSlotRankDataSetiib
+ 0x802433dc: calcRank__14ItemShuffleMgrFQ214ItemShuffleMgr19KartSlotRankDataSet
+ 0x80243508: calcSlot__14ItemShuffleMgrFRQ214ItemShuffleMgr19KartSlotRankDataSetiib
+ 0x80243648: calcRndSpecialSlot__14ItemShuffleMgrFiRCQ214ItemShuffleMgr12KartSlotDatab
+ 0x802438a4: calcRaceUseNormalItem__24ItemRndSpecialShuffleMgrFPUlPQ214ItemShuffleMgr19KartSlotRankDataSeti
+ 0x80243948: calcSpecialItemNum__24ItemRndSpecialShuffleMgrFPUlPQ214ItemShuffleMgr19KartSlotRankDataSetiib
+ 0x80243b5c: calcRndSpecialRank__14ItemShuffleMgrFQ214ItemShuffleMgr19KartSlotRankDataSet
+ 0x80243c2c: calcRank__24ItemRndSpecialShuffleMgrFQ214ItemShuffleMgr19KartSlotRankDataSet
+ 0x80243d68: __dt__24ItemRndSpecialShuffleMgrFv
+ 0x80243dc4: callbackColGeoObj__10ItemObjMgrFv
+ 0x80416b50: gItemMgr__10ItemObjMgr
+ 0x80416b54: sLANDbgDataPtr__10ItemObjMgr
+ 0x80416b58: sLANDbgKartPadBuffer__10ItemObjMgr
+ 0x80416b5c: sTopBalloonNum__10ItemObjMgr
+ 0x80416b64: mSlotList__14ItemShuffleMgr
+ 0x80416b6c: mSlotListEnemy__14ItemShuffleMgr
+ 0x80416b74: SLOT_MAX_COUNT__14ItemShuffleMgr
+ 0x80416b78: SLOT_INVALID_BUTTON_COUNT__14ItemShuffleMgr
+ 0x80416b7c: SLOT_WAIT_COUNT__14ItemShuffleMgr
+ 0x80416b80: sSlotNormalItemNum__14ItemShuffleMgr
+ 0x80416b81: sSlotSpecialItemNum__14ItemShuffleMgr
+ 0x80416b84: sSlotKindIndexArray__14ItemShuffleMgr
 
  # kartCtrl.cpp
  0x802e1968: getDriverPad__11KartCheckerCFi
@@ -853,5 +2278,3 @@ global:
  0x802f2994: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
 
  0x802f34dc: GetKartSoundMgr__8KartCtrlFi 
-
- 0x80416b50: gItemMgr__10ItemObjMgr

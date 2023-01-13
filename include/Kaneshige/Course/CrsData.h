@@ -1,9 +1,10 @@
 #ifndef CRSDATA_H
 #define CRSDATA_H
 
-#include "types.h"
-
+#include "JSystem/JUTility/TColor.h"
 #include "JSystem/JGeometry.h"
+#include "kartLocale.h"
+#include "types.h"
 
 // add this to JSystem
 struct TColor
@@ -17,6 +18,23 @@ struct TColor
 class CrsData
 {
 public:
+    struct SColHeader
+    {
+        char signature[4];
+        u16 xGridNum;
+        u16 zGridNum;
+        s32 xStart; // TVec2?
+        s32 zStart;
+        s32 xSize;
+        s32 zSize;
+        s16 matNum;
+        u32 triangleIndices;
+        // Not sure of data type
+        void **triangleList;
+        void **vertexList;
+        void **matList;
+    };
+
     struct SOblHeader
     {
         char mMagic[4];
@@ -73,6 +91,13 @@ public:
         s16 mCameraID;
         s16 mSectorID;
     };
+    CrsData(CrsData::SColHeader *, CrsData::SOblHeader *);
+    void getShadowColor(JUtility::TColor *) const;
+    void patchCamDataForStaffRoll(Language, VideoMode);
+    int getCourseID() const;
+    u8 getTotalLapNumber();
+    bool isTexLODBiasOn() const;
+    u8 getShadowDepth() const { return BOL->mShadowDepth; }
 
 private:
     void *BCO;

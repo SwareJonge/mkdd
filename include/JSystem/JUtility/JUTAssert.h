@@ -47,12 +47,12 @@ public:
   JUT_ASSERT_F(LINE, COND, "%s", #COND)
 
 #else // This will be changed in the future
-#define JUT_ASSERT(LINE, COND)
-#define JUT_ASSERT_F(LINE, COND, ...)
-#define JUT_PANIC(LINE, TEXT)
-#define JUT_RANGE_ASSERT(LINE, min, cur, max)
-#define JUT_MAX_ASSERT(LINE, cur, max)
-#define JUT_VALIDATE(LINE, COND)
+#define JUT_ASSERT(...)
+#define JUT_ASSERT_F(...)
+#define JUT_PANIC(...)
+#define JUT_RANGE_ASSERT(...)
+#define JUT_MAX_ASSERT(...)
+#define JUT_VALIDATE(...)
 #endif
 
 #endif

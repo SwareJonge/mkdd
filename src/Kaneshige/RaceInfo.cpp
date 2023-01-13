@@ -41,42 +41,42 @@ RaceInfo::RaceInfo()
 
 void RaceInfo::reset()
 {
-    isTinyProcess = false;
+    mTinyProcess = false;
     mLanMode = false;
-    isTrueEnding = false;
-    randomSeed = 0;
-    gpCup = INV_CUP;
-    raceMode = INV_MODE;
-    raceLevel = LVL_INV;
-    itemSlotType = 0;
-    vsLapNum = 0;
-    lapNumLAN = 0;
-    kartNum = 0;
-    playerNum = 0;
-    consoleNum = 0;
-    statusNum = 0;
-    lod = 0;
-    gpStageNo = 0;
-    demoType = 0;
-    isMirror = false;
+    mTrueEnding = false;
+    mRandomSeed = 0;
+    mGpCup = INV_CUP;
+    mRaceMode = INV_MODE;
+    mRaceLevel = LVL_INV;
+    mItemSlotType = 0;
+    mVsLapNum = 0;
+    mLapNumLAN = 0;
+    mKartNum = 0;
+    mPlayerNum = 0;
+    mConsoleNum = 0;
+    mStatusNum = 0;
+    mLOD = 0;
+    mGpStageNo = 0;
+    mDemoType = 0;
+    mMirror = false;
     _0x298 = 0;
-    HideConsole = 0;
+    mHideConsole = 0;
 
     for (s32 i = 0; i < 8; i++)
     {
-        kartInfo[i].reset();
-        rank[i] = 0;
+        mKartInfo[i].reset();
+        mRank[i] = 0;
     }
 
     for (s32 i = 0; i < 8; i++)
     {
-        startPosIndex[i] = i;
-        pointTable[i] = 0;
+        mStartPosIndex[i] = i;
+        mPointTable[i] = 0;
     }
 
     for (s32 i = 0; i < 2; i++)
     {
-        rivalKarts[i] = -1;
+        mRivalKarts[i] = -1;
     }
 
     for (s32 i = 0; i < 4; i++)
@@ -85,8 +85,8 @@ void RaceInfo::reset()
         _0x11c[i] = 0;
     }
 
-    awardKartNo = -1;
-    demoNextPhase = 6;
+    mAwardKartNo = -1;
+    mDemoNextPhase = 6;
 }
 
 void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
@@ -142,7 +142,7 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
     setRaceLevel(LVL_150CC);
     if (!iVar1)
     {
-        gSequenceInfo.rndDemo(randomSeed);
+        gSequenceInfo.rndDemo(mRandomSeed);
     }
 
     for (int no = 0; no < getKartNumber(); no++)
@@ -168,11 +168,11 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
 
     if (settingThing)
     {
-        demoType = 2;
+        mDemoType = 2;
     }
     else
     {
-        demoType = 1;
+        mDemoType = 1;
     }
 }
 
@@ -197,7 +197,7 @@ void RaceInfo::settingForAwardDemo()
 void RaceInfo::settingForStaffRoll(bool trueEnding)
 {
     setRace(STAFF_ROLL, 8, 0, 1, 1);
-    isTrueEnding = trueEnding;
+    mTrueEnding = trueEnding;
     setRivalKartNo(0, 3);
     setRivalKartNo(1, 7);
     setRandomSeed(0);
@@ -224,67 +224,67 @@ void RaceInfo::settingForStaffRoll(bool trueEnding)
 void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int consoleCount, int p5)
 {
     reset();
-    raceMode = RaceMode;
-    kartNum = (s16)kartCount;
-    playerNum = playerCount;
-    consoleNum = (s16)consoleCount;
-    statusNum = (s16)p5;
-    lod = 0;
+    mRaceMode = RaceMode;
+    mKartNum = (s16)kartCount;
+    mPlayerNum = playerCount;
+    mConsoleNum = (s16)consoleCount;
+    mStatusNum = (s16)p5;
+    mLOD = 0;
 
-    if (consoleNum >= 3)
-        lod |= 2;
+    if (mConsoleNum >= 3)
+        mLOD |= 2;
 
     if ((consoleCount >= 3) && (kartCount >= 5))
-        isTinyProcess = true;
+        mTinyProcess = true;
 }
 
 void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad *kartPad1, ECharID charID2, KartGamePad *kartPad2)
 {
     JUT_RANGE_ASSERT(685, 0, kartNo, 8);
-    kartInfo[kartNo].setKartID(kartID);
+    mKartInfo[kartNo].setKartID(kartID);
     JUT_ASSERT(694, charID1 != cCharIDNone);
     JUT_ASSERT(695, charID2 != cCharIDNone);
 
     for (int idx = 0; 2 > idx; ++idx) // the most useful loop ever
     {
         if (!idx != false)
-            kartInfo[kartNo].setDriver(idx, charID1, kartPad1);
+            mKartInfo[kartNo].setDriver(idx, charID1, kartPad1);
         else
-            kartInfo[kartNo].setDriver(idx, charID2, kartPad2);
+            mKartInfo[kartNo].setDriver(idx, charID2, kartPad2);
     }
 }
 
 void RaceInfo::setRaceLevel(ERaceLevel raceLvl)
 {
-    this->raceLevel = raceLvl;
+    mRaceLevel = raceLvl;
     if (raceLvl == LVL_MIRROR)
-        isMirror = true;
+        mMirror = true;
     else
-        isMirror = false;
+        mMirror = false;
 }
 
 void RaceInfo::shuffleRandomSeed()
 {
-    JMath::TRandom_<JMath::TRandom_fast_> rndm(randomSeed);
-    randomSeed = ((JMath::TRandom_fast_)rndm).get();
+    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed);
+    mRandomSeed = ((JMath::TRandom_fast_)rndm).get();
 }
 
 void RaceInfo::shuffleStartNo()
 {
-    JMath::TRandom_<JMath::TRandom_fast_> rndm(randomSeed);
+    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed);
 
     for (u32 i = 0; i < (u32)getKartNumber(); i++)
     {
         u32 dst = i + (((JMath::TRandom_fast_)rndm).get() % (getKartNumber() - i));
         JUT_MAX_ASSERT(751, dst, getKartNumber());
-        s32 playerStartIdx = startPosIndex[i];
-        startPosIndex[i] = startPosIndex[dst];
-        startPosIndex[dst] = playerStartIdx;
+        s32 playerStartIdx = mStartPosIndex[i];
+        mStartPosIndex[i] = mStartPosIndex[dst];
+        mStartPosIndex[dst] = playerStartIdx;
     }
 }
 
 void RaceInfo::hideConsole(u32 viewNo)
 {
     JUT_RANGE_ASSERT(772, 1, viewNo, 5);
-    HideConsole = HideConsole | (1 << viewNo);
+    mHideConsole = mHideConsole | (1 << viewNo);
 }

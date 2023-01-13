@@ -43,6 +43,20 @@ extern "C"
         GX_CTF_Z16L   // 16-bit Z (lower portion). For copying the lower 16 bits of Z.
     } GXTexFmt;
 
+    typedef enum _GXTexCoordID
+    {
+        GX_TEXCOORD0,
+        GX_TEXCOORD1,
+        GX_TEXCOORD2,
+        GX_TEXCOORD3,
+        GX_TEXCOORD4,
+        GX_TEXCOORD5,
+        GX_TEXCOORD6,
+        GX_TEXCOORD7,
+        GX_MAX_TEXCOORD = 8,
+        GX_TEXCOORD_NULL = 0xff
+    } GXTexCoordID;
+
     typedef enum _GXTexMapID
     {
         GX_TEXMAP0, // Texture map ID 0.

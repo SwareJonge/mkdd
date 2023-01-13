@@ -93,4 +93,6 @@ public:
     virtual int calcRank(KartSlotRankDataSet);
 };
 
-#endif // !ITEMOBJMGR_H
+inline void CreateItemObjMgr();
+
+#endif // ITEMOBJMGR_H

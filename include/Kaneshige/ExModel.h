@@ -1,18 +1,34 @@
 #ifndef EXMODEL_H
 #define EXMODEL_H
 
+#include "JSystem/JKernel/JKRDisposer.h"
+#include "JSystem/JSUpport/JSUList.h"
+#include "Dolphin/mtx.h"
 #include "types.h"
 
 class ExModel
 {
 public:
-    MTX34 *getBaseTRMtx(); /* {
-        return mBaseTRMtx;
+    static bool isMtxCombinationOn();
+    Mtx *getBaseTRMtx();/* {
+        return &mBaseTRMtx;
     }*/
 
 private:
     u8 _0[0x2c];
-    MTX34 mBaseTRMtx;
+    Mtx mBaseTRMtx;
+};
+
+class ExMDRecord;
+
+class ExMdlDataMgr : JKRDisposer
+{
+public:
+    ExMdlDataMgr(bool);
+
+private:
+    JSUList<ExMDRecord> mList;
+    bool _18;
 };
 
 #endif // EXMODEL_H

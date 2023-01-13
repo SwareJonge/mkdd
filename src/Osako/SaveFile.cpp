@@ -4,7 +4,7 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
-u32 SaveFile::msaCRCTable[256];
+u32 SaveFile::msaCRCTable[256]; // -common on
 bool SaveFile::msCRCTableComputed;
 
 void SaveFile::makeCRCTable()
@@ -35,14 +35,10 @@ u32 SaveFile::getCRC(u8 *pBegin, u8 *pEndNext)
     JUT_VALIDATE(61, pBegin < pEndNext);
     
     if (!msCRCTableComputed)
-    {
         makeCRCTable();
-    }
 
     for (u8 *i = pBegin; i != pEndNext; i++)
-    {
         crc = msaCRCTable[(crc ^ *i) & 0xff] ^ (crc >> 8);
-    }
 
     return crc ^ 0xffffffff;
 }

@@ -30,11 +30,6 @@ typedef volatile f64 vf64;
 
 typedef int BOOL;
 
-struct MTX34
-{
-    float mMtx[3][4];
-};
-
 typedef int unknown;
 
 #define nullptr 0

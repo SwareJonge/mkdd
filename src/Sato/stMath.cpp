@@ -2,9 +2,8 @@
 #include "runtime.h"
 #include "types.h"
 
-#include "JSystem/JMath/JMath.h"
 #include "JSystem/JGeometry.h"
-
+#include "JSystem/JMath/JMath.h"
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Dolphin/OS.h"
 
@@ -55,11 +54,8 @@ f32 stRandom::getArbitUnitVecXZ(JGeometry::TVec3<f32>& p1, f32 p2) {
     return ret;
 }
 
-stRandom * stGetRnd(u32 idx) {
-    if (stRandom::sRndMgr[idx]->permission == false) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "stMath.cpp", 924, "Random can\'t get :%d", idx);
-        OSPanic("stMath.cpp", 924, "Halt");
-    }
+stRandom *stGetRnd(u32 idx) {
+    JUT_ASSERT_F(924, stRandom::sRndMgr[idx]->permission, "Random can\'t get :%d", idx);
     return stRandom::sRndMgr[idx];
 }
 

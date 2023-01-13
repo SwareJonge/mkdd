@@ -1,4 +1,6 @@
 #include "Kaneshige/KartInfo.h"
+#include "Osako/kartPad.h"
+#include "JSystem/JUTility/JUTGamePad.h"
 #include "Dolphin/OS.h"
 #include "JSystem/JUtility/JUTAssert.h"
 
@@ -165,7 +167,7 @@ const KartInfo::SCharDB KartInfo::cBossPakkunCharDB = {
 
 const KartInfo::SKartDB KartInfo::cMustacheKartDB = {
     RED_FIRE,
-    1,
+    NORMAL,
     4,
     0,
     MARIO,
@@ -173,7 +175,7 @@ const KartInfo::SKartDB KartInfo::cMustacheKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cMonkeyKartDB = {
     DK_JUMBO,
-    2,
+    HEAVY,
     4,
     1,
     DONKEYKONG,
@@ -181,7 +183,7 @@ const KartInfo::SKartDB KartInfo::cMonkeyKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cLizardKartDB = {
     TURBO_YOSHI,
-    1,
+    NORMAL,
     4,
     0,
     YOSHI,
@@ -189,7 +191,7 @@ const KartInfo::SKartDB KartInfo::cLizardKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cSmallFishKartDB = {
     KOOPA_DASHER,
-    0,
+    LIGHT,
     4,
     2,
     KOOPATROOPA,
@@ -197,7 +199,7 @@ const KartInfo::SKartDB KartInfo::cSmallFishKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cPrincessKartDB = {
     HEART_COACH,
-    1,
+    NORMAL,
     4,
     0,
     PEACH,
@@ -205,7 +207,7 @@ const KartInfo::SKartDB KartInfo::cPrincessKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cChildKartDB = {
     GOO_GOO_BUGGY,
-    0,
+    LIGHT,
     4,
     0,
     BABY_MARIO,
@@ -213,7 +215,7 @@ const KartInfo::SKartDB KartInfo::cChildKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cBadKartDB = {
     WARIO_CAR,
-    2,
+    HEAVY,
     4,
     2,
     WARIO,
@@ -221,7 +223,7 @@ const KartInfo::SKartDB KartInfo::cBadKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cSatanKartDB = {
     KOOPA_KING,
-    2,
+    HEAVY,
     6,
     2,
     BOWSER,
@@ -229,7 +231,7 @@ const KartInfo::SKartDB KartInfo::cSatanKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cLuigiKartDB = {
     GREEN_FIRE,
-    1,
+    NORMAL,
     4,
     0,
     LUIGI,
@@ -237,7 +239,7 @@ const KartInfo::SKartDB KartInfo::cLuigiKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cDiddyKartDB = {
     BARREL_TRAIN,
-    0,
+    LIGHT,
     6,
     0,
     DONKEYJR,
@@ -245,7 +247,7 @@ const KartInfo::SKartDB KartInfo::cDiddyKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cCatherineKartDB = {
     TURBO_BIRDO,
-    1,
+    NORMAL,
     4,
     0,
     BIRDO,
@@ -253,7 +255,7 @@ const KartInfo::SKartDB KartInfo::cCatherineKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cPatapataKartDB = {
     PARA_WING,
-    0,
+    LIGHT,
     4,
     2,
     PARATROOPA,
@@ -261,7 +263,7 @@ const KartInfo::SKartDB KartInfo::cPatapataKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cDaisyKartDB = {
     BLOOM_COACH,
-    1,
+    NORMAL,
     4,
     0,
     DAISY,
@@ -269,7 +271,7 @@ const KartInfo::SKartDB KartInfo::cDaisyKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cBabyLuigiKartDB = {
     RATTLE_BUGGY,
-    0,
+    LIGHT,
     4,
     0,
     BABY_LUIGI,
@@ -277,7 +279,7 @@ const KartInfo::SKartDB KartInfo::cBabyLuigiKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cWaluigiKartDB = {
     WALUIGI_RACER,
-    1,
+    NORMAL,
     4,
     0,
     WALUIGI,
@@ -285,7 +287,7 @@ const KartInfo::SKartDB KartInfo::cWaluigiKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cKoopaJrKartDB = {
     BULLET_BLASTER,
-    0,
+    LIGHT,
     4,
     2,
     BOWSERJR,
@@ -293,7 +295,7 @@ const KartInfo::SKartDB KartInfo::cKoopaJrKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cKinopioKartDB = {
     TOAD_KART,
-    0,
+    LIGHT,
     4,
     0,
     TOAD,
@@ -301,7 +303,7 @@ const KartInfo::SKartDB KartInfo::cKinopioKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cKinopicoKartDB = {
     TOADETTE_KART,
-    0,
+    LIGHT,
     4,
     0,
     TOADETTE,
@@ -309,7 +311,7 @@ const KartInfo::SKartDB KartInfo::cKinopicoKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cKingTeresaKartDB = {
     BOO_PIPES,
-    2,
+    HEAVY,
     4,
     0,
     KING_BOO,
@@ -317,7 +319,7 @@ const KartInfo::SKartDB KartInfo::cKingTeresaKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cBossPakkunKartDB = {
     PIRANHA_PIPES,
-    2,
+    HEAVY,
     4,
     2,
     PETEY,
@@ -325,7 +327,7 @@ const KartInfo::SKartDB KartInfo::cBossPakkunKartDB = {
 };
 const KartInfo::SKartDB KartInfo::cBonusKartDB = {
     PARADE_KART,
-    2,
+    HEAVY,
     4,
     0,
     cCharIDNone,
@@ -337,12 +339,12 @@ KartInfo::KartInfo() {
 }
 
 void KartInfo::reset() {
-    kartDB = 0;
+    mKartDB = nullptr;
     s32 charCount = 2;
     for (s32 i = 0; i < charCount; i++) {
-        kartCharacter[i].reset();
+        mKartCharacters[i].reset();
     }
-    kartType = 0;
+    mGhostKind = KIND_0;
 }
 
 KartInfo::~KartInfo() {
@@ -351,9 +353,9 @@ KartInfo::~KartInfo() {
 
 void KartInfo::setDriver(int driverNo, ECharID charID, KartGamePad * gamePad) {
     JUT_RANGE_ASSERT(632, 0, driverNo, 2);
-    kartCharacter[driverNo].reset();
-    kartCharacter[driverNo].setPad(gamePad);
-    kartCharacter[driverNo].setCharDB(getCharDB(charID));
+    mKartCharacters[driverNo].reset();
+    mKartCharacters[driverNo].setPad(gamePad);
+    mKartCharacters[driverNo].setCharDB(getCharDB(charID));
 }
 
 const KartInfo::SCharDB * KartInfo::getCharDB(ECharID charID) {
@@ -495,7 +497,7 @@ const KartInfo::SKartDB * KartInfo::getKartDB(EKartID kartID) {
     return kartDB;
 }
 
-s32 KartInfo::getKartWeight(EKartID kartID) {
+EKartWeight KartInfo::getKartWeight(EKartID kartID) {
     return getKartDB(kartID)->weight;
 }
 
@@ -521,7 +523,7 @@ EKartID KartInfo::getPartnerKartID(ECharID charID) {
 
 bool KartInfo::isDefaultCharCombi() {
     bool ret = false;
-    if (kartCharacter[0].getPartnerID() == kartCharacter[1].getCharID())
+    if (mKartCharacters[0].getPartnerID() == mKartCharacters[1].getCharID())
         ret = true;
     return ret;
 }
@@ -533,18 +535,17 @@ KartGamePad* KartInfo::getYoungestPad() {
         KartGamePad* curPad = getPad(i);
         s32 iVar1 = 100;
         if (curPad) {
-            int padPort = curPad->getPadPort();
-            switch (padPort) {
-            case 0:
+            switch (curPad->getPadPort()) {
+            case KartGamePad::PORT_1:
                 iVar1 = 0;
                 break;
-            case 1:
+            case KartGamePad::PORT_2:
                 iVar1 = 1;
                 break;
-            case 2:
+            case KartGamePad::PORT_3:
                 iVar1 = 2;
                 break;
-            case 3:
+            case KartGamePad::PORT_4:
                 iVar1 = 3;
                 break;
             }
@@ -557,13 +558,15 @@ KartGamePad* KartInfo::getYoungestPad() {
     return youngestPad;
 }
 
+KartGamePad *KartInfo::KartCharacter::getPad() { return mKartGamePad; }
+
 void KartInfo::KartCharacter::setPad(KartGamePad* gamepad) {
-    kartGamePad = gamepad;
+    mKartGamePad = gamepad;
 }
 
 bool KartInfo::KartCharacter::isAvailable() const {
     bool ret = false;
-    if (kartGamePad == 0 || kartGamePad->getPadState() == 0)
+    if (mKartGamePad == nullptr || mKartGamePad->getPadState() == 0)
         ret = true;
     return ret;
 }

@@ -1,4 +1,4 @@
-
+#include "Dolphin/mtx.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kaneshige/JugemPoint.h"
 #include "Kaneshige/Course/Course.h"
@@ -777,9 +777,10 @@ bool KartChecker::isReverse()
 
     if (tstLapChecking())
     {
-        MTX34 *baseMtx = RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
+        // i don't consider this correct
+        Mtx &m = *RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
         JGeometry::TVec3<f32> thing;
-        thing.set(baseMtx->mMtx[0][2], baseMtx->mMtx[1][2], baseMtx->mMtx[2][2]);
+        thing.set(m[0][2], m[1][2], m[2][2]);
         thing.normalize();
 
         JGeometry::TVec3<f32> courseNormal;

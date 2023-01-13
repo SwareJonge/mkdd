@@ -11,6 +11,12 @@ extern "C" {
 #include <ppcdis.h>
 }
 
+enum EGhostKind {
+    KIND_0,
+    KIND_1,
+    KIND_2,
+};
+
 enum ECharID
 {
     cCharIDNone = 0,
@@ -82,7 +88,7 @@ public:
     struct SKartDB
     {
         EKartID id;
-        s32 weight; // use enum
+        EKartWeight weight;
         u16 wheelCount;
         s8 _a;
         u16 defaultDriverID;
@@ -95,34 +101,37 @@ public:
             reset();
         }
         ~KartCharacter() {};
-        void reset() {
-            kartGamePad = 0;
-            charDB = 0;
+        void reset()    {
+            mKartGamePad = 0;
+            mCharDB = 0;
         }
 
         bool isComPlayer() const {
-            return kartGamePad == nullptr;
+            return mKartGamePad == nullptr;
         }
 
+        KartGamePad *getPad();
         void setPad(KartGamePad * gamepad);
-        void setCharDB(const SCharDB  * sCharDB) {
-            charDB = sCharDB;
+
+        void setCharDB(const SCharDB  * charDB) {
+            mCharDB = charDB;
         }
         ECharID getCharID() const {
-            if (charDB != 0)
-                return (ECharID)charDB->id;
+            if (mCharDB != 0)
+                return (ECharID)mCharDB->id;
             return cCharIDNone;
         }
         ECharID getPartnerID() const {
-            if (charDB != 0)
-                return (ECharID)charDB->defaultPartnerID;
+            if (mCharDB != 0)
+                return (ECharID)mCharDB->defaultPartnerID;
             return cCharIDNone;
         }
         bool isAvailable() const;
         static s32 convPlayerKind(KartGamePad *);
 
-        KartGamePad* kartGamePad; // inherited from JUTGamePad
-        const SCharDB* charDB;
+    private:
+        KartGamePad* mKartGamePad; // inherited from JUTGamePad
+        const SCharDB* mCharDB;
     };
     KartInfo();
     ~KartInfo();
@@ -132,7 +141,7 @@ public:
     static const SCharDB * getCharDB(ECharID charID);
     void setDriver(int driverNo, ECharID charID, KartGamePad * gamePad);
     static const SKartDB * getKartDB(EKartID kartID);
-    static s32 getKartWeight(EKartID);
+    static EKartWeight getKartWeight(EKartID);
     static ECharID getDefaultDriver(EKartID);
     static ECharID getDefaultPartner(ECharID);
     static s32 getDriverWeight(ECharID);
@@ -142,12 +151,12 @@ public:
     KartGamePad * getYoungestPad();
     KartGamePad* getPad(int driverNo) {
         JUT_RANGE_ASSERT(126, 0, driverNo, 2);
-        return kartCharacter[driverNo].kartGamePad; // probably inline
+        return mKartCharacters[driverNo].getPad();
     }
 
     bool isComDriver(int driverNo) const {
         JUT_RANGE_ASSERT(113, 0, driverNo, 2);
-        return kartCharacter[driverNo].isComPlayer();
+        return mKartCharacters[driverNo].isComPlayer();
     }
 
     bool isComKart() const {
@@ -155,7 +164,7 @@ public:
     }
 
     void setKartID(EKartID kartID) {
-        kartDB = getKartDB(kartID);
+        mKartDB = getKartDB(kartID);
     }
 
         // bool isRealPlayerKart();
@@ -206,9 +215,9 @@ public:
     static const SKartDB cBonusKartDB;
 
 private:
-    const SKartDB * kartDB;
-    KartCharacter kartCharacter[2]; // one for the driver, other for the one doing nothing
-    s32 kartType; // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
+    const SKartDB * mKartDB;
+    KartCharacter mKartCharacters[2]; // one for the driver, other for the one doing nothing
+    EGhostKind mGhostKind;            // if this is set to 1 this means the driver is a ghost, 2 is also used for ghost but for the pad that gets recorded, so that means 2 is invisible?
 };
 
 #endif // !KARTINFO_H

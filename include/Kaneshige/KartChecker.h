@@ -17,61 +17,28 @@
 #define validUD(UD) \
     (UD >= 0.0f && UD <= 1.0f);
 
-class KartChecker
-{
+class KartChecker { // TODO: organise this class better
 public:
-    enum EBombEvent
-    {
-        EVENT_1 = 1,
-        EVENT_2 = 2,
-        EVENT_3 = 3
-    };
     KartChecker(int, KartInfo *, int, int);
 
-    void clrPass(int sectoridx)
-    {
+    void clrPass(int sectoridx) {
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
         cpBitfields[index] &= ~(1 << bitIndex);
     }
 
-    int getRank() const
-    {
-        return mRank;
-    }
-
+    int getRank() const { return mRank; }
     RaceTime *getBestLapTime();
-
-
-    const RaceTime &getTotalTime()
-    {
-        return mTotalTime;
-    }
-
+    const RaceTime &getTotalTime() { return mTotalTime; }
     bool isBestTotalTimeRenewal(int);
     bool isBestLapTimeRenewal();
     bool isCurrentLapTimeRenewal();
-
-    bool isLapRenewal() const
-    {
-        return mLapRenewal;
-    }
-
-    bool isFinalLap() const
-    {
-        return lap == mMaxLap - 1;
-    }
-
+    bool isLapRenewal() const { return mLapRenewal; }
+    bool isFinalLap() const { return lap == mMaxLap - 1; }
     bool isFinalLapRenewal() const;
+    bool isGoal() const { return mRaceEnd; }
 
-    bool isGoal() const
-    {
-        return mRaceEnd;
-    }
-
-    bool isPass(int sectoridx)
-    {
-        
+    bool isPass(int sectoridx)  {        
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
         JUT_RANGE_ASSERT(131, 0, index, bitfieldCnt);
@@ -80,24 +47,18 @@ public:
 
     bool isPassAll(int sectorCnt);
 
-    bool isRabbitWinner() const
-    {
-        return (rabbitWinFrame <= 0);
-    }
+    bool isRabbitWinner() const { return (rabbitWinFrame <= 0); }
 
     bool isReverse();
 
     // https://decomp.me/scratch/RWx4a
-    void printPass(int x, int y)
-    {
-        for (int i = 0; i < bitfieldCnt; i++)
-        {
+    void printPass(int x, int y) {
+        for (int i = 0; i < bitfieldCnt; i++) {
             JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, cpBitfields[i]);
         }
     }
 
-        const RaceTime &getLapTime(int no)
-    {
+    const RaceTime &getLapTime(int no) {
         JUT_RANGE_ASSERT(206, 0, no, mMaxLap);
         return mLapTimes[no];
     }
@@ -107,131 +68,61 @@ public:
         return mKartGamePads[driverNo];
     }
 
-    void setGoal()
-    {
+    void setGoal() {
         _0x78 = false;
         mRaceEnd = true;
     }
 
     void setForceGoal();
 
-    void setGoalTime()
-    {
+    void setGoalTime() {
         mTotalTime = mBestLapTimes[mMaxLap - 1];
         mGoalFrame = curFrame;
     }
 
     void setLapTime();
 
-    void setLapChecking()
-    {
-        raceFlags |= 1;
-    }
-
-    void setBalloonCtrl()
-    {
-        raceFlags |= 2;
-    }
-
-    void setBombCtrl()
-    {
-        raceFlags |= 4;
-    }
-
-    void setRabbitCtrl()
-    {
-        raceFlags |= 8;
-    }
-
-    void setDemoRank()
-    {
-        raceFlags |= 16;
-    }
-
-    void setDead()
-    {
-        battleFlags |= 4;
-    }
-
-    void setRank(int rank)
-    {
-        mRank = rank;
-    }
-
+    void setLapChecking() { raceFlags |= 1; }
+    void setBalloonCtrl() { raceFlags |= 2; }
+    void setBombCtrl()  { raceFlags |= 4; }
+    void setRabbitCtrl() { raceFlags |= 8; }
+    void setDemoRank() { raceFlags |= 16; }
+    void setDead() { battleFlags |= 4; }
+    void setRank(int rank) { mRank = rank; }
     bool setPass(int index);
-
-    void clrRank()
-    {
-        mRank = 0;
+    void clrRank() { mRank = 0; }
+    void resumeRabbitTimer() { battleFlags &= 0xfffe; }
+    bool tstLapChecking() const { return raceFlags & 1; }
+    bool tstBalloonCtrl() const { return raceFlags & 2; }
+    bool tstBombCtrl() const { return raceFlags & 4; }
+    bool tstRabbitCtrl() const { return raceFlags & 8; }
+    bool tstDemoRank() const { return raceFlags & 16; }
+    bool tstFixMiniPoint() const { return battleFlags & 2; }
+    bool tstDead() const { return battleFlags & 4; }
+    bool tstStillRabbitTimer() const { return battleFlags & 1; }
+    bool isMaxTotalTime() const { return !mTotalTime.isAvailable(); }
+    bool isDead() const { return tstDead(); }
+    bool isBombPointFull() const { return mBombPoint >= sBombPointFull; }
+    
+    static bool isInsideSector(f32 unitDist) { return (unitDist >= 0.0f && unitDist < 1.0f); }
+    static int getWinBombPointForMenu(int p1) {
+        if (p1 > 2)
+            return sBombPointFullL;
+        return sBombPointFullS;
     }
 
-    bool tstLapChecking() const
-    {
-        return raceFlags & 1;
-    }
-
-    bool tstBalloonCtrl() const
-    {
-        return raceFlags & 2;
-    }
-
-    bool tstBombCtrl() const
-    {
-        return raceFlags & 4;
-    }
-
-    bool tstRabbitCtrl() const
-    {
-        return raceFlags & 8;
-    }
-
-    bool tstDemoRank() const
-    {
-        return raceFlags & 16;
-    }
-
-    bool tstFixMiniPoint() const
-    {
-        return battleFlags & 2;
-    }
-
-    bool tstDead() const
-    {
-        return battleFlags & 4;
-    }
-
-    bool isDead() const
-    {
-        return tstDead();
-    }
-
-    bool isBombPointFull() const
-    {
-        return mBombPoint >= sBombPointFull;
-    }
-
-    static bool isInsideSector(f32 unitDist)
-    {
-        return (unitDist >= 0.0f && unitDist < 1.0f);
+    void incLap() {
+        if (lap < mMaxLap)
+            lap++;
     }
 
     bool incBalloon();
     bool decBalloon();
 
-    void incLap()
-    {
-        if (lap < mMaxLap)
-            lap++;
-    }
 
     void incTime();
     bool incMyBombPoint(int, int);
     static bool incYourBombPoint(int idx, int pnt, int increment);
-
-    bool isMaxTotalTime() const
-    {
-        return !mTotalTime.isAvailable();
-    }
 
     bool isUDValid();
 
@@ -250,17 +141,13 @@ public:
     bool isRabbit() const;
     void calcRabbitTime();
 
-    void resumeRabbitTimer()
-    {
-        battleFlags &= 0xfffe;
-    }
+    enum EBombEvent {
+        EVENT_1 = 1,
+        EVENT_2 = 2,
+        EVENT_3 = 3
+    };
 
-    bool tstStillRabbitTimer() const
-    {
-        return battleFlags & 1;
-    }
-
-    void setBombEvent(KartChecker::EBombEvent, ItemObj *);
+    void setBombEvent(EBombEvent, ItemObj *);
 
     static int sPlayerKartColorTable[];
     static short sBalForbiddenTime;
