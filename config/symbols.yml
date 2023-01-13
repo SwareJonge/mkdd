@@ -399,6 +399,17 @@ global:
  0x8010650c: __shr2i
  0x80106534: __cvt_dbl_usll
 
+  # string.c
+ 0x8010d5dc: strstr
+ 0x8010d658: strrchr
+ 0x8010d6bc: strchr
+ 0x8010d728: strncmp
+ 0x8010d790: strcmp
+ 0x8010d8d8: strcat
+ 0x8010d91c: strncpy
+ 0x8010d980: strcpy
+ 0x8010da58: strlen
+
  # math.h
  0x80112040: atan
  0x801123c4: cos
@@ -2128,6 +2139,19 @@ global:
  0x80400940: gKartPad14P
  0x804009f8: gKartPad15P
  0x80400ab0: gKartPad16P
+
+ # TARecord.cpp
+ 0x8020b458: __ct__8TARecordFUcUcUcUc
+ 0x8020b494: setName__8TARecordFPCc
+ 0x8020b4bc: setStatus__8TARecordFUcUcUcUc
+ 0x8020b4d0: setRaceTime__8TARecordF8RaceTime
+ 0x8020b4dc: less__8TARecordFRC8TARecord
+
+ # GPRecord.cpp
+ 0x8020c078: __ct__8GPRecordFv
+ 0x8020c09c: setName__8GPRecordFPCc
+ 0x8020c0c4: set__8GPRecordFUcUcUcUcUcUcbPCc8RaceTime
+ 0x8020c150: less__8GPRecordFRC8GPRecord
 
  # SaveFile.cpp
  0x8020c230: getCRC__8SaveFileFPUcPUc

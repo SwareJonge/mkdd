@@ -105,6 +105,14 @@ Osako/systemData.cpp:
     .sbss: [0x80416a00, 0x80416a10]
     .sdata2: [0x8041b758, 0x8041b778]
 
+Osako/TARecord.cpp:
+    .text: [0x8020b458, 0x8020b510]
+
+Osako/GPRecord.cpp:
+    .text: [0x8020c078, 0x8020c230]
+    .rodata: [0x8037e038, 0x8037e060]
+    .sdata2: [0x8041b830, 0x8041b840]
+
 #Osako/SaveFile.cpp: # common on issue?
     #.text: [0x8020c230, 0x8020c3ac]
     #.rodata: [0x8037e060, 0x8037e090]

@@ -8,7 +8,7 @@ struct GPRecord {
     GPRecord();
     void setName(const char *);
     void set(u8, u8, u8, u8, u8, u8, bool, const char *, RaceTime);
-    void less(const GPRecord & rRec);
+    bool less(const GPRecord & rRec);
     // series of bytes probably consist of IDs
     u8 _0;
     u8 _1;
@@ -16,7 +16,8 @@ struct GPRecord {
     u8 mLevel;
     u8 _4;
     u8 _5;
-    u8 _6; // some type of flag
+    s8 _6; // some type of flag
+    u8 _7; // probably padding
     char mName[4];
     RaceTime mTime;
 }; // Size 0x10
