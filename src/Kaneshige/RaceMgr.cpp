@@ -57,6 +57,7 @@ RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0x107, "パーティクル", " PARTICLE"},
     {0x108, "スクリーンエフェクト", " SCR EFFECT"},
     {0x109, "周回チェック", " LOOP CHECK"},
+    {0x10a, "実験", " FOR TEST"},
     {0x110, "デバッグ１", " DEBUG1"},
     {0x111, "デバッグ２", " DEBUG2"},
     {0x112, "デバッグ３", " DEBUG3"},
