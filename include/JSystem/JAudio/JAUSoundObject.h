@@ -19,10 +19,10 @@ public:
     virtual void dispose();
     virtual void stopOK(JAISoundHandle &);
     virtual void *startSound(int);
-    virtual void startSoundIndex(int, unsigned char);
-    virtual void stopSound(int soundID, u32); // unused, not sure
+    //virtual void startSoundIndex(int, unsigned char);
+    //virtual void stopSound(int soundID, u32); // unused, not sure
     virtual void *startLevelSound(int);
-    virtual void startLevelSoundIndex(int, unsigned char);
+    //virtual void startLevelSoundIndex(int, unsigned char);
 
     bool _C;
     u8 _D[3];

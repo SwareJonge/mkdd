@@ -11,11 +11,11 @@
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/DemoTimeKeeper.h"
-#include "Kaneshige/ResMgr.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Osako/kartPad.h"
+#include "Osako/ResMgr.h"
 #include "Osako/SystemRecord.h"
 #include "Osako/shadowMgr.h"
 #include "Sato/EffectScreen.h"
@@ -331,4 +331,11 @@ void RaceMgr::updateBestTime() {
         else
             mBestTotalTimes[i].reset();
     }
+}
+
+void RaceMgr::setRandomSeed() {
+    for(int i = 0; i < 6; i++) {
+        stGetRnd(i)->setSeed(mRaceInfo->mRandomSeed); // i have no clue why this file has different options for inlining
+    }
+    GameAudio::Random::setSeed(mRaceInfo->mRandomSeed);
 }
