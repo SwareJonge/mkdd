@@ -98,12 +98,12 @@ public:
         Sector *getMainSector() { return mMainSector; }
 
         Sector *getPrevSector(int no) {
-            JUT_RANGE_ASSERT(100, 0, no, 4);
+            JUT_MINMAX_ASSERT(100, 0, no, 4);
             return mPrevSectors[no];
         }
 
         Sector *getNextSector(int no) {
-            JUT_RANGE_ASSERT(105, 0, no, 4);
+            JUT_MINMAX_ASSERT(105, 0, no, 4);
             return mNextSectors[no];
         }
 
@@ -147,12 +147,12 @@ public:
     CrsData *getCrsData() const; /*{ return mCrsData; }*/
 
     Sector *getSector(int no) const {
-        JUT_RANGE_ASSERT(300, 0, no, mTotalSectors);
+        JUT_MINMAX_ASSERT(300, 0, no, mTotalSectors);
         return &mSectors[no];
     }
 
     Sector *getMainSector(int gen) const {
-        JUT_RANGE_ASSERT(306, 0, gen, mTrackSectorNum);
+        JUT_MINMAX_ASSERT(306, 0, gen, mTrackSectorNum);
         return mMainSector[gen];
     }
 

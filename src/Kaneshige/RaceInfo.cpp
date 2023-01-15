@@ -91,7 +91,7 @@ void RaceInfo::reset()
 
 void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
 {
-    JUT_RANGE_ASSERT(453, 0, cnsNo, 4);
+    JUT_MINMAX_ASSERT(453, 0, cnsNo, 4);
     _0x114[cnsNo] = target;
     _0x11c[cnsNo] = p3;
 }
@@ -189,7 +189,7 @@ void RaceInfo::settingForAwardDemo()
 
     for (int idx = 0; idx < getKartNumber(); idx++)
     {
-        JUT_RANGE_ASSERT(585, 0, idx, 3);
+        JUT_MINMAX_ASSERT(585, 0, idx, 3);
         setKart(idx, sAwardDebugKartIDTable[idx], sAwardDebugDriver1IDTable[idx], 0, sAwardDebugDriver2IDTable[idx], 0);
     }
 }
@@ -240,7 +240,7 @@ void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int c
 
 void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad *kartPad1, ECharID charID2, KartGamePad *kartPad2)
 {
-    JUT_RANGE_ASSERT(685, 0, kartNo, 8);
+    JUT_MINMAX_ASSERT(685, 0, kartNo, 8);
     mKartInfo[kartNo].setKartID(kartID);
     JUT_ASSERT(694, charID1 != cCharIDNone);
     JUT_ASSERT(695, charID2 != cCharIDNone);
@@ -285,6 +285,6 @@ void RaceInfo::shuffleStartNo()
 
 void RaceInfo::hideConsole(u32 viewNo)
 {
-    JUT_RANGE_ASSERT(772, 1, viewNo, 5);
+    JUT_MINMAX_ASSERT(772, 1, viewNo, 5);
     mHideConsole = mHideConsole | (1 << viewNo);
 }

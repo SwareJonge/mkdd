@@ -41,7 +41,7 @@ bool JFWSystem::sInitCalled;
 
 void JFWSystem::firstInit()
 {
-    JUT_VALIDATE(80, rootHeap == 0);
+    JUT_ASSERT(80, rootHeap == 0);
     OSInit();
     DVDInit();
     rootHeap = JKRExpHeap::createRoot(CSetUpParam::maxStdHeaps, false);
@@ -50,8 +50,8 @@ void JFWSystem::firstInit()
 
 void JFWSystem::init()
 {
-    JUT_VALIDATE(101, sInitCalled == false);
-    
+    JUT_ASSERT(101, sInitCalled == false);
+
     if (rootHeap == 0)
         firstInit();
 

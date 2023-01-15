@@ -3,7 +3,7 @@
 #include "JSystem/JUtility/JUTProcBar.h"
 #include "JSystem/JFrameWork/JFWDisplay.h"
 
-#if DEBUG
+#ifdef DEBUG
 #include "Osako/screenshot.h"
 #endif
 
@@ -169,7 +169,7 @@ void JFWDisplay::copyXfb_triple() {
     JUTXfb *xfbMng = JUTXfb::getManager();
 
     if (xfbMng->getDrawingXfbIndex() >= 0) {
-        if (_44 != NULL) {
+        if (_44 != nullptr) {
             _44();
         }
         prepareCopyDisp();
@@ -204,14 +204,14 @@ void JFWDisplay::endGX() {
 
     J2DOrthoGraph ortho(0.0f, 0.0f, width, height, -1.0f, 1.0f);
 
-    if (mFader != NULL) {
+    if (mFader != nullptr) {
         ortho.setPort();
         mFader->control();
     }
     ortho.setPort();
     JUTDbPrint::getManager()->flush();
 
-    if (JUTConsoleManager::getManager() != NULL) {
+    if (JUTConsoleManager::getManager() != nullptr) {
         ortho.setPort();
         JUTConsoleManager::getManager()->draw();
     }
@@ -253,7 +253,7 @@ void JFWDisplay::beginRender() {
         JUTProcBar::getManager()->idleEnd();
     }
 
-#if DEBUG
+#ifdef DEBUG
         SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
 #endif
 

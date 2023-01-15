@@ -352,7 +352,7 @@ KartInfo::~KartInfo() {
 }
 
 void KartInfo::setDriver(int driverNo, ECharID charID, KartGamePad * gamePad) {
-    JUT_RANGE_ASSERT(632, 0, driverNo, 2);
+    JUT_MINMAX_ASSERT(632, 0, driverNo, 2);
     mKartCharacters[driverNo].reset();
     mKartCharacters[driverNo].setPad(gamePad);
     mKartCharacters[driverNo].setCharDB(getCharDB(charID));

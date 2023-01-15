@@ -17,7 +17,7 @@ void HostIOCallBack();
 // void ConnectToUSB();
 
 #ifdef __cplusplus
-    extern "C"
+extern "C"
 {
 #endif // ifdef __cplusplus
 void SCREENSHOTService(void *, void *, void *);

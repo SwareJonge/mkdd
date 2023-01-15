@@ -3,7 +3,7 @@
 #include "JSystem/JUtility/JUTAssert.h"
 
 Scene::Scene(JKRArchive * archive, JKRHeap* heap) {
-    JUT_VALIDATE(27, heap);
+    JUT_ASSERT(27, heap);
     mArchive = archive;
     mOrtho = System::getJ2DOrtho();
 }

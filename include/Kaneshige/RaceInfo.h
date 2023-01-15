@@ -90,23 +90,23 @@ public:
     void setRandomSeed(u32 value) { mRandomSeed = value; }
 
     void setRivalKartNo(int rivalNo, int kartNo) {
-        JUT_RANGE_ASSERT(114, 0, rivalNo, 2);
-        JUT_RANGE_ASSERT(115, 0, kartNo, 8)
+        JUT_MINMAX_ASSERT(114, 0, rivalNo, 2);
+        JUT_MINMAX_ASSERT(115, 0, kartNo, 8)
         mRivalKarts[rivalNo] = kartNo;
     }
 
     int getConsoleTarget(int cnsNo) const {
-        JUT_RANGE_ASSERT(124, 0, cnsNo, 4);
+        JUT_MINMAX_ASSERT(124, 0, cnsNo, 4);
         return _0x114[cnsNo];
     }
 
     bool isDemoConsole(int cnsNo) const {
-        JUT_RANGE_ASSERT(129, 0, cnsNo, 4);
+        JUT_MINMAX_ASSERT(129, 0, cnsNo, 4);
         return _0x11c[cnsNo];
     }
 
     KartInfo *getKartInfo(int kartNo) {
-        JUT_RANGE_ASSERT(173, 0, kartNo, 8);
+        JUT_MINMAX_ASSERT(173, 0, kartNo, 8);
         return &mKartInfo[kartNo];
     }
 

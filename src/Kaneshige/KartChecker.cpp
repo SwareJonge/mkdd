@@ -217,7 +217,7 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
 {
     if (RaceMgr::getManager()->isLANMode())
     {
-        JUT_RANGE_ASSERT(1004, 0, mTargetKartNo, 8);
+        JUT_MINMAX_ASSERT(1004, 0, mTargetKartNo, 8);
         mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
     }
     else
@@ -645,7 +645,7 @@ void KartChecker::setLapTime()
         }
 
         int mLap = lap;
-        JUT_RANGE_ASSERT(1687, 0, mLap, mMaxLap);
+        JUT_MINMAX_ASSERT(1687, 0, mLap, mMaxLap);
 
         mBestLapTimes[lap].set(computedTime);
         if (!isMaxTotalTime())
@@ -734,7 +734,7 @@ bool KartChecker::setPass(int sectorIdx)
         int bitIndex = sectorIdx % 32;
         valid = false;
 
-        JUT_RANGE_ASSERT(1791, 0, index, bitfieldCnt);
+        JUT_MINMAX_ASSERT(1791, 0, index, bitfieldCnt);
         cpBitfields[index] |= (1 << bitIndex);
     }
     return pass;
@@ -898,7 +898,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = mBombPoint; pntNo < bombPoint; pntNo++)
             {
-                JUT_RANGE_ASSERT(2071, 0, pntNo, 10);
+                JUT_MINMAX_ASSERT(2071, 0, pntNo, 10);
                 bombPointTable[pntNo] = -1;
             }
             if (bombPoint == sBombPointFull - 1)
@@ -908,7 +908,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = bombPoint; pntNo < mBombPoint; pntNo++)
             {
-                JUT_RANGE_ASSERT(2097, 0, pntNo, 10);
+                JUT_MINMAX_ASSERT(2097, 0, pntNo, 10);
                 bombPointTable[pntNo] = pnt;
             }
         }

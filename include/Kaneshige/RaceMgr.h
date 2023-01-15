@@ -112,7 +112,7 @@ public:
     int getTotalLapNumber() const { return mTotalLapNumber; }
     
     KartInfo *getKartInfo(int index) {
-        JUT_RANGE_ASSERT(170, 0, index, 8);
+        JUT_MINMAX_ASSERT(170, 0, index, 8);
         return &mRaceInfo->mKartInfo[index];
         // return mRaceInfo->getKartInfo(index);
     }
@@ -140,22 +140,22 @@ public:
     }
 
     KartLoader *getKartLoader(int index) const {
-        JUT_RANGE_ASSERT(257, 0, index, 8);
+        JUT_MINMAX_ASSERT(257, 0, index, 8);
         return mKartLoader[index];
     }
 
     KartCam *getCamera(int cameraNo) const {
-        JUT_RANGE_ASSERT(262, 0, cameraNo, 4);
+        JUT_MINMAX_ASSERT(262, 0, cameraNo, 4);
         return KartCtrl::getKartCtrl()->getKartCam(cameraNo);
     }
 
     KartChecker *getKartChecker(int index) const {
-        JUT_RANGE_ASSERT(267, 0, index, 8);
+        JUT_MINMAX_ASSERT(267, 0, index, 8);
         return mKartChecker[index];
     }
 
     const RaceTime &getBestTotalTime(int recID) {
-        JUT_RANGE_ASSERT(328, 0, recID, 5);
+        JUT_MINMAX_ASSERT(328, 0, recID, 5);
         return mBestTotalTimes[recID];
     }
 

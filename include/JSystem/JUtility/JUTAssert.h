@@ -11,9 +11,9 @@ public:
   static void create();
   static u32 getSDevice(void);
   static void showAssert_f(u32 device, char const *file, int line, char const *errormsg, ...);
-  static void showAssert(u32 device, char const *file, int line, char const *errormsg); /* {
+  static void showAssert(u32 device, char const *file, int line, char const *errormsg) {
     showAssert_f(device, file, line, "%s", errormsg);
-}*/
+}
 };
 
 #if DEBUG
@@ -37,22 +37,19 @@ public:
   OSPanic(__FILE__, LINE, "Halt"); \
   }
 
-#define JUT_RANGE_ASSERT(LINE, min, cur, max) \
+#define JUT_MINMAX_ASSERT(LINE, min, cur, max) \
   JUT_ASSERT_F(LINE, (((cur) >= (min)) && ((cur) < (max))) != false, "range over: %d <= " #cur "=%d < %d", (min), (cur), (max))
 
 #define JUT_MAX_ASSERT(LINE, cur, max) \
   JUT_ASSERT_F(LINE, ((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max))
 
-#define JUT_VALIDATE(LINE, COND) \
-  JUT_ASSERT_F(LINE, COND, "%s", #COND)
 
 #else // This will be changed in the future
 #define JUT_ASSERT(...)
 #define JUT_ASSERT_F(...)
 #define JUT_PANIC(...)
-#define JUT_RANGE_ASSERT(...)
+#define JUT_MINMAX_ASSERT(...)
 #define JUT_MAX_ASSERT(...)
-#define JUT_VALIDATE(...)
 #endif
 
 #endif

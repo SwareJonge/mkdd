@@ -30,10 +30,10 @@ u32 SaveFile::getCRC(u8 *pBegin, u8 *pEndNext)
 {
     u32 crc = -1;
 
-    JUT_VALIDATE(59, pBegin);
-    JUT_VALIDATE(60, pEndNext);
-    JUT_VALIDATE(61, pBegin < pEndNext);
-    
+    JUT_ASSERT(59, pBegin);
+    JUT_ASSERT(60, pEndNext);
+    JUT_ASSERT(61, pBegin < pEndNext);
+
     if (!msCRCTableComputed)
         makeCRCTable();
 

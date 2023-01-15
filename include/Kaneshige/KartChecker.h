@@ -41,7 +41,7 @@ public:
     bool isPass(int sectoridx)  {        
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
-        JUT_RANGE_ASSERT(131, 0, index, bitfieldCnt);
+        JUT_MINMAX_ASSERT(131, 0, index, bitfieldCnt);
         return (cpBitfields[index] & (1 << bitIndex)) != false;
     }
 
@@ -59,12 +59,12 @@ public:
     }
 
     const RaceTime &getLapTime(int no) {
-        JUT_RANGE_ASSERT(206, 0, no, mMaxLap);
+        JUT_MINMAX_ASSERT(206, 0, no, mMaxLap);
         return mLapTimes[no];
     }
 
     KartGamePad * getDriverPad(int driverNo) const {
-        JUT_RANGE_ASSERT(220, 0, driverNo, 2);
+        JUT_MINMAX_ASSERT(220, 0, driverNo, 2);
         return mKartGamePads[driverNo];
     }
 

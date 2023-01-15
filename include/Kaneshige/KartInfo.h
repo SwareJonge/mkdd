@@ -150,12 +150,12 @@ public:
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
     KartGamePad* getPad(int driverNo) {
-        JUT_RANGE_ASSERT(126, 0, driverNo, 2);
+        JUT_MINMAX_ASSERT(126, 0, driverNo, 2);
         return mKartCharacters[driverNo].getPad();
     }
 
     bool isComDriver(int driverNo) const {
-        JUT_RANGE_ASSERT(113, 0, driverNo, 2);
+        JUT_MINMAX_ASSERT(113, 0, driverNo, 2);
         return mKartCharacters[driverNo].isComPlayer();
     }
 
