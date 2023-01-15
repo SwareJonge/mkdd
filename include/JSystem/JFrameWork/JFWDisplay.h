@@ -59,8 +59,8 @@ public:
     // void createManager(const _GXRenderModeObj *, void *, bool);
     // void createManager(const _GXRenderModeObj *, void *, void *, bool);
     // void createManager(const _GXRenderModeObj *, void *, void *, void *, bool);
-    // void destroyManager();
-    // void callDirectDraw();
+    static void destroyManager();
+    void callDirectDraw();
     void prepareCopyDisp();
     void drawendXfb_single();
     void exchangeXfb_double();
@@ -76,7 +76,7 @@ public:
     // void addToDoubleXfb(JKRHeap *);
     // void clearAllXfb();
     // void frameToTick(float);
-    // void setForOSResetSystem();
+    // static void setForOSResetSystem();
 
     // Virtual functions
     virtual void beginRender(); // 0x80015e0c

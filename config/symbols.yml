@@ -54,7 +54,6 @@ global:
  0x80415714: sInitCalled__9JFWSystem
 
  # JFWDisplay.cpp
- # JFWDisplay.cpp
  0x80015b80: __dt__10JFWDisplayFv
  0x80015bfc: createManager__10JFWDisplayFPC16_GXRenderModeObjP7JKRHeapQ26JUTXfb10EXfbNumberb
  0x80015d5c: __dt__13J2DOrthoGraphFv
@@ -2157,6 +2156,15 @@ global:
  0x8020c230: getCRC__8SaveFileFPUcPUc
  0x80407334: msaCRCTable__8SaveFile
  0x80416a48: msCRCTableComputed__8SaveFile
+
+  # screenshot.c
+ 0x80219f50: SCREENSHOTService
+ 0x80414890: g_usb_channel
+ 0x80416a98: g_connected
+ 0x80416a9c: g_received_signal
+ 0x80416aa0: g_mail_waiting
+ 0x80416aa4: g_minimize_buffer
+ 0x80416aa8: g_data
 
  # stMath.cpp
  0x8021f5fc: createAllRandom__8stRandomFv
