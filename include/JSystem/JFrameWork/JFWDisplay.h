@@ -13,9 +13,9 @@
 
 typedef void (*JFWDisplayUnkFunc)(void);
 
-class JFWAlarm : public OSAlarm
-{
+class JFWAlarm : public OSAlarm { // everything here seems to be auto inlined or unused
 public:
+    // Contructor and Destructor are both present in map but unused, not sure if it belongs here
     JFWAlarm() : mLink(this) {}
     ~JFWAlarm() {}
     void createAlarm() { OSCreateAlarm(this); }
@@ -41,29 +41,48 @@ public:
         /* 0x1 */ UNK_METHOD_1 = 1
     };
 
-    /* 80272040 */ void ctor_subroutine(bool);
-    /* 802720F8 */ JFWDisplay(JKRHeap *, JUTXfb::EXfbNumber, bool);
-    /* 802721DC */ static JFWDisplay *createManager(_GXRenderModeObj const *, JKRHeap *,
-                                                    JUTXfb::EXfbNumber, bool);
-    /* 802722B8 */ void prepareCopyDisp();
-    /* 802723AC */ void drawendXfb_single();
-    /* 802723F4 */ void exchangeXfb_double();
-    /* 802724FC */ void exchangeXfb_triple();
-    /* 80272574 */ void copyXfb_triple();
-    /* 802725F8 */ void preGX();
-    /* 8027268C */ void endGX();
-    /* 80272C60 */ void waitBlanking(int);
-    /* 80272E10 */ void threadSleep(s64);
-    /* 80272EB8 */ void clearEfb_init();
-    /* 80272F9C */ void clearEfb(int, int, int, int, _GXColor);
-    /* 80272F2C */ void clearEfb();
-    /* 80272F58 */ void clearEfb(_GXColor);
-    /* 8027331C */ void calcCombinationRatio();
+    static JFWDisplay *createManager(const _GXRenderModeObj *, JKRHeap *, JUTXfb::EXfbNumber, bool); // 0x80015bfc
+    void waitBlanking(int);                      // 0x8001684c
+    void threadSleep(s64);                       // 0x800169fc
+    void clearEfb_init();                        // 0x80016ab8
+    void clearEfb();                             // 0x80016b2c
+    void clearEfb(_GXColor);                     // 0x80016b58
+    void clearEfb(int, int, int, int, _GXColor); // 0x80016b9c
+    void calcCombinationRatio();                 // 0x80016f0c
 
-    /* 80272798 */ virtual void beginRender();
-    /* 80272A04 */ virtual void endRender();
-    /* 80272AB0 */ virtual void endFrame();
-    /* 80272160 */ virtual ~JFWDisplay();
+    // auto inlined / unused functions
+    void ctor_subroutine(bool);
+    JFWDisplay(JKRHeap *, JUTXfb::EXfbNumber, bool);
+    // JFWDisplay(void *, bool);
+    // JFWDisplay(void *, void *, bool);
+    // JFWDisplay(void *, void *, void *, bool);
+    // void createManager(const _GXRenderModeObj *, void *, bool);
+    // void createManager(const _GXRenderModeObj *, void *, void *, bool);
+    // void createManager(const _GXRenderModeObj *, void *, void *, void *, bool);
+    // void destroyManager();
+    // void callDirectDraw();
+    void prepareCopyDisp();
+    void drawendXfb_single();
+    void exchangeXfb_double();
+    void exchangeXfb_triple();
+    void copyXfb_triple();
+    void preGX();
+    void endGX();
+    // void changeToSingleXfb(int);
+    // void changeToDoubleXfb();
+    // void deleteToSingleXfb(int);
+    // void deleteToSingleXfb(void *);
+    // void addToDoubleXfb(void *, bool);
+    // void addToDoubleXfb(JKRHeap *);
+    // void clearAllXfb();
+    // void frameToTick(float);
+    // void setForOSResetSystem();
+
+    // Virtual functions
+    virtual void beginRender(); // 0x80015e0c
+    virtual void endRender();   // 0x8001633c
+    virtual void endFrame();    // 0x8001669c
+    virtual ~JFWDisplay();      // 0x80015b80
 
     static JFWDisplay *getManager() { return sManager; }
 
@@ -94,7 +113,7 @@ public:
         mFrameRate = 0;
     }
 
-    static JFWDisplay *sManager;
+    static JFWDisplay *sManager; // 0x80415718
 
 private:
     /* 0x04 */ JUTFader *mFader;

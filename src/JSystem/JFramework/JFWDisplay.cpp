@@ -153,8 +153,7 @@ void JFWDisplay::exchangeXfb_triple() {
     xfbMng->setDrawnXfbIndex(xfbMng->getDrawingXfbIndex());
 
     s16 drawing_idx = xfbMng->getDrawingXfbIndex() + 1;
-    do
-    {
+    do {
         if (drawing_idx >= 3 || drawing_idx < 0) {
             drawing_idx = 0;
         }
@@ -251,22 +250,20 @@ void JFWDisplay::beginRender() {
     }
 
 #if DEBUG
-        pVar1 = JUTXfb::getManager()->mBuffer[JUTXfb::sManager->mDrawnXfbIndex];
-        // SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
+        //pVar1 = JUTXfb::getManager()->mBuffer[JUTXfb::sManager->mDrawnXfbIndex];
+        SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
 #endif
 
     if(_40) {
         JUTProcBar::getManager()->gpStart(0xff, 0x81, 0x1e);
         JUTXfb *xfbMng = JUTXfb::getManager();
-        switch (xfbMng->getBufferNum())
-        {
+        switch (xfbMng->getBufferNum()) {
         case 1:
             if (xfbMng->getSDrawingFlag() != 2) {
                 xfbMng->setSDrawingFlag(1);
                 clearEfb(mClearColor);
             }
-            else
-            {
+            else {
                 xfbMng->setSDrawingFlag(1);
             }
             xfbMng->setDrawingXfbIndex(_48);
@@ -298,8 +295,7 @@ void JFWDisplay::beginRender() {
 void JFWDisplay::endRender() {
     endGX();
 
-    if (_40)
-    {
+    if (_40) {
         switch (JUTXfb::getManager()->getBufferNum())
         {
         case 1:
@@ -367,8 +363,7 @@ void waitForTick(u32 p1, u16 p2) {
         u32 uVar1 = (p2 != 0) ? p2 : 1;
         OSMessage msg;
         do {
-            if (!OSReceiveMessage(JUTVideo::getManager()->getMessageQueue(), &msg, OS_MESSAGE_BLOCK))
-            {
+            if (!OSReceiveMessage(JUTVideo::getManager()->getMessageQueue(), &msg, OS_MESSAGE_BLOCK)) {
                 msg = 0;
             }
         } while (((int)msg - (int)nextCount) < 0);
