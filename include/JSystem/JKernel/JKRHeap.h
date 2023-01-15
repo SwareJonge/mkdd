@@ -1,7 +1,7 @@
 #ifndef JKRHEAP_H
 #define JKRHEAP_H
 
-#include "Dolphin/OS.h"
+#include "dolphin/OS.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 
 #include "types.h"

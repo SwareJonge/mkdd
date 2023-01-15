@@ -1,8 +1,10 @@
+#include "JSystem/JUtility/JUTAssert.h"
+#include "dolphin/OS.h"
 #include "types.h"
+
 #include "Osako/SaveFile.h"
 
-#include "JSystem/JUtility/JUTAssert.h"
-#include "Dolphin/OS.h"
+
 
 u32 SaveFile::msaCRCTable[256]; // -common on
 bool SaveFile::msCRCTableComputed;

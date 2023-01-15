@@ -2,7 +2,7 @@
 #define JMATH_H
 
 #include "types.h"
-#include "Dolphin/math.h"
+#include "dolphin/math.h"
 #include "std/pair.h"
 
 struct Quaternion {

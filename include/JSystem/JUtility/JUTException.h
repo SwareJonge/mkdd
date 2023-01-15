@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JUT_JUTEXCEPTION_H
 #define _JSYSTEM_JUT_JUTEXCEPTION_H
 
-#include "Dolphin/os.h"
+#include "dolphin/os.h"
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/Jutility/JUTGamePad.h"

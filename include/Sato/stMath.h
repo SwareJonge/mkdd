@@ -6,7 +6,7 @@
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JGeometry.h"
 
-class stRandom : JMath::TRandom_fast_ {
+class stRandom : public JMath::TRandom_fast_ {
 public:
     static stRandom* sRndMgr[6];
     static stRandom* sMgr; // not sure if this get's accesssed by something else, more research needed

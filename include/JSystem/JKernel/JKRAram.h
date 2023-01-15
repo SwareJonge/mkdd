@@ -1,8 +1,8 @@
 #ifndef JKRARAM_H
 #define JKRARAM_H
 
-//#include "Dolphin/ar.h"
-#include "Dolphin/os.h"
+//#include "dolphin/ar.h"
+#include "dolphin/os.h"
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "JSystem/JSupport/JSUList.h"

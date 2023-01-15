@@ -1,8 +1,9 @@
-#include "Kaneshige/KartInfo.h"
-#include "Osako/kartPad.h"
+#include "dolphin/OS.h"
 #include "JSystem/JUTility/JUTGamePad.h"
-#include "Dolphin/OS.h"
 #include "JSystem/JUtility/JUTAssert.h"
+
+#include "Osako/kartPad.h"
+#include "Kaneshige/KartInfo.h"
 
 const KartInfo::SCharDB KartInfo::cBabyMarioCharDB = {
     BABY_MARIO,

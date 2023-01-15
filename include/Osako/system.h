@@ -1,16 +1,14 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "Dolphin/OS.h"
+#include "dolphin/OS.h"
 #include "JSystem/J2D/J2DGrafContext.h"
 #include "JSystem/J2D/J2DPrint.h"
+#include "JSystem/JFrameWork/JFWDisplay.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
-
-
 #include "types.h"
 
-class JFWDisplay;
 class JKRTask;
 
 class System {

@@ -1,4 +1,4 @@
-#include "Dolphin/string.h"
+#include "dolphin/string.h"
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Osako/GPRecord.h"
 

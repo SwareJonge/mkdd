@@ -1,9 +1,9 @@
 #ifndef _JUTVIDEO_H
 #define _JUTVIDEO_H
 
-#include "Dolphin/os.h"
-#include "Dolphin/gx.h"
-#include "Dolphin/vi.h"
+#include "dolphin/os.h"
+#include "dolphin/gx.h"
+#include "dolphin/vi.h"
 #include "types.h"
 
 /**

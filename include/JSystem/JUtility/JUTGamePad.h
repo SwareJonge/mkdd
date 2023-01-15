@@ -2,8 +2,8 @@
 #define JUTGAMEPAD_H
 // from Super Mario Eclipse
 #include "types.h"
-#include "Dolphin/OS.h"
-#include "Dolphin/PAD.h"
+#include "dolphin/OS.h"
+#include "dolphin/PAD.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 
 class JUTGamePad : public JKRDisposer

@@ -1,9 +1,8 @@
 #ifndef JUTASSERT_H
 #define JUTASSERT_H
 
+#include "dolphin/OS.h"
 #include "types.h"
-
-#include "Dolphin/OS.h"
 
 class JUTAssertion
 {

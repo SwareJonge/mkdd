@@ -1,9 +1,7 @@
-#include "Sato/ItemObjMgr.h"
-#include "Sato/stMath.h"
-
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "Kaneshige/RaceMgr.h"
-
+#include "Sato/stMath.h"
+#include "Sato/ItemObjMgr.h"
 
 void ItemObjMgr::draw() {
     JUTReport(20, 60, "SlotTable");
@@ -16,8 +14,8 @@ void ItemObjMgr::draw() {
             JUTReport(kartNum * 33 + 20, slotNum * 12 + 100, "%u", slotData->mList[kartNum].slotTable[0]->chance[slotNum]);
         }
     }
-    // might need to use some inline functions to get this because of private members
-    if (RaceMgr::sRaceManager->raceInfo->raceMode == GRAND_PRIX) {
+    
+    if (RCMGetManager()->isRaceModeGp()) {
         ItemShuffleMgr::KartSlotData * slotData = &ItemShuffleMgr::mSlotListEnemy;
         JUTReport(400, 80, "Enemy");
         for (u8 kartNum = 0; kartNum < slotData->kartCount; kartNum++) {
@@ -28,20 +26,20 @@ void ItemObjMgr::draw() {
     }
 }
 
-int ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
+// TODO: make SlotTable or KartSlotData unnamed?
+int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata) {
     int ret = -1;
-    u32 randomNum = stGetRnd(0)->getRandomMax(slotRankData.total - 1);
+    u32 randomNum = stGetRnd(0)->getRandomMax(rdata.total - 1);
 
     int uVar3 = 0;
     int uVar2 = 0;
 
-    for (int i = 0; i < sSlotNormalItemNum + 1; i++, uVar3 = uVar2)
-    {
-        int itemChance = slotRankData.data->mList[slotRankData.rankIdx].slotTable[1]->chance[i];
+    for (int i = 0; i < sSlotNormalItemNum + 1; i++, uVar3 = uVar2) {
+        int itemChance = rdata.data->mList[rdata.kart_rank].slotTable[1]->chance[i];
         int itemIdx = i;
         if (i >= (int)sSlotNormalItemNum) {
-            itemIdx = slotRankData.specialItemIndex;
-            itemChance = slotRankData.specialItemChance;
+            itemIdx = rdata.specialItemIndex;
+            itemChance = rdata.specialItemChance;
         }
 
         uVar2 = uVar2 + (itemChance & (-(ItemObjMgr::sTempSlotUseItem[i] != false)));
@@ -50,6 +48,7 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
             break;
         }
     }
+    JUT_ASSERT(3995, ret != -1); // ???
 
     if (ret == -1)
         ret = 3;
@@ -58,16 +57,16 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
 
 }
 
-int ItemShuffleMgr::calcSlot(KartSlotRankDataSet & slotRankData, int p2, int p3, bool p4) {
-
+int ItemShuffleMgr::calcSlot(KartSlotRankDataSet &rdata, int p2, int p3, bool p4) {
+    JUT_MINMAX_ASSERT(4017, 0, rdata.kart_rank, rdata.data->kartCount);
     u32 total = 0;
 
-    calcRaceUseNormalItem(&total, &slotRankData, p3);
-    calcSpecialItemNum(&total, &slotRankData, p2, p3, p4);
+    calcRaceUseNormalItem(&total, &rdata, p3);
+    calcSpecialItemNum(&total, &rdata, p2, p3, p4);
 
-    slotRankData.total = total;
+    rdata.total = total;
 
-    return calcRank(slotRankData);
+    return calcRank(rdata);
 }
 
 int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
@@ -83,7 +82,7 @@ int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
             chance = ItemObjMgr::sTempSpecialRatio[idx - sSlotNormalItemNum];
         }
         else {
-            chance = slotRankData.data->mList[slotRankData.rankIdx].slotTable[1]->chance[idx];
+            chance = slotRankData.data->mList[slotRankData.kart_rank].slotTable[1]->chance[idx];
         }
 
         uVar2 = uVar2 + (chance & (-(ItemObjMgr::sTempSlotUseItem[idx] != false)));
@@ -92,6 +91,7 @@ int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
             break;
         }
     }
+    JUT_ASSERT(4189, ret != -1);
 
     if (ret == -1)
         ret = 3;

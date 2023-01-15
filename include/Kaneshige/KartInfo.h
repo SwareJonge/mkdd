@@ -3,7 +3,7 @@
 #define KARTINFO_H
 
 #include "types.h"
-#include "Dolphin/OS.h"
+#include "dolphin/OS.h"
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Osako/kartPad.h"
 

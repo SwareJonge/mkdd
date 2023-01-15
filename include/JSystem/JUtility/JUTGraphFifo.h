@@ -2,7 +2,7 @@
 #define _JSYSTEM_JUT_JUTGRAPHFIFO_H
 
 #include "types.h"
-#include "Dolphin/gx.h"
+#include "dolphin/gx.h"
 
 struct JUTGraphFifo
 {

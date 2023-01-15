@@ -53,7 +53,7 @@ public:
         KartSlotData* data;
         u32 specialItemIndex;
         u32 specialItemChance;
-        int rankIdx;
+        int kart_rank;
         int total;
         int _0x14;
     };

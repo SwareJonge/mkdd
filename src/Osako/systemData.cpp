@@ -1,5 +1,5 @@
+#include "dolphin/gx.h"
 #include "Osako/systemData.h"
-#include "Dolphin/gx.h"
 
 #define SCREEN_WIDTH 608
 #define SCREEN_HEIGHT 448

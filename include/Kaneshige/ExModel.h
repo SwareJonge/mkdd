@@ -3,7 +3,7 @@
 
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSUpport/JSUList.h"
-#include "Dolphin/mtx.h"
+#include "dolphin/mtx.h"
 #include "types.h"
 
 class ExModel

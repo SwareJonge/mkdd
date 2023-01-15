@@ -1,11 +1,9 @@
-#include "Sato/stMath.h"
-#include "runtime.h"
 #include "types.h"
-
+#include "dolphin/OS.h"
 #include "JSystem/JGeometry.h"
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JUtility/JUTAssert.h"
-#include "Dolphin/OS.h"
+#include "Sato/stMath.h"
 
 void stRandom::createAllRandom() {
     for (u32 i = 0; i < 6; i++) {
@@ -14,7 +12,7 @@ void stRandom::createAllRandom() {
 }
 
 u32 stRandom::getRandomMax(u32 max) {
-    return __cvt_fp2unsigned((max + 1) * get_ufloat_1());
+    return ((max + 1) * get_ufloat_1());
 }
 
 f32 stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& p1, f32 p2, f32 p3) {

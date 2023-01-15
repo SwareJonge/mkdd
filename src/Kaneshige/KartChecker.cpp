@@ -1,4 +1,4 @@
-#include "Dolphin/mtx.h"
+#include "dolphin/mtx.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kaneshige/JugemPoint.h"
 #include "Kaneshige/Course/Course.h"

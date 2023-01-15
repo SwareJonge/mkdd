@@ -129,8 +129,9 @@ public:
     // RaceMgr get/sets
     Course *getCourse() const { return mCourse;  }    
     const RaceTime &getBestLapTime() { return mBestLapTime; }
-    bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }
+    bool isRaceModeGp() const { return getRaceMode() == GRAND_PRIX; }
     bool isRaceModeTA() const { return getRaceMode() == TIME_ATTACK; }
+    bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }    
     bool isStaffRoll() { return getRaceMode() == STAFF_ROLL; } // pls don't tell me it's stored as local variable
     bool isAwardDemoMode() {return getRaceMode() == AWARD_DEMO;}
     u16 isActiveAreaLight() const { return mAreaLight & 1; }

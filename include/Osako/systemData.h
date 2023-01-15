@@ -1,8 +1,8 @@
 #ifndef SYSTEMDATA_H
 #define SYSTEMDATA_H
 
+#include "dolphin/gx.h"
 #include "types.h"
-#include "Dolphin/gx.h"
 
 struct ScreenDataf {
     float X;

@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JFW_JFWSYSTEM_H
 #define _JSYSTEM_JFW_JFWSYSTEM_H
 
-#include "Dolphin/gx.h"
+#include "dolphin/gx.h"
 #include "JSystem/JUtility/JUTFont.h"
 #include "types.h"
 

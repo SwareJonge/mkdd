@@ -1,9 +1,9 @@
-#include "Kameda/SequenceInfo.h"
-#include "Kaneshige/RaceInfo.h"
-
+#include "dolphin/OS.h"
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JUtility/JUTAssert.h"
-#include "Dolphin/OS.h"
+
+#include "Kameda/SequenceInfo.h"
+#include "Kaneshige/RaceInfo.h"
 
 // i assume this data is from some include related to audio
 // also thanks seeky
