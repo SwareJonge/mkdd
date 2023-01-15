@@ -1,11 +1,8 @@
 #ifndef RACEMGR_H
 #define RACEMGR_H
 
-#include "types.h"
-
-#include "JSystem/JUtility/JUTAssert.h"
-
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Kawano/StaffRoll2D.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/RaceBGMPlayer.h"
@@ -18,8 +15,10 @@
 #include "Kaneshige/SysDebug.h"
 #include "Osako/Award2D.h"
 #include "Yamamoto/kartCtrl.h"
+#include "kartEnums.h"
+#include "types.h"
 
-//void PrintRaceHeap(unsigned long, JKRHeap *);
+void PrintRaceHeap(u32, JKRHeap *);
 
 class RaceMgr : JKRDisposer {
 public:
@@ -85,7 +84,7 @@ public:
     void resetRaceForRestartEvent();  // 0x801ada98
     void resetRaceForReplayEvent();   // 0x801adb04
     void resetRaceCommon();           // 0x801adb48
-    void getCurrentConsoleNumber();   // 0x801add38
+    int getCurrentConsoleNumber();   // 0x801add38
     void drawRace();                  // 0x801add84
     void checkKart();                 // 0x801ade64
     void checkRank();                 // 0x801ae00c
@@ -119,9 +118,14 @@ public:
     }
 
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
+    ERacePhase getRacePhase() { return mRaceDirector->getRacePhase(); }
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
     int getCameraNumber() const { return getConsoleNumber(); }
 
+
+    bool isCrsDemoMode() {
+        return getRacePhase() == PHASE_CRS_DEMO;
+    }
     // RaceMgr get/sets
     Course *getCourse() const { return mCourse;  }    
     const RaceTime &getBestLapTime() { return mBestLapTime; }
@@ -163,7 +167,7 @@ public:
     u8 _0x23; // probably padding
     u32 mFrame;
     JKRHeap *mRaceHeap;
-    s16 mReplayMode;
+    u16 mReplayMode;
     s16 mTotalLapNumber;
     s32 _0x30;
     bool mAbleStart;

@@ -25,6 +25,7 @@ struct JUTVideo
     u16 getEfbHeight() const { return m_renderModeObj->efbHeight; }
     u16 getFbWidth() const { return m_renderModeObj->fbWidth; }
     const _GXRenderModeObj *getRenderMode() { return m_renderModeObj; }
+    OSMessageQueue *getMessageQueue() { return &m_messageQueue; };
     void drawDoneStart();
     void dummyNoDrawWait();
     void setRenderMode(const _GXRenderModeObj *);

@@ -1,6 +1,7 @@
 #ifndef ITEMOBJMGR_H
 #define ITEMOBJMGR_H
 
+#include "JSystem/JKernel/JKRSolidHeap.h"
 #include "types.h"
 
 class ItemObjMgr {
@@ -10,12 +11,11 @@ public:
     virtual void draw();
     virtual void callbackColGeoObj();
 
+    void createModel(JKRSolidHeap *, u32);
+
     int getRobberyItemNum(int, u8);
 
-    static ItemObjMgr *getItemObjMgr()
-    {
-        return gItemMgr;
-    }
+    static ItemObjMgr *getItemObjMgr() { return gItemMgr; }
 
     static ItemObjMgr * gItemMgr;
 
@@ -25,8 +25,7 @@ private:
     unsigned char _0x4[0x828 - 0x4];
 };
 
-inline ItemObjMgr *GetItemObjMgr()
-{
+inline ItemObjMgr *GetItemObjMgr() {
     return ItemObjMgr::getItemObjMgr();
 }
 

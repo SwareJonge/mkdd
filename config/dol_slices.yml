@@ -13,8 +13,8 @@ JSystem/JFrameWork/JFWSystem.cpp:
     .sbss: [0x804156f8, 0x80415718]
     .sdata2: [0x80417398, 0x804173b8]
 
-JSystem/JFrameWork/JFWDisplay.cpp:
-    .text: [0x80015b80, 0x80015bfc]
+#JSystem/JFrameWork/JFWDisplay.cpp:
+    #.text: [0x80015b80, 0x80015bfc]
 
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]

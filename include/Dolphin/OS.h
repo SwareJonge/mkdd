@@ -465,7 +465,7 @@ u32 __OSBusClock : (0x800000F8);
   typedef struct OSCond OSCond;
 
   typedef struct OSMessageQueue OSMessageQueue;
-  typedef struct OSMessage OSMessage;
+  typedef void *OSMessage;
 
   typedef void (*OSIdleFunction)(void *param);
   typedef void *(*OSThreadStartFunction)(void *);
@@ -522,21 +522,18 @@ u32 __OSBusClock : (0x800000F8);
     unknown _314;
   };
 
-  struct OSMessage
-  {
-    void *message;
-    u32 args[3];
+  struct OSMessageQueue {
+    OSThreadQueue queueSend;
+    OSThreadQueue queueReceive;
+    OSMessage *msgArray;
+    s32 msgCount;
+    s32 firstIndex;
+    s32 usedCount;
   };
 
-  struct OSMessageQueue
-  {
-    OSThreadQueue sendQueue; // _00
-    OSThreadQueue recvQueue; // _08
-    OSMessage **buffer;      // _10
-    int capacity;            // _14
-    int front;               // _18
-    int size;                // _1C
-  };
+// Flags to turn blocking on/off when sending/receiving message
+#define OS_MESSAGE_NOBLOCK  0
+#define OS_MESSAGE_BLOCK    1
 
   typedef enum
   {
@@ -608,15 +605,10 @@ u32 __OSBusClock : (0x800000F8);
   void OSSetSaveRegion(int, int);
   int OSGetProgressiveMode();
 
-  // void OSInitMessageQueue(OSMessageQueue* queue, void** msgSlots, int slotCount);
-  // BOOL OSSendMessage(OSMessageQueue* queue, void* message, int flags);
-  // BOOL OSReceiveMessage(OSMessageQueue* queue, void** msg, int flags);
-
-  // TODO: these match up for OSMessage.c, but break JSystem/JKRAramStream.cpp, need to fix
-  void OSInitMessageQueue(OSMessageQueue *queue, void **buffer, int capacity);
-  BOOL OSSendMessage(OSMessageQueue *queue, void *msg, int flags);
-  BOOL OSReceiveMessage(OSMessageQueue *queue, void **buffer, int flags);
-  BOOL OSJamMessage(OSMessageQueue *queue, void *msg, int flags);
+  void OSInitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
+  BOOL OSSendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
+  BOOL OSJamMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
+  BOOL OSReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 
   typedef struct OSFunctionInfo
   {

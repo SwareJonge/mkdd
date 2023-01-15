@@ -2,11 +2,12 @@
 #define J3DEFFECTMGR
 
 class J3DEffectMgr {
-void createMgr();
+    void createMgr();
+    void createModel(JKRSolidHeap *, u32);
 };
 
 class CreateJ3DEfctKarAnmMgr {
-void createMgr();
+    void createMgr();
 };
 
 inline void CreateJ3DEfctKarAnmMgr();

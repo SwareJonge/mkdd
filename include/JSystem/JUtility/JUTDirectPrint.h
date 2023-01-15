@@ -36,6 +36,14 @@ struct JUTDirectPrint
     void changeFrameBuffer(void *, u16, u16);
 
     static JUTDirectPrint *sDirectPrint;
+    static JUTDirectPrint * getManager() {
+        return sDirectPrint;
+    }
 };
+
+inline void JUTChangeFrameBuffer(void *buffer, u16 height, u16 width)
+{
+    JUTDirectPrint::getManager()->changeFrameBuffer(buffer, width, height);
+}
 
 #endif

@@ -8,6 +8,7 @@ namespace GameAudio {
         public:
         static Main * getAudio();
         void startSystemSe(u32);
+        void initRaceSound();
     };
 }
 

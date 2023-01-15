@@ -4,64 +4,71 @@
 #include "Dolphin/gx.h"
 #include "types.h"
 
-struct _GXRenderModeObj;
-struct JKRHeap;
-
-/**
- * @size{0x20}
- */
-struct JUTXfb
+class JUTXfb
 {
+public:
     enum EXfbNumber
-    {
-        Unset = 0,
-        SingleBuffer = 1,
-        DoubleBuffer = 2,
-        TripleBuffer = 3
+    { // TODO: placeholder
+        UNK_0 = 0,
+        UNK_1 = 1,
+        UNK_2 = 2,
+        UNK_3 = 3,
     };
 
-    void clearIndex();
-    static JUTXfb *createManager(JKRHeap *, EXfbNumber);
-    static void destroyManager();
-    void initiate(u16, u16, JKRHeap *, EXfbNumber);
-    static u32 accumeXfbSize();
+    /* 802E5214 */ void clearIndex();
+    /* 802E5228 */ void common_init(int);
+    /* 802E5260 */ JUTXfb(_GXRenderModeObj const *, JKRHeap *, JUTXfb::EXfbNumber);
+    /* 802E5308 */ ~JUTXfb();
+    /* 802E5378 */ void delXfb(int);
+    /* 802E53B8 */ static JUTXfb *createManager(JKRHeap *, JUTXfb::EXfbNumber);
+    /* 802E5424 */ static void destroyManager();
+    /* 802E5454 */ void initiate(u16, u16, JKRHeap *, JUTXfb::EXfbNumber);
 
-    // Unused/inlined:
-    JUTXfb(const _GXRenderModeObj *, JKRHeap *, EXfbNumber);
-    JUTXfb(const _GXRenderModeObj *, void *, void *, void *, JUTXfb::EXfbNumber);
-    ~JUTXfb();
-    void common_init(int);
-    void delXfb(int);
-    void exchangeXfbIndex(int, int);
-    void addToDoubleXfb(void *, bool);
-    void addToDoubleXfb(JKRHeap *);
-    static JUTXfb *createManager(const _GXRenderModeObj *, JKRHeap *, EXfbNumber);
-    static JUTXfb *createManager(const _GXRenderModeObj *, void *);
-    static JUTXfb *createManager(const _GXRenderModeObj *, void *, void *);
-    static JUTXfb *createManager(const _GXRenderModeObj *, void *, void *, void *);
-    static JUTXfb *createManager(void *);
-    static JUTXfb *createManager(void *, void *);
-    static JUTXfb *createManager(void *, void *, void *);
-    void initiate(void *, void *, void *, EXfbNumber);
-    void switchXfb();
+    s32 getBufferNum() const { return mBufferNum; }
+    s16 getDrawnXfbIndex() const { return mDrawnXfbIndex; }
+    s16 getDrawingXfbIndex() const { return mDrawingXfbIndex; }
+    s16 getDisplayingXfbIndex() const { return mDisplayingXfbIndex; }
+    s32 getSDrawingFlag() const { return mSDrawingFlag; }
 
-    /**
-     * @fabricated
-     */
-    inline static u16 getLineCount(const _GXRenderModeObj *gxObj)
+    void *getDrawnXfb() const
     {
-        return GXGetNumXfbLines(GXGetYScaleFactor(gxObj->efbHeight, gxObj->xfbHeight), gxObj->efbHeight);
+        if (mDrawnXfbIndex >= 0)
+            return mBuffer[mDrawnXfbIndex];
+        return nullptr;
     }
 
-    u8 *m_buffers[3];  // _00
-    bool m_enabled[3]; // _0C
-    EXfbNumber _10;    // _10
-    short _14;         // _14
-    short _16;         // _16
-    short _18;         // _18
-    int _1C;           // _1C
+    void *getDrawingXfb() const
+    {
+        if (mDrawingXfbIndex >= 0)
+            return mBuffer[mDrawingXfbIndex];
+        return nullptr;
+    }
 
+    void *getDisplayingXfb() const
+    {
+        if (mDisplayingXfbIndex >= 0)
+            return mBuffer[mDisplayingXfbIndex];
+        return nullptr;
+    }
+
+    void setDisplayingXfbIndex(s16 index) { mDisplayingXfbIndex = index; }
+    void setSDrawingFlag(s32 flag) { mSDrawingFlag = flag; }
+    void setDrawnXfbIndex(s16 index) { mDrawnXfbIndex = index; }
+    void setDrawingXfbIndex(s16 index) { mDrawingXfbIndex = index; }
+
+    static JUTXfb *getManager() { return sManager; }
+
+private:
     static JUTXfb *sManager;
+
+private:
+    /* 0x00 */ void *mBuffer[3];
+    /* 0x0C */ bool mXfbAllocated[3];
+    /* 0x10 */ s32 mBufferNum;
+    /* 0x14 */ s16 mDrawingXfbIndex;
+    /* 0x16 */ s16 mDrawnXfbIndex;
+    /* 0x18 */ s16 mDisplayingXfbIndex;
+    /* 0x1C */ s32 mSDrawingFlag;
 };
 
 #endif

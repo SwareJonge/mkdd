@@ -111,8 +111,7 @@ public:
     static JKRExpHeap *create(void *ptr, u32 size, JKRHeap *parent, bool errorFlag);
 };
 
-inline JKRExpHeap *JKRCreateExpHeap(u32 size, JKRHeap *parent, bool errorFlag)
-{
+inline JKRExpHeap *JKRCreateExpHeap(u32 size, JKRHeap *parent, bool errorFlag) {
     return JKRExpHeap::create(size, parent, errorFlag);
 }
 

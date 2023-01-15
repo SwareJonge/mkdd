@@ -158,6 +158,11 @@ inline JKRHeap * JKRGetCurrentHeap() {
     return JKRHeap::getCurrentHeap();
 }
 
+inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
+    JKRHeap *systemHeap = JKRHeap::sSystemHeap;
+    return systemHeap->alloc(size, alignment);
+}
+
 void JKRDefaultMemoryErrorRoutine(void *, u32, s32);
 
 void* operator new(size_t);

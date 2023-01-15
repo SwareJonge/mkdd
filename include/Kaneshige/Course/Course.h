@@ -1,6 +1,7 @@
 #ifndef COURSE_H
 #define COURSE_H
 
+#include "JSystem/JKernel/JKRSolidHeap.h"
 #include "JSystem/JUtility/JUTAssert.h"
 
 #include "Kaneshige/Course/CrsArea.h"
@@ -135,6 +136,9 @@ public:
         float mTotalPriorDist;
     };
     Course(CrsData *, int, bool);
+    void createModel(JKRSolidHeap *, u32); // just a blr -_-
+
+    // Inline Functions
     ECourseID getCourseID() const { return mID; }
     Sector *getStartSector() const { return &mSectors[0]; }
     float getTrackSectorDist() const { return mTrackSectorDist; }

@@ -1,25 +1,28 @@
 
 #include "kartLocale.h"
+#include "kartEnums.h"
 #include "Dolphin/OS.h"
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "Inagaki/GameAudioMain.h"
 #include "Kameda/J2DManager.h"
-#include "Kameda/PauseManager.h"
 #include "Kameda/MotorManager.h"
+#include "Kameda/PauseManager.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/Course/CrsData.h"
-#include "Kaneshige/ExModel.h"
 #include "Kaneshige/DemoTimeKeeper.h"
+#include "Kaneshige/ExModel.h"
+#include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
-#include "Kaneshige/RaceMgr.h"
 #include "Osako/kartPad.h"
 #include "Osako/ResMgr.h"
 #include "Osako/SystemRecord.h"
 #include "Osako/shadowMgr.h"
-#include "Sato/EffectScreen.h"
 #include "Sato/GeographyObjMgr.h"
+#include "Sato/EffectScreen.h"
 #include "Sato/ItemObjMgr.h"
 #include "Sato/J3DEffectMgr.h"
 #include "Sato/JPEffectMgr.h"
@@ -83,6 +86,11 @@ RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0x305, "エフェクト", " EFFECT"},
     {-1, "なし", nullptr}
 };
+
+// UNUSED, my "guess" at how it would've looked like
+void PrintRaceHeap(u32 free, JKRHeap * heap) {
+    JUTReport(0, 0, "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
+}
 
 RaceMgr::RaceMgr(RaceInfo *raceInfo) : 
     mRaceInfo(nullptr),                                       
@@ -338,4 +346,294 @@ void RaceMgr::setRandomSeed() {
         stGetRnd(i)->setSeed(mRaceInfo->mRandomSeed); // i have no clue why this file has different options for inlining
     }
     GameAudio::Random::setSeed(mRaceInfo->mRandomSeed);
+}
+
+void RaceMgr::editRaceInfoForDebug() {
+    s16 startpointID = sMyStartPointID;
+    if (startpointID >= 0) {
+        RaceInfo *rInfo = mRaceInfo;
+        s16 origStartPosIdx = rInfo->mStartPosIndex[0];
+        for (int i = 0; i < 8; i++) {
+            if (rInfo->mStartPosIndex[i] == startpointID) {
+                rInfo->mStartPosIndex[i] = origStartPosIdx;
+                break;
+            }
+        }
+        mRaceInfo->mStartPosIndex[0] = sMyStartPointID;
+    }
+}
+
+void RaceMgr::createConsole() {
+    int cnsCnt = mRaceInfo->getConsoleNumber();
+    mConsole = new Console[cnsCnt];
+    for (int i = 0; i < cnsCnt; i++) {
+        Console *cns = &mConsole[i];
+        cns->setConsoleNo(i);
+        if (i == 0)
+            cns->setDraw();
+    }
+    if (!isWaitDemoMode() && !isAwardDemoMode() && !isStaffRoll())
+        return;
+    resetConsole();
+}
+
+void RaceMgr::resetConsole() {
+    int cnsCnt = mRaceInfo->getConsoleNumber();
+    for (int i = 0; i < cnsCnt; i++) {
+        Console *cns = &mConsole[i];
+        if (!mRaceInfo->isHiddingConsole(i))
+            cns->setDraw();
+        else 
+            cns->clrDraw();
+    }
+}
+
+bool RaceMgr::hideConsole(u32 cnsNo) {
+    bool ret = false;
+    int cnsCnt = mRaceInfo->getConsoleNumber();
+    if (cnsNo < cnsCnt) {
+        mConsole[cnsNo].clrDraw();
+        ret = true;
+    }
+    return ret;
+}
+
+void RaceMgr::createModel() {
+    Mtx viewMtx;
+    PSMTXIdentity(viewMtx);
+    j3dSys.setViewMtx(viewMtx);
+    SysDebug::getManager()->setHeapGroup("KART MODEL", nullptr);
+    createKartModel();
+    SysDebug::getManager()->setHeapGroup("COURSE MODEL", nullptr);
+    createCourseModel();
+    SysDebug::getManager()->setHeapGroup("OBJECT MODEL", nullptr);
+    createObjectModel();
+    SysDebug::getManager()->setHeapGroup("ITEM MODEL", nullptr);
+    createItemModel();
+    SysDebug::getManager()->setHeapGroup("EFFECT MODEL", nullptr);
+    createEffectModel();
+}
+
+void RaceMgr::createKartModel() {
+    ShadowManager::ptr();
+    size_t freeSize = mRaceHeap->getFreeSize();
+    JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
+    SysDebug::getManager()->createHeapInfo("KART MDL");
+    JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
+
+    for(int i = 0; i < getKartNumber(); i++) {
+        mKartLoader[i]->load();
+        mKartLoader[i]->createModel(solidHeap, getCameraNumber());
+        mRaceDrawer->getKartDrawer(i)->setAnimation();
+    }
+
+    solidHeap->adjustSize();
+    curHeap->becomeCurrentHeap();
+}
+
+void RaceMgr::createCourseModel() {
+    size_t freeSize = mRaceHeap->getFreeSize();
+    JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
+    SysDebug::getManager()->createHeapInfo("CRS MDL");
+    JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
+    mCourse->createModel(getCameraNumber());
+    solidHeap->adjustSize();
+    curHeap->becomeCurrentHeap();
+}
+
+void RaceMgr::createObjectModel() {
+    size_t freeSize = mRaceHeap->getFreeSize();
+    JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
+    SysDebug::getManager()->createHeapInfo("OBJ MDL");
+    JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
+    GetGeoObjMgr()->createModel(solidHeap, getCameraNumber());
+    solidHeap->adjustSize();
+    curHeap->becomeCurrentHeap();
+}
+
+void RaceMgr::createItemModel() {
+    size_t freeSize = mRaceHeap->getFreeSize();
+    JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
+    SysDebug::getManager()->createHeapInfo("ITEM MDL");
+    JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
+    GetItemObjMgr()->createModel(solidHeap, getCameraNumber());
+    solidHeap->adjustSize();
+    curHeap->becomeCurrentHeap();
+}
+
+void RaceMgr::createEffectModel() {
+    size_t freeSize = mRaceHeap->getFreeSize();
+    JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
+    SysDebug::getManager()->createHeapInfo("EFCT MDL");
+    JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
+    stEffectMgr()->createModel(solidHeap, getCameraNumber());
+    J3DEffectMgr()->createModel(solidHeap, getCameraNumber());
+    solidHeap->adjustSize();
+    curHeap->becomeCurrentHeap();
+}
+
+void RaceMgr::createLight() {
+    SysDebug::getManager()->setHeapGroup("LIGHT MGR", nullptr);
+
+    LightMgr::createMgr();
+    TBalloonString * balloonString = TBalloonString::getSupervisor();
+
+    JUtility::TColor ambientColor;
+    mCourse->getAmbientColor(ambientColor);
+    LtObjAmbient *lghtObjAmb = new LtObjAmbient("シーンアンビエント", ambientColor); // scene ambient?
+
+    lghtObjAmb->setTagName(0x414d4249); // AMBI
+    LightMgr::getManager()->appendLight(lghtObjAmb);
+
+    JUtility::TColor lightColor;
+    mCourse->getLightColor(lightColor);
+    JGeometry::TVec3f lightPos;
+    mCourse->getLightOffsetPosition;
+
+    for(int i = 0; i < getConsoleNumber(); i++) {
+        RaceSceneLight *sceneLight = new RaceSceneLight("シーンライト", lightColor, lightPos);
+        LightMgr::getManager()->appendLight(sceneLight);
+        for(int j = 0; j < getKartNumber(); j++) {
+            RaceKartLight *kartLight = new RaceKartLight(sceneLight, j);
+            LightMgr::getManager()->appendLight(kartLight);
+            getKartDrawer(j)->setLight(i, kartLight);
+        }
+        if (balloonString != nullptr) {
+            RaceBalloonLight balloonLight = new RaceBalloonLight();
+            LightMgr::getManager()->appendLight(balloonLight);
+        }
+        if(isAwardDemoMode()) {
+            RaceCupLight cupLight = new RaceCupLight(sceneLight);
+            LightMgr::getManager()->appendLight(cupLight);
+        }
+    }
+}
+
+void RaceMgr::resetRace() {
+    bool needHardReset = false;
+
+    switch (mRaceDirector->getRacePhase()) {
+    case PHASE_4:
+        resetRaceForRestartEvent();
+        needHardReset = true;
+        break;
+    case PHASE_3:
+        resetRaceForResetEvent();
+        needHardReset = true;
+        break;
+    case PHASE_5:
+        resetRaceForReplayEvent();
+        needHardReset = true;
+        break;
+    }
+    if (needHardReset)
+        resetRaceCommon();
+}
+
+void RaceMgr::resetRaceForResetEvent() {
+    OSReport("Race    Start-------------------------------------------------------\n");
+    updateBestTime();
+}
+
+void RaceMgr::resetRaceForRestartEvent() {
+    OSReport("Restart Start-------------------------------------------------------\n");
+    if(isRaceModeMiniGame()) {
+        mRaceInfo->shuffleRandomSeed();
+        mRaceInfo->shuffleStartNo();
+    }
+
+    mReplayMode &= 0xfffe;
+    updateBestTime();
+}
+
+void RaceMgr::resetRaceForReplayEvent() {
+    OSReport("Replay  Start-------------------------------------------------------\n");
+    mReplayMode |= 1;
+}
+
+void RaceMgr::resetRaceCommon() {
+    OSReport("Begin Reset.............................................\n");
+    OSReport("Rand Seed:%08X\n", mRaceInfo->mRandomSeed);
+
+    GameAudio::Main::getAudio()->initRaceSound();
+    mFrame = 0;
+    mRaceDirector->reset();
+    setRandomSeed();
+    mRaceBGMPlayer->reset();
+    for(int i = 0; i < getCameraNumber(); i++) {
+        setJugemZClr(i, true);
+    }
+    resetConsole();
+    SysDebug::getManager()->setHeapGroup("RESTART", nullptr);
+    mCourse->reset();
+    GetGeoObjMgr()->reset(mCourse->getCrsData());
+    GetItemObjMgr()->reset();
+
+// while true loop
+    for(int i = 0; i < getKartNumber(); i++) {
+        mKartChecker[i]->reset();
+        mKartLoader[i]->reset();
+    }
+
+    KartCtrl::getKartCtrl()->DynamicsReset();
+    GetStEfctMgr()->reset();
+    GetJ3DEfctMgr()->reset();
+    GetEfctScreenMgr()->reset();
+    MotorManager::getManager()->reset();
+    PauseManager::getManager()->reset();
+
+    if(!isWaitDemoMode() && !isAwardDemoMode() && !isStaffRoll()) {
+        PauseManager::getManager()->enablePause();
+    }
+
+    J2DManager::getManager()->reset();
+    J2DManager::getManager()->startLANNumAnm();
+    if(mAward2D != nullptr)
+        mAward2D->still();
+    if (mStaffRoll2D != nullptr)
+        mStaffRoll2D->reset();
+    
+    GetJPAMgr()->reset();
+    mRaceDrawer->reset();
+    if(!isRaceModeMiniGame())
+        RivalKart::reset();
+
+    SysDebug::getManager()->setDefaultHeapGroup(nullptr);
+    OSReport("End   Reset.............................................\n");
+}
+
+int RaceMgr::getCurrentConsoleNumber() {
+    int ret = getConsoleNumber();
+    if(isCrsDemoMode())
+        ret = 1;
+
+    return ret;
+}
+
+void RaceMgr::drawRace() {
+    SysDebug::getManager()->beginUserTime(0);
+    mRaceDrawer->drawPreScene();
+    for(int i = 0; i < getCameraNumber(); i++) {
+        if(mConsole[i].isDraw())
+            mRaceDrawer->drawSceneFirstStage(i);
+    }
+    mRaceDrawer->drawMidScene();
+
+    for (int i = 0; i < getCameraNumber(); i++){
+        if (mConsole[i].isDraw())
+            mRaceDrawer->drawSceneSecondStage(i);
+    }
+
+    mRaceDrawer->drawPostScene();
+    SysDebug::getManager()->endUserTime(0);
+}
+
+void RaceMgr::checkKart() {
+    mRaceDirector->isFrameRenewal();
+    for(int i = 0; i < getKartNumber(); i++) {
+        KartChecker * kartChecker = mKartChecker[i];
+        kartChecker->checkKart();
+        if(isAbleStart())
+            kartChecker->incTime();
+    }
 }
