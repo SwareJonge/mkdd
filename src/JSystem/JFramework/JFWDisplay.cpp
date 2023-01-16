@@ -11,6 +11,7 @@
 #endif
 
 // Sources: https://github.com/zeldaret/tp/blob/master/libs/JSystem/JFramework/JFWDisplay.cpp
+// https://github.com/kiwi515/ogws/blob/master/src/egg/core/eggAsyncDisplay.cpp
 // gpHang: https://github.com/valentinaslover/paper-mar/blob/master/source/sdk/DEMOInit.c#L280
 
 /* extern */ JSUList<JFWAlarm> JFWAlarm::sList; // ctor might not match, i don't have a way of testing currently
