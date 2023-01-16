@@ -38,6 +38,11 @@ extern "C"
     void C_MTXOrtho(Mtx44, float, float, float, float, float, float);
     void C_MTXLookAt(Mtx, const Vec *, const Vec *, const Vec *);
 
+    // Bindings
+#define MTXFrustum C_MTXFrustum
+#define MTXPerspective C_MTXPerspective
+#define MTXOrtho C_MTXOrtho
+
 #ifdef __cplusplus
 }
 #endif

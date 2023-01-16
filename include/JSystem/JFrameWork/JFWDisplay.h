@@ -13,6 +13,12 @@
 
 typedef void (*JFWDisplayUnkFunc)(void);
 
+static void JFWDrawDoneAlarm();
+static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
+static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
+static void waitForTick(u32, u16);
+static void diagnoseGpHang();
+
 class JFWAlarm : public OSAlarm { // everything here seems to be auto inlined or unused
 public:
     // Contructor and Destructor are both present in map but unused, not sure if it belongs here
@@ -60,7 +66,6 @@ public:
     // void createManager(const _GXRenderModeObj *, void *, void *, bool);
     // void createManager(const _GXRenderModeObj *, void *, void *, void *, bool);
     static void destroyManager();
-    void callDirectDraw();
     void prepareCopyDisp();
     void drawendXfb_single();
     void exchangeXfb_double();
@@ -101,6 +106,16 @@ public:
         return 1;
     }
 
+    void waitDraw() {
+        waitForTick(mTickRate, mFrameRate);
+        JUTVideo::getManager()->waitRetraceIfNeed();
+
+        u32 tick = OSGetTick();
+        _30 = tick - _2C; // duration of frame in ticks?
+        _2C = tick;
+        _34 = _2C - JUTVideo::getVideoLastTick();
+    }
+
     int startFadeIn(int param_0) {
         if (mFader != nullptr) {
             return mFader->startFadeIn(param_0);
@@ -137,11 +152,5 @@ private:
     /* 0x48 */ s16 _48;
     /* 0x4A */ u8 _4a;
 };
-
-static void JFWDrawDoneAlarm();
-static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
-static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
-static void waitForTick(u32, u16);
-static void diagnoseGpHang();
 
 #endif

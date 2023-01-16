@@ -36,6 +36,10 @@ struct JUTDbPrint
     void print(int, int, int, const char *, ...);
     void reset();
 
+    static JUTDbPrint *getManager() {
+        return sDebugPrint;
+    }
+
     JUTDbPrint_0x0 *_00;      // _00
     JUTFont *m_font;          // _04
     JUtility::TColor m_color; // _08

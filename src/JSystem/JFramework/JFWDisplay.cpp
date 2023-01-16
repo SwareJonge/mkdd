@@ -1,7 +1,10 @@
 #include "JSystem/J2D/J2DGrafContext.h"
+#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTConsole.h"
+#include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/JUtility/JUTVideo.h"
 #include "JSystem/JUtility/JUTProcBar.h"
-#include "JSystem/JFrameWork/JFWDisplay.h"
+#include "JSystem/JFramework/JFWDisplay.h"
 
 #ifdef DEBUG
 #include "Osako/screenshot.h"
@@ -10,7 +13,7 @@
 // Not tested yet, will add ecerything from TP, and edit whatever is needed
 // https://github.com/zeldaret/tp/blob/master/libs/JSystem/JFramework/JFWDisplay.cpp
 
-JSUList<OSAlarm> JFWAlarm::sList;
+extern JSUList<JFWAlarm> JFWAlarm::sList;
 
 JFWDisplay *JFWDisplay::sManager;
 static GXTexObj clear_z_tobj;
@@ -20,10 +23,9 @@ static GXTexObj clear_z_TX[2] = {{0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0, 0xF
                                  {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFF, -1, -1}};
 
 void JFWDisplay::ctor_subroutine(bool enableAlpha) {
-    // UNUSED FUNCTION
     mEnableAlpha = enableAlpha;
-    mClamp = 3;
-    mClearColor = TCOLOR_BLACK;
+    mClamp = GX_CLAMP_TOP | GX_CLAMP_BOTTOM;
+    mClearColor.set(0, 0, 0, 0);
     mZClear = 0xFFFFFF;
     mGamma = 0;
     mFader = nullptr;
@@ -33,12 +35,16 @@ void JFWDisplay::ctor_subroutine(bool enableAlpha) {
     _30 = 0;
     _2C = OSGetTick();
     _34 = 0;
-    _38 = 0;
-    //_3A = 0;
+    _48 = 0;
+    _4a = 0;
     mDrawDoneMethod = UNK_METHOD_0;
     clearEfb_init();
     JUTProcBar::create();
     JUTProcBar::clear();
+    _38 = 1;
+    _3C = 0;
+    _40 = 0;
+    _44 = nullptr;
 }
 
 JFWDisplay::JFWDisplay(JKRHeap *heap, JUTXfb::EXfbNumber bufferCount, bool p3) {
@@ -57,6 +63,8 @@ JFWDisplay::~JFWDisplay() {
 }
 
 JFWDisplay *JFWDisplay::createManager(const _GXRenderModeObj *renderModeObj, JKRHeap *heap, JUTXfb::EXfbNumber bufferCount, bool p4) {
+    JUT_CONFIRM_MESSAGE(175, sManager == 0);
+
     if (renderModeObj != nullptr)
         JUTVideo::sManager->setRenderMode(renderModeObj);
 
@@ -71,7 +79,7 @@ void JFWDisplay::destroyManager() {
     sManager = nullptr;
 }
 
-static void callDirectDraw() {
+void callDirectDraw() {
     JUTChangeFrameBuffer(JUTXfb::getManager()->getDrawingXfb(),
                          JUTVideo::getManager()->getEfbHeight(),
                          JUTVideo::getManager()->getFbWidth());
@@ -90,8 +98,8 @@ void JFWDisplay::prepareCopyDisp() {
     GXSetDispCopyYScale(y_scaleF);
     VIFlush();
     GXSetCopyFilter((GXBool)JUTVideo::getManager()->isAntiAliasing(),
-                    JUTVideo::getManager()->getSamplePattern(), GX_ENABLE,
-                    JUTVideo::getManager()->getVFilter());
+                    JUTVideo::getManager()->getRenderMode()->sample_pattern, GX_ENABLE,
+                    JUTVideo::getManager()->getRenderMode()->vfilter);
     GXSetCopyClamp((GXFBClamp)mClamp);
     GXSetDispCopyGamma((GXGamma)mGamma);
     GXSetZMode(GX_ENABLE, GX_LEQUAL, GX_ENABLE);
@@ -199,10 +207,10 @@ void JFWDisplay::preGX() {
 }
 
 void JFWDisplay::endGX() {
-    f32 width = JUTVideo::getManager()->getFbWidth();
-    f32 height = JUTVideo::getManager()->getEfbHeight();
+    //f32 width = JUTVideo::getManager()->getFbWidth();
+    //f32 height = JUTVideo::getManager()->getEfbHeight();
 
-    J2DOrthoGraph ortho(0.0f, 0.0f, width, height, -1.0f, 1.0f);
+    J2DOrthoGraph ortho(0.0f, 0.0f, (f32)JUTVideo::getManager()->getFbWidth(), (f32)JUTVideo::getManager()->getEfbHeight(), -1.0f, 1.0f);
 
     if (mFader != nullptr) {
         ortho.setPort();
@@ -234,7 +242,7 @@ static void MyFree(void *p1) {
     JKRHeap::getSystemHeap()->free(p1);
 }
 
-void JFWDisplay::beginRender() {
+void JFWDisplay::beginRender() { // jus trecompile
     JUTProcBar::getManager()->wholeLoopEnd();    
     JUTProcBar::getManager()->wholeLoopStart(0xff, 0x81, 0x1e);
     if (_40) {
@@ -247,7 +255,7 @@ void JFWDisplay::beginRender() {
     u32 tick = OSGetTick();
     _30 = tick - _2C; // duration of frame in ticks?
     _2C = tick;
-    _34 = _2c - JUTVideo::sVideoLastTick; // maybe inline is needed
+    _34 = _2C - JUTVideo::getVideoLastTick(); 
 
     if (_40) {
         JUTProcBar::getManager()->idleEnd();
@@ -259,17 +267,16 @@ void JFWDisplay::beginRender() {
 
     if(_40) {
         JUTProcBar::getManager()->gpStart(0xff, 0x81, 0x1e);
-        JUTXfb *xfbMng = JUTXfb::getManager();
-        switch (xfbMng->getBufferNum()) {
+        switch (JUTXfb::getManager()->getBufferNum()) {
         case 1:
-            if (xfbMng->getSDrawingFlag() != 2) {
-                xfbMng->setSDrawingFlag(1);
+            if (JUTXfb::getManager()->getSDrawingFlag() != 2) {
+                JUTXfb::getManager()->setSDrawingFlag(1);
                 clearEfb(mClearColor);
             }
             else {
-                xfbMng->setSDrawingFlag(1);
+                JUTXfb::getManager()->setSDrawingFlag(1);
             }
-            xfbMng->setDrawingXfbIndex(_48);
+            JUTXfb::getManager()->setDrawingXfbIndex(_48);
             break;
         case 2:
             exchangeXfb_double();
@@ -340,13 +347,13 @@ void JFWDisplay::endFrame() {
         JUTProcBar::getManager()->gpEnd();
     }
 
-    if (_40) {
-        static bool init;
-        static u32 prevFrame = VIGetRetraceCount();
-        u32 retrace_cnt = VIGetRetraceCount();
-        JUTProcBar::getManager()->setCostFrame(retrace_cnt - prevFrame);
-        prevFrame = retrace_cnt;
-    }
+
+    static bool init;
+    static u32 prevFrame = VIGetRetraceCount();
+    u32 retrace_cnt = VIGetRetraceCount();
+    JUTProcBar::getManager()->setCostFrame(retrace_cnt - prevFrame);
+    prevFrame = retrace_cnt;
+    
 }
 
 void JFWDisplay::waitBlanking(int param_0) {
@@ -417,15 +424,15 @@ void JFWDisplay::clearEfb(GXColor color) {
 
 void JFWDisplay::clearEfb(int param_0, int param_1, int param_2, int param_3, GXColor color)
 {
-    u16 width;
     u16 height;
+    u16 width;
     Mtx44 mtx;
 
     JUTVideo::getManager()->getBounds(width, height);
 
-    C_MTXOrtho(mtx, 0.0f, height, 0.0f, width, 0.0f, 1.0f);
+    MTXOrtho(mtx, 0.0f, (u32)height, 0.0f, (u32)width, 0.0f, 1.0f);
     GXSetProjection(mtx, GX_ORTHOGRAPHIC);
-    GXSetViewport(0.0f, 0.0f, width, height, 0.0f, 1.0f);
+    GXSetViewport(0.0f, 0.0f, (u32)width, (u32)height, 0.0f, 1.0f);
     GXSetScissor(0, 0, width, height);
 
     GXLoadPosMtxImm(e_mtx, GX_PNMTX0);
@@ -478,7 +485,7 @@ void JFWDisplay::clearEfb(int param_0, int param_1, int param_2, int param_3, GX
     GXSetZTexture(GX_ZT_DISABLE, GX_TF_Z24X8, 0);
     GXSetZCompLoc(GX_ENABLE);
     if (mEnableAlpha) {
-        GXSetDstAlpha(GX_DISABLE, color.a);
+        GXSetDstAlpha(GX_DISABLE, 0);
     }
 }
 
@@ -505,8 +512,10 @@ static void JFWDrawDoneAlarm() {
     s32 status = OSDisableInterrupts();
     alarm.createAlarm();
     alarm.appendLink();
-    OSSetAlarm(&alarm, 0.5 * (*(u32 *)0x800000F8 / 4), JFWGXAbortAlarmHandler); // OS macro
+    OSRestoreInterrupts(status);
+    OSSetAlarm(&alarm, 0.5 * (OS_TIMER_CLOCK), JFWGXAbortAlarmHandler); // OS macro
     GXDrawDone();
+    status = OSDisableInterrupts();
     alarm.cancelAlarm();
     alarm.removeLink();
     OSRestoreInterrupts(status);
@@ -515,15 +524,6 @@ static void JFWDrawDoneAlarm() {
 static void JFWGXAbortAlarmHandler(OSAlarm *param_0, OSContext *param_1) {
     diagnoseGpHang();
     GXAbortFrame();
-    GFX_FIFO(u8) = 0x61;
-    GFX_FIFO(u32) = 0x5800000F;
-
-    GXFifoObj *fifo = GXGetCPUFifo();
-    if (fifo != nullptr) {
-        void *base = GXGetFifoBase(fifo);
-        u32 size = GXGetFifoSize(fifo);
-        GXInit(base, size);
-    }
     GXSetDrawDone();
 }
 

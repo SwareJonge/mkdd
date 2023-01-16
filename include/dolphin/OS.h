@@ -41,6 +41,7 @@ u32 __OSBusClock : (0x800000F8);
 
   typedef s16 __OSInterrupt;
   typedef u64 OSTime;
+  typedef u32 OSTick;
 
   volatile u16 OS_AI_DMA_ADDR_HI : 0xCC005030;
   volatile u16 OS_AI_DMA_ADDR_LO : 0xCC005032;

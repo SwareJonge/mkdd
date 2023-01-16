@@ -75,6 +75,7 @@ global:
  0x80415718: sManager__10JFWDisplay
 
  # J2DOrthoGraph.cpp
+ 0x80043c84: __ct__13J2DOrthoGraphFffffff
  0x80043d68: setPort__13J2DOrthoGraphFv
  0x80043f3c: J2DDrawLine__FffffQ28JUtility6TColori
  0x80044094: J2DFillBox__FffffQ28JUtility6TColor
@@ -83,6 +84,9 @@ global:
  0x800441e4: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
 
  0x80389d00: __vt__13J2DOrthoGraph
+
+ # J2DGrafContext.cpp
+ 0x80389d50: __vt__14J2DGrafContext
 
  # J2DPrint
  0x8004b024: initiate__8J2DPrintFv
@@ -102,8 +106,13 @@ global:
 
  # JUTAssert.cpp
  0x800697f8: create__12JUTAssertionFv
+ 0x800697fc: flushMessage__12JUTAssertionFv
+ 0x800698e8: flushMessage_dbPrint__12JUTAssertionFv
  0x80069af4: getSDevice__12JUTAssertionFv
+ 0x80069afc: setConfirmMessage__12JUTAssertionFUlPcibPCc
  0x80069bd8: showAssert_f__12JUTAssertionFUlPCciPCce
+ 0x80069e00: setWarningMessage_f__12JUTAssertionFUlPciPCce
+ 0x80069f88: setLogMessage_f__12JUTAssertionFUlPciPCce
 
  # JUTConsole.cpp
  0x8006a0dc: create__10JUTConsoleFUiUiP7JKRHeap
@@ -118,8 +127,38 @@ global:
  0x8006b7b0: JUTWarningConsole_f
  0x8006b894: JUTWarningConsole
 
- # JUTConsoleManager.cpp
+ # JUTConsole.cpp
+ 0x8006a0dc: create__10JUTConsoleFUiUiP7JKRHeap
+ 0x8006a1b0: create__10JUTConsoleFUiPvUl
+ 0x8006a2ac: __ct__10JUTConsoleFUiUib
+ 0x8006a394: __dt__10JUTConsoleFv
+ 0x8006a444: getObjectSizeFromBufferSize__10JUTConsoleFUiUi
+ 0x8006a454: getLineFromObjectSize__10JUTConsoleFUlUi
+ 0x8006a464: clear__10JUTConsoleFv
+ 0x8006a4c0: doDraw__10JUTConsoleCFQ210JUTConsole12EConsoleType
+ 0x8006aa1c: print_f__10JUTConsoleFPCce
+ 0x8006aaa8: print__10JUTConsoleFPCc
+ 0x8006adb4: JUTConsole_print_f_va_
+ 0x8006ae44: scroll__10JUTConsoleFi
+ 0x8006af20: getUsedLine__10JUTConsoleCFv
+ 0x8006af44: getLineOffset__10JUTConsoleCFv
  0x8006af68: createManager__17JUTConsoleManagerFP7JKRHeap
+ 0x8006b024: appendConsole__17JUTConsoleManagerFP10JUTConsole
+ 0x8006b164: removeConsole__17JUTConsoleManagerFP10JUTConsole
+ 0x8006b2fc: draw__17JUTConsoleManagerCFv
+ 0x8006b3b8: drawDirect__17JUTConsoleManagerCFb
+ 0x8006b424: setDirectConsole__17JUTConsoleManagerFP10JUTConsole
+ 0x8006b588: JUTSetReportConsole
+ 0x8006b590: JUTGetReportConsole
+ 0x8006b598: JUTSetWarningConsole
+ 0x8006b5a0: JUTGetWarningConsole
+ 0x8006b5a8: JUTReportConsole_f_va
+ 0x8006b624: JUTReportConsole_f
+ 0x8006b708: JUTReportConsole
+ 0x8006b734: JUTWarningConsole_f_va
+ 0x8006b7b0: JUTWarningConsole_f
+ 0x8006b894: JUTWarningConsole
+ 0x804157d8: sManager__17JUTConsoleManager
 
  # JUTDbPrint.cpp
  0x8006b8c0: start__10JUTDbPrintFP7JUTFontP7JKRHeap
@@ -129,14 +168,35 @@ global:
  0x8006bb10: drawString__10JUTDbPrintFiiiPCUc
  0x8006bbf8: JUTReport__FiiPCce
  0x8006bd1c: JUTReport__FiiiPCce
+ 0x804157e8: sDebugPrint__10JUTDbPrint
  
  # JUTDirectPrint.cpp
  0x8006c1cc: start__14JUTDirectPrintFv
+ 0x8006c240: erase__14JUTDirectPrintFiiii
+ 0x8006c2d4: drawChar__14JUTDirectPrintFiii
+ 0x8006c50c: changeFrameBuffer__14JUTDirectPrintFPvUsUs
+ 0x8006c540: drawString__14JUTDirectPrintFUsUsPc
+ 0x8006c56c: drawString_f__14JUTDirectPrintFUsUsPCce
+ 0x8006c6d0: setCharColor__14JUTDirectPrintFQ28JUtility6TColor
+ 0x8006c700: setCharColor__14JUTDirectPrintFUcUcUc
+ 0x8038abd8: sAsciiTable__14JUTDirectPrint
+ 0x8038ac58: sFontData__14JUTDirectPrint
+ 0x8038ad58: sFontData2__14JUTDirectPrint
+ 0x804157f0: sDirectPrint__14JUTDirectPrint
 
  # JUTException.cpp
  0x8006c87c: create__12JUTExceptionFP14JUTDirectPrint
 
  0x8006f140: createConsole__12JUTExceptionFPvUl
+
+  # JUTFader.cpp
+ 0x8006f324: __ct__8JUTFaderFiiiiQ28JUtility6TColor
+ 0x8006f3d4: control__8JUTFaderFv
+ 0x8006f4e4: draw__8JUTFaderFv
+ 0x8006f574: startFadeIn__8JUTFaderFi
+ 0x8006f5b4: startFadeOut__8JUTFaderFi
+ 0x8006f5f0: setStatus__8JUTFaderFQ28JUTFader7EStatusi
+ 0x8006f668: __dt__8JUTFaderFv
 
  # JUTGamePad.cpp
  0x8006f93c: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
@@ -224,11 +284,26 @@ global:
 
  # JUTVideo.cpp
  0x80075698: createManager__8JUTVideoFPC16_GXRenderModeObj
-
+ 0x800756f0: __ct__8JUTVideoFPC16_GXRenderModeObj
+ 0x800757dc: __dt__8JUTVideoFv
+ 0x8007583c: preRetraceProc__8JUTVideoFUl
+ 0x80075a6c: drawDoneStart__8JUTVideoFv
+ 0x80075a94: dummyNoDrawWait__8JUTVideoFv
+ 0x80075aa0: drawDoneCallback__8JUTVideoFv
+ 0x80075b28: postRetraceProc__8JUTVideoFUl
+ 0x80075b74: setRenderMode__8JUTVideoFPC16_GXRenderModeObj
+ 0x80075bec: waitRetraceIfNeed__8JUTVideoFv
+ 0x80075bf0: setPostRetraceCallback__8JUTVideoFPFUl_v
  0x80415880: sManager__8JUTVideo
+ 0x80415884: sVideoLastTick__8JUTVideo
+ 0x80415888: sVideoInterval__8JUTVideo
+ 0x8041588c: sDrawWaiting
 
  # JUTXfb.cpp
+ 0x80075c00: createManager__6JUTXfbFP7JKRHeapQ26JUTXfb10EXfbNumber
  0x80075cd0: destroyManager__6JUTXfbFv
+ 0x80075d7c: initiate__6JUTXfbFUsUsP7JKRHeapQ26JUTXfb10EXfbNumber
+ 0x80415898: sManager__6JUTXfb
 
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
@@ -333,29 +408,235 @@ global:
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
 
  0x800a5fe0: __ct__Q29JGeometry8TVec3<f>Fv 
+
+  # mtx.c
+ 0x800af748: PSMTXIdentity
+ 0x800af774: PSMTXCopy
+ 0x800af7a8: PSMTXConcat
+ 0x800af874: PSMTXTranspose
+ 0x800af8c4: PSMTXInverse
+ 0x800af9bc: PSMTXRotRad
+ 0x800afa2c: PSMTXRotTrig
+ 0x800afb8c: PSMTXRotAxisRad
+ 0x800afbfc: PSMTXTrans
+ 0x800afc30: PSMTXTransApply
+ 0x800afc7c: PSMTXScale
+ 0x800afca4: PSMTXScaleApply
+ 0x800afcfc: PSMTXQuat
+ 0x800afda0: C_MTXLookAt
+ 0x800aff2c: C_MTXLightPerspective
+ 0x800afff8: C_MTXLightOrtho
+
+ # mtx44.c
+ 0x800b01b0: C_MTXFrustum
+ 0x800b024c: C_MTXPerspective
+ 0x800b031c: C_MTXOrtho
  
  # dvd.c
  0x800b1e48: DVDInit 
 
+  # vi.c
+ 0x800b4ee4: VISetPreRetraceCallback
+ 0x800b4f28: VISetPostRetraceCallback
+ 0x800b500c: __VIInit
+ 0x800b520c: VIInit
+ 0x800b56bc: VIWaitForRetrace
+ 0x800b5b84: VIConfigure
+ 0x800b63ac: VIFlush
+ 0x800b64dc: VISetNextFrameBuffer
+ 0x800b6548: VIGetNextFrameBuffer
+ 0x800b6550: VIGetCurrentFrameBuffer
+ 0x800b6558: VISetBlack
+ 0x800b65d4: VIGetRetraceCount
+ 0x800b6680: VIGetNextField
+ 0x800b671c: VIGetCurrentLine
+ 0x800b67b4: VIGetTvFormat
+ 0x800b681c: VIGetDTVStatus
+ 0x800b6858: __VIDisplayPositionToXY
+ 0x800b6a74: __VIGetCurrentPosition
+ 0x80414110: __VIVersion
+
+ # GXFifo.c
+ 0x800c230c: GXInitFifoBase
+ 0x800c2378: GXInitFifoPtrs
+ 0x800c23e8: GXInitFifoLimits
+ 0x800c23f4: GXSetCPUFifo
+ 0x800c251c: GXSetGPFifo
+ 0x800c2694: GXSaveCPUFifo
+ 0x800c26b4: __GXSaveCPUFifoAux
+ 0x800c2790: GXGetGPStatus
+ 0x800c27e0: GXSetBreakPtCallback
+ 0x800c2824: __GXFifoInit
+ 0x800c294c: __GXCleanGPFifo
+ 0x800c2a4c: GXGetCPUFifo
+ 0x800c2a54: GXGetGPFifo
+ 0x80415d38: CPUFifo
+ 0x80415d3c: GPFifo
+
+  # GXAttr.c
+ 0x800c2a5c: GXSetVtxDesc
+ 0x800c2cc8: GXSetVtxDescv
+ 0x800c2f50: __GXSetVCD
+ 0x800c300c: __GXCalculateVLim
+ 0x800c3130: GXGetVtxDesc
+ 0x800c32e4: GXGetVtxDescv
+ 0x800c3374: GXClearVtxDesc
+ 0x800c33ac: GXSetVtxAttrFmt
+ 0x800c3608: GXSetVtxAttrFmtv
+ 0x800c3888: __GXSetVAT
+ 0x800c3924: GXGetVtxAttrFmt
+ 0x800c3ba4: GXGetVtxAttrFmtv
+ 0x800c3c18: GXSetArray
+ 0x800c3ca4: GXInvalidateVtxCache
+ 0x800c3cb4: GXSetTexCoordGen2
+ 0x800c3f34: GXSetNumTexGens
+
  # GXMisc.c
+ 0x800c3f70: GXSetMisc
+ 0x800c4004: GXFlush
+ 0x800c4060: __GXAbort
+ 0x800c41cc: GXAbortFrame
+ 0x800c433c: GXSetDrawDone
  0x800c43d4: GXDrawDone
  0x800c4454: GXPixModeSync
+ 0x800c4478: GXPokeAlphaMode
+ 0x800c448c: GXPokeAlphaRead
+ 0x800c44ac: GXPokeAlphaUpdate
+ 0x800c44c4: GXPokeBlendMode
+ 0x800c4528: GXPokeColorUpdate
+ 0x800c4540: GXPokeDstAlpha
+ 0x800c4564: GXPokeDither
+ 0x800c457c: GXPokeZMode
+ 0x800c459c: GXPeekARGB
+ 0x800c45c0: GXSetDrawSyncCallback
+ 0x800c468c: GXSetDrawDoneCallback
+ 0x800c4750: __GXPEInit
+ 0x80415d60: DrawDone
+
+  # GXGeometry.c
+ 0x800c47c4: __GXSetDirtyState
+ 0x800c4844: GXBegin
+ 0x800c4914: __GXSendFlushPrim
+ 0x800c499c: GXSetLineWidth
+ 0x800c49dc: GXSetPointSize
+ 0x800c4a1c: GXEnableTexOffsets
+ 0x800c4a64: GXSetCullMode
+ 0x800c4aa8: GXSetCoPlanar
+ 0x800c4adc: __GXSetGenMode
 
  # GXFrameBuf.c
+ 0x800c4b00: GXSetDispCopySrc
  0x800c4b7c: GXSetTexCopySrc
-
+ 0x800c4bf8: GXSetDispCopyDst
  0x800c4c2c: GXSetTexCopyDst
-
- 0x800c5568: GXCopyTex 
- # gx.h
+ 0x800c4d5c: GXSetDispCopyFrame2Field
+ 0x800c4d80: GXSetCopyClamp
+ 0x800c4dd8: GXGetNumXfbLines
+ 0x800c4e68: GXGetYScaleFactor
+ 0x800c50a0: GXSetDispCopyYScale
+ 0x800c516c: GXSetCopyClear
+ 0x800c51e4: GXSetCopyFilter
+ 0x800c53ec: GXSetDispCopyGamma
+ 0x800c5400: GXCopyDisp
+ 0x800c5568: GXCopyTex
+ 0x800c56f4: GXClearBoundingBox
  0x80390698: GXNtsc480IntDf
  0x803906d4: GXNtsc480Int
  0x80390710: GXMpal480IntDf
  0x8039074c: GXPal528IntDf
  0x80390788: GXEurgb60Hz480IntDf
 
+  # GXLight.c
+ 0x800c572c: GXInitLightAttn
+ 0x800c5748: GXInitLightPos
+ 0x800c5758: GXInitLightColor
+ 0x800c5764: GXLoadLightObjImm
+ 0x800c57e0: GXSetChanAmbColor
+ 0x800c58d0: GXSetChanMatColor
+ 0x800c59c0: GXSetNumChans
+ 0x800c59fc: GXSetChanCtrl
+
+  # GXTexture.c
+ 0x800c5ab4: GXGetTexBufferSize
+ 0x800c5c10: __GetImageTileCount
+ 0x800c5cd8: GXInitTexObj
+ 0x800c5f24: GXInitTexObjCI
+ 0x800c5f6c: GXInitTexObjLOD
+ 0x800c60d0: GXGetTexObjFmt
+ 0x800c60d8: GXGetTexObjMipMap
+ 0x800c60f0: GXLoadTexObjPreLoaded
+ 0x800c626c: GXLoadTexObj
+ 0x800c62c0: GXInitTlutObj
+ 0x800c62f8: GXLoadTlut
+ 0x800c6390: GXInitTexCacheRegion
+ 0x800c6484: GXInitTlutRegion
+ 0x800c64bc: GXInvalidateTexAll
+ 0x800c6504: GXSetTexRegionCallback
+ 0x800c6518: GXSetTlutRegionCallback
+ 0x800c65cc: __GXSetSUTexRegs
+ 0x800c6748: __GXSetTmemConfig
+
+ # GXTev.c
+ 0x800c6fd8: GXSetTevOp
+ 0x800c7064: GXSetTevColorIn
+ 0x800c70a8: GXSetTevAlphaIn
+ 0x800c70ec: GXSetTevColorOp
+ 0x800c7154: GXSetTevAlphaOp
+ 0x800c71bc: GXSetTevColor
+ 0x800c7238: GXSetTevColorS10
+ 0x800c72b4: GXSetTevKColor
+ 0x800c7328: GXSetTevKColorSel
+ 0x800c7384: GXSetTevKAlphaSel
+ 0x800c73e0: GXSetTevSwapMode
+ 0x800c7428: GXSetTevSwapModeTable
+ 0x800c74a8: GXSetAlphaCompare
+ 0x800c74ec: GXSetZTexture
+ 0x800c7578: GXSetTevOrder
+ 0x800c7714: GXSetNumTevStages
+
+ # GXPixel.c
+ 0x800c773c: GXSetFog
+ 0x800c7960: GXSetFogRangeAdj
+ 0x800c7a84: GXSetBlendMode
+ 0x800c7ad8: GXSetColorUpdate
+ 0x800c7b04: GXSetAlphaUpdate
+ 0x800c7b30: GXSetZMode
+ 0x800c7b64: GXSetZCompLoc
+ 0x800c7b98: GXSetPixelFmt
+ 0x800c7c6c: GXSetDither
+ 0x800c7c98: GXSetDstAlpha
+ 0x800c7cd4: GXSetFieldMask
+ 0x800c7d0c: GXSetFieldMode
+
+ # GXTransform.c
+ 0x800c8928: GXSetProjection
+ 0x800c89cc: GXSetProjectionv
+ 0x800c8a58: GXLoadPosMtxImm
+ 0x800c8aa8: GXLoadNrmMtxImm
+ 0x800c8af8: GXSetCurrentMtx
+ 0x800c8b2c: GXLoadTexMtxImm
+ 0x800c8be0: __GXSetViewport
+ 0x800c8c70: GXSetViewport
+ 0x800c8cb8: GXSetScissor
+ 0x800c8d30: GXGetScissor
+ 0x800c8d78: GXSetScissorBoxOffset
+ 0x800c8db8: GXSetClipMode
+ 0x800c8de0: __GXSetMatrixIndex
+
+ # GXPerf.c
+ 0x800c8e64: GXSetGPMetric
+ 0x800c96ac: GXClearGPMetric
+ 0x800c96bc: GXReadXfRasMetric
+
  # OS.c
  0x800ec580: OSInit
+
+ # OSAlarm.c
+ 0x800ecdb8: OSInitAlarm
+ 0x800ece10: OSCreateAlarm
+ 0x800ed070: OSSetAlarm
+ 0x800ed0d8: OSSetPeriodicAlarm
+ 0x800ed154: OSCancelAlarm
 
  # OSCache.c
  0x800eddd0: LCQueueWait 
@@ -368,12 +649,50 @@ global:
  0x803bf8b0: __OSErrorTable
  0x80414250: __OSFpscrEnableBits
 
+ # OSInterrupt.c
+ 0x800ef170: OSDisableInterrupts
+ 0x800ef184: OSEnableInterrupts
+ 0x800ef198: OSRestoreInterrupts
+ 0x800ef1bc: __OSSetInterruptHandler
+ 0x800ef1d8: __OSGetInterruptHandler
+ 0x800ef1ec: __OSInterruptInit
+ 0x800ef538: __OSMaskInterrupts
+ 0x800ef5c0: __OSUnmaskInterrupts
+ 0x800ef648: __OSDispatchInterrupt
+ 0x80415f44: __OSLastInterruptSrr0
+ 0x80415f48: __OSLastInterrupt
+ 0x80415f50: __OSLastInterruptTime
+
  # OSThread.c
+ 0x800f1a10: __OSThreadInit
+ 0x800f1b68: OSInitThreadQueue
  0x800f1b78: OSGetCurrentThread
+ 0x800f1b84: OSIsThreadTerminated
+ 0x800f1bb8: OSDisableScheduler
+ 0x800f1bf8: OSEnableScheduler
+ 0x800f1ca0: __OSGetEffectivePriority
+ 0x800f1e9c: __OSPromoteThread
+ 0x800f2114: __OSReschedule
+ 0x800f2144: OSYieldThread
+ 0x800f2180: OSCreateThread
+ 0x800f2368: OSExitThread
+ 0x800f244c: OSCancelThread
+ 0x800f2608: OSDetachThread
+ 0x800f26a8: OSResumeThread
+ 0x800f2930: OSSuspendThread
+ 0x800f2aa0: OSSleepThread
+ 0x800f2b8c: OSWakeupThread
+ 0x800f2c90: OSClearStack
 
  # OSTime.c
  0x800f2d3c: OSGetTime
  0x800f2d54: OSGetTick
+
+  # OSMessage.c
+ 0x800ef9f4: OSInitMessageQueue
+ 0x800efa54: OSSendMessage
+ 0x800efb1c: OSReceiveMessage
+ 0x800efbf8: OSJamMessage
 
  # __ppc_eabi_init.cpp
  0x800f31b8: __init_user

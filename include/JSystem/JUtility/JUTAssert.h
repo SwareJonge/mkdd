@@ -7,15 +7,22 @@
 class JUTAssertion
 {
 public:
+  static void flushMessage();
+  static void flushMessage_dbPrint();
   static void create();
   static u32 getSDevice(void);
   static void showAssert_f(u32 device, char const *file, int line, char const *errormsg, ...);
   static void showAssert(u32 device, char const *file, int line, char const *errormsg) {
     showAssert_f(device, file, line, "%s", errormsg);
-}
+  }
+  static void setConfirmMessage(u32 device, char *file, int line, bool condition, const char *msg);
 };
 
 #if DEBUG
+
+#define JUT_CONFIRM_MESSAGE(LINE, COND) \
+  JUTAssertion::setConfirmMessage(JUTAssertion::getSDevice(), __FILE__, LINE, COND, #COND);
+
 #define JUT_ASSERT(LINE, COND)                                                   \
   if (!(COND))                                                                   \
   {                                                                              \
@@ -44,6 +51,7 @@ public:
 
 
 #else // This will be changed in the future
+#define JUT_CONFIRM_MESSAGE(...);
 #define JUT_ASSERT(...)
 #define JUT_ASSERT_F(...)
 #define JUT_PANIC(...)
