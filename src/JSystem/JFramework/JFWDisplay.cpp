@@ -6,22 +6,21 @@
 #include "JSystem/JUtility/JUTProcBar.h"
 #include "JSystem/JFramework/JFWDisplay.h"
 
-#ifdef DEBUG
+#if DEBUG // MKDD Only
 #include "Osako/screenshot.h"
 #endif
 
-// Almost all functions are matched, regswaps on line 296
-// diagnoseGpHang has one part that doesn't match and unfortunately there are some issues with data allignment
-// https://github.com/zeldaret/tp/blob/master/libs/JSystem/JFramework/JFWDisplay.cpp
+// Sources: https://github.com/zeldaret/tp/blob/master/libs/JSystem/JFramework/JFWDisplay.cpp
+// gpHang: https://github.com/valentinaslover/paper-mar/blob/master/source/sdk/DEMOInit.c#L280
 
-extern JSUList<JFWAlarm> JFWAlarm::sList;
-
+/* extern */ JSUList<JFWAlarm> JFWAlarm::sList; // ctor might not match, i don't have a way of testing currently
 JFWDisplay *JFWDisplay::sManager;
 
-static Mtx e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}/*, {0.0f, 0.0f, 0.0f, 0.0f}*/}; // Fake match, e_mtx has a size of 0x30
-
-static zTXStruct clear_z_TX = {{{0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF},
-                                 {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF}}};
+static void JFWDrawDoneAlarm();
+static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
+static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
+static void waitForTick(u32, u16);
+static void diagnoseGpHang();
 
 void JFWDisplay::ctor_subroutine(bool enableAlpha) {
     mEnableAlpha = enableAlpha;
@@ -235,6 +234,7 @@ void JFWDisplay::endGX() {
     GXFlush();
 }
 
+#if DEBUG
 // for MKDD's screenshot function it seems, not sure why it was added here in JSystem
 static void MyAlloc(u32 p1) {
     JKRHeap::getSystemHeap()->alloc(p1, 0);
@@ -243,6 +243,7 @@ static void MyAlloc(u32 p1) {
 static void MyFree(void *p1) {
     JKRHeap::getSystemHeap()->free(p1);
 }
+#endif
 
 void JFWDisplay::beginRender() { 
     JUTProcBar::getManager()->wholeLoopEnd();    
@@ -263,8 +264,8 @@ void JFWDisplay::beginRender() {
         JUTProcBar::getManager()->idleEnd();
     }
 
-#ifdef DEBUG
-        SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
+#if DEBUG
+    SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
 #endif
 
     if(_40) {
@@ -292,10 +293,11 @@ void JFWDisplay::beginRender() {
         }
     }
 
+    _3C++;
+    bool b = (_3C >= _38);
+    _40 = b;
 
-     _40 = _3C++ >= _38; // Regswaps here
-
-    if (_40)  {
+    if (b) {
         _3C = 0;
     }
 
@@ -390,7 +392,7 @@ void waitForTick(u32 p1, u16 p2) {
     }
 }
 
-static void JFWThreadAlarmHandler(OSAlarm *p_alarm, OSContext *p_ctx) {
+void JFWThreadAlarmHandler(OSAlarm *p_alarm, OSContext *p_ctx) {
     JFWAlarm *alarm = static_cast<JFWAlarm *>(p_alarm);
     alarm->removeLink();
     OSResumeThread(alarm->getThread());
@@ -407,6 +409,18 @@ void JFWDisplay::threadSleep(s64 time) {
     OSSuspendThread(alarm.getThread());
     OSRestoreInterrupts(status);
 }
+
+static GXTexObj clear_z_tobj;
+static u8 clear_z_TX[] __attribute__((aligned(32))) = {
+    0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,
+    0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,
+    0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,
+    0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+};
 
 void JFWDisplay::clearEfb_init() {
     GXInitTexObj(&clear_z_tobj, &clear_z_TX, 4, 4, GX_TF_Z24X8, GX_REPEAT, GX_REPEAT, GX_FALSE);
@@ -512,7 +526,7 @@ s32 JFWDisplay::frameToTick(float mTemporarySingle) { // fabricated
     return OSMillisecondsToTicks(mFrameRate);
 }
 
-static void JFWDrawDoneAlarm() {
+void JFWDrawDoneAlarm() {
     JFWAlarm alarm;
     s32 status = OSDisableInterrupts();
     alarm.createAlarm();
@@ -526,47 +540,36 @@ static void JFWDrawDoneAlarm() {
     OSRestoreInterrupts(status);
 }
 
-static void JFWGXAbortAlarmHandler(OSAlarm *param_0, OSContext *param_1) {
+void JFWGXAbortAlarmHandler(OSAlarm *param_0, OSContext *param_1) {
     diagnoseGpHang();
     GXAbortFrame();
     GXSetDrawDone();
 }
 
-// Not matching
-static void diagnoseGpHang() {
-    u32 sp28;
-    u32 sp24;
-    u32 sp20;
-    u32 sp1C;
-    u32 sp18;
-    u32 sp14;
-    u32 sp10;
-    u32 spC;
-    bool readIdle;
-    bool commandIdle;
-    bool sp8;
+void diagnoseGpHang() {
+	u32 xfTop0, xfBot0, suRdy0, r0Rdy0;
+	u32 xfTop1, xfBot1, suRdy1, r0Rdy1;
+	u32 xfTopD, xfBotD, suRdyD, r0RdyD;
+	GXBool readIdle, cmdIdle, junk;
 
-    GXReadXfRasMetric(&sp24, &sp28, &sp1C, &sp20);
-    GXReadXfRasMetric(&sp14, &sp18, &spC, &sp10);
+	GXReadXfRasMetric(&xfBot0, &xfTop0, &r0Rdy0, &suRdy0);
+	GXReadXfRasMetric(&xfBot1, &xfTop1, &r0Rdy1, &suRdy1);
 
-    u32 temp_r31 = sp28 == sp18;
-    u32 temp_r30 = sp24 == sp14;
-    u32 temp_r0 = sp20 != sp10;
-    u32 temp_r0_2 = sp1C != spC;
+	xfTopD = (xfTop1 - xfTop0) == 0;
+	xfBotD = (xfBot1 - xfBot0) == 0;
+	suRdyD = (suRdy1 - suRdy0) > 0;
+	r0RdyD = (r0Rdy1 - r0Rdy0) > 0;
 
-    GXGetGPStatus((GXBool *)&sp8, (GXBool *)&sp8, (GXBool *)&readIdle, (GXBool *)&commandIdle,
-                  (GXBool *)&sp8);
+	GXGetGPStatus(&junk, &junk, &readIdle, &cmdIdle, &junk);
+    OSReport("GP status %d%d%d%d%d%d --> ", readIdle, cmdIdle, xfTopD, xfBotD, suRdyD, r0RdyD);
 
-    OSReport("GP status %d%d%d%d%d%d --> ", readIdle, commandIdle, temp_r31, temp_r30, temp_r0,
-             temp_r0_2);
-
-    if (!temp_r30 && temp_r0)
+    if (!xfBotD && suRdyD)
         OSReport("GP hang due to XF stall bug.\n");
-    else if (!temp_r31 && temp_r30 && temp_r0)
+    else if (!xfTopD && xfBotD && suRdyD)
         OSReport("GP hang due to unterminated primitive.\n");
-    else if (!commandIdle && temp_r31 && temp_r30 && temp_r0)
+    else if (!cmdIdle && xfTopD && xfBotD && suRdyD) 
         OSReport("GP hang due to illegal instruction.\n");
-    else if (readIdle && commandIdle && temp_r31 && temp_r30 && temp_r0 && temp_r0_2)
+    else if (readIdle && cmdIdle && xfTopD && xfBotD && suRdyD && r0RdyD)
         OSReport("GP appears to be not hung (waiting for input).\n");
     else
         OSReport("GP is in unknown state.\n");

@@ -13,9 +13,7 @@
 
 typedef void (*JFWDisplayUnkFunc)(void);
 
-struct zTXStruct {
-    GXTexObj texObj[2];
-} __attribute__((aligned(32))); // workaround i guess
+static Mtx e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}};
 
 class JFWAlarm : public OSAlarm { // everything here seems to be auto inlined or unused
 public:
@@ -140,13 +138,5 @@ private:
     /* 0x48 */ s16 _48;
     /* 0x4A */ u8 _4a;
 };
-
-extern GXTexObj clear_z_tobj;
-
-static void JFWDrawDoneAlarm();
-static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
-static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
-static void waitForTick(u32, u16);
-static void diagnoseGpHang();
 
 #endif
