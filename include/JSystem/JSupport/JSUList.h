@@ -49,16 +49,15 @@ class JSULink; // friend class? i'm C++ noob
 template<class T>
 class JSUList : public JSUPtrList {
 public:
+    JSUList(bool thing) : JSUPtrList(thing)  {
+        
+    }
     JSUList() : JSUPtrList() {
 
     }
 
     bool remove(JSULink<T> *link) { // is this even correct?
         return JSUPtrList::remove(link);
-    }
-
-    JSUList(bool thing) : JSUPtrList(thing) {
-
     }
 };
 

@@ -13,11 +13,9 @@
 
 typedef void (*JFWDisplayUnkFunc)(void);
 
-static void JFWDrawDoneAlarm();
-static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
-static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
-static void waitForTick(u32, u16);
-static void diagnoseGpHang();
+struct zTXStruct {
+    GXTexObj texObj[2];
+} __attribute__((aligned(32))); // workaround i guess
 
 class JFWAlarm : public OSAlarm { // everything here seems to be auto inlined or unused
 public:
@@ -31,7 +29,7 @@ public:
     OSThread *getThread() const { return mThread; }
     void setThread(OSThread *thread) { mThread = thread; }
 
-    static JSUList<JFWAlarm> sList;
+    static JSUList<JFWAlarm> sList;//
 
 public:
     /* 0x28 */ OSThread *mThread;
@@ -80,7 +78,7 @@ public:
     // void addToDoubleXfb(void *, bool);
     // void addToDoubleXfb(JKRHeap *);
     // void clearAllXfb();
-    // void frameToTick(float);
+    s32 frameToTick(float);
     // static void setForOSResetSystem();
 
     // Virtual functions
@@ -91,11 +89,11 @@ public:
 
     static JFWDisplay *getManager() { return sManager; }
 
-    int getEfbHeight() const {
+    u32 getEfbHeight() const {
         return JUTVideo::getManager()->getEfbHeight();
     }
 
-    int getEfbWidth() const {
+    u32 getEfbWidth() const {
         return JUTVideo::getManager()->getFbWidth();
     }
 
@@ -104,16 +102,6 @@ public:
             return mFader->startFadeOut(param_0);
         }
         return 1;
-    }
-
-    void waitDraw() {
-        waitForTick(mTickRate, mFrameRate);
-        JUTVideo::getManager()->waitRetraceIfNeed();
-
-        u32 tick = OSGetTick();
-        _30 = tick - _2C; // duration of frame in ticks?
-        _2C = tick;
-        _34 = _2C - JUTVideo::getVideoLastTick();
     }
 
     int startFadeIn(int param_0) {
@@ -152,5 +140,13 @@ private:
     /* 0x48 */ s16 _48;
     /* 0x4A */ u8 _4a;
 };
+
+extern GXTexObj clear_z_tobj;
+
+static void JFWDrawDoneAlarm();
+static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
+static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
+static void waitForTick(u32, u16);
+static void diagnoseGpHang();
 
 #endif

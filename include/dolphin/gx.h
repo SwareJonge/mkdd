@@ -902,21 +902,9 @@ typedef enum _GXTlutSize {
     void GXDrawDone(void);
     void GXPixModeSync(void);
 
-    typedef struct GXTexObj
+    typedef struct _GXTexObj
     {
-        u32 _00;
-        u32 _04;
-        u32 _08;
-        u32 _0c;
-        u8 _10;
-        u8 _11;
-        u8 _12;
-        u8 _13;
-        u32 format_14;
-        u32 tlut_name_18;
-        u16 _1c;
-        s8 _1e;
-        s8 mipmap_1f;
+        u32 dummy[8];
     } GXTexObj;
 
     typedef struct

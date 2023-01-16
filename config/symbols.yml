@@ -71,6 +71,7 @@ global:
 
  0x80388140: __vt__10JFWDisplay
  0x803880c0: e_mtx
+ 0x803ae38c: clear_z_tobj
  0x803ef5c0: sList__8JFWAlarm
  0x80415718: sManager__10JFWDisplay
 
@@ -698,6 +699,10 @@ global:
  0x800f31b8: __init_user
  0x800f31d8: __init_cpp
  0x800f322c: _ExitProcess
+
+ # global_destructor_chain.c
+ 0x80105a68: __destroy_global_chain
+ 0x80105ab0: __register_global_object
 
  # NMWException.cp
  0x80105af8: __destroy_new_array

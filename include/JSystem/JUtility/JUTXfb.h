@@ -26,29 +26,20 @@ public:
 
     s32 getBufferNum() const { return mBufferNum; }
     s16 getDrawnXfbIndex() const { return mDrawnXfbIndex; }
-    s16 getDrawingXfbIndex() const { return mDrawingXfbIndex; }
-    s16 getDisplayingXfbIndex() const { return mDisplayingXfbIndex; }
+    int getDrawingXfbIndex() const { return mDrawingXfbIndex; }
+    int getDisplayingXfbIndex() const { return mDisplayingXfbIndex; }
     s32 getSDrawingFlag() const { return mSDrawingFlag; }
 
-    void *getDrawnXfb() const
-    {
-        if (mDrawnXfbIndex >= 0)
-            return mBuffer[mDrawnXfbIndex];
-        return nullptr;
+    void *getDrawnXfb() const {
+        return (mDrawnXfbIndex >= 0) ? mBuffer[mDrawnXfbIndex] : nullptr;
     }
 
-    void *getDrawingXfb() const
-    {
-        if (mDrawingXfbIndex >= 0)
-            return mBuffer[mDrawingXfbIndex];
-        return nullptr;
+    void *getDrawingXfb() const {
+        return (mDrawingXfbIndex >= 0) ? mBuffer[mDrawingXfbIndex] : nullptr;
     }
 
-    void *getDisplayingXfb() const
-    {
-        if (mDisplayingXfbIndex >= 0)
-            return mBuffer[mDisplayingXfbIndex];
-        return nullptr;
+    void *getDisplayingXfb() const {
+        return (mDisplayingXfbIndex >= 0) ? mBuffer[mDisplayingXfbIndex] : nullptr;
     }
 
     void setDisplayingXfbIndex(s16 index) { mDisplayingXfbIndex = index; }
