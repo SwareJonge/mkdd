@@ -10,17 +10,18 @@
 #include "Osako/screenshot.h"
 #endif
 
-// Not tested yet, will add ecerything from TP, and edit whatever is needed
+// Almost all functions are matched, regswaps on line 296
+// diagnoseGpHang has one part that doesn't match and unfortunately there are some issues with data allignment
 // https://github.com/zeldaret/tp/blob/master/libs/JSystem/JFramework/JFWDisplay.cpp
 
 extern JSUList<JFWAlarm> JFWAlarm::sList;
 
 JFWDisplay *JFWDisplay::sManager;
-static GXTexObj clear_z_tobj;
 
-static Mtx44 e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f}}; // Fake match, e_mtx has a size of 0x30
-static GXTexObj clear_z_TX[2] = {{0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0, 0xFF, 0, 0xFF, 0xFF00FF, 0xFF00FF, 0xFF, 0, -1},
-                                 {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFF, -1, -1}};
+static Mtx e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}/*, {0.0f, 0.0f, 0.0f, 0.0f}*/}; // Fake match, e_mtx has a size of 0x30
+
+static zTXStruct clear_z_TX = {{{0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF},
+                                 {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF}}};
 
 void JFWDisplay::ctor_subroutine(bool enableAlpha) {
     mEnableAlpha = enableAlpha;
@@ -208,10 +209,10 @@ void JFWDisplay::preGX() {
 }
 
 void JFWDisplay::endGX() {
-    //f32 width = JUTVideo::getManager()->getFbWidth();
-    //f32 height = JUTVideo::getManager()->getEfbHeight();
+    f32 width = JUTVideo::getManager()->getFbWidth();
+    f32 height = JUTVideo::getManager()->getEfbHeight();
 
-    J2DOrthoGraph ortho(0.0f, 0.0f, (f32)JUTVideo::getManager()->getFbWidth(), (f32)JUTVideo::getManager()->getEfbHeight(), -1.0f, 1.0f);
+    J2DOrthoGraph ortho(0.0f, 0.0f, width, height, -1.0f, 1.0f);
 
     if (mFader != nullptr) {
         ortho.setPort();
@@ -424,7 +425,6 @@ void JFWDisplay::clearEfb(GXColor color) {
     clearEfb(0, 0, width, height, color);
 }
 
-
 void JFWDisplay::clearEfb(int param_0, int param_1, int param_2, int param_3,
                               GXColor color) {
     Mtx44 mtx;
@@ -532,7 +532,7 @@ static void JFWGXAbortAlarmHandler(OSAlarm *param_0, OSContext *param_1) {
     GXSetDrawDone();
 }
 
-// TODO
+// Not matching
 static void diagnoseGpHang() {
     u32 sp28;
     u32 sp24;
