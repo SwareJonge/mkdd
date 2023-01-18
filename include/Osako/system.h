@@ -21,18 +21,6 @@ namespace System {
     void callbackException(u16, OSContext, u32, u32);
     void haltRumble();
     void run();
-    inline JFWDisplay *getDisplay() {
-        return mspDisplay;
-    }
-    inline JKRAssertHeap *getAppHeap() {
-        return mspAppHeap;
-    }
-    inline J2DPrint *getJ2DPrint() {
-        return mspJ2DPrint;
-    } 
-    inline J2DOrthoGraph *getJ2DOrtho() {
-        return mspJ2DOrtho;
-    }
 
     extern JFWDisplay *mspDisplay;
     extern JKRAssertHeap *mspAppHeap;
@@ -45,6 +33,11 @@ namespace System {
     extern J2DPrint *mspJ2DPrint;
     extern J2DOrthoGraph *mspJ2DOrtho;
     extern JKRHeap *mspAudioHeap; // JKRSolidHeap
+
+    inline JFWDisplay *getDisplay() { return mspDisplay; }
+    inline JKRAssertHeap *getAppHeap() { return mspAppHeap; }
+    inline J2DPrint *getJ2DPrint() { return mspJ2DPrint; }
+    inline J2DOrthoGraph *getJ2DOrtho() { return mspJ2DOrtho; }
 };
 
 #endif

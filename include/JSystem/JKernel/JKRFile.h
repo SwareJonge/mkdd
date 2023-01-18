@@ -3,15 +3,21 @@
 
 #include "JSystem/JKernel/JKRDisposer.h"
 
-class JKRFile : JKRDisposer{
+class JKRFile : JKRDisposer {
 public:
-    virtual ~JKRFile();
+    JKRFile() {
+        mFileOpen = false;
+    }
+    virtual ~JKRFile();                                                  // 8
+    virtual bool open(const char *fileName) = 0;                         // C
+    virtual void close() = 0;                                            // 10
+    virtual s32 writeData(const void *addr, s32 length, s32 offset) = 0; // 14
+    virtual s32 readData(void *addr, s32 length, s32 offset) = 0;        // 18
+    virtual s32 getFileSize() const = 0;                                 // 1C
 
-    virtual bool open(const char *fileName)                         = 0;
-    virtual void close()                                            = 0;
-    virtual s32 writeData(const void *addr, s32 length, s32 offset) = 0;
-    virtual s32 readData(void *addr, s32 length, s32 offset)        = 0;
-    virtual s32 getFileSize() const                                 = 0;
+    void read(void *, s32, s32);
+
+private:
+    bool mFileOpen;
 };
-
 #endif
