@@ -11,40 +11,40 @@
 
 class JKRTask;
 
-class System {
-    static JFWDisplay *mspDisplay;
-    static JKRAssertHeap *mspAppHeap;
-    static int msDvdState;
-    static int msRenderMode;
-    static JKRTask *mspSendTask;
-    static JKRTask *mspRecvTask;
-    static JKRTask *mspAramTask;
-    static JKRTask *mspLoTask;
-    static J2DPrint *mspJ2DPrint;
-    static J2DOrthoGraph *mspJ2DOrtho;
-    static JKRHeap *mspAudioHeap; // JKRSolidHeap
-public:
-    static void startAudioTask(void *p1);
-    static void init();
-    static void reset();
-    static void changeProgressive();
-    static void changeMovieRenderMode();
-    static void changeNormalRenderMode();
-    static void callbackException(u16, OSContext, u32, u32);
-    static void haltRumble();
-    static void run();
-    static JFWDisplay *getDisplay() {
+namespace System {
+    void startAudioTask(void *p1);
+    void init();
+    void reset();
+    void changeProgressive();
+    void changeMovieRenderMode();
+    void changeNormalRenderMode();
+    void callbackException(u16, OSContext, u32, u32);
+    void haltRumble();
+    void run();
+    inline JFWDisplay *getDisplay() {
         return mspDisplay;
     }
-    static JKRAssertHeap *getAppHeap() {
+    inline JKRAssertHeap *getAppHeap() {
         return mspAppHeap;
     }
-    static J2DPrint *getJ2DPrint() {
+    inline J2DPrint *getJ2DPrint() {
         return mspJ2DPrint;
     } 
-    static J2DOrthoGraph *getJ2DOrtho() {
+    inline J2DOrthoGraph *getJ2DOrtho() {
         return mspJ2DOrtho;
     }
+
+    extern JFWDisplay *mspDisplay;
+    extern JKRAssertHeap *mspAppHeap;
+    extern int msDvdState;
+    extern int msRenderMode;
+    extern JKRTask *mspSendTask;
+    extern JKRTask *mspRecvTask;
+    extern JKRTask *mspAramTask;
+    extern JKRTask *mspLoTask;
+    extern J2DPrint *mspJ2DPrint;
+    extern J2DOrthoGraph *mspJ2DOrtho;
+    extern JKRHeap *mspAudioHeap; // JKRSolidHeap
 };
 
 #endif

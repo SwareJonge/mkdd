@@ -1,4 +1,6 @@
+#include "JSystem/JKernel/JKRDvdRipper.h"
 #include "Osako/system.h"
+#include "Osako/systemData.h"
 
 /*namespace System {
     void startAudioTask(void* p1) {
