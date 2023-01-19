@@ -4,6 +4,10 @@
 #include "types.h"
 #include "dolphin/os.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 struct DVDQueue
 {
     struct DVDQueue *m_head; // _00
@@ -36,11 +40,38 @@ extern "C"
     };
 #pragma cplusplus reset
 
-    typedef struct
+    typedef struct DVDCommandBlock DVDCommandBlock;
+
+    typedef void (*DVDCBCallback)(s32 result, DVDCommandBlock *block);
+
+    struct DVDCommandBlock
     {
-        u8 _00[0x3C]; // _00
-        void *_3C;    // _3C /* ptr to unknown */
-    } DVDFileInfo;
+        DVDCommandBlock *next;
+        DVDCommandBlock *prev;
+        u32 command;
+        s32 state;
+        u32 offset;
+        u32 length;
+        void *addr;
+        u32 currTransferSize;
+        u32 transferredSize;
+        DVDDiskID *id;
+        DVDCBCallback callback;
+        void *userData;
+    };
+
+    typedef struct DVDFileInfo DVDFileInfo;
+
+    typedef void (*DVDCallback)(s32 result, DVDFileInfo *fileInfo);
+
+    struct DVDFileInfo
+    {
+        DVDCommandBlock cb;
+        u32 startAddr;
+        u32 length; 
+        DVDCallback callback;
+        void *file;
+    };
 
     typedef BOOL DVDDoneReadCallback(long, DVDFileInfo *);
     typedef void DVDState(OSDummyCommandBlock *);
@@ -48,15 +79,15 @@ extern "C"
 
     void DVDInit();
 
-    // TODO: Incomplete set of functions.
-    BOOL DVDOpen(const char *, struct DVDPlayer *);
-    BOOL DVDFastOpen(long, struct DVDPlayer *);
-    BOOL DVDClose(struct DVDPlayer *);
+    // TODO: refactor
+    BOOL DVDOpen(const char *, DVDFileInfo *);
+    BOOL DVDFastOpen(long, DVDFileInfo *);
+    BOOL DVDClose(DVDFileInfo *);
     int DVDCancel(struct DVDPlayer *); // Definitely int; returns -1 on failure.
     void DVDResume();
     void DVDReset();
     int DVDReadPrio(struct DVDPlayer *player, void *readBuffer, s32 byteCount, u32 startOffset, s32 queueIndex);
-    BOOL DVDReadAsyncPrio(struct DVDPlayer *, void *, long, long, DVDDoneReadCallback *, int);
+    BOOL DVDReadAsyncPrio(DVDFileInfo *, void *, long, long, DVDDoneReadCallback *, int);
     BOOL DVDReadAbsAsyncPrio(struct DVDPlayer *player, void *readBuffer, long byteCount, u8 *startAddress,
                              DVDDoneReadCallback *doneReadCallback, int queueIndex);
 
@@ -72,7 +103,7 @@ extern "C"
     BOOL DVDCompareDiskID(DVDDiskID *, DVDDiskID *);
 
     int DVDGetDriveStatus();
-    int DVDGetCommandBlockStatus(struct DVDPlayer *);
+    int DVDGetCommandBlockStatus(DVDFileInfo *);
 
     BOOL __DVDPushWaitingQueue(int, struct DVDQueue *);
     struct DVDQueue *__DVDPopWaitingQueue();

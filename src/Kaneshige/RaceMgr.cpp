@@ -222,7 +222,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     if (isAwardDemoMode()) {
         mAwardArc = ResMgr::getArchive(ResMgr::mcArcAward);
         if (mAwardArc == nullptr)
-            JUT_PANIC(2185, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
+            JUT_PANIC_MSG(2185, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
     }
     SysDebug::getManager()->setHeapGroup("OBJECT MGR", nullptr);
     CreateGeoObjMgr(mCourse->getCrsData());

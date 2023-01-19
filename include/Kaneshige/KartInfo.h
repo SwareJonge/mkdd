@@ -4,7 +4,7 @@
 
 #include "types.h"
 #include "dolphin/OS.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/kartPad.h"
 
 extern "C" {

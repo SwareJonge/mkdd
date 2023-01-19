@@ -1,6 +1,5 @@
 #include "dolphin/OS.h"
 #include "JSystem/JUTility/JUTGamePad.h"
-#include "JSystem/JUtility/JUTAssert.h"
 
 #include "Osako/kartPad.h"
 #include "Kaneshige/KartInfo.h"

@@ -1,5 +1,5 @@
 #include "dolphin/string.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/GPRecord.h"
 
 GPRecord::GPRecord() {

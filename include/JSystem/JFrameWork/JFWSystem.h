@@ -4,7 +4,7 @@
 #include "dolphin/gx.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRThread.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JUtility/JUTConsole.h"
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/JUtility/JUTFont.h"

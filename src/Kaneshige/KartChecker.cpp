@@ -1,6 +1,7 @@
 #include "dolphin/mtx.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kaneshige/JugemPoint.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"

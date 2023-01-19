@@ -18,45 +18,4 @@ public:
   static void setConfirmMessage(u32 device, char *file, int line, bool condition, const char *msg);
 };
 
-#if DEBUG
-
-#define JUT_CONFIRM_MESSAGE(LINE, COND) \
-  JUTAssertion::setConfirmMessage(JUTAssertion::getSDevice(), __FILE__, LINE, COND, #COND);
-
-#define JUT_ASSERT(LINE, COND)                                                   \
-  if (!(COND))                                                                   \
-  {                                                                              \
-    JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, LINE, #COND); \
-    OSPanic(__FILE__, LINE, "Halt");                                             \
-  }
-
-#define JUT_ASSERT_F(LINE, COND, ...)                                                    \
-  if (!(COND))                                                                           \
-  {                                                                                      \
-    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__); \
-    OSPanic(__FILE__, LINE, "Halt");                                                     \
-  }
-
-#define JUT_PANIC(LINE, TEXT)                                                 \
-  { \
-  JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, LINE, TEXT); \
-  OSPanic(__FILE__, LINE, "Halt"); \
-  }
-
-#define JUT_MINMAX_ASSERT(LINE, min, cur, max) \
-  JUT_ASSERT_F(LINE, (((cur) >= (min)) && ((cur) < (max))) != false, "range over: %d <= " #cur "=%d < %d", (min), (cur), (max))
-
-#define JUT_MAX_ASSERT(LINE, cur, max) \
-  JUT_ASSERT_F(LINE, ((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max))
-
-
-#else // This will be changed in the future
-#define JUT_CONFIRM_MESSAGE(...);
-#define JUT_ASSERT(...)
-#define JUT_ASSERT_F(...)
-#define JUT_PANIC(...)
-#define JUT_MINMAX_ASSERT(...)
-#define JUT_MAX_ASSERT(...)
-#endif
-
 #endif

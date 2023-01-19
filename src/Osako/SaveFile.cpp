@@ -1,4 +1,4 @@
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "dolphin/OS.h"
 #include "types.h"
 

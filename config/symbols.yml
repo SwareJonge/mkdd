@@ -186,6 +186,7 @@ global:
 
  # JUTException.cpp
  0x8006c87c: create__12JUTExceptionFP14JUTDirectPrint
+ 0x8006cb90: panic_f__12JUTExceptionFPCciPCce
 
  0x8006f140: createConsole__12JUTExceptionFPvUl
 
@@ -320,9 +321,32 @@ global:
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll
 
+ 0x8038b110: __vt__7JKRFile
+
+ # JKRAramArchive.cpp
+ 0x8007a584: __dt__7JKRFileFv
+
  # JKRDisposer.cpp
  0x8007ecdc: __dt__11JKRDisposerFv
  0x8007ec74: __ct__11JKRDisposerFv
+
+ # JKRDvdFile.cpp
+ 0x8007ed58: __ct__10JKRDvdFileFv
+ 0x8007edc4: __ct__10JKRDvdFileFl
+ 0x8007ee64: __dt__10JKRDvdFileFv
+ 0x8007eef8: initiate__10JKRDvdFileFv
+ 0x8007ef64: open__10JKRDvdFileFPCc
+ 0x8007efd8: open__10JKRDvdFileFl
+ 0x8007f04c: close__10JKRDvdFileFv
+ 0x8007f0cc: readData__10JKRDvdFileFPvll
+ 0x8007f1bc: writeData__10JKRDvdFileFPCvll
+ 0x8007f220: sync__10JKRDvdFileFv
+ 0x8007f274: doneProcess__10JKRDvdFileFlP11DVDFileInfo
+ 0x8007f2a4: getFileSize__10JKRDvdFileCFv
+ 0x8007f2f0: __dt__21JSUList<10JKRDvdFile>Fv
+ 0x8007f2ac: __sinit_JKRDvdFile_cpp
+ 0x8038b2e0: __vt__10JKRDvdFile
+ 0x803fa944: sDvdList__10JKRDvdFile
 
  # JKRExpHeap.cpp
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
@@ -433,7 +457,12 @@ global:
  0x800b031c: C_MTXOrtho
  
  # dvd.c
+ 0x800b1894: DVDFastOpen
+ 0x800b1908: DVDOpen
+ 0x800b19d0: DVDClose 
+ 0x800b1c18: DVDReadAsyncPrio
  0x800b1e48: DVDInit 
+ 0x800b3e80: DVDGetCommandBlockStatus
 
   # vi.c
  0x800b4ee4: VISetPreRetraceCallback
@@ -693,6 +722,11 @@ global:
  0x800efa54: OSSendMessage
  0x800efb1c: OSReceiveMessage
  0x800efbf8: OSJamMessage
+
+ # OSMutex.c
+ 0x800f0080: OSInitMutex
+ 0x800f00b8: OSLockMutex
+ 0x800f0194: OSUnlockMutex
 
  # __ppc_eabi_init.cpp
  0x800f31b8: __init_user

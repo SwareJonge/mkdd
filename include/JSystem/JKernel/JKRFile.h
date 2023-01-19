@@ -2,6 +2,7 @@
 #define _JSYSTEM_JKR_JKRFILE_H
 
 #include "JSystem/JKernel/JKRDisposer.h"
+#include "types.h"
 
 class JKRFile : JKRDisposer {
 public:
@@ -17,7 +18,7 @@ public:
 
     void read(void *, s32, s32);
 
-private:
+protected:
     bool mFileOpen;
 };
 #endif

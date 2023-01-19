@@ -2,7 +2,7 @@
 #include "dolphin/OS.h"
 #include "JSystem/JGeometry.h"
 #include "JSystem/JMath/JMath.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Sato/stMath.h"
 
 void stRandom::createAllRandom() {

@@ -2,7 +2,7 @@
 #define RACEMGR_H
 
 #include "JSystem/JKernel/JKRHeap.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Kawano/StaffRoll2D.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/RaceBGMPlayer.h"

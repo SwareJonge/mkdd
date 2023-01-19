@@ -62,7 +62,10 @@ struct JUTException : public JKRThread
 
     static JUTException *create(JUTDirectPrint *);
     static void createConsole(void *buffer, u32 bufferSize);
-    static void panic_f(char const *file, int line, char const *msg, ...);
+    static void panic(const char * file, int line, const char * msg) {
+        panic_f(file, line, "%s", msg);
+    }
+    static void panic_f(const char *file, int line, const char *msg, ...);
     static void errorHandler(unsigned short, OSContext *, unsigned long, unsigned long);
     static void setFPException(unsigned long);
 
@@ -104,5 +107,4 @@ struct JUTException : public JKRThread
     static JSUList<JUTExMapFile> sMapFileList;
 };
 
-//#define JUT_PANIC(...) JUTException::panic_f(__FILE__, __LINE__, __VA_ARGS__)
 #endif

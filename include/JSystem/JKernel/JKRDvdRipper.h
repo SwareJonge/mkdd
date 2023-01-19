@@ -1,10 +1,11 @@
 #ifndef _JSYSTEM_JKR_JKRDVDRIPPER_H
 #define _JSYSTEM_JKR_JKRDVDRIPPER_H
-#include "types.h"
+
 #include "dolphin/OS.h"
 #include "dolphin/dvd.h"
 #include "JSystem/JKernel/JKRDvdFile.h"
 #include "JSystem/JKernel/JKRHeap.h"
+#include "types.h"
 
 enum JKRExpandSwitch
 {

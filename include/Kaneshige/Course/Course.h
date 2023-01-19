@@ -2,7 +2,7 @@
 #define COURSE_H
 
 #include "JSystem/JKernel/JKRSolidHeap.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/Course/CrsData.h"

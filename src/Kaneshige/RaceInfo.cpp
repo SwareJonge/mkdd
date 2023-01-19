@@ -1,6 +1,6 @@
 #include "dolphin/OS.h"
 #include "JSystem/JMath/JMath.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 
 #include "Kameda/SequenceInfo.h"
 #include "Kaneshige/RaceInfo.h"

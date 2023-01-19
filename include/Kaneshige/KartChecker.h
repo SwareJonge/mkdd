@@ -5,7 +5,7 @@
 
 #include "JSystem/JGeometry.h"
 #include "JSystem/JUtility/JUTDbPrint.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "Kaneshige/JugemPoint.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/KartInfo.h"

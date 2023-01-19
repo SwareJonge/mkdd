@@ -1,5 +1,5 @@
 #include "JSystem/J2D/J2DGrafContext.h"
-#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JUtility/JUTConsole.h"
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/JUtility/JUTVideo.h"
@@ -14,7 +14,7 @@
 // https://github.com/kiwi515/ogws/blob/master/src/egg/core/eggAsyncDisplay.cpp
 // gpHang: https://github.com/valentinaslover/paper-mar/blob/master/source/sdk/DEMOInit.c#L280
 
-/* extern */ JSUList<JFWAlarm> JFWAlarm::sList; // ctor might not match, i don't have a way of testing currently
+/* extern */ JSUList<JFWAlarm> JFWAlarm::sList(false); // ctor might not match, i don't have a way of testing currently
 JFWDisplay *JFWDisplay::sManager;
 
 static void JFWDrawDoneAlarm();
