@@ -402,6 +402,8 @@ class CSource(Source):
             self.cflags = c.JUTILITY_CFLAGS
         elif path.startswith("src/JSystem/JKernel/"):
             self.cflags = c.JKERNEL_CFLAGS
+        elif path.startswith("src/JSystem/JFramework/JFWDisplay"):
+            self.cflags = c.JFRAMEWORK_CFLAGS
         elif path.startswith("src/JSystem/"):
             self.cflags = c.JSYSTEM_CFLAGS
         elif path.startswith("src/Kaneshige/"):

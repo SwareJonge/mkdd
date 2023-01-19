@@ -205,9 +205,9 @@ u32 __OSBusClock : (0x800000F8);
   u8 *__OSLockSramEx(void);
 
   void __OSUnmaskInterrupts(int);
-  int OSDisableInterrupts(void);
-  void OSRestoreInterrupts(int);
-  void OSEnableInterrupts();
+  BOOL OSDisableInterrupts(void);
+  BOOL OSRestoreInterrupts(BOOL);
+  BOOL OSEnableInterrupts();
 
   uint OSGetSoundMode();
   void OSSetSoundMode(uint);

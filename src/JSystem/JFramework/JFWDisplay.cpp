@@ -17,12 +17,6 @@
 /* extern */ JSUList<JFWAlarm> JFWAlarm::sList(false); // ctor might not match, i don't have a way of testing currently
 JFWDisplay *JFWDisplay::sManager;
 
-static void JFWDrawDoneAlarm();
-static void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
-static void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
-static void waitForTick(u32, u16);
-static void diagnoseGpHang();
-
 void JFWDisplay::ctor_subroutine(bool enableAlpha) {
     mEnableAlpha = enableAlpha;
     mClamp = GX_CLAMP_TOP | GX_CLAMP_BOTTOM;
@@ -109,6 +103,12 @@ void JFWDisplay::prepareCopyDisp() {
         GXSetAlphaUpdate(GX_ENABLE);
     }
 }
+
+void JFWDrawDoneAlarm();
+void JFWThreadAlarmHandler(OSAlarm *, OSContext *);
+void JFWGXAbortAlarmHandler(OSAlarm *, OSContext *);
+void waitForTick(u32, u16);
+void diagnoseGpHang();
 
 void JFWDisplay::drawendXfb_single() {
     JUTXfb *manager = JUTXfb::getManager();
@@ -504,6 +504,7 @@ void JFWDisplay::clearEfb(int param_0, int param_1, int param_2, int param_3,
     }
 }
 
+// https://decomp.me/scratch/30tuG
 void JFWDisplay::calcCombinationRatio() {
     u32 vidInterval = JUTVideo::getVideoInterval();
     s32 unk30 = _30 * 2;
@@ -527,13 +528,15 @@ s32 JFWDisplay::frameToTick(float mTemporarySingle) { // fabricated
     return OSMillisecondsToTicks(mFrameRate);
 }
 
+// https://decomp.me/scratch/qbztR
 void JFWDrawDoneAlarm() {
+    BOOL status;
     JFWAlarm alarm;
-    s32 status = OSDisableInterrupts();
+    status = OSDisableInterrupts();
     alarm.createAlarm();
     alarm.appendLink();
     OSRestoreInterrupts(status);
-    OSSetAlarm(&alarm, 0.5 * (OS_TIMER_CLOCK), JFWGXAbortAlarmHandler); // OS macro
+    OSSetAlarm(&alarm, (OS_TIMER_CLOCK) * 0.5, JFWGXAbortAlarmHandler);
     GXDrawDone();
     status = OSDisableInterrupts();
     alarm.cancelAlarm();

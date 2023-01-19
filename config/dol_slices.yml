@@ -13,15 +13,15 @@ JSystem/JFramework/JFWSystem.cpp:
     .sbss: [0x804156f8, 0x80415718]
     .sdata2: [0x80417398, 0x804173b8]
 
-#JSystem/JFramework/JFWDisplay.cpp:
-    #.text: [0x80015b80, 0x80017308] # 0x80017308
-    #.ctors: [0x803160a8, 0x803160ac]
-    #.rodata: [0x80360fd8, 0x803610f0]
-    #.data: [0x803880c0, 0x80388160]
-    #.bss: [0x803ae380, 0x803ae3b0] # common on yay....
+JSystem/JFramework/JFWDisplay.cpp:
+    .text: [0x80015b80, 0x80017308] # 0x80017308
+    .ctors: [0x803160a8, 0x803160ac]
+    .rodata: [0x80360fd8, 0x803610f0]
+    .data: [0x803880c0, 0x80388158]
+    .bss: [0x803ae380, 0x803ae3b0] # common on yay....
     #.bss: [0x803ef5c0, 0x803ef5cc] # probably won't work
-    #.sbss: [0x80415718, 0x80415740]
-    #.sdata2: [0x804173b8, 0x804173e0]
+    .sbss: [0x80415718, 0x80415740]
+    .sdata2: [0x804173b8, 0x804173e0]
 
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
