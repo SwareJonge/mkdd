@@ -1,10 +1,8 @@
 #include "JSystem/JKernel/JKRDvdFile.h"
 #include "JSystem/JUtility/JUTDbg.h"
 
-// destructor not matching,  
 JSUList<JKRDvdFile> JKRDvdFile::sDvdList;
 
-// constructors and destructor not matching
 JKRDvdFile::JKRDvdFile() : JKRFile(), mLink(this) {
     initiate();
 }
@@ -32,7 +30,6 @@ void JKRDvdFile::initiate() {
     _58 = 0;
 }
 
-// not matching, maybe C Style bool return
 bool JKRDvdFile::open(const char * fileName) {
     if(!mFileOpen) {
         mFileOpen = DVDOpen(fileName, &mDvdFileInfo);
@@ -67,7 +64,6 @@ void JKRDvdFile::close() {
     }
 }
 
-// not matching, perhaps inline readDataAsync
 s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
     JUT_ASSERT(238, ( length & 0x1f ) == 0);
     OSLockMutex(&mMutex);
