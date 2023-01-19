@@ -11,7 +11,10 @@ JKRDvdFile::JKRDvdFile() : JKRFile(), mLink(this) {
 
 JKRDvdFile::JKRDvdFile(s32 entrynum) : JKRFile(), mLink(this) {
     initiate();
+
     mFileOpen = open(entrynum);
+    if(mFileOpen) // very useful
+        return;
 }
 
 JKRDvdFile::~JKRDvdFile() {
@@ -54,12 +57,12 @@ bool JKRDvdFile::open(s32 entryNum) {
 
 void JKRDvdFile::close() {
     if(mFileOpen) {
-        if(!DVDClose(&mDvdFileInfo)) {
-            JUT_PANIC(213, "cannot close DVD file\n")
-        }
-        else {
+        if(DVDClose(&mDvdFileInfo)) {
             mFileOpen = false;
             sDvdList.remove(&mLink);
+        }
+        else {
+            JUT_PANIC(213, "cannot close DVD file\n");
         }
     }
 }
@@ -69,18 +72,19 @@ s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
     JUT_ASSERT(238, ( length & 0x1f ) == 0);
     OSLockMutex(&mMutex);
     s32 retAddr;
-    if(mThread == nullptr) {
-        mThread =  OSGetCurrentThread();
+    if(mThread != nullptr) {
+        OSUnlockMutex(&mMutex);
+        return -1;
+    }
+    else {
+        mThread = OSGetCurrentThread();
         retAddr = -1;
-        if(DVDReadAsyncPrio(&mDvdFileInfo, addr, length, offset, doneProcess, 2)) {
+        if (DVDReadAsyncPrio(&mDvdFileInfo, addr, length, offset, doneProcess, 2))
+        {
             retAddr = (s32)sync();
         }
         mThread = nullptr;
         OSUnlockMutex(&mMutex);
-    }
-    else {
-        OSUnlockMutex(&mMutex);
-        retAddr = -1;
     }
     return retAddr;
 }

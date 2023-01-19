@@ -23,8 +23,8 @@ public:
     virtual ~JKRDvdFile();                                           // 08
     virtual bool open(const char *fileName);                         // 0C
     virtual void close();                                            // 10
-    virtual s32 writeData(const void *addr, s32 length, s32 offset); // 14
-    virtual s32 readData(void *addr, s32 length, s32 offset);        // 18
+    virtual s32 readData(void *addr, s32 length, s32 offset);        // 14
+    virtual s32 writeData(const void *addr, s32 length, s32 offset); // 18
     virtual s32 getFileSize() const { return mDvdFileInfo.length; }  // 1C
     virtual bool open(s32);                                          // 20
 
