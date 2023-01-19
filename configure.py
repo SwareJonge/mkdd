@@ -399,11 +399,9 @@ class AsmSource(Source):
 class CSource(Source):
     def __init__(self, ctx: SourceContext, path: str):
         if path.startswith("src/JSystem/JUtility/"):
-            self.cflags = c.JUTILITY_CFLAGS
+            self.cflags = c.JSYSTEM_SPACE_CFLAGS
         elif path.startswith("src/JSystem/JKernel/"):
-            self.cflags = c.JKERNEL_CFLAGS
-        elif path.startswith("src/JSystem/JFramework/JFWDisplay"):
-            self.cflags = c.JFRAMEWORK_CFLAGS
+            self.cflags = c.JSYSTEM_SPACE_CFLAGS
         elif path.startswith("src/JSystem/"):
             self.cflags = c.JSYSTEM_CFLAGS
         elif path.startswith("src/Kaneshige/"):

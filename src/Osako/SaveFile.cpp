@@ -4,8 +4,6 @@
 
 #include "Osako/SaveFile.h"
 
-
-
 u32 SaveFile::msaCRCTable[256]; // -common on
 bool SaveFile::msCRCTableComputed;
 

@@ -18,8 +18,8 @@ JSystem/JFramework/JFWDisplay.cpp:
     .ctors: [0x803160a8, 0x803160ac]
     .rodata: [0x80360fd8, 0x803610f0]
     .data: [0x803880c0, 0x80388158]
-    .bss: [0x803ae380, 0x803ae3b0] # common on yay....
-    #.bss: [0x803ef5c0, 0x803ef5cc] # probably won't work
+    .bss: [0x803ae380, 0x803ae3b0] 
+    #.bss: [0x803ef5c0, 0x803ef5cc] # common section, doesn't have to be defined
     .sbss: [0x80415718, 0x80415740]
     .sdata2: [0x804173b8, 0x804173e0]
 
@@ -141,12 +141,12 @@ Osako/GPRecord.cpp:
     .rodata: [0x8037e038, 0x8037e060]
     .sdata2: [0x8041b830, 0x8041b840]
 
-#Osako/SaveFile.cpp: # common on issue?
-    #.text: [0x8020c230, 0x8020c3ac]
-    #.rodata: [0x8037e060, 0x8037e090]
+Osako/SaveFile.cpp:
+    .text: [0x8020c230, 0x8020c3ac]
+    .rodata: [0x8037e060, 0x8037e090]
     #.bss: [0x80407334, 0x80407740]
-    #.sbss: [0x80416a48, 0x80416a50]
-    #.sdata2: [0x8041b840, 0x8041b858]
+    .sbss: [0x80416a48, 0x80416a50]
+    .sdata2: [0x8041b840, 0x8041b858]
 
 #Sato/stMath.cpp: # can't be compiled currently
     #.text: [0x8021f5fc, 0x8021f6e0] 
