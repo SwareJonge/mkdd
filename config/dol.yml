@@ -4,25 +4,27 @@ r2: 0x8041f1c0
 
 section_defs:
     text:
-        .init:
-        .text:
+      - name: .init
+      - name: .text
+    
     data:
-        extab_:
-            attr: a
-        extabindex_:
-            attr: a
-        .ctors:
-            balign: 0
-        .dtors:
-            balign: 0
-        .BINARY:
-            attr: wa
-        .rodata:
-        .data:
-        .sdata:
-        .sdata2:
+      - name: extab_
+        attr: a
+      - name: extabindex_
+        attr: a
+      - name: .ctors
+        balign: 0
+      - name: .dtors
+        balign: 0
+      - name: .BINARY
+        attr: wa
+      - name: .rodata
+      - name: .data
+      - name: .sdata
+      - name: .sdata2
+    
     bss:
-        .bss:
-        .sbss:
-        .sbss2:
-            nobits: true
+      - name: .bss
+      - name: .sbss
+      - name: .sbss2
+        nobits: true

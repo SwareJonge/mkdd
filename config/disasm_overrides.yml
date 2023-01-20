@@ -1,3 +1,1 @@
 trim_ctors: true
-symbol_aligns:
-  0x80388160: 32

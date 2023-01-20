@@ -2,11 +2,12 @@
 Common functions & definitions
 """
 
+from dataclasses import dataclass
 from enum import Enum
 from hashlib import sha1
 import json
 import os
-from subprocess import PIPE, Popen
+from subprocess import PIPE, run
 from sys import executable as PYTHON, platform
 from typing import List, Tuple, Union
 
@@ -23,11 +24,9 @@ def get_file_sha1(path: str) -> bytes:
 def get_cmd_stdout(cmd: str, text=True) -> str:
     """Run a command and get the stdout output as a string"""
 
-    proc = Popen(cmd.split(), stdout=PIPE, text=text)
-    ret = proc.stdout.read()
-    proc.wait()
-    assert proc.returncode == 0, f"Command '{cmd}' returned {proc.returncode}"
-    return ret
+    ret = run(cmd.split(), stdout=PIPE, text=text)
+    assert ret.returncode == 0, f"Command '{cmd}' returned {ret.returncode}"
+    return ret.stdout
 
 class Binary(Enum):
     DOL = 1
@@ -101,7 +100,9 @@ ORDERSTRINGS = f"{PYTHON} {PPCDIS}/orderstrings.py"
 ORDERFLOATS = f"{PYTHON} {PPCDIS}/orderfloats.py"
 FORCEFILESGEN = f"{PYTHON} {PPCDIS}/forcefilesgen.py"
 ELF2DOL = f"{PYTHON} {PPCDIS}/elf2dol.py"
+FORCEACTIVEGEN = f"{PYTHON} {PPCDIS}/forceactivegen.py"
 SLICES = f"{PYTHON} {PPCDIS}/slices.py"
+PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 
 # Codewarrior
 TOOLS = "tools"
@@ -116,6 +117,7 @@ if platform != "win32":
 DEVKITPPC = os.environ.get("DEVKITPPC")
 AS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as")
 OBJDUMP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-objdump")
+CPP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-cpp")
 
 ICONV = f"{PYTHON} tools/sjis.py" # TODO: get actual iconv working(?)
 
@@ -134,11 +136,14 @@ DISASM_OVERRIDES = f"{CONFIG}/disasm_overrides.yml"
 DOL = f"{ORIG}/main.dol" # read in python code
 DOL_YML = f"{CONFIG}/dol.yml"
 DOL_SHA = f"{ORIG}/main.dol.sha1"
+DOL_OK = f"{BUILDDIR}/main.dol.ok"
+DOL_ASM_LIST = f"{BUILDDIR}/main.dol.asml"
 
 # Symbols
 SYMBOLS = f"{CONFIG}/symbols.yml"
 
 # Analysis outputs
+EXTERNS = f"{BUILDDIR}/externs.pickle"
 DOL_LABELS = f"{BUILDDIR}/labels.pickle"
 DOL_RELOCS = f"{BUILDDIR}/relocs.pickle"
 
@@ -151,6 +156,11 @@ DOL_ELF = f"{BUILDDIR}/main.elf"
 DOL_OUT = f"{OUTDIR}/main.dol"
 DOL_MAP = f"{OUTDIR}/main.map"
 
+# Optional full disassembly
+DOL_FULL = f"{OUTDIR}/dol.s"
+
+DOL_SDATA2_SIZE = 4
+
 ##############
 # Tool Flags #
 ##############
@@ -160,6 +170,26 @@ ASFLAGS = ' '.join([
     f"-I {INCDIR}",
     f"-I {PPCDIS_INCDIR}",
     f"-I orig"
+])
+
+INCDIRS = [
+    PPCDIS_INCDIR,
+    "include",
+]
+MWCC_INCLUDES = ' '.join(f"-i {d}" for d in INCDIRS)
+GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
+
+DEFINES = [
+    "DEBUG"
+    #"EU_RELEASE"
+]
+MWCC_DEFINES = ' '.join(f"-d {d}" for d in DEFINES)
+GCC_DEFINES = ' '.join(f"-D {d}" for d in DEFINES)
+
+CPPFLAGS = ' '.join([
+    "-nostdinc",
+    GCC_DEFINES,
+    GCC_INCLUDES
 ])
 
 CFLAGS = [
@@ -172,7 +202,7 @@ CFLAGS = [
     "-char signed",
     "-enum int",
     "-use_lmw_stmw on",
-    "-DDEBUG" # do i need -g too?
+    MWCC_DEFINES
 ]
 
 JSYSTEM_BASE = CFLAGS + [ "-inline auto", "-common on" ]
@@ -188,9 +218,7 @@ LOCAL_CFLAGS = [
     "-proc gekko",
     "-maxerrors 1",
     "-I-",
-    f"-i {INCDIR}",
-    f"-i {PPCDIS_INCDIR}",
-    f"-i {BUILD_INCDIR}"
+    MWCC_INCLUDES
 ]
 DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS + LOCAL_CFLAGS)
 JSYSTEM_CFLAGS = ' '.join(JSYSTEM + LOCAL_CFLAGS)
@@ -213,6 +241,18 @@ PPCDIS_DISASM_FLAGS = ' '.join([
     f"-m {SYMBOLS}",
     f"-o {DISASM_OVERRIDES}"
 ])
+
+@dataclass
+class SourceContext:
+    srcdir: str
+    cflags: str
+    binary: str
+    labels: str
+    relocs: str
+    slices: str
+    sdata2_threshold: int
+
+DOL_CTX = SourceContext(DOL_SRCDIR, DOL_CFLAGS, DOL_YML, DOL_LABELS, DOL_RELOCS, DOL_SLICES, DOL_SDATA2_SIZE)
 
 ####################
 # diff.py Expected #
