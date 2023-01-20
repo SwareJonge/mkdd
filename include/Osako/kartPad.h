@@ -2,50 +2,38 @@
 #define KARTPAD_H
 
 #include "types.h"
+#include "dolphin/lg.h"
 #include "JSystem/JUtility/JUTGamePad.h"
+#include "Osako/KartPadData.h"
 
 class KartGamePad : public JUTGamePad
 {
 public:
     // placeholder Enums
-    enum PadPort
-    {
+    enum PadPort {
         PORT_1 = 0,
         PORT_2 = 1,
         PORT_3 = 2,
         PORT_4 = 3,
     };
 
-    enum PadType
-    {
+    enum PadType { };
+    enum PadState { };
 
-    };
-
-    enum PadState
-    {
-
-    };
-    KartGamePad(JUTGamePad::EPadPort ePadPort, PadPort padPort, PadType padType, PadState padState) : JUTGamePad(ePadPort)
-    {
+    KartGamePad(EPadPort ePadPort, PadPort padPort, PadType padType, PadState padState) : JUTGamePad(ePadPort) {
         mPadType = padType;
         mPadPort = padPort;
         mPadState = padState;
     }
     virtual ~KartGamePad() {}
 
-    PadType getPadType()
-    {
-        return mPadType;
-    }
+    static void compress(PADStatus const &padStatus, KartPadData *kartPadData);
+    static void compress(LGPosition const &lgPosition, KartPadData *kartPadData);
+    void expand(KartPadData const &);
 
-    PadPort getPadPort()
-    {
-        return mPadPort;
-    }
-    PadState getPadState()
-    {
-        return mPadState;
-    }
+    PadType getPadType() { return mPadType; }
+    PadPort getPadPort() { return mPadPort; }
+    PadState getPadState() { return mPadState;}
 
 private:
     PadType mPadType;

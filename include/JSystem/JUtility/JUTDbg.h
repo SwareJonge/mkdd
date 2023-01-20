@@ -47,7 +47,7 @@
 #define JUT_CONFIRM_MESSAGE(...)
 #define JUT_ASSERT(...)
 #define JUT_ASSERT_F(...)
-#define JUT_PANIC_MSG(...)
+#define JUT_ASSERT_MSG(...)
 #define JUT_MINMAX_ASSERT(...)
 #define JUT_MAX_ASSERT(...)
 #endif

@@ -108,6 +108,7 @@ public:
 
         void clear();
         u32 update(s8 x, s8 y, JUTGamePad::EStickMode, JUTGamePad::EWhichStick);
+        u32 update(s8 x, s8 y, JUTGamePad::EStickMode, JUTGamePad::EWhichStick, u32);
         u32 getButton();
 
         f32 mStickX;
@@ -137,6 +138,8 @@ public:
     public:
         static s32 sResetPattern;
     };
+
+    static EStickMode sStickMode;
 
     CButton mButtons;     // _18
     CStick mControlStick; // _48

@@ -40,9 +40,10 @@ private:
     int _50; 
     u8 _54[4];
     int _58;
+
+public: // i guess a workaround
     DVDFileInfo mDvdFileInfo; // 5C
     // 98, not sure if there's padding or if DVDFileInfo has an extra field? gets recasted in doneProcess
-    public: // i guess a workaround
     OSMessageQueue mMessageQueue; // 9C 
     OSMessage mMessage; // BC
     OSMessageQueue mMessageQueue_C0; 

@@ -83,12 +83,12 @@ extern "C"
     BOOL DVDOpen(const char *, DVDFileInfo *);
     BOOL DVDFastOpen(long, DVDFileInfo *);
     BOOL DVDClose(DVDFileInfo *);
-    int DVDCancel(struct DVDPlayer *); // Definitely int; returns -1 on failure.
+    int DVDCancel(DVDFileInfo *); // Definitely int; returns -1 on failure.
     void DVDResume();
     void DVDReset();
-    int DVDReadPrio(struct DVDPlayer *player, void *readBuffer, s32 byteCount, u32 startOffset, s32 queueIndex);
+    int DVDReadPrio(DVDFileInfo *, void *readBuffer, s32 byteCount, u32 startOffset, s32 queueIndex);
     BOOL DVDReadAsyncPrio(DVDFileInfo *, void *, long, long, DVDDoneReadCallback *, int);
-    BOOL DVDReadAbsAsyncPrio(struct DVDPlayer *player, void *readBuffer, long byteCount, u8 *startAddress,
+    BOOL DVDReadAbsAsyncPrio(DVDFileInfo *, void *readBuffer, long byteCount, u8 *startAddress,
                              DVDDoneReadCallback *doneReadCallback, int queueIndex);
 
     BOOL DVDConvertEntrynumToPath(int, char *);
