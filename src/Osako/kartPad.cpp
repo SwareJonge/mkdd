@@ -1,53 +1,6 @@
 #include "Osako/kartPad.h"
 #include "Osako/KartPadData.h"
 
-KartGamePad gGamePad1P(JUTGamePad::Port1, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gGamePad2P(JUTGamePad::Port2, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gGamePad3P(JUTGamePad::Port3, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gGamePad4P(JUTGamePad::Port4, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
-
-KartGamePad *gpaGamePad[] = {
-    &gGamePad1P,
-    &gGamePad2P,
-    &gGamePad3P,
-    &gGamePad4P};
-
-KartGamePad gKartPad1P(JUTGamePad::Port_unknown, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad2P(JUTGamePad::Port_unknown, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad3P(JUTGamePad::Port_unknown, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad4P(JUTGamePad::Port_unknown, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad5P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad6P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad7P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad8P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad9P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad10P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad11P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad12P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad13P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad14P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad15P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-KartGamePad gKartPad16P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
-
-KartGamePad *gpaKartPad[] = {
-    &gKartPad1P,
-    &gKartPad2P,
-    &gKartPad3P,
-    &gKartPad4P,
-    &gKartPad5P,
-    &gKartPad6P,
-    &gKartPad7P,
-    &gKartPad8P,
-    &gKartPad9P,
-    &gKartPad10P,
-    &gKartPad11P,
-    &gKartPad12P,
-    &gKartPad13P,
-    &gKartPad14P,
-    &gKartPad15P,
-    &gKartPad16P
-};
-
 void KartGamePad::compress(PADStatus const &padStatus, KartPadData *kartPadData) {
     s8 stickX, stickY;
     u8 buttons = 0;
@@ -183,3 +136,51 @@ void KartGamePad::expand(KartPadData const &kartPadData)
     u32 btnret = mControlStick.update(padStatus.mStickX, padStatus.mStickY, sStickMode, WhichStick_ControlStick, mButtons.mInput) << 24;
     mButtons.update(&padStatus, btnret);
 }
+
+KartGamePad gGamePad1P(JUTGamePad::Port1, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad2P(JUTGamePad::Port2, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad3P(JUTGamePad::Port3, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad4P(JUTGamePad::Port4, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
+
+KartGamePad *gpaGamePad[] = {
+    &gGamePad1P,
+    &gGamePad2P,
+    &gGamePad3P,
+    &gGamePad4P
+};
+
+KartGamePad gKartPad1P(JUTGamePad::Port_unknown, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad2P(JUTGamePad::Port_unknown, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad3P(JUTGamePad::Port_unknown, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad4P(JUTGamePad::Port_unknown, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad5P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad6P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad7P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad8P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad9P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad10P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad11P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad12P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad13P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad14P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad15P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad16P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+
+KartGamePad *gpaKartPad[] = {
+    &gKartPad1P,
+    &gKartPad2P,
+    &gKartPad3P,
+    &gKartPad4P,
+    &gKartPad5P,
+    &gKartPad6P,
+    &gKartPad7P,
+    &gKartPad8P,
+    &gKartPad9P,
+    &gKartPad10P,
+    &gKartPad11P,
+    &gKartPad12P,
+    &gKartPad13P,
+    &gKartPad14P,
+    &gKartPad15P,
+    &gKartPad16P
+};
