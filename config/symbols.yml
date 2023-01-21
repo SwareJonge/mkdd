@@ -97,7 +97,6 @@ global:
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
  0x800693d0: atan2___Q25JMath18TAtanTable<1024,f>CFff
- 0x80069628: __sinit_JMATrigonometric_cpp
  0x800697e8: __ct__Q23std9pair<f,f>Fv
 
  0x803f2540: sincosTable___5JMath
@@ -259,6 +258,8 @@ global:
  0x80415851: sResetOccurred__Q210JUTGamePad13C3ButtonReset
  0x80415854: sResetOccurredPort__Q210JUTGamePad13C3ButtonReset
 
+ 0x8038af70: __vt__10JUTGamePad
+
  # JUTResFont.cpp
  0x80073a9c: __ct__10JUTResFontFPC7ResFONTP7JKRHeap
  0x80074938: getWidth__10JUTResFontCFv 
@@ -329,6 +330,7 @@ global:
  # JKRDisposer.cpp
  0x8007ecdc: __dt__11JKRDisposerFv
  0x8007ec74: __ct__11JKRDisposerFv
+ 0x8038b2d0: __vt__11JKRDisposer 
 
  # JKRDvdFile.cpp
  0x8007ed58: __ct__10JKRDvdFileFv
@@ -344,7 +346,6 @@ global:
  0x8007f274: doneProcess__10JKRDvdFileFlP11DVDFileInfo
  0x8007f2a4: getFileSize__10JKRDvdFileCFv
  0x8007f2f0: __dt__21JSUList<10JKRDvdFile>Fv
- 0x8007f2ac: __sinit_JKRDvdFile_cpp
  0x8038b2e0: __vt__10JKRDvdFile
  0x803fa944: sDvdList__10JKRDvdFile
 
@@ -1993,7 +1994,6 @@ global:
  0x801b5c48: __ct__Q25JMath33TRandom_<Q25JMath13TRandom_fast_>FUl
  0x801b5c78: shuffleStartNo__8RaceInfoFv
  0x801b5d70: hideConsole__8RaceInfoFUl
- 0x801b5e14: __sinit_RaceInfo_cpp
  0x801b5f1c: __dt__8RaceInfoFv 
 
  0x80395e08: sAwardDebugKartIDTable__8RaceInfo
@@ -2288,7 +2288,6 @@ global:
  0x80200d08: createApp__6AppMgrFQ26AppMgr11KartAppEnum
  0x80200db4: restartApp__6AppMgrFv
  0x80200fb0: isRestartable__6AppMgrFv
- 0x80201028: __sinit_AppMgr_cpp 
 
  0x80416998: msGameApp__6AppMgr
  0x8041699c: msNextGameApp__6AppMgr
@@ -2301,7 +2300,6 @@ global:
  0x804169b2: msChangeStallFrame__6AppMgr
 
  # systemData.cpp
- 0x80205c2c: __sinit_systemData_cpp
  0x8037d938: sc3DViewPort__10SystemData
  0x8037d948: sc3DScissor__10SystemData
  0x8037d958: sc3DAwardScissor__10SystemData
@@ -2472,7 +2470,6 @@ global:
  0x801fff8c: compress__11KartGamePadFRC9PADStatusP11KartPadData
  0x80200110: compress__11KartGamePadFRC10LGPositionP11KartPadData
  0x80200328: expand__11KartGamePadFRC11KartPadData
- 0x802004b4: __sinit_kartPad_cpp
  0x8039caf8: gpaGamePad
  0x8039cb08: gpaKartPad
  0x803fef60: gGamePad1P

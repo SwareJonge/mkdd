@@ -9,7 +9,7 @@ extern "C"
 #endif // ifdef __cplusplus
 
 struct LGPosition { // seems really similar to PADStatus but is slightly different
-    u16 input; // includes also up and down on the stick it seems
+    u16 input;
     s8 _2;
     s8 stick3;
     u8 analogA;

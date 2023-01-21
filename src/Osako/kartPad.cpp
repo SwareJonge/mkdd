@@ -1,8 +1,6 @@
 #include "Osako/kartPad.h"
 #include "Osako/KartPadData.h"
 
-// TODO: add KartGamePad instances
-
 void KartGamePad::compress(PADStatus const &padStatus, KartPadData *kartPadData) {
     s8 stickX, stickY;
     u8 buttons = 0;
@@ -53,7 +51,6 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
     {
         s8 lgStick = lgPosition.stick3;
         int iVar2 = (lgStick * lgStick) / 30;
-        ;
         if (lgStick > 0)
         {
             if (iVar2 < 127)
@@ -88,7 +85,7 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
         ConvertBtn(buttons, input, Z, KARTBTN_Z);
         ConvertBtn(buttons, input, START, KARTBTN_START);
 
-        if (input & 8)
+        if (input & 8) // is this D-Pad perhaps? afaik mkdd never makes use of D-Pad
             stickY = 3;
         else if (input & 4)
             stickY = -3;
@@ -116,9 +113,10 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
     kartPadData->mButtons = buttons;
 }
 
-// Not tested
-void KartGamePad::expand(KartPadData const &kartPadData) {
-    u16 btn;
+void KartGamePad::expand(KartPadData const &kartPadData) 
+{
+    PADStatus padStatus;
+    u16 btn = 0;
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_A, A);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_B, B);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_X, X);
@@ -127,14 +125,62 @@ void KartGamePad::expand(KartPadData const &kartPadData) {
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_R, R);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_Z, Z);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_START, START);
-    PADStatus padStatus;
-    padStatus.mStickX = (s8)(kartPadData.mStickX * 4.0f);
-    padStatus.mStickY = (s8)(kartPadData.mStickY * 18.0f);
-    padStatus.mButton = btn;
+    padStatus.mStickX = kartPadData.mStickX * 4.0f;
+    padStatus.mStickY = kartPadData.mStickY * 18.0f;
     padStatus.mAnalogA = 0;
+    padStatus.mAnalogB = 0;
     padStatus.mTriggerLeft = 0;
     padStatus.mTriggerRight = 0;
+    padStatus.mButton = btn;
 
-    u32 btnret = mCStick.update(padStatus.mStickX, padStatus.mStickY, sStickMode, WhichStick_ControlStick, mButtons.mInput);
+    u32 btnret = mControlStick.update(padStatus.mStickX, padStatus.mStickY, sStickMode, WhichStick_ControlStick, mButtons.mInput) << 24;
     mButtons.update(&padStatus, btnret);
 }
+
+KartGamePad gGamePad1P(JUTGamePad::Port1, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad2P(JUTGamePad::Port2, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad3P(JUTGamePad::Port3, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gGamePad4P(JUTGamePad::Port4, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
+
+KartGamePad *gpaGamePad[] = {
+    &gGamePad1P,
+    &gGamePad2P,
+    &gGamePad3P,
+    &gGamePad4P
+};
+
+KartGamePad gKartPad1P(JUTGamePad::Port_unknown, KartGamePad::PORT_1, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad2P(JUTGamePad::Port_unknown, KartGamePad::PORT_2, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad3P(JUTGamePad::Port_unknown, KartGamePad::PORT_3, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad4P(JUTGamePad::Port_unknown, KartGamePad::PORT_4, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad5P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad6P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad7P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad8P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad9P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad10P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad11P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad12P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad13P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad14P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad15P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+KartGamePad gKartPad16P(JUTGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
+
+KartGamePad *gpaKartPad[] = {
+    &gKartPad1P,
+    &gKartPad2P,
+    &gKartPad3P,
+    &gKartPad4P,
+    &gKartPad5P,
+    &gKartPad6P,
+    &gKartPad7P,
+    &gKartPad8P,
+    &gKartPad9P,
+    &gKartPad10P,
+    &gKartPad11P,
+    &gKartPad12P,
+    &gKartPad13P,
+    &gKartPad14P,
+    &gKartPad15P,
+    &gKartPad16P
+};
