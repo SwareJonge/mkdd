@@ -11,14 +11,22 @@ class KartGamePad : public JUTGamePad
 public:
     // placeholder Enums
     enum PadPort {
+        PORT_INV = -1,
         PORT_1 = 0,
         PORT_2 = 1,
         PORT_3 = 2,
         PORT_4 = 3,
     };
 
-    enum PadType { };
-    enum PadState { };
+    enum PadType { 
+        NORMAL,
+        NETWORK,
+        RECORD
+    };
+    enum PadState {
+        STATE_0, // available?
+        STATE_1  // unavailable?
+    };
 
     KartGamePad(EPadPort ePadPort, PadPort padPort, PadType padType, PadState padState) : JUTGamePad(ePadPort) {
         mPadType = padType;
@@ -63,7 +71,7 @@ extern KartGamePad gKartPad14P;
 extern KartGamePad gKartPad15P;
 extern KartGamePad gKartPad16P;
 
-extern KartGamePad * gpaGamePad[4];
-extern KartGamePad * gpaKartPad[16];
+extern KartGamePad * gpaGamePad[];
+extern KartGamePad * gpaKartPad[];
 
 #endif KARTPAD_H

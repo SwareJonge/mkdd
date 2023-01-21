@@ -125,6 +125,14 @@ Osako/GameApp.cpp:
 Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
 
+Osako/kartPad.cpp:
+    .text: [0x801fff8c, 0x80200a28]
+    .ctors: [0x80316380, 0x80316384]
+    .data: [0x8039caf8, 0x8039cb48]
+    .bss: [0x803d0920, 0x803d0a10]
+    #.bss: [0x803fef60, 0x80400b68] # common bss area
+    .sdata2: [0x8041b6e8, 0x8041b700]
+
 Osako/systemData.cpp:
     .text: [0x80205c2c, 0x80205db4]
     .ctors: [0x80316394, 0x80316398]

@@ -11,7 +11,8 @@ class JUTGamePad : public JKRDisposer
 public:
     enum EPadPort
     {
-        Port1,
+        Port_unknown = -999,
+        Port1 = 0,
         Port2,
         Port3,
         Port4,
