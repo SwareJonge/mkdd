@@ -60,6 +60,8 @@ struct JKRThread : public JKRDisposer
     void searchThreadLoad(OSThread *);
     void dump();
 
+    void resume() { OSResumeThread(m_thread); }
+
     JSULink<JKRThread> m_link; // _18
     JKRHeap *m_heap;           // _28
     OSThread *m_thread;        // _2C

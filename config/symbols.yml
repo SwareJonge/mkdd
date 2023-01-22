@@ -322,10 +322,29 @@ global:
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll
 
+ 0x8007b588: sendCommand__12JKRAramPieceFP12JKRAMCommand
+
  0x8038b110: __vt__7JKRFile
 
  # JKRAramArchive.cpp
  0x8007a584: __dt__7JKRFileFv
+
+ # JKRDecomp.cpp
+ 0x8007e550: create__9JKRDecompFl
+ 0x8007e5b0: __ct__9JKRDecompFl
+ 0x8007e600: __dt__9JKRDecompFv
+ 0x8007e658: run__9JKRDecompFv
+ 0x8007e71c: sendCommand__9JKRDecompFP16JKRDecompCommand
+ 0x8007e790: orderSync__9JKRDecompFPUcPUcUlUl
+ 0x8007e874: decode__9JKRDecompFPUcPUcUlUl
+ 0x8007e8e8: decodeSZP__9JKRDecompFPUcPUcUlUl
+ 0x8007ea8c: decodeSZS__9JKRDecompFPUcPUcUlUl
+ 0x8007eb70: checkCompressed__9JKRDecompFPUc
+ 0x8007ebe8: __ct__16JKRDecompCommandFv
+ 0x8007ec38: __dt__16JKRDecompCommandFv
+ 0x8038b280: sMessageBuffer__9JKRDecomp
+ 0x8038b2a0: sMessageQueue__9JKRDecomp
+ 0x804158f8: sDecompObject__9JKRDecomp
 
  # JKRDisposer.cpp
  0x8007ecdc: __dt__11JKRDisposerFv
@@ -426,8 +445,25 @@ global:
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
 
- # JKRThread.h
+ # JKRThread.cpp
+ 0x80086734: __ct__9JKRThreadFUlii
+ 0x800867d4: __ct__9JKRThreadFP7JKRHeapUlii
  0x80086874: __ct__9JKRThreadFP8OSThreadi
+ 0x8008690c: __dt__9JKRThreadFv
+ 0x800869dc: setCommon_mesgQueue__9JKRThreadFP7JKRHeapi
+ 0x80086a94: setCommon_heapSpecified__9JKRThreadFP7JKRHeapUli
+ 0x80086b9c: start__9JKRThreadFPv
+ 0x80086bc8: run__9JKRThreadFv
+ 0x80086bd0: enter__15JKRThreadSwitchFP9JKRThreadi
+ 0x80086c48: __dt__7JKRTaskFv
+ 0x80086d50: create__7JKRTaskFiiUlP7JKRHeap
+ 0x8008700c: run__7JKRTaskFv
+ 0x800870a0: request__7JKRTaskFPFPv_vPvPv
+ 0x800871b4: __dt__17JSUList<7JKRTask>Fv
+ 0x80087200: __dt__19JSUList<9JKRThread>Fv
+ 0x803fa974: sThreadList__9JKRThread
+ 0x803fa9ac: sTaskList__7JKRTask
+ 0x804159d0: sManager__15JKRThreadSwitch
  
  # JASHeapCtrl.cpp
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
@@ -2280,49 +2316,6 @@ global:
  0x801d7a80: getAppHeap__6SystemF
  0x801d7a88: getHeap__7GameAppFv
 
- # AppMgr.cpp
- 0x80200a28: draw__6AppMgrFv
- 0x80200a80: calc__6AppMgrFv
- 0x80200c90: setNextApp__6AppMgrFQ26AppMgr11KartAppEnum
- 0x80200cd4: insertErrorViewApp__6AppMgrFv
- 0x80200d08: createApp__6AppMgrFQ26AppMgr11KartAppEnum
- 0x80200db4: restartApp__6AppMgrFv
- 0x80200fb0: isRestartable__6AppMgrFv
-
- 0x80416998: msGameApp__6AppMgr
- 0x8041699c: msNextGameApp__6AppMgr
- 0x804169a0: msNextNextGameApp__6AppMgr
- 0x804169a4: msPrevGameApp__6AppMgr
- 0x804169a8: mspGameApp__6AppMgr
- 0x804169ac: msRequest__6AppMgr
- 0x804169b0: msDrawStallFrame__6AppMgr
- 0x804169b1: msCalcStallFrame__6AppMgr
- 0x804169b2: msChangeStallFrame__6AppMgr
-
- # systemData.cpp
- 0x8037d938: sc3DViewPort__10SystemData
- 0x8037d948: sc3DScissor__10SystemData
- 0x8037d958: sc3DAwardScissor__10SystemData
- 0x8037d968: scOrtho__10SystemData
- 0x8037d978: sc3DViewPortSub__10SystemData
- 0x8037d988: sc3DScissorSub__10SystemData
- 0x8037d998: scNtscInt448Df__10SystemData
- 0x8037d9d4: scNtscInt448__10SystemData
- 0x8037da10: scNtscProg448Soft__10SystemData
- 0x8037da4c: scNtscProg448__10SystemData
- 0x8039cd28: sca3DViewPortDiv2__10SystemData
- 0x8039cd48: sca3DScissorDiv2__10SystemData 
- 0x8039cd68: sca3DViewPortDiv4__10SystemData
- 0x8039cda8: sca3DScissorDiv4__10SystemData
- 0x80416a00: scAspect__10SystemData
- 0x80416a04: scAspectDiv2__10SystemData
- 0x80416a08: scAspectSub__10SystemData 
- 0x8041b758: scNumStandardHeaps__10SystemData
- 0x8041b75c: scDefaultFifoSize__10SystemData
- 0x8041b760: scSystemHeapSize__10SystemData
- 0x8041b764: scAudioHeapSize__10SystemData
- 0x8041b768: scAudioAramSize__10SystemData
-
  # TestApp.cpp
  0x801f6fc0: create__7TestAppFv
  0x801f7010: __ct__7TestAppFv
@@ -2493,6 +2486,49 @@ global:
  0x804009f8: gKartPad15P
  0x80400ab0: gKartPad16P
 
+  # AppMgr.cpp
+ 0x80200a28: draw__6AppMgrFv
+ 0x80200a80: calc__6AppMgrFv
+ 0x80200c90: setNextApp__6AppMgrFQ26AppMgr11KartAppEnum
+ 0x80200cd4: insertErrorViewApp__6AppMgrFv
+ 0x80200d08: createApp__6AppMgrFQ26AppMgr11KartAppEnum
+ 0x80200db4: restartApp__6AppMgrFv
+ 0x80200fb0: isRestartable__6AppMgrFv
+
+ 0x80416998: msGameApp__6AppMgr
+ 0x8041699c: msNextGameApp__6AppMgr
+ 0x804169a0: msNextNextGameApp__6AppMgr
+ 0x804169a4: msPrevGameApp__6AppMgr
+ 0x804169a8: mspGameApp__6AppMgr
+ 0x804169ac: msRequest__6AppMgr
+ 0x804169b0: msDrawStallFrame__6AppMgr
+ 0x804169b1: msCalcStallFrame__6AppMgr
+ 0x804169b2: msChangeStallFrame__6AppMgr
+
+ # systemData.cpp
+ 0x8037d938: sc3DViewPort__10SystemData
+ 0x8037d948: sc3DScissor__10SystemData
+ 0x8037d958: sc3DAwardScissor__10SystemData
+ 0x8037d968: scOrtho__10SystemData
+ 0x8037d978: sc3DViewPortSub__10SystemData
+ 0x8037d988: sc3DScissorSub__10SystemData
+ 0x8037d998: scNtscInt448Df__10SystemData
+ 0x8037d9d4: scNtscInt448__10SystemData
+ 0x8037da10: scNtscProg448Soft__10SystemData
+ 0x8037da4c: scNtscProg448__10SystemData
+ 0x8039cd28: sca3DViewPortDiv2__10SystemData
+ 0x8039cd48: sca3DScissorDiv2__10SystemData 
+ 0x8039cd68: sca3DViewPortDiv4__10SystemData
+ 0x8039cda8: sca3DScissorDiv4__10SystemData
+ 0x80416a00: scAspect__10SystemData
+ 0x80416a04: scAspectDiv2__10SystemData
+ 0x80416a08: scAspectSub__10SystemData 
+ 0x8041b758: scNumStandardHeaps__10SystemData
+ 0x8041b75c: scDefaultFifoSize__10SystemData
+ 0x8041b760: scSystemHeapSize__10SystemData
+ 0x8041b764: scAudioHeapSize__10SystemData
+ 0x8041b768: scAudioAramSize__10SystemData
+
  # TARecord.cpp
  0x8020b458: __ct__8TARecordFUcUcUcUc
  0x8020b494: setName__8TARecordFPCc
@@ -2511,7 +2547,7 @@ global:
  0x80407334: msaCRCTable__8SaveFile
  0x80416a48: msCRCTableComputed__8SaveFile
 
-  # screenshot.c
+ # screenshot.c
  0x80219f50: SCREENSHOTService
  0x80414890: g_usb_channel
  0x80416a98: g_connected

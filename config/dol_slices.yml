@@ -35,14 +35,21 @@ JSystem/JUtility/JUTProcBar.cpp:
 JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
 
+JSystem/JKernel/JKRDecomp.cpp:
+    .text: [0x8007e550, 0x8007ec74]
+    .rodata: [0x80366aa0, 0x80366ac8]
+    .data: [0x8038b280, 0x8038b2d0]
+    .sbss: [0x804158f8, 0x80415900]
+    .sdata2: [0x80417a58, 0x80417a68]
+
 JSystem/JKernel/JKRDvdFile.cpp:
-    .text: [0x8007ed58, 0x8007f33c] #0x8007f33c
+    .text: [0x8007ed58, 0x8007f33c]
     .ctors: [0x803160dc, 0x803160e0]
     .rodata: [0x80366ac8, 0x80366b08]
     .data: [0x8038b2e0, 0x8038b308]
-    .bss: [0x803ae950, 0x803ae960] # hooray! common on!!!!
+    .bss: [0x803ae950, 0x803ae960]
     #.bss: [0x803fa944, 0x803fa950] 
-    .sdata2: [0x80417a68, 0x80417a78]    
+    .sdata2: [0x80417a68, 0x80417a78]
 
 Dolphin/__ppc_eabi_init.s:
     .text: [0x800f31d8, 0x800f322c]
