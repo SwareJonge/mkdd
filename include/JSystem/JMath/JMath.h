@@ -12,8 +12,47 @@ struct Quaternion {
 	float _0C;
 };
 
+inline f64 getConst()
+{
+    return 6.2831854820251465;
+}
+
+inline f64 getConst2()
+{
+    return 9.765625E-4;
+}
+
 namespace JMath
 {
+    template <int length, typename T>
+    struct TSinCosTable
+    {
+        /**
+         * elements are pairs of {sine, cosine}
+         */
+        std::pair<T, T> m_table[length];
+    };
+
+    template <>
+    struct TSinCosTable<2048, float>
+    {
+        inline TSinCosTable()
+        {
+            for (int i = 0; i < 2048; i++)
+            {
+                f64 var = (i * getConst()) / 2048.0;
+                m_table[i].first = sin(var);
+                m_table[i].second = cos(var);
+            }
+        }
+        /**
+         * elements are pairs of {sine, cosine}
+         */
+        f32 sinShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].first; }
+        f32 cosShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].second; }
+        std::pair<float, float> m_table[2048];
+    };
+
     template <int length, typename T>
     struct TAtanTable
     {
@@ -27,15 +66,17 @@ namespace JMath
     {
         inline TAtanTable()
         {
-            u32 i = 0;
-            do
+            for (int i = 0; i < (u32)1024; i++)
             {
-                m_table[i] = atan((double)i * 9.765625E-4);
-            } while (i < 1024);
+                m_table[i] = (f32)atan(getConst2() * i);
+            }
+            m_table[0] = 0.0f;
+            _0x400 = 0.25f * PI;
         }
         float atan2_(float, float) const;
         float atan_(float) const;
         float m_table[1024];
+        float _0x400;
     };
 
     template <int length, typename T>
@@ -51,44 +92,17 @@ namespace JMath
     {
         inline TAsinAcosTable()
         {
-            u32 i = 0;
-            do
+            for (int i = 0; i < 1024; i++)
             {
-                m_table[i] = asin((double)i * 9.765625E-4);
-            } while (i < 1024);
+                m_table[i] = (f32)asin(getConst2() * i);
+            }
+            m_table[0] = 0.0f;
+            _0x400 = 0.25f * PI;
         }
         float acos2_(float, float) const;
         float acos_(float) const;
         float m_table[1024];
-    };
-
-    template <int length, typename T>
-    struct TSinCosTable
-    {
-        /**
-         * elements are pairs of {sine, cosine}
-         */
-        std::pair<T, T> m_table[length];
-    };
-
-    template <>
-    struct TSinCosTable<2048, float>
-    {
-        inline TSinCosTable()
-        {
-            u32 i = 0;
-            do
-            {
-                m_table[i].first = sin((double)i * LONG_TAU / 2048.0);
-                m_table[i].first = cos((double)i * LONG_TAU / 2048.0);
-            } while (i < 2048);
-        }
-        /**
-         * elements are pairs of {sine, cosine}
-         */
-        f32 sinShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].first; }
-        f32 cosShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].second; }
-        std::pair<float, float> m_table[2048];
+        float _0x400;
     };
 
     class TRandom_fast_

@@ -119,6 +119,11 @@ Kaneshige/RaceInfo.cpp:
 Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
+Osako/clock.cpp:
+    .text: [0x801f6e04, 0x801f6e9c]
+    .sbss: [0x804168c8, 0x804168d8]
+    .sdata2: [0x8041aeb8, 0x8041aed0]
+
 Osako/testApp.cpp:
     .text: [0x801f6fc0, 0x801f7154]
     .data: [0x8039c400, 0x8039c418]

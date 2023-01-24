@@ -96,6 +96,8 @@ global:
 
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
+
+ # JMATrigonometric.cpp
  0x800693d0: atan2___Q25JMath18TAtanTable<1024,f>CFff
  0x800697e8: __ct__Q23std9pair<f,f>Fv
 
@@ -2315,6 +2317,13 @@ global:
  # MovieApp.cpp
  0x801d7a80: getAppHeap__6SystemF
  0x801d7a88: getHeap__7GameAppFv
+
+ # clock.cpp
+ 0x801f6e04: move__5ClockFv 
+ 0x804168c8: msTime__5Clock
+ 0x804168cc: msPrevFrameTime__5Clock
+ 0x804168d0: msPrevTick__5Clock
+ 0x8041aeb8: mscTimePerSec__5Clock
 
  # TestApp.cpp
  0x801f6fc0: create__7TestAppFv
