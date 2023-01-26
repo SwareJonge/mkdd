@@ -5,22 +5,13 @@
 #include "dolphin/math.h"
 #include "std/pair.h"
 
+// Do i even use this?? if so pls move it to the proper header someday 
 struct Quaternion {
-	float _00;
-	float _04;
-	float _08;
-	float _0C;
+	f32 _00;
+	f32 _04;
+	f32 _08;
+	f32 _0C;
 };
-
-inline f64 getConst()
-{
-    return 6.2831854820251465;
-}
-
-inline f64 getConst2()
-{
-    return 9.765625E-4;
-}
 
 namespace JMath
 {
@@ -30,27 +21,7 @@ namespace JMath
         /**
          * elements are pairs of {sine, cosine}
          */
-        std::pair<T, T> m_table[length];
-    };
-
-    template <>
-    struct TSinCosTable<2048, float>
-    {
-        inline TSinCosTable()
-        {
-            for (int i = 0; i < 2048; i++)
-            {
-                f64 var = (i * getConst()) / 2048.0;
-                m_table[i].first = sin(var);
-                m_table[i].second = cos(var);
-            }
-        }
-        /**
-         * elements are pairs of {sine, cosine}
-         */
-        f32 sinShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].first; }
-        f32 cosShort(s16 v) const { return m_table[static_cast<u16>(v) >> 5].second; }
-        std::pair<float, float> m_table[2048];
+        std::pair<T, T> mTable[length];
     };
 
     template <int length, typename T>
@@ -58,25 +29,7 @@ namespace JMath
     {
         T atan2_(T, T) const;
         T atan_(T) const;
-        T m_table[length];
-    };
-
-    template <>
-    struct TAtanTable<1024, float>
-    {
-        inline TAtanTable()
-        {
-            for (int i = 0; i < (u32)1024; i++)
-            {
-                m_table[i] = (f32)atan(getConst2() * i);
-            }
-            m_table[0] = 0.0f;
-            _0x400 = 0.25f * PI;
-        }
-        float atan2_(float, float) const;
-        float atan_(float) const;
-        float m_table[1024];
-        float _0x400;
+        T mTable[length];
     };
 
     template <int length, typename T>
@@ -84,26 +37,128 @@ namespace JMath
     {
         T acos2_(T, T) const;
         T acos_(T) const;
-        T m_table[length];
+        T mTable[length];
     };
 
     template <>
-    struct TAsinAcosTable<1024, float>
+    struct TSinCosTable<2048, f32>
     {
-        inline TAsinAcosTable()
+        TSinCosTable()
         {
-            for (int i = 0; i < 1024; i++)
+            f64 tau = LONG_TAU;
+            for (int i = 0; i < 2048; i++)
             {
-                m_table[i] = (f32)asin(getConst2() * i);
+                mTable[i].first = sin((i * tau) / 2048.0); // there must be some sort of inline/macro for this
+                mTable[i].second = cos((i * tau) / 2048.0);
             }
-            m_table[0] = 0.0f;
+        }
+        /**
+         * elements are pairs of {sine, cosine}
+         */
+        f32 sinShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].first; }
+        f32 cosShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].second; }
+        std::pair<f32, f32> mTable[2048];
+    };
+
+    template <>
+    struct TAtanTable<1024, f32>
+    {        
+        TAtanTable()
+        {
+            f64 constval = 9.765625E-4;
+            for (int i = 0; i < (u32)1024; i++)
+            {
+                mTable[i] = (f32)atan(i * constval);
+            }
+            mTable[0] = 0.0f;
             _0x400 = 0.25f * PI;
         }
-        float acos2_(float, float) const;
-        float acos_(float) const;
-        float m_table[1024];
-        float _0x400;
+
+        f32 atan_(f32) const;
+        f32 atan2_(f32, f32) const;
+        f32 alignmentHack(f32 x) const;
+
+        f32 calc(f32 y, f32 x) const
+        {
+            if (x >= 0.0f)
+            {
+                if (x >= y)
+                {
+                    return (0.0f == x ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]);
+                }
+                else
+                {
+                    return HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
+                }
+            }
+            else
+            {
+                x = -x;
+                if (x < y)
+                {
+                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + HALF_PI;
+                }
+                else
+                {
+                    return PI - (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]);
+                }
+            }
+        }
+
+        f32 calcInverse(f32 y, f32 x) const
+        {
+            y = -y;
+            if (x < 0.0f)
+            {
+                x = -x;
+                if (x >= y)
+                {
+                    return (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]) + -PI;
+                }
+                else
+                {
+                    return -HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
+                }
+            }
+            else
+            {
+                if (x < y)
+                {
+                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + -HALF_PI;
+                }
+                else
+                {
+                    return -(x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]);
+                }
+            }
+        }
+
+        f32 mTable[1024];
+        f32 _0x400;
     };
+
+    template <>
+    struct TAsinAcosTable<1024, f32>
+    {
+        TAsinAcosTable()
+        {
+            f64 constval = 9.765625E-4;
+            for (int i = 0; i < 1024; i++)
+            {
+                mTable[i] = (f32)asin(i * constval);
+            }
+            mTable[0] = 0.0f;
+            _0x400 = 0.25f * PI;
+        }
+        f32 acos2_(f32, f32) const;
+        f32 acos_(f32) const;
+        f32 mTable[1024];
+        f32 _0x400;
+    };
+
+    extern const TAsinAcosTable<1024, f32> asinAcosTable_ __attribute__((aligned(32)));
+    extern const TSinCosTable<2048, f32> sincosTable_ __attribute__((aligned(32)));
+    extern const TAtanTable<1024, f32> atanTable_ __attribute__((aligned(32)));
 
     class TRandom_fast_
     {
@@ -116,7 +171,7 @@ namespace JMath
         }
 
         // from TP decomp
-        float get_ufloat_1()
+        f32 get_uf32_1()
         {
             // !@bug UB: in C++ it's not legal to read from an union member other
             // than the last one that was written to.
@@ -144,11 +199,7 @@ namespace JMath
         TRandom_(u32 num) : TRandom_fast_(num){};
     };
 
-    extern const TSinCosTable<2048, float> sincosTable_;
-    extern const TAtanTable<1024, float> atanTable_;
-    extern const TAsinAcosTable<1024, float> asinAcosTable_;
-
-    inline const TSinCosTable<2048, float> *getSinCosTable() { return &sincosTable_; }
+    inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
 
 

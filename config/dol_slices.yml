@@ -54,11 +54,11 @@ JSystem/JKernel/JKRDvdFile.cpp:
 Dolphin/__ppc_eabi_init.s:
     .text: [0x800f31d8, 0x800f322c]
 
-#JSystem/JMath/JMATrigonometric.cpp:
-    #.text: [0x800693d0, 0x800697f8]
-    #.ctors: [0x803160c4, 0x803160c8]
+JSystem/JMath/JMATrigonometric.cpp:
+    .text: [0x800693d0, 0x800697f8]
+    .ctors: [0x803160c4, 0x803160c8]
     #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
-    #.sdata2: [0x80417798, 0x804177e0]
+    .sdata2: [0x80417798, 0x804177e0]
 
 Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
