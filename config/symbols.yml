@@ -2701,6 +2701,13 @@ global:
  0x80416b81: sSlotSpecialItemNum__14ItemShuffleMgr
  0x80416b84: sSlotKindIndexArray__14ItemShuffleMgr
 
+ # kartBody.cpp
+ 0x802dd29c: angle__Q29JGeometry8TVec3<f>CFRCQ29JGeometry8TVec3<f>
+ 0x802dd310: abs__Q29JGeometry8TUtil<f>Ff
+ 0x802dd318: atan2__Q29JGeometry8TUtil<f>Fff
+ 0x802dd338: JMAAtan2Radian__Fff
+ 0x802dd360: atan2Radian__Q25JMath18TAtanTable<1024,f>CFff
+
  # kartCtrl.cpp
  0x802e1968: getDriverPad__11KartCheckerCFi
  0x804171a0: mCtrl__8KartCtrl

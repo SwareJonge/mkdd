@@ -7,6 +7,17 @@
 // from SMS decomp
 namespace JGeometry
 {
+    // placeholders
+    template <typename T>
+    struct TUtil
+    {
+
+    };
+    template <>
+    struct TUtil<f32> {
+        f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); };
+    };
+
     template <typename T>
     struct TVec2
     {

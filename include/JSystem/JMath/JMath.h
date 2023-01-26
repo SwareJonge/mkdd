@@ -76,6 +76,7 @@ namespace JMath
 
         f32 atan_(f32) const;
         f32 atan2_(f32, f32) const;
+        f32 atan2Radian(f32 y, f32 x) const { return atan2_(y, x); }
         f32 alignmentHack(f32 x) const;
 
         f32 calc(f32 y, f32 x) const
@@ -202,7 +203,7 @@ namespace JMath
     inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
 
-
+inline f32 JMAAtan2Radian(f32 y, f32 x) { return JMath::atanTable_.atan2Radian(y, x); };
 
 struct Vec
 {
