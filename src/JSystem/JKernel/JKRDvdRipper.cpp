@@ -62,14 +62,14 @@ namespace JKRDvdRipper {
         bool hasAllocated = false;
         CompressionMethod compression = TYPE_NONE;
         u8 * mem = nullptr;
-        u32 fileSizeAligned = ALIGN_NEXT(jkrDvdFile->getFileSize(), 32);
+        s32 fileSizeAligned = ALIGN_NEXT(jkrDvdFile->getFileSize(), 32);
 
         u32 expandSize;
         
         if (expandSwitch == Switch_1)
         {
-            u8 szsBuf[0x40];
-            u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)szsBuf, 32);
+            u8 buffer[0x40];
+            u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32);
             while(true) {
                 int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), bufPtr, 0x20, 0, 2);
                 if (readBytes >= 0)
@@ -116,7 +116,7 @@ namespace JKRDvdRipper {
             if (file == nullptr)
             {
                 u32 size = fileSizeAligned - startOffset;
-                if ((fileSize != 0) && (fileSize < size))
+                if ((fileSize != 0) && (size > fileSize))
                     size = fileSize; 
 
                 file = (u8 *)JKRAllocFromHeap(heap, size, allocDirection == ALLOC_DIR_TOP ? 32 : -32);
@@ -125,15 +125,19 @@ namespace JKRDvdRipper {
             if (file == nullptr)
                 return nullptr;
         }
+
+        
+
         if(compression == TYPE_NONE) {
-            CompressionMethod compression2 = compression;
+            CompressionMethod compression2 = TYPE_NONE;
+            
             if(startOffset != 0) { // startoffset gets moved to r17 and then to r6? local variable i assume
-                int readBytes;
                 u8 buffer[0x40]; // maybe create struct
                 u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32);
+                s32 readoffset = startOffset;
                 while (true)
                 {
-                    readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), bufPtr, 32, startOffset, 2);
+                    int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), bufPtr, 32, readoffset, 2);
                     if (readBytes >= 0)
                         break;
 
@@ -151,14 +155,15 @@ namespace JKRDvdRipper {
             }
             if (compression2 == TYPE_NONE || expandSwitch == Switch_2 || expandSwitch == Switch_0)
             {
-                int readBytes;
-                u32 size = expandSize - startOffset;
+
+                s32 size = fileSizeAligned - startOffset;
+                
                 if (fileSize != 0 && fileSize < size)
                     size = fileSize; // probably a ternary
-
+                s32 readOffset = startOffset;
                 while (true)
                 {
-                    readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), file, size, startOffset, 2);
+                    int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), file, size, readOffset, 2);
                     if (readBytes >= 0)
                         break;
 
@@ -176,19 +181,21 @@ namespace JKRDvdRipper {
                 return file;
             }
             else if (compression == TYPE_YAZ0) {
-                JKRDecompressFromDVD(jkrDvdFile, file, expandSize, fileSize, 0, startOffset, p9);
+                JKRDecompressFromDVD(jkrDvdFile, file, fileSizeAligned, fileSize, 0, startOffset, p9);
             }
             else {
                 JUT_PANIC(323, "Sorry, not applied for SZP archive.");
             }
+            return file;
         }
         else if(compression == TYPE_YAY0) {
-            if(startOffset != 0)
+            //s32 readoffset = startOffset;
+            if(startOffset != 0) {
                 JUT_PANIC(333, "Not support SZP with offset read");
-
+            }
             while (true)
             {
-                int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), mem, expandSize, 0, 2);
+                int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), mem, fileSizeAligned, 0, 2);
                 if (readBytes >= 0) 
                     break;
 
