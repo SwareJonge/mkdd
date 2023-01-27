@@ -92,7 +92,7 @@ bool JKRDecomp::sync(JKRDecompCommand *command, int isNonBlocking) {
 }
 
 bool JKRDecomp::orderSync(u8 *srcBuffer, u8 *dstBuffer, u32 srcLength, u32 dstLength) {
-    JKRDecompCommand *command = orderAsync(srcBuffer, dstBuffer, srcLength, dstLength, NULL);
+    JKRDecompCommand *command = orderAsync(srcBuffer, dstBuffer, srcLength, dstLength, nullptr);
     bool result = sync(command, JKRDECOMP_SYNC_BLOCKING);
     delete command;
     return result;

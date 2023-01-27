@@ -51,6 +51,18 @@ JSystem/JKernel/JKRDvdFile.cpp:
     #.bss: [0x803fa944, 0x803fa950] 
     .sdata2: [0x80417a68, 0x80417a78]
 
+#JSystem/JKernel/JKRDvdRipper.cpp:
+    #.text: [0x80080e68, 0x80081bcc]
+    #.ctors: [0x803160e4, 0x803160e8]
+    #.rodata: [0x80366c20, 0x80366ca8]
+    #.bss: [0x803ae988, 0x803ae9b0]
+    #.bss [0x803fa95c, 0x803fa968] # common bss, my favourite!
+    #.sdata: [0x80414088, 0x80414090]
+    #.sbss: [0x80415948, 0x80415988]
+    #.sdata2: [0x80417aa0, 0x80417ab0]
+
+
+
 Dolphin/__ppc_eabi_init.s:
     .text: [0x800f31d8, 0x800f322c]
 

@@ -35,4 +35,17 @@ typedef int unknown;
 #define nullptr 0
 #define null 0
 
+// Get the maximum of two values
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
+// Get the minimum of two values
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+
+// Align X to the previous N bytes (N must be power of two)
+#define ALIGN_PREV(X, N) ((X) & ~((N)-1))
+// Align X to the next N bytes (N must be power of two)
+#define ALIGN_NEXT(X, N) ALIGN_PREV(((X) + (N)-1), N)
+#define IS_ALIGNED(X, N)(((X) & ((N)-1)) == 0)
+#define IS_NOT_ALIGNED(X, N) (((X) & ((N)-1)) != 0)
+
 #endif // !TYPES_H

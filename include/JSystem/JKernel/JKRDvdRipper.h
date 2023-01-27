@@ -13,6 +13,13 @@ enum JKRExpandSwitch
     Switch_1,
     Switch_2
 };
+
+struct SYaz0Header
+{
+    u32 signature;
+    u32 length;
+};
+
 class JKRDvdFile;
 
 class JKRDMCommand {
@@ -21,10 +28,12 @@ class JKRDMCommand {
 };
 
 namespace JKRDvdRipper { // not sure if this is a class/struct or a namespace(if it is a class, it could be inherited from JKRRipper perhaps?)
-    enum EAllocDirection { // Placeholder
-        DIRECTION_0,
-        DIRECTION_1,
-        DIRECTION_2,
+    enum EAllocDirection {
+        ALLOC_DIR_PAD,    // Unseen/unhandled so far
+        ALLOC_DIR_TOP,    //!< [1] Negative alignment; allocate block from top of
+                          //!< free block.
+        ALLOC_DIR_BOTTOM, //!< [2] Positive alignment; allocate block from
+                          //!< bottom of free block.
     };
     // could also be u8 * return, however most functions seem to use void *
     void * loadToMainRAM(const char *, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *); 
@@ -43,11 +52,11 @@ namespace JKRDvdRipper { // not sure if this is a class/struct or a namespace(if
 
     // these both exist too JKRAramRipper? copy paste or is something else going on? i'm guessing copy paste
     extern bool errorRetry; 
-    extern s32 sSZSBufferSize; // 0x400
+    extern const s32 sSZSBufferSize; // 0x400
     // Weak
-    bool isErrorRetry() { return errorRetry; } // this is unused but for whatever reason it gets linked
+    inline bool isErrorRetry() { return errorRetry; } // this is unused but for whatever reason it gets linked
 }
 
-void JKRDecompressFromDVD(JKRDvdFile *, void *, u32, u32, u32, u32, u32);
+int JKRDecompressFromDVD(JKRDvdFile *, void *, u32, u32, u32, u32, u32 *);
 
 #endif

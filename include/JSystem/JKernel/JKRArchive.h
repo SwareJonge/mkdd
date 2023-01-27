@@ -10,11 +10,6 @@ class SArcDataInfo;
 class SDirEntry;
 class SDIFileEntry;
 
-inline u16 read_big_endian_u16(void *ptr) {
-    u8 *uptr = (u8 *)ptr;
-    return ((u16)uptr[0] << 8) | ((u16)uptr[1]);
-}
-
 inline u32 read_big_endian_u32(void *ptr) {
     u8 *uptr = (u8 *)ptr;
     return ((u32)uptr[0] << 0x18) | ((u32)uptr[1] << 0x10) | ((u32)uptr[2] << 8) | (u32)uptr[3];

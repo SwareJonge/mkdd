@@ -370,6 +370,17 @@ global:
  0x8038b2e0: __vt__10JKRDvdFile
  0x803fa944: sDvdList__10JKRDvdFile
 
+  # JKRDvdRipper.cpp
+ 0x80080e68: loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+ 0x80080f1c: loadToMainRAM__12JKRDvdRipperFlPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+ 0x80080fd0: loadToMainRAM__12JKRDvdRipperFP10JKRDvdFilePUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+ 0x8008149c: JKRDecompressFromDVD__FP10JKRDvdFilePvUlUlUlUlPUl
+ 0x80081b34: isErrorRetry__12JKRDvdRipperFv
+ 0x80081b80: __dt__23JSUList<12JKRDMCommand>Fv
+ 0x803fa95c: sDvdAsyncList__12JKRDvdRipper
+ 0x80414088: errorRetry__12JKRDvdRipper
+ 0x8041408c: sSZSBufferSize__12JKRDvdRipper
+
  # JKRExpHeap.cpp
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
@@ -500,6 +511,7 @@ global:
  0x800b1908: DVDOpen
  0x800b19d0: DVDClose 
  0x800b1c18: DVDReadAsyncPrio
+ 0x800b1d08: DVDReadPrio
  0x800b1e48: DVDInit 
  0x800b3e80: DVDGetCommandBlockStatus
 
@@ -707,7 +719,24 @@ global:
  0x800ed154: OSCancelAlarm
 
  # OSCache.c
- 0x800eddd0: LCQueueWait 
+ 0x800eda58: DCEnable
+ 0x800eda6c: DCInvalidateRange
+ 0x800eda98: DCFlushRange
+ 0x800edac8: DCStoreRange
+ 0x800edaf8: DCFlushRangeNoSync
+ 0x800edb24: DCStoreRangeNoSync
+ 0x800edb50: DCZeroRange
+ 0x800edb7c: ICInvalidateRange
+ 0x800edbb0: ICFlashInvalidate
+ 0x800edbc0: ICEnable
+ 0x800edca0: LCEnable
+ 0x800edcd8: LCDisable
+ 0x800edd00: LCStoreBlocks
+ 0x800edd24: LCStoreData
+ 0x800eddd0: LCQueueWait
+ 0x800edde4: L2GlobalInvalidate
+ 0x800ede7c: DMAErrorHandler
+ 0x800edfdc: __OSCacheInit
 
  # OSError.c
  0x800eea6c: OSReport
