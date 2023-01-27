@@ -1,8 +1,9 @@
 #ifndef ENGINESOUND_H
 #define ENGINESOUND_H
 
-#include "Kaneshige/KartInfo.h" // create Header with just enums
+#include "Kaneshige/KartInfo.h"
 
+// create Header with just enums
 enum EngineType {
     ENGINE0,
     ENGINE1,

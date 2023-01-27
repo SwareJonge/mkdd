@@ -4,10 +4,6 @@
 #include "types.h"
 #include "dolphin/os.h"
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 struct DVDQueue
 {
     struct DVDQueue *m_head; // _00

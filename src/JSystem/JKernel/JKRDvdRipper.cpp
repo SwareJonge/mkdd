@@ -426,18 +426,16 @@ int decompSZS_subroutine(u8 *src, u8 *dest)
     return 0;
 }
 
-// doesn't match, target = 0xC4 current: 0xBC
 u8 *firstSrcData()
 {
     srcLimit = szpEnd - 0x19;
-    s32 byteCount = MIN(transLeft, (u32)(szpEnd - szpBuf));
-    // u32 byteCount;
-    // if (transLeft < byteCount) {
-    // 	byteCount = transLeft;
-    // }
+    u8 *buf = szpBuf;
+    u32 max = (szpEnd - szpBuf);
+    u32 byteCount = MIN(transLeft, max);
+
     while (true)
     {
-        int result = DVDReadPrio(srcFile->getFileInfo(), szpBuf, byteCount, srcOffset, 2);
+        int result = DVDReadPrio(srcFile->getFileInfo(), buf, byteCount, srcOffset, 2);
         if (0 <= result)
         {
             break;
@@ -448,10 +446,10 @@ u8 *firstSrcData()
         }
         VIWaitForRetrace();
     }
-    DCInvalidateRange(szpBuf, byteCount);
-    srcOffset = srcOffset + byteCount;
-    transLeft = transLeft - byteCount;
-    return szpBuf;
+    DCInvalidateRange(buf, byteCount);
+    srcOffset += byteCount;
+    transLeft -= byteCount;
+    return buf;
 }
 
 // might match

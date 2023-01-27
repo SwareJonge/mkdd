@@ -12,3 +12,4 @@ out
 *.dll
 build.ninja
 .ninja_log
+ctx.c
