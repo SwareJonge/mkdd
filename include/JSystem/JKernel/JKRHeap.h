@@ -163,6 +163,14 @@ inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
     return systemHeap->alloc(size, alignment);
 }
 
+inline void * JKRAllocFromHeap(JKRHeap * heap, u32 size, int alignment) {
+    return JKRHeap::alloc(size, alignment, heap);
+}
+
+inline void JKRFree(void * pBuf) {
+    JKRHeap::free(pBuf, nullptr);
+}
+
 void JKRDefaultMemoryErrorRoutine(void *, u32, s32);
 
 void* operator new(size_t);

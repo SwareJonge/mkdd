@@ -28,6 +28,11 @@ public:
     virtual s32 getFileSize() const { return mDvdFileInfo.length; }  // 1C
     virtual bool open(s32);                                          // 20
 
+    // Inline getters/setters
+    DVDFileInfo * getFileInfo() {
+        return &mDvdFileInfo;
+    }
+
     // Callback functions
     static DVDDoneReadCallback doneProcess;
 

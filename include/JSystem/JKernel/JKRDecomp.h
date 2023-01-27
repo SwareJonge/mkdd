@@ -58,4 +58,17 @@ public:
     static JKRDecomp *sDecompObject;
 };
 
+inline CompressionMethod JKRCheckCompressed_noASR(u8 * pBuf) {
+    CompressionMethod compression = JKRDecomp::checkCompressed(pBuf);
+    return compression == TYPE_ASR ? TYPE_NONE : compression;
+}
+
+inline u32 JKRDecompExpandSize(u8 * pBuf) {
+    return ((u32)pBuf[4] << 0x18) | ((u32)pBuf[5] << 0x10) | ((u32)pBuf[6] << 8) | (u32)pBuf[7];
+}
+
+inline void JKRDecompress(u8 * src, u8 * dst, u32 expandSize, u32 dstSize) {
+    JKRDecomp::orderSync(src, dst, expandSize, dstSize);
+}
+
 #endif
