@@ -35,7 +35,7 @@ JSUList<JKRDMCommand> JKRDvdRipper::sDvdAsyncList;
 
 namespace JKRDvdRipper {
     bool errorRetry = true;
-    const s32 sSZSBufferSize = 0x400;
+    int sSZSBufferSize = 0x400;
 
     void *loadToMainRAM(const char *fileName, u8 *ptr, JKRExpandSwitch expSwitch, u32 p4, JKRHeap *heap, EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *p9) {
         JKRDvdFile dvdFile;
@@ -229,47 +229,47 @@ namespace JKRDvdRipper {
 
 }
 
-// doesn't match, missing assert(s)
+// should match
 int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, unsigned long p3, unsigned long inMaxDest, unsigned long inFileOffset,
                          unsigned long inSrcOffset, unsigned long *inTsPtr)
 {
     int interrupts = OSDisableInterrupts();
-    if (isInitMutex == false)
-    {
+    if (isInitMutex == false) {
         OSInitMutex(&decompMutex);
         isInitMutex = true;
     }
     OSRestoreInterrupts(interrupts);
     OSLockMutex(&decompMutex);
-    szpBuf = (u8 *)JKRHeap::sSystemHeap->alloc(JKRDvdRipper::sSZSBufferSize, -0x20);
-    szpEnd = szpBuf + JKRDvdRipper::sSZSBufferSize;
-    if (inFileOffset != 0)
-    {
-        refBuf = (u8 *)JKRHeap::sSystemHeap->alloc(0x1120, -4);
+    int bufSize = JKRDvdRipper::getSZSBufferSize();
+    szpBuf = (u8 *)JKRAllocFromSysHeap(bufSize, -0x20);
+    JUT_ASSERT(909, szpBuf != 0);
+    szpEnd = szpBuf + bufSize;
+    if (inFileOffset != 0) {
+        refBuf = (u8 *)JKRAllocFromSysHeap(0x1120, -4);
+        JUT_ASSERT(918, refBuf != 0);
         refEnd = refBuf + 0x1120;
         refCurrent = refBuf;
     }
-    else
-    {
+    else {
         refBuf = nullptr;
     }
-    transLeft = p3 - inSrcOffset;
-    readCount = 0;
-    if (inTsPtr == 0)
-    {
-        inTsPtr = &tsArea;
-    }
-    srcOffset = inSrcOffset;
     srcFile = file;
+    srcOffset = inSrcOffset;
+    transLeft = p3 - inSrcOffset;
     fileOffset = inFileOffset;
+    readCount = 0;
     maxDest = inMaxDest;
-    tsPtr = inTsPtr;
-    *inTsPtr = 0;
+    if (!inTsPtr) {
+        tsPtr = &tsArea;
+    }
+    else  {
+        tsPtr = inTsPtr;
+    }
+    *tsPtr = 0;
     u8 *data = firstSrcData();
-    int result = (data != nullptr) ? decompSZS_subroutine(data, (u8 *)p2) : -1;
+    u32 result = (data == nullptr) ? decompSZS_subroutine(data, (u8 *)p2) : -1; // figure out correct datatypes
     JKRFree(szpBuf);
-    if (refBuf)
-    {
+    if (refBuf) {
         JKRFree(refBuf);
     }
     DCStoreRangeNoSync(p2, *tsPtr);
@@ -435,10 +435,9 @@ u8 *firstSrcData()
     // if (transLeft < byteCount) {
     // 	byteCount = transLeft;
     // }
-    int result ;
     while (true)
     {
-        result = DVDReadPrio(srcFile->getFileInfo(), szpBuf, byteCount, srcOffset, 2);
+        int result = DVDReadPrio(srcFile->getFileInfo(), szpBuf, byteCount, srcOffset, 2);
         if (0 <= result)
         {
             break;

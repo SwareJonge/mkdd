@@ -159,8 +159,7 @@ inline JKRHeap * JKRGetCurrentHeap() {
 }
 
 inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
-    JKRHeap *systemHeap = JKRHeap::sSystemHeap;
-    return systemHeap->alloc(size, alignment);
+    return JKRHeap::getSystemHeap()->alloc(size, alignment);
 }
 
 inline void * JKRAllocFromHeap(JKRHeap * heap, u32 size, int alignment) {
