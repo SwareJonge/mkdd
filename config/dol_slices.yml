@@ -35,6 +35,17 @@ JSystem/JUtility/JUTProcBar.cpp:
 JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
 
+JSystem/JKernel/JKRAramBlock.cpp:
+    .text: [0x8007afac, 0x8007b228]
+    .data: [0x8038b180, 0x8038b190]
+
+JSystem/JKernel/JKRAramStream.cpp:
+    .text: [0x8007b9cc, 0x8007bf04]
+    .rodata: [0x80366968, 0x80366998]
+    .data: [0x8038b1a0, 0x8038b1e0]
+    .sbss: [0x804158e0, 0x804158f0]
+    .sdata2: [0x80417a30, 0x80417a38]
+
 JSystem/JKernel/JKRArchivePri.cpp:
     .text: [0x8007bf04, 0x8007cb10]
     .sbss: [0x804158f0, 0x804158f8]

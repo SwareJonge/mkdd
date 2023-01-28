@@ -145,7 +145,7 @@ public:
     }
 
     T *getObject() const { return (T *)getObjectPtr(); }
-    JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated
+    JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated, offcial name: getSupervisor
     JSULink<T> *getNext() const { return (JSULink<T> *)JSUPtrLink::getNext(); }
     JSULink<T> *getPrev() const { return (JSULink<T> *)JSUPtrLink::getPrev(); }
 

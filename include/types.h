@@ -35,6 +35,9 @@ typedef int unknown;
 #define nullptr 0
 #define null 0
 
+// Array size define
+#define ARRAY_SIZE(o) (sizeof((o)) / sizeof(*(o)))
+
 // Get the maximum of two values
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 

@@ -4,6 +4,7 @@
 #include "dolphin/os.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
 struct JKRThread;
@@ -44,41 +45,94 @@ struct JKRThreadSwitch
 
 struct JKRThread : public JKRDisposer
 {
-    JKRThread(unsigned long stackSize, int msgCount, int threadPriority);
-    JKRThread(JKRHeap *, unsigned long stackSize, int msgCount, int threadPriority);
+    struct TLoad
+    {
+        inline TLoad()
+        {
+            mSwitchCount = 0;
+            mCost = 0;
+            mLastTick = 0;
+            mIsValid = false;
+            mThreadID = 0;
+        }
+
+        bool isValid() const { return mIsValid; }
+        u32 getCost() const { return mCost; }
+        u32 getCount() const { return mSwitchCount; }
+        int getId() const { return mThreadID; }
+
+        void setValid(bool valid) { mIsValid = valid; }
+        void setId(int id) { mThreadID = id; }
+        void setCurrentTime() { mLastTick = OSGetTick(); }
+
+        void resetCost() { mCost = 0; }
+        void resetCount() { mSwitchCount = 0; }
+
+        void incCount() { mSwitchCount++; }
+        void addCurrentCost() { mCost = mCost + (OSGetTick() - mLastTick); }
+
+        void clear()
+        {
+            resetCount();
+            resetCost();
+            mLastTick = 0;
+        }
+
+        bool mIsValid;    // _00
+        u32 mCost;        // _04
+        u32 mSwitchCount; // _08
+        u32 mLastTick;    // _0C
+        int mThreadID;    // _10
+    };
+
+    JKRThread(u32 stackSize, int msgCount, int threadPriority);
+    JKRThread(JKRHeap *, u32 stackSize, int msgCount, int threadPriority);
     JKRThread(OSThread *, int);
 
     virtual ~JKRThread();                   // _08
     virtual void *run() { return nullptr; } // _0C (weak)
 
     void setCommon_mesgQueue(JKRHeap *, int);
-    BOOL setCommon_heapSpecified(JKRHeap *, unsigned long, int);
+    BOOL setCommon_heapSpecified(JKRHeap *, u32, int);
     static void *start(void *);
 
     // unused/inlined:
-    void searchThread(OSThread *);
-    void searchThreadLoad(OSThread *);
+    static TLoad *searchThread(OSThread *);
+    static TLoad *searchThreadLoad(OSThread *);
     void dump();
 
-    void resume() { OSResumeThread(m_thread); }
+    OSThread *getThreadRecord() const { return mThread; }
+    void *getStack() const { return mStack; }
+    TLoad *getLoadInfo() { return &mLoadInfo; }
+    JKRHeap *getCurrentHeap() const { return mCurrentHeap; }
+    s32 getCurrentHeapError() const { return mCurrentHeapError; }
+    void resume() { OSResumeThread(mThread); }
 
-    JSULink<JKRThread> m_link; // _18
-    JKRHeap *m_heap;           // _28
-    OSThread *m_thread;        // _2C
-    OSMessageQueue m_msgQueue; // _30
-    OSMessage *m_msgBuffer;    // _50
-    int m_msgCount;            // _54
-    void *m_stack;             // _58
-    u32 m_stackSize;           // _5C
-    u8 _60;                    // _60
-    u32 _64;                   // _64
-    u32 _68;                   // _68
-    u32 _6C;                   // _6C
-    u32 _70;                   // _70
-    u32 _74;                   // _74
-    u32 _78;                   // _78
+    void setCurrentHeap(JKRHeap *heap)
+    {
+        if (!heap)
+        {
+            heap = JKRGetCurrentHeap();
+        }
+
+        mCurrentHeap = heap;
+    }
 
     static JSUList<JKRThread> sThreadList;
+
+    // _00     = VTBL
+    // _00-_18 = JKRDisposer
+    JSULink<JKRThread> mLink; // _18
+    JKRHeap *mHeap;           // _28
+    OSThread *mThread;        // _2C
+    OSMessageQueue mMsgQueue; // _30
+    OSMessage *mMsgBuffer;    // _50
+    int mMsgCount;            // _54
+    void *mStack;             // _58
+    u32 mStackSize;           // _5C
+    TLoad mLoadInfo;          // _60
+    JKRHeap *mCurrentHeap;    // _74
+    int mCurrentHeapError;    // _78
 };
 
 /**
