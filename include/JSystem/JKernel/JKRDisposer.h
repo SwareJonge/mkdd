@@ -12,7 +12,7 @@ class JKRDisposer
 public:
     JKRDisposer();
     virtual ~JKRDisposer();
-private:
+public:
     JKRHeap* mRootHeap; // _4
     JSULink<JKRDisposer> mPointerLinks; // _8
 };

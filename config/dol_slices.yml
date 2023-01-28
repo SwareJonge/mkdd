@@ -52,6 +52,10 @@ JSystem/JKernel/JKRDecomp.cpp:
     .sbss: [0x804158f8, 0x80415900]
     .sdata2: [0x80417a58, 0x80417a68]
 
+JSystem/JKernel/JKRDisposer.cpp:
+    .text: [0x8007ec74, 0x8007ed58]
+    .data: [0x8038b2d0, 0x8038b2e0]
+
 JSystem/JKernel/JKRDvdFile.cpp:
     .text: [0x8007ed58, 0x8007f33c]
     .ctors: [0x803160dc, 0x803160e0]

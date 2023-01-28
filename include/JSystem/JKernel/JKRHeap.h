@@ -79,6 +79,14 @@ public:
     static void copyMemory(void *dest, void *src, u32 len);
     static void* setErrorHandler(void(*)(void *, u32, s32));
 
+    void appendDisposer(JKRDisposer * disposer) {
+        mDisposerList.append(&disposer->mPointerLinks);
+    }
+
+    void removeDisposer(JKRDisposer * disposer) {
+        mDisposerList.remove(&disposer->mPointerLinks);
+    }
+
     void setDebugFill(bool debugFill) { mDebugFill = debugFill; }
     bool getDebugFill() const { return mDebugFill; }
     void* getStartAddr() const { return (void*)mStart; }
