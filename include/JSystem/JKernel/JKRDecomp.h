@@ -3,6 +3,7 @@
 
 #include "dolphin/OS.h"
 #include "JSystem/JKernel/JKRThread.h"
+#include "JSystem/JKernel/JKRArchive.h"
 #include "types.h"
 
 enum CompressionMethod {
@@ -58,13 +59,15 @@ public:
     static JKRDecomp *sDecompObject;
 };
 
-inline CompressionMethod JKRCheckCompressed_noASR(u8 * pBuf) {
+inline CompressionMethod JKRCheckCompressed_noASR(u8 *pBuf) {
     CompressionMethod compression = JKRDecomp::checkCompressed(pBuf);
-    return compression == TYPE_ASR ? TYPE_NONE : compression;
+    if (compression == TYPE_ASR) // ternary i had before was either incorrect, or was not a ternary at all
+        compression = TYPE_NONE;
+    return compression;
 }
 
 inline u32 JKRDecompExpandSize(u8 * pBuf) {
-    return ((u32)pBuf[4] << 0x18) | ((u32)pBuf[5] << 0x10) | ((u32)pBuf[6] << 8) | (u32)pBuf[7];
+    return (pBuf[4] << 0x18) | (pBuf[5] << 0x10) | (pBuf[6] << 8) | pBuf[7];
 }
 
 inline void JKRDecompress(u8 * src, u8 * dst, u32 expandSize, u32 dstSize) {
