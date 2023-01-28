@@ -7,11 +7,6 @@
 #include "JSystem/JKernel/JKRFileFinder.h"
 #include "types.h"
 
-JKRArchive *JKRArchive::check_mount_already(long entryNum)
-{
-    // UNUSED FUNCTION
-}
-
 JKRArchive *JKRArchive::check_mount_already(long entryNum, JKRHeap *pHeap)
 {
     // UNUSED FUNCTION
