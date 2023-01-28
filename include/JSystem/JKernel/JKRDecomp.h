@@ -6,13 +6,6 @@
 #include "JSystem/JKernel/JKRArchive.h"
 #include "types.h"
 
-enum CompressionMethod {
-    TYPE_NONE,
-    TYPE_YAY0,
-    TYPE_YAZ0,
-    TYPE_ASR
-};
-
 #define JKRDECOMP_SYNC_BLOCKING 0
 #define JKRDECOMP_SYNC_NON_BLOCKING 1
 

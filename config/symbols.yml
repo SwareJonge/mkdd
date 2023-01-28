@@ -94,6 +94,9 @@ global:
  0x8004b43c: print__8J2DPrintFffPCce
  0x80389fe0: __vt__8J2DPrint
 
+ # J2DScreen.cpp
+ 0x8004ce80: getExpandedResSize__10JKRArchiveCFPCv
+
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
 
@@ -323,13 +326,90 @@ global:
 
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll
-
- 0x8007b588: sendCommand__12JKRAramPieceFP12JKRAMCommand
-
- 0x8038b110: __vt__7JKRFile
+ 0x80079530: __ct__7JKRAramFUlUll
+ 0x80079690: __dt__7JKRAramFv
+ 0x80079718: run__7JKRAramFv
+ 0x80079780: mainRamToAram__7JKRAramFPUcUlUl15JKRExpandSwitchUlP7JKRHeapiPUl
+ 0x80079a14: aramToMainRam__7JKRAramFUlPUcUl15JKRExpandSwitchUlP7JKRHeapiPUl
+ 0x80079cfc: JKRDecompressFromAramToMainRam__FUlPvUlUlUlPUl
+ 0x8007a360: __dt__23JSUList<12JKRAMCommand>Fv
+ 0x8038b0d0: sMessageBuffer__7JKRAram
+ 0x8038b0e0: sMessageQueue__7JKRAram
+ 0x803fa8f0: sAramCommandList__7JKRAram
+ 0x80414078: sSZSBufferSize__7JKRAram
+ 0x804158a0: sAramObject__7JKRAram
 
  # JKRAramArchive.cpp
+ 0x8007a3ac: __ct__14JKRAramArchiveFlQ210JKRArchive15EMountDirection
+ 0x8007a44c: __dt__14JKRAramArchiveFv
  0x8007a584: __dt__7JKRFileFv
+ 0x8007a5dc: open__14JKRAramArchiveFl
+ 0x8007a928: fetchResource__14JKRAramArchiveFPQ210JKRArchive12SDIFileEntryPUl
+ 0x8007aa80: fetchResource__14JKRAramArchiveFPvUlPQ210JKRArchive12SDIFileEntryPUl
+ 0x8007abc8: fetchResource_subroutine__14JKRAramArchiveFUlUlPUcUli
+ 0x8007acd4: fetchResource_subroutine__14JKRAramArchiveFUlUlP7JKRHeapiPPUc
+ 0x8007ae88: getExpandedResSize__14JKRAramArchiveCFPCv
+ 0x8038b110: __vt__7JKRFile
+
+ # JKRAramPiece.cpp
+ 0x8007b588: sendCommand__12JKRAramPieceFP12JKRAMCommand
+ 0x8007b5a8: orderSync__12JKRAramPieceFiUlUlUlP12JKRAramBlock
+ 0x8007b758: startDMA__12JKRAramPieceFP12JKRAMCommand
+ 0x8007b7d0: doneDMA__12JKRAramPieceFUl
+ 0x8007b878: __ct__12JKRAMCommandFv
+ 0x8007b8e8: __dt__12JKRAMCommandFv
+ 0x803fa908: sAramPieceCommandList__12JKRAramPiece
+ 0x803fa92c: mMutex__12JKRAramPiece
+
+ # JKRArchivePri.cpp
+ 0x8007bf04: __ct__10JKRArchiveFlQ210JKRArchive10EMountMode
+ 0x8007bf9c: __dt__10JKRArchiveFv
+ 0x8007bff4: isSameName__10JKRArchiveCFRQ210JKRArchive8CArcNameUlUs
+ 0x8007c040: findDirectory__10JKRArchiveCFPCcUl
+ 0x8007c35c: __ct__Q210JKRArchive8CArcNameFPPCcc
+ 0x8007c398: getString__Q210JKRArchive8CArcNameCFv
+ 0x8007c3a0: getHash__Q210JKRArchive8CArcNameCFv
+ 0x8007c3a8: findTypeResource__10JKRArchiveCFUlPCc
+ 0x8007c49c: findFsResource__10JKRArchiveCFPCcUl
+ 0x8007c7dc: findIdxResource__10JKRArchiveCFUl
+ 0x8007c804: findNameResource__10JKRArchiveCFPCc
+ 0x8007c8a8: findPtrResource__10JKRArchiveCFPCv
+ 0x8007c8dc: findIdResource__10JKRArchiveCFUs
+ 0x8007c95c: store__Q210JKRArchive8CArcNameFPCc
+ 0x8007c9e4: store__Q210JKRArchive8CArcNameFPCcc
+ 0x8007ca94: setExpandSize__10JKRArchiveFPQ210JKRArchive12SDIFileEntryUl
+ 0x8007cad0: getExpandSize__10JKRArchiveCFPQ210JKRArchive12SDIFileEntry
+ 0x804158f0: sCurrentDirID__10JKRArchive
+
+ # JKRArchivePub.cpp
+ 0x8007cb10: mount__10JKRArchiveFPCcQ210JKRArchive10EMountModeP7JKRHeapQ210JKRArchive15EMountDirection
+ 0x8007cb64: mount__10JKRArchiveFPvP7JKRHeapQ210JKRArchive15EMountDirection
+ 0x8007cc3c: mount__10JKRArchiveFlQ210JKRArchive10EMountModeP7JKRHeapQ210JKRArchive15EMountDirection
+ 0x8007ce0c: becomeCurrent__10JKRArchiveFPCc
+ 0x8007ce94: getDirEntry__10JKRArchiveCFPQ210JKRArchive9SDirEntryUl
+ 0x8007cf04: getGlbResource__10JKRArchiveFUlPCcP10JKRArchive
+ 0x8007cfac: getResource__10JKRArchiveFPCc
+ 0x8007d080: getResource__10JKRArchiveFUlPCc
+ 0x8007d15c: readResource__10JKRArchiveFPvUlUlPCc
+ 0x8007d24c: readResource__10JKRArchiveFPvUlPCc
+ 0x8007d334: readResource__10JKRArchiveFPvUlUs
+ 0x8007d3f0: removeResourceAll__10JKRArchiveFv
+ 0x8007d470: removeResource__10JKRArchiveFPv
+ 0x8007d510: detachResource__10JKRArchiveFPv
+ 0x8007d5a4: getResSize__10JKRArchiveCFPCv
+ 0x8007d630: countFile__10JKRArchiveCFPCc
+ 0x8007d690: getFirstFile__10JKRArchiveCFPCc
+ 0x8038b1e0: __vt__10JKRArchive
+
+ # JKRCompArchive.cpp
+ 0x8007d734: __ct__14JKRCompArchiveFlQ210JKRArchive15EMountDirection
+ 0x8007d7d4: __dt__14JKRCompArchiveFv
+ 0x8007d90c: open__14JKRCompArchiveFl
+ 0x8007df1c: fetchResource__14JKRCompArchiveFPQ210JKRArchive12SDIFileEntryPUl
+ 0x8007e0dc: fetchResource__14JKRCompArchiveFPvUlPQ210JKRArchive12SDIFileEntryPUl
+ 0x8007e2ac: removeResourceAll__14JKRCompArchiveFv
+ 0x8007e338: removeResource__14JKRCompArchiveFPv
+ 0x8007e39c: getExpandedResSize__14JKRCompArchiveCFPCv
 
  # JKRDecomp.cpp
  0x8007e550: create__9JKRDecompFl
@@ -370,6 +450,16 @@ global:
  0x8038b2e0: __vt__10JKRDvdFile
  0x803fa944: sDvdList__10JKRDvdFile
 
+  # JKRDvdArchive.cpp
+ 0x8008017c: __ct__13JKRDvdArchiveFlQ210JKRArchive15EMountDirection
+ 0x8008021c: __dt__13JKRDvdArchiveFv
+ 0x80080330: open__13JKRDvdArchiveFl
+ 0x800805e0: fetchResource__13JKRDvdArchiveFPQ210JKRArchive12SDIFileEntryPUl
+ 0x8008073c: fetchResource__13JKRDvdArchiveFPvUlPQ210JKRArchive12SDIFileEntryPUl
+ 0x8008087c: fetchResource_subroutine__13JKRDvdArchiveFlUlUlPUcUlii
+ 0x80080a7c: fetchResource_subroutine__13JKRDvdArchiveFlUlUlP7JKRHeapiiPPUc
+ 0x80080d34: getExpandedResSize__13JKRDvdArchiveCFPCv
+
   # JKRDvdRipper.cpp
  0x80080e68: loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
  0x80080f1c: loadToMainRAM__12JKRDvdRipperFlPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
@@ -384,6 +474,23 @@ global:
  # JKRExpHeap.cpp
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
+
+ # JKRFileFinder.cpp
+ 0x80083898: __ct__12JKRArcFinderFP10JKRArchivell
+ 0x80083924: findNextFile__12JKRArcFinderFv
+ 0x800839d0: __dt__12JKRArcFinderFv
+
+ # JKRFileLoader.cpp
+ 0x80083a2c: __ct__13JKRFileLoaderFv
+ 0x80083a84: __dt__13JKRFileLoaderFv
+ 0x80083b08: unmount__13JKRFileLoaderFv
+ 0x80083b58: getGlbResource__13JKRFileLoaderFPCc
+ 0x80083ba4: getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
+ 0x80083c34: findVolume__13JKRFileLoaderFPPCc
+ 0x80083cc0: fetchVolumeName__13JKRFileLoaderFPclPCc
+ 0x80083dd4: __dt__24JSUList<13JKRFileLoader>Fv
+ 0x803fa968: sVolumeList__13JKRFileLoader
+ 0x804159a0: sCurrentVolume__13JKRFileLoader
 
  # JKRHeap.cpp
  0x80083e20: __ct__7JKRHeapFPvUlP7JKRHeapb
@@ -450,6 +557,19 @@ global:
  0x804159c8: mUserRamEnd__7JKRHeap
  0x804159cc: mMemorySize__7JKRHeap
 
+ # JKRMemArchive.cpp
+ 0x800853bc: __ct__13JKRMemArchiveFlQ210JKRArchive15EMountDirection
+ 0x80085468: __ct__13JKRMemArchiveFPvUl15JKRMemBreakFlag
+ 0x80085518: __dt__13JKRMemArchiveFv
+ 0x800855b8: open__13JKRMemArchiveFlQ210JKRArchive15EMountDirection
+ 0x80085788: open__13JKRMemArchiveFPvUl15JKRMemBreakFlag
+ 0x8008588c: fetchResource__13JKRMemArchiveFPQ210JKRArchive12SDIFileEntryPUl
+ 0x80085934: fetchResource__13JKRMemArchiveFPvUlPQ210JKRArchive12SDIFileEntryPUl
+ 0x80085a3c: removeResourceAll__13JKRMemArchiveFv
+ 0x80085af8: removeResource__13JKRMemArchiveFPv
+ 0x80085b94: fetchResource_subroutine__13JKRMemArchiveFPUcUlPUcUli
+ 0x80085c6c: getExpandedResSize__13JKRMemArchiveCFPCv
+
  # JKRAssertHeap.cpp
  0x800872ac: create__13JKRAssertHeapFP7JKRHeap
 
@@ -506,6 +626,18 @@ global:
  0x800b024c: C_MTXPerspective
  0x800b031c: C_MTXOrtho
  
+ # dvdfs.c
+ 0x800b1568: __DVDFSInit
+ 0x800b15a0: DVDConvertPathToEntrynum
+ 0x800b1894: DVDFastOpen
+ 0x800b1908: DVDOpen
+ 0x800b19d0: DVDClose
+ 0x800b1b54: DVDGetCurrentDir
+ 0x800b1c18: DVDReadAsyncPrio
+ 0x800b1d08: DVDReadPrio
+ 0x80415b8c: __DVDLongFileNameFlag
+ 0x80415b90: __DVDThreadQueue
+
  # dvd.c
  0x800b1894: DVDFastOpen
  0x800b1908: DVDOpen
@@ -823,7 +955,19 @@ global:
  0x8010650c: __shr2i
  0x80106534: __cvt_dbl_usll
 
-  # string.c
+ # ctype.c
+ 0x80108dec: toupper
+ 0x80108e28: tolower
+ 0x80108e64: isxdigit
+ 0x80108e80: isupper
+ 0x80108e9c: isspace
+ 0x80108eb8: isdigit
+ 0x80108ed4: isalpha
+ 0x80392f60: __ctype_map
+ 0x80393060: __lower_map
+ 0x80393160: __upper_map
+
+ # string.c
  0x8010d5dc: strstr
  0x8010d658: strrchr
  0x8010d6bc: strchr

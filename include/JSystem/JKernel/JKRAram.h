@@ -3,6 +3,7 @@
 
 //#include "dolphin/ar.h"
 #include "dolphin/os.h"
+#include "JSystem/JKernel/JKRDecomp.h"
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "JSystem/JSupport/JSUList.h"
@@ -51,6 +52,27 @@ struct JKRAram : public JKRThread
 
     static JKRAram *sAramObject;
     static const OSMessageQueue sMessageQueue;
+};
+
+struct JKRAramArchive : public JKRArchive
+{
+    JKRAramArchive(long, EMountDirection);
+
+    virtual ~JKRAramArchive();                                       // _08
+    virtual size_t getExpandedResSize(const void *) const;           // _3C
+    virtual void *fetchResource(SDIFileEntry *, u32 *);              // _40
+    virtual void *fetchResource(void *, u32, SDIFileEntry *, u32 *); // _44
+
+    bool open(long);
+    static u32 fetchResource_subroutine(u32, u32, u8 *, u32, int);
+    static u32 fetchResource_subroutine(u32, u32, JKRHeap *, int, u8 **);
+
+    // _00     = VTBL
+    // _00-_5C = JKRArchive
+    CompressionMethod mCompression;     // _5C
+    EMountDirection mMountDirection; // _60
+    JKRAramBlock *mBlock;            // _64
+    JKRDvdFile *mDvdFile;            // _68
 };
 
 #endif

@@ -20,8 +20,6 @@ struct SYaz0Header
     u32 length;
 };
 
-class JKRDvdFile;
-
 class JKRDMCommand {
     JKRDMCommand();
     ~JKRDMCommand();
