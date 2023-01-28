@@ -61,16 +61,16 @@ namespace JKRDvdRipper {
     void *loadToMainRAM(JKRDvdFile *jkrDvdFile, u8 *file, JKRExpandSwitch expandSwitch, u32 fileSize, JKRHeap *heap, EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *p9)
     {
 
-        bool hasAllocated = false;                 // r29
-        CompressionMethod compression = TYPE_NONE; // r28
-        u32 expandSize;                            // r27
-        u8 *mem = nullptr;                         // r26
+        bool hasAllocated = false;
+        CompressionMethod compression = TYPE_NONE;
+        u32 expandSize;
+        u8 *mem = nullptr;
 
         s32 fileSizeAligned = ALIGN_NEXT(jkrDvdFile->getFileSize(), 32);
         if (expandSwitch == Switch_1)
         {
             u8 buffer[0x40];
-            u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32); // also r27
+            u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32);
             while (true)
             {
                 int readBytes = DVDReadPrio(jkrDvdFile->getFileInfo(), bufPtr, 0x20, 0, 2);
@@ -246,7 +246,6 @@ namespace JKRDvdRipper {
     }
 }
 
-// should match
 int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, unsigned long p3, unsigned long inMaxDest, unsigned long inFileOffset,
                          unsigned long inSrcOffset, unsigned long *inTsPtr)
 {
@@ -297,8 +296,9 @@ int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, unsigned long p3, unsigned 
 // Regswaps
 int decompSZS_subroutine(u8 *src, u8 *dest)
 {
-    int validBitCount = 0;
+    u8 *endPtr;
     u32 currCodeByte = 0;
+    s32 validBitCount = 0;
     u32 ts = 0;
 
     if (src[0] != 'Y' || src[1] != 'a' || src[2] != 'z' || src[3] != '0')
@@ -307,7 +307,7 @@ int decompSZS_subroutine(u8 *src, u8 *dest)
     }
 
     SYaz0Header *header = (SYaz0Header *)src;
-    u8 *endPtr = dest + (header->length - fileOffset);
+    endPtr = dest + (header->length - fileOffset);
     if (endPtr > dest + maxDest)
     {
         endPtr = dest + maxDest;
@@ -448,60 +448,54 @@ u8 *firstSrcData()
     srcLimit = szpEnd - 0x19;
     u8 *buf = szpBuf;
     u32 max = (szpEnd - szpBuf);
-    u32 byteCount = MIN(transLeft, max);
+    u32 transSize = MIN(transLeft, max);
 
     while (true)
     {
-        int result = DVDReadPrio(srcFile->getFileInfo(), buf, byteCount, srcOffset, 2);
+        int result = DVDReadPrio(srcFile->getFileInfo(), buf, transSize, srcOffset, 2);
         if (0 <= result)
-        {
             break;
-        }
         if (result == -3 || !JKRDvdRipper::isErrorRetry())
-        {
             return nullptr;
-        }
         VIWaitForRetrace();
     }
-    DCInvalidateRange(buf, byteCount);
-    srcOffset += byteCount;
-    transLeft -= byteCount;
+    DCInvalidateRange(buf, transSize);
+    srcOffset += transSize;
+    transLeft -= transSize;
     return buf;
 }
 
-// Regswaps
-u8 *nextSrcData(u8 *param_0)
+u8 *nextSrcData(u8 *src)
 {
-    u32 size = szpEnd - param_0;
-    u8 *dest = IS_NOT_ALIGNED(size, 0x20) ? szpBuf + 0x20 - (size & (0x20 - 1)) : szpBuf;
-    memcpy(dest, param_0, size);
-    u8 *end = dest + size;
-    u32 transSize = szpEnd - end;
+    u32 limit = szpEnd - src;
+    u8 *buf;
+    if (IS_NOT_ALIGNED(limit, 0x20))
+        buf = szpBuf + 0x20 - (limit & (0x20 - 1));
+    else
+        buf = szpBuf;
+    
+    memcpy(buf, src, limit);
+    u32 transSize = (u32)(szpEnd - (buf + limit));
     if (transSize > transLeft)
-    {
         transSize = transLeft;
-    }
+
     JUT_ASSERT(1208, transSize > 0);
     while (true)
     {
-        s32 result = DVDReadPrio(srcFile->getFileInfo(), end, transSize, srcOffset, 2);
+        s32 result = DVDReadPrio(srcFile->getFileInfo(), (buf + limit), transSize, srcOffset, 2);
         if (result >= 0)
-        {
             break;
-        }
         // bug: supposed to call isErrorRetry, but didn't
         if (result == -3 || !JKRDvdRipper::isErrorRetry)
-        {
             return nullptr;
-        }
+        
         VIWaitForRetrace();
     }
-    DCInvalidateRange(end, transSize);
+    DCInvalidateRange((buf + limit), transSize);
     srcOffset += transSize;
     transLeft -= transSize;
     if (transLeft == 0)
-    {
-        srcLimit = end + transSize;
-    }
-    return dest;
+        srcLimit = transSize + (buf + limit);
+    
+    return buf;
 }
