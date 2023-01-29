@@ -194,11 +194,6 @@ JKRAramStreamCommand *JKRAramStream::write_StreamToAram_Async(JSUFileInputStream
     return command;
 }
 
-/*
- * --INFO--
- * Address:	8001A3C8
- * Size:	000094
- */
 JKRAramStreamCommand *JKRAramStream::sync(JKRAramStreamCommand *command, BOOL isNonBlocking)
 {
     OSMessage msg;

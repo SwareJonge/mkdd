@@ -34,11 +34,6 @@ JKRAramBlock *JKRAramBlock::allocHead(u32 newSize, u8 newGroupID, JKRAramHeap *h
     return block;
 }
 
-/*
- * --INFO--
- * Address:	80019614
- * Size:	0000B4
- */
 JKRAramBlock *JKRAramBlock::allocTail(u32 newSize, u8 newGroupID, JKRAramHeap *heap)
 {
     u32 newAddress = mAddress + mSize + mFreeSize - newSize;

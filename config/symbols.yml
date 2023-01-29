@@ -97,6 +97,9 @@ global:
  # J2DScreen.cpp
  0x8004ce80: getExpandedResSize__10JKRArchiveCFPCv
 
+ # JMath.cpp
+ 0x80069178: JMAEulerToQuat__FsssP10Quaternion
+
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl
 

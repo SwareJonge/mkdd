@@ -5,12 +5,12 @@
 #include "dolphin/math.h"
 #include "std/pair.h"
 
-// Do i even use this?? if so pls move it to the proper header someday 
+// might belong to a different header
 struct Quaternion {
-	f32 _00;
-	f32 _04;
-	f32 _08;
-	f32 _0C;
+	f32 x;
+	f32 y;
+	f32 z;
+	f32 w;
 };
 
 namespace JMath
@@ -204,6 +204,12 @@ namespace JMath
 }
 
 inline f32 JMAAtan2Radian(f32 y, f32 x) { return JMath::atanTable_.atan2Radian(y, x); };
+
+inline f32 JMASCosShort(s16 v) { return JMath::sincosTable_.cosShort(v); }
+inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
+
+inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
+inline f32 JMASSin(s16 v) { return JMASinShort(v); }
 
 struct Vec
 {

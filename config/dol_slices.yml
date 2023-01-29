@@ -23,8 +23,17 @@ JSystem/JFramework/JFWDisplay.cpp:
     .sbss: [0x80415718, 0x80415740]
     .sdata2: [0x804173b8, 0x804173e0]
 
+JSystem/JMath/JMath.cpp:
+    .text: [0x80069178, 0x80069234]
+
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
+
+JSystem/JMath/JMATrigonometric.cpp:
+    .text: [0x800693d0, 0x800697f8]
+    .ctors: [0x803160c4, 0x803160c8]
+    #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
+    .sdata2: [0x80417798, 0x804177e0]
 
 JSystem/JUtility/JUTProcBar.cpp:
     .text: [0x80071920, 0x80073a5c]
@@ -86,14 +95,8 @@ JSystem/JKernel/JKRDvdRipper.cpp:
     .sbss: [0x80415948, 0x80415988]
     .sdata2: [0x80417aa0, 0x80417ab0]
 
-Dolphin/__ppc_eabi_init.s:
+dolphin/__ppc_eabi_init.s:
     .text: [0x800f31d8, 0x800f322c]
-
-JSystem/JMath/JMATrigonometric.cpp:
-    .text: [0x800693d0, 0x800697f8]
-    .ctors: [0x803160c4, 0x803160c8]
-    #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
-    .sdata2: [0x80417798, 0x804177e0]
 
 Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
