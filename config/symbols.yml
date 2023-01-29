@@ -99,6 +99,10 @@ global:
 
  # JMath.cpp
  0x80069178: JMAEulerToQuat__FsssP10Quaternion
+ 0x80069234: JMAQuatLerp__FPC10QuaternionPC10QuaternionfP10Quaternion
+ 0x8006930c: JMAVECScaleAdd__FPC3VecPC3VecP3Vecf
+ 0x80069334: JMAVECLerp__FPC3VecPC3VecP3Vecf
+ 0x80069364: JMAMTXApplyScale__FPA4_CfPA4_ffff
 
  # random.cpp
  0x800693c8: __ct__Q25JMath13TRandom_fast_FUl

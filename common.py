@@ -174,6 +174,7 @@ ASFLAGS = ' '.join([
 
 INCDIRS = [
     PPCDIS_INCDIR,
+    BUILD_INCDIR,
     "include",
 ]
 MWCC_INCLUDES = ' '.join(f"-i {d}" for d in INCDIRS)

@@ -2,6 +2,7 @@
 #define JMATH_H
 
 #include "types.h"
+#include "dolphin/mtx.h"
 #include "dolphin/math.h"
 #include "std/pair.h"
 
@@ -172,7 +173,7 @@ namespace JMath
         }
 
         // from TP decomp
-        f32 get_uf32_1()
+        f32 get_ufloat_1()
         {
             // !@bug UB: in C++ it's not legal to read from an union member other
             // than the last one that was written to.
@@ -190,15 +191,15 @@ namespace JMath
             seed = Seed;
         }
 
-    private:
+    protected:
         u32 seed;
     };
-    template <class T>
+    template <typename T>
     class TRandom_ : TRandom_fast_
     {
     public:
         TRandom_(u32 num) : TRandom_fast_(num){};
-    };
+    };    
 
     inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
@@ -211,7 +212,13 @@ inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
 inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
 inline f32 JMASSin(s16 v) { return JMASinShort(v); }
 
-struct Vec
+void JMAEulerToQuat(s16, s16, s16, Quaternion *);
+void JMAQuatLerp(const Quaternion *, const Quaternion *, f32, Quaternion *);
+void JMAVECScaleAdd(const Vec *, const Vec *, Vec *, f32);
+void JMAVECLerp(const Vec *, const Vec *, Vec *, f32);
+void JMAMTXApplyScale(Mtx, Mtx, f32, f32, f32);
+
+struct Vec // Typecast from TVec3<f32>
 {
     f32 x;
     f32 y;
@@ -220,12 +227,35 @@ struct Vec
 
 namespace JMathInlineVEC
 {
-    void PSVECSubtract(const Vec *vec1, const Vec *vec2, Vec *dst); /*{
+    inline void PSVECSubtract(const Vec *vec1, const Vec *vec2, Vec *dst); /*{
      dst->x = vec1->x - vec2->x;
      dst->y = vec1->y - vec2->y;
      dst->z = vec1->z - vec2->z;
  }*/
 
+}
+
+// fabricated
+namespace JMathInlineQuat {
+    inline f64 PSQUATDotProduct(register const Quaternion *p, register const Quaternion *q)
+    {
+        register f32 dp, qxy, pxy, qzw, pzw;
+
+        __asm
+        {
+        psq_l       pxy, 0(p), 0, 0
+        psq_l       qxy, 0(q), 0, 0
+        ps_mul      dp, pxy, qxy
+        
+        psq_l       pzw, 8(p), 0, 0
+        psq_l       qzw, 8(q), 0, 0
+        ps_madd     dp, pzw, qzw, dp
+        
+        ps_sum0     dp, dp, dp, dp
+        }
+
+        return dp;
+    }
 }
 
 #endif // !JMATH_H

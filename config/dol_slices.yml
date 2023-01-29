@@ -24,7 +24,8 @@ JSystem/JFramework/JFWDisplay.cpp:
     .sdata2: [0x804173b8, 0x804173e0]
 
 JSystem/JMath/JMath.cpp:
-    .text: [0x80069178, 0x80069234]
+    .text: [0x80069178, 0x800693c8]
+    .sdata2: [0x80417788, 0x80417798]
 
 JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
