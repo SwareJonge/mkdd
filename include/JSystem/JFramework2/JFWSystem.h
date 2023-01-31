@@ -15,7 +15,7 @@ struct JFWSystem
 {
     struct CSetUpParam
     {
-        static u32 maxStdHeaps;
+        static int maxStdHeaps;
         static u32 sysHeapSize;
         static u32 fifoBufSize;
         static u32 aramAudioBufSize;
@@ -24,7 +24,7 @@ struct JFWSystem
         static s32 decompPriority;
         static s32 aPiecePriority;
         static ResFONT *systemFontRes;
-        static GXRenderModeObj *renderMode;
+        static const _GXRenderModeObj *renderMode;
         static u32 exConsoleBufferSize;
     };
 
@@ -43,7 +43,7 @@ struct JFWSystem
 
     
     // No idea how they formatted this lol
-    static void setMaxStdHeaps(u32 stdHeaps) { 
+    static void setMaxStdHeap(int stdHeaps) { 
         JUT_ASSERT(47, sInitCalled == 0);
         CSetUpParam::maxStdHeaps = stdHeaps; }
     static void setSysHeapSize(u32 heapSize) {
@@ -61,7 +61,7 @@ struct JFWSystem
         JUT_ASSERT(61, sInitCalled == 0);
         CSetUpParam::aramGraphBufSize = bufSize; }
     // probably some more inlines for other variables, not used by MKDD
-    static void setRenderMode(GXRenderModeObj * rmode) {
+    static void setRenderMode(const _GXRenderModeObj * rmode) {
         JUT_ASSERT(80, sInitCalled == 0);
         CSetUpParam::renderMode = rmode; }
 };
