@@ -135,7 +135,7 @@ n.rule(
 
 n.rule(
     "orderstrings",
-    command = "$orderstrings $in $addrs $out $flags --enc shift-jis --pool",
+    command = "$orderstrings $in $addrs $out $flags --enc shift-jis",
     description = "Order strings $in $addrs"
 )
 
@@ -401,7 +401,8 @@ class Source(ABC):
         self.decompiled = decompiled
         self.src_path = src_path
         self.o_path = o_path
-        self.o_stem = o_path[:-2]
+        filename = src_path.split('/')[-1]
+        self.dep = filename.rpartition('.')[0] + '.d'
         self.gen_includes = gen_includes
 
     def build(self):
@@ -529,7 +530,8 @@ class CSource(Source):
             inputs = self.iconv_path,
             implicit = [inc.path for inc in self.gen_includes],
             variables = {
-                "cflags" : self.cflags
+                "cflags" : self.cflags,
+                "dep" : self.dep
             }
         )
         # Optional manual debug target
@@ -539,7 +541,8 @@ class CSource(Source):
             inputs = self.iconv_path,
             implicit = [inc.path for inc in self.gen_includes],
             variables = {
-                "cflags" : self.cflags
+                "cflags" : self.cflags,
+                "dep" : self.dep
             }
         )
 
