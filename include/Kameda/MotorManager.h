@@ -19,6 +19,8 @@ public:
     void setMotor(MotorType, int);          // 0x8013103c
     void setAwardMotor(MotorType);          // 0x80131218
     void setPowerMotor(int, float, u8, u8); // 0x801312e8
+
+    static MotorManager * getManager();
     
     static int mCountFrame;                 // 0x803fb640
     static MotorManager *mThis;             // 0x80416280

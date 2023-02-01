@@ -1043,6 +1043,7 @@ global:
  0x80118cac: getEngineType__11EngineSoundF7EKartID 
 
  # GameAudioMain.cpp
+ 0x8011b4a8: init__Q29GameAudio4MainFP12JKRSolidHeapUlPvPvUl
  0x8011e540: startSystemSe__Q29GameAudio4MainFUl 
 
   # MotorManager.cpp

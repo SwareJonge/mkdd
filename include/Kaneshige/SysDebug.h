@@ -17,7 +17,10 @@ private:
 class SysDebug
 {
 public:
+    static SysDebug* createManager();
     int appendPage(SysDbUsrPage *);
+    void beginUserTime(int);
+    void endUserTime(int);
     void createHeapInfo(JKRHeap *, char *);
     void destroyHeapInfo(JKRHeap *);
     void setDefaultHeapGroup(JKRHeap *);

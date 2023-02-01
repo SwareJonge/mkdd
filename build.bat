@@ -1,3 +1,3 @@
-py.exe ./configure.py
+python ./configure.py
 ninja
 SymbolChecker

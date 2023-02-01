@@ -17,6 +17,7 @@ public:
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx) { return getKartSound(idx)->mKartSoundMgr; }
     void GetBodyPos(int idx, JGeometry::TVec3<f32> *playerPos);
     void DynamicsInit(bool);
+    void DynamicsReset();
 
 private:
     static KartCtrl * mCtrl;

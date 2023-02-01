@@ -91,7 +91,7 @@ public:
     bool getDebugFill() const { return mDebugFill; }
     void* getStartAddr() const { return (void*)mStart; }
     void* getEndAddr() const { return (void*)mEnd; }
-    u32 getSize() const { return mSize; }
+    u32 getHeapSize() const { return mSize; }
     bool getErrorFlag() const { return mErrorFlag; }
     void callErrorHandler(JKRHeap *heap, u32 size, int alignment) {
         if (mErrorHandler)        {
@@ -169,6 +169,11 @@ inline JKRHeap * JKRGetCurrentHeap() {
 inline JKRHeap *JKRGetSystemHeap(){
     return JKRHeap::getSystemHeap();
 }
+
+inline JKRHeap *JKRGetRootHeap(){
+    return JKRHeap::getRootHeap();
+}
+
 
 inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
     return JKRHeap::getSystemHeap()->alloc(size, alignment);

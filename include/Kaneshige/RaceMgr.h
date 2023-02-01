@@ -99,6 +99,9 @@ public:
     void frameWork();                 // 0x801ae9d0
     void updateRace();                // 0x801aeac0
     bool isRaceModeMiniGame();        // 0x801aef9c
+    ERacePhase getRacePhase() { return mRaceDirector->getRacePhase(); } // i don't think this was inline
+    bool isAbleStart() const;
+    void setJugemZClr(u32, bool);
 
     int getProcLevel(); // 0x801af654
     // Inline Functions
@@ -118,7 +121,7 @@ public:
     }
 
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
-    ERacePhase getRacePhase() { return mRaceDirector->getRacePhase(); }
+    
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
     int getCameraNumber() const { return getConsoleNumber(); }
 

@@ -10,6 +10,7 @@ class GeographyObjManager
 public:
     void createMgr();
     void createModel(JKRSolidHeap *, u32);
+    void reset(CrsData*);
     GeographyObjManager *getGeographyObjManager();
     TJugem *getJugem(int) const;
 };

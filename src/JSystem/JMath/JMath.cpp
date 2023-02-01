@@ -97,9 +97,11 @@ void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 x, f32 y, f32 z) {
 }
 #else
 
+#include "orderfloats/80417790_80417794.inc"
+
 asm void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 x, f32 y, f32 z)
 {
-    #include "asm/80069364.s"
+#include "asm/80069364.s"
 }
 
 #endif

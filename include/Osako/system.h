@@ -7,23 +7,29 @@
 #include "JSystem/JFrameWork/JFWDisplay.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
+#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRThread.h"
 #include "types.h"
 
-class JKRTask;
-
-namespace System {
-    void startAudioTask(void *p1);
+namespace System
+{
+    extern JKRTask::RequestCallback startAudioTask;
     void init();
     void reset();
     void changeProgressive();
     void changeMovieRenderMode();
     void changeNormalRenderMode();
-    void callbackException(u16, OSContext, u32, u32);
+    extern OSErrorHandler callbackException;
     void haltRumble();
     void run();
+    // Unused functions however i'm sure these get auto inlined in run()
+    void checkDVDState();
+    void beginFrame();
+    void endRender();
+    void endFrame();
 
     extern JFWDisplay *mspDisplay;
-    extern JKRAssertHeap *mspAppHeap;
+    extern JKRHeap *mspAppHeap; // JKRExpHeap
     extern int msDvdState;
     extern int msRenderMode;
     extern JKRTask *mspSendTask;
@@ -32,10 +38,12 @@ namespace System {
     extern JKRTask *mspLoTask;
     extern J2DPrint *mspJ2DPrint;
     extern J2DOrthoGraph *mspJ2DOrtho;
-    extern JKRHeap *mspAudioHeap; // JKRSolidHeap
+    extern JKRSolidHeap *mspAudioHeap;
+    // Unused
+    // extern int msPerfMode;
 
     inline JFWDisplay *getDisplay() { return mspDisplay; }
-    inline JKRAssertHeap *getAppHeap() { return mspAppHeap; }
+    inline JKRHeap *getAppHeap() { return mspAppHeap; }
     inline J2DPrint *getJ2DPrint() { return mspJ2DPrint; }
     inline J2DOrthoGraph *getJ2DOrtho() { return mspJ2DOrtho; }
 };

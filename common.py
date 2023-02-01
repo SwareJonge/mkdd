@@ -115,6 +115,10 @@ if platform != "win32":
 
 # DevkitPPC
 DEVKITPPC = os.environ.get("DEVKITPPC")
+if DEVKITPPC is None:
+    DEVKITPPC = os.path.join(TOOLS, "devkitppc")
+    assert(os.path.isdir(DEVKITPPC))
+
 AS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as")
 OBJDUMP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-objdump")
 CPP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-cpp")
@@ -230,6 +234,7 @@ EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
 
 LDFLAGS = ' '.join([
     "-fp hard",
+    "-w off",
     "-maxerrors 1",
     "-mapunused"
 ])

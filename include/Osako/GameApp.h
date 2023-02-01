@@ -17,7 +17,7 @@ public:
         return mHeap;
     }
 
-private:
+protected:
     JKRHeap *mHeap;
     void *mSequenceHeap; // this is null for next to every App, except for MovieApp
 };

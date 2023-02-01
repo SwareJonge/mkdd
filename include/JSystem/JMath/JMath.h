@@ -216,7 +216,7 @@ void JMAEulerToQuat(s16, s16, s16, Quaternion *);
 void JMAQuatLerp(const Quaternion *, const Quaternion *, f32, Quaternion *);
 void JMAVECScaleAdd(const Vec *, const Vec *, Vec *, f32);
 void JMAVECLerp(const Vec *, const Vec *, Vec *, f32);
-void JMAMTXApplyScale(Mtx, Mtx, f32, f32, f32);
+void JMAMTXApplyScale(const Mtx, Mtx, f32, f32, f32);
 
 struct Vec // Typecast from TVec3<f32>
 {

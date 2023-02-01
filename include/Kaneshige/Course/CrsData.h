@@ -6,15 +6,6 @@
 #include "kartLocale.h"
 #include "types.h"
 
-// add this to JSystem
-struct TColor
-{
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 a;
-};
-
 class CrsData
 {
 public:
@@ -40,7 +31,7 @@ public:
         char mMagic[4];
         u8 mShaking;
         u8 mAmbientColor[3];
-        TColor mLightColor;
+        JUtility::TColor mLightColor;
         JGeometry::TVec3<f32> mLightOffsetPos;
         u8 mTotalLapNum;
         u8 mCourseID;
@@ -92,7 +83,10 @@ public:
         s16 mSectorID;
     };
     CrsData(CrsData::SColHeader *, CrsData::SOblHeader *);
+    void getAmbientColor(JUtility::TColor *) const;
+    void getLightColor(JUtility::TColor *) const;
     void getShadowColor(JUtility::TColor *) const;
+    void getLightOffsetPosition(JGeometry::TVec3f *) const;
     void patchCamDataForStaffRoll(Language, VideoMode);
     int getCourseID() const;
     u8 getTotalLapNumber();
@@ -100,7 +94,7 @@ public:
     u8 getShadowDepth() const { return BOL->mShadowDepth; }
 
 private:
-    void *BCO;
+    SColHeader *BCO;
     SOblHeader *BOL;
     void *objList;
 };

@@ -137,6 +137,7 @@ public:
     };
     Course(CrsData *, int, bool);
     void createModel(JKRSolidHeap *, u32); // just a blr -_-
+    void reset();
 
     // Inline Functions
     ECourseID getCourseID() const { return mID; }
@@ -144,7 +145,21 @@ public:
     float getTrackSectorDist() const { return mTrackSectorDist; }
     int getTotalSectorNumber() const { return mTotalSectors;  }
     int getTrackSectorNumber() const { return mTrackSectorNum; }
-    CrsData *getCrsData() const; /*{ return mCrsData; }*/
+    CrsData *getCrsData() const { return mCrsData; }
+    void getAmbientColor(JUtility::TColor *dst)
+    {
+        getCrsData()->getAmbientColor(dst);
+    }
+
+    void getLightColor(JUtility::TColor *dst)
+    {
+        getCrsData()->getLightColor(dst);
+    }
+
+    void getLightOffsetPosition(JGeometry::TVec3f *dst)
+    {
+        getCrsData()->getLightOffsetPosition(dst);
+    }
 
     Sector *getSector(int no) const {
         JUT_MINMAX_ASSERT(300, 0, no, mTotalSectors);
@@ -160,8 +175,10 @@ public:
 
 private: // add all documented stuff from Ghidra
     ECourseID mID;
-    u8 _4[0x508];
-    s16 mTotalSectors;
+    u8 _4[0x4D8];
+    CrsData *mCrsData; // 0x4DC
+    u8 _4E0[0x50C - 0x4E0];
+    s16 mTotalSectors; // 0x50C
     s16 mTrackSectorNum;
     Sector *mSectors;
     float mTrackSectorDist;

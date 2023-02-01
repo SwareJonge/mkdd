@@ -1,6 +1,5 @@
-
-#include "kartLocale.h"
 #include "kartEnums.h"
+#include "kartLocale.h"
 #include "dolphin/OS.h"
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JKernel/JKRHeap.h"
@@ -14,22 +13,26 @@
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/DemoTimeKeeper.h"
 #include "Kaneshige/ExModel.h"
+#include "Kaneshige/LightMgr.h"
+#include "Kaneshige/RaceLight.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Osako/kartPad.h"
 #include "Osako/ResMgr.h"
-#include "Osako/SystemRecord.h"
 #include "Osako/shadowMgr.h"
-#include "Sato/GeographyObjMgr.h"
+#include "Osako/SystemRecord.h"
 #include "Sato/EffectScreen.h"
+#include "Sato/GeographyObjMgr.h"
 #include "Sato/ItemObjMgr.h"
 #include "Sato/J3DEffectMgr.h"
 #include "Sato/JPEffectMgr.h"
 #include "Sato/NeckCtrl.h"
 #include "Sato/ObjUtility.h"
+#include "Sato/RivalKart.h"
 #include "Sato/stEffectMgr.h"
 #include "Sato/stMath.h"
+#include "Shiraiwa/Balloon.h"
 
 RaceMgr *RaceMgr::sRaceManager;
 
@@ -222,7 +225,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     if (isAwardDemoMode()) {
         mAwardArc = ResMgr::getArchive(ResMgr::mcArcAward);
         if (mAwardArc == nullptr)
-            JUT_PANIC_MSG(2185, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
+            JUT_PANIC(2185, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
     }
     SysDebug::getManager()->setHeapGroup("OBJECT MGR", nullptr);
     CreateGeoObjMgr(mCourse->getCrsData());
@@ -418,7 +421,7 @@ void RaceMgr::createKartModel() {
     ShadowManager::ptr();
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo("KART MDL");
+    SysDebug::getManager()->createHeapInfo(nullptr, "KART MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
 
     for(int i = 0; i < getKartNumber(); i++) {
@@ -434,9 +437,9 @@ void RaceMgr::createKartModel() {
 void RaceMgr::createCourseModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo("CRS MDL");
+    SysDebug::getManager()->createHeapInfo(nullptr, "CRS MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
-    mCourse->createModel(getCameraNumber());
+    mCourse->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
     curHeap->becomeCurrentHeap();
 }
@@ -444,7 +447,7 @@ void RaceMgr::createCourseModel() {
 void RaceMgr::createObjectModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo("OBJ MDL");
+    SysDebug::getManager()->createHeapInfo(nullptr, "OBJ MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetGeoObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -454,7 +457,7 @@ void RaceMgr::createObjectModel() {
 void RaceMgr::createItemModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo("ITEM MDL");
+    SysDebug::getManager()->createHeapInfo(nullptr, "ITEM MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetItemObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -464,10 +467,10 @@ void RaceMgr::createItemModel() {
 void RaceMgr::createEffectModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo("EFCT MDL");
+    SysDebug::getManager()->createHeapInfo(nullptr, "EFCT MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
-    stEffectMgr()->createModel(solidHeap, getCameraNumber());
-    J3DEffectMgr()->createModel(solidHeap, getCameraNumber());
+    GetStEfctMgr()->createModel(solidHeap, getCameraNumber());
+    GetJ3DEfctMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
     curHeap->becomeCurrentHeap();
 }
@@ -475,23 +478,23 @@ void RaceMgr::createEffectModel() {
 void RaceMgr::createLight() {
     SysDebug::getManager()->setHeapGroup("LIGHT MGR", nullptr);
 
-    LightMgr::createMgr();
+    LightMgr::createManager();
     TBalloonString * balloonString = TBalloonString::getSupervisor();
 
     JUtility::TColor ambientColor;
-    mCourse->getAmbientColor(ambientColor);
+    mCourse->getAmbientColor(&ambientColor);
     LtObjAmbient *lghtObjAmb = new LtObjAmbient("シーンアンビエント", ambientColor); // scene ambient?
 
-    lghtObjAmb->setTagName(0x414d4249); // AMBI
+    lghtObjAmb->setTagName('AMBI');
     LightMgr::getManager()->appendLight(lghtObjAmb);
 
     JUtility::TColor lightColor;
-    mCourse->getLightColor(lightColor);
+    mCourse->getLightColor(&lightColor);
     JGeometry::TVec3f lightPos;
-    mCourse->getLightOffsetPosition;
+    mCourse->getLightOffsetPosition(&lightPos);
 
     for(int i = 0; i < getConsoleNumber(); i++) {
-        RaceSceneLight *sceneLight = new RaceSceneLight("シーンライト", lightColor, lightPos);
+        RaceSceneLight *sceneLight = new RaceSceneLight("シーンライト", i, lightColor, lightPos);
         LightMgr::getManager()->appendLight(sceneLight);
         for(int j = 0; j < getKartNumber(); j++) {
             RaceKartLight *kartLight = new RaceKartLight(sceneLight, j);
@@ -499,11 +502,11 @@ void RaceMgr::createLight() {
             getKartDrawer(j)->setLight(i, kartLight);
         }
         if (balloonString != nullptr) {
-            RaceBalloonLight balloonLight = new RaceBalloonLight();
+            RaceBalloonLight *balloonLight = new RaceBalloonLight(i);
             LightMgr::getManager()->appendLight(balloonLight);
         }
         if(isAwardDemoMode()) {
-            RaceCupLight cupLight = new RaceCupLight(sceneLight);
+            RaceCupLight *cupLight = new RaceCupLight(sceneLight);
             LightMgr::getManager()->appendLight(cupLight);
         }
     }
@@ -596,7 +599,7 @@ void RaceMgr::resetRaceCommon() {
     GetJPAMgr()->reset();
     mRaceDrawer->reset();
     if(!isRaceModeMiniGame())
-        RivalKart::reset();
+        RivalKart::Reset();
 
     SysDebug::getManager()->setDefaultHeapGroup(nullptr);
     OSReport("End   Reset.............................................\n");

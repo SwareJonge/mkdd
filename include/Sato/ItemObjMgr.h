@@ -12,6 +12,7 @@ public:
     virtual void callbackColGeoObj();
 
     void createModel(JKRSolidHeap *, u32);
+    void reset();
 
     int getRobberyItemNum(int, u8);
 

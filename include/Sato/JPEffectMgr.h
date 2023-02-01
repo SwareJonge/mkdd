@@ -3,8 +3,21 @@
 
 #include "JSystem/JKernel/JKRHeap.h"
 
-class JPEffectMgr;
+class JPEffectMgr {
+public:
+    JPEffectMgr(JKRHeap *, bool);
+
+    void reset();
+
+    static JPEffectMgr * getEffectMgr() {
+        return mThis;
+    }
+
+    static JPEffectMgr * mThis;
+};
 
 void CreateJPAMgr(JKRHeap *, bool);
+
+inline JPEffectMgr *GetJPAMgr() { return JPEffectMgr::getEffectMgr(); }
 
 #endif

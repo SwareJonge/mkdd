@@ -1,0 +1,70 @@
+name: Build
+on:
+  push:
+  pull_request:
+
+# workflow that builds/verify a commit, this file is based of mkw-decomp's workflow 
+jobs:
+  build_windows:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+          architecture: 'x64'
+
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+        with:
+          requirement_files: requirements.txt
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - name: Get dependencies
+        env:
+          SECRET_CLIENT: ${{ secrets.SFTP_CLIENT }}
+          SECRET_ADDRESS: ${{ secrets.SFTP_ADDRESS }}
+          SECRET_PORT: ${{ secrets.SFTP_PORT }}
+          SECRET_UNAME: ${{ secrets.SFTP_USERNAME }}
+          SECRET_PW: ${{ secrets.SFTP_PASSWORD }}
+        run: |        
+          # Download sftp client zip
+          Invoke-WebRequest "$env:SECRET_CLIENT" -OutFile .\sftp.zip
+          # Extract SFTP client
+          Expand-Archive sftp.zip
+          # Download and extract all tools and required files
+          .\sftp\sftp-client.exe "$env:SECRET_ADDRESS" "$env:SECRET_PORT" "$env:SECRET_UNAME" "$env:SECRET_PW"
+          Expand-Archive -Path build-dependencies.zip .\ 
+          # Clean up
+          Remove-Item '.\sftp.zip'
+          Remove-Item '.\sftp\' -Recurse
+          Remove-Item '.\build-dependencies.zip'
+          
+      - name: Configure ninja build file
+        shell: bash
+        run: python configure.py
+
+      - name: Build mkdd
+        shell: bash
+        run: ninja
+
+      - name: Print progress
+        run: |
+          .\tools\ProgressCalculator.exe
+
+      - name: Clean
+        run: |
+          # Remove files stored in build-dependencies
+          Remove-Item '.\orig\main.dol'
+          Remove-Item '.\out\' -Recurse        
+          Remove-Item '.\tools\2.5\' -Recurse
+          Remove-Item '.\tools\devkitppc\' -Recurse

@@ -7,6 +7,7 @@
 struct stEffectMgr {
     void init();
     void createModel(JKRSolidHeap *, u32);
+    void reset();
 };
 
 void CreateStEfctMgr();

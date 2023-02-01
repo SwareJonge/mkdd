@@ -8,6 +8,9 @@ class PauseManager {
 public:
     PauseManager(JKRHeap *);    
     void setExecFlag(bool);
+    void reset();
+
+    void enablePause();
 
     static PauseManager *getManager() {
         return mThis;

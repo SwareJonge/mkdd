@@ -3,6 +3,7 @@
 
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/KartInfo.h"
+#include "Kaneshige/RaceLight.h"
 #include "types.h"
 
 class KartDrawer
@@ -54,6 +55,14 @@ public:
     void isFlashing() const;          // 0x801b950c
     void isHide(u32) const;           // 0x801b95c8
     void hide();                      // 0x801b9b88
+
+    void setLight(u32 viewNo, RaceKartLight * kartLight) {
+        JUT_MAX_ASSERT(107, viewNo, 4);
+        mKartLight[viewNo] = kartLight;
+    }
+
+    u8 _0[0x30];
+    RaceKartLight * mKartLight[4];
 };                                    // class KartDrawer
 // Outside class members
 //void DrawBuffer::create(u32);

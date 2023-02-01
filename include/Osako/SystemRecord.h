@@ -9,6 +9,7 @@
 
 struct SystemRecord {
     SystemRecord() {}
+    void applyAudioSetting();
     TARecord * getBestLap(ECourseID);
     TARecord * getTARecord(ECourseID, int);
 
