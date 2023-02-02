@@ -204,6 +204,8 @@ namespace JMath
     inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
 
+inline f32 JMAAbs(f32 input) { return __fabs(input); }
+
 inline f32 JMAAtan2Radian(f32 y, f32 x) { return JMath::atanTable_.atan2Radian(y, x); };
 
 inline f32 JMASCosShort(s16 v) { return JMath::sincosTable_.cosShort(v); }
@@ -211,6 +213,13 @@ inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
 
 inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
 inline f32 JMASSin(s16 v) { return JMASinShort(v); }
+
+// not tested
+inline f32 JMAFastSqrt(f32 input) {
+    if (input < 0.0f)
+        return input;
+    return __frsqrte(input) * input;
+}
 
 void JMAEulerToQuat(s16, s16, s16, Quaternion *);
 void JMAQuatLerp(const Quaternion *, const Quaternion *, f32, Quaternion *);

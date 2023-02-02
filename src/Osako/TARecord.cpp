@@ -26,7 +26,7 @@ void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char * 
     mCharID2 = charId2;
     mKartID = kartId;
     mCourseID = courseId;
-    strncpy(mName, name, 4);
+    strncpy(mName, name, sizeof(mName));
     setRaceTime(raceTime);
 }
 

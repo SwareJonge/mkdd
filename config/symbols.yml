@@ -2385,6 +2385,9 @@ global:
  0x803780c0: cUserBarColorTable__8SysDebug
  0x804163b0: sManager__8SysDebug
 
+ # JugemPoint.cpp
+ 0x801ba2a4: __ct__10JugemPointFv
+
  # GeoItemCar.cpp
  0x801c2850: scale__Q29JGeometry8TVec3<f>FfRCQ29JGeometry8TVec3<f> 
 
