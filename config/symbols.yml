@@ -649,6 +649,9 @@ global:
  0x803fa974: sThreadList__9JKRThread
  0x803fa9ac: sTaskList__7JKRTask
  0x804159d0: sManager__15JKRThreadSwitch
+
+ # JASReport.cpp
+ 0x80090df4: JASReport__FPCce
  
  # JASHeapCtrl.cpp
  0x800902a0: showAssert__12JUTAssertionFUlPCciPCc
@@ -1018,6 +1021,15 @@ global:
  0x80392f60: __ctype_map
  0x80393060: __lower_map
  0x80393160: __upper_map
+
+ # printf.c
+ 0x8010a20c: sprintf
+ 0x8010a2b0: snprintf
+ 0x8010a358: vsnprintf
+ 0x8010a3f8: vprintf
+ 0x8010a480: fprintf
+ 0x8010a564: __StringWrite
+ 0x8010a608: __FileWrite
 
  # string.c
  0x8010d5dc: strstr

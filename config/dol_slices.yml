@@ -96,6 +96,11 @@ JSystem/JKernel/JKRDvdRipper.cpp:
     .sbss: [0x80415948, 0x80415988]
     .sdata2: [0x80417aa0, 0x80417ab0]
 
+JSystem/JAudio/JASReport.cpp:
+    .text: [0x80090df4, 0x80090ef0]
+    .bss: [0x803aec98, 0x803aecb0]
+    .sbss: [0x80415a28, 0x80415a38]
+
 dolphin/__ppc_eabi_init.s:
     .text: [0x800f31d8, 0x800f322c]
 
