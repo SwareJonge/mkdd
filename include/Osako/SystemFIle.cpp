@@ -1,21 +1,11 @@
-#ifndef SAVEFILE_H
-#define SAVEFILE_H
+#ifndef SYSTEMFILE_H
+#define SYSTEMFILE_H
+#include "Osako/SaveFile.h"
 
-#include "types.h"
+class SystemFile : public SaveFile {
+    SystemFile();
 
-class SaveFile
-{
-public:
-    static bool msCRCTableComputed;
-    static u32 msaCRCTable[256];
-    void makeCRCTable();
-    u32 getCRC(u8 *pBegin, u8 *pEndNext);
-
-    enum FilePart {
-
-    };
-
-    virtual void setPart(FilePart);        // 08
+    virtual void setPart(FilePart *);      // 08
     virtual void fetch();                  // 0C
     virtual void store();                  // 10
     virtual void setCheckData(long, long); // 14
@@ -34,6 +24,9 @@ public:
     virtual long getFileSize();            // 48
     virtual long getLength();              // 4C
     virtual long getOffset();              // 50
+    virtual ~SystemFile();                 // 54
 };
+
+extern SystemFile gSystemFile;
 
 #endif

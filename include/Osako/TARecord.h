@@ -5,7 +5,10 @@
 #include "types.h"
 
 struct TARecord {
-    TARecord(); // inline
+    TARecord() {
+        mKartID = 0xff;
+        mTime.reset();
+    }
     TARecord(u8, u8, u8, u8);
     void setName(const char *);
     void setStatus(u8, u8, u8, u8);

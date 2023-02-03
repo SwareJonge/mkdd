@@ -265,8 +265,9 @@ void RaceInfo::setRaceLevel(ERaceLevel raceLvl)
 
 void RaceInfo::shuffleRandomSeed()
 {
-    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed);
-    mRandomSeed = ((JMath::TRandom_fast_)rndm).get();
+    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed); 
+    mRandomSeed = rndm.get();
+    // randomSeed = JMath::TRandom_<JMath::TRandom_fast_>(randomSeed).get();
 }
 
 void RaceInfo::shuffleStartNo()
@@ -275,7 +276,7 @@ void RaceInfo::shuffleStartNo()
 
     for (u32 i = 0; i < (u32)getKartNumber(); i++)
     {
-        u32 dst = i + (((JMath::TRandom_fast_)rndm).get() % (getKartNumber() - i));
+        u32 dst = i + (rndm.get() % (getKartNumber() - i));
         JUT_MAX_ASSERT(751, dst, getKartNumber());
         s32 playerStartIdx = mStartPosIndex[i];
         mStartPosIndex[i] = mStartPosIndex[dst];

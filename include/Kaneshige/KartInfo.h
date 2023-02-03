@@ -39,7 +39,8 @@ enum ECharID
     TOAD = 17,
     TOADETTE = 18,
     KING_BOO = 19,
-    PETEY = 20
+    PETEY = 20,
+    cCharIDMax = 21
 };
 
 enum EKartID {
