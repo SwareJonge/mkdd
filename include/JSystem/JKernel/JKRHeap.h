@@ -174,7 +174,6 @@ inline JKRHeap *JKRGetRootHeap(){
     return JKRHeap::getRootHeap();
 }
 
-
 inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
     return JKRHeap::getSystemHeap()->alloc(size, alignment);
 }
@@ -185,6 +184,10 @@ inline void * JKRAllocFromHeap(JKRHeap * heap, u32 size, int alignment) {
 
 inline void JKRFree(void * pBuf) {
     JKRHeap::free(pBuf, nullptr);
+}
+
+inline void JKRFreeToSysHeap(void * buf) {
+    JKRHeap::getSystemHeap()->free(buf);
 }
 
 void JKRDefaultMemoryErrorRoutine(void *, u32, s32);

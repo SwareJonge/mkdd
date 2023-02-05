@@ -157,9 +157,9 @@ u32 __OSBusClock : (0x800000F8);
 
   typedef struct OSFstEntry
   {
-    int m_entryNum;
-    int m_nextEntryNum;
-    char *m_fileNameMaybe;
+    int mEntryNum;
+    int mNextEntryNum;
+    char *mFileNameMaybe;
   } OSFstEntry;
 
   void DCInvalidateRange(void *addr, u32 nBytes);

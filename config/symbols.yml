@@ -527,10 +527,15 @@ global:
  0x80081c4c: create__10JKRExpHeapFUlP7JKRHeapb
  0x80081d18: create__10JKRExpHeapFPvUlP7JKRHeapb
 
+ # JKRFileCache.cpp
+ 0x80083850: __dt__13JKRFileFinderFv
+ 0x8038b3b8: __vt__13JKRFileFinder
+
  # JKRFileFinder.cpp
  0x80083898: __ct__12JKRArcFinderFP10JKRArchivell
  0x80083924: findNextFile__12JKRArcFinderFv
  0x800839d0: __dt__12JKRArcFinderFv
+ 0x8038b3c8: __vt__12JKRArcFinder
 
  # JKRFileLoader.cpp
  0x80083a2c: __ct__13JKRFileLoaderFv

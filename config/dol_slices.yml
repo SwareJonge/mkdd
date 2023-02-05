@@ -96,6 +96,14 @@ JSystem/JKernel/JKRDvdRipper.cpp:
     .sbss: [0x80415948, 0x80415988]
     .sdata2: [0x80417aa0, 0x80417ab0]
 
+JSystem/JKernel/JKRFileCache.cpp:
+    .text: [0x80083850, 0x80083898]
+    .data: [0x8038b3b8, 0x8038b3c8]
+
+JSystem/JKernel/JKRFileFinder.cpp:
+    .text: [0x80083898, 0x80083a2c]
+    .data: [0x8038b3c8, 0x8038b3d8]
+
 JSystem/JAudio/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]

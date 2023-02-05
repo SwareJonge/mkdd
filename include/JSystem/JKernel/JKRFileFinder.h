@@ -24,6 +24,11 @@ public:
     }
 
     virtual ~JKRFileFinder() {} // _08 (weak)
+    virtual bool findNextFile() = 0; // _0C
+
+    bool isAvailable() const {
+        return mIsAvailable;
+    }
 
     // _00     = VTBL
     // _00-_10 = JKRFileFinderBase
@@ -42,9 +47,9 @@ class JKRArcFinder : public JKRFileFinder
     // _00     = VTBL
     // _00-_14 = JKRFileFinder
     JKRArchive *mArchive; // _14
-    int mStartIndex;      // _18
-    int mEndIndex;        // _1C
-    int mNextIndex;       // _20
+    long mStartIndex;      // _18
+    long mEndIndex;        // _1C
+    long mNextIndex;       // _20
 };
 
 class JKRDvdFinder : public JKRFileFinder
