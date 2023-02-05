@@ -101,8 +101,9 @@ JSystem/JAudio/JASReport.cpp:
     .bss: [0x803aec98, 0x803aecb0]
     .sbss: [0x80415a28, 0x80415a38]
 
-dolphin/__ppc_eabi_init.s:
-    .text: [0x800f31d8, 0x800f322c]
+dolphin/__ppc_eabi_init.cpp:
+    .init: [0x80003400, 0x80003458]
+    .text: [0x800f31b8, 0x800f324c]
 
 Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]

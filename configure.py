@@ -21,11 +21,10 @@ import common as c
 ####################
 
 # Check CW was added
-       #os.path.exists("tools/1.2.5/mwcceppc.exe") and \
-       #os.path.exists("tools/1.2.5/mwldeppc.exe"), \
 assert os.path.exists("tools/2.5/mwcceppc.exe") and \
-       os.path.exists("tools/2.5/mwldeppc.exe") and  \
-       "Error: Codewarrior not found in tools/2.5"
+    os.path.exists("tools/1.2.5/mwcceppc.exe") and \
+    os.path.exists("tools/2.5/mwldeppc.exe"), \
+    "Error: Codewarrior not found!"
 
 # Check binaries were added
 assert os.path.exists(c.DOL), \
@@ -497,7 +496,12 @@ class AsmSource(Source):
 
 class CSource(Source):
     def __init__(self, ctx: c.SourceContext, path: str):
-        if path.startswith("src/JSystem/JUtility/"):
+        self.cc = c.CC
+        self.cflags = ctx.cflags
+        
+        if path.startswith("src/dolphin/"):
+            self.cc = c.SDK_CC # TODO: build flags for SDK
+        elif path.startswith("src/JSystem/JUtility/"):
             self.cflags = c.JSYSTEM_SPACE_CFLAGS
         elif path.startswith("src/JSystem/JKernel/"):
             self.cflags = c.JSYSTEM_SPACE_CFLAGS
@@ -507,8 +511,7 @@ class CSource(Source):
             self.cflags = c.KANESHIGE_CFLAGS
         elif path.startswith("src/Osako/"):
             self.cflags = c.OSAKO_CFLAGS
-        else:
-            self.cflags = ctx.cflags
+            
         self.iconv_path = f"$builddir/iconv/{path}"
 
         # Find generated includes
@@ -530,6 +533,7 @@ class CSource(Source):
             inputs = self.iconv_path,
             implicit = [inc.path for inc in self.gen_includes],
             variables = {
+                "cc": self.cc,
                 "cflags" : self.cflags,
                 "dep" : self.dep
             }

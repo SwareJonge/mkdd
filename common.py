@@ -106,10 +106,14 @@ PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 
 # Codewarrior
 TOOLS = "tools"
+
+SDK_CW = os.path.join(TOOLS, "1.2.5")
+SDK_CC = os.path.join(SDK_CW, "mwcceppc")
 CODEWARRIOR = os.path.join(TOOLS, "2.5")
 CC = os.path.join(CODEWARRIOR, "mwcceppc")
 LD = os.path.join(CODEWARRIOR, "mwldeppc")
 if platform != "win32":
+    SDK_CC = f"wine {SDK_CC}"
     CC = f"wine {CC}"
     LD = f"wine {LD}"
 
@@ -158,7 +162,7 @@ DOL_LCF = f"{BUILDDIR}/dol.lcf"
 # Outputs
 DOL_ELF = f"{BUILDDIR}/main.elf"
 DOL_OUT = f"{OUTDIR}/main.dol"
-DOL_MAP = f"{OUTDIR}/main.map"
+DOL_MAP = f"{OUTDIR}/debugInfoM.MAP"
 
 # Optional full disassembly
 DOL_FULL = f"{OUTDIR}/dol.s"

@@ -658,7 +658,31 @@ global:
 
  0x800a5fe0: __ct__Q29JGeometry8TVec3<f>Fv 
 
-  # mtx.c
+ # PPCArch.c
+ 0x800af634: PPCMfmsr
+ 0x800af63c: PPCMtmsr
+ 0x800af644: PPCMfhid0
+ 0x800af64c: PPCMthid0
+ 0x800af654: PPCMfl2cr
+ 0x800af65c: PPCMtl2cr
+ 0x800af664: PPCMtdec
+ 0x800af66c: PPCSync
+ 0x800af674: PPCHalt
+ 0x800af688: PPCMtmmcr0
+ 0x800af690: PPCMtmmcr1
+ 0x800af698: PPCMtpmc1
+ 0x800af6a0: PPCMtpmc2
+ 0x800af6a8: PPCMtpmc3
+ 0x800af6b0: PPCMtpmc4
+ 0x800af6b8: PPCMffpscr
+ 0x800af6d8: PPCMtfpscr
+ 0x800af700: PPCMfhid2
+ 0x800af708: PPCMthid2
+ 0x800af710: PPCMtwpar
+ 0x800af718: PPCDisableSpeculation
+ 0x800af740: PPCSetFpNonIEEEMode
+
+ # mtx.c
  0x800af748: PSMTXIdentity
  0x800af774: PSMTXCopy
  0x800af7a8: PSMTXConcat
@@ -896,7 +920,21 @@ global:
  0x800c96bc: GXReadXfRasMetric
 
  # OS.c
+ 0x800ec2cc: __OSFPRInit
+ 0x800ec3f4: OSGetConsoleType
  0x800ec580: OSInit
+ 0x800ecc00: __OSSetExceptionHandler
+ 0x800ecc1c: __OSGetExceptionHandler
+ 0x800ecccc: OSDefaultExceptionHandler
+ 0x800ecd24: __OSPSInit
+ 0x800ecd78: __OSGetDIConfig
+ 0x800ecd8c: OSRegisterVersion
+ 0x80414230: __OSVersion
+ 0x80415eec: __OSIsGcam
+ 0x80415f08: __OSSavedRegionEnd
+ 0x80415f0c: __OSSavedRegionStart
+ 0x80415f10: __OSInIPL
+ 0x80415f18: __OSStartTime
 
  # OSAlarm.c
  0x800ecdb8: OSInitAlarm
