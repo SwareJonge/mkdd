@@ -4,7 +4,10 @@
 #include "types.h"
 #include "dolphin/OS.h"
 #include "dolphin/PAD.h"
+#include "JSystem/LGWheels.h"
 #include "JSystem/JKernel/JKRDisposer.h"
+
+typedef void (*JUTResetBtnCb)(int, void*);
 
 class JUTGamePad : public JKRDisposer
 {
@@ -67,6 +70,12 @@ public:
     bool recalibrate(u32);
     void setButtonRepeat(u32, u32, u32);
     void update();
+
+    static void setResetCallback(JUTResetBtnCb callback, void *param_0)
+    {
+        C3ButtonReset::sCallback = callback;
+        C3ButtonReset::sCallbackArg = param_0;
+    }
 
     bool testButton(u32 mask) {
         return mButtons.mInput & mask;
@@ -134,11 +143,26 @@ public:
         u32 _C;
     };
 
-    class C3ButtonReset
-    {
+    class C3ButtonReset {
     public:
-        static s32 sResetPattern;
+        C3ButtonReset() { mReset = false; }
+
+        static u32 sResetPattern;
+        static u32 sResetMaskPattern;
+        static JUTResetBtnCb sCallback;
+        static void *sCallbackArg;
+        static OSTime sThreshold;
+        static s32 sResetOccurredPort;
+        static bool sResetOccurred;
+        static bool sResetSwitchPushing;
+
+    private:
+        bool mReset;
     };
+
+    static LGWheels* getLGWheels() { return mspLGWheels; }
+
+    static LGWheels *mspLGWheels;
 
     static EStickMode sStickMode;
 

@@ -6,11 +6,6 @@
 
 struct JUTGraphFifo
 {
-    static JUTGraphFifo *create(u32 p1)
-    {
-        return new JUTGraphFifo(p1);
-    }
-
     JUTGraphFifo(u32);
 
     virtual ~JUTGraphFifo(); // _08
@@ -29,5 +24,9 @@ struct JUTGraphFifo
 
     static bool sInitiated;
 };
+
+inline JUTGraphFifo *JUTCreateFifo(u32 p1) {
+    return new JUTGraphFifo(p1);
+}
 
 #endif

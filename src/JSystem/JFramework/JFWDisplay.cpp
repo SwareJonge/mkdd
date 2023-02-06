@@ -14,7 +14,9 @@
 // https://github.com/kiwi515/ogws/blob/master/src/egg/core/eggAsyncDisplay.cpp
 // gpHang: https://github.com/valentinaslover/paper-mar/blob/master/source/sdk/DEMOInit.c#L280
 
-/* extern */ JSUList<JFWAlarm> JFWAlarm::sList(false); // ctor might not match, i don't have a way of testing currently
+Mtx e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}};
+
+JSUList<JFWAlarm> JFWAlarm::sList(false);
 JFWDisplay *JFWDisplay::sManager;
 
 void JFWDisplay::ctor_subroutine(bool enableAlpha) {

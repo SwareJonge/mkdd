@@ -1,1 +1,4 @@
 trim_ctors: true
+
+global_manual_floats:
+  - [0x8041b6b4, 0x8041b6c0]

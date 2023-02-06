@@ -150,6 +150,7 @@ public:
 
 class JKRAramStream : public JKRThread
 {
+public:
     JKRAramStream(long);
 
     virtual ~JKRAramStream(); // _08

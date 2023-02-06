@@ -20,9 +20,11 @@ public:
     static SysDebug* createManager();
     int appendPage(SysDbUsrPage *);
     void beginUserTime(int);
+    void ctrlDebugMode();
     void endUserTime(int);
     void createHeapInfo(JKRHeap *, char *);
     void destroyHeapInfo(JKRHeap *);
+    void draw();
     void setDefaultHeapGroup(JKRHeap *);
     void setHeapGroup(char const *name, JKRHeap *heap);
     void setUserTimeLabel(int, const char *);

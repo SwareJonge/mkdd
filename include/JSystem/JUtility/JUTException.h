@@ -10,6 +10,8 @@
 struct JUTConsole;
 struct JUTDirectPrint;
 
+typedef void JUTErrorHandler(OSError, OSContext *, u32, u32);
+
 /**
  * @size{0xA4}
  */
@@ -55,7 +57,7 @@ struct JUTException : public JKRThread
     void printContext(unsigned short, OSContext *, unsigned long, unsigned long);
     static void waitTime(long);
     void createFB();
-    static OSErrorHandler setPreUserCallback(OSErrorHandler);
+    static OSErrorHandler setPreUserCallback(JUTErrorHandler);
     static void appendMapFile(const char *);
     static bool queryMapAddress(char *, unsigned long, long, unsigned long *, unsigned long *, char *, unsigned long, bool, bool);
     static bool queryMapAddress_single(char *, unsigned long, long, unsigned long *, unsigned long *, char *, unsigned long, bool, bool);

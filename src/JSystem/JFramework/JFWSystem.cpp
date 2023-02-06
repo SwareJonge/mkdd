@@ -61,7 +61,7 @@ void JFWSystem::init()
 
     mainThread = new JKRThread(OSGetCurrentThread(), 4);    
     JUTVideo::createManager(CSetUpParam::renderMode);
-    JUTGraphFifo::create(CSetUpParam::fifoBufSize);
+    JUTCreateFifo(CSetUpParam::fifoBufSize);
     JUTGamePad::init();
     JUTDirectPrint *directPrint = JUTDirectPrint::start();
     JUTAssertion::create();

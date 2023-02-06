@@ -13,7 +13,7 @@
 
 typedef void (*JFWDisplayUnkFunc)(void);
 
-static Mtx e_mtx = {{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 0.0f}};
+extern Mtx e_mtx;
 
 class JFWAlarm : public OSAlarm { // everything here seems to be auto inlined or unused
 public:

@@ -10,6 +10,10 @@ namespace GameAudio {
         void init(JKRSolidHeap *, u32, void *, void *, u32);
         void startSystemSe(u32);
         void initRaceSound();
+        void bootDSP();
+        void setBgmVolume(f32);
+        bool isActive();
+        void frameWork();
         static Main *getAudio() { return msBasic; };
 
         static Main * msBasic; 
