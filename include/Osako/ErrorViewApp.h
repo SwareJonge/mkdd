@@ -9,7 +9,7 @@ class ErrorViewApp : public GameApp
 public:
     enum ErrorId
     {
-        ERROR1,
+        ERROR1 = 1,
         ERROR2,
         ERROR3,
         ERROR4,

@@ -35,6 +35,7 @@ public:
     /* 0x10 */ JGeometry::TBox2<f32> mBox;
     /* 0x20 */ int mEStatus;
     /* 0x24 */ u32 field_0x24;
+    /* 0x28 */ u32 field_0x28;
 };
 
 #endif /* JUTFADER_H */

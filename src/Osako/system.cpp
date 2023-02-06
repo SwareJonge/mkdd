@@ -1,4 +1,5 @@
 #include "kartlocale.h"
+#include "dolphin/OS.h"
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JUtility/JUTGamePad.h"
@@ -53,7 +54,8 @@ namespace System {
         delete audioFile;
         gSystemRecord.applyAudioSetting();
     }
-    /*void init() { // some floats that are stored on the stack seem to be missing?
+
+    void init() { // some floats that are stored on the stack seem to be missing?
         KartLocale::localize();
 
         JFWSystem::setMaxStdHeap(SystemData::scNumStandardHeaps);
@@ -66,6 +68,8 @@ namespace System {
 
         JFWSystem::init();
         PadMgr::init();
+
+        OSInitFastCast();
 
         JKRAramStream::setTransBuffer(nullptr, 0x8000, JKRGetSystemHeap());
         JUTException::setPreUserCallback(callbackException);
@@ -90,13 +94,15 @@ namespace System {
 
         SysDebug::getManager()->setHeapGroup("Font", JKRGetRootHeap());
         FontMgr::create(JKRGetRootHeap());
+
+        // stack issue here
         mspJ2DOrtho = new J2DOrthoGraph(getOrthoL(), getOrthoT(), getOrthoR(), getOrthoB(), -1.0f, 1.0f);
         mspJ2DPrint = new J2DPrint(FontMgr::mspDebugFont, 0.0f); // propably a getter for debugfont
 
         SysDebug::getManager()->setHeapGroup("Display", JKRGetRootHeap());
         mspDisplay = JFWDisplay::createManager(nullptr, JKRGetRootHeap(), JUTXfb::UNK_2, true);
 
-        mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.H, SystemData::sc3DScissor.W, SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, 0xff)); // not sure if this is the right way to do it but we'll see
+        mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, SystemData::sc3DScissor.W, SystemData::sc3DScissor.H, JUtility::TColor(0, 0, 0, 0xff))); // not sure if this is the right way to do it but we'll see
 
         SysDebug::getManager()->setHeapGroup("Card", JKRGetRootHeap());
         CardMgr::create();
@@ -126,17 +132,6 @@ namespace System {
         LogoApp::call();
 
         JUTGamePad::setResetCallback(ResetAgent::callbackReset, nullptr);
-    }*/
-
-#include "orderstrings/8037d60c_8037d658.inc"
-// .sdata2
-#include "orderstringsm/8041b688_8041b6b4.inc"
-#include "orderfloatsm/8041b6b4_8041b6c0.inc"
-#include "orderstringsm/8041b6c0_8041b6e8.inc"
-
-    MANGLED_ASM(void init())
-    {
-#include "asm/801feba0.s"
     }
 
     void reset()
@@ -204,16 +199,13 @@ namespace System {
     {
         haltRumble();
         mspDisplay->startFadeIn(0);
-        /*JUTFader *fader = mspDisplay->getFader(); // getFader() or inline startfadeIn
-        if (fader)
-            fader->startFadeIn(0);*/
     }
 
     void haltRumble() {
         PADControlMotor(0, 0);
+        PADControlMotor(1, 0);
         PADControlMotor(2, 0);
         PADControlMotor(3, 0);
-        PADControlMotor(4, 0);
 
         LGWheels *wheels = JUTGamePad::getLGWheels();
 
@@ -225,7 +217,6 @@ namespace System {
             }
         }
     }
-//#include "jumptable/8039cac0.inc"
 
     void checkDVDState()
     {
@@ -290,12 +281,7 @@ namespace System {
             AppMgr::calc();
             endFrame();
         }
-    }    
-
-    /*MANGLED_ASM(void run())
-    {
-        #include "asm/801ff334.s"
-    }*/
+    }
 
     // screw you nintendo if these have another inline
     f32 get2DVpX() { return SystemData::sc3DViewPort.X; }
@@ -322,7 +308,7 @@ namespace System {
         return SystemData::sca3DViewPortDiv2[(u32)pos].W;
     }
     f32 get3DVpDiv2H(u8 pos) {
-        JUT_ASSERT(790, pos < 2);
+        JUT_ASSERT(791, pos < 2);
         return SystemData::sca3DViewPortDiv2[(u32)pos].H;
     }
 
@@ -381,20 +367,20 @@ namespace System {
     }
 
     u32 get3DScisDiv4X(u8 pos) {
-        JUT_ASSERT(824, pos < 2);
-        return SystemData::sca3DScissorDiv2[(u32)pos].X;
+        JUT_ASSERT(824, pos < 4);
+        return SystemData::sca3DScissorDiv4[(u32)pos].X;
     }
     u32 get3DScisDiv4Y(u8 pos) {
         JUT_ASSERT(825, pos < 4);
-        return SystemData::sca3DScissorDiv2[(u32)pos].Y;
+        return SystemData::sca3DScissorDiv4[(u32)pos].Y;
     }
     u32 get3DScisDiv4W(u8 pos) {
         JUT_ASSERT(826, pos < 4);
-        return SystemData::sca3DScissorDiv2[(u32)pos].W;
+        return SystemData::sca3DScissorDiv4[(u32)pos].W;
     }
     u32 get3DScisDiv4H(u8 pos) {
         JUT_ASSERT(827, pos < 4);
-        return SystemData::sca3DScissorDiv2[(u32)pos].W;
+        return SystemData::sca3DScissorDiv4[(u32)pos].H;
     }
 
     u32 get3DScisSubX() { return SystemData::sc3DScissorSub.X; }
@@ -403,8 +389,8 @@ namespace System {
     u32 get3DScisSubH() { return SystemData::sc3DScissorSub.H; }
     // perhaps create new struct
     f32 getOrthoL() { return SystemData::scOrtho.X; }
-    f32 getOrthoR() { return SystemData::scOrtho.Y; }
-    f32 getOrthoT() { return SystemData::scOrtho.W; }
+    f32 getOrthoR() { return SystemData::scOrtho.W; }
+    f32 getOrthoT() { return SystemData::scOrtho.Y; }
     f32 getOrthoB() { return SystemData::scOrtho.H; }
 
     f32 getPerspAspect() { return SystemData::scAspect; }
