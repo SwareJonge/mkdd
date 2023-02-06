@@ -104,6 +104,16 @@ JSystem/JKernel/JKRFileFinder.cpp:
     .text: [0x80083898, 0x80083a2c]
     .data: [0x8038b3c8, 0x8038b3d8]
 
+JSystem/JKernel/JKRFileLoader.cpp:
+    .text: [0x80083a2c, 0x80083e20]
+    .ctors: [0x803160e8, 0x803160ec]
+    .data: [0x8038b3d8, 0x8038b418]
+    .bss: [0x803ae9b0, 0x803ae9c0]
+    #.bss: [0x803fa968, 0x803fa974] # common bss
+    .sdata: [0x80414090, 0x80414098]
+    .sbss: [0x804159a0, 0x804159a8]
+    .sdata2: [0x80417af0, 0x80417af8]
+
 JSystem/JAudio/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]

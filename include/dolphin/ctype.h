@@ -21,7 +21,8 @@ extern "C"
 
     inline BOOL isdigit(int c) { return (__ctype_map[c & 0xFF] & CTYPE_DIGIT) != 0; }
     inline BOOL islower(u8 c) { return (__lower_map[c & 0xFF]); }
-    int tolower(int __c);
+    int tolower(int __c); // tolower is a weak symbol, investigate
+    
 
 #ifdef __cplusplus
 };

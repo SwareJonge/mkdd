@@ -349,7 +349,6 @@ global:
  0x80079464: getLength__18JSUFileInputStreamCFv
  0x80079494: getPosition__18JSUFileInputStreamCFv
 
-
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll
  0x80079530: __ct__7JKRAramFUlUll
@@ -394,7 +393,7 @@ global:
  0x803fa908: sAramPieceCommandList__12JKRAramPiece
  0x803fa92c: mMutex__12JKRAramPiece
 
-  # JKRAramStream.cpp
+ # JKRAramStream.cpp
  0x8007b9cc: create__13JKRAramStreamFl
  0x8007ba3c: __ct__13JKRAramStreamFl
  0x8007ba8c: __dt__13JKRAramStreamFv
@@ -502,7 +501,7 @@ global:
  0x8038b2e0: __vt__10JKRDvdFile
  0x803fa944: sDvdList__10JKRDvdFile
 
-  # JKRDvdArchive.cpp
+ # JKRDvdArchive.cpp
  0x8008017c: __ct__13JKRDvdArchiveFlQ210JKRArchive15EMountDirection
  0x8008021c: __dt__13JKRDvdArchiveFv
  0x80080330: open__13JKRDvdArchiveFl
@@ -512,7 +511,7 @@ global:
  0x80080a7c: fetchResource_subroutine__13JKRDvdArchiveFlUlUlP7JKRHeapiiPPUc
  0x80080d34: getExpandedResSize__13JKRDvdArchiveCFPCv
 
-  # JKRDvdRipper.cpp
+ # JKRDvdRipper.cpp
  0x80080e68: loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
  0x80080f1c: loadToMainRAM__12JKRDvdRipperFlPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
  0x80080fd0: loadToMainRAM__12JKRDvdRipperFP10JKRDvdFilePUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
@@ -546,6 +545,7 @@ global:
  0x80083c34: findVolume__13JKRFileLoaderFPPCc
  0x80083cc0: fetchVolumeName__13JKRFileLoaderFPclPCc
  0x80083dd4: __dt__24JSUList<13JKRFileLoader>Fv
+ 0x8038b3d8: __vt__13JKRFileLoader
  0x803fa968: sVolumeList__13JKRFileLoader
  0x804159a0: sCurrentVolume__13JKRFileLoader
 

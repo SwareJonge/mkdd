@@ -67,4 +67,5 @@ jobs:
           Remove-Item '.\orig\main.dol'
           Remove-Item '.\out\' -Recurse        
           Remove-Item '.\tools\2.5\' -Recurse
+          Remove-Item '.\tools\1.2.5\' -Recurse
           Remove-Item '.\tools\devkitppc\' -Recurse

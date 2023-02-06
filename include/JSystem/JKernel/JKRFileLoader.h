@@ -29,7 +29,11 @@ public:
     static void *getGlbResource(char const *);
     static void *getGlbResource(char const *, JKRFileLoader *);
     static JKRFileLoader *findVolume(char const **);
-    static void fetchVolumeName(char *, long, char const *);
+    static const char * fetchVolumeName(char *, long, char const *);
+
+    static JKRFileLoader *getCurrentVolume() { return sCurrentVolume; }
+    static void setCurrentVolume(JKRFileLoader *fileLoader) { sCurrentVolume = fileLoader; }
+    static JSUList<JKRFileLoader> &getVolumeList() { return sVolumeList; }
 
     static JKRFileLoader *sCurrentVolume;
     static JSUList<JKRFileLoader> sVolumeList;
