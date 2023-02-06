@@ -1100,8 +1100,9 @@ global:
  # GameAudioMain.cpp
  0x8011b4a8: init__Q29GameAudio4MainFP12JKRSolidHeapUlPvPvUl
  0x8011e540: startSystemSe__Q29GameAudio4MainFUl 
+ 0x80416218: msBasic__Q29GameAudio4Main
 
-  # MotorManager.cpp
+ # MotorManager.cpp
  0x80130e58: __ct__12MotorManagerFP7JKRHeap
  0x80130ee0: __dt__12MotorManagerFv
  0x80130f48: reset__12MotorManagerFv

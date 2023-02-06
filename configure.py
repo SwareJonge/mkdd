@@ -299,12 +299,12 @@ class JumptableInclude(GeneratedInclude):
         return f"JumptableInclude({self.addr})"
 
 class StringInclude(GeneratedInclude):
-    REGEX = r'#include "orderstrings\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
+    REGEX = r'#include "(orderstrings(m?))\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
 
     def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
-        self.start, self.end = match
+        folder, manual, self.start, self.end = match
         super().__init__(ctx, source_name,
-                         f"{c.BUILD_INCDIR}/orderstrings/{self.start}_{self.end}.inc")
+                         f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
 
     def build(includes: List["StringInclude"]):
         # Skip empty list
@@ -316,12 +316,14 @@ class StringInclude(GeneratedInclude):
 
         # Build
         for inc in includes:
+            sda = "--sda " if ctx.sdata2_threshold >= 4 else ""
             n.build(
                 inc.path,
                 rule="orderstrings",
                 inputs=ctx.binary,
                 variables={
-                    "addrs" : f"{inc.start} {inc.end}"
+                    "addrs" : f"{inc.start} {inc.end}",
+                    "flags" : f"{sda}"
                 }
             )
 

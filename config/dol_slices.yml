@@ -205,10 +205,10 @@ Osako/main.cpp:
 
 #Osako/system.cpp:
     #.text: [0x801feb10, 0x801ffe80] # exclude __sinit_system_cpp (801fff8c)
-    #.ctors: [0x8031637c, 0x80316380]
+    ##.ctors: [0x8031637c, 0x80316380]
     #.rodata: [0x8037d5e8, 0x8037d658]
     #.data: [0x8039cac0, 0x8039caf8]
-    #.bss: [0x803d08f0, 0x803d0920]
+    ##.bss: [0x803d08f0, 0x803d0920]
     #.sbss: [0x80416968, 0x80416998]
     #.sdata2: [0x8041b688, 0x8041b6e8]
 

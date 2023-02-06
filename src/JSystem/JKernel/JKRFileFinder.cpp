@@ -46,7 +46,6 @@ bool JKRDvdFinder::findNextFile() {
         mIsAvailable = DVDReadDir(&mFstEntry, &entry);
         if (mIsAvailable)
         {
-            u16 v1 = 1;
             mIsFileOrDir = (bool)entry.mNextEntryNum;
             mFileName = entry.mFileNameMaybe;
             mFileIndex = entry.mEntryNum;

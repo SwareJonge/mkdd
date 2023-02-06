@@ -18,7 +18,7 @@ void TARecord::setStatus(u8 charId1, u8 charId2, u8 kartId, u8 courseId) {
 }
 
 void TARecord::setRaceTime(RaceTime raceTime) {
-    mTime = raceTime; // could also be just mTime = raceTime 
+    mTime = raceTime;
 }
 
 void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char * name, RaceTime raceTime) {
@@ -34,5 +34,5 @@ bool TARecord::less(const TARecord & mRec) {
     if(mKartID == 0xff)
         return true;
 
-    return mRec.mTime.isLittle(mTime);
+    return mRec.getRaceTime().isLittle(mTime);
 }

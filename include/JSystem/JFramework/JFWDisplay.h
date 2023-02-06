@@ -95,6 +95,13 @@ public:
         return JUTVideo::getManager()->getFbWidth();
     }
 
+    JUTFader * getFader() const { return mFader; }
+    void setFader(JUTFader * fader) { mFader = fader; }
+
+    void set_38(int val) {
+        _38 = val;
+    }
+
     int startFadeOut(int param_0) {
         if (mFader != nullptr) {
             return mFader->startFadeOut(param_0);

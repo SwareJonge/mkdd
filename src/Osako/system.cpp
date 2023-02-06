@@ -16,7 +16,6 @@ static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma force_active on
 DUMMY_POINTER(lbl_8037d5e8)
 #pragma pop
-#include "orderstrings/8037d60c_8037d670.inc"
 
 namespace System {
     void startAudioTask(void* p1) {
@@ -103,10 +102,14 @@ namespace System {
     }*/
 }
 
+#include "orderstrings/8037d60c_8037d670.inc"
 // .sdata2
-#include "orderstrings/8041b688_8041b6b4.inc"
+#include "orderstringsm/8041b688_8041b6b4.inc"
+/*const float lbl_8041b6b4 = -1.0f;
+const float lbl_8041b6b8 = 1.0f;
+const float lbl_8041b6bc = 0.0f;*/
 #include "orderfloatsm/8041b6b4_8041b6c0.inc"
-#include "orderstrings/8041b6c0_8041b6e8.inc"
+#include "orderstringsm/8041b6c0_8041b6e8.inc"
 
 asm void System::init()
 {
@@ -117,7 +120,7 @@ asm void System::init()
 namespace System {
     void reset()
     {
-        mspDisplay->_38 = 1;
+        mspDisplay->set_38(1);
         changeNormalRenderMode();
     }
 
@@ -134,14 +137,13 @@ namespace System {
     void changeProgressive()
     {
         switch (msRenderMode)
+        {
         case 0:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscProg448Soft);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448Soft);
             msRenderMode = 2;
-        }
+            break;
         case 1:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscProg448);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448);
             msRenderMode = 3;
             break;
         }
@@ -149,15 +151,14 @@ namespace System {
 
     void changeMovieRenderMode()
     {
-        switch (msRenderMode)
+        switch (msRenderMode) 
+        {
         case 0:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscInt448);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448);
             msRenderMode = 1;
-        }
+            break;
         case 2:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscProg448);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448);
             msRenderMode = 3;
             break;
         }
@@ -166,14 +167,13 @@ namespace System {
     void changeNormalRenderMode()
     {
         switch (msRenderMode)
+        {
         case 1:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscInt448Df);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448Df);
             msRenderMode = 0;
-        }
+            break;
         case 3:
-        {
-            JUTVideo::getManager()->setRenderMode(SystemData::scNtscProg448Soft);
+            JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448Soft);
             msRenderMode = 2;
             break;
         }
@@ -182,9 +182,10 @@ namespace System {
     void callbackException(u16, OSContext *, u32, u32)
     {
         haltRumble();
-        JUTFader *fader = mspDisplay->mFader; // getFader() or inline startfadeIn
+        mspDisplay->startFadeIn(0);
+        /*JUTFader *fader = mspDisplay->getFader(); // getFader() or inline startfadeIn
         if (fader)
-            fader->startFadeIn(0);
+            fader->startFadeIn(0);*/
     }
 
     /*void haltRumble() {
