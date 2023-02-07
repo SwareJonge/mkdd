@@ -250,9 +250,9 @@ static void MyFree(void *p1) {
 
 void JFWDisplay::beginRender() { 
     JUTProcBar::getManager()->wholeLoopEnd();    
-    JUTProcBar::getManager()->wholeLoopStart(0xff, 0x81, 0x1e);
+    JUTProcBar::getManager()->wholeLoopStart();
     if (_40) {
-        JUTProcBar::getManager()->idleStart(0xff, 0x81, 0x1e);
+        JUTProcBar::getManager()->idleStart();
     }
 
     waitForTick(mTickRate, mFrameRate);
@@ -272,7 +272,7 @@ void JFWDisplay::beginRender() {
 #endif
 
     if(_40) {
-        JUTProcBar::getManager()->gpStart(0xff, 0x81, 0x1e);
+        JUTProcBar::getManager()->gpStart();
         JUTXfb * xfbMgr = JUTXfb::getManager();
         switch (xfbMgr->getBufferNum()) {
         case 1:
@@ -327,7 +327,7 @@ void JFWDisplay::endRender() {
         }
     }
 
-    JUTProcBar::getManager()->cpuStart(0xff, 0x81, 0x1e);
+    JUTProcBar::getManager()->cpuStart();
     calcCombinationRatio();
 }
 
@@ -335,7 +335,7 @@ void JFWDisplay::endFrame() {
     JUTProcBar::getManager()->cpuEnd();
 
     if (_40) {
-        JUTProcBar::getManager()->gpWaitStart(0xff, 0x81, 0x1e);
+        JUTProcBar::getManager()->gpWaitStart();
         switch (JUTXfb::getManager()->getBufferNum()) {
         case 1:
             break;
@@ -355,8 +355,6 @@ void JFWDisplay::endFrame() {
         JUTProcBar::getManager()->gpEnd();
     }
 
-
-    static bool init;
     static u32 prevFrame = VIGetRetraceCount();
     u32 retrace_cnt = VIGetRetraceCount();
     JUTProcBar::getManager()->setCostFrame(retrace_cnt - prevFrame);
@@ -372,7 +370,6 @@ void JFWDisplay::waitBlanking(int param_0) {
 
 void waitForTick(u32 p1, u16 p2) {
     if (p1 != 0) {
-        static bool init;
         static s64 nextTick = OSGetTime();
         s64 time = OSGetTime();
         while (time < nextTick) {
@@ -382,7 +379,6 @@ void waitForTick(u32 p1, u16 p2) {
         nextTick = time + p1;
     }
     else {
-        static bool init;
         static u32 nextCount = VIGetRetraceCount();
         u32 uVar1 = (p2 != 0) ? p2 : 1;
         OSMessage msg;
@@ -579,4 +575,23 @@ void diagnoseGpHang() {
         OSReport("GP appears to be not hung (waiting for input).\n");
     else
         OSReport("GP is in unknown state.\n");
+}
+
+void JFWDisplay::setForOSResetSystem()
+{
+    for (JSUPtrLink *link = JFWAlarm::sList.mHead; link != nullptr; link = link->getNext())
+    {
+        ((JFWAlarm *)link->mData)->cancelAlarm();
+    }
+
+    JUTVideo::destroyManager();
+    VISetBlack(GX_TRUE);
+    VIFlush();
+    VIWaitForRetrace();
+
+    if (sManager)
+    {
+        sManager->mFader = nullptr;
+        destroyManager();
+    }
 }

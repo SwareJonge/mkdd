@@ -610,7 +610,6 @@ void KartChecker::checkLap(bool raceEnd)
     }
 }
 
-// not sure if this matches
 // https://decomp.me/scratch/JVpLz
 void KartChecker::setLapTime()
 {
@@ -666,7 +665,6 @@ void KartChecker::setLapTime()
     }
 }
 
-// not sure this matches either
 // https://decomp.me/scratch/m3ZyI
 void KartChecker::setForceGoal()
 {

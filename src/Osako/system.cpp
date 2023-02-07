@@ -55,7 +55,7 @@ namespace System {
         gSystemRecord.applyAudioSetting();
     }
 
-    void init() { // some floats that are stored on the stack seem to be missing?
+    void init() {
         KartLocale::localize();
 
         JFWSystem::setMaxStdHeap(SystemData::scNumStandardHeaps);
@@ -68,7 +68,6 @@ namespace System {
 
         JFWSystem::init();
         PadMgr::init();
-
         OSInitFastCast();
 
         JKRAramStream::setTransBuffer(nullptr, 0x8000, JKRGetSystemHeap());
@@ -95,7 +94,6 @@ namespace System {
         SysDebug::getManager()->setHeapGroup("Font", JKRGetRootHeap());
         FontMgr::create(JKRGetRootHeap());
 
-        // stack issue here
         mspJ2DOrtho = new J2DOrthoGraph(getOrthoL(), getOrthoT(), getOrthoR(), getOrthoB(), -1.0f, 1.0f);
         mspJ2DPrint = new J2DPrint(FontMgr::mspDebugFont, 0.0f); // propably a getter for debugfont
 
@@ -140,7 +138,6 @@ namespace System {
         changeNormalRenderMode();
     }
 
-    // change rendermode stuff is just a guess, so probably won't match
     /*
     0 = normal render mode(interlaced)
     1 = movie render mode (interlaced)
@@ -332,7 +329,7 @@ namespace System {
     f32 get3DVpSubX() { return SystemData::sc3DViewPortSub.X; }
     f32 get3DVpSubY() { return SystemData::sc3DViewPortSub.Y; }
     f32 get3DVpSubW() { return SystemData::sc3DViewPortSub.W; }
-    f32 get3DVpSubH() { return SystemData::sc3DViewPortSub.H; } // Unused, perhaps inline
+    f32 get3DVpSubH() { return SystemData::sc3DViewPortSub.H; } // Unused
 
     u32 get2DScisX() { return SystemData::sc3DScissor.X; }
     u32 get2DScisY() { return SystemData::sc3DScissor.Y; }
@@ -387,7 +384,7 @@ namespace System {
     u32 get3DScisSubY() { return SystemData::sc3DScissorSub.Y; }
     u32 get3DScisSubW() { return SystemData::sc3DScissorSub.W; }
     u32 get3DScisSubH() { return SystemData::sc3DScissorSub.H; }
-    // perhaps create new struct
+    // different struct, perhaps TBox2?
     f32 getOrthoL() { return SystemData::scOrtho.X; }
     f32 getOrthoR() { return SystemData::scOrtho.W; }
     f32 getOrthoT() { return SystemData::scOrtho.Y; }

@@ -12,47 +12,60 @@ class JUTProcBar
 public:
     struct CTime
     {
-        u32 startTick;
-        u32 cost;
-        u32 _08;
-        u32 _0C;
-        u8 r;
-        u8 g;
-        u8 b;
+        CTime() { clear(); }
 
-        void start(u8 p1, u8 p2, u8 p3) {
-            r = p1;
-            g = p2;
-            b = p3;
-            startTick = OSGetTick();
+        void clear()
+        {
+            mCost = 0;
+            _08 = 0;
+            _0C = 0;
         }
 
-        void end() {
-            cost = OSTicksToMicroseconds(OSDiffTick(OSGetTick(), startTick));
-            if (cost == 0)
-                cost = 1;
+        void start(u8 red, u8 green, u8 blue)
+        {
+            mR = red;
+            mG = green;
+            mB = blue;
+            mStartTick = OSGetTick();
         }
 
-        // https://decomp.me/scratch/npFYY
-        void accumePeek() { // found in TP, for some reason is different here
-            if (++_0C >= 0x10 || cost >= _08) {
-                _08 = cost;
+        void end()
+        {
+            mCost = OSTicksToMicroseconds(OSDiffTick(OSGetTick(), mStartTick));
+            if (mCost == 0)
+                mCost = 1;
+        }
+
+        void accumePeek()
+        {
+            if (++_0C >= 0x10 || mCost >= _08)
+            {
+                _08 = mCost;
                 _0C = 0;
             }
         }
 
-        int calcBarSize(int p1, int p2) { // fabricated
-            return cost * p1 / p2;
-        }
+        int calcBarSize(int p1, int p2) { return mCost * p1 / p2; }
 
-        CTime() { // weak
-            cost = 0;
-            _08 = 0;
-            _0C = 0;
-        };
+        u32 mStartTick; // _00
+        u32 mCost;      // _04
+        u32 _08;        // _08
+        u32 _0C;        // _0C
+        u8 mR;          // _10
+        u8 mG;          // _11
+        u8 mB;          // _12
     };
 
     struct CParamSet  {
+        void setBarWidth(int w) { mBarWidth = w; };
+        void setWidth(int w) { mWidth = w; }
+        void setUserPosition(int pos) { mUserPosition = pos; }
+        void setPosition(int x, int y)
+        {
+            mPosX = x;
+            mPosY = y;
+        }
+
         /* 0x00 */ int mBarWidth;
         /* 0x04 */ int mPosX;
         /* 0x08 */ int mPosY;
@@ -74,34 +87,35 @@ public:
     // Unused Functions / Inlines
     void bar_subroutine(int, int, int, int, int, int, int, JUtility::TColor, JUtility::TColor);
     void adjustMeterLength(u32, f32 *, f32, f32, int *);
-    void getUnuseUserBar(); // might be used in drawHeapBar?
+    void getUnuseUserBar();
 
     u32 getGpCost() const {
-        return mGp.cost;
+        return mGp.mCost;
     }
 
     u32 getCpuCost() const {
-        return mCpu.cost;
+        return mCpu.mCost;
     }
 
     u32 getUserCost(int idx) {
-        return sManager->mUsers[idx].cost;
+        return sManager->mUsers[idx].mCost;
     }
 
     static JUTProcBar *getManager() {
         return sManager;
     }
 
-    void cpuStart(u8 p1, u8 p2, u8 p3) { mCpu.start(p1, p2, p3); }
-    void cpuEnd() { mCpu.end(); }
-    void gpWaitStart(u8 p1, u8 p2, u8 p3) { mGpWait.start(p1, p2, p3); }
-    void gpWaitEnd() { mGpWait.end(); }
-    void gpStart(u8 p1, u8 p2, u8 p3) { mGp.start(p1, p2, p3); }
-    void gpEnd() { mGp.end(); }
-    void wholeLoopStart(u8 p1, u8 p2, u8 p3) { mWholeLoop.start(p1, p2, p3); }
-    void wholeLoopEnd() { mWholeLoop.end(); }
-    void idleStart(u8 p1, u8 p2, u8 p3) { mIdle.start(p1, p2, p3); }
+    void idleStart() { mIdle.start(255, 129, 30); }
     void idleEnd() { mIdle.end(); }
+    void gpStart() { mGp.start(255, 129, 30); }
+    void gpEnd() { mGp.end(); }
+    void cpuStart() { mCpu.start(255, 129, 30); }
+    void cpuEnd() { mCpu.end(); }
+    void gpWaitStart() { mGpWait.start(255, 129, 30); }
+    void gpWaitEnd() { mGpWait.end(); }
+    void wholeLoopStart() { mWholeLoop.start(255, 129, 30); }
+    void wholeLoopEnd() { mWholeLoop.end(); }
+
     void setCostFrame(int frame) { mCostFrame = frame; }
     void setVisible(bool visible) { mVisible = visible; }
     void setHeapBarVisible(bool visible) { mHeapBarVisible = visible; }
@@ -111,7 +125,7 @@ public:
     }
 
     inline u32 calcGPUTime() { // fabricated
-        return mGp.cost - mGpWait.cost;
+        return mGp.mCost - mGpWait.mCost;
     }
 
     int calcBarHeight() { // fabricated

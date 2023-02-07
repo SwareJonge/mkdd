@@ -4,7 +4,7 @@
 #include "Osako/GameApp.h"
 #include "types.h"
 
-class TestApp : GameApp
+class TestApp : public GameApp
 {
 public:
     static TestApp *create();

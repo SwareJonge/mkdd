@@ -77,7 +77,7 @@ public:
     // void addToDoubleXfb(JKRHeap *);
     // void clearAllXfb();
     s32 frameToTick(float);
-    // static void setForOSResetSystem();
+    static void setForOSResetSystem();
 
     // Virtual functions
     virtual void beginRender(); // 0x80015e0c
