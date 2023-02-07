@@ -48,8 +48,9 @@ namespace System {
     J2DOrthoGraph *System::mspJ2DOrtho;
     JKRSolidHeap *System::mspAudioHeap;
 
-    void startAudioTask(void* p1) {
-        void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, Switch_1, 0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
+    void startAudioTask(void*) {
+        void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, Switch_1, 
+                            0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
         GameAudio::Main::getAudio()->init(mspAudioHeap, SystemData::scAudioAramSize, audioFile, 0, 0);
         delete audioFile;
         gSystemRecord.applyAudioSetting();
@@ -100,7 +101,8 @@ namespace System {
         SysDebug::getManager()->setHeapGroup("Display", JKRGetRootHeap());
         mspDisplay = JFWDisplay::createManager(nullptr, JKRGetRootHeap(), JUTXfb::UNK_2, true);
 
-        mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, SystemData::sc3DScissor.W, SystemData::sc3DScissor.H, JUtility::TColor(0, 0, 0, 0xff))); // not sure if this is the right way to do it but we'll see
+        mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, 
+                            SystemData::sc3DScissor.W, SystemData::sc3DScissor.H, JUtility::TColor(0, 0, 0, 0xff)));
 
         SysDebug::getManager()->setHeapGroup("Card", JKRGetRootHeap());
         CardMgr::create();

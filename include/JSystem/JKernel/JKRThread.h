@@ -151,14 +151,14 @@ struct JKRThread : public JKRDisposer
  */
 struct JKRTask : public JKRThread
 {
-    typedef void (RequestCallback)(void*);
+    typedef void (*RequestCallback)(void*);
 
 	/**
 	 * @fabricated
 	 * @size{0xC}
 	 */
     struct Message {
-		RequestCallback * _00;
+		RequestCallback _00;
 		void* _04;
 		void* _08;
 	};
@@ -169,18 +169,24 @@ struct JKRTask : public JKRThread
     virtual ~JKRTask();  // _08
     virtual void *run(); // _0C
 
-    bool request(RequestCallback *, void *, void *);
+    bool request(RequestCallback, void *, void *);
 
     static JKRTask *create(int, int, unsigned long, JKRHeap *);
 
     // unused/inlined:
     Message* searchBlank();
-    void requestJam(RequestCallback *, void *, void *);
+    void requestJam(RequestCallback, void *, void *);
     void cancelAll();
     void createTaskEndMessageQueue(int, JKRHeap *);
     void destroyTaskEndMessageQueue();
     void waitQueueMessageBlock(OSMessageQueue *, int *);
     void waitQueueMessage(OSMessageQueue *, int *);
+
+    OSMessage waitMessageBlock() {
+        OSMessage msg;
+        OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_BLOCK);
+        return msg;
+    }
 
     static void destroy(JKRTask *);
 

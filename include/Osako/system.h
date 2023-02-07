@@ -29,7 +29,7 @@ namespace System
     void endFrame();
 
     // callbacks
-    extern JKRTask::RequestCallback startAudioTask;
+    void startAudioTask(void*);
     extern JUTErrorHandler callbackException;
 
     f32 get2DVpX();
