@@ -16,6 +16,10 @@ public:
 
     void read(void *, s32, s32);
 
+    bool isAvailable() const {
+        return mFileOpen;
+    }
+
 protected:
     bool mFileOpen;
 };

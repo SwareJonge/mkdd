@@ -117,7 +117,11 @@ global:
  0x80389fe0: __vt__8J2DPrint
 
  # J2DScreen.cpp
+ 0x8004cd78: __dt__20JSUMemoryInputStreamFv
+ 0x8004cde0: __dt__20JSURandomInputStreamFv
+ 0x8004ce38: __dt__10JSUIosBaseFv
  0x8004ce80: getExpandedResSize__10JKRArchiveCFPCv
+ 0x80389ff0: __vt__10JSUIosBase
 
  # JMath.cpp
  0x80069178: JMAEulerToQuat__FsssP10Quaternion
@@ -379,6 +383,8 @@ global:
  0x800789d0: peek__20JSURandomInputStreamFPvl
  0x80078a8c: seek__20JSURandomInputStreamFl17JSUStreamSeekFrom
  0x80078ad0: getAvailable__20JSURandomInputStreamCFv
+ 0x8038b040: __vt__20JSURandomInputStream
+ 0x8038b064: __vt__14JSUInputStream
 
  # JSUList.cpp
  0x80078b2c: __ct__10JSUPtrLinkFPv
@@ -392,6 +398,14 @@ global:
  0x80078f98: remove__10JSUPtrListFP10JSUPtrLink
  0x80079048: getNthLink__10JSUPtrListCFUl
 
+ # JSUMemoryStream.cpp
+ 0x800790d0: setBuffer__20JSUMemoryInputStreamFPCvl
+ 0x800790e4: readData__20JSUMemoryInputStreamFPvl
+ 0x8007915c: seekPos__20JSUMemoryInputStreamFl17JSUStreamSeekFrom
+ 0x800791d8: getLength__20JSUMemoryInputStreamCFv
+ 0x800791e0: getPosition__20JSUMemoryInputStreamCFv
+ 0x8038b080: __vt__20JSUMemoryInputStream
+
  # JSUFileStream.cpp
  0x800791e8: __ct__18JSUFileInputStreamFP7JKRFile
  0x8007922c: readData__18JSUFileInputStreamFPvl
@@ -399,6 +413,7 @@ global:
  0x800793f4: __dt__18JSUFileInputStreamFv
  0x80079464: getLength__18JSUFileInputStreamCFv
  0x80079494: getPosition__18JSUFileInputStreamCFv
+ 0x8038b0a8: __vt__18JSUFileInputStream
 
  # JKRAram.cpp
  0x8007949c: create__7JKRAramFUlUllll

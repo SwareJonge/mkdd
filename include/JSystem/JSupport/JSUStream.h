@@ -16,14 +16,32 @@ class JSUIosBase
 {
 public:
     JSUIosBase()
-        : mIsEOFMaybe(0)
+        : mState(0)
     {
     }
 
     virtual ~JSUIosBase() {} //_08 (weak)
+    enum EIoState {
+        State_Bad,
+        State_1,
+        State_2
+    };
+
+    void setState(EIoState state) {
+        mState |= state;
+    }
+
+    void clrState(EIoState state) {
+        mState &= ~state;
+    }
+
+    bool isGood() {
+        return mState != State_Bad;
+    }
+
 
     // _00 VTBL
-    u8 mIsEOFMaybe; // _04
+    u8 mState; // _04
 };
 
 class JSUInputStream : public JSUIosBase

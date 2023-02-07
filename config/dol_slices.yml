@@ -42,8 +42,21 @@ JSystem/JUtility/JUTProcBar.cpp:
     .sbss: [0x80415868, 0x80415880]
     .sdata2: [0x80417978, 0x804179c0]
 
+JSystem/JSupport/JSUInputStream.cpp:
+    .text: [0x80078780, 0x80078b2c]
+    .rodata: [0x80366778, 0x80366798]
+    .data: [0x8038b040, 0x8038b080]
+
 JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
+
+JSystem/JSupport/JSUMemoryStream.cpp:
+    .text: [0x800790d0, 0x800791e8]
+    .data: [0x8038b080, 0x8038b0a8]
+
+JSystem/JSupport/JSUFileStream.cpp:
+    .text: [0x800791e8, 0x8007949c]
+    .data: [0x8038b0a8, 0x8038b0d0]
 
 JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8007afac, 0x8007b228]
