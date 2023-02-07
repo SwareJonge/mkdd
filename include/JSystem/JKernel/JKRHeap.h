@@ -30,6 +30,9 @@ public:
 public:
     JKRHeap(void *, u32, JKRHeap *, bool);
 
+    bool setErrorFlag(bool errorFlag);
+    bool isSubHeap(JKRHeap* heap) const;
+
     virtual ~JKRHeap();
     virtual void callAllDisposer();
     virtual u32 getHeapType() ;

@@ -3,44 +3,54 @@
 
 #include "dolphin/os.h"
 #include "JSystem/JKernel/JKRDisposer.h"
-#include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JSupport/JSUList.h"
+#include "JSystem/JUtility/JUTConsole.h"
 #include "types.h"
 
 struct JKRThread;
-struct JUTConsole;
 struct JUTFont;
 
-struct JKRThreadName_
-{
+struct JKRThreadName_ {
+    s32 id;
+    char* name;
 };
 
-struct JKRThreadSwitch
-{
-    typedef void (*Callback)(OSThread *, OSThread *);
-    JKRThreadSwitch(JKRHeap *); // unused/inlined
-    ~JKRThreadSwitch();         // unused/inlined
+typedef void (*JKRThreadSwitch_PreCallback)(OSThread* current, OSThread* next);
+typedef void (*JKRThreadSwitch_PostCallback)(OSThread* current, OSThread* next);
 
-    // vtable is optimized out. Was 14 bytes large.
-    virtual void v_08(); // _08
-    virtual void v_0C(); // _0C
-    virtual void v_10(); // _10
+class JKRThreadSwitch {
+public:
+    JKRThreadSwitch(JKRHeap*);
+    virtual void draw(JKRThreadName_* param_1, JUTConsole* param_2);
+    virtual void draw(JKRThreadName_* param_1);
+    virtual ~JKRThreadSwitch();
 
-    void loopProc();
+    static JKRThreadSwitch* createManager(JKRHeap* heap);
 
-    // unused/inlined:
-    void createManager(JKRHeap *);
-    void enter(OSThread *, JKRHeap *, int);
-    void enter(JKRThread *, int);
-    Callback setPreCallback(Callback);
-    Callback setPostCallback(Callback);
-    void callback(OSThread *, OSThread *);
-    void resetAll();
-    void draw(JKRThreadName_ *);
-    void draw(JKRThreadName_ *, JUTConsole *);
-    void createConsole(JUTFont *, int, JKRHeap *);
+    JKRThread* enter(JKRThread* param_1, int param_2);
+    static void callback(OSThread* param_1, OSThread* param_2);
 
-    static JKRThreadSwitch *sManager;
+    static u32 getTotalCount() { return sTotalCount; }
+
+private:
+    static JKRThreadSwitch* sManager;
+    static u32 sTotalCount;
+    static u32 sTotalStart;
+    static JKRThreadSwitch_PreCallback mUserPreCallback;
+    static JKRThreadSwitch_PostCallback mUserPostCallback;
+
+private:
+    /* 0x00 */  // vtable
+    /* 0x04 */ JKRHeap* mHeap;
+    /* 0x08 */ bool mSetNextHeap;
+    /* 0x09 */ u8 field_0x9[3];
+    /* 0x0C */ u32 field_0xC;
+    /* 0x10 */ u32 field_0x10;
+    /* 0x14 */ u8 field_0x14[4];
+    /* 0x18 */ s64 field_0x18;
+    /* 0x20 */ u32 field_0x20;
+    /* 0x24 */ u32 field_0x24;
 };
 
 struct JKRThread : public JKRDisposer
@@ -95,18 +105,19 @@ struct JKRThread : public JKRDisposer
     void setCommon_mesgQueue(JKRHeap *, int);
     BOOL setCommon_heapSpecified(JKRHeap *, u32, int);
     static void *start(void *);
+    static JSUList<JKRThread>& getList() { return (JSUList<JKRThread>&)sThreadList; }
 
     // unused/inlined:
-    static TLoad *searchThread(OSThread *);
+    static JKRThread *searchThread(OSThread *);
     static TLoad *searchThreadLoad(OSThread *);
     void dump();
 
-    OSThread *getThreadRecord() const { return mThread; }
-    void *getStack() const { return mStack; }
+    OSThread *getThreadRecord() const { return mThreadRecord; }
+    void *getStack() const { return mStackMemory; }
     TLoad *getLoadInfo() { return &mLoadInfo; }
     JKRHeap *getCurrentHeap() const { return mCurrentHeap; }
     s32 getCurrentHeapError() const { return mCurrentHeapError; }
-    void resume() { OSResumeThread(mThread); }
+    void resume() { OSResumeThread(mThreadRecord); }
 
     void setCurrentHeap(JKRHeap *heap)
     {
@@ -122,17 +133,17 @@ struct JKRThread : public JKRDisposer
 
     // _00     = VTBL
     // _00-_18 = JKRDisposer
-    JSULink<JKRThread> mLink; // _18
+    JSULink<JKRThread> mThreadListLink; // _18
     JKRHeap *mHeap;           // _28
-    OSThread *mThread;        // _2C
-    OSMessageQueue mMsgQueue; // _30
-    OSMessage *mMsgBuffer;    // _50
-    int mMsgCount;            // _54
-    void *mStack;             // _58
+    OSThread *mThreadRecord;        // _2C
+    OSMessageQueue mMessageQueue; // _30
+    OSMessage *mMesgBuffer;    // _50
+    s32 mMessageCount;            // _54
+    void *mStackMemory;             // _58
     u32 mStackSize;           // _5C
     TLoad mLoadInfo;          // _60
     JKRHeap *mCurrentHeap;    // _74
-    int mCurrentHeapError;    // _78
+    s32  mCurrentHeapError;    // _78
 };
 
 /**
@@ -140,20 +151,31 @@ struct JKRThread : public JKRDisposer
  */
 struct JKRTask : public JKRThread
 {
-    typedef void RequestCallback(void *);
+    typedef void (RequestCallback)(void*);
+
+	/**
+	 * @fabricated
+	 * @size{0xC}
+	 */
+    struct Message {
+		RequestCallback * _00;
+		void* _04;
+		void* _08;
+	};
+
 
     JKRTask(int, int, u32); // unused/inlined
 
     virtual ~JKRTask();  // _08
     virtual void *run(); // _0C
 
-    void request(RequestCallback *, void *, void *);
+    bool request(RequestCallback *, void *, void *);
 
     static JKRTask *create(int, int, unsigned long, JKRHeap *);
 
     // unused/inlined:
-    void searchBlank();
-    void requestJam(RequestCallback, void *, void *);
+    Message* searchBlank();
+    void requestJam(RequestCallback *, void *, void *);
     void cancelAll();
     void createTaskEndMessageQueue(int, JKRHeap *);
     void destroyTaskEndMessageQueue();
@@ -164,11 +186,12 @@ struct JKRTask : public JKRThread
 
     // u32 _78;			 // _78
     JSULink<JKRTask> _7C; // _7C
-    void *_8C;            // _8C - ptr to array with elements of size 0xc
+    Message *_8C;            // _8C - ptr to array with elements of size 0xc
     u32 _90;              // _90 - element count of _8C
     OSMessageQueue *_94;  // _94
 
     static JSUList<JKRTask> sTaskList;
+    static u8 sEndMesgQueue[32]; // Unused
 };
 
 /** @unused */

@@ -127,6 +127,16 @@ JSystem/JKernel/JKRFileLoader.cpp:
     .sbss: [0x804159a0, 0x804159a8]
     .sdata2: [0x80417af0, 0x80417af8]
 
+#JSystem/JKernel/JKRThread.cpp:
+    #.text: [0x80086734, 0x8008724c]
+    #.ctors: [0x803160ec, 0x803160f0]
+    #.rodata: [0x803675c8, 0x80367758]
+    #.data: [0x8038b528, 0x8038b548]
+    #.bss: [0x803ae9c0, 0x803ae9d8]
+    #.bss: [0x803fa974, 0x803fa9b8] #common bss
+    #.sbss: [0x804159d0, 0x804159d8]
+    #.sdata2: [0x80417b58, 0x80417b68]
+
 JSystem/JAudio/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]

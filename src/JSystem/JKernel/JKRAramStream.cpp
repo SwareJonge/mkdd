@@ -29,7 +29,7 @@ JKRAramStream *JKRAramStream::create(s32 param)
 JKRAramStream::JKRAramStream(s32 priority)
     : JKRThread(0x4000, 0x10, priority)
 {
-    OSResumeThread(mThread);
+    OSResumeThread(mThreadRecord);
 }
 
 JKRAramStream::~JKRAramStream(){};

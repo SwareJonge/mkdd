@@ -152,6 +152,7 @@ extern "C"
     void JUTSetWarningConsole(JUTConsole *);
     void JUTReportConsole(char const *);
     void JUTReportConsole_f(char const *, ...);
+    void JUTWarningConsole(const char*);
 }
 
 #endif
