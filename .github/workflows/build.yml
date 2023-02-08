@@ -71,6 +71,6 @@ jobs:
           Remove-Item '.\tools\devkitppc\' -Recurse
           # Remove Items from build
           ninja -t clean
-          Remove -Item '.\include\BuildtimeDat.bin'
-          Remove -Item '.\include\System.arc.bin'
-          Remove -Item '.\include\JSystem\JUtility\FontData\Ascfont_fix12.bfn'
+          Remove-Item '.\include\BuildtimeDat.bin'
+          Remove-Item '.\include\System.arc.bin'
+          Remove-Item '.\include\JSystem\JUtility\FontData\Ascfont_fix12.bfn'
