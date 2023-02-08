@@ -2,7 +2,7 @@
 #define JKRARAMPIECE_H
 
 #include "JSystem/JSupport/JSUList.h"
-//#include "dolphin/arq.h"
+#include "dolphin/ar/arq.h"
 #include "dolphin/OS.h"
 #include "dolphin/types.h"
 
@@ -17,8 +17,7 @@ public:
     ~JKRAMCommand();
 
 public:
-    /* 0x00  ARQRequest mRequest;*/
-    u8 _0[0x20]; // filler for now, kinda lazy
+    /* 0x00 */ ARQRequest mRequest;
     /* 0x20 */ JSULink<JKRAMCommand> mPieceLink;
     /* 0x30 */ JSULink<JKRAMCommand> field_0x30;
 

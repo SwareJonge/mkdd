@@ -91,7 +91,7 @@ public:
     u8 _9C[4];               // _9C
 
     static JKRAram *sAramObject;
-    static const OSMessageQueue sMessageQueue;
+    static OSMessageQueue sMessageQueue;
 };
 
 class JKRAramArchive : public JKRArchive

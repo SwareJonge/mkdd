@@ -833,6 +833,9 @@ global:
  0x800b6a74: __VIGetCurrentPosition
  0x80414110: __VIVersion
 
+ # arq.c
+ 0x800b90d4: ARQPostRequest
+
  # GXFifo.c
  0x800c230c: GXInitFifoBase
  0x800c2378: GXInitFifoPtrs

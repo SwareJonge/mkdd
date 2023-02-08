@@ -62,6 +62,14 @@ JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8007afac, 0x8007b228]
     .data: [0x8038b180, 0x8038b190]
 
+JSystem/JKernel/JKRAramPiece.cpp:
+    .text: [0x8007b588, 0x8007b9cc]
+    .ctors: [0x803160d8, 0x803160dc]
+    .rodata: [0x803668f8, 0x80366968]
+    .bss: [0x803ae940, 0x803ae950]
+    #.bss: [0x803fa908, 0x803fa944]
+    .sdata2: [0x80417a28, 0x80417a30]
+
 JSystem/JKernel/JKRAramStream.cpp:
     .text: [0x8007b9cc, 0x8007bf04]
     .rodata: [0x80366968, 0x80366998]
