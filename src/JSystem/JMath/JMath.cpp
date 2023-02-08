@@ -16,9 +16,8 @@ void JMAEulerToQuat(s16 x, s16 y, s16 z, Quaternion *quat)
     quat->z = sinZ * (cosX * cosY) - cosZ * (sinX * sinY);
 }
 
-void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32 t, Quaternion *dst)
+void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32 t, Quaternion *dst) 
 {
-
     register f32 pxy, pzw, qxy, qzw;
     register f32 dp;
     __asm // compute dot product
@@ -40,12 +39,13 @@ void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32
         dst->y = -t * (p->y + q->y) + p->y;
         dst->z = -t * (p->z + q->z) + p->z;
         dst->w = -t * (p->w + q->w) + p->w;
-        return;
     }
-    dst->x = -t * (p->x - q->x) + p->x;
-    dst->y = -t * (p->y - q->y) + p->y;
-    dst->z = -t * (p->z - q->z) + p->z;
-    dst->w = -t * (p->w - q->w) + p->w;
+    else {
+        dst->x = -t * (p->x - q->x) + p->x;
+        dst->y = -t * (p->y - q->y) + p->y;
+        dst->z = -t * (p->z - q->z) + p->z;
+        dst->w = -t * (p->w - q->w) + p->w;
+    }
 }
 
 void JMAVECScaleAdd(register const Vec *vec1, register const Vec *vec2, register Vec *dst, register f32 scale)

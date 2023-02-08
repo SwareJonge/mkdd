@@ -42,6 +42,9 @@ JSystem/JUtility/JUTProcBar.cpp:
     .sbss: [0x80415868, 0x80415880]
     .sdata2: [0x80417978, 0x804179c0]
 
+JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
+    .rodata: [0x80362160, 0x803662c0]
+
 JSystem/JSupport/JSUInputStream.cpp:
     .text: [0x80078780, 0x80078b2c]
     .rodata: [0x80366778, 0x80366798]

@@ -39,6 +39,37 @@ assert dol_hash == bytes.fromhex("db87a9ec1a34275efc45d965dcdcb1a9eb131885"), \
 assert os.path.exists(c.PPCDIS), \
        "Error: Git submodules not initialised"
 
+##########
+# Assets #
+##########
+
+@dataclass
+class Asset:
+    binary: str
+    path: str
+    start: int
+    end: int
+
+    def load(yml_path: str):
+        return {
+            asset: Asset(binary, asset, *adat["addrs"])
+            for binary, bdat in c.load_from_yaml(yml_path).items()
+            for asset, adat in bdat.items()
+        }
+
+    def dump(self):
+        os.system(
+            f"python {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:X} {c.INCDIR}/{self.path}")
+
+assets = Asset.load(c.ASSETS_YML)
+
+##############
+# Rip Assets #
+##############
+
+for asset in assets.values():
+    Asset.dump(asset)
+
 ###############
 # Ninja Setup #
 ###############
@@ -412,7 +443,7 @@ class Source(ABC):
     def make(ctx: c.SourceContext, source: c.SourceDesc):
         if isinstance(source, str):
             ext = source.split('.')[-1].lower()
-            if ext in ("c", "cpp", "cxx", "cc"):
+            if ext in ("c", "cpp", "cp", "cxx", "cc"):
                 return CSource(ctx, source)
             elif ext == "s":
                 return AsmSource(ctx, source)

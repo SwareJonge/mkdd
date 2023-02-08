@@ -16,8 +16,6 @@
 #include "JSystem/JUtility/JUTVideo.h"
 #include "JSystem/JFramework/JFWSystem.h"
 
-extern ResFONT JUTResFONT_Ascfont_fix12;
-
 int JFWSystem::CSetUpParam::maxStdHeaps = 2;
 u32 JFWSystem::CSetUpParam::sysHeapSize = 0x400000;
 u32 JFWSystem::CSetUpParam::fifoBufSize = 0x40000;

@@ -3,6 +3,9 @@ __pycache__
 build
 expected
 out
+*.bin
+*.bfn
+*.arc
 *.d
 *.o
 *.dol

@@ -11,6 +11,12 @@ from subprocess import PIPE, run
 from sys import executable as PYTHON, platform
 from typing import List, Tuple, Union
 
+import yaml
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
+
 #############
 # Functions #
 #############
@@ -59,6 +65,19 @@ def find_headers(dirname: str, base=None) -> List[str]:
 
     return ret
 
+
+def load_from_yaml(path: str, default=None):
+    """Loads an object from a yaml file"""
+
+    if default is None:
+        default = {}
+    with open(path) as f:
+        ret = yaml.load(f.read(), Loader)
+        if ret is None:
+            ret = default
+        return ret
+
+
 ################
 # Project dirs #
 ################
@@ -98,6 +117,8 @@ ANALYSER = f"{PYTHON} {PPCDIS}/analyser.py"
 DISASSEMBLER = f"{PYTHON} {PPCDIS}/disassembler.py"
 ORDERSTRINGS = f"{PYTHON} {PPCDIS}/orderstrings.py"
 ORDERFLOATS = f"{PYTHON} {PPCDIS}/orderfloats.py"
+ASSETRIP = f"{PYTHON} {PPCDIS}/assetrip.py"
+ASSETINC = f"{PYTHON} {PPCDIS}/assetinc.py"
 FORCEFILESGEN = f"{PYTHON} {PPCDIS}/forcefilesgen.py"
 ELF2DOL = f"{PYTHON} {PPCDIS}/elf2dol.py"
 FORCEACTIVEGEN = f"{PYTHON} {PPCDIS}/forceactivegen.py"
@@ -149,6 +170,9 @@ DOL_ASM_LIST = f"{BUILDDIR}/main.dol.asml"
 
 # Symbols
 SYMBOLS = f"{CONFIG}/symbols.yml"
+
+# Assets
+ASSETS_YML = f"{CONFIG}/assets.yml"
 
 # Analysis outputs
 EXTERNS = f"{BUILDDIR}/externs.pickle"

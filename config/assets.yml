@@ -1,0 +1,9 @@
+config/dol.yml:
+    JSystem/JUtility/FontData/Ascfont_fix12.bfn: # TODO: decide if there's a better folder to drop this in
+        addrs: [0x80362160, 0x803662c0]
+
+    System.arc.bin:
+        addrs: [0x80316680, 0x803608e0]
+    
+    BuildtimeDat.bin:
+        addrs: [0x803608e0, 0x803608fb]

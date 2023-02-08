@@ -324,4 +324,6 @@ struct JUTCacheFont : public JUTResFont
     u8 _B4[4]; // _B4
 };
 
+extern ResFONT JUTResFONT_Ascfont_fix12;
+
 #endif
