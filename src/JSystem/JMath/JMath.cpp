@@ -1,4 +1,5 @@
 //#include "dolphin/vec.h"
+#include "dolphin/mtx.h"
 #include "JSystem/JMath/JMath.h"
 #include "types.h"
 
@@ -89,19 +90,42 @@ void JMAVECLerp(register const Vec *vec1, register const Vec *vec2, register Vec
     dst->z = (vec2->z - vec1->z) * t + vec1->z;*/
 }
 
-#if ADDED_1_2_5
-void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 x, f32 y, f32 z) {
+#if NO_PS // used in TP Debug
+void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 xS, f32 yS, f32 zS) {
     Mtx scale;
-    PSMTXScale(scale, x, y, z);
-    PSMTXConcat(src, scale, dst);
+    MTXScale(scale, xScale, yScale, zScale);
+    MTXConcat(src, scale, dst);
 }
 #else
 
-#include "orderfloats/80417790_80417794.inc"
-
-asm void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 x, f32 y, f32 z)
-{
-#include "asm/80069364.s"
+void JMAMTXApplyScale(register const Mtx src, register Mtx dst, 
+register f32 xScale, register f32 yScale, register f32 zScale)
+{    
+    register f32 scale, x, y, z;
+    register f32 normal = 1.0f;
+    // TODO: clean up, reorder some instructions and provide documentation
+    __asm {
+        psq_l x, 0(src), 0, 0
+        psq_l y, 0x10(src), 0, 0
+        ps_merge00 scale, xScale, yScale
+        psq_l z, 0x20(src), 0, 0
+        ps_mul x, x, scale
+        ps_mul y, y, scale
+        ps_mul z, z, scale
+        psq_st x, 0(dst), 0, 0
+        ps_merge00 scale, zScale, normal
+        psq_l x, 0x8(src), 0, 0
+        psq_st y, 0x10(dst), 0, 0
+        psq_l y, 0x18(src), 0, 0
+        ps_mul x, x, scale
+        psq_st z, 0x20(dst), 0, 0
+        psq_l z, 0x28(src), 0, 0
+        ps_mul y, y, scale
+        psq_st x, 0x8(dst), 0, 0
+        ps_mul z, z, scale
+        psq_st y, 0x18(dst), 0, 0
+        psq_st z, 0x28(dst), 0, 0
+    }
 }
 
 #endif
