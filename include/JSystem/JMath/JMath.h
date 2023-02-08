@@ -244,27 +244,4 @@ namespace JMathInlineVEC
 
 }
 
-// fabricated
-namespace JMathInlineQuat {
-    inline f64 PSQUATDotProduct(register const Quaternion *p, register const Quaternion *q)
-    {
-        register f32 dp, qxy, pxy, qzw, pzw;
-
-        __asm
-        {
-        psq_l       pxy, 0(p), 0, 0
-        psq_l       qxy, 0(q), 0, 0
-        ps_mul      dp, pxy, qxy
-        
-        psq_l       pzw, 8(p), 0, 0
-        psq_l       qzw, 8(q), 0, 0
-        ps_madd     dp, pzw, qzw, dp
-        
-        ps_sum0     dp, dp, dp, dp
-        }
-
-        return dp;
-    }
-}
-
 #endif // !JMATH_H

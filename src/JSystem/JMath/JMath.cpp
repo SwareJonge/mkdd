@@ -1,11 +1,5 @@
-//#include "dolphin/vec.h"
-#include "dolphin/mtx.h"
 #include "JSystem/JMath/JMath.h"
 #include "types.h"
-
-extern "C" {
-    #include <ppcdis.h>
-} 
 
 void JMAEulerToQuat(s16 x, s16 y, s16 z, Quaternion *quat)
 {
@@ -22,20 +16,36 @@ void JMAEulerToQuat(s16 x, s16 y, s16 z, Quaternion *quat)
     quat->z = sinZ * (cosX * cosY) - cosZ * (sinX * sinY);
 }
 
-void JMAQuatLerp(const Quaternion *a, const Quaternion *b, f32 t, Quaternion *dst)
+void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32 t, Quaternion *dst)
 {
-    if (JMathInlineQuat::PSQUATDotProduct(a, b) < 0) // fabricated, gonna be mad if asm was just inserted here
+
+    register f32 pxy, pzw, qxy, qzw;
+    register f32 dp;
+    __asm // compute dot product
     {
-        dst->x = -t * (a->x + b->x) + a->x;
-        dst->y = -t * (a->y + b->y) + a->y;
-        dst->z = -t * (a->z + b->z) + a->z;
-        dst->w = -t * (a->w + b->w) + a->w;
+        psq_l       pxy, 0(p), 0, 0
+        psq_l       qxy, 0(q), 0, 0
+        ps_mul      dp, pxy, qxy
+        
+        psq_l       pzw, 8(p), 0, 0
+        psq_l       qzw, 8(q), 0, 0
+        ps_madd     dp, pzw, qzw, dp
+        
+        ps_sum0     dp, dp, dp, dp
+    }
+
+    if (dp < 0.0)
+    {
+        dst->x = -t * (p->x + q->x) + p->x;
+        dst->y = -t * (p->y + q->y) + p->y;
+        dst->z = -t * (p->z + q->z) + p->z;
+        dst->w = -t * (p->w + q->w) + p->w;
         return;
     }
-    dst->x = -t * (a->x - b->x) + a->x;
-    dst->y = -t * (a->y - b->y) + a->y;
-    dst->z = -t * (a->z - b->z) + a->z;
-    dst->w = -t * (a->w - b->w) + a->w;
+    dst->x = -t * (p->x - q->x) + p->x;
+    dst->y = -t * (p->y - q->y) + p->y;
+    dst->z = -t * (p->z - q->z) + p->z;
+    dst->w = -t * (p->w - q->w) + p->w;
 }
 
 void JMAVECScaleAdd(register const Vec *vec1, register const Vec *vec2, register Vec *dst, register f32 scale)
@@ -91,7 +101,7 @@ void JMAVECLerp(register const Vec *vec1, register const Vec *vec2, register Vec
 }
 
 #if NO_PS // used in TP Debug
-void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 xS, f32 yS, f32 zS) {
+void JMAMTXApplyScale(const Mtx src, Mtx dst, f32 xScale, f32 yScale, f32 zScale) {
     Mtx scale;
     MTXScale(scale, xScale, yScale, zScale);
     MTXConcat(src, scale, dst);
