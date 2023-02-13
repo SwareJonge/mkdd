@@ -11,7 +11,7 @@ namespace GameAudio
     template <typename T>
     class SoundMgr : JAUDopplerSoundObject, JKRDisposer
     {
-        SoundMgr(Vec *, JKRHeap, u8);
+        SoundMgr(Vec *, JKRHeap *, u8);
         virtual ~SoundMgr();
         virtual void init();
         virtual void setSe(u32 id);

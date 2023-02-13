@@ -69,7 +69,7 @@ public:
     JSULink<T> *getLast() const { return (JSULink<T> *)getLastLink(); }
     JSULink<T> *getEnd() const { return nullptr; }
 
-    u32 getNumLinks() const { return JSUPtrList::getNumLinks(); }
+    u32 getNumLinks() const { return mLinkCount; }
 };
 
 template <typename T>
@@ -144,7 +144,7 @@ public:
     {
     }
 
-    T *getObject() const { return (T *)getObjectPtr(); }
+    T *getObject() const { return (T *)mData; }
     JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated, offcial name: getSupervisor
     JSULink<T> *getNext() const { return (JSULink<T> *)JSUPtrLink::getNext(); }
     JSULink<T> *getPrev() const { return (JSULink<T> *)JSUPtrLink::getPrev(); }
@@ -154,7 +154,7 @@ public:
     }
 };
 
-template <typename T>
+template <typename T> // TODO: most of these inlines are probably wrong: rework
 class JSUTree : public JSUList<T>, public JSULink<T>
 {
 public:
@@ -167,12 +167,12 @@ public:
     bool insertChild(JSUTree<T> *before, JSUTree<T> *child) { return this->insert(before, child); }
 
     JSUTree<T> *getEndChild() const { return nullptr; }
-    JSUTree<T> *getFirstChild() const { return (JSUTree<T> *)this->getFirst(); }
+    JSUTree<T> *getFirstChild() const { return (JSUTree<T> *)getFirstLink(); }
     JSUTree<T> *getLastChild() const { return (JSUTree<T> *)this->getLast(); }
-    JSUTree<T> *getNextChild() const { return (JSUTree<T> *)this->getNext(); }
+    JSUTree<T> *getNextChild() const { return (JSUTree<T> *)mNext; }
     JSUTree<T> *getPrevChild() const { return (JSUTree<T> *)this->getPrev(); }
-    u32 getNumChildren() const { return this->getNumLinks(); }
-    T *getObject() const { return (T *)this->getObjectPtr(); }
+    u32 getNumChildren() const { return mLinkCount; }
+    T *getObject() const { return (T *)this->mData; }
     JSUTree<T> *getParent() const { return (JSUTree<T> *)this->mPtrList; }
 };
 
@@ -189,11 +189,11 @@ public:
         return *this;
     }
 
-    T *getObject() { return this->mTree->getObject(); }
+    T *getObject() const { return mTree->getObject(); }
 
     bool operator==(JSUTree<T> *other) { return this->mTree == other; }
 
-    bool operator!=(JSUTree<T> *other) { return this->mTree != other; }
+    bool operator!=(const JSUTree<T> *other) const { return this->mTree != other; }
 
     JSUTreeIterator<T> operator++(int)
     {
@@ -210,7 +210,7 @@ public:
 
     T &operator*() { return *this->getObject(); }
 
-    T *operator->() { return this->getObject(); }
+    T *operator->() const { return mTree->getObject(); }
 
 private:
     JSUTree<T> *mTree;

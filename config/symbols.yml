@@ -116,6 +116,9 @@ global:
  0x8004b43c: print__8J2DPrintFffPCce
  0x80389fe0: __vt__8J2DPrint
 
+ # J2DPane.cpp
+ 0x80046658: getFirstLink__10JSUPtrListCFv
+
  # J2DScreen.cpp
  0x8004cd78: __dt__20JSUMemoryInputStreamFv
  0x8004cde0: __dt__20JSURandomInputStreamFv
@@ -645,7 +648,8 @@ global:
  0x800848fc: __rf__25JSUTreeIterator<7JKRHeap>CFv
  0x80084908: __ct__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap>
  0x80084910: getNumChildren__17JSUTree<7JKRHeap>CFv
- 0x80084918: getFirstChild__17JSUTree<7JKRHeap>CFv
+ #0x80084918: getFirstChild__17JSUTree<7JKRHeap>CFv
+ 0x80084918: getFirstChild__7JKRHeapCFv
  0x8008492c: findAllHeap__7JKRHeapCFPv
  0x80084b9c: dispose__7JKRHeapFPvUl
  0x80084c2c: dispose__7JKRHeapFPvPv
@@ -1031,6 +1035,19 @@ global:
  0x800ed070: OSSetAlarm
  0x800ed0d8: OSSetPeriodicAlarm
  0x800ed154: OSCancelAlarm
+
+ # OSAlloc.c
+ 0x800ed63c: OSFreeToHeap
+ 0x800ed6b8: OSSetCurrentHeap
+ 0x800ed6c8: OSInitAlloc
+ 0x800ed738: OSCreateHeap
+ 0x80414240: __OSCurrHeap
+
+ # OSArena.c
+ 0x800ed7a4: OSGetArenaHi
+ 0x800ed7ac: OSGetArenaLo
+ 0x800ed7b4: OSSetArenaHi
+ 0x800ed7bc: OSSetArenaLo
 
  # OSCache.c
  0x800eda58: DCEnable

@@ -34,6 +34,9 @@
 #include "Sato/stMath.h"
 #include "Shiraiwa/Balloon.h"
 
+#pragma push
+#pragma sym on
+
 RaceMgr *RaceMgr::sRaceManager;
 
 short RaceMgr::sForceTotalLapNum;
@@ -640,3 +643,5 @@ void RaceMgr::checkKart() {
             kartChecker->incTime();
     }
 }
+
+#pragma pop

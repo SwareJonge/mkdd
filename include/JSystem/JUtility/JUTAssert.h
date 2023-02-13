@@ -16,6 +16,11 @@ public:
     showAssert_f(device, file, line, "%s", errormsg);
   }
   static void setConfirmMessage(u32 device, char *file, int line, bool condition, const char *msg);
+  static void setWarningMessage(u32 device, char *file, int line, char const *errormsg) {
+    setWarningMessage_f(device, file, line, "%s", errormsg);
+  }
+  static void setWarningMessage_f(u32 device, char * file, int line, char const *, ...);
+  static void setLogMessage_f(u32 device, char *file, int line, char const *, ...);
 };
 
 #endif
