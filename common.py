@@ -152,10 +152,10 @@ if platform != "win32":
     LD = f"wine {LD}"
 
 # DevkitPPC
-#DEVKITPPC = os.environ.get("DEVKITPPC")
-#if DEVKITPPC is None:
-DEVKITPPC = os.path.join(TOOLS, "devkitppc")
-assert(os.path.isdir(DEVKITPPC))
+DEVKITPPC = os.environ.get("DEVKITPPC")
+if DEVKITPPC is None:
+    DEVKITPPC = os.path.join(TOOLS, "devkitppc")
+    assert(os.path.isdir(DEVKITPPC))
 
 AS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as")
 OBJDUMP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-objdump")

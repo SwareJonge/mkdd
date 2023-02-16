@@ -58,8 +58,9 @@ class Asset:
         }
 
     def dump(self):
-        os.system(
-            f"python {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:X} {c.INCDIR}/{self.path}")
+        if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
+            os.system(
+                f"python {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:X} {c.INCDIR}/{self.path}")
 
 assets = Asset.load(c.ASSETS_YML)
 
