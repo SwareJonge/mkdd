@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
@@ -31,22 +31,12 @@ jobs:
 
       - name: Get dependencies
         env:
-          SECRET_CLIENT: ${{ secrets.SFTP_CLIENT }}
-          SECRET_ADDRESS: ${{ secrets.SFTP_ADDRESS }}
-          SECRET_PORT: ${{ secrets.SFTP_PORT }}
-          SECRET_UNAME: ${{ secrets.SFTP_USERNAME }}
-          SECRET_PW: ${{ secrets.SFTP_PASSWORD }}
+          SECRET_DEPS: ${{ secrets.BUILD_DEPS }}
         run: |        
-          # Download sftp client zip
-          Invoke-WebRequest "$env:SECRET_CLIENT" -OutFile .\sftp.zip
-          # Extract SFTP client
-          Expand-Archive sftp.zip
-          # Download and extract all tools and required files
-          .\sftp\sftp-client.exe "$env:SECRET_ADDRESS" "$env:SECRET_PORT" "$env:SECRET_UNAME" "$env:SECRET_PW"
+          # Download build dependencies
+          Invoke-WebRequest "$env:SECRET_DEPS" -OutFile .\build-dependencies.zip
           Expand-Archive -Path build-dependencies.zip .\ 
           # Clean up
-          Remove-Item '.\sftp.zip'
-          Remove-Item '.\sftp\' -Recurse
           Remove-Item '.\build-dependencies.zip'
           
       - name: Configure ninja build file
@@ -64,7 +54,7 @@ jobs:
       - name: Clean
         run: |
           # Remove files stored in build-dependencies
-          Remove-Item '.\orig\main.dol'
+          Remove-Item '.\orig\MarioClub_us\main.dol'
           Remove-Item '.\out\' -Recurse        
           Remove-Item '.\tools\2.5\' -Recurse
           Remove-Item '.\tools\1.2.5\' -Recurse

@@ -82,6 +82,17 @@ def load_from_yaml(path: str, default=None):
 # Project dirs #
 ################
 
+# TODO: make arguments to either build EU, US, or JP, Debug or Release
+
+# Region
+REGION = "us"
+
+# Version
+VERSION = "MarioClub"
+
+# subdir
+VERSION_DIR = f"{VERSION}_{REGION}"
+
 # Directory for decompiled dol code
 DOL_SRCDIR = "src"
 
@@ -89,22 +100,24 @@ DOL_SRCDIR = "src"
 INCDIR = "include"
 
 # Build artifacts directory
-BUILDDIR = "build"
+BUILDDIR = f"build/{VERSION_DIR}"
 
 # Build include directory
 BUILD_INCDIR = f"{BUILDDIR}/include"
 
 # Output binaries directory
-OUTDIR = "out"
+OUTDIR = f"out/{VERSION_DIR}"
 
 # Original binaries directory
-ORIG = "orig"
+ORIG = f"orig/{VERSION_DIR}"
 
 # Tools directory
 TOOLS = "tools"
 
 # Config directory
-CONFIG = "config"
+CONFIG = f"config/{VERSION_DIR}"
+MAIN_CONFIG = "config"
+
 
 #########
 # Tools #
@@ -139,10 +152,10 @@ if platform != "win32":
     LD = f"wine {LD}"
 
 # DevkitPPC
-DEVKITPPC = os.environ.get("DEVKITPPC")
-if DEVKITPPC is None:
-    DEVKITPPC = os.path.join(TOOLS, "devkitppc")
-    assert(os.path.isdir(DEVKITPPC))
+#DEVKITPPC = os.environ.get("DEVKITPPC")
+#if DEVKITPPC is None:
+DEVKITPPC = os.path.join(TOOLS, "devkitppc")
+assert(os.path.isdir(DEVKITPPC))
 
 AS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as")
 OBJDUMP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-objdump")
@@ -159,7 +172,7 @@ DOL_SLICES = f"{CONFIG}/dol_slices.yml"
 
 # Overrides (TODO: do these need to be separate for rel?)
 ANALYSIS_OVERRIDES = f"{CONFIG}/analysis_overrides.yml"
-DISASM_OVERRIDES = f"{CONFIG}/disasm_overrides.yml"
+DISASM_OVERRIDES = f"{MAIN_CONFIG}/disasm_overrides.yml"
 
 # Binaries
 DOL = f"{ORIG}/main.dol" # read in python code
@@ -180,13 +193,13 @@ DOL_LABELS = f"{BUILDDIR}/labels.pickle"
 DOL_RELOCS = f"{BUILDDIR}/relocs.pickle"
 
 # Linker
-DOL_LCF_TEMPLATE = f"{CONFIG}/dol.lcf"
+DOL_LCF_TEMPLATE = f"{MAIN_CONFIG}/dol.lcf"
 DOL_LCF = f"{BUILDDIR}/dol.lcf"
 
 # Outputs
 DOL_ELF = f"{BUILDDIR}/main.elf"
 DOL_OUT = f"{OUTDIR}/main.dol"
-DOL_MAP = f"{OUTDIR}/debugInfoM.MAP"
+DOL_MAP = f"{OUTDIR}/debugInfo{VERSION[0]}.MAP"
 
 # Optional full disassembly
 DOL_FULL = f"{OUTDIR}/dol.s"
@@ -292,5 +305,5 @@ DOL_CTX = SourceContext(DOL_SRCDIR, DOL_CFLAGS, DOL_YML, DOL_LABELS, DOL_RELOCS,
 # diff.py Expected #
 ####################
 
-EXPECTED = "expected"
+EXPECTED = f"expected/{VERSION_DIR}"
 DOL_EXPECTED = f"{EXPECTED}/build/main.elf"
