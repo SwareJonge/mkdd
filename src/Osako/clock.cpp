@@ -1,4 +1,4 @@
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "Osako/clock.h"
 
 int Clock::msTime;

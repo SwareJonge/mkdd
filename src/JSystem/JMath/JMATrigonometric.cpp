@@ -1,4 +1,4 @@
-#include "JSystem/JMAth/JMath.h"
+#include "JSystem/JMath/JMath.h"
 #include "types.h"
 
 namespace JMath {

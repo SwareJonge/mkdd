@@ -1,7 +1,7 @@
 #ifndef JSYSTEM_JKRDECOMP_H
 #define JSYSTEM_JKRDECOMP_H
 
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JKernel/JKRArchive.h"
 #include "types.h"

@@ -1,7 +1,7 @@
 #ifndef CRSDATA_H
 #define CRSDATA_H
 
-#include "JSystem/JUTility/TColor.h"
+#include "JSystem/JUtility/TColor.h"
 #include "JSystem/JGeometry.h"
 #include "kartLocale.h"
 #include "types.h"

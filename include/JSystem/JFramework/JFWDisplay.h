@@ -1,6 +1,7 @@
 #ifndef _JSYSTEM_JFW_JFWDISPLAY_H
 #define _JSYSTEM_JFW_JFWDISPLAY_H
 
+#include <dolphin/gx.h>
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JUtility/JUTDirectPrint.h"
 #include "JSystem/JUtility/JUTFader.h"
@@ -8,7 +9,6 @@
 #include "JSystem/JUtility/JUTVideo.h"
 #include "JSystem/JUtility/JUTXfb.h"
 #include "JSystem/JUtility/TColor.h"
-#include "dolphin/GX.h"
 #include "types.h"
 
 typedef void (*JFWDisplayUnkFunc)(void);

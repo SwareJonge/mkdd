@@ -1,4 +1,4 @@
-#include "dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "Osako/systemData.h"
 
 #define SCREEN_WIDTH 608

@@ -1,9 +1,9 @@
 #ifndef EXMODEL_H
 #define EXMODEL_H
 
+#include <dolphin/mtx.h>
 #include "JSystem/JKernel/JKRDisposer.h"
-#include "JSystem/JSUpport/JSUList.h"
-#include "dolphin/mtx.h"
+#include "JSystem/JSupport/JSUList.h"
 #include "types.h"
 
 class ExModel

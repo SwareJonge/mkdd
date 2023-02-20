@@ -1,6 +1,6 @@
 #include "kartEnums.h"
 #include "kartLocale.h"
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRSolidHeap.h"

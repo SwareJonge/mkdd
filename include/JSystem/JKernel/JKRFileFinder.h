@@ -1,8 +1,8 @@
 #ifndef _JKRFILEFINDER_H
 #define _JKRFILEFINDER_H
 
-#include "dolphin/dvd.h"
-#include "dolphin/os.h"
+#include <dolphin/dvd.h>
+#include <dolphin/os.h>
 #include "types.h"
 
 class JKRArchive;

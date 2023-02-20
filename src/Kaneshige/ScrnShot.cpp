@@ -1,5 +1,5 @@
-#include "dolphin/gx.h"
-#include "JSystem/JFrameWork/JFWDisplay.h"
+#include <dolphin/gx.h>
+#include "JSystem/JFramework/JFWDisplay.h"
 #include "JSystem/JUtility/JUTVideo.h"
 #include "Osako/system.h"
 #include "Kaneshige/ScrnShot.h"

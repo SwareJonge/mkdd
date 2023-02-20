@@ -1,5 +1,5 @@
-#include "dolphin/OS.h"
-#include "dolphin/stl.h"
+#include <dolphin/os.h>
+#include <dolphin/stl.h>
 
 #include "JSystem/JAudio/JASReport.h"
 #include "JSystem/JAudio/JASMutex.h"

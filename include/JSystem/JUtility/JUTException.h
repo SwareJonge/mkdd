@@ -1,10 +1,10 @@
 #ifndef _JSYSTEM_JUT_JUTEXCEPTION_H
 #define _JSYSTEM_JUT_JUTEXCEPTION_H
 
-#include "dolphin/os.h"
+#include <dolphin/os.h>
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JSupport/JSUList.h"
-#include "JSystem/Jutility/JUTGamePad.h"
+#include "JSystem/JUtility/JUTGamePad.h"
 #include "types.h"
 
 struct JUTConsole;

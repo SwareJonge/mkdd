@@ -2,7 +2,7 @@
 #include "JSystem/JKernel/JKRAram.h"
 #include "JSystem/JKernel/JKRAramPiece.h"
 #include "JSystem/JSupport/JSUStream.h"
-#include "Dolphin/os.h"
+#include <dolphin/os.h>
 #include "types.h"
 
 // From Pikmin Repo

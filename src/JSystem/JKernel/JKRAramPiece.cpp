@@ -1,5 +1,5 @@
-#include "dolphin/OS.h"
-#include "dolphin/types.h"
+#include <dolphin/os.h>
+#include <dolphin/types.h>
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JKernel/JKRAramPiece.h"
 #include "JSystem/JKernel/JKRAram.h"

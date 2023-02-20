@@ -2,10 +2,11 @@
 #ifndef KARTINFO_H
 #define KARTINFO_H
 
-#include "types.h"
-#include "dolphin/OS.h"
+
+#include <dolphin/os.h>
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/kartPad.h"
+#include "types.h"
 
 extern "C" {
 #include <ppcdis.h>

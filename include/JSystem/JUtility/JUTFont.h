@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JUT_JUTFONT_H
 #define _JSYSTEM_JUT_JUTFONT_H
 
-#include "dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "JSystem/JUtility/TColor.h"
 
 struct JKRAramBlock;

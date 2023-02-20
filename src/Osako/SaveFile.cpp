@@ -1,5 +1,5 @@
+#include <dolphin/os.h>
 #include "JSystem/JUtility/JUTDbg.h"
-#include "dolphin/OS.h"
 #include "types.h"
 
 #include "Osako/SaveFile.h"

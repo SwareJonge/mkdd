@@ -2,8 +2,8 @@
 #define JUTGAMEPAD_H
 // from Super Mario Eclipse
 #include "types.h"
-#include "dolphin/OS.h"
-#include "dolphin/PAD.h"
+#include <dolphin/os.h>
+#include <dolphin/PAD.h>
 #include "JSystem/LGWheels.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 

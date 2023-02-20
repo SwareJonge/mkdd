@@ -1,6 +1,6 @@
-#include "types.h"
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/JSupport/JSUStream.h"
+#include "types.h"
 
 JSUInputStream::~JSUInputStream() { 
     if(isGood())

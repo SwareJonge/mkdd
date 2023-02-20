@@ -1,6 +1,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 
 class Clock {
     public:

@@ -1,9 +1,9 @@
-#include "kartlocale.h"
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
+#include "kartLocale.h"
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JUtility/JUTGamePad.h"
-#include "JSystem/JFrameWork/JFWSystem.h"
+#include "JSystem/JFramework/JFWSystem.h"
 #include "JSystem/JKernel/JKRAram.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "Inagaki/GameAudioMain.h"

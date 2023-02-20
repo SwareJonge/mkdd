@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JUT_JUTXFB_H
 #define _JSYSTEM_JUT_JUTXFB_H
 
-#include "dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "types.h"
 
 class JUTXfb

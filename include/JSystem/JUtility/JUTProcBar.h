@@ -1,7 +1,7 @@
 #ifndef _JUTPROCBAR_H
 #define _JUTPROCBAR_H
 
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/JUtility/TColor.h"
 #include "JSystem/JKernel/JKRHeap.h"
 

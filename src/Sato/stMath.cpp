@@ -1,9 +1,9 @@
-#include "types.h"
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/JGeometry.h"
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Sato/stMath.h"
+#include "types.h"
 
 void stRandom::createAllRandom() {
     for (u32 i = 0; i < 6; i++) {

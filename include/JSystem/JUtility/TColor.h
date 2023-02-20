@@ -3,7 +3,7 @@
 #define _JSYSTEM_JUT_TCOLOR_H
 
 #include "types.h"
-#include "dolphin/gx.h"
+#include <dolphin/gx.h>
 
 #define TCOLOR_WHITE JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF)
 #define TCOLOR_BLACK JUtility::TColor(0, 0, 0, 0)

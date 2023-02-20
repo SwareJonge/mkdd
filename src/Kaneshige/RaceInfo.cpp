@@ -1,4 +1,4 @@
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JUtility/JUTDbg.h"
 

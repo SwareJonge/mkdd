@@ -1,11 +1,11 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 #include "JSystem/J2D/J2DGrafContext.h"
 #include "JSystem/J2D/J2DPrint.h"
 #include "JSystem/JUtility/JUTException.h"
-#include "JSystem/JFrameWork/JFWDisplay.h"
+#include "JSystem/JFramework/JFWDisplay.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRExpHeap.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"

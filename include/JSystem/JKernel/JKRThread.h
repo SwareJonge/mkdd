@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JKR_JKRTHREAD_H
 #define _JSYSTEM_JKR_JKRTHREAD_H
 
-#include "dolphin/os.h"
+#include <dolphin/os.h>
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JSupport/JSUList.h"

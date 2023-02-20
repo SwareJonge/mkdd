@@ -2,7 +2,7 @@
 #define JUTDBPPRINT_H
 
 #include "JSystem/JUtility/TColor.h"
-#include "JSystem/Jutility/JUTFont.h"
+#include "JSystem/JUtility/JUTFont.h"
 #include "JSystem/JKernel/JKRHeap.h"
 
 #include "types.h"

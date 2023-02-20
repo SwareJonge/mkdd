@@ -1,7 +1,7 @@
 #ifndef JASMUTEX_H
 #define JASMUTEX_H
 
-#include "dolphin/OS.h"
+#include <dolphin/os.h>
 
 class JASMutexLock
 {

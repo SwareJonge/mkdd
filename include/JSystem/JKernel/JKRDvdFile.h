@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_JKR_JKRDVDFILE_H
 #define _JSYSTEM_JKR_JKRDVDFILE_H
 
-#include "dolphin/OS.h"
-#include "dolphin/dvd.h"
+#include <dolphin/os.h>
+#include <dolphin/dvd.h>
 #include "JSystem/JKernel/JKRFile.h"
 #include "types.h"
 

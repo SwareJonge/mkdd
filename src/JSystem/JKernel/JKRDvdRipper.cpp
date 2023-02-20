@@ -1,6 +1,6 @@
-#include "dolphin/OS.h"
-#include "dolphin/stl.h"
-#include "dolphin/vi.h"
+#include <dolphin/os.h>
+#include <dolphin/stl.h>
+#include <dolphin/vi.h>
 #include "JSystem/JKernel/JKRArchive.h"
 #include "JSystem/JKernel/JKRDecomp.h"
 #include "JSystem/JKernel/JKRHeap.h"

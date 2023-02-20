@@ -2,7 +2,7 @@
 #define JKRARAM_H
 
 //#include "dolphin/ar.h"
-#include "dolphin/os.h"
+#include <dolphin/os.h>
 #include "JSystem/JKernel/JKRDecomp.h"
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
