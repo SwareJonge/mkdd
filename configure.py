@@ -10,6 +10,7 @@ import json
 import pickle
 import os
 import re
+from sys import executable as PYTHON, platform
 from typing import List, Tuple
 
 from ninja_syntax import Writer
@@ -21,9 +22,9 @@ import common as c
 ####################
 
 # Check CW was added
-assert os.path.exists("tools/2.5/mwcceppc.exe") and \
+assert os.path.exists("tools/2.6/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5/mwcceppc.exe") and \
-    os.path.exists("tools/2.5/mwldeppc.exe"), \
+    os.path.exists("tools/2.6/mwldeppc.exe"), \
     "Error: Codewarrior not found!"
 
 # Check binaries were added
@@ -60,7 +61,7 @@ class Asset:
     def dump(self):
         if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
             os.system(
-                f"python {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:X} {c.INCDIR}/{self.path}")
+                f"{PYTHON} {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:x} {c.INCDIR}/{self.path}")
 
 assets = Asset.load(c.ASSETS_YML)
 

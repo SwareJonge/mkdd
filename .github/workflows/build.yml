@@ -66,9 +66,7 @@ jobs:
           # Remove files stored in build-dependencies
           Remove-Item '.\orig\MarioClub_us\main.dol'
           Remove-Item '.\out\' -Recurse        
-          Remove-Item '.\tools\2.5\' -Recurse
-          Remove-Item '.\tools\1.2.5\' -Recurse
-          Remove-Item '.\tools\devkitppc\' -Recurse
+          Remove-Item '.\tools\' -Recurse
           # Remove Items from build
           ninja -t clean
           Remove-Item '.\include\BuildtimeDat.bin'
