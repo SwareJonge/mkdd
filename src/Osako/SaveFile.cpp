@@ -15,12 +15,7 @@ void SaveFile::makeCRCTable()
     {
         c = byte;
         for (s32 bit = 0; bit < 8; bit++)
-        {
-            bool flag = (c & 1) != 0;
-            c = (c >> 1);
-            if (flag)
-                c = c ^ 0xEDB88320;
-        }
+            c = (c & 1) ? (c >> 1) ^ 0xEDB88320 : c >> 1;
         msaCRCTable[byte] = c;
     }
     msCRCTableComputed = true;

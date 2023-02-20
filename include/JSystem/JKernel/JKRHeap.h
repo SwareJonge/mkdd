@@ -163,7 +163,7 @@ public:
 
     // hack
     JSUTree<JKRHeap> *getFirstChild() const;
-
+    
     static void * getCodeStart() {
         return mCodeStart;
     }

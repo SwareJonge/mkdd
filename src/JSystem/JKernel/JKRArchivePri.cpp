@@ -36,7 +36,10 @@ JKRArchive::~JKRArchive() {}
 bool JKRArchive::isSameName(JKRArchive::CArcName &archiveName, u32 nameTableOffset, u16 hash) const
 {
     u16 arcHash = archiveName.getHash();
-    return (arcHash != hash) ? false : strcmp(&mStrTable[nameTableOffset], archiveName.getString()) == 0;
+    if (arcHash != hash)
+        return false;
+
+    return strcmp(&mStrTable[nameTableOffset], archiveName.getString()) == 0;
 }
 
 JKRArchive::SDIDirEntry *JKRArchive::findResType(u32 type) const

@@ -3,7 +3,7 @@
 
 // NOTE: This file currently uses a lot of hacks to make it match
 
-extern "C" { 
+extern "C" {
 #include <ppcdis.h>
 }
 
@@ -196,7 +196,7 @@ JKRHeap *JKRHeap::findFromRoot(void *ptr)
     return sRootHeap->findAllHeap(ptr);
 }
 
-#if GOOD_COMPILER // TODO: these functions match with 1.3.2, however using 1.3.2 breaks other function(compiler patch?)
+#if COMPILER_BEHAVES
 JKRHeap* JKRHeap::find(void* memory) const
 {
 	if ((mStart <= memory) && (memory < mEnd)) {
@@ -385,14 +385,12 @@ bool JKRHeap::isSubHeap(JKRHeap *heap) const
         JSUTreeIterator<JKRHeap> iterator;
         for (iterator = mChildTree.getFirstChild(); iterator != mChildTree.getEndChild(); ++iterator)
         {
-            JKRHeap *child = iterator.getObject();
-            if (child == heap)
+            if (iterator.getObject() == heap)
             {
                 return true;
             }
 
-            bool is_sub_heap = child->isSubHeap(heap);
-            if (is_sub_heap)
+            if (iterator.getObject()->isSubHeap(heap))
             {
                 return true;
             }
@@ -423,7 +421,7 @@ void *operator new[](u32 byteCount, JKRHeap *heap, int alignment)
     return JKRHeap::alloc(byteCount, alignment, heap);
 }
 
-// this is not needed without the other pragma and asm bs 
+// this is not needed without the other pragma and asm bs
 #pragma push
 #pragma dont_inline on
 void operator delete(void *memory) { JKRHeap::free(memory, nullptr); }
@@ -465,7 +463,6 @@ void JKRHeap::state_register(JKRHeap::TState * p, u32) const {
     JUT_ASSERT(1133, p->getHeap() == this);
 }
 
-// testing testing2
 bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2) const {
     JUT_ASSERT(1141, r1.getHeap() == r2.getHeap());
     return (r1.getCheckCode() == r2.getCheckCode());
