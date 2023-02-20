@@ -2,10 +2,9 @@
 #define KARTCTRL_H
 
 #include "types.h"
-#include "Yamamoto/KartSound.h"
 #include "Inagaki/KartSoundMgr.h"
-
-class KartCam;
+#include "Yamamoto/kartCamera.h"
+#include "Yamamoto/KartSound.h"
 
 class KartCtrl
 {

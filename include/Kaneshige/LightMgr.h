@@ -11,7 +11,10 @@ public:
     LightObj(const char *);
     virtual ~LightObj();
     void init(const char *, u32);
-    void setTagName(u32);
+    void setTagName(u32 tagName) { mTagName = tagName; };
+
+    u8 _00[0x20];
+    u32 mTagName;
 };
 
 class LtObjAmbient : public LightObj {

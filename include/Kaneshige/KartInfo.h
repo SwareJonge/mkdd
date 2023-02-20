@@ -130,6 +130,10 @@ public:
         }
         bool isAvailable() const;
         static s32 convPlayerKind(KartGamePad *);
+        
+        s32 getPlayerKind() const {
+            return convPlayerKind(mKartGamePad);
+        }
 
     private:
         KartGamePad* mKartGamePad; // inherited from JUTGamePad
@@ -151,14 +155,21 @@ public:
     static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
-    KartGamePad* getPad(int driverNo) {
-        JUT_MINMAX_ASSERT(126, 0, driverNo, 2);
-        return mKartCharacters[driverNo].getPad();
-    }
 
     bool isComDriver(int driverNo) const {
         JUT_MINMAX_ASSERT(113, 0, driverNo, 2);
         return mKartCharacters[driverNo].isComPlayer();
+    }
+
+    // Enum?
+    s32 getPlayerKind(int driverNo) const { 
+        JUT_MINMAX_ASSERT(119, 0, driverNo, 2);
+        return mKartCharacters[driverNo].getPlayerKind();
+    }
+
+    KartGamePad* getPad(int driverNo) {
+        JUT_MINMAX_ASSERT(126, 0, driverNo, 2);
+        return mKartCharacters[driverNo].getPad();
     }
 
     bool isComKart() const {
@@ -169,10 +180,9 @@ public:
         mKartDB = getKartDB(kartID);
     }
 
-        // bool isRealPlayerKart();
-        // s32 getPlayerKind();
-        // bool isGhostKart() const;
-        // bool isPlayerKart() const;
+    bool isRealPlayerKart() const;
+    bool isGhostKart() const;
+    bool isPlayerKart() const;
 
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;

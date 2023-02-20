@@ -2,9 +2,11 @@
 #define NECKCTRL_H
 
 class CharIKParamMgr {
-void createMgr();
+public:
+    static void createMgr(){mMgr = new CharIKParamMgr(); };
+    static CharIKParamMgr *mMgr;
 };
 
-CharIKParamMgr * CreateCharIKParamMgr();
+inline CharIKParamMgr *CreateCharIKParamMgr() { CharIKParamMgr::createMgr(); }
 
 #endif

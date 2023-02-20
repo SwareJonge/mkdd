@@ -9,11 +9,12 @@
 class ExModel
 {
 public:
-    static bool isMtxCombinationOn();
+    static bool isMtxCombinationOn() { return sMtxCombinationOn; };
     Mtx *getBaseTRMtx();/* {
         return &mBaseTRMtx;
     }*/
 
+    static bool sMtxCombinationOn;
 private:
     u8 _0[0x2c];
     Mtx mBaseTRMtx;

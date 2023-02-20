@@ -25,8 +25,16 @@ class RaceBGMPlayer
     void execPrepare();         // 0x801c72b8
     bool isPrepare() const;     // 0x801c72c8
     bool isCrsDemoEnd() const;  // 0x801c72d4
-    private:
-    u8 _0[0x10];
+
+    void setLowestKartNo(int kartNo) { mLowestKartNo = kartNo; };
+    void setGoalKartNo(int kartNo) { mGoalKartNo = kartNo; };
+    void setFinalLapKartNo(int kartNo) { mFinalLapKartNo = kartNo; };
+
+private:
+    u8 _0[0x8];
+    s16 mFinalLapKartNo;
+    s16 mGoalKartNo;
+    s16 mLowestKartNo;
 };                              // class RaceBGMPlayer
 // void RaceMgr::isRaceModeVs() const // RaceMgr.h; // 0x801c6f2c
 // void RaceMgr::isRaceModeTA() const // RaceMgr.h; // 0x801c6f58

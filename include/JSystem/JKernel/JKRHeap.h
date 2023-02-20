@@ -149,6 +149,10 @@ public:
         }
     }
 
+    JSUTree<JKRHeap> * getHeapTree() {
+        return &mChildTree;
+    }
+
     // Unused
     void checkMemoryFilled(u8 *, u32 size, u8);
 

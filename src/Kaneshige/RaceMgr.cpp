@@ -19,6 +19,7 @@
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Osako/kartPad.h"
+#include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
 #include "Osako/shadowMgr.h"
 #include "Osako/SystemRecord.h"
@@ -33,14 +34,20 @@
 #include "Sato/stEffectMgr.h"
 #include "Sato/stMath.h"
 #include "Shiraiwa/Balloon.h"
+#include "Shiraiwa/JugemRodSignal.h"
 
-#pragma push
 #pragma sym on
 
 RaceMgr *RaceMgr::sRaceManager;
 
 short RaceMgr::sForceTotalLapNum;
 short RaceMgr::sDispFrameCounter;
+
+static const float lbl_80377640[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+#pragma push
+#pragma force_active on
+DUMMY_POINTER(lbl_80377640)
+#pragma pop
 
 RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0, "空", " SKY"},
@@ -143,13 +150,13 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
         }
     }
 
-    DemoTimeKeeper *demoKeeper = nullptr;
+    DemoTimeKeeper *timeKeeper = nullptr;
     if (isAwardDemoMode())
-        demoKeeper = new AwardDemoTimeKeeper();
+        timeKeeper = new AwardDemoTimeKeeper();
     else if (isStaffRoll())
-        demoKeeper = new StaffRollTimeKeeper();
+        timeKeeper = new StaffRollTimeKeeper();
 
-    mRaceDirector = new RaceDirector(bVar17, demoKeeper, getConsoleNumber());
+    mRaceDirector = new RaceDirector(bVar17, timeKeeper, getConsoleNumber());
 
     u16 uVar20 = 1;
     if (mRaceInfo->isDriverLODOn())
@@ -157,9 +164,8 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
 
     SysDebug::getManager()->setHeapGroup("COURSE MGR", nullptr);
     
-    // this doesn't seem correct
-    CrsData::SColHeader *bco = reinterpret_cast<CrsData::SColHeader *>(ResMgr::getPtr(ResMgr::COURSE_BCO)); 
-    CrsData::SOblHeader *bol = reinterpret_cast<CrsData::SOblHeader *>(ResMgr::getPtr(ResMgr::COURSE_BOL));
+    CrsData::SColHeader *bco = (CrsData::SColHeader*)ResMgr::getPtr(ResMgr::COURSE_BCO); 
+    CrsData::SOblHeader *bol = (CrsData::SOblHeader*)ResMgr::getPtr(ResMgr::COURSE_BOL);
     CrsData *crsData = new CrsData(bco, bol);
 
     if (isStaffRoll())
@@ -634,6 +640,7 @@ void RaceMgr::drawRace() {
     SysDebug::getManager()->endUserTime(0);
 }
 
+#if WIP
 void RaceMgr::checkKart() {
     mRaceDirector->isFrameRenewal();
     for(int i = 0; i < getKartNumber(); i++) {
@@ -643,5 +650,349 @@ void RaceMgr::checkKart() {
             kartChecker->incTime();
     }
 }
+#else
 
-#pragma pop
+MANGLED_ASM(void RaceMgr::checkKart()){
+#include "asm/801ade64.s"
+}
+#endif
+
+void RaceMgr::checkRank() {
+    for(int i = 0; i < getKartNumber(); i++)
+        mKartChecker[i]->clrRank();
+    
+    switch (getRaceMode())
+    {
+    case BALLOON_BATTLE:
+        checkRankForBalloonBattle();
+        break;
+    case ROBBERY_BATTLE:
+        checkRankForRobberyBattle();
+        break;
+    case BOMB_BATTLE:
+        checkRankForBombBattle();
+        break;
+    case ESCAPE_BATTLE:
+        checkRankForEscapeBattle();
+        break;
+    case AWARD_DEMO:
+        checkRankForAwardDemo();
+        break;
+    default:
+        checkRankForRace();
+        break;
+    }
+}
+
+MANGLED_ASM(void RaceMgr::checkRankForBalloonBattle()){
+#include "asm/801ae0dc.s"
+}
+
+MANGLED_ASM(void RaceMgr::checkRankForRobberyBattle()){
+#include "asm/801ae238.s"
+}
+
+MANGLED_ASM(void RaceMgr::checkRankForBombBattle()){
+#include "asm/801ae324.s"
+}
+
+MANGLED_ASM(void RaceMgr::checkRankForEscapeBattle()){
+#include "asm/801ae4b8.s"
+}
+
+void RaceMgr::checkRankForAwardDemo() {
+    for(int i = 0; i < getKartNumber(); i++)
+        getKartChecker(i)->setRank(i + 1);
+}
+
+MANGLED_ASM(void RaceMgr::checkRankForRace()){
+#include "asm/801ae600.s"
+}
+
+MANGLED_ASM(void RaceMgr::setRaceResult()){
+#include "asm/801ae774.s"
+}
+
+void RaceMgr::calcRace() {
+    SysDebug::getManager()->beginUserTime(2); // start timer to calculate duration
+    mRaceDirector->calc();
+    MotorManager::getManager()->exec();
+    
+    beginProcTime(0x100);
+    J2DManager::getManager()->calc();
+    GetItemObjMgr()->clrKartItemUseTriggerList();
+    if(mAward2D)
+        mAward2D->calc();
+    if (mStaffRoll2D)
+        mStaffRoll2D->calc();
+    endProcTime(0x100);
+
+    if(mRaceDirector->isFrameRenewal()) {
+        frameWork();
+        mFrame++;
+    }
+    SysDebug::getManager()->endUserTime(2);
+    
+    if(gGamePad1P.testButton(JUTGamePad::Z) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN)) {
+        sDispFrameCounter ^= 1;
+    }
+
+    if(sDispFrameCounter) {
+        u32 frame = getPadRecorderFrame();
+        if(RaceApp::ptr()) {
+            if (RaceApp::ptr()->getPadRecorder() == nullptr)
+                frame = mFrame;
+
+            JUTReport(300, 430, "FRAME:%8d", frame);
+        }
+
+    }
+}
+
+MANGLED_ASM(void RaceMgr::frameWork()){ // this function should be easy
+#include "asm/801ae9d0.s"
+}
+
+MANGLED_ASM(void RaceMgr::updateRace()){
+#include "asm/801aeac0.s"
+}
+
+MANGLED_ASM(RaceMgr::~RaceMgr()){
+#include "asm/801aeeb8.s"
+}
+
+MANGLED_ASM(JSUTree<JKRHeap> *JKRHeap::getHeapTree()){
+#include "asm/801aef94.s"
+}
+
+bool RaceMgr::isAbleStart() const{
+    bool ret;
+    if (mAbleStart) // calls might be reversed, you'll never know with ghidra
+        ret = true;
+    else
+        ret = GetGeoObjMgr()->getJugem(0)->isAbleStart();
+
+    return ret;
+}
+
+void RaceMgr::setJugemZClr(u32 viewNo, bool clear) {
+    JUT_MINMAX_ASSERT(4353, 0, viewNo, mRaceInfo->getConsoleNumber());
+    if(clear)
+        mConsole[viewNo].clrJugemZClr();
+    else
+        mConsole[viewNo].setJugemZClr();
+}
+
+u8 RaceMgr::getStartID(int startIndex){
+    u8 id = 0xff;
+    ERaceMode raceMode = getRaceMode();
+    if (raceMode > 3 && raceMode < 10)
+        id = startIndex;
+    return id;
+}
+
+void RaceMgr::getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int kartNo){
+
+}
+
+f32 RaceMgr::getStartJugemOffsetY(int kartNo) {
+    f32 y = 0.0f;
+    JUT_MINMAX_ASSERT(4507, 0, kartNo, getKartNumber())
+    u8 startID = getStartID(mRaceInfo->mStartPosIndex[kartNo]);
+    if (getCourse()->getCrsData())
+        y = getCourse()->getCrsData()->getStartPoint(startID)->getJugemOffsetY();
+
+    return y;
+}
+
+MANGLED_ASM(int RaceMgr::getProcLevel()){
+#include "asm/801af654.s"
+}
+
+MANGLED_ASM(void RaceMgr::isItemBoxValid()){
+#include "asm/801af6a4.s"
+}
+
+MANGLED_ASM(void RaceMgr::beginProcTime(short)){
+#include "asm/801af718.s"
+}
+
+MANGLED_ASM(void RaceMgr::endProcTime(short)){
+#include "asm/801af7cc.s"
+}
+
+// not tested
+RaceMgr::EventInfo* RaceMgr::searchEventInfo(short searchId) {
+    for (EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++) {
+        if (eventTable->id == searchId)
+            return eventTable;
+    }
+    return nullptr;
+}
+
+bool RaceMgr::isJugemCountStart(){
+    bool ret;
+    if(mAbleStart) // calls might be reversed, you'll never know with ghidra
+        ret = true;    
+    else
+        ret = GetGeoObjMgr()->getJugem(0)->isCallThree();    
+
+    return ret;
+}
+
+bool RaceMgr::isKartGoal(int idx) {
+    return getKartChecker(idx)->isGoal();
+}
+
+MANGLED_ASM(void RaceMgr::getGoalKartNumber()){
+#include "asm/801af904.s"
+}
+
+u32 RaceMgr::getPadRecorderFrame() {
+    u32 frame = 0;
+    if(RaceApp::ptr()) {
+        if (RaceApp::ptr()->getPadRecorder())
+            frame = RaceApp::ptr()->getPadRecorder()->getFrame();
+    }
+
+    return frame;
+}
+
+int RaceMgr::getTotalLapNumberForDisplay() const{
+    return getTotalLapNumber();
+}
+
+RaceMgr::Console::Console() {
+    mCnsNo = -1;
+    _08 = -1;
+    _04 = 0;
+    mFlags = 0;
+    mFlags |= 8;
+}
+
+MANGLED_ASM(void RaceMgr::Console::changeTargetNo(int, bool)){
+#include "asm/801afa0c.s"
+}
+
+MANGLED_ASM(void RaceMgr::robRivalOfBalloon(int, int)){
+#include "asm/801afa84.s"
+}
+
+MANGLED_ASM(void RaceMgr::robRivalOfRabbitMark(int, int)){
+#include "asm/801afb48.s"
+}
+
+void RaceUsrPage::draw() {
+
+}
+// I Assume these are from clearZBuffer__Q27RaceMgr7ConsoleFv or isZoom__Q27RaceMgr7ConsoleFv?
+MANGLED_ASM(void KartCam::GetHeight()){
+#include "asm/801afd7c.s"
+}
+
+MANGLED_ASM(void KartCam::GetWidth()){
+#include "asm/801afd84.s"
+}
+
+MANGLED_ASM(void KartCam::GetPosh()){
+#include "asm/801afd8c.s"
+}
+
+MANGLED_ASM(void KartCam::GetPosv()){
+#include "asm/801afd94.s"
+}
+
+// from here on, only inlines(so in a perfect world this wouldn't be here)
+
+MANGLED_ASM(void TJugem::signalGo()){
+#include "asm/801aff30.s"
+}
+
+MANGLED_ASM(bool TJugem::isCallThree()){
+#include "asm/801aff60.s"
+}
+
+MANGLED_ASM(void PauseManager::enablePause()){
+#include "asm/801b0014.s"
+}
+
+MANGLED_ASM(void KartLoader::setDemoBodyBmd(void *)){
+#include "asm/801b0288.s"
+}
+
+MANGLED_ASM(void RaceMgr::Console::setDraw()){
+#include "asm/801b033c.s"
+}
+
+MANGLED_ASM(void RaceMgr::Console::setConsoleNo(int)){
+#include "asm/801b034c.s"
+}
+
+MANGLED_ASM(void RaceMgr::Console::clrDraw()){
+#include "asm/801b0354.s"
+}
+
+MANGLED_ASM(bool RaceMgr::Console::isDraw() const){
+#include "asm/801b0364.s"
+}
+
+MANGLED_ASM(void RaceMgr::Console::clrJugemZClr()){
+#include "asm/801b03c4.s"
+}
+
+MANGLED_ASM(void RaceMgr::Console::setJugemZClr()){
+#include "asm/801b03d4.s"
+}
+
+MANGLED_ASM(bool RaceMgr::Console::isNoStat() const){
+#include "asm/801b03e4.s"
+}
+
+MANGLED_ASM(bool RaceMgr::Console::isValid() const){
+#include "asm/801b03f0.s"
+}
+
+MANGLED_ASM(void KartChecker::getDeathTime()){
+#include "asm/801b0448.s"
+}
+
+MANGLED_ASM(int KartChecker::getMarkTime()){
+#include "asm/801b0470.s"
+}
+
+MANGLED_ASM(void *ResMgr::getArchive(ResMgr::ArchiveId)){
+#include "asm/801b04e0.s"
+}
+
+MANGLED_ASM(void ShadowManager::setShadowDepth(unsigned char)){
+#include "asm/801b04f4.s"
+}
+
+MANGLED_ASM(void ShadowManager::setShadowColor(JUtility::TColor &)){
+#include "asm/801b04fc.s"
+}
+
+MANGLED_ASM(void ShadowManager::setMirror(bool)){
+#include "asm/801b0520.s"
+}
+
+MANGLED_ASM(ShadowManager *ShadowManager::ptr()){
+#include "asm/801b0528.s"
+}
+
+MANGLED_ASM(void Award2D::still()){
+#include "asm/801b09e0.s"
+}
+
+MANGLED_ASM(bool KartInfo::isRealPlayerKart() const){
+#include "asm/801b0a24.s"
+}
+
+MANGLED_ASM(bool KartInfo::isGhostKart() const){
+#include "asm/801b0b14.s"
+}
+
+MANGLED_ASM(bool KartInfo::isPlayerKart() const){
+#include "asm/801b0b44.s"
+}
+

@@ -70,6 +70,16 @@ public:
         u8 _70[0xc];
     };
 
+    class StartPoint {
+    public:
+        bool isRight() const { return mRight != 0; };
+        f32 getJugemOffsetY() const { return mJugemOffsetY; };
+
+        u8 _0[0x24];
+        u8 mRight; // probably call this something else
+        s16 mJugemOffsetY; // could be TVec2/3
+    };
+
     struct SJugemPoint
     { // mostly copied from https://mkdd.miraheze.org/wiki/BOL_(File_Format) (Section 9: Respawn Points)
         JGeometry::TVec3<f32> mPosition;
@@ -82,15 +92,16 @@ public:
         s16 mCameraID;
         s16 mSectorID;
     };
-    CrsData(CrsData::SColHeader *, CrsData::SOblHeader *);
+    CrsData(SColHeader *, SOblHeader *);
     void getAmbientColor(JUtility::TColor *) const;
     void getLightColor(JUtility::TColor *) const;
     void getShadowColor(JUtility::TColor *) const;
     void getLightOffsetPosition(JGeometry::TVec3f *) const;
     void patchCamDataForStaffRoll(Language, VideoMode);
+    StartPoint* getStartPoint(u8) const;
     int getCourseID() const;
-    u8 getTotalLapNumber();
-    bool isTexLODBiasOn() const;
+    u8 getTotalLapNumber() const { return BOL->mTotalLapNum; };
+    bool isTexLODBiasOn() const { return BOL->mTexLodBiasOn != 0; };
     u8 getShadowDepth() const { return BOL->mShadowDepth; }
 
 private:

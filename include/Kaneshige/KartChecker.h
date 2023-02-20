@@ -73,6 +73,15 @@ public:
         mRaceEnd = true;
     }
 
+    void getDeathTime(); // gonna do these later
+    int getBalloonNumber() const { return mBalloonNum; };
+    bool isRankAvailable() const { return mRank != 0; };
+    int getBombPoint() const { return mBombPoint; };
+    int getMarkTime();
+    f32 getTotalUnitDist() const { return raceProgression; };
+    // cmpw was signed right?
+    s32 getGoalFrame() const { return mGoalFrame; };
+
     void setForceGoal();
 
     void setGoalTime() {
@@ -162,6 +171,7 @@ public:
 
     static short sBombPointCrushOneself;
 
+    // rewrite all names
     // private: // i'm not really sure how else KartChkUsrPage got access to this
     u16 raceFlags;
     s16 mTargetKartNo;

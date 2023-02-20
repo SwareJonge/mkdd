@@ -6,18 +6,23 @@
 
 class J2DManager {
 public:
-    J2DManager(JKRHeap *);
-    void setDrawFlag(bool);
+    J2DManager(JKRHeap *);   
+    void calc();
     void reset();
     void startLANNumAnm();
-
+    
+    void setDrawFlag(bool flag) {
+        mDrawFlag = flag;
+    }
     static J2DManager * getManager() {
         return mThis;
     }
 
     static J2DManager * mThis;
 
-    u8 _0[0x48];
-};
+    u8 _00[0x8];
+    bool mDrawFlag;
+    u8 _0A[0x48 - 0x9];
+}; // Size 0x48;
 
 #endif

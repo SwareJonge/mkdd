@@ -3,3 +3,6 @@ blocked_pointers:
   - 0x80117744
   - 0x803173f4
   - 0x803173f8
+forced_types:
+  0x80115bb4: FUNCTION # TRKExceptionHandler
+  0x80115d14: FUNCTION # TRKInterruptHandlerEnableInterrupts

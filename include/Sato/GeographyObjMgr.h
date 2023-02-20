@@ -5,18 +5,22 @@
 #include "Kaneshige/Course/CrsData.h"
 #include "Shiraiwa/JugemMain.h"
 
-class GeographyObjManager
+class GeographyObjManager : JKRDisposer
 {
 public:
-    void createMgr();
+    GeographyObjManager(const CrsData & );   
+    static void createMgr(const CrsData & crsData) {
+        gMgr = new GeographyObjManager(crsData);
+    }
     void createModel(JKRSolidHeap *, u32);
     void reset(CrsData*);
     GeographyObjManager *getGeographyObjManager();
     TJugem *getJugem(int) const;
+    static GeographyObjManager * gMgr;
 };
 
 GeographyObjManager *GetGeoObjMgr();
 
-void CreateGeoObjMgr(const CrsData *);
+void CreateGeoObjMgr(const CrsData *crsData) { GeographyObjManager::createMgr(*crsData); }
 
 #endif

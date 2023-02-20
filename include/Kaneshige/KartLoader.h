@@ -40,7 +40,7 @@ public:
     void getExModelDriver(int);                             // 0x801a81e8
     void getDriverTevRegKey(int, int);                      // 0x801a8280
     bool isDriverTevAnmEnable(int);                         // 0x801a8378
-    void setDemoBodyBmd(void *);
+    inline void setDemoBodyBmd(void *);
 
 private:
     u8 _0[0x14];

@@ -76,12 +76,13 @@ public:
     int getConsoleNumber() const { return mConsoleNum; }
     int getStatusNumber() const { return mStatusNum; }
     ERaceMode getRaceMode() const { return mRaceMode; }
+    s32 getItemSlotType() const { return mItemSlotType; }
 
     bool isLANMode() { return mLanMode; }
     bool isTrueEnding() const { return mTrueEnding; }
     bool isMirror() const { return mMirror; }
-    bool isWaitDemo() const { return mDemoType != 0; }
-    bool isDriverLODOn() const /* { return mLOD & 1; } */;
+    bool isWaitDemo() const  {return mDemoType != 0; }
+    bool isDriverLODOn() const  { return mLOD & 1; };
     bool isHiddingConsole(u32 p1) const {
         return mHideConsole & 1 << p1;
     }

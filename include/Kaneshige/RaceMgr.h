@@ -18,6 +18,12 @@
 #include "kartEnums.h"
 #include "types.h"
 
+extern "C"
+{
+    void func_801af520(float, float, float);
+    void func_801b05c4(float, float, float);
+}
+
 void PrintRaceHeap(u32, JKRHeap *);
 
 class RaceMgr : JKRDisposer {
@@ -60,10 +66,10 @@ public:
         bool isValid() const;   // 0x801b03f0
 
     private:
-        int _0x0;
-        u8 _0x4;
-        int _0x8;
-        ushort _0xc;
+        int mCnsNo;
+        u8 _04;
+        int _08;
+        u16 mFlags;
     };
 
     void updateBestTime();            // 0x801ad064
@@ -102,8 +108,22 @@ public:
     ERacePhase getRacePhase() { return mRaceDirector->getRacePhase(); } // i don't think this was inline
     bool isAbleStart() const;
     void setJugemZClr(u32, bool);
+    u8 getStartID(int);                                                          // 0x801af18c
+    void getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int); // 0x801af1d8
+    f32 getStartJugemOffsetY(int);                                                // 0x801af550
+    int getProcLevel();                                                           // 0x801af654
+    void isItemBoxValid();                                                         // 0x801af6a4
+    void beginProcTime(short);                                                     // 0x801af718
+    void endProcTime(short);                                                       // 0x801af7cc
+    EventInfo* searchEventInfo(short);                                                   // 0x801af864
+    bool isJugemCountStart();                                                      // 0x801af8a0
+    bool isKartGoal(int);                                                          // 0x801af8e0
+    void getGoalKartNumber();                                                      // 0x801af904
+    u32 getPadRecorderFrame();                                                    // 0x801af96c
+    int getTotalLapNumberForDisplay() const;                                      // 0x801af9c4
+    void robRivalOfBalloon(int, int);                                              // 0x801afa84
+    void robRivalOfRabbitMark(int, int);                                           // 0x801afb48
 
-    int getProcLevel(); // 0x801af654
     // Inline Functions
     // RaceInfo related 
     bool isLANMode() const { return mRaceInfo->isLANMode();  }
@@ -120,11 +140,11 @@ public:
         // return mRaceInfo->getKartInfo(index);
     }
 
+    bool isRaceEnd() const { return mRaceDirector->isRaceEnd(); };
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
     
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
     int getCameraNumber() const { return getConsoleNumber(); }
-
 
     bool isCrsDemoMode() {
         return getRacePhase() == PHASE_CRS_DEMO;
@@ -201,14 +221,13 @@ public:
 
 class RaceUsrPage : public SysDbUsrPage {
 public:
-    RaceUsrPage(RaceInfo *raceMgr)
-    {
-        mRaceMgr = raceMgr;
+    RaceUsrPage(RaceInfo *raceInfo) {
+        mRaceInfo = raceInfo;
     }
     virtual ~RaceUsrPage() {};
     virtual void draw();
 
-    RaceInfo *mRaceMgr;
+    RaceInfo *mRaceInfo;
 };
 
 inline RaceMgr *RCMGetManager() { 

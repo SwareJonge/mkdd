@@ -11,8 +11,12 @@ public:
     virtual void draw();
     virtual void callbackColGeoObj();
 
+    static void createMgr() { gItemMgr = new ItemObjMgr(); }
+
     void createModel(JKRSolidHeap *, u32);
     void reset();
+
+    void clrKartItemUseTriggerList();
 
     int getRobberyItemNum(int, u8);
 
@@ -93,6 +97,6 @@ public:
     virtual int calcRank(KartSlotRankDataSet);
 };
 
-inline void CreateItemObjMgr();
+inline void CreateItemObjMgr() { ItemObjMgr::createMgr(); }
 
 #endif // ITEMOBJMGR_H

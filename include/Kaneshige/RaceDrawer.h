@@ -41,6 +41,12 @@ public:
     void isMaskActive() const;     // 0x801ca4a0
 
     KartDrawer * getKartDrawer(int idx);
+    void getEffectDrawBuffer();
+    void getItemDrawBuffer(int);
+    void getFeelDrawBuffer();
+    void getJugemDrawBuffer();
+    void getGeoDrawBuffer();
+    void getShadowGeoDrawBuffer();
 
 private:
     u8 _0[100];

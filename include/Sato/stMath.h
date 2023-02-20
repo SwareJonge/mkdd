@@ -17,6 +17,10 @@ struct stRandom : public JMath::TRandom_fast_ {
     void getArbitUnitVec(JGeometry::TVec3<f32> &, f32, f32);
     void getArbitUnitVecSimple(JGeometry::TVec3<f32> &, f32);
     void getArbitUnitVecXZ(JGeometry::TVec3<f32>&, f32);
+    void setSeed(u32 seed) {
+        randomSeed = seed;
+        setSeed(seed);
+    }
 
     static stRandom *sRndMgr[6];
     static stRandom *sMgr; // not sure if this get's accesssed by something else, more research needed
