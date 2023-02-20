@@ -43,7 +43,7 @@ jobs:
           Expand-Archive sftp.zip
           # Download and extract all tools and required files
           .\sftp\sftp-client.exe "$env:SECRET_ADDRESS" "$env:SECRET_PORT" "$env:SECRET_UNAME" "$env:SECRET_PW"
-          Expand-Archive -Path build-dependencies.zip .\ 
+          Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
           Remove-Item '.\sftp.zip'
           Remove-Item '.\sftp\' -Recurse
