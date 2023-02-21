@@ -3,6 +3,7 @@
 
 #include "JSystem/JKernel/JKRSolidHeap.h"
 #include "Kaneshige/Course/CrsData.h"
+#include "Shiraiwa/Balloon.h"
 #include "Shiraiwa/JugemMain.h"
 
 class GeographyObjManager : JKRDisposer
@@ -15,14 +16,15 @@ public:
     void calc();
     void createModel(JKRSolidHeap *, u32);
     void reset(CrsData*);
-    GeographyObjManager *getGeographyObjManager();
+    static GeographyObjManager *getGeographyObjManager();
     TJugem *getJugem(int) const;
+    TBalloonManager* getBalloonMgr(int kart_index) const;
     static GeographyObjManager * gMgr;
 
     u8 _18[0x4a4 - 0x18];
 };
 
-inline GeographyObjManager *GetGeoObjMgr();
+inline GeographyObjManager *GetGeoObjMgr() { return GeographyObjManager::getGeographyObjManager(); };
 
 inline void CreateGeoObjMgr(const CrsData *crsData) { GeographyObjManager::createMgr(*crsData); }
 

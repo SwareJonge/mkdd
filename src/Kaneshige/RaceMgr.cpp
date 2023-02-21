@@ -4,7 +4,6 @@
 #include <dolphin/os.h>
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JKernel/JKRHeap.h"
-#include "JSystem/JKernel/JKRSolidHeap.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kameda/J2DManager.h"
 #include "Kameda/MotorManager.h"
@@ -1156,8 +1155,24 @@ void RaceMgr::Console::changeTargetNo(int targetNo, bool p2){
     }
 }
 
-void RaceMgr::robRivalOfBalloon(int, int){
-
+bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx){
+    bool robbed = false;
+    TBalloonManager* balloonMgr = GetGeoObjMgr()->getBalloonMgr(playerIdx);
+    if(getKartChecker(playerIdx)->getBalloonNumber() <= 0) {
+        return false;
+    }
+    else {
+        bool rivalDecreased = getKartChecker(rivalIdx)->decBalloon();
+        bool increased = false;
+        if(rivalDecreased) {
+            increased = getKartChecker(playerIdx)->incBalloon();
+        }
+        if(balloonMgr && increased && rivalDecreased) {
+            balloonMgr->robRivalOfBalloon(rivalIdx);
+            robbed = true;
+        }
+    }
+    return robbed;
 }
 
 void RaceMgr::robRivalOfRabbitMark(int, int){

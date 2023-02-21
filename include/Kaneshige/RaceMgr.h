@@ -137,7 +137,7 @@ public:
     int getGoalKartNumber();                                                      // 0x801af904
     u32 getPadRecorderFrame();                                                    // 0x801af96c
     int getTotalLapNumberForDisplay() const;                                      // 0x801af9c4
-    void robRivalOfBalloon(int, int);                                              // 0x801afa84
+    bool robRivalOfBalloon(int, int);                                              // 0x801afa84
     void robRivalOfRabbitMark(int, int);                                           // 0x801afb48
 
     // Inline Functions

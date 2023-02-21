@@ -8,7 +8,8 @@
 // TODO: everything
 class LightObj {
 public:
-    LightObj(const char *);
+    LightObj(const char *); // auto inlined it seems
+    LightObj(const char *, u32);
     virtual ~LightObj();
     void init(const char *, u32);
     void setTagName(u32 tagName) { mTagName = tagName; };
@@ -16,14 +17,19 @@ public:
     // 00 Vtable
     u8 _04[0x20 - 0x4];
     u32 mTagName;
-};
+}; // Size 0x24
 
 class LtObjAmbient : public LightObj {
 public:
-    LtObjAmbient(const char *, JUtility::TColor);
+    LtObjAmbient(const char * name, JUtility::TColor color) : LightObj(name, 0xffffffff) {
+        GXColor gxColor = color;
+        mColor.set(gxColor);
+    }
     virtual ~LtObjAmbient();
     void getColor(JUtility::TColor *) const;
     void draw();
+    u8 _024[0x38 - 0x24];
+    JUtility::TColor mColor;
 };
 
 class LtObjDiffuse : public LightObj {
