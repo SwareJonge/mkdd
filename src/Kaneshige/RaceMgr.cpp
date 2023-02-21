@@ -1044,8 +1044,27 @@ void RaceMgr::beginProcTime(short){
 
 }
 
-void RaceMgr::endProcTime(short){
+void RaceMgr::endProcTime(short id) {
+    s16 idx = -1; // not sure how to name this, one day i'll open up dolphin and use the debugger
+    s16 i = (id >> 8) & 0xff;
 
+    switch(i) {
+        case 0:
+            idx = mProctime1;
+        break;
+        case 1:
+            idx = mProctime2;
+        break;
+        case 2:
+            idx = mProctime3;
+        break;
+        case 3:
+            idx = mProctime4;
+        break;
+
+    }
+    if(id == idx)
+        SysDebug::getManager()->endUserTime((s16)((i << 1) + 1));
 }
 
 // not tested
