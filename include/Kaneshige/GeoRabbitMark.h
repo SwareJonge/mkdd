@@ -5,6 +5,23 @@
 
 // placeholder classes
 
+class GeoRabbitMarkSupervisor;
+
+class GeoRabbitMark
+{
+public:
+    void equip(int);
+
+    static GeoRabbitMarkSupervisor *getSupervisor()
+    {
+        return sSupervisor;
+    }
+
+private:
+    static u16 sSupervisorCreateNum;
+    static GeoRabbitMarkSupervisor *sSupervisor;
+};
+
 class GeoRabbitMarkSupervisor
 {
 public:
@@ -19,24 +36,17 @@ public:
     {
         return mWinTime;
     }
+
+    void changeOwner(int ownerNum);/* {
+        mRabbitMark->equip(ownerNum);
+    }*/
+
     void startWinnerEffect();
 
 private:
-    u8 _0[0x40];
+    u8 _0[0x3c];
+    GeoRabbitMark * mRabbitMark;
     s16 mWinTime;
-};
-
-class GeoRabbitMark
-{
-public:
-    static GeoRabbitMarkSupervisor *getSupervisor()
-    {
-        return sSupervisor;
-    }
-
-private:
-    static u16 sSupervisorCreateNum;
-    static GeoRabbitMarkSupervisor *sSupervisor;
 };
 
 #endif

@@ -1175,8 +1175,15 @@ bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx){
     return robbed;
 }
 
-void RaceMgr::robRivalOfRabbitMark(int, int){
+bool RaceMgr::robRivalOfRabbitMark(int playerIdx, int rivalIdx){
+    bool robbed = false;
+    GeoRabbitMarkSupervisor * rabbitMark = GeoRabbitMark::getSupervisor();
+    if(rabbitMark && !isRaceEnd() && rabbitMark->getRabbitKartNo() == rivalIdx) {
+        rabbitMark->changeOwner(playerIdx);
+        robbed = true;
+    }
 
+    return robbed;
 }
 
 void RaceUsrPage::draw() {

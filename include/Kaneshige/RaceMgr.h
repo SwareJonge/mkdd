@@ -138,7 +138,7 @@ public:
     u32 getPadRecorderFrame();                                                    // 0x801af96c
     int getTotalLapNumberForDisplay() const;                                      // 0x801af9c4
     bool robRivalOfBalloon(int, int);                                              // 0x801afa84
-    void robRivalOfRabbitMark(int, int);                                           // 0x801afb48
+    bool robRivalOfRabbitMark(int, int);                                           // 0x801afb48
 
     // Inline Functions
     // RaceInfo related 
