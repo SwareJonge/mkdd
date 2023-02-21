@@ -11,6 +11,7 @@ class KartGamePad : public JUTGamePad
 public:
     // placeholder Enums
     enum PadPort {
+        PORT_NET = -2,
         PORT_INV = -1,
         PORT_1 = 0,
         PORT_2 = 1,

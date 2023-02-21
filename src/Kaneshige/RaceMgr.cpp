@@ -949,6 +949,7 @@ void RaceMgr::frameWork() { // Maybe there were some sort of wrappers for procti
     GetJPAMgr()->calc_forMenu();
 }
 
+// needs DrawBuf
 void RaceMgr::updateRace(){
 
 }
@@ -1187,7 +1188,66 @@ bool RaceMgr::robRivalOfRabbitMark(int playerIdx, int rivalIdx){
 }
 
 void RaceUsrPage::draw() {
+    for(int i = 0; i < RaceMgr::getManager()->getKartNumber(); i++) {
+        KartInfo *kartInfo = RaceMgr::getManager()->getKartInfo(i);
+        char * kind = nullptr;
+        switch(kartInfo->getPlayerKind(0)) {
+            case 0:
+                kind = "NONE ";
+                break;
+            case 1:
+                kind = "COM  ";
+                break;
+            case 2:
+                kind = "MAN  ";
+                break;
+            case 3:
+                kind = "NET  ";
+                break;
+            case 4:
+                kind = "GHOST";
+                break;
+        }
+        KartGamePad* kartPad = kartInfo->getPad(0);
+        char *type = "NULL  ";
+        char *port = "NULL  ";
 
+        if(kartPad) {
+            switch(kartPad->getPadType()) {
+                case KartGamePad::NORMAL:
+                type = "NORMAL ";
+                break;
+                case KartGamePad::NETWORK:
+                type = "NETWORK";
+                break;
+                case KartGamePad::RECORD:
+                type = "RECORD ";
+                break;
+            }
+            switch(kartPad->getPadPort()) {
+                case KartGamePad::PORT_1:
+                port = "PORT1";
+                break;
+                case KartGamePad::PORT_2:
+                port = "PORT2";
+                break;
+                case KartGamePad::PORT_3:
+                port = "PORT3";
+                break;
+                case KartGamePad::PORT_4:
+                port = "PORT4";
+                break;
+                case KartGamePad::PORT_INV:
+                port = "NO   ";
+                break;
+                case KartGamePad::PORT_NET:
+                port = "NET  ";
+                break;
+            }
+        }
+        JUTReport(40, (i * 40) + 60, "No.%1d:KIND %s", i, kind);
+        JUTReport(40, (i * 40) + 80, "PAD :%08x:TYPE %s: PORT %s", kartPad, type,port);
+    }
 }
 // I Assume these are from clearZBuffer__Q27RaceMgr7ConsoleFv or isZoom__Q27RaceMgr7ConsoleFv?
 void KartCam::GetHeight() {
