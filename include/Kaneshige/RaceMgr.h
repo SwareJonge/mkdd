@@ -9,6 +9,7 @@
 #include "Kaneshige/RaceDirector.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceTime.h"
+#include "Kaneshige/RaceUsrPage.h"
 #include "Kaneshige/KartChecker.h"
 #include "Kaneshige/KartLoader.h"
 #include "Kaneshige/RaceDrawer.h"
@@ -23,8 +24,6 @@ extern "C"
     void func_801af520(float, float, float);
     void func_801b05c4(float, float, float);
 }
-
-void PrintRaceHeap(u32, JKRHeap *);
 
 class RaceMgr : JKRDisposer {
 public:
@@ -121,7 +120,7 @@ public:
     void frameWork();                 // 0x801ae9d0
     void updateRace();                // 0x801aeac0
     bool isRaceModeMiniGame();        // 0x801aef9c
-    ERacePhase getRacePhase() { return mRaceDirector->getRacePhase(); } // i don't think this was inline
+    ERacePhase getRacePhase();
     bool isAbleStart() const;
     void setJugemZClr(u32, bool);
     u8 getStartID(int);                                                          // 0x801af18c
@@ -233,17 +232,6 @@ public:
     s16 mProctime2;
     s16 mProctime3;
     s16 mProctime4;
-};
-
-class RaceUsrPage : public SysDbUsrPage {
-public:
-    RaceUsrPage(RaceInfo *raceInfo) {
-        mRaceInfo = raceInfo;
-    }
-    virtual ~RaceUsrPage() {};
-    virtual void draw();
-
-    RaceInfo *mRaceInfo;
 };
 
 inline RaceMgr *RCMGetManager() { 

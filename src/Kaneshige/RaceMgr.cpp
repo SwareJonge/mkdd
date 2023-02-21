@@ -1,9 +1,9 @@
-#pragma sym on
+#include "JSystem/JKernel/JKRHeap.h" 
+#pragma sym on // fro whatever reason defining it at the top will cause it to give JKRHeap itś own section
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
 #include "JSystem/J3D/J3DSys.h"
-#include "JSystem/JKernel/JKRHeap.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kameda/J2DManager.h"
 #include "Kameda/MotorManager.h"
@@ -100,7 +100,7 @@ RaceMgr::EventInfo RaceMgr::sEventTable[] = {
 };
 
 // UNUSED, my "guess" at how it would've looked like
-void PrintRaceHeap(u32 free, JKRHeap * heap) {
+static void PrintRaceHeap(u32 free, JKRHeap * heap) {
     JUTReport(0, 0, "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
@@ -954,6 +954,7 @@ void RaceMgr::updateRace(){
 
 }
 
+// For some reason getHeapTree doesn get put into its own section
 RaceMgr::~RaceMgr() {
     if (GameAudio::Parameters::getDemoMode())
         GameAudio::Parameters::setDemoMode(0);
@@ -963,6 +964,22 @@ RaceMgr::~RaceMgr() {
     }
     SysDebug::getManager()->clrAllUserTimeLabel();
     sRaceManager = nullptr;
+}
+
+bool RaceMgr::isRaceModeMiniGame() {
+    bool isMiniGame = false;
+    switch (getRaceMode()) {
+        case BALLOON_BATTLE:
+        case ROBBERY_BATTLE:
+        case BOMB_BATTLE:
+        case ESCAPE_BATTLE:
+        isMiniGame = true;
+    }
+    return isMiniGame;
+}
+
+ERacePhase RaceMgr::getRacePhase() {
+    return mRaceDirector->getRacePhase();
 }
 
 bool RaceMgr::isAbleStart() const{

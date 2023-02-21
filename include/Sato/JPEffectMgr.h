@@ -10,14 +10,18 @@ public:
 
     void reset();
 
-    static JPEffectMgr * getEffectMgr() {
+    static void createMgr(JKRHeap * heap, bool p2) {
+        mThis = new JPEffectMgr(heap, p2);
+    }
+
+    static JPEffectMgr *getEffectMgr() {
         return mThis;
     }
 
     static JPEffectMgr * mThis;
 };
 
-void CreateJPAMgr(JKRHeap *, bool);
+inline void CreateJPAMgr(JKRHeap * heap, bool p2) { JPEffectMgr::createMgr(heap, p2); };
 
 inline JPEffectMgr *GetJPAMgr() { return JPEffectMgr::getEffectMgr(); }
 

@@ -1,6 +1,7 @@
 #ifndef STAFFROLL2D_H
 #define STAFFROLL2D_H
 
+#include "kartLocale.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
