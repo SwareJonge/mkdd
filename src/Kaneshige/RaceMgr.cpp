@@ -584,7 +584,6 @@ void RaceMgr::resetRaceCommon() {
     GetGeoObjMgr()->reset(mCourse->getCrsData());
     GetItemObjMgr()->reset();
 
-// while true loop
     for(int i = 0; i < getKartNumber(); i++) {
         mKartChecker[i]->reset();
         mKartLoader[i]->reset();
@@ -709,7 +708,58 @@ void RaceMgr::checkRank() {
     }
 }
 
+// TODO: rename 
 void RaceMgr::checkRankForBalloonBattle(){
+    int i = 1;    
+    int lowhalf = getKartNumber();
+    do {        
+        KartChecker *aliveKart = nullptr; 
+        int balloonNum = -1;
+        KartChecker *deadKart = nullptr;        
+        RaceTime lastDeathTime;
+
+        for(int j = 0; j < getKartNumber(); j++) {
+            KartChecker *kartChecker3 = getKartChecker(j);
+            if(!kartChecker3->isRankAvailable()) {
+                if(kartChecker3->getBalloonNumber() != 0) {
+                    if(kartChecker3->getBalloonNumber() > balloonNum) {
+                        aliveKart = kartChecker3;
+                        balloonNum = kartChecker3->getBalloonNumber();
+                    }                 
+                }
+                else {
+                    bool isDead = false;
+                    if(kartChecker3->getDeathTime()->isLittle(lastDeathTime)) {
+                        isDead = true;
+                    }
+                    else {
+                        if(kartChecker3->getDeathTime()->get() == lastDeathTime.get() &&
+                         kartChecker3 > deadKart) // kaneshige moment?
+                            isDead = true;
+                    }
+                    if(isDead) {
+                        deadKart = kartChecker3;
+                        lastDeathTime.set(*kartChecker3->getDeathTime());
+  
+                    }   
+                        
+                }
+            }
+
+        }
+
+        if(aliveKart) {
+            aliveKart->setRank(i);
+            i++;
+        }
+
+        if(deadKart) {
+            deadKart->setRank(lowhalf);
+            lowhalf--;
+        }
+            
+
+    } while(i <= lowhalf);
 
 }
 

@@ -117,8 +117,8 @@ public:
     static bool isInsideSector(f32 unitDist) { return (unitDist >= 0.0f && unitDist < 1.0f); }
     static int getWinBombPointForMenu(int p1) {
         if (p1 <= 2)
-            return sBombPointFullL;
-        return sBombPointFullS;
+            return sBombPointFullS;
+        return sBombPointFullL;
     }
 
     void incLap() {
