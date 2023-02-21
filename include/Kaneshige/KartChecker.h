@@ -74,11 +74,11 @@ public:
     }
 
     // might be a reference
-    RaceTime * getDeathTime() { return &mDeathTime; };
+    const RaceTime &getDeathTime() { return mDeathTime; };
     int getBalloonNumber() const { return mBalloonNum; };
     bool isRankAvailable() const { return mRank != 0; };
     int getBombPoint() const { return mBombPoint; };
-    RaceTime *getMarkTime() { return &mMarkTime; };
+    const RaceTime &getMarkTime() { return mMarkTime; };
     f32 getTotalUnitDist() const { return raceProgression; };
     // cmpw was signed right?
     s32 getGoalFrame() const { return mGoalFrame; };

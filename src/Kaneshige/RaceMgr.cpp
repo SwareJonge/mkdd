@@ -729,17 +729,17 @@ void RaceMgr::checkRankForBalloonBattle(){
                 }
                 else {
                     bool isDead = false;
-                    if(kartChecker3->getDeathTime()->isLittle(lastDeathTime)) {
+                    if(kartChecker3->getDeathTime().isLittle(lastDeathTime)) {
                         isDead = true;
                     }
                     else {
-                        if(kartChecker3->getDeathTime()->get() == lastDeathTime.get() &&
+                        if(kartChecker3->getDeathTime().get() == lastDeathTime.get() &&
                          kartChecker3 > deadKart) // kaneshige moment?
                             isDead = true;
                     }
                     if(isDead) {
                         deadKart = kartChecker3;
-                        lastDeathTime.set(*kartChecker3->getDeathTime());
+                        lastDeathTime.set(kartChecker3->getDeathTime());
   
                     }   
                         
@@ -760,7 +760,6 @@ void RaceMgr::checkRankForBalloonBattle(){
             
 
     } while(i <= lowhalf);
-
 }
 
 void RaceMgr::checkRankForRobberyBattle(){
@@ -781,7 +780,58 @@ void RaceMgr::checkRankForAwardDemo() {
 }
 
 void RaceMgr::checkRankForRace(){
+    int i = 1;    
+    int lowhalf = getKartNumber();
+    do {        
+        KartChecker *kartChecker1 = nullptr;  
+        RaceTime lastRaceTime;
+        f32 lastDist = 10000.0f;    
+        KartChecker *kartChecker2 = nullptr;  
 
+        for(int j = 0; j < getKartNumber(); j++) {
+            KartChecker *kartChecker3 = getKartChecker(j);
+            if(!kartChecker3->isRankAvailable()) {
+                if(kartChecker3->isGoal()) {
+                    bool isFaster = false;
+                    if(kartChecker3->getTotalTime().isAvailable()) {
+                        if(kartChecker3->getTotalTime().isLittle(lastRaceTime)) {
+                            isFaster = true;
+                        }
+                    }
+                    else {
+                        if(!kartChecker1 || (kartChecker3->getGoalFrame() < kartChecker1->getGoalFrame())) {
+                            isFaster = true;
+                        }
+                    }
+                    if(isFaster) {
+                        kartChecker1 = kartChecker3;
+                        lastRaceTime.set(kartChecker3->getTotalTime());
+  
+                    }   
+                }
+                else {
+                    f32 totalDist = kartChecker3->getTotalUnitDist();
+                    if(totalDist < lastDist) {
+                        kartChecker2 = kartChecker3;
+                        lastDist = totalDist;
+                    }                         
+                }
+            }
+
+        }
+
+        if(kartChecker1) {
+            kartChecker1->setRank(i);
+            i++;
+        }
+
+        if(kartChecker2) {
+            kartChecker2->setRank(lowhalf);
+            lowhalf--;
+        }
+            
+
+    } while(i <= lowhalf);
 }
 
 void RaceMgr::setRaceResult(){
