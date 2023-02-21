@@ -787,11 +787,11 @@ void RaceMgr::checkRankForEscapeBattle(){
                     kartChecker1 = kartChecker3;
                 }
                 else {
-                    bool lower = false;
+                    bool higher = false;
                     if (i > idk) {
-                        lower = true;           
+                        higher = true;           
                     }
-                    if(lower) {
+                    if(higher) {
                         kartChecker2 = kartChecker3;  
                         idk = i;  
                     } 
@@ -871,8 +871,16 @@ void RaceMgr::checkRankForRace(){
     } while(i <= lowhalf);
 }
 
-void RaceMgr::setRaceResult(){
-
+void RaceMgr::setRaceResult() {
+    for(int i = 0; i < getKartNumber(); i++) {
+        mRaceInfo->mRank[i] = getKartChecker(i)->getRank();
+        mRaceInfo->mFinishTime[i] = getKartChecker(i)->getTotalTime();
+        // Store Lap times
+        for(int j = 0; j < getTotalLapNumber(); j++) {
+            mRaceInfo->mLapTimes[i][j] = getKartChecker(i)->getLapTime(j);
+        }
+    }
+    mRaceInfo->_0x298 = mRaceDirector->getWaitDemoResult();
 }
 
 void RaceMgr::calcRace() {

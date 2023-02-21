@@ -19,7 +19,7 @@ public:
     }
     ERacePhase getRacePhase() const { return mRacePhase; };
     bool isRaceEnd() const { return mIsRaceEnd; };
-    void getWaitDemoResult() const;
+    int getWaitDemoResult() const;
     void getMiniGameTime();
     void reset();
 
@@ -27,7 +27,9 @@ public:
 private:
     u8 _00[0xc];
     ERacePhase mRacePhase;
-    u8 _10[0x28 - 0x10];
+    u8 _10[0x1c - 0x10];
+    int mWaitDemoResult;
+    u8 _20[0x28 - 0x20];
     bool mFrameRenewal;
     u8 _29;
     bool mIsRaceEnd;

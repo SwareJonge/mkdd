@@ -39,6 +39,7 @@ enum ERaceGpCup
     REVERSE2_CUP = 4,
 };
 
+// Kaneshige doesn seem to use s32? refactor if this is the case
 class RaceInfo
 {
 public:
@@ -144,8 +145,8 @@ public:
     s32 mDemoNextPhase;
     s16 mRank[8]; // stores what rank you finished at previous race, basically the same as startPosIndex
     RaceTime mFinishTime[8];
-    RaceTime mLapTimes[80]; // 10 per player so perhaps it's lapTimes[8][10] or lapTimes[10][8](why do i not know how arrays work)
-    s32 _0x298;
+    RaceTime mLapTimes[8][10];
+    s32 _0x298; // mWaitDemoResult, rename this at some point
     u16 mHideConsole;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
