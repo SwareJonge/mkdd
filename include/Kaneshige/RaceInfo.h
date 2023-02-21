@@ -82,9 +82,9 @@ public:
     bool isTrueEnding() const { return mTrueEnding; }
     bool isMirror() const { return mMirror; }
     bool isWaitDemo() const  {return mDemoType != 0; }
-    bool isDriverLODOn() const  { return mLOD & 1; };
+    bool isDriverLODOn() const  { return (mLOD & 2); };
     bool isHiddingConsole(u32 p1) const {
-        return mHideConsole & 1 << p1;
+        return (mHideConsole & 1 << p1) != 0;
     }
     void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
     void setGpCup(ERaceGpCup cup) { mGpCup = cup; }

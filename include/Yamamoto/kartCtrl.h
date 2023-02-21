@@ -18,6 +18,9 @@ public:
     void DynamicsInit(bool);
     void DynamicsReset();
 
+    void DynamicsStage1();
+    void DynamicsStage2();
+
 private:
     static KartCtrl * mCtrl;
     u8 _0[0x1a0];

@@ -73,11 +73,12 @@ public:
         mRaceEnd = true;
     }
 
-    void getDeathTime(); // gonna do these later
+    // might be a reference
+    RaceTime * getDeathTime() { return &mDeathTime; };
     int getBalloonNumber() const { return mBalloonNum; };
     bool isRankAvailable() const { return mRank != 0; };
     int getBombPoint() const { return mBombPoint; };
-    int getMarkTime();
+    RaceTime *getMarkTime() { return &mMarkTime; };
     f32 getTotalUnitDist() const { return raceProgression; };
     // cmpw was signed right?
     s32 getGoalFrame() const { return mGoalFrame; };
@@ -115,7 +116,7 @@ public:
     
     static bool isInsideSector(f32 unitDist) { return (unitDist >= 0.0f && unitDist < 1.0f); }
     static int getWinBombPointForMenu(int p1) {
-        if (p1 > 2)
+        if (p1 <= 2)
             return sBombPointFullL;
         return sBombPointFullS;
     }

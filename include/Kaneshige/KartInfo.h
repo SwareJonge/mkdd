@@ -180,9 +180,9 @@ public:
         mKartDB = getKartDB(kartID);
     }
 
-    bool isRealPlayerKart() const;
-    bool isGhostKart() const;
-    bool isPlayerKart() const;
+    bool isRealPlayerKart() const { return getPlayerKind(0) == 1; }
+    bool isGhostKart() const { return getPlayerKind(0) == 4; }
+    bool isPlayerKart() const { return !isComKart(); }
 
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;

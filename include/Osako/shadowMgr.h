@@ -6,10 +6,18 @@
 
 class ShadowManager {
 public:
-    inline static ShadowManager *ptr();
-    inline void setMirror(bool);
-    inline void setShadowColor(JUtility::TColor &);
-    inline void setShadowDepth(u8);
+    static ShadowManager *ptr() {
+        
+    }
+    void setMirror(bool) {
+
+    }
+    void setShadowColor(JUtility::TColor &) {
+
+    }
+    void setShadowDepth(u8) {
+
+    }
 };
 
 #endif // SHADOWMGR_H

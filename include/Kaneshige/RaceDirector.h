@@ -12,12 +12,10 @@ public:
     void calc();
     bool checkRaceEnd();
     bool isFrameRenewal() const {
-        // retval might be used
-        if (!mIsRaceEnd)
-            return false;
-        if(sForceStopFrame)
-            return false;
-        return true;
+        bool ret = false;
+        if (mFrameRenewal && !sForceStopFrame)
+            ret = true;
+        return ret;
     }
     ERacePhase getRacePhase() const { return mRacePhase; };
     bool isRaceEnd() const { return mIsRaceEnd; };
@@ -29,7 +27,9 @@ public:
 private:
     u8 _00[0xc];
     ERacePhase mRacePhase;
-    u8 _10[0x2a - 0x10];
+    u8 _10[0x28 - 0x10];
+    bool mFrameRenewal;
+    u8 _29;
     bool mIsRaceEnd;
 
 };

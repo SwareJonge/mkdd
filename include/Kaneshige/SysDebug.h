@@ -22,6 +22,7 @@ public:
     void beginUserTime(int);
     void ctrlDebugMode();
     void endUserTime(int);
+    void clrAllUserTimeLabel();
     void createHeapInfo(JKRHeap *, char *);
     void destroyHeapInfo(JKRHeap *);
     void draw();

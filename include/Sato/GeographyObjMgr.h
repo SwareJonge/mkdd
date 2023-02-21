@@ -1,5 +1,5 @@
-#ifndef GEOGRAPHYOBJMGR
-#define GEOGRAPHYOBJMGR
+#ifndef GEOGRAPHYOBJMGR_H
+#define GEOGRAPHYOBJMGR_H
 
 #include "JSystem/JKernel/JKRSolidHeap.h"
 #include "Kaneshige/Course/CrsData.h"
@@ -12,15 +12,18 @@ public:
     static void createMgr(const CrsData & crsData) {
         gMgr = new GeographyObjManager(crsData);
     }
+    void calc();
     void createModel(JKRSolidHeap *, u32);
     void reset(CrsData*);
     GeographyObjManager *getGeographyObjManager();
     TJugem *getJugem(int) const;
     static GeographyObjManager * gMgr;
+
+    u8 _18[0x4a4 - 0x18];
 };
 
-GeographyObjManager *GetGeoObjMgr();
+inline GeographyObjManager *GetGeoObjMgr();
 
-void CreateGeoObjMgr(const CrsData *crsData) { GeographyObjManager::createMgr(*crsData); }
+inline void CreateGeoObjMgr(const CrsData *crsData) { GeographyObjManager::createMgr(*crsData); }
 
 #endif

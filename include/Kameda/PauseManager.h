@@ -12,7 +12,9 @@ public:
     }
     void reset();
 
-    inline void enablePause();
+    void enablePause() {
+        
+    }
 
     static PauseManager *getManager() {
         return mThis;

@@ -1,3 +1,4 @@
+#pragma sym on
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
@@ -35,8 +36,6 @@
 #include "Sato/stMath.h"
 #include "Shiraiwa/Balloon.h"
 #include "Shiraiwa/JugemRodSignal.h"
-
-#pragma sym on
 
 RaceMgr *RaceMgr::sRaceManager;
 
@@ -354,7 +353,7 @@ void RaceMgr::updateBestTime() {
 }
 
 void RaceMgr::setRandomSeed() {
-    for(int i = 0; i < 6; i++) {
+    for(u32 i = 0; i < 6; i++) {
         stGetRnd(i)->setSeed(mRaceInfo->mRandomSeed); // i have no clue why this file has different options for inlining
     }
     GameAudio::Random::setSeed(mRaceInfo->mRandomSeed);
@@ -430,7 +429,7 @@ void RaceMgr::createKartModel() {
     ShadowManager::ptr();
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo(nullptr, "KART MDL");
+    SysDebug::getManager()->createHeapInfo(solidHeap, "KART MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
 
     for(int i = 0; i < getKartNumber(); i++) {
@@ -446,7 +445,7 @@ void RaceMgr::createKartModel() {
 void RaceMgr::createCourseModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo(nullptr, "CRS MDL");
+    SysDebug::getManager()->createHeapInfo(solidHeap, "CRS  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     mCourse->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -456,7 +455,7 @@ void RaceMgr::createCourseModel() {
 void RaceMgr::createObjectModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo(nullptr, "OBJ MDL");
+    SysDebug::getManager()->createHeapInfo(solidHeap, "OBJ  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetGeoObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -466,7 +465,7 @@ void RaceMgr::createObjectModel() {
 void RaceMgr::createItemModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo(nullptr, "ITEM MDL");
+    SysDebug::getManager()->createHeapInfo(solidHeap, "ITEM MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetItemObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -476,7 +475,7 @@ void RaceMgr::createItemModel() {
 void RaceMgr::createEffectModel() {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SysDebug::getManager()->createHeapInfo(nullptr, "EFCT MDL");
+    SysDebug::getManager()->createHeapInfo(solidHeap, "EFCT MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetStEfctMgr()->createModel(solidHeap, getCameraNumber());
     GetJ3DEfctMgr()->createModel(solidHeap, getCameraNumber());
@@ -488,7 +487,10 @@ void RaceMgr::createLight() {
     SysDebug::getManager()->setHeapGroup("LIGHT MGR", nullptr);
 
     LightMgr::createManager();
+    bool balloonExists = false;
     TBalloonString * balloonString = TBalloonString::getSupervisor();
+    if (balloonString)
+        balloonExists = 1;
 
     JUtility::TColor ambientColor;
     mCourse->getAmbientColor(&ambientColor);
@@ -502,7 +504,8 @@ void RaceMgr::createLight() {
     JGeometry::TVec3f lightPos;
     mCourse->getLightOffsetPosition(&lightPos);
 
-    for(int i = 0; i < getConsoleNumber(); i++) {
+    for (u32 i = 0; i < getConsoleNumber(); i++)
+    {
         RaceSceneLight *sceneLight = new RaceSceneLight("シーンライト", i, lightColor, lightPos);
         LightMgr::getManager()->appendLight(sceneLight);
         for(int j = 0; j < getKartNumber(); j++) {
@@ -510,7 +513,7 @@ void RaceMgr::createLight() {
             LightMgr::getManager()->appendLight(kartLight);
             getKartDrawer(j)->setLight(i, kartLight);
         }
-        if (balloonString != nullptr) {
+        if (balloonExists) {
             RaceBalloonLight *balloonLight = new RaceBalloonLight(i);
             LightMgr::getManager()->appendLight(balloonLight);
         }
@@ -525,12 +528,12 @@ void RaceMgr::resetRace() {
     bool needHardReset = false;
 
     switch (mRaceDirector->getRacePhase()) {
-    case PHASE_4:
-        resetRaceForRestartEvent();
-        needHardReset = true;
-        break;
     case PHASE_3:
         resetRaceForResetEvent();
+        needHardReset = true;
+        break;
+    case PHASE_4:
+        resetRaceForRestartEvent();
         needHardReset = true;
         break;
     case PHASE_5:
@@ -640,22 +643,44 @@ void RaceMgr::drawRace() {
     SysDebug::getManager()->endUserTime(0);
 }
 
-#if WIP
 void RaceMgr::checkKart() {
+
+    int goalKartNo = -1;
+    int finalLapKartNo = -1;
+    int lowestKartNo = -1;
+
     mRaceDirector->isFrameRenewal();
     for(int i = 0; i < getKartNumber(); i++) {
         KartChecker * kartChecker = mKartChecker[i];
         kartChecker->checkKart();
         if(isAbleStart())
             kartChecker->incTime();
-    }
-}
-#else
 
-MANGLED_ASM(void RaceMgr::checkKart()){
-#include "asm/801ade64.s"
+        kartChecker->checkLap(isRaceEnd());
+
+        if (!kartChecker->isGoal()) {
+            if (kartChecker->isFinalLap() &&
+                getKartInfo(i)->isPlayerKart() && !getKartInfo(i)->isGhostKart()) {
+                finalLapKartNo = i;
+            }
+            if (isRaceEnd() && getKartInfo(i)->isRealPlayerKart() &&
+                !getKartInfo(i)->isGhostKart()) {
+                lowestKartNo = i;
+            }
+        }
+        else {
+            if (getKartInfo(i)->isRealPlayerKart() && !getKartInfo(i)->isGhostKart()) {
+                goalKartNo = i;
+            }
+        }
+    }
+    if (finalLapKartNo >= 0)
+        mRaceBGMPlayer->setFinalLapKartNo(finalLapKartNo);
+    if (goalKartNo >= 0)
+        mRaceBGMPlayer->setGoalKartNo(goalKartNo);
+    if (lowestKartNo >= 0)
+        mRaceBGMPlayer->setLowestKartNo(lowestKartNo);
 }
-#endif
 
 void RaceMgr::checkRank() {
     for(int i = 0; i < getKartNumber(); i++)
@@ -684,20 +709,20 @@ void RaceMgr::checkRank() {
     }
 }
 
-MANGLED_ASM(void RaceMgr::checkRankForBalloonBattle()){
-#include "asm/801ae0dc.s"
+void RaceMgr::checkRankForBalloonBattle(){
+
 }
 
-MANGLED_ASM(void RaceMgr::checkRankForRobberyBattle()){
-#include "asm/801ae238.s"
+void RaceMgr::checkRankForRobberyBattle(){
+
 }
 
-MANGLED_ASM(void RaceMgr::checkRankForBombBattle()){
-#include "asm/801ae324.s"
+void RaceMgr::checkRankForBombBattle(){
+
 }
 
-MANGLED_ASM(void RaceMgr::checkRankForEscapeBattle()){
-#include "asm/801ae4b8.s"
+void RaceMgr::checkRankForEscapeBattle(){
+
 }
 
 void RaceMgr::checkRankForAwardDemo() {
@@ -705,12 +730,12 @@ void RaceMgr::checkRankForAwardDemo() {
         getKartChecker(i)->setRank(i + 1);
 }
 
-MANGLED_ASM(void RaceMgr::checkRankForRace()){
-#include "asm/801ae600.s"
+void RaceMgr::checkRankForRace(){
+
 }
 
-MANGLED_ASM(void RaceMgr::setRaceResult()){
-#include "asm/801ae774.s"
+void RaceMgr::setRaceResult(){
+
 }
 
 void RaceMgr::calcRace() {
@@ -731,6 +756,8 @@ void RaceMgr::calcRace() {
         frameWork();
         mFrame++;
     }
+    checkRank();
+    _0x22++;
     SysDebug::getManager()->endUserTime(2);
     
     if(gGamePad1P.testButton(JUTGamePad::Z) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN)) {
@@ -742,27 +769,55 @@ void RaceMgr::calcRace() {
         if(RaceApp::ptr()) {
             if (RaceApp::ptr()->getPadRecorder() == nullptr)
                 frame = mFrame;
-
-            JUTReport(300, 430, "FRAME:%8d", frame);
+           
         }
-
+        JUTReport(300, 430, "FRAME:%8d", frame);
     }
 }
 
-MANGLED_ASM(void RaceMgr::frameWork()){ // this function should be easy
-#include "asm/801ae9d0.s"
+void RaceMgr::frameWork() { // Maybe there were some sort of wrappers for proctime?
+    mCourse->calcShaking();
+
+    beginProcTime(0x101);
+    KartCtrl::getKartCtrl()->DynamicsStage1();
+    endProcTime(0x101);
+
+    beginProcTime(0x102);
+    KartCtrl::getKartCtrl()->DynamicsStage2();
+    endProcTime(0x102);
+
+    J2DManager::getManager()->calcParticle();
+    LightMgr::getManager()->calc();
+
+    beginProcTime(0x103);
+    mCourse->calc();
+    endProcTime(0x103);
+
+    beginProcTime(0x105);
+    GetGeoObjMgr()->calc();
+    endProcTime(0x105);
+
+    beginProcTime(0x109);
+    checkKart();
+    endProcTime(0x109);
+
+    mRaceBGMPlayer->calc();
+    GetJPAMgr()->calc_forMenu();
 }
 
-MANGLED_ASM(void RaceMgr::updateRace()){
-#include "asm/801aeac0.s"
+void RaceMgr::updateRace(){
+
 }
 
-MANGLED_ASM(RaceMgr::~RaceMgr()){
-#include "asm/801aeeb8.s"
-}
+RaceMgr::~RaceMgr() {
+    if (GameAudio::Parameters::getDemoMode())
+        GameAudio::Parameters::setDemoMode(0);
 
-MANGLED_ASM(JSUTree<JKRHeap> *JKRHeap::getHeapTree()){
-#include "asm/801aef94.s"
+    for (JSUTreeIterator<JKRHeap> iterator = mRaceHeap->getHeapTree()->getFirstChild(); iterator != mRaceHeap->getHeapTree()->getEndChild(); ++iterator) {
+        SysDebug::getManager()->destroyHeapInfo(iterator.getObject());
+    }
+    SysDebug::getManager()->clrAllUserTimeLabel();
+    sRaceManager = nullptr;
 }
 
 bool RaceMgr::isAbleStart() const{
@@ -777,18 +832,27 @@ bool RaceMgr::isAbleStart() const{
 
 void RaceMgr::setJugemZClr(u32 viewNo, bool clear) {
     JUT_MINMAX_ASSERT(4353, 0, viewNo, mRaceInfo->getConsoleNumber());
+    Console * console = &mConsole[viewNo];
     if(clear)
-        mConsole[viewNo].clrJugemZClr();
+        console->clrJugemZClr();
     else
-        mConsole[viewNo].setJugemZClr();
+        console->setJugemZClr();
 }
 
 u8 RaceMgr::getStartID(int startIndex){
     u8 id = 0xff;
-    ERaceMode raceMode = getRaceMode();
-    if (raceMode > 3 && raceMode < 10)
-        id = startIndex;
-    return id;
+    switch (getRaceMode())
+    {
+        case BALLOON_BATTLE:
+        case ROBBERY_BATTLE:
+        case BOMB_BATTLE:
+        case ESCAPE_BATTLE:
+        case AWARD_DEMO:
+        case STAFF_ROLL:
+            id = startIndex;
+        break;
+    }
+        return id;
 }
 
 void RaceMgr::getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int kartNo){
@@ -805,29 +869,33 @@ f32 RaceMgr::getStartJugemOffsetY(int kartNo) {
     return y;
 }
 
-MANGLED_ASM(int RaceMgr::getProcLevel()){
-#include "asm/801af654.s"
+int RaceMgr::getProcLevel() {
+
 }
 
-MANGLED_ASM(void RaceMgr::isItemBoxValid()){
-#include "asm/801af6a4.s"
+void RaceMgr::isItemBoxValid() {
+
 }
 
-MANGLED_ASM(void RaceMgr::beginProcTime(short)){
-#include "asm/801af718.s"
+void RaceMgr::beginProcTime(short){
+
 }
 
-MANGLED_ASM(void RaceMgr::endProcTime(short)){
-#include "asm/801af7cc.s"
+void RaceMgr::endProcTime(short){
+
 }
 
 // not tested
 RaceMgr::EventInfo* RaceMgr::searchEventInfo(short searchId) {
+    
+    EventInfo *ret = nullptr;
     for (EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++) {
-        if (eventTable->id == searchId)
-            return eventTable;
+        if (eventTable->id == searchId) {
+            ret = eventTable;
+            break;
+        }
     }
-    return nullptr;
+    return ret;
 }
 
 bool RaceMgr::isJugemCountStart(){
@@ -844,8 +912,8 @@ bool RaceMgr::isKartGoal(int idx) {
     return getKartChecker(idx)->isGoal();
 }
 
-MANGLED_ASM(void RaceMgr::getGoalKartNumber()){
-#include "asm/801af904.s"
+void RaceMgr::getGoalKartNumber() {
+
 }
 
 u32 RaceMgr::getPadRecorderFrame() {
@@ -864,135 +932,47 @@ int RaceMgr::getTotalLapNumberForDisplay() const{
 
 RaceMgr::Console::Console() {
     mCnsNo = -1;
-    _08 = -1;
-    _04 = 0;
+    mTargetNo = -1;
+    _04 = false;
     mFlags = 0;
     mFlags |= 8;
 }
 
-MANGLED_ASM(void RaceMgr::Console::changeTargetNo(int, bool)){
-#include "asm/801afa0c.s"
+void RaceMgr::Console::changeTargetNo(int targetNo, bool p2){
+    if(isValid()) {
+        mTargetNo = targetNo;
+        _04 = p2;
+        RCMGetCamera(mCnsNo)->SetTargetNum(mTargetNo);
+        if(!isNoStat())
+            J2DManager::getManager()->setStatus2Kart(mCnsNo, mTargetNo);
+    }
 }
 
-MANGLED_ASM(void RaceMgr::robRivalOfBalloon(int, int)){
-#include "asm/801afa84.s"
+void RaceMgr::robRivalOfBalloon(int, int){
+
 }
 
-MANGLED_ASM(void RaceMgr::robRivalOfRabbitMark(int, int)){
-#include "asm/801afb48.s"
+void RaceMgr::robRivalOfRabbitMark(int, int){
+
 }
 
 void RaceUsrPage::draw() {
 
 }
 // I Assume these are from clearZBuffer__Q27RaceMgr7ConsoleFv or isZoom__Q27RaceMgr7ConsoleFv?
-MANGLED_ASM(void KartCam::GetHeight()){
-#include "asm/801afd7c.s"
+void KartCam::GetHeight() {
+
 }
 
-MANGLED_ASM(void KartCam::GetWidth()){
-#include "asm/801afd84.s"
+void KartCam::GetWidth() {
+
 }
 
-MANGLED_ASM(void KartCam::GetPosh()){
-#include "asm/801afd8c.s"
+void KartCam::GetPosh() {
+
 }
 
-MANGLED_ASM(void KartCam::GetPosv()){
-#include "asm/801afd94.s"
-}
+void KartCam::GetPosv() {
 
-// from here on, only inlines(so in a perfect world this wouldn't be here)
-
-MANGLED_ASM(void TJugem::signalGo()){
-#include "asm/801aff30.s"
-}
-
-MANGLED_ASM(bool TJugem::isCallThree()){
-#include "asm/801aff60.s"
-}
-
-MANGLED_ASM(void PauseManager::enablePause()){
-#include "asm/801b0014.s"
-}
-
-MANGLED_ASM(void KartLoader::setDemoBodyBmd(void *)){
-#include "asm/801b0288.s"
-}
-
-MANGLED_ASM(void RaceMgr::Console::setDraw()){
-#include "asm/801b033c.s"
-}
-
-MANGLED_ASM(void RaceMgr::Console::setConsoleNo(int)){
-#include "asm/801b034c.s"
-}
-
-MANGLED_ASM(void RaceMgr::Console::clrDraw()){
-#include "asm/801b0354.s"
-}
-
-MANGLED_ASM(bool RaceMgr::Console::isDraw() const){
-#include "asm/801b0364.s"
-}
-
-MANGLED_ASM(void RaceMgr::Console::clrJugemZClr()){
-#include "asm/801b03c4.s"
-}
-
-MANGLED_ASM(void RaceMgr::Console::setJugemZClr()){
-#include "asm/801b03d4.s"
-}
-
-MANGLED_ASM(bool RaceMgr::Console::isNoStat() const){
-#include "asm/801b03e4.s"
-}
-
-MANGLED_ASM(bool RaceMgr::Console::isValid() const){
-#include "asm/801b03f0.s"
-}
-
-MANGLED_ASM(void KartChecker::getDeathTime()){
-#include "asm/801b0448.s"
-}
-
-MANGLED_ASM(int KartChecker::getMarkTime()){
-#include "asm/801b0470.s"
-}
-
-MANGLED_ASM(void *ResMgr::getArchive(ResMgr::ArchiveId)){
-#include "asm/801b04e0.s"
-}
-
-MANGLED_ASM(void ShadowManager::setShadowDepth(unsigned char)){
-#include "asm/801b04f4.s"
-}
-
-MANGLED_ASM(void ShadowManager::setShadowColor(JUtility::TColor &)){
-#include "asm/801b04fc.s"
-}
-
-MANGLED_ASM(void ShadowManager::setMirror(bool)){
-#include "asm/801b0520.s"
-}
-
-MANGLED_ASM(ShadowManager *ShadowManager::ptr()){
-#include "asm/801b0528.s"
-}
-
-MANGLED_ASM(void Award2D::still()){
-#include "asm/801b09e0.s"
-}
-
-MANGLED_ASM(bool KartInfo::isRealPlayerKart() const){
-#include "asm/801b0a24.s"
-}
-
-MANGLED_ASM(bool KartInfo::isGhostKart() const){
-#include "asm/801b0b14.s"
-}
-
-MANGLED_ASM(bool KartInfo::isPlayerKart() const){
-#include "asm/801b0b44.s"
 }
 

@@ -8,10 +8,14 @@ class J2DManager {
 public:
     J2DManager(JKRHeap *);   
     void calc();
+    void calcParticle();
     void reset();
     void startLANNumAnm();
-    
-    void setDrawFlag(bool flag) {
+
+    void setStatus2Kart(int, int);
+
+        void setDrawFlag(bool flag)
+    {
         mDrawFlag = flag;
     }
     static J2DManager * getManager() {

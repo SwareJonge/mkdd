@@ -5,6 +5,7 @@
 #include "types.h"
 
 struct stEffectMgr {
+    stEffectMgr();
     void init();
     void createModel(JKRSolidHeap *, u32);
     
@@ -17,7 +18,7 @@ struct stEffectMgr {
     u8 _00[0x1398];
 };
 
-void CreateStEfctMgr(){return stEffectMgr::createMgr(); }
+inline void CreateStEfctMgr(){ stEffectMgr::createMgr(); }
 inline stEffectMgr *GetStEfctMgr(){return stEffectMgr::getMgr(); }
 
 #endif

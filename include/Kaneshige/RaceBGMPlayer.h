@@ -26,8 +26,14 @@ class RaceBGMPlayer
     bool isPrepare() const;     // 0x801c72c8
     bool isCrsDemoEnd() const;  // 0x801c72d4
 
-    void setLowestKartNo(int kartNo) { mLowestKartNo = kartNo; };
-    void setGoalKartNo(int kartNo) { mGoalKartNo = kartNo; };
+    void setLowestKartNo(int kartNo) {
+        if (mLowestKartNo < 0)
+            mLowestKartNo = kartNo; 
+    };
+    void setGoalKartNo(int kartNo) {
+        if (mGoalKartNo < 0)
+            mGoalKartNo = kartNo; 
+    };
     void setFinalLapKartNo(int kartNo) { mFinalLapKartNo = kartNo; };
 
 private:

@@ -8,7 +8,9 @@ class Award2D {
 public:
     Award2D(JKRHeap *);
     void calc();
-    inline void still();
+    void still() {
+        
+    }
 
     u8 _0[0x58];
 };

@@ -7,6 +7,7 @@ class KartBody;
 class KartCtrl;
 
 class KartCam {
+public:
     KartCam(KartBody *, KartCtrl *, u8, u8);
     void DegubCamera(char *, u8);
     void SetStartDemoPort();
@@ -22,6 +23,10 @@ class KartCam {
     void DoRaceCtrl();
     void DoCameraMode();
     void DoCamera();
+
+    // this class is divided in 2 files?
+    void SetTargetNum(u8);
+
     // Inlines
     void GetHeight(); // KartCam.h // 0x801afd7c
     void GetWidth(); // KartCam.h // 0x801afd84

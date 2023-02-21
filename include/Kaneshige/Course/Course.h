@@ -137,6 +137,8 @@ public:
     };
     Course(CrsData *, int, bool);
     void createModel(JKRSolidHeap *, u32); // just a blr -_-
+    void calc();
+    void calcShaking();
     void reset();
 
     // Inline Functions

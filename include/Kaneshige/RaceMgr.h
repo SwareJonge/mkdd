@@ -56,21 +56,37 @@ public:
         void clearZBuffer();
         bool isZoom();
         // Inline
-        void setDraw();         // 0x801b033c
-        void setConsoleNo(int); // 0x801b034c
-        void clrDraw();         // 0x801b0354
-        bool isDraw() const;    // 0x801b0364
-        void clrJugemZClr();    // 0x801b03c4
-        void setJugemZClr();    // 0x801b03d4
-        bool isNoStat() const;  // 0x801b03e4
-        bool isValid() const;   // 0x801b03f0
+        void setDraw() {
+            mFlags |= 1;
+        }
+        void setConsoleNo(int cnsNo) {
+            mCnsNo = cnsNo;
+        }
+        void clrDraw() {
+            mFlags &= ~1;
+        }
+        bool isDraw() const {
+            return mFlags & 1;
+        }
+        void clrJugemZClr() {
+            mFlags &= ~8;
+        }
+        void setJugemZClr() {
+            mFlags |= 8;
+        }
+        bool isNoStat() const {
+            return mFlags & 4;
+        }
+        bool isValid() const {
+            return mCnsNo >= 0;
+        }
 
-    private:
-        int mCnsNo;
-        u8 _04;
-        int _08;
-        u16 mFlags;
-    };
+        private:
+            int mCnsNo;
+            bool _04;
+            int mTargetNo;
+            u16 mFlags;
+        };
 
     void updateBestTime();            // 0x801ad064
     void setRandomSeed();             // 0x801ad164
@@ -144,7 +160,7 @@ public:
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
     
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
-    int getCameraNumber() const { return getConsoleNumber(); }
+    u32 getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() {
         return getRacePhase() == PHASE_CRS_DEMO;

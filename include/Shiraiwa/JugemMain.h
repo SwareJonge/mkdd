@@ -3,9 +3,15 @@
 
 // perhaps this could go in it's own file
 struct TJugem {
-    void signalGo();
-    bool isAbleStart();
-    bool isCallThree();
+    void signalGo() {
+        
+    };
+    bool isAbleStart() {
+        return true;
+    }
+    bool isCallThree() {
+        return true;
+    }
 };
 
 #endif

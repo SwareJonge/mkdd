@@ -18,6 +18,10 @@ namespace GameAudio {
 
         static Main * msBasic; 
     };
+    namespace Parameters {
+        extern u8 getDemoMode();
+        extern void setDemoMode(u8);
+    }
 }
 
 #endif

@@ -13,7 +13,8 @@ public:
     void init(const char *, u32);
     void setTagName(u32 tagName) { mTagName = tagName; };
 
-    u8 _00[0x20];
+    // 00 Vtable
+    u8 _04[0x20 - 0x4];
     u32 mTagName;
 };
 
