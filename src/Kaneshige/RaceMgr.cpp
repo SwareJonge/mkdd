@@ -13,6 +13,7 @@
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/DemoTimeKeeper.h"
+#include "Kaneshige/GeoRabbitMark.h"
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/LightMgr.h"
 #include "Kaneshige/RaceLight.h"
@@ -771,7 +772,43 @@ void RaceMgr::checkRankForBombBattle(){
 }
 
 void RaceMgr::checkRankForEscapeBattle(){
+    int rabbitKartNo = GeoRabbitMark::getSupervisor()->getRabbitKartNo();
+    int rank = 1;
+    int kartNo = getKartNumber();
+    
+    do {
+        KartChecker * kartChecker1 = nullptr;
+        KartChecker * kartChecker2 = nullptr;
+        int idk = -1;
+        for(int i = 0; i < getKartNumber(); i++) {
+            KartChecker* kartChecker3 = getKartChecker(i);
+            if(!kartChecker3->isRankAvailable() ) {
+                if(i == rabbitKartNo) {
+                    kartChecker1 = kartChecker3;
+                }
+                else {
+                    bool lower = false;
+                    if (i > idk) {
+                        lower = true;           
+                    }
+                    if(lower) {
+                        kartChecker2 = kartChecker3;  
+                        idk = i;  
+                    } 
+                }
+            }            
+        }
 
+        if(kartChecker1) {
+            kartChecker1->setRank(rank);
+            rank++;
+        }
+
+        if(kartChecker2) {
+            kartChecker2->setRank(kartNo);
+            kartNo--;
+        }
+    } while(rank <= kartNo);
 }
 
 void RaceMgr::checkRankForAwardDemo() {
