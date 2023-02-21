@@ -970,6 +970,10 @@ f32 RaceMgr::getStartJugemOffsetY(int kartNo) {
 }
 
 int RaceMgr::getProcLevel() {
+    int procLevel = 0;
+    if(getConsoleNumber() >= 2 || isLANMode())
+        procLevel = 1;
+    return procLevel;
 
 }
 
