@@ -1012,8 +1012,13 @@ bool RaceMgr::isKartGoal(int idx) {
     return getKartChecker(idx)->isGoal();
 }
 
-void RaceMgr::getGoalKartNumber() {
-
+int RaceMgr::getGoalKartNumber() {
+    int goalKartNum = 0;
+    for(int i = 0; i < getKartNumber(); i++) {
+        if(getKartChecker(i)->isGoal())
+            goalKartNum++;
+    }
+    return goalKartNum;
 }
 
 u32 RaceMgr::getPadRecorderFrame() {

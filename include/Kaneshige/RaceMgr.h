@@ -134,7 +134,7 @@ public:
     EventInfo* searchEventInfo(short);                                                   // 0x801af864
     bool isJugemCountStart();                                                      // 0x801af8a0
     bool isKartGoal(int);                                                          // 0x801af8e0
-    void getGoalKartNumber();                                                      // 0x801af904
+    int getGoalKartNumber();                                                      // 0x801af904
     u32 getPadRecorderFrame();                                                    // 0x801af96c
     int getTotalLapNumberForDisplay() const;                                      // 0x801af9c4
     void robRivalOfBalloon(int, int);                                              // 0x801afa84
