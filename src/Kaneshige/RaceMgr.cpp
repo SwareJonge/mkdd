@@ -977,7 +977,21 @@ int RaceMgr::getProcLevel() {
 
 }
 
-void RaceMgr::isItemBoxValid() {
+bool RaceMgr::isItemBoxValid() {
+    bool valid = true;
+    switch(getRaceMode()) {
+        case TIME_ATTACK:
+            valid = false;
+            break;
+        case GRAND_PRIX:
+            break;
+        case VERSUS_RACE: {
+            if(mRaceInfo->getItemSlotType() == 1)
+                valid = false;
+            break;
+        }
+    }
+    return valid;
 
 }
 

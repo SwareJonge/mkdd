@@ -128,7 +128,7 @@ public:
     void getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int); // 0x801af1d8
     f32 getStartJugemOffsetY(int);                                                // 0x801af550
     int getProcLevel();                                                           // 0x801af654
-    void isItemBoxValid();                                                         // 0x801af6a4
+    bool isItemBoxValid();                                                         // 0x801af6a4
     void beginProcTime(short);                                                     // 0x801af718
     void endProcTime(short);                                                       // 0x801af7cc
     EventInfo* searchEventInfo(short);                                                   // 0x801af864
