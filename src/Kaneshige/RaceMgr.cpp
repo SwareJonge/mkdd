@@ -1179,8 +1179,92 @@ u8 RaceMgr::getStartID(int startIndex){
         return id;
 }
 
-void RaceMgr::getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int kartNo){
+bool RaceMgr::getStartPoint(JGeometry::TVec3f * position, JGeometry::TVec3f * direction, int kartNo){
+    bool isRight = false;
+    position->set(0.0f, 0.0f, 0.0f); // .zero exists
+    direction->set(0.0f, 0.0f, 1.0f);
 
+    JUT_MINMAX_ASSERT(4396, 0, kartNo, getKartNumber());
+    int startPosIdx = mRaceInfo->mStartPosIndex[kartNo];
+    u8 startID = getStartID(startPosIdx);
+    int tindex = -1;
+    switch(getRaceMode()) {
+        case TIME_ATTACK:
+        tindex = 0;
+        break;
+        case VERSUS_RACE:
+            int tmp;
+            if(getKartNumber() == 2) {
+                tmp = 9;
+            }
+            else if(getKartNumber() == 3) {
+                tmp = 11;
+            }
+            else if(getKartNumber() == 4) {
+                tmp = 14;
+            }
+            else {
+                tmp = 1;
+            }
+            tindex = tmp + startPosIdx;
+        break;
+        case GRAND_PRIX:
+        tindex = startPosIdx + 1; 
+        break;
+        case BALLOON_BATTLE:
+        case ROBBERY_BATTLE:
+        case BOMB_BATTLE:
+        case ESCAPE_BATTLE:
+        break;
+    }
+    if(getCourse()->getCrsData()) {
+        CrsData::StartPoint *startPoint = getCourse()->getCrsData()->getStartPoint(startID);
+        JUT_ASSERT_F(4437, startPoint, "NOT FOUND START:%d", startID);
+        isRight = startPoint->isRight();
+        startPoint->getPosition(position);
+        startPoint->getFrDirection(direction);
+        if(tindex >= 0) {
+        
+        float startPosTable[] = {
+            0.0f, 0.0f, 250.0f,
+            600.0f, 0.0f, 250.0f,
+            267.0f, 0.0f, 0.0f,
+            -67.0f, 0.0f, -250.0f,
+            -400.0f, 0.0f, -500.0f,
+            450.0f, 0.0f, -600.0f,
+            117.0f, 0.0f, -850.0f,
+            -217.0f, 0.0f, -1100.0f,
+            -550.0f, 0.0f, 1350.0f,
+            250.0f, 0.0f, 250.0f,
+            -250.0f, 0.0f, 250.0f,
+            500.0f, 0.0f, 250.0f,
+            0.0f, 0.0f, 250.0f,
+            -500.0f, 0.0f, 250.0f,
+            500.0f, 0.0f, 250.0f,
+            167.0f, 0.0f, 250.0f,
+            -167.0f, 0.0f, 250.0f,
+            -500.0f, 0.0f, 250.0f
+        };
+        JGeometry::TVec3f startPos;
+        JUT_MINMAX_ASSERT(4480, 0, tindex, 18);
+        startPos.set(startPosTable[tindex * 3], 0.0f, startPosTable[tindex * 3 + 0x8]);
+
+        if(startPoint->isRight()) {
+            startPos.x = -startPos.x;
+        }
+        
+        JGeometry::TVec3f scaledDirection(*direction);
+        scaledDirection.scale(startPos.z);
+        JGeometry::TVec3f yScale(0.0f, 1.0f, 0.0f);
+        JGeometry::TVec3f scaledPosition;
+        scaledPosition.cross(yScale, *direction);
+        scaledPosition.normalize();
+        scaledPosition.scale(startPos.x);
+        position->add(scaledDirection);
+        position->add(scaledPosition);
+        }
+    }
+    return isRight;
 }
 
 f32 RaceMgr::getStartJugemOffsetY(int kartNo) {

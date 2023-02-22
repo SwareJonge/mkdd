@@ -83,6 +83,7 @@ namespace JGeometry
 
         void add(const TVec3 &operand);
         void div(f32 divisor);
+        void cross(const TVec3 &, const TVec3 &);
         f32 dot(const TVec3 &operand) const;
         f32 length() const;
         void negate();

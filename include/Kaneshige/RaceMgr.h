@@ -119,7 +119,7 @@ public:
     bool isAbleStart() const;
     void setJugemZClr(u32, bool);
     u8 getStartID(int);                                                          // 0x801af18c
-    void getStartPoint(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, int); // 0x801af1d8
+    bool getStartPoint(JGeometry::TVec3f *, JGeometry::TVec3f *, int); // 0x801af1d8
     f32 getStartJugemOffsetY(int);                                                // 0x801af550
     int getProcLevel();                                                           // 0x801af654
     bool isItemBoxValid();                                                         // 0x801af6a4

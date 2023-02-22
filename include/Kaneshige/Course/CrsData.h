@@ -75,6 +75,10 @@ public:
         bool isRight() const { return mRight != 0; };
         f32 getJugemOffsetY() const { return mJugemOffsetY; };
 
+        // inline but too lazy to add it
+        void getPosition(JGeometry::TVec3f*) const; 
+        void getFrDirection(JGeometry::TVec3f*) const; 
+
         u8 _0[0x24];
         u8 mRight; // probably call this something else
         s16 mJugemOffsetY; // could be TVec2/3
@@ -82,7 +86,7 @@ public:
 
     struct SJugemPoint
     { // mostly copied from https://mkdd.miraheze.org/wiki/BOL_(File_Format) (Section 9: Respawn Points)
-        JGeometry::TVec3<f32> mPosition;
+        JGeometry::TVec3f mPosition;
         s16 _c; // called by "getFrDirection" however according to the wiki this is an array of 3 integers?
         s16 _e;
         s16 _10;
