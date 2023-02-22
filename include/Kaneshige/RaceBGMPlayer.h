@@ -41,6 +41,7 @@ private:
     s16 mFinalLapKartNo;
     s16 mGoalKartNo;
     s16 mLowestKartNo;
+    s16 _pad;
 };                              // class RaceBGMPlayer
 // void RaceMgr::isRaceModeVs() const // RaceMgr.h; // 0x801c6f2c
 // void RaceMgr::isRaceModeTA() const // RaceMgr.h; // 0x801c6f58

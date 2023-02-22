@@ -1,3 +1,8 @@
+/* Todo list:
+Class Sizes
+match getStartPoint
+figure out data ordering
+*/
 #include "JSystem/JKernel/JKRHeap.h" 
 #pragma sym on // for whatever reason defining it at the top will cause it to give JKRHeap its own section
 #include "Kaneshige/RaceMgr.h"
@@ -769,8 +774,31 @@ void RaceMgr::checkRankForBalloonBattle(){
     } while(i <= lowhalf);
 }
 
+// this is a robbery dun dun dun dun
 void RaceMgr::checkRankForRobberyBattle(){
-
+    int rank = 1;
+    int kartNo = getKartNumber();
+    do {
+        int itemNum = -1;
+        for(int i = 0; i < getKartNumber(); i++) {
+            KartChecker * kartChecker = getKartChecker(i);
+            if(!kartChecker->isRankAvailable()) {
+                int robberyItemNum = kartChecker->getRobberyItemNumber();
+                if(robberyItemNum > itemNum) {
+                    itemNum = robberyItemNum;
+                }
+            }
+        }
+        int increment = 0;
+        for(int i = 0; i < getKartNumber(); i++) {
+            KartChecker * kartChecker = getKartChecker(i);
+            if(!kartChecker->isRankAvailable() && kartChecker->getRobberyItemNumber() == itemNum) {
+                kartChecker->setRank(rank);
+                increment++;
+            }
+        }
+        rank += increment;
+    } while(rank <= kartNo);
 }
 
 void RaceMgr::checkRankForBombBattle(){
@@ -784,7 +812,7 @@ void RaceMgr::checkRankForBombBattle(){
         for(int i = 0; i < getKartNumber(); i++) {
             KartChecker * kartChecker3 = getKartChecker(i);
             if(!kartChecker3->isRankAvailable()) {
-                if(!kartChecker3->isBombPointFull()) {
+                if(kartChecker3->isBombPointFull()) {
                     bool setMarkTime = false;
                     if(kartChecker3->getMarkTime().get() < lastMarkTime.get() ) {
                         setMarkTime = true;
