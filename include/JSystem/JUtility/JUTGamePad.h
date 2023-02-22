@@ -8,7 +8,9 @@
 #include "JSystem/JKernel/JKRDisposer.h"
 
 typedef void (*JUTResetBtnCb)(int, void*);
-
+// this currently is need to match testButton and testTrigger, if the entire file uses o4,p is unknown to me
+#pragma push
+#pragma optimize_for_size off
 class JUTGamePad : public JKRDisposer
 {
 public:
@@ -76,6 +78,7 @@ public:
         C3ButtonReset::sCallback = callback;
         C3ButtonReset::sCallbackArg = param_0;
     }
+
 
     bool testButton(u32 mask) const {
         return mButtons.mInput & mask;
@@ -183,4 +186,5 @@ public:
     u8 _9F;            // ^^
     OSTime mResetTime; // _A0
 };
+#pragma pop
 #endif
