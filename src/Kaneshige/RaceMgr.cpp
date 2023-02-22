@@ -774,11 +774,64 @@ void RaceMgr::checkRankForRobberyBattle(){
 }
 
 void RaceMgr::checkRankForBombBattle(){
+    int rank = 1;
+    int kartNo = getKartNumber();
+    do {
+        KartChecker * kartChecker1 = nullptr;
+        int lastPoint = 1000;
+        KartChecker * kartChecker2 = nullptr;
+        RaceTime lastMarkTime;
+        for(int i = 0; i < getKartNumber(); i++) {
+            KartChecker * kartChecker3 = getKartChecker(i);
+            if(!kartChecker3->isRankAvailable()) {
+                if(!kartChecker3->isBombPointFull()) {
+                    bool setMarkTime = false;
+                    if(kartChecker3->getMarkTime().get() < lastMarkTime.get() ) {
+                        setMarkTime = true;
+                    }
+                    else {
+                        if ((kartChecker3->getMarkTime().get() == lastMarkTime.get()) && (kartChecker3 < kartChecker2)) {
+                            setMarkTime = true;
+                        }
+                    }
+                    if(setMarkTime) {
+                        kartChecker2 = kartChecker3;
+                        lastMarkTime.set(kartChecker3->getMarkTime()); 
+                    }
+                }
+                else {
+                    bool setPoint = false;
+                    if(kartChecker3->getBombPoint() < lastPoint) {
+                        setPoint = true;
+                    }
+                    else {
+                        if(kartChecker3->getBombPoint() == lastPoint && kartChecker3 > kartChecker2) {
+                            setPoint = true;
+                        }
+                    }
+                    if(setPoint) {
+                        kartChecker1 = kartChecker3;
+                        lastPoint = kartChecker3->getBombPoint();
+                    }
+                }
+            }
+        }
+
+        if(kartChecker2) {
+            kartChecker2->setRank(rank);
+            rank++;
+        }
+        if(kartChecker1) {
+            kartChecker1->setRank(kartNo);
+            kartNo--;
+        }
+    } while(rank <= kartNo);
+
 
 }
 
 void RaceMgr::checkRankForEscapeBattle(){
-    int rabbitKartNo = GeoRabbitMark::getSupervisor()->getRabbitKartNo();
+    int rabbitKartNo = GeoRabbitMark::getSupervisor()->getRabbitKartNo(); // rabbit? Gamecube uses PowerPC
     int rank = 1;
     int kartNo = getKartNumber();
     
@@ -1035,7 +1088,7 @@ void RaceMgr::updateRace(){
     SysDebug::getManager()->endUserTime(6);
 }
 
-// For some reason getHeapTree gets put into its own section
+// For some reason getHeapTree gets put after this despite -sym on
 RaceMgr::~RaceMgr() {
     if (GameAudio::Parameters::getDemoMode())
         GameAudio::Parameters::setDemoMode(0);
@@ -1065,7 +1118,7 @@ ERacePhase RaceMgr::getRacePhase() {
 
 bool RaceMgr::isAbleStart() const{
     bool ret;
-    if (mAbleStart) // calls might be reversed, you'll never know with ghidra
+    if (mAbleStart)
         ret = true;
     else
         ret = GetGeoObjMgr()->getJugem(0)->isAbleStart();
@@ -1186,9 +1239,7 @@ void RaceMgr::endProcTime(short id) {
         SysDebug::getManager()->endUserTime((s16)((i << 1) + 1));
 }
 
-// not tested
 const RaceMgr::EventInfo* RaceMgr::searchEventInfo(short searchId) {
-    
     const EventInfo *ret = nullptr;
     for (const EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++) {
         if (eventTable->id == searchId) {
