@@ -50,7 +50,11 @@ public:
     DrawBuffer *getEffectDrawBuffer() {
         return mEfctDrawBuf;
     }
-    DrawBuffer *getItemDrawBuffer(int);
+    DrawBuffer *getItemDrawBuffer(int kartNo) {
+        JUT_MINMAX_ASSERT(163, -1, kartNo, 8)
+        return kartNo > 0 ? mItmDrawBufs[kartNo] : mItmDrawBuf; // the day Kaneshige discovered ternaries
+
+    }
     DrawBuffer *getFeelDrawBuffer() {
         return mFeelDrawBuf;
     }

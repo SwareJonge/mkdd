@@ -153,7 +153,7 @@ public:
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
     
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
-    int getCameraNumber() const { return getConsoleNumber(); }
+    u32 getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() {
         return getRacePhase() == PHASE_CRS_DEMO;
