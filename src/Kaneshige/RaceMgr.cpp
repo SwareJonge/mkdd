@@ -120,7 +120,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     OSReport("Demo    Start-------------------------------------------------------\n");
     OSReport("Race Mode:%08X\n", raceInfo->getRaceMode());
     OSReport("Stat Num :%08X\n", raceInfo->getStatusNumber());
-    OSReport("Rand Seed: \n", raceInfo->mRandomSeed);
+    OSReport("Rand Seed:%08X\n", raceInfo->mRandomSeed);
 
     sRaceManager = this;
 
@@ -1225,7 +1225,8 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f * position, JGeometry::TVec3f * di
         startPoint->getFrDirection(direction);
         if(tindex >= 0) {
         
-        float startPosTable[] = {
+        // this might be vector array but i couldnt get it to work
+        float startPosTable[] = { 
             0.0f, 0.0f, 250.0f,
             600.0f, 0.0f, 250.0f,
             267.0f, 0.0f, 0.0f,
@@ -1247,7 +1248,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f * position, JGeometry::TVec3f * di
         };
         JGeometry::TVec3f startPos;
         JUT_MINMAX_ASSERT(4480, 0, tindex, 18);
-        startPos.set(startPosTable[tindex * 3], 0.0f, startPosTable[tindex * 3 + 0x8]);
+        startPos.set(startPosTable[tindex * 3], 0.0f, startPosTable[tindex * 3 + 2]);
 
         if(startPoint->isRight()) {
             startPos.x = -startPos.x;
