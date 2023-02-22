@@ -187,6 +187,7 @@ private: // add all documented stuff from Ghidra
     Sector *mSectors;
     float mTrackSectorDist;
     Sector **mMainSector;
-};
+    u8 _051C[0x53C - 0x51C];
+}; // Size: 0x53C
 
 #endif

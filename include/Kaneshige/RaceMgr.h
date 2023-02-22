@@ -30,7 +30,7 @@ public:
         const char *engName;
     };
 
-    static EventInfo sEventTable[];
+    static const EventInfo sEventTable[];
 
     static short sMyStartPointID;
 
@@ -124,7 +124,7 @@ public:
     bool isItemBoxValid();                                                         // 0x801af6a4
     void beginProcTime(short);                                                     // 0x801af718
     void endProcTime(short);                                                       // 0x801af7cc
-    EventInfo* searchEventInfo(short);                                                   // 0x801af864
+    const EventInfo* searchEventInfo(short);                                                   // 0x801af864
     bool isJugemCountStart();                                                      // 0x801af8a0
     bool isKartGoal(int);                                                          // 0x801af8e0
     int getGoalKartNumber();                                                      // 0x801af904
@@ -153,7 +153,7 @@ public:
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
     
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
-    u32 getCameraNumber() const { return getConsoleNumber(); }
+    int getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() {
         return getRacePhase() == PHASE_CRS_DEMO;

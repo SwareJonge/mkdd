@@ -47,6 +47,8 @@ public:
 private:
     u8 _0[0x14];
     ExModel mModelBody;
-};
+    u8 _70[0xb7c - 0x70];
+
+}; // Size 0xb7c
 
 #endif // KARTLOADER_H

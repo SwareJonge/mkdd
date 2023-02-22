@@ -33,7 +33,8 @@ private:
     bool mFrameRenewal;
     u8 _29;
     bool mIsRaceEnd;
+    u8 _2B[0x48 - 0x2B];
 
-};
+}; // Size 0x48
 
 #endif

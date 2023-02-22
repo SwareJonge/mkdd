@@ -49,7 +49,7 @@ static const float lbl_80377640[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 DUMMY_POINTER(lbl_80377640)
 #pragma pop
 
-RaceMgr::EventInfo RaceMgr::sEventTable[] = {
+const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0, "空", " SKY"},
     {1, "コース", " CRS"},
     {2, "地形ＯＢＪ", " GEOOBJ"},
@@ -233,8 +233,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     mAwardArc = nullptr;
     if (isAwardDemoMode()) {
         mAwardArc = ResMgr::getArchive(ResMgr::mcArcAward);
-        if (mAwardArc == nullptr)
-            JUT_PANIC(2185, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
+        JUT_ASSERT_MSG(2185, mAwardArc, "NOT LOAD AWARD ARC"); // if there's a regswap, here's the issue
     }
     SysDebug::getManager()->setHeapGroup("OBJECT MGR", nullptr);
     CreateGeoObjMgr(mCourse->getCrsData());
@@ -318,7 +317,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) :
 
     updateBestTime();
     mEvents = 0;
-    for (EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++)
+    for (const EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++)
         mEvents++;
 
     mProctime1 = -1;
@@ -1181,10 +1180,10 @@ void RaceMgr::endProcTime(short id) {
 }
 
 // not tested
-RaceMgr::EventInfo* RaceMgr::searchEventInfo(short searchId) {
+const RaceMgr::EventInfo* RaceMgr::searchEventInfo(short searchId) {
     
-    EventInfo *ret = nullptr;
-    for (EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++) {
+    const EventInfo *ret = nullptr;
+    for (const EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++) {
         if (eventTable->id == searchId) {
             ret = eventTable;
             break;
