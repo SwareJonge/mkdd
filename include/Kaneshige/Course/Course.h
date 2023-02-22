@@ -1,7 +1,7 @@
 #ifndef COURSE_H
 #define COURSE_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JUtility/JUTDbg.h"
 
 #include "Kaneshige/Course/CrsArea.h"
@@ -140,6 +140,8 @@ public:
     void calc();
     void calcShaking();
     void reset();
+    void update();
+    void updateSky();
 
     // Inline Functions
     ECourseID getCourseID() const { return mID; }

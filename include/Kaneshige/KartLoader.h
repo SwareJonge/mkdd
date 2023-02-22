@@ -1,7 +1,7 @@
 #ifndef KARTLOADER_H
 #define KARTLOADER_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "Kaneshige/ExModel.h"
 #include "types.h"
 

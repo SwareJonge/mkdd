@@ -2,7 +2,7 @@
 #define BALLOON_H
 
 #include "JSystem/JGeometry.h"
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
 class J3DAnmObjMaterial;

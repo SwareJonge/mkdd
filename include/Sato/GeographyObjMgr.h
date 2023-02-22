@@ -1,7 +1,7 @@
 #ifndef GEOGRAPHYOBJMGR_H
 #define GEOGRAPHYOBJMGR_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Shiraiwa/Balloon.h"
 #include "Shiraiwa/JugemMain.h"

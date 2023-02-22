@@ -28,10 +28,16 @@ public:
     void SetTargetNum(u8);
 
     // Inlines
+    const Mtx &GetMtx() {
+        return mMtx;
+    }
     void GetHeight(); // KartCam.h // 0x801afd7c
     void GetWidth(); // KartCam.h // 0x801afd84
     void GetPosh(); // KartCam.h // 0x801afd8c
     void GetPosv(); // KartCam.h // 0x801afd94
+private:
+    u8 _00[0x80];
+    Mtx mMtx;
 };
 
 #endif // KARTCAMERA_H

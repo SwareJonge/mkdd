@@ -6,8 +6,14 @@
 
 class ShadowManager {
 public:
+    ShadowManager();
+    void calc();
+    void viewCalc(u32);
+
     static ShadowManager *ptr() {
-        
+        if(!mspShadowManager)
+            mspShadowManager = new ShadowManager();
+        return mspShadowManager;
     }
     void setMirror(bool) {
 
@@ -18,6 +24,10 @@ public:
     void setShadowDepth(u8) {
 
     }
+    static ShadowManager* mspShadowManager;
+
+private:
+    u8 _00[100];
 };
 
 #endif // SHADOWMGR_H

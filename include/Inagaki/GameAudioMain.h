@@ -1,7 +1,7 @@
 #ifndef GAMEAUDIOMAIN_H
 #define GAMEAUDIOMAIN_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
 namespace GameAudio {

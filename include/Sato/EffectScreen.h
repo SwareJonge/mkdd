@@ -5,6 +5,7 @@ class EffectScreenMgr
 {
 public:
     EffectScreenMgr();
+    void calc();
     void reset();
     static void createMgr() {
         ThisMgr = new EffectScreenMgr();

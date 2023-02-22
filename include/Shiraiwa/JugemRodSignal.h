@@ -1,7 +1,7 @@
 #ifndef JUGEMRODSIGNAL_H
 #define JUGEMRODSIGNAL_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JGeometry.h"
 
 // probably inherited from TJugemMain

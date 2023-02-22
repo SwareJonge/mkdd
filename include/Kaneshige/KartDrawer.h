@@ -63,6 +63,9 @@ public:
 
     u8 _0[0x30];
     RaceKartLight * mKartLight[4];
+    u8 _40[0x178 - 0x40];
+
+    // Size 0x178
 };                                    // class KartDrawer
 // Outside class members
 //void DrawBuffer::create(u32);

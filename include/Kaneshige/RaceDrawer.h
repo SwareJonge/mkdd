@@ -2,6 +2,7 @@
 #define RACEDRAWER_H
 
 #include "JSystem/JUtility/TColor.h"
+#include "Kaneshige/DrawBuffer.h"
 #include "Kaneshige/KartDrawer.h"
 #include "types.h"
 
@@ -40,16 +41,41 @@ public:
     void getMaskScreen();          // 0x801ca490
     void isMaskActive() const;     // 0x801ca4a0
 
-    KartDrawer * getKartDrawer(int idx);
-    void getEffectDrawBuffer();
-    void getItemDrawBuffer(int);
-    void getFeelDrawBuffer();
-    void getJugemDrawBuffer();
-    void getGeoDrawBuffer();
-    void getShadowGeoDrawBuffer();
+    KartDrawer * getKartDrawer(int kartNo) {
+        JUT_MINMAX_ASSERT(172, 0, kartNo, mKartNum);
+        return &mKartDrawer[kartNo];
+    }
 
+    // TODO: own class types
+    DrawBuffer *getEffectDrawBuffer() {
+        return mEfctDrawBuf;
+    }
+    DrawBuffer *getItemDrawBuffer(int);
+    DrawBuffer *getFeelDrawBuffer() {
+        return mFeelDrawBuf;
+    }
+    DrawBuffer *getJugemDrawBuffer() {
+        return mJugemDrawBuf;
+    }
+    DrawBuffer *getGeoDrawBuffer() {
+        return mGeoDrawBuf;
+    }
+    DrawBuffer *getShadowGeoDrawBuffer() {
+        return mShdwDrawBuf;
+    }
 private:
-    u8 _0[100];
+    u8 _0[6];
+    DrawBuffer *mShdwDrawBuf;
+    DrawBuffer *mGeoDrawBuf;
+    DrawBuffer *mItmDrawBufs[8];
+    DrawBuffer *mItmDrawBuf;
+    DrawBuffer *mEfctDrawBuf;
+    DrawBuffer *mJugemDrawBuf;
+    DrawBuffer *mFeelDrawBuf;
+    int mKartNum;
+    KartDrawer *mKartDrawer; // double array?
+    u8 _48[0x64 - 0x48];
+    // Size: 0x64
 }; // class RaceDrawer
 // void KartDrawer::lodOff() // KartDrawer.h; // 0x801c92f8
 // EGhostKind KartInfo::getGhostKind() // KartInfo.h; // 0x801c9304

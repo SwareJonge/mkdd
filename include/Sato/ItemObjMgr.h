@@ -1,7 +1,7 @@
 #ifndef ITEMOBJMGR_H
 #define ITEMOBJMGR_H
 
-#include "JSystem/JKernel/JKRSolidHeap.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
 class ItemObjMgr {
@@ -13,6 +13,7 @@ public:
 
     static void createMgr() { gItemMgr = new ItemObjMgr(); }
 
+    void calc();
     void createModel(JKRSolidHeap *, u32);
     void reset();
 

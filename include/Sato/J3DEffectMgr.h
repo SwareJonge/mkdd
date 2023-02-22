@@ -6,6 +6,7 @@ public:
     J3DEffectMgr();
     static void createMgr(){sJ3DMgr = new J3DEffectMgr(); }
     void createModel(JKRSolidHeap *, u32);
+    void calc();
     void reset();
     static J3DEffectMgr *getJ3DEffectMgr() { return sJ3DMgr; }
     static J3DEffectMgr *sJ3DMgr;

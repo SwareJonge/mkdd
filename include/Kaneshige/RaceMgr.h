@@ -1,6 +1,7 @@
 #ifndef RACEMGR_H
 #define RACEMGR_H
 
+#include "kartEnums.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Kawano/StaffRoll2D.h"
@@ -16,14 +17,7 @@
 #include "Kaneshige/SysDebug.h"
 #include "Osako/Award2D.h"
 #include "Yamamoto/kartCtrl.h"
-#include "kartEnums.h"
 #include "types.h"
-
-extern "C"
-{
-    void func_801af520(float, float, float);
-    void func_801b05c4(float, float, float);
-}
 
 class RaceMgr : JKRDisposer {
 public:
@@ -159,7 +153,7 @@ public:
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
     
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
-    u32 getCameraNumber() const { return getConsoleNumber(); }
+    int getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() {
         return getRacePhase() == PHASE_CRS_DEMO;
@@ -172,7 +166,7 @@ public:
     bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }    
     bool isStaffRoll() { return getRaceMode() == STAFF_ROLL; } // pls don't tell me it's stored as local variable
     bool isAwardDemoMode() {return getRaceMode() == AWARD_DEMO;}
-    u16 isActiveAreaLight() const { return mAreaLight & 1; }
+    bool isActiveAreaLight() const { return mAreaLight & 1; }
 
     void activeAreaLight() {
         mAreaLight |= 1;

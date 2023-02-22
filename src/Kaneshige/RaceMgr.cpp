@@ -1,5 +1,6 @@
 #include "JSystem/JKernel/JKRHeap.h" 
-#pragma sym on // fro whatever reason defining it at the top will cause it to give JKRHeap itś own section
+#pragma sym on // for whatever reason defining it at the top will cause it to give JKRHeap its own section
+#include "Kaneshige/RaceMgr.h"
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
@@ -16,9 +17,9 @@
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/LightMgr.h"
 #include "Kaneshige/RaceLight.h"
-#include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
+#include "Kawano/accessory.h"
 #include "Osako/kartPad.h"
 #include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
@@ -575,7 +576,7 @@ void RaceMgr::resetRaceCommon() {
     mRaceDirector->reset();
     setRandomSeed();
     mRaceBGMPlayer->reset();
-    for(int i = 0; i < getCameraNumber(); i++) {
+    for(u32 i = 0; i < getCameraNumber(); i++) {
         setJugemZClr(i, true);
     }
     resetConsole();
@@ -627,13 +628,13 @@ int RaceMgr::getCurrentConsoleNumber() {
 void RaceMgr::drawRace() {
     SysDebug::getManager()->beginUserTime(0);
     mRaceDrawer->drawPreScene();
-    for(int i = 0; i < getCameraNumber(); i++) {
+    for(u32 i = 0; i < getCameraNumber(); i++) {
         if(mConsole[i].isDraw())
             mRaceDrawer->drawSceneFirstStage(i);
     }
     mRaceDrawer->drawMidScene();
 
-    for (int i = 0; i < getCameraNumber(); i++){
+    for (u32 i = 0; i < getCameraNumber(); i++){
         if (mConsole[i].isDraw())
             mRaceDrawer->drawSceneSecondStage(i);
     }
@@ -949,12 +950,86 @@ void RaceMgr::frameWork() { // Maybe there were some sort of wrappers for procti
     GetJPAMgr()->calc_forMenu();
 }
 
-// needs DrawBuf
 void RaceMgr::updateRace(){
+    SysDebug::getManager()->beginUserTime(4);
+    if(mRaceDirector->isFrameRenewal()) {
+        beginProcTime(0x201);
+        getCourse()->update();
+        getCourse()->updateSky();
+        mRaceDrawer->getShadowGeoDrawBuffer()->update();
+        mRaceDrawer->getGeoDrawBuffer()->update(); 
+        mRaceDrawer->getJugemDrawBuffer()->update();
+        endProcTime(0x201);
 
+        beginProcTime(0x203);
+        for(int i = 0; i < getKartNumber(); i++)
+            mRaceDrawer->getKartDrawer(i)->update();
+            mRaceDrawer->getFeelDrawBuffer()->update();
+            AccessoryMgr::ptr()->update(); // add this class
+            endProcTime(0x203);
+
+            beginProcTime(0x106);
+            GetItemObjMgr()->calc();
+            endProcTime(0x106);
+
+            beginProcTime(0x202);
+            mRaceDrawer->getItemDrawBuffer(-1)->update();
+            if (isActiveAreaLight()) {
+                for (int j = 0; j < getKartNumber(); j++) {
+                    mRaceDrawer->getItemDrawBuffer(j)->update();
+                }
+            }
+            endProcTime(0x202);
+
+            beginProcTime(0x204);
+            ShadowManager::ptr()->calc();
+            endProcTime(0x204);
+
+            beginProcTime(0x107);
+            GetStEfctMgr()->calc();
+            GetJPAMgr()->calc();
+            GetJ3DEfctMgr()->calc();
+            endProcTime(0x107);
+
+            beginProcTime(0x108);
+            GetEfctScreenMgr()->calc();
+            endProcTime(0x108);
+
+            beginProcTime(0x205);
+            mRaceDrawer->getEffectDrawBuffer()->update();
+            endProcTime(0x205);
+        }
+        SysDebug::getManager()->endUserTime(4);
+        
+        SysDebug::getManager()->beginUserTime(6);;
+        for (u32 i = 0; i < getCameraNumber(); i++) {
+            j3dSys.setViewMtx(getCamera(i)->GetMtx());
+
+            beginProcTime(0x301);
+            mRaceDrawer->getShadowGeoDrawBuffer()->viewCalc(i); // 0x10
+            mRaceDrawer->getGeoDrawBuffer()->viewCalc(i); // 0x10
+            mRaceDrawer->getJugemDrawBuffer()->viewCalc(i); // 0x10
+            endProcTime(0x301);
+
+            beginProcTime(0x302);
+            mRaceDrawer->getItemDrawBuffer(-1)->viewCalc(i); // 0x10
+            for (int j = 0; j < getKartNumber(); j++) {
+                mRaceDrawer->getItemDrawBuffer(j)->viewCalc(i); // 0x10
+            }
+            endProcTime(0x302);
+
+            beginProcTime(0x304);
+            ShadowManager::ptr()->viewCalc(i);
+            endProcTime(0x304);
+
+            beginProcTime(0x305);
+            mRaceDrawer->getEffectDrawBuffer()->viewCalc(i); // (0x10)
+            endProcTime(0x305);
+    }
+    SysDebug::getManager()->endUserTime(6);
 }
 
-// For some reason getHeapTree doesn get put into its own section
+// For some reason getHeapTree gets put into its own section
 RaceMgr::~RaceMgr() {
     if (GameAudio::Parameters::getDemoMode())
         GameAudio::Parameters::setDemoMode(0);

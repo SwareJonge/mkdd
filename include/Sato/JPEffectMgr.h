@@ -6,6 +6,7 @@
 class JPEffectMgr {
 public:
     JPEffectMgr(JKRHeap *, bool);
+    void calc();
     void calc_forMenu();
 
     void reset();
