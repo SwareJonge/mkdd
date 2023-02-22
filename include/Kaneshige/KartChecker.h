@@ -215,7 +215,7 @@ public:
     u8 _0x92[2]; // this is probaby padding
     RaceTime mDeathTime;
     RaceTime mMarkTime;
-    s8 bombPointTable[0xa6 - 0x9C];
+    s8 bombPointTable[10];
     s16 mBombPoint;
     s16 rabbitWinFrame;
     s32 demoPoint;

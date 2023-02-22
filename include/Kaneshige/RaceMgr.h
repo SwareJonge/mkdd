@@ -87,6 +87,7 @@ public:
     void createConsole();             // 0x801ad210
     void resetConsole();              // 0x801ad2e8
     bool hideConsole(u32);            // 0x801ad368
+    bool isHiddingConsole(u32 index); // UNUSED
     void createModel();               // 0x801ad3c0
     void createKartModel();           // 0x801ad4ac
     void createCourseModel();         // 0x801ad578

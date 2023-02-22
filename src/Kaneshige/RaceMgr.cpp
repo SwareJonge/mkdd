@@ -409,6 +409,13 @@ bool RaceMgr::hideConsole(u32 cnsNo) {
     return ret;
 }
 
+// even though UNUSED, its needed for data alignment
+// its probably something close to this, currently it has a small size mismatch(not that it matters)
+bool RaceMgr::isHiddingConsole(u32 viewNo) {
+    JUT_MINMAX_ASSERT(3969, 0, viewNo, mRaceInfo->getConsoleNumber());
+    return mRaceInfo->isHiddingConsole(viewNo);
+}
+
 void RaceMgr::createModel() {
     Mtx viewMtx;
     PSMTXIdentity(viewMtx);
