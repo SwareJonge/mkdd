@@ -537,15 +537,13 @@ class CSource(Source):
         if path.startswith("src/dolphin/"):
             self.cc = c.SDK_CC # TODO: build flags for SDK
         elif path.startswith("src/JSystem/JUtility/"):
-            self.cflags = c.JSYSTEM_SPACE_CFLAGS
+            self.cflags = c.DOL_CFLAGS
         elif path.startswith("src/JSystem/JKernel/"):
-            self.cflags = c.JSYSTEM_SPACE_CFLAGS
-        elif path.startswith("src/JSystem/"):
-            self.cflags = c.JSYSTEM_CFLAGS
+            self.cflags = c.DOL_CFLAGS
+        elif path.startswith("src/JSystem/"): # once i have a file for every library this can finally be removed
+            self.cflags = c.JSYSTEM_SPEED_CFLAGS
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
-        elif path.startswith("src/Osako/"):
-            self.cflags = c.OSAKO_CFLAGS
             
         self.iconv_path = f"$builddir/iconv/{path}"
 

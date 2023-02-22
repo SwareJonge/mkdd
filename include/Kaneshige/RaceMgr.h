@@ -10,7 +10,6 @@
 #include "Kaneshige/RaceDirector.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceTime.h"
-#include "Kaneshige/RaceUsrPage.h"
 #include "Kaneshige/KartChecker.h"
 #include "Kaneshige/KartLoader.h"
 #include "Kaneshige/RaceDrawer.h"

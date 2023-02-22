@@ -6,6 +6,7 @@
 #include <dolphin/os.h>
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/kartPad.h"
+#include "Kaneshige/RaceUsrPage.h"
 #include "types.h"
 
 extern "C" {

@@ -249,15 +249,13 @@ CFLAGS = [
     "-enum int",
     "-use_lmw_stmw on",
     "-w off",
+    "-common on",
+    "-inline auto", 
     MWCC_DEFINES
 ]
 
-JSYSTEM_BASE = CFLAGS + [ "-inline auto", "-common on" ]
-JSYSTEM = JSYSTEM_BASE + [ "-O4,p" ]
-JSYSTEM_SPACE = JSYSTEM_BASE + [ "-O4,s" ]
-BASE_GAME_CFLAGS = CFLAGS + [ "-O4" ]
-BASE_DOL_CFLAGS = BASE_GAME_CFLAGS + [ "-inline on, auto" ]
-OSAKO = BASE_DOL_CFLAGS + [ "-common on" ]
+JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
+BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]
 KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
 
 LOCAL_CFLAGS = [
@@ -267,12 +265,10 @@ LOCAL_CFLAGS = [
     "-I-",
     MWCC_INCLUDES
 ]
-DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS + LOCAL_CFLAGS)
-JSYSTEM_CFLAGS = ' '.join(JSYSTEM + LOCAL_CFLAGS)
-JSYSTEM_SPACE_CFLAGS = ' '.join(JSYSTEM_SPACE + LOCAL_CFLAGS)
+DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
+JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
-OSAKO_CFLAGS = ' '.join(OSAKO + LOCAL_CFLAGS)
-EXTERNAL_DOL_CFLAGS = ' '.join(BASE_DOL_CFLAGS)
+EXTERNAL_DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS)
 
 LDFLAGS = ' '.join([
     "-fp hard",

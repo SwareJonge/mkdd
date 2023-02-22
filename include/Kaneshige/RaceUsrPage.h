@@ -2,7 +2,8 @@
 #define RACEUSRPAGE_H
 
 #include "Kaneshige/SysDebug.h"
-#include "Kaneshige/RaceInfo.h"
+
+class RaceInfo;
 
 class RaceUsrPage : public SysDbUsrPage {
 public:

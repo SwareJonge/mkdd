@@ -1,11 +1,10 @@
 /* Todo list:
 Class Sizes
-match getStartPoint
-figure out data ordering
+figure out data ordering, seems to be done?
+text ordering
 */
 #include "JSystem/JKernel/JKRHeap.h" 
 #pragma sym on // for whatever reason defining it at the top will cause it to give JKRHeap its own section
-#include "Kaneshige/RaceMgr.h"
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
@@ -22,6 +21,7 @@ figure out data ordering
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/LightMgr.h"
 #include "Kaneshige/RaceLight.h"
+#include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kawano/accessory.h"

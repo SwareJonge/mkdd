@@ -77,11 +77,11 @@ public:
         C3ButtonReset::sCallbackArg = param_0;
     }
 
-    bool testButton(u32 mask) {
+    bool testButton(u32 mask) const {
         return mButtons.mInput & mask;
     }
 
-    bool testTrigger(u32 mask) {
+    bool testTrigger(u32 mask) const {
         return mButtons.mFrameInput & mask;
     }
 
