@@ -10,7 +10,7 @@ public:
     RaceUsrPage(RaceInfo *raceInfo) {
         mRaceInfo = raceInfo;
     }
-    virtual ~RaceUsrPage() {};
+    //virtual ~RaceUsrPage() {};
     virtual void draw();
 
     RaceInfo *mRaceInfo;

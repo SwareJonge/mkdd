@@ -1,7 +1,12 @@
 /* Todo list:
-Class Sizes
+Class Sizes?
 text ordering
 */
+/*
+I guess the idea here was to not create seperate sections for JSystem? didnt work that well
+Also, make headers for all libraries itself?
+*/
+#include <dolphin/os.h>
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JGeometry.h"
 #include "JSystem/JKernel/JKRHeap.h" 
@@ -9,10 +14,9 @@ text ordering
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTGamePad.h" 
 
-#pragma sym on // dumbness
+#pragma sym on
 #include "kartEnums.h"
 #include "kartLocale.h"
-#include <dolphin/os.h>
 #include "Inagaki/GameAudioMain.h"
 #include "Kameda/J2DManager.h"
 #include "Kameda/MotorManager.h"
@@ -24,8 +28,10 @@ text ordering
 #include "Kaneshige/GeoRabbitMark.h"
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/LightMgr.h"
+#include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceLight.h"
 #include "Kaneshige/RaceMgr.h"
+#include "Kaneshige/RaceUsrPage.h"
 #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kawano/accessory.h"
@@ -118,7 +124,7 @@ void PrintRaceHeap(u32 free, JKRHeap * heap) {
     JUTReport(KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh(), KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv(), "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
-RaceMgr::RaceMgr(RaceInfo *raceInfo) : 
+RaceMgr::RaceMgr(RaceInfo *raceInfo) :
     mRaceInfo(nullptr),                                       
     mCourse(nullptr),
     mBestLapTime() {
@@ -862,8 +868,6 @@ void RaceMgr::checkRankForBombBattle(){
             kartNo--;
         }
     } while(rank <= kartNo);
-
-
 }
 
 void RaceMgr::checkRankForEscapeBattle(){
@@ -1128,7 +1132,7 @@ RaceMgr::~RaceMgr() {
     if (GameAudio::Parameters::getDemoMode())
         GameAudio::Parameters::setDemoMode(0);
 
-    for (JSUTreeIterator<JKRHeap> iterator = mRaceHeap->getHeapTree()->getFirstChild(); iterator != mRaceHeap->getHeapTree()->getEndChild(); ++iterator) {
+    for (JSUTreeIterator<JKRHeap> iterator = mRaceHeap->getHeapTree().getFirstChild(); iterator != mRaceHeap->getHeapTree().getEndChild(); ++iterator) {
         SysDebug::getManager()->destroyHeapInfo(iterator.getObject());
     }
     SysDebug::getManager()->clrAllUserTimeLabel();

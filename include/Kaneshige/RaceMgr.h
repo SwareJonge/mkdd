@@ -2,7 +2,7 @@
 #define RACEMGR_H
 
 #include "kartEnums.h"
-#include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Kawano/StaffRoll2D.h"
 #include "Kaneshige/Course/Course.h"
@@ -18,11 +18,10 @@
 #include "Yamamoto/kartCtrl.h"
 #include "types.h"
 
-class RaceMgr : JKRDisposer {
-public:
+class RaceMgr : public JKRDisposer {
     RaceMgr(RaceInfo *);
-    virtual ~RaceMgr();
-
+    virtual ~RaceMgr(); // if this is correct, i will hate it in every way
+public:
     struct EventInfo {
         s16 id;
         const char *jpName;

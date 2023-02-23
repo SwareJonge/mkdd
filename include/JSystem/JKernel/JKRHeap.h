@@ -150,8 +150,8 @@ public:
         }
     }
 
-    JSUTree<JKRHeap> * getHeapTree() {
-        return &mChildTree;
+    const JSUTree<JKRHeap> & getHeapTree() {
+        return mChildTree;
     }
 
     // Unused
