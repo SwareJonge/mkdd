@@ -139,7 +139,7 @@ public:
     bool isLANMode() const { return mRaceInfo->isLANMode();  }
     bool isMirror() const { return mRaceInfo->isMirror(); }
     bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); };
-    ERaceMode getRaceMode() const { return mRaceInfo->getRaceMode(); }
+    ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
     int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
     int getKartNumber() const { return mRaceInfo->getKartNumber(); }
     int getTotalLapNumber() const { return mTotalLapNumber; }
