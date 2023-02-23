@@ -2,6 +2,7 @@
 #define RACEDIRECTOR_H
 
 #include "Kaneshige/DemoTimeKeeper.h"
+#include "Kaneshige/RaceTime.h"
 #include "kartEnums.h"
 
 class RaceDirector
@@ -19,8 +20,12 @@ public:
     }
     ERacePhase getRacePhase() const { return mRacePhase; };
     bool isRaceEnd() const { return mIsRaceEnd; };
-    int getWaitDemoResult() const;
-    void getMiniGameTime();
+    int getWaitDemoResult() const {
+        return mWaitDemoResult;
+    }
+    const RaceTime & getMiniGameTime() {
+        return mMinigameTime;
+    }
     void reset();
 
     static u8 sForceStopFrame;
@@ -33,8 +38,8 @@ private:
     bool mFrameRenewal;
     u8 _29;
     bool mIsRaceEnd;
-    u8 _2B[0x48 - 0x2B];
-
+    u8 _2B[0x44 - 0x2B];
+    RaceTime mMinigameTime;
 }; // Size 0x48
 
 #endif

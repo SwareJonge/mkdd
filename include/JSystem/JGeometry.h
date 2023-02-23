@@ -75,7 +75,9 @@ namespace JGeometry
         TVec3(const TVec3 &);
 
         template <typename TY>
-        TVec3(TY, TY, TY);
+        TVec3(TY X, TY Y, TY Z) {
+            set(X, Y, Z);
+        }
 
         TVec3 &operator=(const TVec3 &);
         TVec3 &operator*=(const TVec3 &operand);

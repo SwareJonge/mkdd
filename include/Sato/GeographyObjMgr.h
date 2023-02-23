@@ -15,7 +15,7 @@ public:
     }
     void calc();
     void createModel(JKRSolidHeap *, u32);
-    void reset(CrsData*);
+    void reset(const CrsData&);
     static GeographyObjManager *getGeographyObjManager();
     TJugem *getJugem(int) const;
     TBalloonManager* getBalloonMgr(int kart_index) const;

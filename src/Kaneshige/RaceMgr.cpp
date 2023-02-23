@@ -1,14 +1,18 @@
 /* Todo list:
 Class Sizes
-figure out data ordering, seems to be done?
 text ordering
 */
+#include "JSystem/J3D/J3DSys.h"
+#include "JSystem/JGeometry.h"
 #include "JSystem/JKernel/JKRHeap.h" 
+#include "JSystem/JKernel/JKRDisposer.h"
+#include "JSystem/JSupport/JSUList.h"
+#include "JSystem/JUtility/JUTGamePad.h" 
+
 #pragma sym on // dumbness
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
-#include "JSystem/J3D/J3DSys.h"
 #include "Inagaki/GameAudioMain.h"
 #include "Kameda/J2DManager.h"
 #include "Kameda/MotorManager.h"
@@ -29,6 +33,7 @@ text ordering
 #include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
 #include "Osako/shadowMgr.h"
+#include "Osako/system.h"
 #include "Osako/SystemRecord.h"
 #include "Sato/EffectScreen.h"
 #include "Sato/GeographyObjMgr.h"
@@ -45,9 +50,10 @@ text ordering
 #include "Yamamoto/kartCamera.h"
 
 RaceMgr *RaceMgr::sRaceManager;
-
 short RaceMgr::sForceTotalLapNum;
 short RaceMgr::sDispFrameCounter;
+
+short RaceMgr::sMyStartPointID = -1;
 
 static const float lbl_80377640[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
@@ -107,12 +113,9 @@ const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
 };
 
 // half fabircated to generate certain data first
-static void PrintRaceHeap(u32 free, JKRHeap * heap) {
-    f32 wdth = RaceMgr::getManager()->getCamera(0)->GetWidth();
-    f32 ht = RaceMgr::getManager()->getCamera(0)->GetHeight();
-    int h = RaceMgr::getManager()->getCamera(0)->GetPosh();
-    int v = RaceMgr::getManager()->getCamera(0)->GetPosv();
-    JUTReport(h, v, "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
+// Note: Kartcam might be part of KartCtrl.h?
+void PrintRaceHeap(u32 free, JKRHeap * heap) {
+    JUTReport(KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh(), KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv(), "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
 RaceMgr::RaceMgr(RaceInfo *raceInfo) : 
@@ -598,7 +601,7 @@ void RaceMgr::resetRaceCommon() {
     resetConsole();
     SysDebug::getManager()->setHeapGroup("RESTART", nullptr);
     mCourse->reset();
-    GetGeoObjMgr()->reset(mCourse->getCrsData());
+    GetGeoObjMgr()->reset(*mCourse->getCrsData());
     GetItemObjMgr()->reset();
 
     for(int i = 0; i < getKartNumber(); i++) {
@@ -1148,6 +1151,21 @@ ERacePhase RaceMgr::getRacePhase() {
     return mRaceDirector->getRacePhase();
 }
 
+const RaceTime &RaceMgr::getMiniGameTime() {
+    return mRaceDirector->getMiniGameTime();
+}
+
+int RaceMgr::searchNRankKart(int rank) {
+    int ret = -1;
+    for(int i = 0; i < getKartNumber(); i++) {
+        if(getKartChecker(i)->getRank() == rank) {
+            ret = i;
+            break;
+        }
+    }
+    return ret;
+}
+
 bool RaceMgr::isAbleStart() const{
     bool ret;
     if (mAbleStart)
@@ -1420,6 +1438,17 @@ void RaceMgr::Console::changeTargetNo(int targetNo, bool p2){
         if(!isNoStat())
             J2DManager::getManager()->setStatus2Kart(mCnsNo, mTargetNo);
     }
+}
+
+// these functions are unused so i'm just putting functions in here that need to get generated
+void RaceMgr::Console::clearZBuffer() {
+    System::getDisplay();
+}
+
+bool RaceMgr::Console::isZoom() {
+    RCMGetKartChecker(0);
+    f32 wdth = KartCtrl::getKartCtrl()->getKartCam(0)->GetWidth(); // these 2 are most likely used in a different function however i'm lazy
+    f32 ht = KartCtrl::getKartCtrl()->getKartCam(0)->GetHeight();
 }
 
 bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx){

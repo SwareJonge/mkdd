@@ -37,7 +37,6 @@ public:
     static short sForceTotalLapNum;
     static short sDispFrameCounter;
 
-
     static RaceMgr *getManager() { return sRaceManager; }
 
     class Console {
@@ -115,6 +114,8 @@ public:
     void updateRace();                // 0x801aeac0
     bool isRaceModeMiniGame();        // 0x801aef9c
     ERacePhase getRacePhase();
+    const RaceTime &getMiniGameTime();
+    int searchNRankKart(int);
     bool isAbleStart() const;
     void setJugemZClr(u32, bool);
     u8 getStartID(int);                                                          // 0x801af18c

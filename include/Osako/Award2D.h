@@ -9,10 +9,12 @@ public:
     Award2D(JKRHeap *);
     void calc();
     void still() {
-        
+        _10 = 0;
     }
 
-    u8 _0[0x58];
+    u8 _00[0x10];
+    u32 _10;
+    u8 _14[0x58 - 0x14];
 };
 
 #endif
