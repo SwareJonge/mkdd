@@ -31,13 +31,19 @@ public:
     const Mtx &GetMtx() {
         return mMtx;
     }
-    void GetHeight(); // KartCam.h // 0x801afd7c
-    void GetWidth(); // KartCam.h // 0x801afd84
-    void GetPosh(); // KartCam.h // 0x801afd8c
-    void GetPosv(); // KartCam.h // 0x801afd94
+    f32 GetHeight() { return mHeight; } // KartCam.h // 0x801afd7c
+    f32 GetWidth() { return mWidth; } // KartCam.h // 0x801afd84
+    int GetPosh() { return mPosH; } // KartCam.h // 0x801afd8c
+    int GetPosv() { return mPosV; } // KartCam.h // 0x801afd94
 private:
     u8 _00[0x80];
     Mtx mMtx;
+    u8 _B0[0xEC - 0xB0];
+    int mPosV;
+    int mPosH;
+    u8 _F4[0x128 - 0xF4];
+    f32 mWidth;
+    f32 mHeight;
 };
 
 #endif // KARTCAMERA_H

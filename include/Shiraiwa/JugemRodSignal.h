@@ -31,16 +31,19 @@ public:
     // void sLeftJointNo;                                         // 0x80416db0
     // void sMiddleJointNo;                                       // 0x80416db4
     // void sRightJointNo;                                        // 0x80416db8
-    // void scSignalInterval;                                     // 0x8041c7d8
+    static const u8 scSignalInterval;                             // 0x8041c7d8
     //  Inline
-    bool isCallThree();
+    bool isCallThree() {
+        return _188 == scSignalInterval -1;
+    }
 
     // Inline/Unused
     // void getJointPos(JGeometry::TVec3<float> *, long);
     // void updatePosition(JPABaseEmitter **, long);
 
     // void scRandomLength;
-
+    u8 _00[0x188];
+    u32 _188;
 }; // class JugemRodSignal
 
 class TJugemRodPukuPuku

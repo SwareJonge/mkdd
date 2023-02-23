@@ -4,7 +4,7 @@ figure out data ordering, seems to be done?
 text ordering
 */
 #include "JSystem/JKernel/JKRHeap.h" 
-#pragma sym on // for whatever reason defining it at the top will cause it to give JKRHeap its own section
+#pragma sym on // dumbness
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include <dolphin/os.h>
@@ -42,6 +42,7 @@ text ordering
 #include "Sato/stMath.h"
 #include "Shiraiwa/Balloon.h"
 #include "Shiraiwa/JugemRodSignal.h"
+#include "Yamamoto/kartCamera.h"
 
 RaceMgr *RaceMgr::sRaceManager;
 
@@ -105,9 +106,13 @@ const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {-1, "なし", nullptr}
 };
 
-// UNUSED, my "guess" at how it would've looked like
+// half fabircated to generate certain data first
 static void PrintRaceHeap(u32 free, JKRHeap * heap) {
-    JUTReport(0, 0, "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
+    f32 wdth = RaceMgr::getManager()->getCamera(0)->GetWidth();
+    f32 ht = RaceMgr::getManager()->getCamera(0)->GetHeight();
+    int h = RaceMgr::getManager()->getCamera(0)->GetPosh();
+    int v = RaceMgr::getManager()->getCamera(0)->GetPosv();
+    JUTReport(h, v, "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
 RaceMgr::RaceMgr(RaceInfo *raceInfo) : 
@@ -1116,7 +1121,6 @@ void RaceMgr::updateRace(){
     SysDebug::getManager()->endUserTime(6);
 }
 
-// For some reason getHeapTree gets put after this despite -sym on
 RaceMgr::~RaceMgr() {
     if (GameAudio::Parameters::getDemoMode())
         GameAudio::Parameters::setDemoMode(0);
@@ -1512,19 +1516,4 @@ void RaceUsrPage::draw() {
     }
 }
 // I Assume these are from clearZBuffer__Q27RaceMgr7ConsoleFv or isZoom__Q27RaceMgr7ConsoleFv?
-void KartCam::GetHeight() {
-
-}
-
-void KartCam::GetWidth() {
-
-}
-
-void KartCam::GetPosh() {
-
-}
-
-void KartCam::GetPosv() {
-
-}
 

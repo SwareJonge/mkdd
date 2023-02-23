@@ -13,7 +13,7 @@ public:
     void reset();
 
     void enablePause() {
-        
+        _14 = 0;
     }
 
     static PauseManager *getManager() {
@@ -24,8 +24,8 @@ public:
 private:
     u8 _00[0x13];
     bool mExecFlag;
-
-    u8 _14[0x3c - 0x14];
+    u32 _14;
+    u8 _18[0x3c - 0x18];
 };
 
 inline PauseManager *GETPauseManager() {
