@@ -2958,8 +2958,8 @@ global:
     0x800848fc: __rf__25JSUTreeIterator<7JKRHeap>CFv
     0x80084908: __ct__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap>
     0x80084910: getNumChildren__17JSUTree<7JKRHeap>CFv
-    #0x80084918: getFirstChild__17JSUTree<7JKRHeap>CFv
-    0x80084918: getFirstChild__7JKRHeapCFv
+    0x80084918: getFirstChild__17JSUTree<7JKRHeap>CFv
+    #0x80084918: getFirstChild__7JKRHeapCFv
     0x8008492c: findAllHeap__7JKRHeapCFPv
     0x80084b9c: dispose__7JKRHeapFPvUl
     0x80084c2c: dispose__7JKRHeapFPvPv
@@ -7333,7 +7333,7 @@ global:
     0x801b0bf0: isCallThree__15TJugemRodSignalFv
     0x801b0c0c: getFrame__11PadRecorderFv
     0x801b0c14: getDisplay__6SystemFv
-    0x801b0c1c: __sinit_RaceMgr_cpp
+    #0x801b0c1c: __sinit_RaceMgr_cpp
     0x801b0d08: createManager__8SysDebugFv
     0x801b0d50: __ct__8SysDebugFv
     0x801b0f50: setColor__14J2DGrafContextFQ28JUtility6TColor
@@ -17842,6 +17842,8 @@ global:
     0x80416388: mCup2D__5Cup2D
     0x80416390: sDrawAreaModel__6Course
     0x80416396: sShakeRippleTime__6Course
+    0x80416398: sMtxCombinationOn__7ExModel
+    0x80416399: sDrawingOnlyUpdZMat__7ExModel
     0x8041639c: sManager__12ExMdlDataMgr
     0x804163a0: sBombPointCrushOneself__11KartChecker
     0x804163a8: sRaceManager__7RaceMgr
@@ -17882,6 +17884,7 @@ global:
     0x80416470: sSupervisorCreateNum__9GeoVision
     0x80416474: sSupervisor__9GeoVision
     0x80416478: sBtkAnm__11GeoWaterUp2
+    0x80416480: sForceStopFrame__12RaceDirector
     0x80416482: sForceWaitDemoTime__12RaceDirector
     0x80416488: sBlurAddX__10RaceDrawer
     0x8041648c: sBlurDefaultColor__10RaceDrawer
@@ -18400,6 +18403,7 @@ global:
     0x8041b820: scaName
     0x8041c698: scJugemHeight__6TJugem
     0x8041c69c: scEraseHeight__6TJugem
+    0x8041c7d8: scSignalInterval__15TJugemRodSignal
     0x8041ca20: sAnmTable__14TMapObjPoihana
     0x8041cbd8: sAnmTable__13TMapObjGeyser
     0x8041cd48: sAnmTable__12TMapObjHeyho
