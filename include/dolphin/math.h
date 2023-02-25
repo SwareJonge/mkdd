@@ -34,7 +34,8 @@ float tanf(float);
 double atan(double);
 double atan2(double, double);
 
-extern float __float_epsilon;
+extern int __float_epsilon[];
+#define FLT_EPSILON (*(float *)__float_epsilon)
 
 #ifdef __cplusplus
 };

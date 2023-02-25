@@ -58,7 +58,7 @@ global:
 
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
-  # most local symbols are disabled.
+  # all local symbols are filtered out.
   0x800a9600: PPCMfmsr
   0x800a9608: PPCMtmsr
   0x800a9610: PPCMfhid0
@@ -88,7 +88,6 @@ global:
   0x800a9890: PSMTXInverse
   0x800a9988: PSMTXRotRad
   0x800a99f8: PSMTXRotTrig
-  0x800a9aa8: __PSMTXRotAxisRadInternal
   0x800a9b58: PSMTXRotAxisRad
   0x800a9bc8: PSMTXTrans
   0x800a9bfc: PSMTXTransApply
@@ -119,10 +118,6 @@ global:
   0x800aa62c: C_QUATRotAxisRad
   0x800aa6b8: __DVDInitWA
   0x800aa6f8: __DVDInterruptHandler
-  #0x800aa9d8: AlarmHandler
-  0x800aaa5c: AlarmHandlerForTimeout
-  0x800aaacc: Read
-  0x800aabdc: SeekTwiceBeforeRead
   0x800aac5c: DVDLowRead
   0x800aaef4: DVDLowSeek
   0x800aaf88: DVDLowWaitCoverClose
@@ -143,42 +138,10 @@ global:
   0x800ab860: DVDFastOpen
   0x800ab8d4: DVDOpen
   0x800ab99c: DVDClose
-  0x800ab9c0: entryToPath
   0x800abb20: DVDGetCurrentDir
   0x800abbe4: DVDReadAsyncPrio
-  0x800abca4: cbForReadAsync
   0x800abcd4: DVDReadPrio
-  0x800abdec: cbForReadSync
-  0x800abe10: defaultOptionalCommandChecker
   0x800abe14: DVDInit
-  0x800abee0: stateReadingFST
-  0x800abf74: cbForStateReadingFST
-  0x800ac000: cbForStateError
-  0x800ac0ac: stateTimeout
-  0x800ac0e0: stateGettingError
-  0x800ac108: CategorizeError
-  0x800ac1bc: cbForStateGettingError
-  0x800ac450: cbForUnrecoveredError
-  0x800ac4b8: cbForUnrecoveredErrorRetry
-  0x800ac550: stateGoToRetry
-  0x800ac578: cbForStateGoToRetry
-  0x800ac6d0: stateCheckID
-  0x800ac7b0: stateCheckID3
-  0x800ac7e4: stateCheckID2a
-  0x800ac818: cbForStateCheckID2a
-  0x800ac88c: stateCheckID2
-  0x800ac8c4: cbForStateCheckID1
-  0x800ac9d8: cbForStateCheckID2
-  0x800acabc: cbForStateCheckID3
-  #0x800acbb8: AlarmHandler
-  0x800acbfc: stateCoverClosed
-  0x800accc8: stateCoverClosed_CMD
-  0x800accf8: cbForStateCoverClosed
-  0x800acd68: stateMotorStopped
-  0x800acd90: cbForStateMotorStopped
-  0x800ace74: stateReady
-  0x800ad0a4: stateBusy
-  0x800ad3c4: cbForStateBusy
   0x800ad9fc: DVDReadAbsAsyncPrio
   0x800adad8: DVDReadAbsAsyncForBS
   0x800adba8: DVDReadDiskID
@@ -191,7 +154,6 @@ global:
   0x800adf54: DVDResume
   0x800adfa4: DVDCancelAsync
   0x800ae220: DVDCancel
-  0x800ae2cc: cbForCancelSync
   0x800ae2f0: DVDGetCurrentDiskID
   0x800ae2f8: DVDCheckDisk
   0x800ae3f0: __DVDPrepareResetAsync
@@ -201,21 +163,16 @@ global:
   0x800ae5e4: __DVDPopWaitingQueue
   0x800ae684: __DVDCheckWaitingQueue
   0x800ae6dc: __DVDDequeueWaitingQueue
-  0x800ae73c: ErrorCode2Num
   0x800ae858: __DVDStoreErrorCode
   0x800ae8d4: DVDCompareDiskID
   0x800ae9cc: __DVDPrintFatalMessage
   0x800ae9fc: fstload_cb
   0x800aead4: __fstLoad
-  0x800aec3c: __VIRetraceHandler
   0x800aeeb0: VISetPreRetraceCallback
   0x800aeef4: VISetPostRetraceCallback
-  0x800aef38: getTiming
   0x800aefd8: __VIInit
   0x800af1d8: VIInit
   0x800af688: VIWaitForRetrace
-  0x800af6dc: setFbbRegs
-  0x800af9b0: setVerticalRegs
   0x800afb50: VIConfigure
   0x800b0378: VIFlush
   0x800b04a8: VISetNextFrameBuffer
@@ -223,23 +180,83 @@ global:
   0x800b051c: VIGetCurrentFrameBuffer
   0x800b0524: VISetBlack
   0x800b05a0: VIGetRetraceCount
-  0x800b05a8: GetCurrentDisplayPosition
-  0x800b05e4: getCurrentFieldEvenOdd
   0x800b064c: VIGetNextField
   0x800b06e8: VIGetCurrentLine
   0x800b0780: VIGetTvFormat
+  0x800b07e8: __VIDisplayPositionToXY
+  0x800b0a04: __VIGetCurrentPosition
+  0x800b0a64: AIRegisterDMACallback
+  0x800b0aa8: AIInitDMA
+  0x800b0b30: AIStartDMA
+  0x800b0b48: AIStopDMA
+  0x800b0b60: AISetStreamPlayState
+  0x800b0c38: AIGetStreamPlayState
+  0x800b0c48: AISetDSPSampleRate
+  0x800b0d28: AIGetDSPSampleRate
+  0x800b0e10: AIGetStreamSampleRate
+  0x800b0e20: AISetStreamVolLeft
+  0x800b0e3c: AIGetStreamVolLeft
+  0x800b0e4c: AISetStreamVolRight
+  0x800b0e68: AIGetStreamVolRight
+  0x800b0e78: AIInit
+  0x800b1348: ARRegisterDMACallback
+  0x800b138c: ARStartDMA
+  0x800b147c: ARAlloc
+  0x800b14e4: ARInit
+  0x800b15a8: ARGetSize
+  0x800b2e1c: __ARQServiceQueueLo
+  0x800b2f1c: __ARQCallbackHack
+  0x800b2f20: __ARQInterruptServiceRoutine
+  0x800b2fec: ARQInit
+  0x800b305c: ARQPostRequest
+  0x800b31b8: DSPCheckMailToDSP
+  0x800b31c8: DSPCheckMailFromDSP
+  0x800b31d8: DSPReadMailFromDSP
+  0x800b31f0: DSPSendMailToDSP
+  0x800b3204: DSPAssertInt
+  0x800b3244: DSPInit
+  0x800b3308: __DSP_debug_printf
+  0x800b3358: __DSP_exec_task
+  0x800b34f8: __DSP_boot_task
+  0x800b3684: __DSP_insert_task
+  0x800b3724: __DSP_remove_task
+  0x800b37b8: __CARDDefaultApiCallback
+  0x800b37bc: __CARDSyncCallback
+  0x800b37f0: __CARDExtHandler
+  0x800b38c8: __CARDExiHandler
+  0x800b39e0: __CARDTxHandler
+  0x800b3a88: __CARDUnlockedHandler
+  0x800b3b0c: __CARDEnableInterrupt
+  0x800b3bcc: __CARDReadStatus
+  0x800b3cbc: __CARDClearStatus
+  0x800b42fc: __CARDReadSegment
+  0x800b4430: __CARDWritePage
+  0x800b454c: __CARDEraseSector
+  0x800b462c: CARDInit
+  0x800b46d8: __CARDGetFontEncode
+  0x800b46e0: __CARDSetDiskID
+  0x800b4718: __CARDGetControlBlock
+  0x800b47d0: __CARDPutControlBlock
+  0x800b4834: CARDFreeBlocks
+  0x800b4984: __CARDSync
+  0x800b4de0: __CARDUnlock
+  0x800b5da8: __CARDRead
+  0x800b5ee8: __CARDWrite
+  0x800b5f4c: __CARDGetFatBlock
+  0x800b60f0: __CARDAllocBlock
+  0x800b6208: __CARDFreeBlock
+  0x800b62a4: __CARDUpdateFatBlock
+  0x800b6350: __CARDGetDirBlock
+  0x800b64f0: __CARDUpdateDir
+  0x800b65b4: __CARDCheckSum
   0x800b6eac: __CARDVerify
   0x800b6f38: CARDCheckExAsync
   0x800b74c8: CARDCheck
-  0x800b751c: IsCard
   0x800b75e8: CARDProbeEx
-  0x800b7764: DoMount
   0x800b7b74: __CARDMountCallback
   0x800b7cac: CARDMountAsync
   0x800b7e4c: CARDMount
-  0x800b7e94: DoUnmount
   0x800b7f30: CARDUnmount
-  0x800b7fdc: FormatCallback
   0x800b8120: __CARDFormatRegionAsync
   0x800b8778: CARDFormat
   0x800b87cc: __CARDCompareFileName
@@ -251,34 +268,24 @@ global:
   0x800b8d44: CARDOpen
   0x800b8e60: CARDClose
   0x800b8eb4: __CARDIsOpened
-  0x800b8ebc: CreateCallbackFat
   0x800b8fec: CARDCreateAsync
   0x800b920c: CARDCreate
   0x800b9254: __CARDSeek
-  0x800b940c: ReadCallback
   0x800b953c: CARDReadAsync
   0x800b9680: CARDRead
-  0x800b96c8: WriteCallback
-  0x800b9838: EraseCallback
   0x800b98e8: CARDWriteAsync
   0x800b99fc: CARDWrite
-  0x800b9a44: DeleteCallback
   0x800b9ae8: CARDFastDeleteAsync
   0x800b9c14: CARDFastDelete
   0x800b9c5c: CARDDeleteAsync
   0x800b9d6c: CARDDelete
-  0x800b9db4: UpdateIconOffsets
   0x800b9fac: CARDGetStatus
   0x800ba0c0: CARDSetStatusAsync
   0x800ba234: CARDSetStatus
   0x800ba27c: CARDRenameAsync
   0x800ba478: CARDRename
-  0x800ba4c0: __GXDefaultTexRegionCallback
-  0x800ba5bc: __GXDefaultTlutRegionCallback
-  0x800ba5e0: __GXShutdown
   0x800ba770: GXInit
   0x800baf08: __GXInitGX
-  0x800bb840: GXCPInterruptHandler
   0x800bb974: GXInitFifoBase
   0x800bb9e0: GXInitFifoPtrs
   0x800bba50: GXInitFifoLimits
@@ -289,11 +296,6 @@ global:
   0x800bbdf8: GXGetGPStatus
   0x800bbe48: GXSetBreakPtCallback
   0x800bbe8c: __GXFifoInit
-  0x800bbed8: __GXFifoReadEnable
-  0x800bbefc: __GXFifoReadDisable
-  0x800bbf20: __GXFifoLink
-  0x800bbf54: __GXWriteFifoIntEnable
-  0x800bbf84: __GXWriteFifoIntReset
   0x800bbfb4: __GXCleanGPFifo
   0x800bc0b4: GXGetCPUFifo
   0x800bc0bc: GXGetGPFifo
@@ -329,9 +331,7 @@ global:
   0x800bdbcc: GXPokeDither
   0x800bdbe4: GXPokeZMode
   0x800bdc04: GXSetDrawSyncCallback
-  0x800bdc48: GXTokenInterruptHandler
   0x800bdcd0: GXSetDrawDoneCallback
-  0x800bdd14: GXFinishInterruptHandler
   0x800bdd94: __GXPEInit
   0x800bde08: __GXSetDirtyState
   0x800bde88: GXBegin
@@ -381,7 +381,6 @@ global:
   0x800bfb00: GXInvalidateTexAll
   0x800bfb48: GXSetTexRegionCallback
   0x800bfb5c: GXSetTlutRegionCallback
-  0x800bfb70: __SetSURegs
   0x800bfc10: __GXSetSUTexRegs
   0x800bfd8c: __GXSetTmemConfig
   0x800c00e0: GXSetTevIndirect
@@ -423,7 +422,6 @@ global:
   0x800c1318: GXSetFieldMask
   0x800c1350: GXSetFieldMode
   0x800c13c8: GXDrawCylinder
-  0x800c1a94: GXDrawCubeFace
   0x800c1cac: GXDrawCube
   0x800c1efc: GXCallDisplayList
   0x800c1f6c: GXSetProjection
@@ -458,38 +456,24 @@ global:
   0x800c30f0: DBQueryData
   0x800c318c: DBInitInterrupts
   0x800c31e0: DBInitComm
-  0x800c3258: DBGHandler
-  0x800c3298: MWCallback
-  0x800c32d4: DBGReadStatus
-  0x800c3380: DBGWrite
-  0x800c345c: DBGRead
-  0x800c3538: DBGReadMailbox
-  0x800c35e4: DBGEXIImm
-  0x800c387c: SetExiInterruptMask
   0x800c3970: EXIImm
   0x800c3bcc: EXIImmEx
   0x800c3c6c: EXIDma
   0x800c3d58: EXISync
   0x800c3fa4: EXIClearInterrupts
   0x800c3fec: EXISetExiCallback
-  0x800c4068: __EXIProbe
   0x800c41dc: EXIProbe
   0x800c425c: EXIProbeEx
   0x800c4310: EXIAttach
   0x800c441c: EXIDetach
   0x800c44d8: EXISelect
   0x800c4604: EXIDeselect
-  0x800c4714: EXIIntrruptHandler
-  0x800c47dc: TCIntrruptHandler
-  0x800c49f4: EXTIntrruptHandler
   0x800c4ac4: EXIInit
   0x800c4c98: EXILock
   0x800c4d8c: EXIUnlock
   0x800c4e68: EXIGetState
-  0x800c4e80: UnlockedHandler
   0x800c4ea8: EXIGetID
   0x800c5258: EXIGetType
-  0x800c5370: ProbeBarnacle
   0x800c54fc: __OSEnableBarnacle
   0x800c56b8: InitializeUART
   0x800c5728: WriteUARTN
@@ -512,28 +496,15 @@ global:
   0x800c6fc8: IPIn
   0x800c7284: IPOut
   0x800c74e4: IPCancel
-  0x800c7520: DiscardPendingPackets
-  0x800c75b0: Revalidate
-  #0x800c770c: TimeoutCallback
-  #0x800c7730: SendCallback
   0x800c77c4: ARPInit
   0x800c7878: ARPLookup
   0x800c7a54: ARPRevalidate
-  0x800c7ae8: ARPAlloc
   0x800c7c84: ARPHold
-  0x800c7e04: ARPUpdate
   0x800c7fc4: ARPOut
-  0x800c81c8: ARPCancel
-  0x800c8204: GratuitousCallback
   0x800c8288: ARPGratuitous
-  #0x800c8334: ClaimHandler
   0x800c83c8: ARPClaim
-  0x800c8518: DetectCollision
   0x800c86c4: ARPIn
   0x800c87e4: ARPRefresh
-  0x800c88c0: DoEchoRequest
-  0x800c8b18: DoUnreachable
-  0x800c8ca0: DoNotify
   0x800c8ce4: ICMPIn
   0x800c9058: ICMPSendError
   0x800c943c: IPGetMacAddr
@@ -549,17 +520,13 @@ global:
   0x800c9948: IPIsLoopbackAddr
   0x800c9964: IPIsLocalAddr
   0x800c9a20: IPGetRoute
-  0x800c9b7c: AddRoute
   0x800ca160: IPRedirect
   0x800ca548: IPInitRoute
   0x800ca784: IPRefreshRoute
-  0x800caa48: DecayRoute
   0x800cacd0: IPRecoverGateway
   0x800cae94: IPGetConfigError
   0x800caeb0: IPSetConfigError
   0x800caf14: IPClearConfigError
-  # 0x800caf70: NullCallback
-  #0x800caf74: SyncCallback
   0x800caf98: UDPCheckSum
   0x800cb040: UDPBind
   0x800cb0d0: UDPConnect
@@ -568,13 +535,11 @@ global:
   0x800cb258: UDPGetSendBuff
   0x800cb2e4: UDPSetSendBuff
   0x800cb36c: UDPOpen
-  # 0x800cb480: SendCallback
   0x800cb51c: UDPSendAsync
   0x800cb9b8: UDPSend
   0x800cba30: UDPReceiveExAsync
   0x800cbe30: UDPReceiveAsync
   0x800cbe5c: UDPReceiveEx
-  #0x800cbed4: Cancel
   0x800cbfd8: UDPCancel
   0x800cc05c: UDPClose
   0x800cc124: UDPSetSockOpt
@@ -582,44 +547,23 @@ global:
   0x800cc250: UDPIn
   0x800cc4e0: UDPNotify
   0x800cc5e4: UDPOnReset
-  0x800cc630: TimeoutHandler
   0x800cc704: IPSetReassemblyBuffer
-  0x800cc828: Reassemble
-  0x800cc9fc: SaveFirstFragment
   0x800ccb34: IPReassemble
-  0x800ccd90: NullFilter
   0x800ccd98: ETHIn
-  0x800ccf6c: Callback0
-  0x800ccfc8: Callback1
-  0x800cd004: Go
-  0x800cd294: GoCallback
   0x800cd494: ETHOut
-  # 0x800cd5d8: Cancel
-  0x800cd674: Alloc
-  0x800cd69c: Free
-  0x800cd6c4: LinkCheckHandler
   0x800cd764: IFInit
   0x800cd974: IFMute
-  # 0x800cda08: OnReset
   0x800cdaec: IFFifoInit
-  0x800cdb04: FifoAlloc
   0x800cdbb8: IFFifoAlloc
   0x800cdbd8: IFFifoFree
   0x800cdd88: IFRingIn
   0x800cde3c: IFRingOut
   0x800cded0: IFRingGet
   0x800cdf1c: IFRingPut
-  0x800cdf44: MargeBlock
   0x800ce104: IFRingInEx
   0x800ce208: TCPCheckSum
-  0x800ce2e8: DoOption
   0x800ce40c: TCPRespond
-  0x800ce5cc: TCPTrimSegment
   0x800ce7e8: TCPIn
-  0x800cf394: DoListen
-  0x800cf808: DoSynSent
-  0x800cfa5c: DoUrg
-  0x800cfb24: DoData
   0x800cff28: TCPSendIn
   0x800d003c: TCPPeekOut
   0x800d0184: TCPRecvOut
@@ -628,18 +572,12 @@ global:
   0x800d02b4: TCPDeleteSackHoles
   0x800d03b8: TCPUpdateScoreboard
   0x800d090c: TCPMakeOption
-  0x800d0ae4: TCPCalcSendSize
-  0x800d0e84: DoSwsAvoidance
-  0x800d0f9c: TCPOutputCallback
   0x800d0fd4: TCPOutput
-  0x800d152c: TCPRxmitTimeOut
   0x800d1818: TCPStartRxmitTimer
   0x800d1920: TCPStopRxmitTimer
   0x800d1b8c: TCPCancelRxmitTimer
   0x800d1bc8: TCPUpdateRtt
   0x800d1d94: TCPInitRtt
-  # 0x800d1eec: NullCallback
-  # 0x800d1ef0: SyncCallback
   0x800d1f14: TCPLookupInfo
   0x800d1f4c: TCPGetStatus
   0x800d1f68: TCPGetRemoteSocket
@@ -652,7 +590,6 @@ global:
   0x800d2548: TCPOpen
   0x800d2790: TCPListen
   0x800d2874: TCPAcceptAsync
-  0x800d29b4: SendAsync
   0x800d2bb8: TCPSendNonblock
   0x800d2c10: TCPSendUrgNonblock
   0x800d2c68: TCPSend
@@ -676,53 +613,25 @@ global:
   0x800d4418: TCPStartTimeWait
   0x800d45a4: DNSOpen
   0x800d46f4: DNSClose
-  0x800d4778: UpdateDHCPInfo
   0x800d48e8: DHCPProcessOptions
-  0x800d4c9c: RecvCallback
-  0x800d4f2c: T1Handler
-  0x800d4f88: T2Handler
-  0x800d4fe4: ExHandler
-  0x800d5020: RxmitHandler
-  0x800d5128: ReleaseCallback
-  0x800d5148: ReleaseHandler
-  0x800d516c: DHCPDiscover
-  0x800d5430: DHCPDecline
-  0x800d56e8: DHCPRelease
-  0x800d5978: DHCPRequest
-  0x800d5e64: Start
-  0x800d60e4: Stop
-  #0x800d6204: ClaimHandler
-  0x800d62dc: Claim
-  0x800d6364: Restart
-  # 0x800d6484: NullCallback
   0x800d6488: DHCPStartupEx
   0x800d6590: DHCPCleanup
   0x800d6668: DHCPReboot
   0x800d66f0: DHCPAuto
   0x800d67c0: DHCPGetStatus
-  0x800d6838: ClaimHander
   0x800d6a28: IPAutoConfig
   0x800d6bac: IPAutoStop
   0x800d6c2c: IPProcessSourceRoute
   0x800d6cf4: IPReverseSourceRoute
   0x800d6ea4: IPUpdateRecordRoute
   0x800d6fc0: SOInetNtoP
-  0x800d7034: GetNode
-  0x800d72dc: PutNode
   0x800d75e0: SOSetResolver
   0x800d76cc: SOGetResolver
-  0x800d7774: LcpHandler
-  0x800d77b0: DhcpHandler
   0x800d79e8: SOInit
   0x800d7a68: SOStartup
   0x800d7f64: SOCleanup
   0x800d82ac: SOSocket
-  0x800d8918: LingerCallback
-  0x800d8960: LingerTimeout
-  0x800d8984: __SOClose
   0x800d8ddc: SOClose
-  0x800d8e10: AcceptCallback
-  0x800d8f70: AddBackLog
   0x800d91f4: SOListen
   0x800d9320: SOAccept
   0x800d95e0: SOBind
@@ -731,14 +640,11 @@ global:
   0x800d9830: SORecvFrom
   0x800d9a68: SOWrite
   0x800d9a90: SOSendTo
-  0x800d9d18: __SOSetSockOpt
   0x800da3c8: SOSetSockOpt
   0x800da3fc: SOFcntl
   0x800da540: SOGetHostID
-  0x800da56c: PollTimeout
   0x800da590: __IPWakeupPollingThreads
   0x800da5b4: SOPoll
-  # 0x800da89c: OnReset
   0x800da8ac: PPPLayerUp
   0x800da908: PPPLayerDown
   0x800da954: PPPLayerStarted
@@ -746,17 +652,6 @@ global:
   0x800daa0c: PPPInitializeRestartCount
   0x800daa60: PPPSetState
   0x800daad0: PPPGetState
-  0x800daad8: LCPOut
-  #0x800dac24: ReceiveConfigureRequest
-  #0x800db4ac: ReceiveConfigureAck
-  #0x800db73c: ReceiveConfigureNak
-  #0x800db964: ReceiveConfigureReject
-  #0x800dbb8c: ReceiveTerminateRequest
-  #0x800dbddc: ReceiveTerminateAck
-  #0x800dc010: ReceiveUnknownCode
-  #0x800dc150: ReceiveCodeReject
-  #0x800dc4f0: ReceiveProtocolReject
-  0x800dc890: LCPIn
   0x800dc9b0: PPPIn
   0x800dcb24: PPPOpen
   0x800dcd54: PPPUp
@@ -766,59 +661,26 @@ global:
   0x800ddbd0: PPPDeleteOpt
   0x800ddc20: PPPInsertOpt
   0x800ddc98: PPPInit
-  0x800dddd8: OutPADT
-  0x800ddeb0: PPPoEOut
-  # 0x800ddfec: TimeoutCallback
-  # 0x800de0d8: Out
   0x800de308: PPPoEInit
   0x800de40c: PPPoETerminate
-  0x800de4b8: ParseTags
   0x800de62c: PPPoEIn
-  #0x800dea58: ReceiveConfigureRequest
-  #0x800dedfc: ReceiveConfigureAck
-  #0x800dee50: ReceiveConfigureNak
-  #0x800dee80: ReceiveConfigureReject
-  #0x800def3c: Up
-  #0x800df030: Down
-  #0x800df080: Started
-  #0x800df0a4: Finished
   0x800df0cc: PPPInitLCP
-  #0x800df190: ReceiveConfigureRequest
-  #0x800df2bc: ReceiveConfigureAck
-  #0x800df310: ReceiveConfigureNak
-  #0x800df438: ReceiveConfigureReject
-  #0x800df4f4: Up
-  #0x800df600: Down
-  #0x800df630: Started
-  #0x800df638: Finished
   0x800df640: PPPInitIPCP
-  0x800df778: PAPOut
   0x800df8d8: PAPOpen
   0x800df970: PAPUp
   0x800df9f4: PAPDown
   0x800dfa94: PAPClose
   0x800dfb5c: PAPTimeout
   0x800dfc8c: PAPIn
-  #0x800dfd54: Up
-  #0x800dfd5c: Down
-  #0x800dfd64: Started
-  #0x800dfd6c: Finished
   0x800dfd74: PAPInit
-  0x800dfe04: CHAPOut
   0x800dfec8: CHAPOpen
   0x800dff44: CHAPUp
   0x800dffac: CHAPDown
   0x800e004c: CHAPClose
   0x800e0114: CHAPTimeout
   0x800e01cc: CHAPIn
-  #0x800e0344: Up
-  #0x800e034c: Down
-  #0x800e0354: Started
-  #0x800e035c: Finished
   0x800e0364: CHAPInit
   0x800e03f4: IGMPCheckSum
-  0x800e04a0: IGMPOut
-  0x800e06d4: Timeout
   0x800e06fc: IGMPIn
   0x800e09cc: IGMPInit
   0x800e0a40: IGMPOnReset
@@ -828,47 +690,26 @@ global:
   0x800e0f10: IPClose
   0x800e0f84: IPGetUuidString
   0x800e1028: IPScanUuid
-  0x800e111c: readcmdLong
-  0x800e11a8: recvsub1
-  0x800e1610: readbuffer0
-  0x800e16b4: readbuffersub
-  0x800e1760: readbuffer1
-  0x800e18b8: exiinthandler
   0x800e27f0: ETHInit
   0x800e3058: ETHSendAsync
-  0x800e30ec: sendsub1
   0x800e31ec: ETHGetMACAddr
   0x800e3214: ETHSetRecvCallback
   0x800e3278: ETHGetLinkStateAsync
   0x800e32fc: ETHSetProtoType
-  0x800e3340: HashIndex
   0x800e34b4: ETHAddMulticastAddress
   0x800e3664: ETHClearMulticastAddresses
-  0x800e36c0: unlockcallback
-  0x800e36ec: lock
-  0x800e371c: unlock
-  0x800e3c7c: CalcIpCheckSum
-  0x800e3d24: CalcTcpCheckSum
   0x800e3e18: __ETHFilter
   0x800e4380: __ETHPostSend
   0x800e4724: MD5Init
   0x800e4764: MD5Update
   0x800e4854: MD5Final
-  0x800e48f8: MD5Transform
-  0x800e5344: Encode
-  0x800e5488: Decode
   0x800e5590: __IPEncodeToBase64
   0x800e57b8: __IPDecodeFromBase64
   0x800e589c: __OSFPRInit
   0x800e59c4: OSGetConsoleType
-  0x800e59ec: ClearArena
-  0x800e5b14: InquiryCallback
   0x800e5b50: OSInit
-  0x800e5f28: OSExceptionInit
-  0x800e61a8: __OSDBIntegrator
   0x800e61d0: __OSSetExceptionHandler
   0x800e61ec: __OSGetExceptionHandler
-  0x800e6200: OSExceptionVector
   0x800e6258: __DBVECTOR
   0x800e6278: __OSEVSetNumber
   0x800e6298: __OSEVEnd
@@ -878,14 +719,9 @@ global:
   0x800e635c: OSRegisterVersion
   0x800e6388: OSInitAlarm
   0x800e63e0: OSCreateAlarm
-  0x800e63f0: InsertAlarm
   0x800e6640: OSSetAlarm
   0x800e66a8: OSSetPeriodicAlarm
   0x800e6724: OSCancelAlarm
-  0x800e6840: DecrementerExceptionCallback
-  0x800e6a70: DecrementerExceptionHandler
-  # 0x800e6ac0: OnReset
-  0x800e6b60: DLInsert
   0x800e6c0c: OSFreeToHeap
   0x800e6c88: OSSetCurrentHeap
   0x800e6c98: OSInitAlloc
@@ -906,7 +742,6 @@ global:
   0x800e714c: ICInvalidateRange
   0x800e7180: ICFlashInvalidate
   0x800e7190: ICEnable
-  0x800e71a4: __LCEnable
   0x800e7270: LCEnable
   0x800e72a8: LCDisable
   0x800e72d0: LCStoreBlocks
@@ -915,8 +750,6 @@ global:
   0x800e73b4: L2GlobalInvalidate
   0x800e744c: DMAErrorHandler
   0x800e75ac: __OSCacheInit
-  0x800e76a0: __OSLoadFPUContext
-  0x800e77c4: __OSSaveFPUContext
   0x800e78ec: OSSaveFPUContext
   0x800e78f4: OSSetCurrentContext
   0x800e7950: OSGetCurrentContext
@@ -926,7 +759,6 @@ global:
   0x800e7abc: OSClearContext
   0x800e7ae0: OSInitContext
   0x800e7b9c: OSDumpContext
-  0x800e7e44: OSSwitchFPUContext
   0x800e7ec8: __OSContextInit
   0x800e7f10: OSFillFPUContext
   0x800e803c: OSReport
@@ -940,45 +772,32 @@ global:
   0x800e878c: __OSSetInterruptHandler
   0x800e87a8: __OSGetInterruptHandler
   0x800e87bc: __OSInterruptInit
-  0x800e8830: SetInterruptMask
   0x800e8b08: __OSMaskInterrupts
   0x800e8b90: __OSUnmaskInterrupts
   0x800e8c18: __OSDispatchInterrupt
-  0x800e8f5c: ExternalInterruptHandler
   0x800e8fac: __OSModuleInit
   0x800e8fc4: OSInitMessageQueue
   0x800e9024: OSSendMessage
   0x800e90ec: OSReceiveMessage
   0x800e91c8: OSJamMessage
   0x800e929c: OSGetPhysicalMemSize
-  #0x800e92a8: OnReset
-  0x800e92e4: MEMIntrruptHandler
   0x800e9350: OSProtectRange
-  0x800e9414: Config24MB
-  0x800e9494: Config48MB
-  0x800e9514: RealMode
   0x800e952c: __OSInitMemoryProtection
   0x800e9644: OSInitMutex
   0x800e967c: OSLockMutex
   0x800e9758: OSUnlockMutex
   0x800e9820: __OSUnlockAllMutex
-  0x800e9890: Run
-  0x800e98a0: Callback
   0x800e98ac: __OSReboot
   0x800e9bec: OSRegisterResetFunction
-  0x800e9c70: Reset
   0x800e9ce0: __OSDoHotReset
   0x800e9d28: OSResetSystem
   0x800e9fe0: OSGetResetCode
   0x800ea010: __OSResetSWInterruptHandler
   0x800ea104: OSGetResetButtonState
   0x800ea39c: OSGetResetSwitchState
-  0x800ea3bc: WriteSramCallback
-  0x800ea41c: WriteSram
   0x800ea534: __OSInitSram
   0x800ea670: __OSLockSram
   0x800ea6cc: __OSLockSramEx
-  0x800ea728: UnlockSram
   0x800eaa64: __OSUnlockSram
   0x800eaa88: __OSUnlockSramEx
   0x800eaaac: __OSSyncSram
@@ -991,20 +810,15 @@ global:
   0x800eade4: OSSetWirelessID
   0x800eae90: OSGetGbsMode
   0x800eaf00: OSSetGbsMode
-  0x800eafb8: SystemCallVector
   0x800eafd8: __OSInitSystemCall
-  0x800eb03c: DefaultSwitchThreadCallback
   0x800eb040: __OSThreadInit
   0x800eb198: OSInitThreadQueue
   0x800eb1a8: OSGetCurrentThread
   0x800eb1b4: OSIsThreadTerminated
   0x800eb1e8: OSDisableScheduler
   0x800eb228: OSEnableScheduler
-  0x800eb268: UnsetRun
   0x800eb2d0: __OSGetEffectivePriority
-  0x800eb30c: SetEffectivePriority
   0x800eb4cc: __OSPromoteThread
-  0x800eb51c: SelectThread
   0x800eb744: __OSReschedule
   0x800eb774: OSYieldThread
   0x800eb7b0: OSCreateThread
@@ -1020,70 +834,43 @@ global:
   0x800ec384: OSGetTick
   0x800ec38c: __OSGetSystemTime
   0x800ec3f0: __OSTimeToSystemTime
-  0x800ec448: GetDates
   0x800ec5e4: OSTicksToCalendarTime
   0x800ec7e8: __init_user
-  0x800ec808: __init_cpp
   0x800ec85c: _ExitProcess
-  0x800ec87c: ClampStick
-  0x800ec9ac: ClampCircle
   0x800ecb54: PADClamp
   0x800ecc68: PADClampCircle
-  0x800ecd74: UpdateOrigin
-  0x800ecf18: PADOriginCallback
-  0x800ecfdc: PADOriginUpdateCallback
-  0x800ed0a8: PADProbeCallback
-  0x800ed180: PADTypeAndStatusCallback
-  0x800ed4ac: PADReceiveCheckCallback
   0x800ed5ec: PADReset
   0x800ed6fc: PADRecalibrate
   0x800ed810: PADInit
   0x800ed960: PADRead
   0x800edc60: PADControlMotor
   0x800edd18: PADSetSpec
-  0x800edd78: SPEC0_MakeStatus
-  0x800edeec: SPEC1_MakeStatus
-  0x800ee060: SPEC2_MakeStatus
   0x800ee4d0: PADSetAnalogMode
-  # 0x800ee544: OnReset
-  # 0x800ee600: SamplingHandler
   0x800ee660: PADSetSamplingCallback
   0x800ee6b4: __PADDisableRecalibration
   0x800ee730: SIBusy
   0x800ee750: SIIsChanBusy
-  0x800ee78c: CompleteTransfer
-  0x800eea88: SIInterruptHandler
-  0x800eedcc: SIEnablePollingInterrupt
   0x800eee64: SIRegisterPollingHandler
   0x800eef30: SIUnregisterPollingHandler
   0x800ef024: SIInit
-  0x800ef0d8: __SITransfer
   0x800ef2e4: SIGetStatus
   0x800ef360: SISetCommand
   0x800ef374: SITransferCommands
   0x800ef384: SISetXY
   0x800ef3f0: SIEnablePolling
   0x800ef48c: SIDisablePolling
-  0x800ef4f8: SIGetResponseRaw
   0x800ef5cc: SIGetResponse
-  #0x800ef690: AlarmHandler
   0x800ef71c: SITransfer
-  0x800ef888: GetTypeCallback
   0x800efb20: SIGetType
   0x800efce4: SIGetTypeAsync
   0x800efe20: SIDecodeType
   0x800eff6c: SIProbe
   0x800eff90: SISetSamplingRate
   0x800f0074: SIRefreshSamplingRate
-  0x800f0098: DefaultCallback
-  0x800f009c: ResetProc
   0x800f00e4: SIResetSteeringAsync
-  0x800f0198: __SISteeringHandler
-  0x800f0288: TypeAndStatusCallback
   0x800f03a4: __SISteeringTransfer
   0x800f0418: __SISteeringEnable
   0x800f0480: SIReadSteering
-  # 0x800f05f0: SamplingHandler
   0x800f0650: SISetSteeringSamplingCallback
   0x800f06a4: SIControlSteering
   0x800f0744: DBInit
@@ -1092,33 +879,8 @@ global:
   0x800f07c4: __DBIsExceptionMarked
   0x800f07e0: DBPrintf
   0x800f0830: THPVideoDecode
-  0x800f0a74: __THPSetupBuffers
-  0x800f0ab8: __THPReadFrameHeader
-  0x800f0bf4: __THPReadScaneHeader
-  0x800f0d10: __THPReadQuantizationTable
-  0x800f10cc: __THPReadHuffmanTableSpecification
-  0x800f12ac: __THPHuffGenerateSizeTable
-  0x800f139c: __THPHuffGenerateCodeTable
-  0x800f1404: __THPHuffGenerateDecoderTables
-  0x800f15c0: __THPRestartDefinition
-  0x800f1614: __THPPrepBitStream
-  0x800f1860: __THPDecompressYUV
-  0x800f196c: __THPDecompressiMCURow512x448
-  0x800f33f4: __THPDecompressiMCURow640x480
-  0x800f4e80: __THPDecompressiMCURowNxN
-  0x800f692c: __THPHuffDecodeDCTCompY
-  0x800f6fa8: __THPHuffDecodeDCTCompU
-  0x800f7650: __THPHuffDecodeDCTCompV
   0x800f7cf8: THPInit
   0x800f7d98: THPAudioDecode
-  0x800f81fc: __THPAudioGetNewSample
-  0x800f828c: __THPAudioInitialize
-  0x800f82c8: SteeringResetCallback
-  0x800f82ec: HandlePedals
-  0x800f84ec: HandleTriggers
-  0x800f8738: CookValues
-  0x800f883c: SteeringSamplingCallback
-  0x800f88f0: InitDevice
   0x800f8a30: LGInit
   0x800f8acc: LGOpen
   0x800f8c28: LGClose
@@ -1128,27 +890,6 @@ global:
   0x800f8f30: LGStartForceEffect
   0x800f8fec: LGStopForceEffect
   0x800f90a8: LGDestroyForceEffect
-  0x800f9164: VDevice_Init
-  0x800f91d4: VDevice_RecalcGammaTable
-  0x800f92ac: VDevice_DownloadEffect
-  0x800f9368: VDevice_UpdateEffect
-  0x800f93ac: VDevice_DestroyEffect
-  0x800f93d4: VDevice_StartEffect
-  0x800f9414: VDevice_StopEffect
-  0x800f9454: VDevice_Initialize
-  0x800f9488: VDevice_Shutdown
-  0x800f94bc: VDevice_GetFreeEffect
-  0x800f9530: Effect_Init
-  0x800f9644: Effect_UpdateEffect
-  0x800f996c: Effect_StartEffect
-  0x800f99b4: Effect_StopEffect
-  0x800f99c8: Effect_Update
-  0x800f9da8: Effect_PerformEnvelope
-  0x800f9e6c: Effect_PolarToRect
-  0x800f9f20: Effect_UpdateSpring
-  0x800f9fc0: Effect_UpdateDamper
-  0x800fa020: SimThread_Init
-  0x800fa164: SimThread_Step
   0x800fa500: UPnPGetHostAddr
   0x800fa54c: UPnPGetNetmask
   0x800fa5bc: __HTTPGetHeader
@@ -1163,20 +904,11 @@ global:
   0x800fbaa4: HTTPAddHeader
   0x800fbb28: HTTPCreateRequest
   0x800fbbd4: HTTPCreateResponse
-  0x800fbc40: SendNotify
-  0x800fbdf0: SendOk
-  0x800fbf14: DoRequest
-  0x800fc2b0: DoResponse
-  0x800fc418: SSDPLoop
-  0x800fcbec: SSDPMain
   0x800fcda4: SSDPInit
   0x800fce64: SSDPStart
   0x800fcf80: SSDPStop
   0x800fd10c: SSDPGetState
   0x800fd114: SSDPSearch
-  0x800fd24c: SendSearch
-  0x800fd39c: ProcessSearchList
-  0x800fd664: ClearSearchList
   0x800fd6fc: SSDPGetServerName
   0x800fd708: SSDPGetCacheControlMaxAge
   0x800fd7cc: UPnPGetUuidString
@@ -1184,18 +916,9 @@ global:
   0x800fd80c: UPnPCreateUuidFromName
   0x800fd8bc: UPnPReplaceEscaped
   0x800fd9a0: UPnPRemoveSemicolon
-  0x800fda14: GoUpper
   0x800fdaa4: UPnPRemoveDots
-  0x800fdbe0: GetRequestedFile
-  0x800fdd48: CheckMethod
-  0x800fdea4: ReadHttpHeader
-  0x800fe044: SendResponse
-  0x800fe218: HTTPLoop
-  0x800fe9a0: HTTPMain
   0x800feabc: UPnPHttpInit
   0x800feb3c: UPnPHttpStart
-  0x800feb74: GetStatusString
-  0x800fec68: compare
   0x800fec8c: SendResponseOK
   0x800fedf0: SendResponseStatus
   0x800fefd0: __va_arg
@@ -1211,21 +934,17 @@ global:
   0x800ff504: __ptmf_scall
   0x800ff52c: __ptmf_scall4
   0x800ff554: __cvt_fp2unsigned
-  0x800ff5b0: __save_fpr
   0x800ff5d8: _savefpr_24
   0x800ff5dc: _savefpr_25
   0x800ff5e4: _savefpr_27
   0x800ff5e8: _savefpr_28
   0x800ff5ec: _savefpr_29
-  0x800ff5fc: __restore_fpr
   0x800ff624: _restfpr_24
   0x800ff628: _restfpr_25
   0x800ff630: _restfpr_27
   0x800ff634: _restfpr_28
   0x800ff638: _restfpr_29
-  0x800ff648: __save_gpr
   0x800ff678: __save_gpr26
-  0x800ff694: __restore_gpr
   0x800ff6c4: _restgpr_26
   0x800ff6e0: __div2u
   0x800ff7cc: __div2i
@@ -1247,30 +966,11 @@ global:
   0x800fff24: free
   0x800fff60: __pool_free
   0x800ffffc: deallocate_from_fixed_pools
-  0x80100180: get_malloc_pool
   0x801001c4: __init_pool_obj
-  0x801001f4: deallocate_from_var_pools
-  0x8010028c: __unlink
-  0x801002ec: SubBlock_merge_next
-  0x801003d0: SubBlock_merge_prev
-  0x80100498: Block_link
   0x8010059c: __flush_all
   0x80100608: __close_all
   0x801006b8: __dec2num
   0x80101028: __num2dec
-  0x80101114: __num2dec_internal
-  0x80101264: __minus_dec
-  0x801015ac: __less_dec
-  0x801016d8: __equals_dec
-  0x8010180c: __two_exp
-  0x80101bd0: __str2dec
-  0x80101ccc: __timesdec
-  0x80101e84: __ull2dec
-  0x80101f9c: __rounddec
-  0x80102010: __dorounddecup
-  0x80102084: __must_round
-  0x80102120: __count_trailing_zero
-  0x80102174: __count_trailing_zerol
   0x80102200: abs
   0x80102210: bsearch
   0x8010230c: __flush_buffer
@@ -1297,10 +997,7 @@ global:
   0x80102e20: _ftell
   0x80102ed0: wcstombs
   0x80102f78: wctomb
-  0x80102fa8: unicode_to_UTF8
   0x80103090: mbtowc
-  0x801030c8: utf8_to_unicode
-  0x801031ec: is_utf8_complete
   0x801032e4: memcmp
   0x80103364: __memrchr
   0x801033bc: memchr
@@ -1317,18 +1014,9 @@ global:
   0x80103ab0: fprintf
   0x80103b94: __StringWrite
   0x80103c38: __FileWrite
-  0x80103ca0: __pformatter
-  0x80104488: float2str
-  0x80104b04: round_decimal
-  0x80104c54: double2hex
-  0x80104fc4: longlong2str
-  0x801052c4: long2str
-  #0x80105504: parse_format
   0x80105a20: sscanf
   0x80105ac0: vsscanf
   0x80105b30: __StringRead
-  0x80105be0: __sformatter
-  #0x801065e8: parse_format
   0x80106b24: raise
   0x80106c0c: strstr
   0x80106c88: strrchr
@@ -1345,7 +1033,6 @@ global:
   0x80108888: __strtoull
   0x80108c98: __strtoul
   0x8010900c: fwide
-  0x801090bc: __init_uart_console
   0x80109110: __close_console
   0x80109118: __write_console
   0x801091b0: __ieee754_asin
@@ -1439,10 +1126,8 @@ global:
   0x8010ee08: TRKInitializeMutex
   0x8010ee10: TRKDoNotifyStopped
   0x8010eea8: TRK_flush_cache
-  0x8010eee0: TRK_fill_mem
   0x8010ef98: __TRK_get_MSR
   0x8010efa0: __TRK_set_MSR
-  0x8010efa8: TRK_ppc_memcpy
   0x8010efe4: TRKInterruptHandler
   0x8010f178: TRKExceptionHandler
   0x8010f214: TRKSwapAndGo
@@ -1535,7 +1220,7 @@ global:
   0x801121c4: MWTRACE
   0x80112214: MWExitCriticalSection
   0x80112238: MWEnterCriticalSection
-  0x80112268: MWInitializeCriticalSection  
+  0x80112268: MWInitializeCriticalSection
 
   # float.c
   0x803d3844: __float_epsilon
@@ -1679,6 +1364,7 @@ global:
   0x80355ae0: __vt__12SysDbUsrPage
   0x803d5630: sManager__8SysDebug
 
+  # RaceDirector.cpp
   0x8019f568: checkRaceEnd__12RaceDirectorFv
 
   # GeoRabbitMark.cpp

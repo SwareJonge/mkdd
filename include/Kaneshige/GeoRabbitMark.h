@@ -27,12 +27,12 @@ class GeoRabbitMarkSupervisor
 public:
     void release();    
     int getRabbitKartNo();
-    short getWinFrame() const
+    s16 getWinFrame() const // not sure if this returns int or short, int makes more sense to me but this is kaneshige
     {
         return mWinTime * 60;
     }
 
-    short getWinTime() const
+    s16 getWinTime() const
     {
         return mWinTime;
     }

@@ -14,7 +14,9 @@
 #include "Sato/ItemObjMgr.h"
 #include "Yamamoto/kartCtrl.h"
 
+#if DEBUG
 #include "Kaneshige/KartChkUsrPage.h"
+#endif
 #include "Kaneshige/KartChecker.h"
 
 #if DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
@@ -325,8 +327,7 @@ Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3
         {
             for (int i = 0; i < RCMGetCourse()->getTotalSectorNumber(); i++)
             {
-                int curGeneration = curSector->getGeneration();
-                curGeneration--;
+                int curGeneration = curSector->getGeneration() - 1;
                 if (curGeneration < 0)
                     curGeneration += sectorCnt;
 
@@ -504,16 +505,13 @@ void KartChecker::checkLap(bool raceEnd)
 {
     if (tstLapChecking())
     {
-        int curGeneration;
         mLapRenewal = false;
         if (warpState == 3)
         {
-
             if (sector2->getGeneration() > mGeneration)
             {
-                curGeneration = mGeneration;
                 int sectorGeneration = -1;
-                for (; curGeneration <= sector2->getGeneration(); curGeneration++)
+                for (int curGeneration = mGeneration; curGeneration <= sector2->getGeneration(); curGeneration++)
                 {
                     if (setPass(curGeneration))
                         sectorGeneration = curGeneration;
@@ -534,7 +532,7 @@ void KartChecker::checkLap(bool raceEnd)
                 {
                     int shortcutID = sector2->getShortcutID();
                     sectorIndex = sector2->getGeneration();
-                    for (curGeneration = 0; RCMGetCourse()->getTotalSectorNumber() > curGeneration; curGeneration++)
+                    for (int curGeneration = 0; RCMGetCourse()->getTotalSectorNumber() > curGeneration; curGeneration++)
                     {
                         Course::Sector *pSector = RCMGetCourse()->getSector(curGeneration);
                         if (shortcutID == pSector->getShortcutID())
@@ -622,7 +620,8 @@ void KartChecker::setLapTime()
         JGeometry::TVec3<f32> velocity;
         velocity.sub(mPos, mPrevPos);
         JGeometry::TVec3<f32> velPerMs = velocity;
-        velPerMs.scale(0.06f);
+        f32 scale = 0.06f;
+        velPerMs.scale(scale);
         JGeometry::TVec3<f32> curPos = mPos;
 
         int prevgoalframe = curFrame - 1;
@@ -995,10 +994,9 @@ bool KartChecker::releaseRabbitMark()
 bool KartChecker::isRabbit() const
 {
     bool rabbit = false;
-    if (GeoRabbitMark::getSupervisor() != nullptr)
+    if (GeoRabbitMark::getSupervisor())
     {
-        GeoRabbitMarkSupervisor *supervisor = GeoRabbitMark::getSupervisor();
-        rabbit = supervisor->getWinFrame() > rabbitWinFrame;
+        rabbit = rabbitWinFrame < GeoRabbitMark::getSupervisor()->getWinFrame();
     }
     return rabbit;
 }

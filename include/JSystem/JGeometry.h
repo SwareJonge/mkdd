@@ -26,14 +26,24 @@ namespace JGeometry
     template <>
     struct TUtil<f32> {
         static f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); }
-        static f32 epsilon() { return 32.0f * __float_epsilon; }
+        static f32 epsilon() { return 32.0f * FLT_EPSILON; }
         static f32 inv_sqrt(f32 src)
         {
             if (src <= 0.0f)
                 return src;
+            else {
+                // Unknown if assembly was used here, equivalent C++ code does match non inlined but inlined it doesn't(misses fmr)
+                // this matches in both cases
+                f32 srcsqrt = __frsqrte(src);
+                register f32 divsqrt = 0.5f * srcsqrt;
+                register f32 negsqrt = -(src * (srcsqrt * srcsqrt) - 3.0f);
+                register f32 ret;
+                __asm {
+                fmuls ret, divsqrt, negsqrt
+                }
+                return ret;
+            }
 
-            f32 srcsqrt = __frsqrte(src);
-            return (0.5f * srcsqrt * -(src * (srcsqrt * srcsqrt) - 3.0f));
         }
     };
 
@@ -109,7 +119,7 @@ namespace JGeometry
         void div(f32 divisor);
         void cross(const TVec3 &, const TVec3 &);
         f32 dot(const TVec3 &operand) const {
-            return JMathInlineVEC::PSVECDotProduct((Vec *)this, (Vec *)&operand);
+            return JMathInlineVEC::PSVECDotProduct((const Vec *)this, (Vec *)&operand);
         }
         f32 length() const;
         void negate();
@@ -165,9 +175,9 @@ namespace JGeometry
         }
 
         void zero() {
-            x = (T)0;
-            y = (T)0;
             z = (T)0;
+            y = (T)0;
+            x = (T)0;
         }
 
         T x;

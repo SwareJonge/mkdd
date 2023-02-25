@@ -264,11 +264,11 @@ namespace JMathInlineVEC
     }
     inline f32 PSVECDotProduct(register const Vec *vec1, register const Vec *vec2)
     {
-        register f32 dp, v1yz, v2yz, v1xy, v2xy;
+        register f32 dp, v1yz, v2xy, v2yz, v1xy;
         __asm {            
             psq_l    v1yz, 4(vec1), 0, 0
-            psq_l    v2yz, 4(vec2), 0, 0
-            ps_mul   v1yz, v1yz, v2yz
+            psq_l    v2xy, 4(vec2), 0, 0 // typo? it's needed to match it for functions where this got inlined
+            ps_mul   v1yz, v1yz, v2xy
             psq_l    v1xy, 0(vec1), 0, 0
             psq_l    v2xy, 0(vec2), 0, 0
             ps_madd  v2xy, v1xy, v2xy, v1yz
