@@ -7,15 +7,34 @@
 // from SMS decomp
 namespace JGeometry
 {
+    inline void setTVec3f(register const f32 *src, register f32 *dst)
+    {
+        register f32 xy, z;
+        __asm {
+            psq_l xy, 0(src), 0, 0
+            lfs z, 8(src)
+            psq_st xy, 0(dst), 0, 0
+            stfs z, 8(dst)
+        }
+    }
     // placeholders
     template <typename T>
-    struct TUtil
+    struct TUtil // from what i know all these functions are static
     {
 
     };
     template <>
     struct TUtil<f32> {
-        f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); };
+        static f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); }
+        static f32 epsilon() { return 32.0f * __float_epsilon; }
+        static f32 inv_sqrt(f32 src)
+        {
+            if (src <= 0.0f)
+                return src;
+
+            f32 srcsqrt = __frsqrte(src);
+            return (0.5f * srcsqrt * -(src * (srcsqrt * srcsqrt) - 3.0f));
+        }
     };
 
     template <typename T>
@@ -67,12 +86,15 @@ namespace JGeometry
         T y;
     };
 
+    // sort this someday
     template <typename T>
     class TVec3
     {
     public:
-        TVec3();
-        TVec3(const TVec3 &);
+        TVec3() {}        
+        TVec3(const TVec3<f32> & other) {
+            setTVec3f((const f32 *)&other, (f32 *)this);
+        }
 
         template <typename TY>
         TVec3(TY X, TY Y, TY Z) {
@@ -86,13 +108,35 @@ namespace JGeometry
         void add(const TVec3 &operand);
         void div(f32 divisor);
         void cross(const TVec3 &, const TVec3 &);
-        f32 dot(const TVec3 &operand) const;
+        f32 dot(const TVec3 &operand) const {
+            return JMathInlineVEC::PSVECDotProduct((Vec *)this, (Vec *)&operand);
+        }
         f32 length() const;
         void negate();
-        f32 normalize();
-        void scale(f32 scale);
+        f32 normalize() {
+            f32 this_squared = squared();
+            if (this_squared <= TUtil<f32>::epsilon())
+                return 0.0f;
+            else {
+                f32 invsqrt = TUtil<f32>::inv_sqrt(this_squared);
+                scale(invsqrt);
+                return invsqrt * this_squared;
+            }
+        }
+        void scale(f32 scalar) {
+            JMathInlineVEC::PSVECScale((const Vec *)this, (Vec *)this, scalar);
+        }
+        /*void scale(T scalar)
+        {
+            x *= scalar;
+            y *= scalar;
+        }*/
         void scale(f32 scale, const TVec3 &operand);
         void scaleAdd(f32 scale, const TVec3 &operand, const TVec3 &translate);
+
+        f32 squared() const {
+            return JMathInlineVEC::PSVECSquareMag((Vec*)this);
+        }
 
         template <typename TY>
         void set(TY X, TY Y, TY Z) {
@@ -113,16 +157,18 @@ namespace JGeometry
         void setMax(const TVec3 &other);
         void setMin(const TVec3 &other);
         void sub(const TVec3<T> &translate)
-        { // i'm bad coder please implement correctly
-            JMathInlineVEC::PSVECSubtract(reinterpret_cast<const Vec *>(this), reinterpret_cast<const Vec *>(&translate), reinterpret_cast<Vec *>(this));
+        { // matches but it doesn't really look nice
+            JMathInlineVEC::PSVECSubtract((const Vec *)this, (const Vec *)&translate, (Vec *)this);
         }
-        void sub(const TVec3 &base, const TVec3 &translate);
+        void sub(const TVec3 &base, const TVec3 &translate) {
+            JMathInlineVEC::PSVECSubtract((const Vec *)&base, (const Vec *)&translate, (Vec *)this);
+        }
 
-        void zero(); /*{
-            x = 0;
-            y = 0;
-            z = 0;
-        }*/
+        void zero() {
+            x = (T)0;
+            y = (T)0;
+            z = (T)0;
+        }
 
         T x;
         T y;

@@ -40,4 +40,18 @@ private:
     JKRHeap * mDebugHeap;
 };
 
+#if DEBUG
+#define SYSDBG_SetUserTimeLabel(id, name) \
+    SysDebug::getManager()->setUserTimeLabel(id, name);
+#define SYSDBG_BeginUserTime(id) \
+    SysDebug::getManager()->beginUserTime(id);
+#define SYSDBG_EndUserTime(id) \
+    SysDebug::getManager()->endUserTime(id);
+
+#else
+#define SYSDBG_SetUserTimeLabel(...)
+#define SYSDBG_BeginUserTime(...)
+#define SYSDBG_EndUserTime(...)
+#endif
+
 #endif

@@ -17,15 +17,18 @@
 #include "Kaneshige/KartChkUsrPage.h"
 #include "Kaneshige/KartChecker.h"
 
+#if DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_80377378)
 #pragma pop
+#endif
 
 int KartChecker::sPlayerKartColorTable[] = {
     0, 1, 2, 3, 4, 5, 6, 7};
 
+#if DEBUG
 KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
 {
     mKartChecker = kartChecker;
@@ -62,7 +65,7 @@ void KartChkUsrPage::draw()
 
     JUTReport(280, 110, "U/T  %f", mKartChecker->lapProgression);
     JUTReport(280, 130, "TUD  %f", mKartChecker->raceProgression);
-    JUTReport(280, 150, "LAP  %4d", mKartChecker->lap);
+    JUTReport(280, 150, "LAP  %4d", mKartChecker->mLap);
 
     JUTReport(180, 170, "POS  %8.3f,%8.3f,%8.3f", mKartChecker->mPos.x, mKartChecker->mPos.y, mKartChecker->mPos.z);
 
@@ -80,6 +83,7 @@ void KartChkUsrPage::draw()
     JUTReport(280, 390, "LAP%1d:TOTAL%1d", mKartChecker->isBestLapTimeRenewal(), mKartChecker->isBestTotalTimeRenewal(0));
     JUTReport(280, 410, "RANK %1d", mKartChecker->getRank());
 }
+#endif
 
 short KartChecker::sBalForbiddenTime = 180;
 short KartChecker::sBombPointDirect = 1;    // 1
@@ -120,7 +124,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
 
     mTargetKartNo = kartNum;
     sectorCount = sectorNum;
-    bitfieldCnt = (sectorCount + 31) / 32;
+    bitfieldCnt = (sectorCount + 31) / 32; // macro?
     cpBitfields = new s32[bitfieldCnt];
     mMaxLap = lapNum;
 
@@ -133,12 +137,13 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
 
     _0xb0.zero();
     _0xbc = 0;
-
+#if DEBUG
     if (mTargetKartNo == 0)
     {
         KartChkUsrPage *usrPage = new KartChkUsrPage(this);
         SysDebug::getManager()->appendPage(usrPage);
     }
+#endif
 }
 
 // https://decomp.me/scratch/yvJRl
@@ -189,7 +194,7 @@ void KartChecker::reset()
 // https://decomp.me/scratch/zVUdm
 void KartChecker::clrCheckPointIndex()
 {
-    lap = -1;
+    mLap = -1;
     sectorProgression = 0.0f;
     warpState = 0;
     mGeneration = -1;
@@ -226,18 +231,18 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
         mPlayerKartColor = -1;
         if (kartInfo->getYoungestPad() != nullptr)
         {
-            switch ((int)kartInfo->getYoungestPad()->getPadPort())
+            switch (kartInfo->getYoungestPad()->getPadPort())
             {
-            case 0:
+            case KartGamePad::PORT_1:
                 mPlayerKartColor = 0;
                 break;
-            case 1:
+            case KartGamePad::PORT_2:
                 mPlayerKartColor = 1;
                 break;
-            case 2:
+            case KartGamePad::PORT_3:
                 mPlayerKartColor = 2;
                 break;
-            case 3:
+            case KartGamePad::PORT_4:
                 mPlayerKartColor = 3;
                 break;
             }
@@ -253,8 +258,7 @@ void KartChecker::createGamePad(KartInfo *kartInfo)
         KartGamePad *gamePad = kartInfo->getPad(i);
         if (gamePad == nullptr)
         {
-            gamePad = new KartGamePad((JUTGamePad::EPadPort)0xfffffc19, (KartGamePad::PadPort)-1,
-                                      (KartGamePad::PadType)0, (KartGamePad::PadState)0);
+            gamePad = new KartGamePad(KartGamePad::Port_unknown, KartGamePad::PORT_INV, KartGamePad::NORMAL, KartGamePad::STATE_0);
         }
         mKartGamePads[i] = gamePad;
     }
@@ -563,18 +567,18 @@ void KartChecker::checkLap(bool raceEnd)
         }
         if (sector2->getGeneration() == 0)
         {
-            if (lap < 0)
+            if (mLap < 0)
                 incLap();
             else
             {
-                if (isPassAll(sectorCount) && (int)raceProgression > lap)
+                if (isPassAll(sectorCount) && (int)raceProgression > mLap)
                 {
                     if (!isGoal())
                         setLapTime();
 
                     mLapRenewal = true;
                     incLap();
-                    if (!isGoal() && lap >= mMaxLap)
+                    if (!isGoal() && mLap >= mMaxLap)
                     {
                         setGoal();
                         setGoalTime();
@@ -613,7 +617,7 @@ void KartChecker::checkLap(bool raceEnd)
 // https://decomp.me/scratch/JVpLz
 void KartChecker::setLapTime()
 {
-    if (lap < mMaxLap)
+    if (mLap < mMaxLap)
     {
         JGeometry::TVec3<f32> velocity;
         velocity.sub(mPos, mPrevPos);
@@ -643,25 +647,23 @@ void KartChecker::setLapTime()
                 }
             }
         }
-
-        int mLap = lap;
         JUT_MINMAX_ASSERT(1687, 0, mLap, mMaxLap);
 
-        mBestLapTimes[lap].set(computedTime);
+        mBestLapTimes[mLap].set(computedTime);
         if (!isMaxTotalTime())
         {
-            if (lap == 0)
-                mLapTimes[lap].set(mBestLapTimes[lap]);
+            if (mLap == 0)
+                mLapTimes[mLap].set(mBestLapTimes[mLap]);
             else
-                mLapTimes[lap].sub(mBestLapTimes[lap], mBestLapTimes[lap - 1]);
+                mLapTimes[mLap].sub(mBestLapTimes[mLap], mBestLapTimes[mLap - 1]);
 
             if (mBestLapIdx < 0)
-                mBestLapIdx = lap;
-            else if (mLapTimes[lap].isLittle(mLapTimes[mBestLapIdx]))
-                mBestLapIdx = lap;
+                mBestLapIdx = mLap;
+            else if (mLapTimes[mLap].isLittle(mLapTimes[mBestLapIdx]))
+                mBestLapIdx = mLap;
         }
         else
-            mLapTimes[lap].reset();
+            mLapTimes[mLap].reset();
     }
 }
 
@@ -684,7 +686,7 @@ void KartChecker::setForceGoal()
 
     RaceTime forcedTime;
     forcedTime.reset();
-    for (int i = lap; i < mMaxLap; i++)
+    for (int i = mLap; i < mMaxLap; i++)
     {
         if (!mBestLapTimes[i].isAvailable())
         {
@@ -704,7 +706,7 @@ void KartChecker::setForceGoal()
             }
         }
     }
-    lap = mMaxLap;
+    mLap = mMaxLap;
     setGoal();
     setGoalTime();
 }
@@ -803,10 +805,10 @@ bool KartChecker::isFinalLapRenewal() const
 bool KartChecker::isCurrentLapTimeRenewal()
 {
     bool currentLapRenewal = false;
-    if (lap > 0)
+    if (mLap > 0)
     {
-        const RaceTime &laptime = getLapTime(lap - 1);
-        if (laptime.isAvailable() && laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == lap - 1)
+        const RaceTime &laptime = getLapTime(mLap - 1);
+        if (laptime.isAvailable() && laptime.isLittle(RaceMgr::getManager()->getBestLapTime()) && mBestLapIdx == mLap - 1)
             currentLapRenewal = true;
     }
     return currentLapRenewal;

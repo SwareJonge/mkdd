@@ -1,0 +1,42 @@
+JSystem/JMath/JMATrigonometric.cpp:
+    .text: [0x80026ae0, 0x80026f0c]
+    .ctors: [0x802d84d4, 0x802d84d8]
+    .sdata2: [0x803d66f0, 0x803d6738]
+
+JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
+    .rodata: [0x8032db80, 0x80331ce0]
+
+dolphin/__ppc_eabi_init.cpp:
+    .init: [0x80003400, 0x80003458]
+    .text: [0x800ec7e8, 0x800ec87c]
+
+Kaneshige/HioMgr.cpp:
+    .text: [0x80182d00, 0x80182e1c]
+    .data: [0x803559c0, 0x803559d0]
+
+#Kaneshige/KartInfo.cpp:
+    #.text: [0x801a8844, 0x801a8f54]
+    ##.ctors: [0x80316274, 0x80316278]
+    #.rodata: [0x803770f8, 0x80377378]    
+    #.data: [0x80395bf0, 0x80395c98]
+    ##.bss: [0x803ca7c8, 0x803ca7f8]
+    #.sdata2: [0x80419dc8, 0x80419dd0]
+
+Kaneshige/KartChecker.cpp:
+    .text: [0x80184598, 0x80186718]  
+    #.ctors: [0x80316278, 0x0x8031627c] 
+    .data: [0x80355aa0, 0x80355ad0]
+    #.bss: 
+    .sdata: [0x803d38c8, 0x803d38d8]
+    .sbss: [0x803d5620, 0x803d5628]
+    .sdata2: [0x803d8708, 0x803d8740]
+
+#Kaneshige/RaceMgr.cpp:
+    #.text: [0x80186824, 0x80189894] # exclude __sinit_RaceMgr_cpp
+    #.rodata: [0x8033ce58, 0x8033d500]
+    ##.ctors: 
+    #.data: [0x80355ad0, 0x80355ae0]
+    ##.bss:
+    #.sdata: [0x803d38d8, 0x803d38e0]
+    #.sbss: [0x803d5628, 0x803d5630]
+    #.sdata2: [0x803d8740, 0x803d8838]

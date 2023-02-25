@@ -12,7 +12,7 @@ public:
     // placeholder Enums
     enum PadPort {
         PORT_NET = -2,
-        PORT_INV = -1,
+        PORT_INV = -1, // uninitialized maybe?
         PORT_1 = 0,
         PORT_2 = 1,
         PORT_3 = 2,

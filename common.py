@@ -93,6 +93,11 @@ VERSION = "MarioClub"
 # subdir
 VERSION_DIR = f"{VERSION}_{REGION}"
 
+# dol SHA1 Hash
+DOL_SHA1 = "f3bf225dd81cd9eb094fa9f8415f95f6bbcb9d10" # PAL SHA1 Hash
+if (VERSION == "MarioClub"):
+    DOL_SHA1 = "db87a9ec1a34275efc45d965dcdcb1a9eb131885" # NTSC-U Debug SHA1 Hash
+
 # Directory for decompiled dol code
 DOL_SRCDIR = "src"
 
@@ -225,10 +230,15 @@ INCDIRS = [
 MWCC_INCLUDES = ' '.join(f"-i {d}" for d in INCDIRS)
 GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
 
+#rework
 DEFINES = [
     "DEBUG"
-    #"EU_RELEASE"
+    # "EU_RELEASE"
 ]
+if REGION == "eu":
+    DEFINES = [
+        "EU_RELEASE"
+    ]
 MWCC_DEFINES = ' '.join(f"-d {d}" for d in DEFINES)
 GCC_DEFINES = ' '.join(f"-D {d}" for d in DEFINES)
 
@@ -267,7 +277,9 @@ LOCAL_CFLAGS = [
 ]
 DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
-KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
+KANESHIGE_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
+if (VERSION == "MarioClub"):
+    KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)
 EXTERNAL_DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS)
 
 LDFLAGS = ' '.join([

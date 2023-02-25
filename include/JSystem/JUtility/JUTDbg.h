@@ -55,7 +55,7 @@
   JUT_ASSERT_F(LINE, ((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max));
 
 #define JUT_CONSOLE_LOG(...) \
-  OSReport();
+  OSReport(__VA_ARGS__);
 
 #define JUT_LOG_F(LINE, ...) \
   JUTAssertion::setLogMessage_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__);

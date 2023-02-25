@@ -34,7 +34,7 @@ public:
     void getArmTevRegKey(int);                              // 0x801a7ec4
     void getExModelArm(int);                                // 0x801a7f5c
     void getBodyTevRegKey(int);                             // 0x801a7ff4
-    ExModel *getExModelBody(); /* { return &mModelBody;  }*/ // 0x801a808c
+    ExModel *getExModelBody() { return &mModelBody;  }      // 0x801a808c
     bool isKartTevAnmEnable(int);                           // 0x801a8094
     void getAccessoryTevRegKey(int, int);                   // 0x801a80cc
     void getExModelDriver(int);                             // 0x801a81e8

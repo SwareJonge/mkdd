@@ -1,11 +1,10 @@
 #ifndef JMATH_H
 #define JMATH_H
 
+#include <dolphin/mtx.h>
+#include <dolphin/math.h>
+#include <std/pair.h>
 #include "types.h"
-#include "dolphin/mtx.h"
-#include "dolphin/math.h"
-#include "std/pair.h"
-
 // might belong to a different header
 struct Quaternion {
 	f32 x;
@@ -236,12 +235,59 @@ struct Vec // Typecast from TVec3<f32>
 
 namespace JMathInlineVEC
 {
-    inline void PSVECSubtract(const Vec *vec1, const Vec *vec2, Vec *dst); /*{
-     dst->x = vec1->x - vec2->x;
-     dst->y = vec1->y - vec2->y;
-     dst->z = vec1->z - vec2->z;
- }*/
-
+    inline void PSVECSubtract(register const Vec *vec1, register const Vec *vec2, register Vec *dst)
+    {
+        register f32 v1xy, v2xy, v1z, v2z, d1xy, d1z;
+        __asm {
+            psq_l v1xy, 0(vec1), 0, 0
+            psq_l v2xy, 0(vec2), 0, 0
+            ps_sub d1xy, v1xy, v2xy
+            psq_st d1xy, 0(dst), 0, 0
+            
+            psq_l     v1z,   8(vec1), 1, 0
+            psq_l     v2z,   8(vec2), 1, 0
+            ps_sub  d1z, v1z, v2z
+            psq_st    d1z,  8(dst), 1, 0
+        }
+    }
+    inline void PSVECScale(register const Vec *src, register Vec *dst, register f32 scalar)
+    {
+        register f32 vxy, vz, rxy, rz;
+        __asm {
+            psq_l     vxy, 0(src), 0, 0
+            psq_l     vz,  8(src), 1, 0
+            ps_muls0    rxy, vxy, scalar
+            ps_muls0    rz,  vz,  scalar
+            psq_st    rxy, 0(dst), 0, 0            
+            psq_st    rz,  8(dst), 1, 0
+        }
+    }
+    inline f32 PSVECDotProduct(register const Vec *vec1, register const Vec *vec2)
+    {
+        register f32 dp, v1yz, v2yz, v1xy, v2xy;
+        __asm {            
+            psq_l    v1yz, 4(vec1), 0, 0
+            psq_l    v2yz, 4(vec2), 0, 0
+            ps_mul   v1yz, v1yz, v2yz
+            psq_l    v1xy, 0(vec1), 0, 0
+            psq_l    v2xy, 0(vec2), 0, 0
+            ps_madd  v2xy, v1xy, v2xy, v1yz
+            ps_sum0  dp, v2xy, v1yz, v1yz
+        }
+        return dp;
+    }
+    inline f32 PSVECSquareMag(register const Vec *src)
+    {
+        register f32 xy, z, ret;
+        __asm {
+            psq_l xy, 0(src), 0, 0
+            lfs z, 8(src)
+            ps_mul xy, xy, xy
+            ps_madd ret, z, z, xy
+            ps_sum0 ret, ret, xy, xy
+        }
+        return ret;
+    }
 }
 
 #endif // !JMATH_H

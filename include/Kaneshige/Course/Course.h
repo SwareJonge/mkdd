@@ -84,7 +84,7 @@ public:
     class Sector {
     public:
         int isMainSector() const;
-        int getGeneration() const;
+        int getGeneration() const { return mGeneration; }
         float calcUnitDist(JGeometry::TVec3<float> const &);
         void calcGeneration(Sector * sector);
 

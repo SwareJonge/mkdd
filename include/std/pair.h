@@ -8,12 +8,6 @@ namespace std {
     };
 
     template <> struct pair<float, float> {
-        /*
-         * --INFO--
-         * Address:	80035520
-         * Size:	000010
-         * In: JSystem/JMath/JMATrigonometric.cpp
-         */
         pair()
             : first(0.0f)
             , second(0.0f) {};

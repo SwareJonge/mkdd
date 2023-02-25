@@ -112,7 +112,7 @@ public:
             return mKartGamePad == nullptr;
         }
 
-        KartGamePad *getPad();
+        KartGamePad *getPad() { return mKartGamePad; }
         void setPad(KartGamePad * gamepad);
 
         void setCharDB(const SCharDB  * charDB) {

@@ -34,7 +34,7 @@ public:
     bool isBestLapTimeRenewal();
     bool isCurrentLapTimeRenewal();
     bool isLapRenewal() const { return mLapRenewal; }
-    bool isFinalLap() const { return lap == mMaxLap - 1; }
+    bool isFinalLap() const { return mLap == mMaxLap - 1; }
     bool isFinalLapRenewal() const;
     bool isGoal() const { return mRaceEnd; }
 
@@ -122,8 +122,8 @@ public:
     }
 
     void incLap() {
-        if (lap < mMaxLap)
-            lap++;
+        if (mLap < mMaxLap)
+            mLap++;
     }
 
     bool incBalloon();
@@ -178,7 +178,7 @@ public:
     s16 mTargetKartNo;
     s32 sectorCount;
     s32 bitfieldCnt;
-    s32 mMaxLap;
+    int mMaxLap;
     s32 mBestLapIdx;     // i think this stores the index of the fastest lap
     RaceTime *mLapTimes; // i'm not sure of these 2 names, it could be the other way around or something completely different
     RaceTime *mBestLapTimes;
@@ -188,7 +188,7 @@ public:
     bool mRaceEnd;
     u8 _0x2a; // only seems to get set in the constructor
     u8 _0x2b; // probably padding
-    s32 lap;
+    int mLap;
     f32 sectorProgression;
     s32 warpState;
     s32 mGeneration;

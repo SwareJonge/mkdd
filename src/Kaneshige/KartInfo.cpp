@@ -558,8 +558,6 @@ KartGamePad* KartInfo::getYoungestPad() {
     return youngestPad;
 }
 
-KartGamePad *KartInfo::KartCharacter::getPad() { return mKartGamePad; }
-
 void KartInfo::KartCharacter::setPad(KartGamePad* gamepad) {
     mKartGamePad = gamepad;
 }

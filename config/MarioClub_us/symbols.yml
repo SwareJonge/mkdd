@@ -7191,7 +7191,7 @@ global:
     0x801af0dc: setJugemZClr__7RaceMgrFUlb
     0x801af18c: getStartID__7RaceMgrFi
     0x801af1d8: getStartPoint__7RaceMgrFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>i
-    0x801af520: func_801af520 # disable later
+    #0x801af520: func_801af520 # disable later
     0x801af550: getStartJugemOffsetY__7RaceMgrFi
     0x801af654: getProcLevel__7RaceMgrFv
     0x801af6a4: isItemBoxValid__7RaceMgrFv

@@ -1,0 +1,30 @@
+path: orig/Release_eu/main.dol
+r13: 0x803db240
+r2: 0x803de3e0
+
+section_defs:
+    text:
+      - name: .init
+      - name: .text
+    
+    data:
+      - name: extab_
+        attr: a
+      - name: extabindex_
+        attr: a
+      - name: .ctors
+        balign: 0
+      - name: .dtors
+        balign: 0
+      - name: .BINARY
+        attr: wa
+      - name: .rodata
+      - name: .data
+      - name: .sdata
+      - name: .sdata2
+    
+    bss:
+      - name: .bss
+      - name: .sbss
+      - name: .sbss2
+        nobits: true

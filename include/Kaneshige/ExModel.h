@@ -10,9 +10,9 @@ class ExModel
 {
 public:
     static bool isMtxCombinationOn() { return sMtxCombinationOn; };
-    Mtx *getBaseTRMtx();/* {
+    Mtx *getBaseTRMtx() {
         return &mBaseTRMtx;
-    }*/
+    }
 
     static bool sMtxCombinationOn;
 private:
