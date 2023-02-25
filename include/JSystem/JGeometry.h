@@ -27,23 +27,16 @@ namespace JGeometry
     struct TUtil<f32> {
         static f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); }
         static f32 epsilon() { return 32.0f * FLT_EPSILON; }
-        static f32 inv_sqrt(f32 src)
+        static f32 inv_sqrt(f32 number)
         {
-            if (src <= 0.0f)
-                return src;
-            else {
-                // Unknown if assembly was used here, equivalent C++ code does match non inlined but inlined it doesn't(misses fmr)
-                // this matches in both cases
-                f32 srcsqrt = __frsqrte(src);
-                register f32 divsqrt = 0.5f * srcsqrt;
-                register f32 negsqrt = -(src * (srcsqrt * srcsqrt) - 3.0f);
-                register f32 ret;
-                __asm {
-                fmuls ret, divsqrt, negsqrt
-                }
-                return ret;
-            }
+            if (number <= 0.0f)
+                return number;
 
+            const f32 threehalfs = 3.0f;
+            f32 y = __frsqrte(number);
+            y = 0.5f * y * (threehalfs - (number * (y * y)));
+
+            return y;
         }
     };
 
