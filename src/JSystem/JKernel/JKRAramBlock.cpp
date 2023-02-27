@@ -11,7 +11,7 @@ JKRAramBlock::JKRAramBlock(u32 address, u32 size, u32 freeSize, u8 groupID, bool
 JKRAramBlock::~JKRAramBlock()
 {
     JSULink<JKRAramBlock> *prev = mLink.getPrev();
-    JSUList<JKRAramBlock> *list = mLink.getList(); //
+    JSUList<JKRAramBlock> *list = mLink.getList();
     if (prev)
     {
         prev->getObject()->mFreeSize += mSize + mFreeSize;

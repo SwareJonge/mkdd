@@ -1,12 +1,6 @@
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JKernel/JKRHeap.h"
 
-// NOTE: This file currently uses a lot of hacks to make it match
-
-extern "C" {
-#include <ppcdis.h>
-}
-
 JKRHeap *JKRHeap::sSystemHeap;
 JKRHeap *JKRHeap::sCurrentHeap;
 JKRHeap *JKRHeap::sRootHeap;
@@ -21,19 +15,20 @@ bool JKRHeap::TState::bVerbose_;
 
 bool JKRHeap::sDefaultFillFlag = true;
 
-JKRHeap::JKRHeap(void * data, u32 size, JKRHeap * heap, bool errorFlag) : JKRDisposer(), 
-mChildTree(this),
-mDisposerList() {
+JKRHeap::JKRHeap(void *data, u32 size, JKRHeap *heap, bool errorFlag) : JKRDisposer(),
+                                                                        mHeapTree(this),
+                                                                        mDisposerList()
+{
     OSInitMutex(&mMutex);
-    mSize = size;
-    mStart = (u8*)data;
-    mEnd = ((u8*)data + size);
+    mHeapSize = size;
+    mStartAddress = (u8*)data;
+    mEndAddress = ((u8*)data + size);
     if(heap == nullptr) {
         becomeSystemHeap();
         becomeCurrentHeap();
     }
     else {
-        heap->mChildTree.appendChild(&mChildTree);
+        heap->mHeapTree.appendChild(&mHeapTree);
         if(sSystemHeap == sRootHeap)
             becomeSystemHeap();
         if(sCurrentHeap == sRootHeap)
@@ -42,15 +37,15 @@ mDisposerList() {
     mErrorFlag = errorFlag;
     if (mErrorFlag == true && mErrorHandler == nullptr)
     mErrorHandler = JKRDefaultMemoryErrorRoutine;
-    mDebugFill = sDefaultFillFlag;
-    mCheckMemoryFilled = sDefaultFillCheckFlag;
+    mIsDebugFill = sDefaultFillFlag;
+    mFillCheckFlag = sDefaultFillCheckFlag;
     mInitFlag = false;
 }
 
 JKRHeap::~JKRHeap()
 {
-    mChildTree.getParent()->removeChild(&mChildTree);
-    JSUTree<JKRHeap> *nextRootHeap = sRootHeap->mChildTree.getFirstChild();
+    mHeapTree.getParent()->removeChild(&mHeapTree);
+    JSUTree<JKRHeap> *nextRootHeap = sRootHeap->mHeapTree.getFirstChild();
     if (sCurrentHeap == this)
         sCurrentHeap = !nextRootHeap ? sRootHeap : nextRootHeap->getObject();
 
@@ -167,7 +162,7 @@ void JKRHeap::resize(void *memoryBlock, u32 newSize) {
 s32 JKRHeap::getFreeSize() { return do_getFreeSize(); }
 s32 JKRHeap::getTotalFreeSize() { return do_getTotalFreeSize(); }
 
-s32 JKRHeap::changeGroupID(u8 newGroupID) {
+u8 JKRHeap::changeGroupID(u8 newGroupID) {
     JUT_WARNING_F(570, !mInitFlag, "change heap ID into %x in heap %x", newGroupID, this);
     return do_changeGroupID(newGroupID); 
 }
@@ -188,7 +183,7 @@ JKRHeap *JKRHeap::findFromRoot(void *ptr)
         return nullptr;
     }
 
-    if (sRootHeap->mStart <= ptr && ptr < sRootHeap->mEnd)
+    if (sRootHeap->mStartAddress <= ptr && ptr < sRootHeap->mEndAddress)
     {
         return sRootHeap->find(ptr);
     }
@@ -196,18 +191,18 @@ JKRHeap *JKRHeap::findFromRoot(void *ptr)
     return sRootHeap->findAllHeap(ptr);
 }
 
-#if COMPILER_BEHAVES
 JKRHeap* JKRHeap::find(void* memory) const
 {
-	if ((mStart <= memory) && (memory < mEnd)) {
-		if (mChildTree.getNumChildren() != 0) {
-			for (JSUTreeIterator<JKRHeap> iterator(mChildTree.getFirstChild()); iterator != mChildTree.getEndChild(); ++iterator) {
-				JKRHeap* result = iterator->find(memory);
+	if ((mStartAddress <= memory) && (memory < mEndAddress)) {
+		if (mHeapTree.getNumChildren() != 0) {
+            for (JSUTreeIterator<JKRHeap> iterator(mHeapTree.getFirstChild()); iterator != mHeapTree.getEndChild(); ++iterator)
+            {
+                JKRHeap* result = iterator->find(memory);
 				if (result) {
 					return result;
 				}
-			}
-		}
+            }
+        }
 		return const_cast<JKRHeap*>(this);
 	}
 	return nullptr;
@@ -215,9 +210,9 @@ JKRHeap* JKRHeap::find(void* memory) const
 
 JKRHeap *JKRHeap::findAllHeap(void *memory) const
 {
-    if (mChildTree.getNumChildren() != 0)
+    if (mHeapTree.getNumChildren() != 0)
     {
-        for (JSUTreeIterator<JKRHeap> iterator(mChildTree.getFirstChild()); iterator != mChildTree.getEndChild(); ++iterator)
+        for (JSUTreeIterator<JKRHeap> iterator(mHeapTree.getFirstChild()); iterator != mHeapTree.getEndChild(); ++iterator)
         {
             JKRHeap *result = iterator->findAllHeap(memory);
             if (result)
@@ -227,59 +222,13 @@ JKRHeap *JKRHeap::findAllHeap(void *memory) const
         }
     }
 
-    if (mStart <= memory && memory < mEnd)
+    if (mStartAddress <= memory && memory < mEndAddress)
     {
         return const_cast<JKRHeap *>(this);
     }
 
     return nullptr;
 }
-#else
-MANGLED_ASM(JKRHeap *JKRHeap::find(void *memory) const){
-#include "asm/80084640.s"
-}
-
-MANGLED_ASM(JSUTree<JKRHeap> *JSUTree<JKRHeap>::getNextChild() const){
-#include "asm/800848b0.s"
-}
-
-MANGLED_ASM(bool JSUTreeIterator<JKRHeap>::operator!=(const JSUTree<JKRHeap> *) const){
-#include "asm/800848c4.s"
-}
-
-MANGLED_ASM(JSUTree<JKRHeap> *JSUTree<JKRHeap>::getEndChild() const){
-#include "asm/800848d8.s"
-}
-
-MANGLED_ASM(JSUTreeIterator<JKRHeap> &JSUTreeIterator<JKRHeap>::operator++()){
-#include "asm/800848e0.s"
-}
-
-#pragma push
-#pragma force_active on
-MANGLED_ASM(JKRHeap *JSUTreeIterator<JKRHeap>::operator->() const){
-#include "asm/800848fc.s"
-}
-
-MANGLED_ASM(JSUTreeIterator<JKRHeap>::JSUTreeIterator(JSUTree<JKRHeap> *)){
-#include "asm/80084908.s"
-}
-
-MANGLED_ASM(u32 JSUTree<JKRHeap>::getNumChildren() const){
-#include "asm/80084910.s"
-}
-
-MANGLED_ASM(JSUTree<JKRHeap> *JKRHeap::getFirstChild() const){
-#include "asm/80084918.s"
-}
-#pragma pop
-
-MANGLED_ASM(JKRHeap *JKRHeap::findAllHeap(void *memory) const)
-{
-#include "asm/8008492c.s"
-}
-
-#endif
 
 // generates __as__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap> and __ct__25JSUTreeIterator<7JKRHeap>Fv, remove this
 void JKRHeap::dispose_subroutine(u32 begin, u32 end)
@@ -380,10 +329,10 @@ bool JKRHeap::isSubHeap(JKRHeap *heap) const
     if (!heap)
         return false;
 
-    if (mChildTree.getNumChildren() != 0)
+    if (mHeapTree.getNumChildren() != 0)
     {
         JSUTreeIterator<JKRHeap> iterator;
-        for (iterator = mChildTree.getFirstChild(); iterator != mChildTree.getEndChild(); ++iterator)
+        for (iterator = mHeapTree.getFirstChild(); iterator != mHeapTree.getEndChild(); ++iterator)
         {
             if (iterator.getObject() == heap)
             {
@@ -422,11 +371,8 @@ void *operator new[](u32 byteCount, JKRHeap *heap, int alignment)
 }
 
 // this is not needed without the other pragma and asm bs
-#pragma push
-#pragma dont_inline on
 void operator delete(void *memory) { JKRHeap::free(memory, nullptr); }
 void operator delete[](void *memory) { JKRHeap::free(memory, nullptr); }
-#pragma pop
 
 /*JKRHeap::TState::TState(const JKRHeap::TState::TArgument &arg, const JKRHeap::TState::TLocation &location)
 {
@@ -444,7 +390,7 @@ JKRHeap::TState::TState(const JKRHeap::TState &other, const JKRHeap::TState::TLo
 }*/
 
 // not sure where these lines originally were, i think in the destructor of TState but not many games have that
-void genData()
+static void genData()
 {
     JUT_LOG_F(1000, "heap unchanged");
     JUT_LOG_F(1001, "**** heap changed ****");

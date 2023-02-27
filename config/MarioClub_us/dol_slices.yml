@@ -120,6 +120,13 @@ JSystem/JKernel/JKRDvdRipper.cpp:
     .sbss: [0x80415948, 0x80415988]
     .sdata2: [0x80417aa0, 0x80417ab0]
 
+#JSystem/JKernel/JKRExpHeap.cpp:
+    #.text: [0x80081bcc, 0x80083850]
+    #.rodata: [0x80366ca8, 0x803670e8]
+    #.data: [0x8038b358, 0x8038b3b8]
+    #.sbss: [0x80415988, 0x804159a0]
+    #.sdata2: [0x80417ab0, 0x80417af0]
+
 JSystem/JKernel/JKRFileCache.cpp:
     .text: [0x80083850, 0x80083898]
     .data: [0x8038b3b8, 0x8038b3c8]

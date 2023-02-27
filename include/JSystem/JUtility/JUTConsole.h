@@ -153,6 +153,7 @@ extern "C"
     void JUTReportConsole(char const *);
     void JUTReportConsole_f(char const *, ...);
     void JUTWarningConsole(const char*);
+    void JUTWarningConsole_f(const char *, ...);
 }
 
 #endif

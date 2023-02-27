@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_JUTILITY_JUTDBG_H
 #define _JSYSTEM_JUTILITY_JUTDBG_H
 
-#include "JSystem/JUtility/JUTAssert.h"
-#include "JSystem/JUtility/JUTException.h"
+#include <JSystem/JUtility/JUTAssert.h>
+#include <JSystem/JUtility/JUTException.h>
 
 #if DEBUG
 // Panic functions
@@ -26,6 +26,9 @@
   {                                                                                             \
     JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__); \
   }
+#define JUT_WARNING_F2(LINE, ...)                                                          \
+    JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__); 
+
 
 #define JUT_ASSERT(LINE, COND)                                                   \
   if (!(COND))                                                                   \
@@ -54,9 +57,6 @@
 #define JUT_MAX_ASSERT(LINE, cur, max) \
   JUT_ASSERT_F(LINE, ((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max));
 
-#define JUT_CONSOLE_LOG(...) \
-  OSReport(__VA_ARGS__);
-
 #define JUT_LOG_F(LINE, ...) \
   JUTAssertion::setLogMessage_f(JUTAssertion::getSDevice(), __FILE__, LINE, __VA_ARGS__);
 
@@ -66,6 +66,7 @@
 #define JUT_CONFIRM_MESSAGE(...)
 #define JUT_WARNING(...)
 #define JUT_WARNING_F(...)
+#define JUT_WARNING_F2(...) // remove condintional?
 #define JUT_ASSERT(...)
 #define JUT_ASSERT_F(...)
 #define JUT_ASSERT_MSG(...)

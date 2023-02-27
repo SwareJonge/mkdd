@@ -7,108 +7,98 @@
 class JKRExpHeap : public JKRHeap
 {
 public:
-    enum EAllocMode
-    {
-        ALLOC_MODE_1 = 1,
-    };
-
     class CMemBlock
     {
-        friend class JKRExpHeap;
+        public:
+        CMemBlock *allocBack(u32, u8, u8, u8, u8);
+        CMemBlock *allocFore(u32, u8, u8, u8, u8);
+        void *free(JKRExpHeap *);
+        static CMemBlock *getHeapBlock(void *);
+        void initiate(CMemBlock *, CMemBlock *, u32, u8, u8);
 
-    public:
-        void initiate(CMemBlock *prev, CMemBlock *next, u32 size, u8 groupId, u8 alignment);
-        JKRExpHeap::CMemBlock *allocFore(u32 size, u8 groupId1, u8 alignment1, u8 groupId2,
-                                         u8 alignment2);
-        JKRExpHeap::CMemBlock *allocBack(u32 size, u8 groupId1, u8 alignment1, u8 groupId2,
-                                         u8 alignment2);
-        int free(JKRExpHeap *heap);
-        static CMemBlock *getHeapBlock(void *ptr);
-
-        void newGroupId(u8 groupId) { mGroupId = groupId; }
-        bool isValid() const { return mMagic == 'HM'; }
+        void newGroupId(u8 groupId) { mGroupID = groupId; }
+        bool isValid() const { return mUsageHeader == 'HM'; }
         bool _isTempMemBlock() const { return (mFlags & 0x80) ? true : false; }
         int getAlignment() const { return mFlags & 0x7f; }
         void *getContent() const { return (void *)(this + 1); }
         CMemBlock *getPrevBlock() const { return mPrev; }
         CMemBlock *getNextBlock() const { return mNext; }
-        u32 getSize() const { return size; }
-        u8 getGroupId() const { return mGroupId; }
+        u32 getSize() const { return mAllocatedSpace; }
+        u8 getGroupId() const { return mGroupID; }
         static CMemBlock *getBlock(void *data) { return (CMemBlock *)((u32)data + -0x10); }
 
-    private:
-        /* 0x0 */ u16 mMagic;
-        /* 0x2 */ u8 mFlags; // a|bbbbbbb a=temporary b=alignment
-        /* 0x3 */ u8 mGroupId;
-        /* 0x4 */ u32 size;
-        /* 0x8 */ CMemBlock *mPrev;
-        /* 0xC */ CMemBlock *mNext;
-    }; // Size: 0x10
-    friend class CMemBlock;
+        u16 mUsageHeader;    // _00
+        u8 mFlags;           // _02, a|bbbbbbb = a=temp, b=aln
+        u8 mGroupID;         // _03
+        int mAllocatedSpace; // _04
+        CMemBlock *mPrev;    // _08
+        CMemBlock *mNext;    // _0C
+    };
 
-protected:
-    JKRExpHeap(void *data, u32 size, JKRHeap *parent, bool errorFlag);
-    virtual ~JKRExpHeap();
+    JKRExpHeap(void *, u32, JKRHeap *, bool);
 
-    void *allocFromHead(u32 size, int align);
-    void *allocFromHead(u32 size);
-    void *allocFromTail(u32 size, int align);
-    void *allocFromTail(u32 size);
-    void appendUsedList(CMemBlock *newblock);
-    void setFreeBlock(CMemBlock *block, CMemBlock *prev, CMemBlock *next);
-    void removeFreeBlock(CMemBlock *block);
-    void removeUsedBlock(CMemBlock *block);
-    void recycleFreeBlock(CMemBlock *block);
-    void joinTwoBlocks(CMemBlock *block);
+    virtual ~JKRExpHeap();                                            // _08
+    virtual u32 getHeapType() { return 'EXPH'; }                      // _10 (weak)
+    virtual bool check();                                             // _14
+    virtual bool dump_sort();                                         // _18
+    virtual bool dump();                                              // _1C
+    virtual void do_destroy();                                        // _20
+    virtual void *do_alloc(u32, int);                                 // _24
+    virtual void do_free(void *);                                     // _28
+    virtual void do_freeAll();                                        // _2C
+    virtual void do_freeTail();                                       // _30
+    virtual void do_fillFreeArea();                                   // _34
+    virtual int do_resize(void *, u32);                               // _38
+    virtual int do_getSize(void *);                                   // _3C
+    virtual u32 do_getFreeSize();                                     // _40
+    virtual void *do_getMaxFreeBlock();                               // _44
+    virtual u32 do_getTotalFreeSize();                                // _48
+    virtual u8 do_changeGroupID(u8);                                  // _4C
+    virtual u8 do_getCurrentGroupId() { return mCurrentGroupID; }     // _50 (weak)
+    virtual void state_register(TState *, u32) const;                 // _54
+    virtual bool state_compare(const TState &, const TState &) const; // _58
 
-public:
+    void *allocFromHead(u32, int);
+    void *allocFromHead(u32);
+    void *allocFromTail(u32, int);
+    void *allocFromTail(u32);
+    void appendUsedList(CMemBlock *);
+    static JKRExpHeap *create(u32, JKRHeap *, bool);
+    static JKRExpHeap *create(void *, u32, JKRHeap *, bool);
+    static JKRExpHeap *createRoot(int, bool);
+    int freeGroup(u8 groupID);
+    void joinTwoBlocks(CMemBlock *);
+    void recycleFreeBlock(CMemBlock *);
+    void removeFreeBlock(CMemBlock *);
+    void setFreeBlock(CMemBlock *, CMemBlock *, CMemBlock *);
+
+    // unused/inlined:
+    void removeUsedBlock(CMemBlock *);
+    bool isEmpty();
     s32 getUsedSize(u8 groupId) const;
-    s32 getTotalUsedSize(void) const;
 
     CMemBlock *getHeadUsedList() const { return mHeadUsedList; }
-    void setAllocationMode(EAllocMode mode)
+    void setAllocationMode(EAllocMode mode) { mCurrentAllocMode = mode; }
+
+    static s32 getUsedSize_(JKRExpHeap *expHeap)
     {
-        mAllocMode = mode;
+        // s32 totalFreeSize = expHeap->getTotalFreeSize();
+        return expHeap->mHeapSize - expHeap->getTotalFreeSize();
     }
-
-public:
-    /* vt[04] */ virtual u32 getHeapType();                                     /* override */
-    /* vt[05] */ virtual bool check();                                          /* override */
-    /* vt[06] */ virtual bool dump_sort();                                      /* override */
-    /* vt[07] */ virtual bool dump();                                           /* override */
-    /* vt[08] */ virtual void do_destroy();                                     /* override */
-    /* vt[09] */ virtual void *do_alloc(u32 size, int alignment);               /* override */
-    /* vt[10] */ virtual void do_free(void *ptr);                               /* override */
-    /* vt[11] */ virtual void do_freeAll();                                     /* override */
-    /* vt[12] */ virtual void do_freeTail();                                    /* override */
-    /* vt[13] */ virtual void do_fillFreeArea();                                /* override */
-    /* vt[14] */ virtual s32 do_resize(void *ptr, u32 size);                    /* override */
-    /* vt[15] */ virtual s32 do_getSize(void *ptr);                             /* override */
-    /* vt[16] */ virtual s32 do_getFreeSize();                                  /* override */
-    /* vt[17] */ virtual void *do_getMaxFreeBlock();                            /* override */
-    /* vt[18] */ virtual s32 do_getTotalFreeSize();                             /* override */
-    /* vt[19] */ virtual s32 do_changeGroupID(u8 newGroupID);                   /* override */
-    /* vt[20] */ virtual u8 do_getCurrentGroupId();                             /* override */
-    /* vt[21] */ virtual void state_register(JKRHeap::TState *p, u32 id) const; /* override */
-    /* vt[22] */ virtual bool state_compare(JKRHeap::TState const &r1,
-                                            JKRHeap::TState const &r2) const; /* override */
-
-    /* 0x6C */ u8 mAllocMode;
-    /* 0x6D */ u8 mCurrentGroupId;
-    /* 0x6E */ bool field_0x6e;
+    static u32 getState_(TState *state) { return getState_buf_(state); } // might instead be a pointer to a next state?
 
 private:
-    /* 0x70 */ void *field_0x70;
-    /* 0x74 */ u32 field_0x74;
-    /* 0x78 */ CMemBlock *mHeadFreeList;
-    /* 0x7C */ CMemBlock *mTailFreeList;
-    /* 0x80 */ CMemBlock *mHeadUsedList;
-    /* 0x84 */ CMemBlock *mTailUsedList;
-
-public:
-    static JKRExpHeap *createRoot(int maxHeaps, bool errorFlag);
-    static JKRExpHeap *create(u32 size, JKRHeap *parent, bool errorFlag);
-    static JKRExpHeap *create(void *ptr, u32 size, JKRHeap *parent, bool errorFlag);
+    // _00     = VTBL
+    // _00-_6C = JKRHeap
+    u8 mCurrentAllocMode;     // _6C
+    u8 mCurrentGroupID;       // _6D
+    u8 _6E;                   // _6E
+    void *_70;                // _70
+    u32 _74;                  // _74
+    CMemBlock *mHead;         // _78, free list
+    CMemBlock *mTail;         // _7C, free list
+    CMemBlock *mHeadUsedList; // _80
+    CMemBlock *mTailUsedList; // _84
 };
 
 inline JKRExpHeap *JKRCreateExpHeap(u32 size, JKRHeap *parent, bool errorFlag) {
