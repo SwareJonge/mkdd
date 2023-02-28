@@ -1,3 +1,10 @@
+JSystem/JKernel/JKRExpHeap.cpp:
+    .text: [0x80012728, 0x8001421c]
+    .rodata: [0x8032d008, 0x8032d380]
+    .data: [0x80347d50, 0x80347db0]
+    .sbss: [0x803d4a80, 0x803d4a98]
+    .sdata2: [0x803d64a0, 0x803d64d0]
+
 JSystem/JMath/JMATrigonometric.cpp:
     .text: [0x80026ae0, 0x80026f0c]
     .ctors: [0x802d84d4, 0x802d84d8]

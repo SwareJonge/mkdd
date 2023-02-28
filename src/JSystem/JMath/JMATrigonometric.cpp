@@ -1,11 +1,6 @@
 #include "JSystem/JMath/JMath.h"
 #include "types.h"
 
-#if DEBUG
-#else
-#pragma peephole off
-#pragma optimize_for_size on
-#endif
 namespace JMath {
     const TSinCosTable<2048, f32> sincosTable_;
     const TAtanTable<1024, f32> atanTable_;

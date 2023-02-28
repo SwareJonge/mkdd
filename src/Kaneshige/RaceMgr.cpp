@@ -13,12 +13,9 @@ Also, make headers for all libraries itself?
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTGamePad.h"
+
 #if DEBUG
 #pragma sym on
-// couldve been a default log function
-#define RCMLogMsg(...) OSReport(__VA_ARGS__)
-#else
-#define RCMLogMsg(...)
 #endif
 
 #include "kartEnums.h"
@@ -145,10 +142,10 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     Language lang = KartLocale::getLanguage();
     VideoMode videoMode = KartLocale::getVideoMode();
-    RCMLogMsg("Demo    Start-------------------------------------------------------\n");
-    RCMLogMsg("Race Mode:%08X\n", raceInfo->getRaceMode());
-    RCMLogMsg("Stat Num :%08X\n", raceInfo->getStatusNumber());
-    RCMLogMsg("Rand Seed:%08X\n", raceInfo->mRandomSeed);
+    JUT_REPORT_MSG("Demo    Start-------------------------------------------------------\n");
+    JUT_REPORT_MSG("Race Mode:%08X\n", raceInfo->getRaceMode());
+    JUT_REPORT_MSG("Stat Num :%08X\n", raceInfo->getStatusNumber());
+    JUT_REPORT_MSG("Rand Seed:%08X\n", raceInfo->mRandomSeed);
 
     sRaceManager = this;
 
@@ -208,7 +205,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     if (isStaffRoll())
         crsData->patchCamDataForStaffRoll(lang, videoMode);
 
-    RCMLogMsg("Course ID:%08X\n", crsData->getCourseID());
+    JUT_REPORT_MSG("Course ID:%08X\n", crsData->getCourseID());
 
     for (int i = 0; i < 16; i++)
     {
@@ -639,13 +636,13 @@ void RaceMgr::resetRace()
 
 void RaceMgr::resetRaceForResetEvent()
 {
-    RCMLogMsg("Race    Start-------------------------------------------------------\n");
+    JUT_REPORT_MSG("Race    Start-------------------------------------------------------\n");
     updateBestTime();
 }
 
 void RaceMgr::resetRaceForRestartEvent()
 {
-    RCMLogMsg("Restart Start-------------------------------------------------------\n");
+    JUT_REPORT_MSG("Restart Start-------------------------------------------------------\n");
     if (isRaceModeMiniGame())
     {
         mRaceInfo->shuffleRandomSeed();
@@ -658,14 +655,14 @@ void RaceMgr::resetRaceForRestartEvent()
 
 void RaceMgr::resetRaceForReplayEvent()
 {
-    RCMLogMsg("Replay  Start-------------------------------------------------------\n");
+    JUT_REPORT_MSG("Replay  Start-------------------------------------------------------\n");
     mReplayMode |= 1;
 }
 
 void RaceMgr::resetRaceCommon()
 {
-    RCMLogMsg("Begin Reset.............................................\n");
-    RCMLogMsg("Rand Seed:%08X\n", mRaceInfo->mRandomSeed);
+    JUT_REPORT_MSG("Begin Reset.............................................\n");
+    JUT_REPORT_MSG("Rand Seed:%08X\n", mRaceInfo->mRandomSeed);
 
     GameAudio::Main::getAudio()->initRaceSound();
     mFrame = 0;
@@ -713,7 +710,7 @@ void RaceMgr::resetRaceCommon()
         RivalKart::Reset();
 
     SysDebug::getManager()->setDefaultHeapGroup(nullptr);
-    RCMLogMsg("End   Reset.............................................\n");
+    JUT_REPORT_MSG("End   Reset.............................................\n");
 }
 
 int RaceMgr::getCurrentConsoleNumber()

@@ -30,7 +30,69 @@ global:
   0x8000fa00: __ct__11JKRDisposerFv
   0x8000fa68: __dt__11JKRDisposerFv
 
+  # JKRExpHeap.cpp
+  0x80012728: createRoot__10JKRExpHeapFib
+  0x800127a8: create__10JKRExpHeapFUlP7JKRHeapb
+  0x8001287c: create__10JKRExpHeapFPvUlP7JKRHeapb
+  0x80012924: do_destroy__10JKRExpHeapFv
+  0x800129a0: __ct__10JKRExpHeapFPvUlP7JKRHeapb
+  0x80012a28: __dt__10JKRExpHeapFv
+  0x80012a90: do_alloc__10JKRExpHeapFUli
+  0x80012b94: allocFromHead__10JKRExpHeapFUli
+  0x80012df0: allocFromHead__10JKRExpHeapFUl
+  0x80012ed0: allocFromTail__10JKRExpHeapFUli
+  0x80013028: allocFromTail__10JKRExpHeapFUl
+  0x800130fc: do_free__10JKRExpHeapFPv
+  0x80013168: do_freeAll__10JKRExpHeapFv
+  0x800131e4: do_freeTail__10JKRExpHeapFv
+  0x80013268: do_fillFreeArea__10JKRExpHeapFv
+  0x8001326c: do_changeGroupID__10JKRExpHeapFUc
+  0x800132b4: do_resize__10JKRExpHeapFPvUl
+  0x80013464: do_getSize__10JKRExpHeapFPv
+  0x800134e0: do_getFreeSize__10JKRExpHeapFv
+  0x80013544: do_getMaxFreeBlock__10JKRExpHeapFv
+  0x800135b0: do_getTotalFreeSize__10JKRExpHeapFv
+  0x80082aa4: getUsedSize__10JKRExpHeapCFUc
+  0x8001360c: appendUsedList__10JKRExpHeapFPQ210JKRExpHeap9CMemBlock
+  0x800136a4: setFreeBlock__10JKRExpHeapFPQ210JKRExpHeap9CMemBlockPQ210JKRExpHeap9CMemBlockPQ210JKRExpHeap9CMemBlock
+  0x800136f0: removeFreeBlock__10JKRExpHeapFPQ210JKRExpHeap9CMemBlock
+  0x80013724: recycleFreeBlock__10JKRExpHeapFPQ210JKRExpHeap9CMemBlock
+  0x800138fc: joinTwoBlocks__10JKRExpHeapFPQ210JKRExpHeap9CMemBlock
+  0x80013a04: check__10JKRExpHeapFv
+  0x80013bec: dump__10JKRExpHeapFv
+  0x80013dbc: dump_sort__10JKRExpHeapFv
+  0x80013fbc: initiate__Q210JKRExpHeap9CMemBlockFPQ210JKRExpHeap9CMemBlockPQ210JKRExpHeap9CMemBlockUlUcUc
+  0x80013fdc: allocFore__Q210JKRExpHeap9CMemBlockFUlUcUcUcUc
+  0x80014020: allocBack__Q210JKRExpHeap9CMemBlockFUlUcUcUcUc
+  0x8001407c: free__Q210JKRExpHeap9CMemBlockFP10JKRExpHeap
+  0x800140dc: getHeapBlock__Q210JKRExpHeap9CMemBlockFPv
+  0x800140fc: state_register__10JKRExpHeapCFPQ27JKRHeap6TStateUl
+  0x800141d8: state_compare__10JKRExpHeapCFRCQ27JKRHeap6TStateRCQ27JKRHeap6TState
+  0x80014208: getHeapType__10JKRExpHeapFv
+  0x80014214: do_getCurrentGroupId__10JKRExpHeapFv
+  0x803d4a80: DBfoundSize
+  0x803d4a84: DBfoundOffset
+  0x803d4a88: DBfoundBlock
+  0x803d4a8C: DBnewFreeBlock
+  0x803d4a90: DBnewUsedBlock
+  0x80347d50: __vt__10JKRExpHeap
+
   # JKRHeap.cpp
+  0x8001482c: __ct__7JKRHeapFPvUlP7JKRHeapb
+  0x80014954: __dt__7JKRHeapFv
+  0x80014a70: initArena__7JKRHeapFPPcPUli
+  0x80014b64: alloc__7JKRHeapFUliP7JKRHeap
+  0x80014bc4: alloc__7JKRHeapFUli
+  0x80014bf0: free__7JKRHeapFPvP7JKRHeap
+  0x80014c3c: free__7JKRHeapFPv
+  0x80014c68: callAllDisposer__7JKRHeapFv
+  0x80014d68: getTotalFreeSize__7JKRHeapFv
+  0x80014da4: getMaxAllocatableSize__7JKRHeapFi
+  0x80014e6c: find__7JKRHeapCFPv
+  0x800153d8: dispose__7JKRHeapFPvUl
+  0x80015468: dispose__7JKRHeapFPvPv
+  0x800154f4: dispose__7JKRHeapFv
+  
   0x800155a8: __nw__FUl
   0x800155f0: __nw__FUli
   0x8001563c: __nw__FUlP7JKRHeapi
@@ -39,6 +101,18 @@ global:
   0x8001573c: __nwa__FUlP7JKRHeapi
   0x800157a8: __dl__FPv
   0x800157cc: __dla__FPv
+  0x8001580c: state_dump__7JKRHeapCFRCQ27JKRHeap6TState
+  0x80347e10: __vt__7JKRHeap
+  0x803d4aa0: sSystemHeap__7JKRHeap
+  0x803d4aa4: sCurrentHeap__7JKRHeap
+  0x803d4aa8: sRootHeap__7JKRHeap
+  0x803d4aac: mErrorHandler__7JKRHeap
+  0x803d4ab0: sDefaultFillCheckFlag__7JKRHeap
+  0x803d4ab4: mCodeStart__7JKRHeap
+  0x803d4ab8: mCodeEnd__7JKRHeap
+  0x803d4abc: mUserRamStart__7JKRHeap
+  0x803d4ac0: mUserRamEnd__7JKRHeap
+  0x803d4ac4: mMemorySize__7JKRHeap
   # JSupport
   # JSUList.cpp
   0x800177b0: __ct__10JSUPtrLinkFPv
@@ -47,7 +121,14 @@ global:
   0x80017864: __dt__10JSUPtrListFv
   0x800178d4: initiate__10JSUPtrListFv
   0x80017c30: remove__10JSUPtrListFP10JSUPtrLink
-
+  # JUtility
+  # JUTConsole.cpp
+  0x80019728: JUTReportConsole_f
+  0x800197f0: JUTReportConsole
+  0x8001981c: JUTWarningConsole_f
+  0x800198e4: JUTWarningConsole
+  # JUTException.cpp
+  0x8001ab48: panic_f__12JUTExceptionFPCciPCce
   # JMath
   # JMATrigonometric.cpp
   0x80026ae0: atan2___Q25JMath18TAtanTable<1024,f>CFff

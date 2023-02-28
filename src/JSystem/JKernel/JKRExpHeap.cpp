@@ -700,7 +700,7 @@ void JKRExpHeap::recycleFreeBlock(JKRExpHeap::CMemBlock *block)
     block->mUsageHeader = 0;
     // int offset = block->mFlags & 0x7f;
 
-    if ((block->mFlags & 0x7f) != 0)
+    if ((u32)(block->mFlags & 0x7f) != 0)
     {
         newBlock = (CMemBlock *)((u8 *)block - (block->mFlags & 0x7f));
         size += (block->mFlags & 0x7f);
@@ -749,32 +749,32 @@ void JKRExpHeap::recycleFreeBlock(JKRExpHeap::CMemBlock *block)
     }
 }
 
-// This functions doesn't match, however functionality wise it's the same
+// This functions doesn't match for the debug build, however functionality wise it's the same
 // https://decomp.me/scratch/UOwNi
 void JKRExpHeap::joinTwoBlocks(CMemBlock *block)
 {
-    u32 endAddr;
-    u32 nextAddr;
-    CMemBlock *next;
+    // for some reason this gets rid of regswaps for the debug version, however is most likely incorrect
+    //u32 endAddr;
+    //u32 nextAddr;
+    //CMemBlock *next;
 
-    endAddr = (u32)(block + 1) + block->mAllocatedSpace;
-    next = block->mNext;
-    nextAddr = (u32)next - (next->mFlags & 0x7f);
+    u32 endAddr = (u32)(block + 1) + block->mAllocatedSpace;
+    CMemBlock *next = block->mNext;
+    u32 nextAddr = (u32)next - (next->mFlags & 0x7f);
     if (endAddr > nextAddr)
     {
         JUTWarningConsole_f(":::Heap may be broken. (block = %x)", block);
-        OSReport(":::block = %x\n", block);
-        OSReport(":::joinTwoBlocks [%x %x %x][%x %x %x]\n", block, block->mFlags, block->mAllocatedSpace, block->mNext, block->mNext->mFlags, block->mNext->mAllocatedSpace);
-        OSReport(":::: endAddr = %x\n", endAddr);
-        OSReport(":::: nextAddr = %x\n", nextAddr);
+        JUT_REPORT_MSG(":::block = %x\n", block);
+        JUT_REPORT_MSG(":::joinTwoBlocks [%x %x %x][%x %x %x]\n", block, block->mFlags, block->mAllocatedSpace, block->mNext, block->mNext->mFlags, block->mNext->mAllocatedSpace);
+        JUT_REPORT_MSG(":::: endAddr = %x\n", endAddr);
+        JUT_REPORT_MSG(":::: nextAddr = %x\n", nextAddr);
         JKRGetCurrentHeap()->dump();
         JUT_PANIC(1820, "Bad Block\n");
     }
     if (endAddr == nextAddr)
     {
         block->mAllocatedSpace = next->mAllocatedSpace + sizeof(CMemBlock) + (next->mFlags & 0x7f) + block->mAllocatedSpace;
-        nextAddr = (u32)next->mNext;
-        setFreeBlock(block, block->mPrev, (CMemBlock *)nextAddr);
+        setFreeBlock(block, block->mPrev, next->mNext);
     }
 }
 
@@ -991,14 +991,16 @@ JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::allocFore(u32 size, u8 groupId1, u
     if (mAllocatedSpace >= size + sizeof(CMemBlock))
     {
         block = (CMemBlock *)(size + (u32)this);
-        block[1].mGroupID = groupId2;
-        block[1].mFlags = alignment2;
-        block[1].mAllocatedSpace = mAllocatedSpace - (size + sizeof(CMemBlock));
-        mAllocatedSpace = size;
         block = block + 1;
+        block->mGroupID = groupId2;
+        block->mFlags = alignment2;
+        block->mAllocatedSpace = mAllocatedSpace - (size + sizeof(CMemBlock));
+        mAllocatedSpace = size;
+        
     }
     return block;
 }
+
 JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::allocBack(unsigned long size, unsigned char groupID, unsigned char p3,
                                                         unsigned char allocGroupID, unsigned char p5)
 {
