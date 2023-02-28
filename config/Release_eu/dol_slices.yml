@@ -5,6 +5,14 @@ JSystem/JKernel/JKRExpHeap.cpp:
     .sbss: [0x803d4a80, 0x803d4a98]
     .sdata2: [0x803d64a0, 0x803d64d0]
 
+JSystem/JKernel/JKRHeap.cpp:
+    .text: [0x8001482c, 0x80015818]
+    .rodata: [0x8032d380, 0x8032d390]
+    .data: [0x80347e10, 0x80347e70]
+    .sdata: [0x803d3278, 0x803d3280]
+    .sbss: [0x803d4aa0, 0x803d4ac8]
+    .sdata2: [0x803d64d8, 0x803d64e8]
+
 JSystem/JMath/JMATrigonometric.cpp:
     .text: [0x80026ae0, 0x80026f0c]
     .ctors: [0x802d84d4, 0x802d84d8]

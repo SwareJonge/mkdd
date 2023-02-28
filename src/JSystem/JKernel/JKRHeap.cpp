@@ -301,7 +301,7 @@ void JKRHeap::copyMemory(void *dst, void *src, u32 size)
 }
 
 void JKRDefaultMemoryErrorRoutine(void * heap, u32 size, int alignment) {
-    OSReport("Error: Cannot allocate memory %d(0x%x)byte in %d byte alignment from %08x\n", size, size, alignment, heap);
+    JUT_REPORT_MSG("Error: Cannot allocate memory %d(0x%x)byte in %d byte alignment from %08x\n", size, size, alignment, heap);
     JUT_PANIC(831, "abort\n");
 }
 
@@ -390,6 +390,7 @@ JKRHeap::TState::TState(const JKRHeap::TState &other, const JKRHeap::TState::TLo
 }*/
 
 // not sure where these lines originally were, i think in the destructor of TState but not many games have that
+#if DEBUG
 static void genData()
 {
     JUT_LOG_F(1000, "heap unchanged");
@@ -398,6 +399,7 @@ static void genData()
     JUT_LOG_F(1003, "**** heap changed : old ****");
     JUT_LOG_F(1004, "**** heap changed : new ****");
 }
+#endif
 
 JKRHeap::TState::~TState() 
 {
@@ -414,6 +416,7 @@ bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2
     return (r1.getCheckCode() == r2.getCheckCode());
 }
 
+#if DEBUG
 // fabricated, but probably matches(except for line numbers)
 void JKRHeap::state_dumpDifference(const JKRHeap::TState & r1, const JKRHeap::TState & r2) {
     JUT_LOG_F(1157, "heap       : %p / %p", r1.getHeap(), r2.getHeap());
@@ -421,6 +424,7 @@ void JKRHeap::state_dumpDifference(const JKRHeap::TState & r1, const JKRHeap::TS
     JUT_LOG_F(1159, "id         : 0x%08x / 0x%08x", r1.getId(), r2.getId());
     JUT_LOG_F(1160, "used size  : %10u / %10u", r1.getUsedSize(), r2.getUsedSize());
 }
+#endif
 
 void JKRHeap::state_dump(const TState & state) const {
     JUT_LOG_F(1165, "check-code : 0x%08x", state.getCheckCode());

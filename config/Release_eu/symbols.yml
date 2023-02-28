@@ -81,18 +81,39 @@ global:
   0x8001482c: __ct__7JKRHeapFPvUlP7JKRHeapb
   0x80014954: __dt__7JKRHeapFv
   0x80014a70: initArena__7JKRHeapFPPcPUli
+  0x80014b18: becomeSystemHeap__7JKRHeapFv
+  0x80014b28: becomeCurrentHeap__7JKRHeapFv
+  0x80014b38: destroy__7JKRHeapFv
   0x80014b64: alloc__7JKRHeapFUliP7JKRHeap
   0x80014bc4: alloc__7JKRHeapFUli
   0x80014bf0: free__7JKRHeapFPvP7JKRHeap
   0x80014c3c: free__7JKRHeapFPv
   0x80014c68: callAllDisposer__7JKRHeapFv
+  0x80014cb8: freeAll__7JKRHeapFv
+  0x80014ce4: freeTail__7JKRHeapFv
+  0x80014d10: resize__7JKRHeapFPvUl
+  0x80014d3c: getFreeSize__7JKRHeapFv
   0x80014d68: getTotalFreeSize__7JKRHeapFv
+  0x80014d94: do_changeGroupID__7JKRHeapFUc
+  0x80014d9c: do_getCurrentGroupId__7JKRHeapFv
   0x80014da4: getMaxAllocatableSize__7JKRHeapFi
+  0x80014e14: findFromRoot__7JKRHeapFPv
   0x80014e6c: find__7JKRHeapCFPv
+  0x800150e0: getNextChild__17JSUTree
+  0x800150f4: __ne__25JSUTreeIterator<7JKRHeap>CFPC17JSUTree<7JKRHeap>
+  0x80015108: getEndChild__17JSUTree<7JKRHeap>CFv
+  0x80015110: __pp__25JSUTreeIterator<7JKRHeap>Fv
+  0x8001512c: __rf__25JSUTreeIterator<7JKRHeap>CFv
+  0x80015138: __ct__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap>
+  0x80015140: getNumChildren__17JSUTree<7JKRHeap>CFv
+  0x80015148: getFirstChild__17JSUTree<7JKRHeap>CFv
+  0x8001515c: getFirstLink__10JSUPtrListCFv
+  0x80015164: findAllHeap__7JKRHeapCFPv
   0x800153d8: dispose__7JKRHeapFPvUl
   0x80015468: dispose__7JKRHeapFPvPv
   0x800154f4: dispose__7JKRHeapFv
-  
+  0x80015544: copyMemory__7JKRHeapFPvPvUl
+  0x80015570: JKRDefaultMemoryErrorRoutine__FPvUli  
   0x800155a8: __nw__FUl
   0x800155f0: __nw__FUli
   0x8001563c: __nw__FUlP7JKRHeapi
@@ -101,8 +122,12 @@ global:
   0x8001573c: __nwa__FUlP7JKRHeapi
   0x800157a8: __dl__FPv
   0x800157cc: __dla__FPv
+  0x800157f0: state_register__7JKRHeapCFPQ27JKRHeap6TStateUl
+  0x800157f4: state_compare__7JKRHeapCFRCQ27JKRHeap6TStateRCQ27JKRHeap6TState
   0x8001580c: state_dump__7JKRHeapCFRCQ27JKRHeap6TState
+  0x80015810: dump_sort__7JKRHeapFv
   0x80347e10: __vt__7JKRHeap
+  0x803d3278: sDefaultFillFlag__7JKRHeap
   0x803d4aa0: sSystemHeap__7JKRHeap
   0x803d4aa4: sCurrentHeap__7JKRHeap
   0x803d4aa8: sRootHeap__7JKRHeap
@@ -120,6 +145,7 @@ global:
   0x80017828: __ct__10JSUPtrListFb
   0x80017864: __dt__10JSUPtrListFv
   0x800178d4: initiate__10JSUPtrListFv
+  0x800178e8: append__10JSUPtrListFP10JSUPtrLink
   0x80017c30: remove__10JSUPtrListFP10JSUPtrLink
   # JUtility
   # JUTConsole.cpp

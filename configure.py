@@ -538,8 +538,9 @@ class CSource(Source):
             self.cc = c.SDK_CC # TODO: build flags for SDK
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
-        if path.startswith("src/JSystem/") and c.VERSION == "Release":
-            self.cflags = c.JSYSTEM_RELEASE_CFLAGS
+        if c.VERSION == "Release":
+            if path.startswith("src/JSystem/"):
+                self.cflags = c.JSYSTEM_RELEASE_CFLAGS
         else:
             if path.startswith("src/JSystem/JUtility/"):
                 self.cflags = c.DOL_CFLAGS
