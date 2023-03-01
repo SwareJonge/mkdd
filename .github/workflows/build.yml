@@ -52,8 +52,7 @@ jobs:
       - name: Build Debug
         run: |
           python configure.py -r us
-          ninja 
-          ninja -t clean
+          ninja
 
       - name: Print progress(Debug)
         run: |
