@@ -108,9 +108,13 @@ namespace JGeometry
         TVec3 &operator*=(const TVec3 &operand);
         TVec3 &operator-=(const TVec3 &operand);
 
-        void add(const TVec3 &operand);
+        void add(const TVec3 &operand) {
+            JMathInlineVEC::PSVECAdd((const Vec *)this, (Vec *)&operand, (Vec *)this);
+        }
         void div(f32 divisor);
-        void cross(const TVec3 &, const TVec3 &);
+        void cross(const TVec3 & vec1, const TVec3 &vec2) {
+            PSVECCrossProduct((const Vec *)&vec1, (const Vec *)&vec2, (Vec *)this);
+        }
         f32 dot(const TVec3 &operand) const {
             return JMathInlineVEC::PSVECDotProduct((const Vec *)this, (Vec *)&operand);
         }

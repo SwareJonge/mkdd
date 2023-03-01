@@ -11,9 +11,9 @@ struct TJugem {
         mObserver.setState(0);
         
     };
-    bool isAbleStart() {
+    bool isAbleStart();/* {
         return true;
-    }
+    }*/
     bool isCallThree() {
         return !mJugemRod ? false : mJugemRod->isCallThree();
     }

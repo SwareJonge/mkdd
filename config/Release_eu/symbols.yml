@@ -16,9 +16,20 @@ global:
   0x800035c0: TRK_memcpy
   0x80005518: __TRK_reset
   # .text
+  # kartLocale.cpp
   0x800056c0: localize__10KartLocaleFv
+  0x803d4980: msLanguage__10KartLocale
+  0x803d4984: msSpeedUnit__10KartLocale
+  0x803d3240: msCountry__10KartLocale
+  0x803d3244: msRegion__10KartLocale
+  0x803d3248: msVideoMode__10KartLocale # in .bss for debug(and perhaps other regions?)
+  0x803d324c: msVideoFrameMode__10KartLocale
+  0x803d3250: msDatingMode__10KartLocale
 
   # JSystem
+  # J3D
+  # J3DSys
+  0x803b6db0: j3dSys
   # JUtility
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
@@ -138,6 +149,10 @@ global:
   0x803d4abc: mUserRamStart__7JKRHeap
   0x803d4ac0: mUserRamEnd__7JKRHeap
   0x803d4ac4: mMemorySize__7JKRHeap
+
+  # JKRSolidHeap.cpp
+  0x80015f40: create__12JKRSolidHeapFUlP7JKRHeapb
+  0x80016108: adjustSize__12JKRSolidHeapFv
   # JSupport
   # JSUList.cpp
   0x800177b0: __ct__10JSUPtrLinkFPv
@@ -1337,23 +1352,76 @@ global:
   0x8011226c: getEngineType__11EngineSoundF7EKartID 
 
   # Inagaki
+  # GameAudioCommon.cpp
+  0x80113a08: setSeed__Q29GameAudio6RandomFUl
   # GameAudioMain.cpp
+  0x8011479c: initRaceSound__Q29GameAudio4MainFv
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
+  # GameAudioParam.cpp
+  0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
+  0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
 
   0x803d5498: msBasic__Q29GameAudio4Main
 
+  # Kameda
+  # MotorManager.cpp
+  0x80123a14: __ct__12MotorManagerFP7JKRHeap
+  0x80123b04: reset__12MotorManagerFv
+  0x80123b7c: exec__12MotorManagerFv
+  0x803d5500: mThis__12MotorManager
+
+  # J2DManager.cpp
+  0x80123efc: __ct__10J2DManagerFP7JKRHeap
+  0x8012415c: reset__10J2DManagerFv
+  0x80124424: calc__10J2DManagerFv
+  0x801245a0: calcParticle__10J2DManagerFv
+  0x80124620: setStatus2Kart__10J2DManagerFii
+  0x80124874: startLANNumAnm__10J2DManagerFv
+  0x803d5508: mThis__10J2DManager
+  0x803d550c: mNetFlag__10J2DManager
+
+  # PauseManager.cpp
+  0x801263b8: __ct__12PauseManagerFP7JKRHeap
+  0x8012652c: reset__12PauseManagerFv
+  0x803d5518: mThis__12PauseManager
+
   # Kaneshige
+  # Course.cpp
+  0x80177968: __ct__6CourseFP7CrsDataib
+  0x80177dbc: reset__6CourseFv
+  0x801787cc: searchSector__6CourseFs
+  0x80179c2c: createModel__6CourseFP12JKRSolidHeapUl
+  0x80179c30: calcShaking__6CourseFv
+  0x8017a2e4: calc__6CourseFv
+  0x8017aae4: update__6CourseFv
+  0x8017ab14: updateSky__6CourseFv
+  0x8017b214: getLightColor__6CourseFPQ28JUtility6TColor
+  0x8017b238: getLightOffsetPosition__6CourseFPQ29JGeometry8TVec3<f>
+  0x8017b25c: getAmbientColor__6CourseFPQ28JUtility6TColor
+  0x8017b9c4: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f> 
+
+  # CrsData.cpp
+  0x8017c3a8: __ct__7CrsDataFPQ27CrsData10SColHeaderPQ27CrsData10SOblHeader
+  0x8017c578: patchCamDataForStaffRoll__7CrsDataF8Language9VideoMode
+  0x8017c780: getShadowColor__7CrsDataCFPQ28JUtility6TColor
+  0x8017c8b4: getStartPoint__7CrsDataCFUc
+
+  # ExModel.cpp
+  0x80180f38: __ct__12ExMdlDataMgrFb
+  0x803d5618: sMtxCombinationOn__7ExModel
+  # KartLoader.cpp
+  0x80182e1c: __ct__10KartLoaderFiPC8KartInfoUsbb
+  0x80183048: reset__10KartLoaderFv
+  0x80183098: load__10KartLoaderFv
+  0x80183cf4: createModel__10KartLoaderFP12JKRSolidHeapUl
   # HioMgr.cpp
   0x80182d00: __ct__7HioNodeFPCcP13JORReflexibleUlUl
   0x80182d74: __dt__7HioNodeFv
   0x803559c0: __vt__7HioNode
 
-  # Course.cpp
-  0x801787cc: searchSector__6CourseFs
-  0x8017b9c4: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f> 
-
   # KartInfo.cpp
   0x8018435c: getYoungestPad__8KartInfoFv
+  0x80184420: convPlayerKind__Q28KartInfo13KartCharacterFP11KartGamePad
 
   # KartChecker.cpp
   0x80184598: __ct__11KartCheckerFiP8KartInfoii
@@ -1454,8 +1522,8 @@ global:
   0x80189618: isJugemCountStart__7RaceMgrFv
   0x80189684: isKartGoal__7RaceMgrFi
   0x80189698: getGoalKartNumber__7RaceMgrFv
-  0x801896dc: getPadRecorderFrame__7RaceMgrFv
-  0x801896e4: getTotalLapNumberForDisplay__7RaceMgrCFv
+  #0x801896dc: getPadRecorderFrame__7RaceMgrFv
+  0x801896dc: getTotalLapNumberForDisplay__7RaceMgrCFv
   0x801896e4: __ct__Q27RaceMgr7ConsoleFv
   0x8018970c: changeTargetNo__Q27RaceMgr7ConsoleFib
   0x80189784: robRivalOfBalloon__7RaceMgrFii
@@ -1468,30 +1536,204 @@ global:
   0x803d562c: sForceTotalLapNum__7RaceMgr
 
   # SysDebug.cpp
+  0x80189c70: destroyHeapInfo__8SysDebugFP7JKRHeap
+  0x80189bb0: setHeapGroup__8SysDebugFPCcP7JKRHeap
+  0x80189bb4: setDefaultHeapGroup__8SysDebugFP7JKRHeap
+  0x80189bb8: clrAllUserTimeLabel__8SysDebugFv
   0x80355ae0: __vt__12SysDbUsrPage
   0x803d5630: sManager__8SysDebug
 
+  # LightMgr.cpp
+  0x8018a144: __ct__8LightObjFPCcUl
+  0x8018a1a4: __dt__8LightObjFv
+  0x8018a228: init__8LightObjFPCcUl
+  0x8018a240: setGXObj__12LtObjDiffuseFv
+  0x8018a2c4: draw__12LtObjDiffuseFv
+  0x8018a2f4: load__12LtObjDiffuseF10_GXLightID
+  0x8018a318: draw__12LtObjAmbientFv
+  0x8018a368: createManager__8LightMgrFv
+  0x8018a3e0: appendLight__8LightMgrFP8LightObj
+  0x8018a408: removeLight__8LightMgrFP8LightObj
+  0x8018a430: draw__8LightMgrFv
+  0x8018a4bc: draw__8LightObjFv
+  0x8018a4c0: calc__8LightMgrFv
+  0x8018a520: setGXObj__8LightObjFv
+  0x8018a524: calc__8LightObjFv
+  0x8018a528: searchLight__8LightMgrFUl
+  0x8018a568: __dt__8LightMgrFv
+  0x8018a628: __dt__12LtObjAmbientFv
+  0x8018a6c0: getColor__12LtObjAmbientCFPQ28JUtility6TColor
+  0x8018a6f4: getEffectMtx__8LightObjFv
+  0x8018a6fc: getColor__12LtObjDiffuseCFPQ28JUtility6TColor
+  0x8018a730: __dt__12LtObjDiffuseFv
+  0x8018a7c8: getColor__8LightObjCFPQ28JUtility6TColor
+  0x80355af0: __vt__8LightMgr
+  0x80355afc: __vt__12LtObjAmbient
+  0x80355b1c: __vt__12LtObjDiffuse
+  0x80355b3c: __vt__8LightObj
+  0x803d5638: sLightManager__8LightMgr
+
+  # RaceInfo.cpp
+  0x8018b848: shuffleRandomSeed__8RaceInfoFv
+  0x8018b89c: shuffleStartNo__8RaceInfoFv
+
+  # RaceLight.cpp
+  0x8018bb3c: __ct__14RaceSceneLightFPCcUlRCQ28JUtility6TColorRCQ29JGeometry8TVec3<f>
+  0x8018c130: __ct__13RaceKartLightFP14RaceSceneLighti
+  0x8018caf4: __ct__16RaceBalloonLightFUl
+  0x8018d0b8: __ct__12RaceCupLightFP14RaceSceneLight
+
+  # KartDrawer.cpp
+  0x8018ebc4: __ct__10KartDrawerFv
+  
+  0x8018f1f4: setAnimation__10KartDrawerFv
+  0x8018fad0: update__10KartDrawerFv
+
+  # TexLODControl.cpp
+  0x8018fefc: __ct__13TexLODControlFi
+  0x8018ff4c: __dt__13TexLODControlFv
+  0x8018ffac: getLODBias__13TexLODControlFQ213TexLODControl10ELODBiasID
+
+  # RaceBGMPlayer.cpp
+  0x8019dd54: __ct__13RaceBGMPlayerFv
+  0x8019dd84: reset__13RaceBGMPlayerFv
+  0x8019de54: calc__13RaceBGMPlayerFv
+  
   # RaceDirector.cpp
+  0x8019e3cc: __ct__12RaceDirectorFbP14DemoTimeKeeperi
+  0x8019e4fc: reset__12RaceDirectorFv
+  0x8019e5dc: calc__12RaceDirectorFv
   0x8019f568: checkRaceEnd__12RaceDirectorFv
+
+  # RaceDrawer.cpp
+  0x8019f9a0: __ct__10RaceDrawerFUsb  
+  0x8019ff4c: reset__10RaceDrawerFv
+  0x801a0068: drawSceneFirstStage__10RaceDrawerFUl
+  0x801a0764: drawMidScene__10RaceDrawerFv
+  0x801a0854: drawSceneSecondStage__10RaceDrawerFUl
+  0x801a0b9c: drawPreScene__10RaceDrawerFv
+  0x801a0c40: drawPostScene__10RaceDrawerFv
 
   # GeoRabbitMark.cpp
   0x801a4620: getRabbitKartNo__23GeoRabbitMarkSupervisorFv
   0x801a462c: release__23GeoRabbitMarkSupervisorFv
+  0x801a46a0: changeOwner__23GeoRabbitMarkSupervisorFi
   0x801a46c4: startWinnerEffect__23GeoRabbitMarkSupervisorFv
 
   0x803d5720: sSupervisorCreateNum__13GeoRabbitMark
   0x803d5724: sSupervisor__13GeoRabbitMark
 
-  # Sato
-  # ItemObjMgr.cpp
-  0x8020b9d4: getRobberyItemNum__10ItemObjMgrFiUc
+  # DemoTimeKeeper.cpp
+  0x801a681c: __ct__19AwardDemoTimeKeeperFv
+  0x801a6f94: __ct__19StaffRollTimeKeeperFv
 
+  # Kawano
+  # accessory.cpp
+  0x801c86c8: ptr__12AccessoryMgrFv
+  0x801c88f4: update__12AccessoryMgrFv
+  # StaffRoll2D.cpp
+  0x801cab9c: __ct__11StaffRoll2DFP7JKRHeap8Language9VideoModei
+  0x801cb6f0: reset__11StaffRoll2DFv
+  0x801cb9a4: calc__11StaffRoll2DFv
+
+  # Osako
+  # RaceApp
+  0x803d5b60: mspRaceApp__7RaceApp
+  # ResMgr.cpp
+  0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
+  0x803bd5c8: mspaLoader__6ResMgr
+  # shadowMgr.cpp
+  0x801da460: __ct__13ShadowManagerFv
+  0x801daaa0: viewCalc__13ShadowManagerFUl
+  0x803d5c78: mspShadowManager__13ShadowManager
+  0x801da988: calc__13ShadowManagerFv
+  # SystemRecord.cpp
+  0x801db824: getTARecord__12SystemRecordF9ECourseIDi
+  0x801dba60: getBestLap__12SystemRecordF9ECourseID
+  0x803c5fe0: gSystemRecord
+  # Award2D
+  0x801df038: __ct__7Award2DFP7JKRHeap
+  0x801dfae0: calc__7Award2DFv
+  0x801dfdec: draw__7Award2DFv
+
+  # Sato
+  # stMath.cpp
+  0x801ed09c: createAllRandom__8stRandomFv
+  0x801ed108: getRandomMax__8stRandomFUl
+  0x801ed180: getArbitUnitVec__8stRandomFRQ29JGeometry8TVec3<f>ff
+  0x801ed294: getArbitUnitVecSimple__8stRandomFRQ29JGeometry8TVec3<f>f
+  0x801ed3a8: getArbitUnitVecXZ__8stRandomFRQ29JGeometry8TVec3<f>f
+  0x801ed444: stGetRnd__FUl
+  0x801ed458: stSetRndPermission__FUlb
+  # GeographyObjManager.cpp
+  0x801f057c: __ct__19GeographyObjManagerFRC7CrsData
+  0x801f2434: createModel__19GeographyObjManagerFP12JKRSolidHeapUl
+  0x801f35d4: calc__19GeographyObjManagerFv
+  0x801f4a48: reset__19GeographyObjManagerFRC7CrsData
+  0x801f572c: getJugem__19GeographyObjManagerCFi
+  0x801f573c: getBalloonMgr__19GeographyObjManagerCFi   
+  0x803d5d00: gMgr__19GeographyObjManager
+  # JPEffectMgr.cpp
+  0x801fcee4: __ct__11JPEffectMgrFP7JKRHeapbUc
+  0x801fcf9c: reset__11JPEffectMgrFv
+  0x801fda20: calc__11JPEffectMgrFv
+  0x801fdaa0: calc_forMenu__11JPEffectMgrFv
+  0x803d5d40: mThis__11JPEffectMgr
+  # stEffectMgr.cpp
+  0x802030b0: __ct__11stEffectMgrFv
+  0x802038f0: createModel__11stEffectMgrFP12JKRSolidHeapUl
+  0x80203a74: init__11stEffectMgrFv
+  0x8020444c: reset__11stEffectMgrFv
+  0x802047cc: calc__11stEffectMgrFv
+  0x803d5d70: mMgr__11stEffectMgr
+  # ItemObjMgr.cpp
+  0x80207c54: __ct__10ItemObjMgrFv
+  0x80208238: reset__10ItemObjMgrFv
+  0x80208528: clrKartItemUseTriggerList__10ItemObjMgrFv
+  0x80209e40: createModel__10ItemObjMgrFP12JKRSolidHeapUl
+  0x8020a540: calc__10ItemObjMgrFv
+  0x8020b9d4: getRobberyItemNum__10ItemObjMgrFiUc  
   0x803d5d80: gItemMgr__10ItemObjMgr
+  # J3DEffectMgr.cpp
+  0x8021e854: __ct__12J3DEffectMgrFv
+  0x8021eac8: createModel__12J3DEffectMgrFP12JKRSolidHeapUl
+  0x8021eb64: reset__12J3DEffectMgrFv
+  0x8021efcc: calc__12J3DEffectMgrFv
+  0x8021f170: __ct__17J3DEfctKartAnmMgrFv
+  0x803d5e18: sJ3DMgr__12J3DEffectMgr
+  0x803d5e1c: sJ3DKartAnmMgr__17J3DEfctKartAnmMgr
+  # ObjUtility.cpp
+  0x802255b8: getPtrCourseArc__10ObjUtilityFPc
+  # EffectScreen.cpp
+  0x80231cd8: __ct__15EffectScreenMgrFv
+  0x80231dc8: reset__15EffectScreenMgrFv
+  0x80231ec4: calc__15EffectScreenMgrFv
+  0x803d5ec0: ThisMgr__15EffectScreenMgr
+  # RivalKart.cpp
+  0x80235b20: Reset__9RivalKartFv
+  # StateObserver.cpp
+  0x80235e54: setState__13StateObserverFUs
+  # NeckCtrl.cpp
+  0x8023a3a0: __ct__14CharIKParamMgrFv
+  0x803d5ee8: mMgr__14CharIKParamMgr
+
+  # Shiraiwa
+  # JugemMain.cpp
+  0x802505e4: isAbleStart__6TJugemFv
+  # Balloon.cpp
+  0x8027e158: robRivalOfBalloon__15TBalloonManagerFUl
+  0x803da818: scSignalInterval__15TJugemRodSignal
+  0x803d62a4: sSupervisor__14TBalloonString
 
   # Yamamoto
-  # kartCtrlInfo.cpp
-  0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
-
-  0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   # kartCtrl.cpp
+  0x8029f614: makeKartCtrl__8KartCtrlFv
+  0x8029f63c: DynamicsInit__8KartCtrlFb
+  0x8029fb60: DynamicsReset__8KartCtrlFv  
+  0x8029fd1c: DynamicsStage1__8KartCtrlFv
+  0x802a01b4: DynamicsStage2__8KartCtrlFv
   0x803d63c8: mCtrl__8KartCtrl
+  # kartCtrlInfo.cpp
+  0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
+  0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
+  0x802b3134: SetTargetNum__7KartCamFUc 

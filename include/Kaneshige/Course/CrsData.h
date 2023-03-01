@@ -70,20 +70,6 @@ public:
         u8 _70[0xc];
     };
 
-    class StartPoint {
-    public:
-        bool isRight() const { return mRight != 0; };
-        f32 getJugemOffsetY() const { return mJugemOffsetY; };
-
-        // inline but too lazy to add it
-        void getPosition(JGeometry::TVec3f*) const; 
-        void getFrDirection(JGeometry::TVec3f*) const; 
-
-        u8 _0[0x24];
-        u8 mRight; // probably call this something else
-        s16 mJugemOffsetY; // could be TVec2/3
-    };
-
     struct SJugemPoint
     { // mostly copied from https://mkdd.miraheze.org/wiki/BOL_(File_Format) (Section 9: Respawn Points)
         JGeometry::TVec3f mPosition;
@@ -96,6 +82,33 @@ public:
         s16 mCameraID;
         s16 mSectorID;
     };
+
+    class StartPoint {
+    public:
+        bool isRight() const { return mRight != 0; };
+        f32 getJugemOffsetY() const { return mJugemOffsetY; };
+
+        // inline but too lazy to add it
+        void getPosition(JGeometry::TVec3f *dst) const
+        {
+            dst->set(mPos);
+        }
+        void getFrDirection(JGeometry::TVec3f *vec) const
+        {
+            vec->x = mRot.x * 1.0E-4f;
+            vec->y = 0.0f;
+            vec->z = mRot.z * 1.0E-4f;
+            vec->normalize();
+        }
+
+        JGeometry::TVec3f mPos;
+        JGeometry::TVec3f mScale;
+        JGeometry::TVec3<s16> mRot;
+        u8 _1E[0x24 - 0x1E];
+        u8 mRight; // probably call this something else
+        s16 mJugemOffsetY; // could be TVec2/3
+    };
+
     CrsData(SColHeader *, SOblHeader *);
     void getAmbientColor(JUtility::TColor *) const;
     void getLightColor(JUtility::TColor *) const;

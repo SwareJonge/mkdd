@@ -5,13 +5,6 @@
 #include <dolphin/math.h>
 #include <std/pair.h>
 #include "types.h"
-// might belong to a different header
-struct Quaternion {
-	f32 x;
-	f32 y;
-	f32 z;
-	f32 w;
-};
 
 namespace JMath
 {
@@ -226,15 +219,23 @@ void JMAVECScaleAdd(const Vec *, const Vec *, Vec *, f32);
 void JMAVECLerp(const Vec *, const Vec *, Vec *, f32);
 void JMAMTXApplyScale(const Mtx, Mtx, f32, f32, f32);
 
-struct Vec // Typecast from TVec3<f32>
-{
-    f32 x;
-    f32 y;
-    f32 z;
-};
-
 namespace JMathInlineVEC
 {
+    inline void PSVECAdd(register const Vec *vec1, register const Vec *vec2, register Vec *dst)
+    {
+        register f32 v1xy, v2xy, v1z, v2z, d1xy, d1z;
+        __asm {
+            psq_l v1xy, 0(vec1), 0, 0
+            psq_l v2xy, 0(vec2), 0, 0
+            ps_add d1xy, v1xy, v2xy
+            psq_st d1xy, 0(dst), 0, 0
+            
+            psq_l     v1z,   8(vec1), 1, 0
+            psq_l     v2z,   8(vec2), 1, 0
+            ps_add  d1z, v1z, v2z
+            psq_st    d1z,  8(dst), 1, 0
+        }
+    }
     inline void PSVECSubtract(register const Vec *vec1, register const Vec *vec2, register Vec *dst)
     {
         register f32 v1xy, v2xy, v1z, v2z, d1xy, d1z;

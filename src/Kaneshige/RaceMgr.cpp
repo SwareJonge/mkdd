@@ -207,6 +207,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     JUT_REPORT_MSG("Course ID:%08X\n", crsData->getCourseID());
 
+#if DEBUG
     for (int i = 0; i < 16; i++)
     {
         KartGamePad *gamepad = gpaKartPad[i];
@@ -220,6 +221,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
         if (sForceTotalLapNum != 0)
             break;
     }
+#endif
 
     if (sForceTotalLapNum == 0)
     {
@@ -614,8 +616,8 @@ void RaceMgr::createLight()
 void RaceMgr::resetRace()
 {
     bool needHardReset = false;
-
-    switch (mRaceDirector->getRacePhase())
+    ERacePhase racePhase = mRaceDirector->getRacePhase();
+    switch (racePhase)
     {
     case PHASE_3:
         resetRaceForResetEvent();
@@ -745,7 +747,6 @@ void RaceMgr::drawRace()
 
 void RaceMgr::checkKart()
 {
-
     int goalKartNo = -1;
     int finalLapKartNo = -1;
     int lowestKartNo = -1;
@@ -1345,9 +1346,9 @@ void RaceMgr::setJugemZClr(u32 viewNo, bool clear)
     JUT_MINMAX_ASSERT(4353, 0, viewNo, mRaceInfo->getConsoleNumber());
     Console *console = &mConsole[viewNo];
     if (clear)
-        console->clrJugemZClr();
-    else
         console->setJugemZClr();
+    else
+        console->clrJugemZClr();
 }
 
 u8 RaceMgr::getStartID(int startIndex)
@@ -1412,7 +1413,6 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
         startPoint->getFrDirection(direction);
         if (tindex >= 0)
         {
-
             float startPosTable[][3] = {// might be TVec3, however that didn't work
                 {0.0f, 0.0f, 250.0f},
                 {600.0f, 0.0f, 250.0f},
@@ -1422,7 +1422,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
                 {450.0f, 0.0f, -600.0f},
                 {117.0f, 0.0f, -850.0f},
                 {-217.0f, 0.0f, -1100.0f},
-                {-550.0f, 0.0f, 1350.0f},
+                {-550.0f, 0.0f, -1350.0f},
                 {250.0f, 0.0f, 250.0f},
                 {-250.0f, 0.0f, 250.0f},
                 {500.0f, 0.0f, 250.0f},
@@ -1434,7 +1434,9 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
                 {-500.0f, 0.0f, 250.0f}};
             JGeometry::TVec3f startPos;
             JUT_MINMAX_ASSERT(4480, 0, tindex, 18);
-            startPos.set(startPosTable[tindex][0], 0.0f, startPosTable[tindex][2]);
+            const f32 startPosX = startPosTable[tindex][0];
+            const f32 startPosZ = startPosTable[tindex][2];
+            startPos.set(startPosX, 0.0f, startPosZ);
 
             if (startPoint->isRight())
             {
@@ -1567,10 +1569,10 @@ const RaceMgr::EventInfo *RaceMgr::searchEventInfo(short searchId)
 bool RaceMgr::isJugemCountStart()
 {
     bool ret;
-    if (mAbleStart)
-        ret = true;
-    else
+    if (!mAbleStart)
         ret = GetGeoObjMgr()->getJugem(0)->isCallThree();
+    else
+        ret = true;
 
     return ret;
 }
@@ -1646,12 +1648,14 @@ bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx)
 {
     bool robbed = false;
     TBalloonManager *balloonMgr = GetGeoObjMgr()->getBalloonMgr(playerIdx);
+#if DEBUG
     if (getKartChecker(playerIdx)->getBalloonNumber() <= 0)
     {
         return false;
     }
     else
     {
+#endif
         bool rivalDecreased = getKartChecker(rivalIdx)->decBalloon();
         bool increased = false;
         if (rivalDecreased)
@@ -1663,7 +1667,9 @@ bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx)
             balloonMgr->robRivalOfBalloon(rivalIdx);
             robbed = true;
         }
+#if DEBUG
     }
+#endif
     return robbed;
 }
 

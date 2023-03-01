@@ -145,8 +145,12 @@ public:
     
     KartInfo *getKartInfo(int index) {
         JUT_MINMAX_ASSERT(170, 0, index, 8);
+// TODO: in release it needs the other assert to prevent regswaps, if i do the same for debug, it creates 2 asserts
+#if DEBUG
         return &mRaceInfo->mKartInfo[index];
-        // return mRaceInfo->getKartInfo(index);
+#else
+        return mRaceInfo->getKartInfo(index);
+#endif
     }
 
     bool isRaceEnd() const { return mRaceDirector->isRaceEnd(); };

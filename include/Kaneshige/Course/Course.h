@@ -150,20 +150,22 @@ public:
     int getTotalSectorNumber() const { return mTotalSectors;  }
     int getTrackSectorNumber() const { return mTrackSectorNum; }
     CrsData *getCrsData() const { return mCrsData; }
-    void getAmbientColor(JUtility::TColor *dst)
-    {
-        getCrsData()->getAmbientColor(dst);
-    }
+    
+    // These are in the cpp file itself, whoops
+    void getAmbientColor(JUtility::TColor *dst); /*
+     {
+         getCrsData()->getAmbientColor(dst);
+     }*/
 
-    void getLightColor(JUtility::TColor *dst)
+    void getLightColor(JUtility::TColor *dst); /*
     {
         getCrsData()->getLightColor(dst);
-    }
+    }*/
 
-    void getLightOffsetPosition(JGeometry::TVec3f *dst)
+    void getLightOffsetPosition(JGeometry::TVec3f *dst); /*
     {
         getCrsData()->getLightOffsetPosition(dst);
-    }
+    }*/
 
     Sector *getSector(int no) const {
         JUT_MINMAX_ASSERT(300, 0, no, mTotalSectors);

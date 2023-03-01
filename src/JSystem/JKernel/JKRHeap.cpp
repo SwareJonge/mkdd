@@ -416,7 +416,6 @@ bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2
     return (r1.getCheckCode() == r2.getCheckCode());
 }
 
-#if DEBUG
 // fabricated, but probably matches(except for line numbers)
 void JKRHeap::state_dumpDifference(const JKRHeap::TState & r1, const JKRHeap::TState & r2) {
     JUT_LOG_F(1157, "heap       : %p / %p", r1.getHeap(), r2.getHeap());
@@ -424,7 +423,6 @@ void JKRHeap::state_dumpDifference(const JKRHeap::TState & r1, const JKRHeap::TS
     JUT_LOG_F(1159, "id         : 0x%08x / 0x%08x", r1.getId(), r2.getId());
     JUT_LOG_F(1160, "used size  : %10u / %10u", r1.getUsedSize(), r2.getUsedSize());
 }
-#endif
 
 void JKRHeap::state_dump(const TState & state) const {
     JUT_LOG_F(1165, "check-code : 0x%08x", state.getCheckCode());

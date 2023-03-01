@@ -16,8 +16,10 @@ public:
 
     // 00 Vtable
     u8 _04[0x20 - 0x4];
-    u32 mTagName;
-}; // Size 0x24
+    u32 mTagName; // 20
+    JSULink<LightObj> mLink; 
+    u32 _34; 
+}; // Size 0x38?
 
 class LtObjAmbient : public LightObj {
 public:
@@ -28,9 +30,8 @@ public:
     virtual ~LtObjAmbient();
     void getColor(JUtility::TColor *) const;
     void draw();
-    u8 _024[0x38 - 0x24];
     JUtility::TColor mColor;
-};
+}; // Size: 0x3c
 
 class LtObjDiffuse : public LightObj {
 public:

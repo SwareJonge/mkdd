@@ -13,10 +13,15 @@ public:
     void calc();
     bool checkRaceEnd();
     bool isFrameRenewal() const {
+#if DEBUG
         bool ret = false;
-        if (mFrameRenewal && !sForceStopFrame)
+        if (mFrameRenewal && !sForceStopFrame) {
             ret = true;
+        }
         return ret;
+#else
+        return mFrameRenewal;
+#endif
     }
     ERacePhase getRacePhase() const { return mRacePhase; };
     bool isRaceEnd() const { return mIsRaceEnd; };

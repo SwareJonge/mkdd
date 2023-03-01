@@ -46,12 +46,12 @@ Kaneshige/KartChecker.cpp:
     .sbss: [0x803d5620, 0x803d5628]
     .sdata2: [0x803d8708, 0x803d8740]
 
-#Kaneshige/RaceMgr.cpp:
-    #.text: [0x80186824, 0x80189894] # exclude __sinit_RaceMgr_cpp
-    #.rodata: [0x8033ce58, 0x8033d500]
-    ##.ctors: 
-    #.data: [0x80355ad0, 0x80355ae0]
-    ##.bss:
-    #.sdata: [0x803d38d8, 0x803d38e0]
-    #.sbss: [0x803d5628, 0x803d5630]
-    #.sdata2: [0x803d8740, 0x803d8838]
+Kaneshige/RaceMgr.cpp:
+    .text: [0x80186824, 0x80189894] # exclude __sinit_RaceMgr_cpp
+    .rodata: [0x8033ce58, 0x8033d500]
+    #.ctors: [0x802d867c, 0x802d8690]
+    .data: [0x80355ad0, 0x80355ae0]
+    #.bss: 
+    .sdata: [0x803d38d8, 0x803d38e0]
+    .sbss: [0x803d5628, 0x803d5630]
+    .sdata2: [0x803d8740, 0x803d8838]

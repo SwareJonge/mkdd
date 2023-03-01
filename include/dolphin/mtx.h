@@ -7,6 +7,19 @@
 extern "C"
 {
 #endif // ifdef __cplusplus
+    typedef struct
+    {
+
+        f32 x, y, z;
+
+    } Vec, *VecPtr, Point3d, *Point3dPtr;
+
+    typedef struct
+    {
+
+        f32 x, y, z, w;
+
+    } Quaternion, *QuaternionPtr, Qtrn, *QtrnPtr;
 
     typedef float Mtx[3][4];
     typedef float Mtx33[3][3];
@@ -37,6 +50,17 @@ extern "C"
     void C_MTXPerspective(float, float, float, float, Mtx);
     void C_MTXOrtho(Mtx44, float, float, float, float, float, float);
     void C_MTXLookAt(Mtx, const Vec *, const Vec *, const Vec *);
+
+    void PSVECAdd(const Vec *a, const Vec *b, Vec *ab);
+    void PSVECSubtract(const Vec *a, const Vec *b, Vec *ab);
+    void PSVECScale(const Vec *src, Vec *dst, f32 scale);
+    void PSVECNormalize(const Vec *src, Vec *dst);
+    f32 PSVECSquareMag(const Vec *v);
+    f32 PSVECMag(const Vec *v);
+    f32 PSVECDotProduct(const Vec *a, const Vec *b);
+    void PSVECCrossProduct(const Vec *a, const Vec *b, Vec *ab);
+    f32 PSVECSquareDistance(const Vec *a, const Vec *b);
+    f32 PSVECDistance(const Vec *a, const Vec *b);
 
     // Bindings
 #define MTXFrustum C_MTXFrustum
