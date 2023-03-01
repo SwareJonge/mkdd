@@ -5,13 +5,15 @@
 #include "Kameda/SequenceInfo.h"
 #include "Kaneshige/RaceInfo.h"
 
-// i assume this data is from some include related to audio
+// i assume this data is from some include related to audio (edit: unlikely since release doesn't seem to have it as often)
 // also thanks seeky
+#if DEBUG
 static const float lbl_80378500[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_80378500)
 #pragma pop
+#endif
 
 u16 RaceInfo::sWaitDemoSelector;
 ERaceGpCup RaceInfo::sAwardDebugCup;
@@ -62,24 +64,24 @@ void RaceInfo::reset()
     _0x298 = 0;
     mHideConsole = 0;
 
-    for (s32 i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         mKartInfo[i].reset();
         mRank[i] = 0;
     }
 
-    for (s32 i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         mStartPosIndex[i] = i;
         mPointTable[i] = 0;
     }
 
-    for (s32 i = 0; i < 2; i++)
+    for (int i = 0; i < 2; i++)
     {
         mRivalKarts[i] = -1;
     }
 
-    for (s32 i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         _0x114[i] = i;
         _0x11c[i] = 0;
@@ -99,17 +101,18 @@ void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
 void RaceInfo::settingForWaitDemo(bool settingThing)
 {
     bool iVar1 = true;
-    s32 uVar7 = sWaitDemoSelector % 3;
+    int uVar7 = sWaitDemoSelector % 3;
 
     if (sWaitDemoSelector & 0x1)
     {
         iVar1 = false;
     }
-
+#if DEBUG
     if (sForceDemoNo != 0xffffffff)
     {
         uVar7 = (u32)sForceDemoNo % 3;
     }
+#endif
     sWaitDemoSelector++;
 
     switch (uVar7)
@@ -135,10 +138,12 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
     }
 
     setRandomSeed(OSGetTime());
+#if DEBUG
     if (sForceRandomSeed != 0xffffffff)
     {
         setRandomSeed(sForceRandomSeed);
     }
+#endif
     setRaceLevel(LVL_150CC);
     if (!iVar1)
     {
@@ -241,16 +246,18 @@ void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int c
 void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad *kartPad1, ECharID charID2, KartGamePad *kartPad2)
 {
     JUT_MINMAX_ASSERT(685, 0, kartNo, 8);
-    mKartInfo[kartNo].setKartID(kartID);
+    KartInfo * kartInfo = &mKartInfo[kartNo];
+    kartInfo->setKartID(kartID);
     JUT_ASSERT(694, charID1 != cCharIDNone);
     JUT_ASSERT(695, charID2 != cCharIDNone);
 
+    // this meme must stay alive
     for (int idx = 0; 2 > idx; ++idx) // the most useful loop ever
     {
         if (!idx != false)
-            mKartInfo[kartNo].setDriver(idx, charID1, kartPad1);
+            kartInfo->setDriver(idx, charID1, kartPad1);
         else
-            mKartInfo[kartNo].setDriver(idx, charID2, kartPad2);
+            kartInfo->setDriver(idx, charID2, kartPad2);
     }
 }
 
@@ -278,7 +285,7 @@ void RaceInfo::shuffleStartNo()
     {
         u32 dst = i + (rndm.get() % (getKartNumber() - i));
         JUT_MAX_ASSERT(751, dst, getKartNumber());
-        s32 playerStartIdx = mStartPosIndex[i];
+        int playerStartIdx = mStartPosIndex[i];
         mStartPosIndex[i] = mStartPosIndex[dst];
         mStartPosIndex[dst] = playerStartIdx;
     }

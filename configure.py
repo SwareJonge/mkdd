@@ -79,9 +79,10 @@ class Asset:
         }
 
     def dump(self):
-        if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
-            os.system(
-                f"{PYTHON} {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:x} {c.INCDIR}/{self.path}")
+        # Needs fix: since multi version is now a thing it doesn't overwrite the files
+        #if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
+        os.system(
+            f"{PYTHON} {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:x} {c.INCDIR}/{self.path}")
 
 assets = Asset.load(c.ASSETS_YML)
 

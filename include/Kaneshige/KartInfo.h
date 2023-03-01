@@ -104,8 +104,8 @@ public:
         }
         ~KartCharacter() {};
         void reset()    {
-            mKartGamePad = 0;
-            mCharDB = 0;
+            mKartGamePad = nullptr;
+            mCharDB = nullptr;
         }
 
         bool isComPlayer() const {
@@ -118,20 +118,21 @@ public:
         void setCharDB(const SCharDB  * charDB) {
             mCharDB = charDB;
         }
-        ECharID getCharID() const {
-            if (mCharDB != 0)
+        ECharID getCharID() const
+        {
+            if (mCharDB != nullptr)
                 return (ECharID)mCharDB->id;
             return cCharIDNone;
         }
         ECharID getPartnerID() const {
-            if (mCharDB != 0)
+            if (mCharDB != nullptr)
                 return (ECharID)mCharDB->defaultPartnerID;
             return cCharIDNone;
         }
         bool isAvailable() const;
-        static s32 convPlayerKind(KartGamePad *);
+        static int convPlayerKind(KartGamePad *);
         
-        s32 getPlayerKind() const {
+        int getPlayerKind() const {
             return convPlayerKind(mKartGamePad);
         }
 
@@ -150,19 +151,19 @@ public:
     static EKartWeight getKartWeight(EKartID);
     static ECharID getDefaultDriver(EKartID);
     static ECharID getDefaultPartner(ECharID);
-    static s32 getDriverWeight(ECharID);
+    static int getDriverWeight(ECharID);
     static EKartID getDefaultKartID(ECharID);
     static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
-
+    // TODO: not important but move to "correct" location
     bool isComDriver(int driverNo) const {
         JUT_MINMAX_ASSERT(113, 0, driverNo, 2);
         return mKartCharacters[driverNo].isComPlayer();
     }
 
     // Enum?
-    s32 getPlayerKind(int driverNo) const { 
+    int getPlayerKind(int driverNo) const { 
         JUT_MINMAX_ASSERT(119, 0, driverNo, 2);
         return mKartCharacters[driverNo].getPlayerKind();
     }
@@ -170,6 +171,11 @@ public:
     KartGamePad* getPad(int driverNo) {
         JUT_MINMAX_ASSERT(126, 0, driverNo, 2);
         return mKartCharacters[driverNo].getPad();
+    }
+    
+    ECharID getDriverCharID(int driverNo) const { 
+        JUT_MINMAX_ASSERT(142, 0, driverNo, 2);
+        return mKartCharacters[driverNo].getCharID();
     }
 
     bool isComKart() const {

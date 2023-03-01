@@ -13,6 +13,13 @@ JSystem/JKernel/JKRHeap.cpp:
     .sbss: [0x803d4aa0, 0x803d4ac8]
     .sdata2: [0x803d64d8, 0x803d64e8]
 
+JSystem/JMath/JMath.cpp:
+    .text: [0x80026880, 0x80026ad8]
+    .sdata2: [0x803d66e0, 0x803d66e8]
+
+JSystem/JMath/random.cpp:
+    .text: [0x80026ad8, 0x80026ae0]
+
 JSystem/JMath/JMATrigonometric.cpp:
     .text: [0x80026ae0, 0x80026f0c]
     .ctors: [0x802d84d4, 0x802d84d8]
@@ -29,13 +36,12 @@ Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]
 
-#Kaneshige/KartInfo.cpp:
-    #.text: [0x801a8844, 0x801a8f54]
-    ##.ctors: [0x80316274, 0x80316278]
-    #.rodata: [0x803770f8, 0x80377378]    
-    #.data: [0x80395bf0, 0x80395c98]
-    ##.bss: [0x803ca7c8, 0x803ca7f8]
-    #.sdata2: [0x80419dc8, 0x80419dd0]
+Kaneshige/KartInfo.cpp:
+    .text: [0x80183f00, 0x8018448c] # excludes sinit
+    #.ctors: [0x802d8674, 802d8678]
+    .rodata: [0x8033cc18, 0x8033ce58]    
+    .data: [0x803559f8, 0x80355aa0]
+    #.bss: 
 
 Kaneshige/KartChecker.cpp:
     .text: [0x80184598, 0x80186718]  
@@ -55,3 +61,39 @@ Kaneshige/RaceMgr.cpp:
     .sdata: [0x803d38d8, 0x803d38e0]
     .sbss: [0x803d5628, 0x803d5630]
     .sdata2: [0x803d8740, 0x803d8838]
+
+Kaneshige/RaceInfo.cpp:
+    .text: [0x8018b298, 0x8018b954] # exclude sinit and dtor
+    .rodata: [0x8033d518, 0x8033d558]
+    .sbss: [0x803d5648, 0x803d5650]
+
+Kaneshige/JugemPoint.cpp:
+    .text: [0x80190324, 0x80190334]
+
+Kaneshige/RaceTime.cpp:
+    .text: [0x801b1d9c, 0x801b1df0]
+
+Osako/clock.cpp:
+    .text: [0x801cbe60, 0x801cbef8]
+    .sbss: [0x803d5b30, 0x803d5b40]
+    .sdata2: [0x803d9668, 0x803d9680]
+
+Osako/kartPad.cpp:
+    .text: [0x801d1000, 0x801d1a9c]
+    .ctors: [0x802d8784, 0x802d8788]
+    .data: [0x8035c638, 0x8035c688]
+    .bss: [0x8038fc88, 0x8038fd78]
+    #.bss: [0x803be230, 0x803bfe38] # common bss area
+    .sdata2: [0x803d9a38, 0x803d9a50]    
+
+Osako/TARecord.cpp:
+    .text: [0x801db44c, 0x801db504]
+
+Osako/GPRecord.cpp:
+    .text: [0x801dbecc, 0x801dc010]
+
+Osako/SaveFile.cpp:
+    .text: [0x801dc010, 0x801dc0b4]
+    #.bss: [0x803c65f4, 0x803c6a00]
+    .sbss: [0x803d5c90, 0x803d5c98]
+

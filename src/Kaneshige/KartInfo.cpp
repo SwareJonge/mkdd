@@ -340,8 +340,8 @@ KartInfo::KartInfo() {
 
 void KartInfo::reset() {
     mKartDB = nullptr;
-    s32 charCount = 2;
-    for (s32 i = 0; i < charCount; i++) {
+    int charCount = 2;
+    for (int i = 0; i < charCount; i++) {
         mKartCharacters[i].reset();
     }
     mGhostKind = KIND_0;
@@ -509,7 +509,7 @@ ECharID KartInfo::getDefaultPartner(ECharID charID) {
     return (ECharID)getCharDB(charID)->defaultPartnerID;
 }
 
-s32 KartInfo::getDriverWeight(ECharID charID) {
+int KartInfo::getDriverWeight(ECharID charID) {
     return getCharDB(charID)->weight;
 }
 
@@ -521,19 +521,29 @@ EKartID KartInfo::getPartnerKartID(ECharID charID) {
     return (EKartID)getDefaultKartID(getDefaultPartner(charID));
 }
 
-bool KartInfo::isDefaultCharCombi() {
+// matches for Release
+bool KartInfo::isDefaultCharCombi()
+{
     bool ret = false;
+#if DEBUG
     if (mKartCharacters[0].getPartnerID() == mKartCharacters[1].getCharID())
         ret = true;
+#else // No idea if this got refactored or that what i have is wrong, last is more likely tbh
+    ECharID driverID = mKartCharacters[1].getCharID();
+    ECharID partnerID = mKartCharacters[0].getPartnerID();
+
+    if (partnerID == driverID)
+        ret = true;
+#endif
     return ret;
 }
 
 KartGamePad* KartInfo::getYoungestPad() {
     KartGamePad* youngestPad = 0;
-    s32 iVar2 = 100; // what even is this for?
+    int iVar2 = 100; // what even is this for?
     for (int i = 0; i < 2; i++) {
         KartGamePad* curPad = getPad(i);
-        s32 iVar1 = 100;
+        int iVar1 = 100;
         if (curPad) {
             switch (curPad->getPadPort()) {
             case KartGamePad::PORT_1:
@@ -569,9 +579,9 @@ bool KartInfo::KartCharacter::isAvailable() const {
     return ret;
 }
 
-s32 KartInfo::KartCharacter::convPlayerKind(KartGamePad* gamePad) {
-    s32 playerKind = 0;
-    if (gamePad == 0)
+int KartInfo::KartCharacter::convPlayerKind(KartGamePad* gamePad) {
+    int playerKind = 0;
+    if (gamePad == nullptr)
         playerKind = 2;
     else {
         switch (gamePad->getPadType()) {

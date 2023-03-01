@@ -34,6 +34,11 @@ global:
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
   0x8001dbb0: __dt__10JUTGamePadFv
+  0x8001e5cc: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
+  0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
+  0x8001ec90: update__Q210JUTGamePad6CStickFScUl
+  0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
+  0x803d3290: sStickMode__10JUTGamePad
   # JUTFontData_Ascfont_fix12.s
   0x8032db80: JUTResFONT_Ascfont_fix12
   # JKernel
@@ -171,6 +176,13 @@ global:
   # JUTException.cpp
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
   # JMath
+  0x80026880: JMAEulerToQuat__FsssP10Quaternion
+  0x80026944: JMAQuatLerp__FPC10QuaternionPC10QuaternionfP10Quaternion
+  0x80026a1c: JMAVECScaleAdd__FPC3VecPC3VecP3Vecf
+  0x80026a44: JMAVECLerp__FPC3VecPC3VecP3Vecf
+  0x80026a74: JMAMTXApplyScale__FPA4_CfPA4_ffff 
+  # random.cpp
+  0x80026ad8: __ct__Q25JMath13TRandom_fast_FUl
   # JMATrigonometric.cpp
   0x80026ae0: atan2___Q25JMath18TAtanTable<1024,f>CFff
   0x80026efc: __ct__Q23std9pair<f,f>Fv
@@ -1385,6 +1397,10 @@ global:
   0x8012652c: reset__12PauseManagerFv
   0x803d5518: mThis__12PauseManager
 
+  # SequenceInfo.cpp
+  0x80140958: rndDemo__12SequenceInfoFUl
+  0x803bad54: gSequenceInfo
+
   # Kaneshige
   # Course.cpp
   0x80177968: __ct__6CourseFP7CrsDataib
@@ -1420,7 +1436,24 @@ global:
   0x803559c0: __vt__7HioNode
 
   # KartInfo.cpp
+  0x80183f00: __ct__8KartInfoFv
+  0x80183f54: __dt__Q28KartInfo13KartCharacterFv
+  0x80183f90: __ct__Q28KartInfo13KartCharacterFv
+  0x80183fa0: reset__8KartInfoFv
+  0x80183fd4: __dt__8KartInfoFv
+  0x80184030: setDriver__8KartInfoFi7ECharIDP11KartGamePad
+  0x8018408c: getCharDB__8KartInfoF7ECharID
+  0x8018415c: getKartDB__8KartInfoF7EKartID
+  0x80184234: getKartWeight__8KartInfoF7EKartID
+  0x80184258: getDefaultDriver__8KartInfoF7EKartID
+  0x8018427c: getDefaultPartner__8KartInfoF7ECharID
+  0x801842a0: getDriverWeight__8KartInfoF7ECharID
+  0x801842c4: getDefaultKartID__8KartInfoF7ECharID
+  0x801842e8: getPartnerKartID__8KartInfoF7ECharID
+  0x80184314: isDefaultCharCombi__8KartInfoFv
   0x8018435c: getYoungestPad__8KartInfoFv
+  0x801843f4: setPad__Q28KartInfo13KartCharacterFP11KartGamePad
+  0x801843fc: isAvailable__Q28KartInfo13KartCharacterCFv
   0x80184420: convPlayerKind__Q28KartInfo13KartCharacterFP11KartGamePad
 
   # KartChecker.cpp
@@ -1574,8 +1607,17 @@ global:
   0x803d5638: sLightManager__8LightMgr
 
   # RaceInfo.cpp
-  0x8018b848: shuffleRandomSeed__8RaceInfoFv
+  0x8018b298: reset__8RaceInfoFv
+  0x8018b3d8: setConsoleTarget__8RaceInfoFiib
+  0x8018b3f0: settingForWaitDemo__8RaceInfoFb
+  0x8018b614: settingForStaffRoll__8RaceInfoFb
+  0x8018b708: setRace__8RaceInfoF9ERaceModeiiii
+  0x8018b794: setKart__8RaceInfoFi7EKartID7ECharIDP11KartGamePad7ECharIDP11KartGamePad
+  0x8018b824: setRaceLevel__8RaceInfoF10ERaceLevel
+  0x8018b848: shuffleRandomSeed__8RaceInfoFv  
   0x8018b89c: shuffleStartNo__8RaceInfoFv
+  0x8018b93c: hideConsole__8RaceInfoFUl
+  0x803d5648: sWaitDemoSelector__8RaceInfo
 
   # RaceLight.cpp
   0x8018bb3c: __ct__14RaceSceneLightFPCcUlRCQ28JUtility6TColorRCQ29JGeometry8TVec3<f>
@@ -1593,6 +1635,9 @@ global:
   0x8018fefc: __ct__13TexLODControlFi
   0x8018ff4c: __dt__13TexLODControlFv
   0x8018ffac: getLODBias__13TexLODControlFQ213TexLODControl10ELODBiasID
+
+  # JugemPoint.cpp
+  0x80190324: __ct__10JugemPointFv
 
   # RaceBGMPlayer.cpp
   0x8019dd54: __ct__13RaceBGMPlayerFv
@@ -1627,6 +1672,8 @@ global:
   0x801a681c: __ct__19AwardDemoTimeKeeperFv
   0x801a6f94: __ct__19StaffRollTimeKeeperFv
 
+  0x801b1d9c: get__8RaceTimeCFPiPiPi
+
   # Kawano
   # accessory.cpp
   0x801c86c8: ptr__12AccessoryMgrFv
@@ -1637,20 +1684,68 @@ global:
   0x801cb9a4: calc__11StaffRoll2DFv
 
   # Osako
+  # clock.cpp
+  0x801cbe60: move__5ClockFv
+  0x803d5b30: msTime__5Clock
+  0x803d5b34: msPrevFrameTime__5Clock
+  0x803d5b38: msPrevTick__5Clock
+  0x803d9668: mscTimePerSec__5Clock
   # RaceApp
   0x803d5b60: mspRaceApp__7RaceApp
   # ResMgr.cpp
   0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
   0x803bd5c8: mspaLoader__6ResMgr
+  # kartPad.cpp
+  0x801d1000: compress__11KartGamePadFRC9PADStatusP11KartPadData
+  0x801d1184: compress__11KartGamePadFRC10LGPositionP11KartPadData
+  0x801d139c: expand__11KartGamePadFRC11KartPadData
+  0x8035c638: gpaGamePad
+  0x8035c648: gpaKartPad
+  0x803be230: gGamePad1P
+  0x803bf090: gGamePad2P
+  0x803bf148: gGamePad3P
+  0x803bf200: gGamePad4P
+  0x803bf2b8: gKartPad1P
+  0x803bf370: gKartPad2P
+  0x803bf428: gKartPad3P
+  0x803bf4e0: gKartPad4P
+  0x803bf598: gKartPad5P
+  0x803bf650: gKartPad6P
+  0x803bf708: gKartPad7P
+  0x803bf7c0: gKartPad8P
+  0x803bf878: gKartPad9P
+  0x803bf930: gKartPad10P
+  0x803bf9e8: gKartPad11P
+  0x803bfaa0: gKartPad12P
+  0x803bfb58: gKartPad13P
+  0x803bfc10: gKartPad14P
+  0x803bfcc8: gKartPad15P
+  0x803bfd80: gKartPad16P
   # shadowMgr.cpp
   0x801da460: __ct__13ShadowManagerFv
   0x801daaa0: viewCalc__13ShadowManagerFUl
   0x803d5c78: mspShadowManager__13ShadowManager
   0x801da988: calc__13ShadowManagerFv
+  # TARecord.cpp
+  0x801db44c: __ct__8TARecordFUcUcUcUc
+  0x801db488: setName__8TARecordFPCc
+  0x801db4b0: setStatus__8TARecordFUcUcUcUc
+  0x801db4c4: setRaceTime__8TARecordF8RaceTime
+  0x801db4d0: less__8TARecordFRC8TARecord
   # SystemRecord.cpp
   0x801db824: getTARecord__12SystemRecordF9ECourseIDi
   0x801dba60: getBestLap__12SystemRecordF9ECourseID
   0x803c5fe0: gSystemRecord
+  # GPRecord.cpp
+  0x801dbecc: __ct__8GPRecordFv
+  0x801dbef0: setName__8GPRecordFPCc
+  0x801dbf18: set__8GPRecordFUcUcUcUcUcUcbPCc8RaceTime
+  0x801dbfa4: less__8GPRecordFRC8GPRecord
+  # SaveFile.cpp
+  0x801dc010: getCRC__8SaveFileFPUcPUc
+  0x803c65f4: msaCRCTable__8SaveFile
+  0x803d5c90: msCRCTableComputed__8SaveFile
+
   # Award2D
   0x801df038: __ct__7Award2DFP7JKRHeap
   0x801dfae0: calc__7Award2DFv

@@ -29,11 +29,23 @@
 #include "Osako/SystemRecord.h"
 
 // .rodata
+#if EU_RELEASE
+#define NORMAL_RMODE 4         // PAL 50hz
+#define MOVIE_RMODE 5          // PAL 50hz
+#define ENHANCED_RMODE 6       // EURGB 60hz
+#define ENHANCED_MOVIE_RMODE 7 // EURGB 60hz
+// for whatever reason PAL doesn't seem to have the garbage floats
+#else
+#define NORMAL_RMODE 0         // NTSC 480i
+#define MOVIE_RMODE 1          // NTSC 480i
+#define ENHANCED_RMODE 2       // 480p
+#define ENHANCED_MOVIE_RMODE 3 // 480p
 static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_8037d5e8)
 #pragma pop
+#endif
 
 namespace System {
     JFWDisplay *System::mspDisplay;
@@ -65,7 +77,7 @@ namespace System {
         JFWSystem::setAramAudioBufSize(SystemData::scAudioAramSize);
         JFWSystem::setAramGraphBufSize(0xffffffff);
         JFWSystem::setRenderMode(&SystemData::scNtscInt448Df);
-        msRenderMode = 0;
+        msRenderMode = NORMAL_RMODE;
 
         JFWSystem::init();
         PadMgr::init();
@@ -73,7 +85,9 @@ namespace System {
 
         JKRAramStream::setTransBuffer(nullptr, 0x8000, JKRGetSystemHeap());
         JUTException::setPreUserCallback(callbackException);
+#if DEBUG
         JUTException::appendMapFile("debugInfoM.MAP");
+#endif
 
         mspSendTask = JKRTask::create(4, 1, 0x4000, nullptr);
         mspRecvTask = JKRTask::create(4, 2, 0x4000, nullptr);
@@ -141,40 +155,61 @@ namespace System {
     }
 
     /*
-    0 = normal render mode(interlaced)
-    1 = movie render mode (interlaced)
+    0 = normal render mode(NTSC 480i)
+    1 = movie render mode (NTSC 480i)
     2 = normal render mode(progressive scan)
     3 = movie render mode (progressive scan)
     these are for PAL? (just guessing), could be other way around
-    4 = normal render mode(50hz) 
-    5 = movie render mode (60hz)
+    4 = normal render mode(50hz)
+    5 = movie render mode (50hz)
+    6 = normal render mode(60hz)
+    7 = movie render mode(60hz)
     */
+#if EU_RELEASE // TODO: Other functions, unfortunately the define approach won't work well since PAL uses 3 cases(like changePAL50())
+    void changePal50() {
+        switch (msRenderMode)
+        {
+        case ENHANCED_MOVIE_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448);
+            KartLocale::msVideoFrameMode = KartLocale::PAL50; // use setter?
+            msRenderMode = MOVIE_RMODE;
+            break;
+        case NORMAL_RMODE:
+        case ENHANCED_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448Df);
+            KartLocale::msVideoFrameMode = KartLocale::PAL50;
+            msRenderMode = NORMAL_RMODE;
+            break;
+        }
+    }
+#else
     void changeProgressive()
     {
         switch (msRenderMode)
         {
-        case 0:
+        case NORMAL_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448Soft);
-            msRenderMode = 2;
+            msRenderMode = ENHANCED_RMODE;
             break;
-        case 1:
+        case MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448);
-            msRenderMode = 3;
+            msRenderMode = ENHANCED_MOVIE_RMODE;
             break;
         }
     }
+#endif
 
     void changeMovieRenderMode()
     {
         switch (msRenderMode) 
         {
-        case 0:
+        case NORMAL_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448);
-            msRenderMode = 1;
+            msRenderMode = MOVIE_RMODE;
             break;
-        case 2:
+        case ENHANCED_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448);
-            msRenderMode = 3;
+            msRenderMode = ENHANCED_MOVIE_RMODE;
             break;
         }
     }
@@ -183,13 +218,13 @@ namespace System {
     {
         switch (msRenderMode)
         {
-        case 1:
+        case MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448Df);
-            msRenderMode = 0;
+            msRenderMode = NORMAL_RMODE;
             break;
-        case 3:
+        case ENHANCED_MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448Soft);
-            msRenderMode = 2;
+            msRenderMode = ENHANCED_RMODE;
             break;
         }
     }
@@ -250,22 +285,27 @@ namespace System {
         j3dSys.drawInit();
 
         PadMgr::framework();
-        NetGameMgr::mspNetGameMgr->framework();
-        
+        NetGameMgr::mspNetGameMgr->framework();        
     }
 
     void endRender() {
+#if DEBUG
         SysDebug::getManager()->draw();
         if (ScrnShot::sScrnShot)
             ScrnShot::sScrnShot->capture();
+#endif
         mspDisplay->endRender();
+#if DEBUG
         if (gGamePad1P.testButton(JUTGamePad::L) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN)) {
             GameAudio::Main::getAudio()->setBgmVolume(0.0f);
         }        
+#endif
     }
 
     void endFrame() {
+#if DEBUG
         SysDebug::getManager()->ctrlDebugMode();
+#endif
         mspDisplay->endFrame();
         if(MoviePlayer::sPlayer) {
             MoviePlayer::sPlayer->drawDone();
@@ -273,7 +313,8 @@ namespace System {
     }
 
     void run() {
-        while(true) { // not sure if this is how it was originally written however the functions match in size
+        // not sure if this is how it was originally written however the functions match in size
+        while(true) { 
             beginFrame();
             AppMgr::draw();
             endRender();
