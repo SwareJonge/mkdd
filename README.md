@@ -3,7 +3,7 @@ Decompilation of Mario Kart Double Dash!!
 ## Build Instructions
 - Dump a copy of the debug version of the game and extract the main.dol
 - Place main.dol in orig/MarioClub_us
-- Place the compilers of GC MW 2.5 in tools/2.5
+- Place the compilers of GC MW 2.6 in tools/2.6
 - Place the compilers of GC MW 1.2.5 in tools/1.2.5
 - Install DevkitPPC, Ninja and Python
     - DevkitPPC r38 and r41 are known to work, other versions probably do too 
