@@ -53,11 +53,15 @@ jobs:
         run: |
           python configure.py -r us
           ninja 
-          ninja -t clean         
+          ninja -t clean
 
       - name: Print progress(Debug)
         run: |
           .\tools\ProgressCalculator.exe
+
+      - name: Clean Debug
+        run: |
+          ninja -t clean
 
       - name: Build Release
         run: |
