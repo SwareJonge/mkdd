@@ -83,10 +83,9 @@ jobs:
           Remove-Item '.\tools\2.6\' -Recurse
           Remove-Item '.\orig\MarioClub_us\main.dol'
           Remove-Item '.\orig\Release_eu\main.dol'
-          Remove-Item '.\out\' -Recurse        
-          Remove-Item '.\mwcw\' -Recurse
+          Remove-Item '.\out\' -Recurse
           Remove-Item '.\tools\devkitppc\' -Recurse
-          # Remove Items from build          
+          # Remove Items from build
           Remove-Item '.\include\BuildtimeDat.bin'
           Remove-Item '.\include\System.arc.bin'
           Remove-Item '.\include\JSystem\JUtility\FontData\Ascfont_fix12.bfn'
