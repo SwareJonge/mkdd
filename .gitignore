@@ -15,5 +15,6 @@ out
 *.exe
 *.dll
 build.ninja
+build_opts.yml
 .ninja_log
 ctx.c

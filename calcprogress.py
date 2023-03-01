@@ -73,7 +73,6 @@ if __name__=="__main__":
         ".text",
         ".ctors",
         ".dtors",
-        ".dtors",
         ".BINARY",
         ".rodata",
         ".data",

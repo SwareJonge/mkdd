@@ -1,7 +1,7 @@
 """
 Creates a build script for ninja
 """
-
+from argparse import ArgumentParser
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass
@@ -14,6 +14,26 @@ from sys import executable as PYTHON, platform
 from typing import List, Tuple
 
 from ninja_syntax import Writer
+
+#############################
+# Create build options file #
+#############################
+
+parser = ArgumentParser()
+parser.add_argument("-r", "--region", type=str, action='store', help="Specify target region\nus targets the debug version, eu targets eu Release")
+args = parser.parse_args()
+ymlBuf = ""
+if not any(vars(args).values()):
+    print("No Arguments specified, targetting Debug")
+    ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
+else: # Future issue: don't hardcode stuff
+    if(args.region == "us"):
+        ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
+    elif (args.region == "eu"):
+        ymlBuf = "region: \"eu\"\nversion: \"Release\""
+
+with open("config/build_opts.yml", 'w') as f:
+    f.write(ymlBuf)
 
 import common as c
 
@@ -33,7 +53,7 @@ assert os.path.exists(c.DOL), \
 
 # Check binaries are correct
 dol_hash = c.get_file_sha1(c.DOL)
-assert dol_hash == bytes.fromhex(c.DOL_SHA1), \
+assert dol_hash == bytes.fromhex(c.DOL_SHA1_HASH), \
        "Error: Base dol hash isn't correct."
 
 # Check submodules added

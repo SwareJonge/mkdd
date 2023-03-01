@@ -78,31 +78,32 @@ def load_from_yaml(path: str, default=None):
         return ret
 
 
+##################
+# Target options #
+##################
+
+BUILD_YML = load_from_yaml("config/build_opts.yml")
+REGION = BUILD_YML['region']
+VERSION = BUILD_YML['version']
+
 ################
 # Project dirs #
 ################
-
-# TODO: make arguments to either build EU, US, or JP, Debug or Release
-
-# Region
-REGION = "us"
-
-# Version
-VERSION = "MarioClub"
-
-# subdir
-VERSION_DIR = f"{VERSION}_{REGION}"
-
-# dol SHA1 Hash
-DOL_SHA1 = "f3bf225dd81cd9eb094fa9f8415f95f6bbcb9d10" # PAL SHA1 Hash
-if (VERSION == "MarioClub"):
-    DOL_SHA1 = "db87a9ec1a34275efc45d965dcdcb1a9eb131885" # NTSC-U Debug SHA1 Hash
 
 # Directory for decompiled dol code
 DOL_SRCDIR = "src"
 
 # Include directory
 INCDIR = "include"
+
+# Tools directory
+TOOLS = "tools"
+
+# Main config directory
+MAIN_CONFIG = "config"
+
+# subdir
+VERSION_DIR = f"{VERSION}_{REGION}"
 
 # Build artifacts directory
 BUILDDIR = f"build/{VERSION_DIR}"
@@ -116,13 +117,8 @@ OUTDIR = f"out/{VERSION_DIR}"
 # Original binaries directory
 ORIG = f"orig/{VERSION_DIR}"
 
-# Tools directory
-TOOLS = "tools"
-
-# Config directory
+# Version specififc config directory
 CONFIG = f"config/{VERSION_DIR}"
-MAIN_CONFIG = "config"
-
 
 #########
 # Tools #
@@ -144,8 +140,6 @@ SLICES = f"{PYTHON} {PPCDIS}/slices.py"
 PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 
 # Codewarrior
-TOOLS = "tools"
-
 SDK_CW = os.path.join(TOOLS, "1.2.5")
 SDK_CC = os.path.join(SDK_CW, "mwcceppc")
 CODEWARRIOR = os.path.join(TOOLS, "2.6")
@@ -210,6 +204,11 @@ DOL_MAP = f"{OUTDIR}/debugInfo{VERSION[0]}.MAP"
 DOL_FULL = f"{OUTDIR}/dol.s"
 
 DOL_SDATA2_SIZE = 4
+
+# dol SHA1 Hash
+DOL_SHA1_HASH = "f3bf225dd81cd9eb094fa9f8415f95f6bbcb9d10"  # PAL SHA1 Hash
+if (VERSION == "MarioClub"):
+    DOL_SHA1_HASH = "db87a9ec1a34275efc45d965dcdcb1a9eb131885"  # NTSC-U Debug SHA1 Hash
 
 ##############
 # Tool Flags #
