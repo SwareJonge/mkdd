@@ -51,30 +51,43 @@ jobs:
           
       - name: Configure ninja build file
         shell: bash
-        run: python configure.py
+        run: 
 
-      - name: Build mkdd
-        shell: bash
-        run: ninja
+      - name: Build Debug
+        run: |
+          python configure.py -r us
+          ninja 
+          ninja -t clean         
 
-      - name: Print progress
+      - name: Print progress(Debug)
         run: |
           .\tools\ProgressCalculator.exe
 
-      - name: Clean
+      - name: Build Release
         run: |
+          python configure.py -r eu
+          ninja
+      
+      - name: Print progress(Release)
+        run: |
+          python calcprogress.py -f
+
+      - name: Clean
+        run: |          
+          ninja -t clean
           # Remove files stored in build-dependencies
-          Remove-Item '.\orig\MarioClub_us\main.dol'
-          Remove-Item '.\out\' -Recurse        
           Remove-Item '.\tools\1.2.5\' -Recurse
           Remove-Item '.\tools\1.2.5e\' -Recurse
           Remove-Item '.\tools\1.3.2\' -Recurse
           Remove-Item '.\tools\2.0\' -Recurse
           Remove-Item '.\tools\2.5\' -Recurse
           Remove-Item '.\tools\2.6\' -Recurse
+          Remove-Item '.\orig\MarioClub_us\main.dol'
+          Remove-Item '.\orig\Release_eu\main.dol'
+          Remove-Item '.\out\' -Recurse        
+          Remove-Item '.\mwcw\' -Recurse
           Remove-Item '.\tools\devkitppc\' -Recurse
-          # Remove Items from build
-          ninja -t clean
+          # Remove Items from build          
           Remove-Item '.\include\BuildtimeDat.bin'
           Remove-Item '.\include\System.arc.bin'
           Remove-Item '.\include\JSystem\JUtility\FontData\Ascfont_fix12.bfn'
