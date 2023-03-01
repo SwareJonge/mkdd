@@ -49,10 +49,6 @@ jobs:
           Remove-Item '.\sftp\' -Recurse
           Remove-Item '.\build-dependencies.zip'
           
-      - name: Configure ninja build file
-        shell: bash
-        run: 
-
       - name: Build Debug
         run: |
           python configure.py -r us
