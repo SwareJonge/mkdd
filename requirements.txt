@@ -1,7 +1,11 @@
 -r ./tools/ppcdis/requirements.txt
 
+ninja_syntax
+prettytable
+requests
+
+ansiwrap
+colorama
 cxxfilt
 python-Levenshtein
-requests
 watchdog
-ninja_syntax
