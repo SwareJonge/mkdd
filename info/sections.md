@@ -1,12 +1,30 @@
-# Sections
-info about the assembly sections (PAL)
+# Library sections
+## Debug
+Name | Offset(MEM) | Size
+--- | --- | ---
+Dolphin.a(init) | 0x80003100 | 0x25c0
+kartLocale.o | 0x800056c0 | 0xF4
+JSystemM.a | 0x800057b4 | 0xA9D74
+Dolphin.a | 0x800af528 | 0x69784
+BandoM.a | 0x80118cac | 0x70
+InagakiM.a | 0x80118d1c | 0x177BC
+KamedaM.a | 0x801304d8 | 0x68338
+KaneshigeM.a | 0x80198810 | 0x44390
+KawanoM.a | 0x801dcba0 | 0x1A264
+OsakoM.a | 0x801f6e04 | 0x231E8
+SatoM.a | 0x80219fec | 0x6ED48
+ShiraiwaM.a | 0x80288d34 | 0x52318
+YamamotoM.a | 0x802db04c | 0x3B050
+
+## PAL
 Name | Offset(MEM) | Size
 --- | --- | ---
 Dolphin.a(init) | 0x80003100 | 0x25c0
 kartLocale.o | 0x800056c0 | 0xF4
 JSystem.a | 0x800057b4 | 0xA3E4C
 Dolphin.a | 0x800a9600 | 0x68C6C
-Inagaki.a | 0x8011226c | 0x10E64
+Bando.a | 0x8011226c | 0x70
+Inagaki.a | 0x801122dc | 0x10DF4
 Kameda.a | 0x801230d0 | 0x54500
 Kaneshige.a | 0x801775d0 | 0x3D2D8
 Kawano.a | 0x801b48a8 | 0x175B8
