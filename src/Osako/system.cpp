@@ -29,17 +29,7 @@
 #include "Osako/SystemRecord.h"
 
 // .rodata
-#if EU_RELEASE
-#define NORMAL_RMODE 4         // PAL 50hz
-#define MOVIE_RMODE 5          // PAL 50hz
-#define ENHANCED_RMODE 6       // EURGB 60hz
-#define ENHANCED_MOVIE_RMODE 7 // EURGB 60hz
-// for whatever reason PAL doesn't seem to have the garbage floats
-#else
-#define NORMAL_RMODE 0         // NTSC 480i
-#define MOVIE_RMODE 1          // NTSC 480i
-#define ENHANCED_RMODE 2       // 480p
-#define ENHANCED_MOVIE_RMODE 3 // 480p
+#if DEBUG
 static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
@@ -86,7 +76,11 @@ namespace System {
         JKRAramStream::setTransBuffer(nullptr, 0x8000, JKRGetSystemHeap());
         JUTException::setPreUserCallback(callbackException);
 #if DEBUG
-        JUTException::appendMapFile("debugInfoM.MAP");
+        /* 
+        don't make this a static name, since debugInfoS also exists
+        however if the "Debug Support" build gets found then change this
+        */
+        JUTException::appendMapFile("debugInfoM.MAP"); 
 #endif
 
         mspSendTask = JKRTask::create(4, 1, 0x4000, nullptr);
