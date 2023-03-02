@@ -231,12 +231,13 @@ GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
 
 #rework
 DEFINES = [
-    "DEBUG"
-    # "EU_RELEASE"
+    "DEBUG",
+    "REGION_US"
 ]
 if REGION == "eu":
     DEFINES = [
-        "EU_RELEASE"
+        "VIDEO_PAL",
+        "REGION_EU"
     ]
 MWCC_DEFINES = ' '.join(f"-d {d}" for d in DEFINES)
 GCC_DEFINES = ' '.join(f"-D {d}" for d in DEFINES)
