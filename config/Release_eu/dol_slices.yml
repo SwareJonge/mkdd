@@ -1,3 +1,11 @@
+kartLocale.cpp:
+    .text: [0x800056c0, 0x800057b4]
+    .rodata: [0x8032cbe0, 0x8032cbf0]
+    .data: [0x80346c20, 0x80346c58]
+    .sdata: [0x803d3240, 0x803d3258]
+    .sbss: [0x803d4980, 0x803d4988]
+    .sdata2: [0x803d63e0, 0x803d6408]
+
 JSystem/JKernel/JKRExpHeap.cpp:
     .text: [0x80012728, 0x8001421c]
     .rodata: [0x8032d008, 0x8032d380]

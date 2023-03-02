@@ -18,6 +18,7 @@ global:
   # .text
   # kartLocale.cpp
   0x800056c0: localize__10KartLocaleFv
+  0x80346c20: mscpaLanguageName__10KartLocale
   0x803d4980: msLanguage__10KartLocale
   0x803d4984: msSpeedUnit__10KartLocale
   0x803d3240: msCountry__10KartLocale
