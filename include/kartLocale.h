@@ -1,6 +1,8 @@
 #ifndef KARTLOCALE_H
 #define KARTLOCALE_H
 
+// Country and Language regions seem alphabetically sorted, so that means UNITED_STATES and UNITED_KINGDOM are incorrectly named
+
 enum Country {
     FRANCE = 0,
     GERMANY = 1,
@@ -46,6 +48,18 @@ enum VideoMode {
     NTSC = 0,
     PAL = 1
 };
+
+#if VIDEO_PAL
+#define NORMAL_RMODE 4         // PAL 50hz
+#define MOVIE_RMODE 5          // PAL 50hz
+#define ENHANCED_RMODE 6       // EURGB 60hz
+#define ENHANCED_MOVIE_RMODE 7 // EURGB 60hz
+#else
+#define NORMAL_RMODE 0         // NTSC 480i
+#define MOVIE_RMODE 1          // NTSC 480i
+#define ENHANCED_RMODE 2       // 480p
+#define ENHANCED_MOVIE_RMODE 3 // 480p
+#endif
 
 // is this even a class?
 class KartLocale {
