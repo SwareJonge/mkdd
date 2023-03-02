@@ -521,7 +521,6 @@ EKartID KartInfo::getPartnerKartID(ECharID charID) {
     return (EKartID)getDefaultKartID(getDefaultPartner(charID));
 }
 
-// matches for Release
 bool KartInfo::isDefaultCharCombi()
 {
     bool ret = false;

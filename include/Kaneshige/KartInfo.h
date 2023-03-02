@@ -103,7 +103,7 @@ public:
             reset();
         }
         ~KartCharacter() {};
-        void reset()    {
+        void reset() {
             mKartGamePad = nullptr;
             mCharDB = nullptr;
         }

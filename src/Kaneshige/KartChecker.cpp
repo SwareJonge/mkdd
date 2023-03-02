@@ -127,7 +127,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     mTargetKartNo = kartNum;
     sectorCount = sectorNum;
     bitfieldCnt = (sectorCount + 31) / 32; // macro?
-    cpBitfields = new s32[bitfieldCnt];
+    cpBitfields = new u32[bitfieldCnt];
     mMaxLap = lapNum;
 
     mLapTimes = new RaceTime[mMaxLap];

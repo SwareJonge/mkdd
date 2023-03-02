@@ -38,7 +38,7 @@ public:
         search(7, p1);
     }
 
-    s32 getCameraID() const;
+    int getCameraID() const;
     f32 getEchoRate();
     s16 getLightParamID();
     f32 getRate() const

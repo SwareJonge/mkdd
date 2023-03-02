@@ -14,10 +14,10 @@ public:
         char signature[4];
         u16 xGridNum;
         u16 zGridNum;
-        s32 xStart; // TVec2?
-        s32 zStart;
-        s32 xSize;
-        s32 zSize;
+        int xStart; // TVec2?
+        int zStart;
+        int xSize;
+        int zSize;
         s16 matNum;
         u32 triangleIndices;
         // Not sure of data type

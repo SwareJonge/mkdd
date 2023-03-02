@@ -50,7 +50,7 @@ class AwardDemoTimeKeeper : public DemoTimeKeeper {
     void jumpEndingCut();             // 0x801cf600
     void stopAllKart();               // 0x801cf658
     void fadeOutSE();                 // 0x801cf6bc
-    virtual void requestDemoCameraID() const; // 0x801cf700
+    virtual int requestDemoCameraID() const; // 0x801cf700
     /*void AwardsEventTimeHanabi1;           // 0x80414770
     void AwardsEventTimeHanabi2;           // 0x80414772
     void AwardsEventTimeHanabi3;           // 0x80414774
@@ -72,7 +72,7 @@ public:
     StaffRollTimeKeeper();
     virtual void reset();
     virtual void calc();
-    virtual void isStartFadeIn(); // 0x801d0cf4
+    virtual bool isStartFadeIn(); // 0x801d0cf4
     virtual int requestDemoCameraID() const;
     virtual bool isPlayingEndingWinAnm() const { return _24 != 0; };
 

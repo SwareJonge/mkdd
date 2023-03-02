@@ -19,15 +19,15 @@ public:
     {
         dest->set(mVelocity);
     }
-    s32 getMaterial() const
+    int getMaterial() const
     {
         return mMaterial;
     }
-    s32 getAttrIndex() const; /*
+    int getAttrIndex() const; /*
     {
         return mAttrIdx;
     }*/
-    s32 getAttribute() const;
+    int getAttribute() const;
     u8 getSpiralCode() const;
     u8 getSplashCode() const;
     f32 getSplashHeight();
@@ -45,9 +45,9 @@ private:
     JGeometry::TVec3<f32> mNormal;
     JGeometry::TVec3<f32> mVelocity;
     JGeometry::TVec3<f32> _0x40;
-    s32 mAttribute;
-    s32 mAttrIdx;
-    s32 mMaterial;
+    int mAttribute;
+    int mAttrIdx;
+    int mMaterial;
     f32 mHeight;
     f32 _0x5C;
 };

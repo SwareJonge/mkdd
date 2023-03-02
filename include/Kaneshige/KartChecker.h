@@ -81,7 +81,7 @@ public:
     const RaceTime &getMarkTime() { return mMarkTime; };
     f32 getTotalUnitDist() const { return raceProgression; };
     // cmpw was signed right?
-    s32 getGoalFrame() const { return mGoalFrame; };
+    int getGoalFrame() const { return mGoalFrame; };
 
     void setForceGoal();
 
@@ -176,13 +176,13 @@ public:
     // private: // i'm not really sure how else KartChkUsrPage got access to this
     u16 raceFlags;
     s16 mTargetKartNo;
-    s32 sectorCount;
-    s32 bitfieldCnt;
+    int sectorCount;
+    int bitfieldCnt;
     int mMaxLap;
-    s32 mBestLapIdx;     // i think this stores the index of the fastest lap
+    int mBestLapIdx;     // i think this stores the index of the fastest lap
     RaceTime *mLapTimes; // i'm not sure of these 2 names, it could be the other way around or something completely different
     RaceTime *mBestLapTimes;
-    s32 mPlayerKartColor;
+    int mPlayerKartColor;
     KartGamePad *mKartGamePads[2];
     bool mLapRenewal;
     bool mRaceEnd;
@@ -190,25 +190,25 @@ public:
     u8 _0x2b; // probably padding
     int mLap;
     f32 sectorProgression;
-    s32 warpState;
-    s32 mGeneration;
-    s32 sectorIndex;
+    int warpState;
+    int mGeneration;
+    int sectorIndex;
     Course::Sector *sector1;
     Course::Sector *sector2;
     f32 lapProgression;
     f32 prevlapProgression;
     f32 lapProgression2; // might be max Lap Progression
     f32 raceProgression;
-    s32 *cpBitfields; // seems to store what checkpoint have been passed
+    u32 *cpBitfields; // seems to store what checkpoint have been passed
     JGeometry::TVec3<f32> mPos;
     JGeometry::TVec3<f32> mPrevPos;
     JugemPoint *mJugemPoint;
     bool _0x78; // true = in race | false = finished
     u8 _0x79[3];
-    s32 curFrame;
-    s32 mGoalFrame;
+    int curFrame;
+    int mGoalFrame;
     RaceTime mTotalTime;
-    s32 mRank;
+    int mRank;
     u16 battleFlags;
     s16 mBalForbiddenTime;
     s16 mBalloonNum;
@@ -218,10 +218,10 @@ public:
     s8 bombPointTable[10];
     s16 mBombPoint;
     s16 rabbitWinFrame;
-    s32 demoPoint;
+    int demoPoint;
     // these only get set in the constructor?
     JGeometry::TVec3<f32> _0xb0;
-    s32 _0xbc;
+    int _0xbc;
 };
 
 class LapChecker

@@ -1249,7 +1249,6 @@ void RaceMgr::updateRace()
     SYSDBG_EndUserTime(4);
 
     SYSDBG_BeginUserTime(6);
-    ;
     for (u32 i = 0; i < getCameraNumber(); i++)
     {
         j3dSys.setViewMtx(getCamera(i)->GetMtx());
