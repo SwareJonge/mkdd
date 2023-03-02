@@ -164,6 +164,12 @@ JSystem/JKernel/JKRThread.cpp:
     .sbss: [0x804159d0, 0x804159d8]
     .sdata2: [0x80417b58, 0x80417b68]
 
+JSystem/JKernel/JKRAssertHeap.cpp:
+    .text: [0x8008724c, 0x800875c4]
+    .rodata: [0x80367758, 0x803677f8]
+    .data: [0x8038b548, 0x8038b5a8]
+    .sdata2: [0x80417b68, 0x80417b78]
+
 JSystem/JAudio/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]

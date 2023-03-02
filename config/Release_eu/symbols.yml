@@ -159,6 +159,28 @@ global:
   # JKRSolidHeap.cpp
   0x80015f40: create__12JKRSolidHeapFUlP7JKRHeapb
   0x80016108: adjustSize__12JKRSolidHeapFv
+
+  # JKRAssertHeap.cpp
+  0x80017254: __dt__13JKRAssertHeapFv
+  0x800172bc: create__13JKRAssertHeapFP7JKRHeap
+  0x80017340: do_destroy__13JKRAssertHeapFv
+  0x80017370: getHeapType__13JKRAssertHeapFv
+  0x8001737c: check__13JKRAssertHeapFv
+  0x80017384: dump__13JKRAssertHeapFv
+  0x8001738c: dump_sort__13JKRAssertHeapFv
+  0x80017394: do_changeGroupID__13JKRAssertHeapFUc
+  0x8001739c: do_getCurrentGroupId__13JKRAssertHeapFv
+  0x800173a4: do_alloc__13JKRAssertHeapFUli
+  0x800173ac: do_free__13JKRAssertHeapFPv
+  0x800173b0: do_freeAll__13JKRAssertHeapFv
+  0x800173b4: do_freeTail__13JKRAssertHeapFv
+  0x800173b8: do_fillFreeArea__13JKRAssertHeapFv
+  0x800173bc: do_resize__13JKRAssertHeapFPvUl
+  0x800173c4: do_getSize__13JKRAssertHeapFPv
+  0x800173cc: do_getFreeSize__13JKRAssertHeapFv
+  0x800173d4: do_getMaxFreeBlock__13JKRAssertHeapFv
+  0x800173dc: do_getTotalFreeSize__13JKRAssertHeapFv 
+  0x80347f40: __vt__13JKRAssertHeap
   # JSupport
   # JSUList.cpp
   0x800177b0: __ct__10JSUPtrLinkFPv

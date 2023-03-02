@@ -21,6 +21,10 @@ JSystem/JKernel/JKRHeap.cpp:
     .sbss: [0x803d4aa0, 0x803d4ac8]
     .sdata2: [0x803d64d8, 0x803d64e8]
 
+JSystem/JKernel/JKRAssertHeap.cpp:
+    .text: [0x80017254, 0x800173e4]
+    .data: [0x80347f40, 0x80347fa0]
+
 JSystem/JMath/JMath.cpp:
     .text: [0x80026880, 0x80026ad8]
     .sdata2: [0x803d66e0, 0x803d66e8]

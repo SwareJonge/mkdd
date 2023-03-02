@@ -1,4 +1,4 @@
-config/dol.yml:
+config/MarioClub_us/dol.yml:
     JSystem/JUtility/FontData/Ascfont_fix12.bfn: # TODO: decide if there's a better folder to drop this in
         addrs: [0x80362160, 0x803662c0]
 
