@@ -23,4 +23,15 @@ Decompilation of Mario Kart Double Dash!!
 - Run `ninja`
 
 ## Credits
-- [Seeky](https://github.com/SeekyCt) for helping me a lot to set this all up
+- [Seeky](https://github.com/SeekyCt) for ppcdis, without it this project wouldn't have been where it is now
+### Matching
+Used code from the following repositories(JSystem)
+* [Pikmin 2 Decomp](https://github.com/projectPiki/pikmin2)
+* [Super Mario Sunshine Decomp](https://github.com/doldecomp/sms)
+* [Syati](https://github.com/PMArkive/Syati-pretransfer)
+* [Twilight Princess Decomp](https://github.com/zeldaret/tp)
+
+And many thanks to the people who helped me match some game functions(sorry if i forgot someone)
+* [Chippy](https://github.com/1superchip)
+* [kiwi](https://github.com/kiwi515)
+* [Seeky](https://github.com/SeekyCt)
