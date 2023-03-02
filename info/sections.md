@@ -3,7 +3,6 @@
 Name | Offset(MEM) | Size
 --- | --- | ---
 Dolphin.a(init) | 0x80003100 | 0x25c0
-kartLocale.o | 0x800056c0 | 0xF4
 JSystemM.a | 0x800057b4 | 0xA9D74
 Dolphin.a | 0x800af528 | 0x69784
 BandoM.a | 0x80118cac | 0x70
@@ -20,7 +19,6 @@ YamamotoM.a | 0x802db04c | 0x3B050
 Name | Offset(MEM) | Size
 --- | --- | ---
 Dolphin.a(init) | 0x80003100 | 0x25c0
-kartLocale.o | 0x800056c0 | 0xF4
 JSystem.a | 0x800057b4 | 0xA3E4C
 Dolphin.a | 0x800a9600 | 0x68C6C
 Bando.a | 0x8011226c | 0x70
