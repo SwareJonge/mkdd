@@ -23,7 +23,7 @@ bool JKRArcFinder::findNextFile() {
             mFileIndex = mNextIndex;
             mFileID = dirEntry.mID;
             mFileTypeFlags = dirEntry.mFlags;
-            mIsFileOrDir = mFileTypeFlags >> 1 & 1;
+            mIsFileOrDir = (mFileTypeFlags & 2) != 0;
             mNextIndex++;
         }
     }

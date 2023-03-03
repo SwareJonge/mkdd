@@ -40,6 +40,24 @@ JSystem/JKernel/JKRExpHeap.cpp:
     .sbss: [0x803d4a80, 0x803d4a98]
     .sdata2: [0x803d64a0, 0x803d64d0]
 
+JSystem/JKernel/JKRFileCache.cpp:
+    .text: [0x8001421c, 0x8001426c]
+    .data: [0x80347db0, 0x80347dc0]
+
+JSystem/JKernel/JKRFileFinder.cpp:
+    .text: [0x8001426c, 0x80014410]
+    .data: [0x80347dc0, 0x80347dd0]
+
+JSystem/JKernel/JKRFileLoader.cpp:
+    .text: [0x80014410, 0x8001482c]
+    .ctors: [0x802d84c4, 0x802d84c8]
+    .data: [0x80347dd0, 0x80347e10]
+    .bss: [0x8036df58, 0x8036df68]
+    #.bss: [0x803ae998, 0x803ae9a4] # common bss
+    .sdata: [0x803d3270, 0x803d3278]
+    .sbss: [0x803d4a98, 0x803d4aa0]
+    .sdata2: [0x803d64d0, 0x803d64d8]
+
 JSystem/JKernel/JKRHeap.cpp:
     .text: [0x8001482c, 0x80015818]
     .rodata: [0x8032d380, 0x8032d390]

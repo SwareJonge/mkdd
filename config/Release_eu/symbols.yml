@@ -36,6 +36,40 @@ global:
   0x8000c4b4: sendCommand__12JKRAramPieceFP12JKRAMCommand
   # JKRAramStream.cpp
   0x8000cc9c: getAvailable__20JSURandomInputStreamCFv
+  # JKRArchive.cpp
+  0x8000cf4c: __dt__10JKRArchiveFv
+  0x8000cfac: isSameName__10JKRArchiveCFRQ210JKRArchive8CArcNameUlUs
+  0x8000cff8: findDirectory__10JKRArchiveCFPCcUl
+  0x8000d334: __ct__Q210JKRArchive8CArcNameFPPCcc
+  0x8000d370: getString__Q210JKRArchive8CArcNameCFv
+  0x8000d378: getHash__Q210JKRArchive8CArcNameCFv
+  0x8000d380: findTypeResource__10JKRArchiveCFUlPCc
+  0x8000d47c: findFsResource__10JKRArchiveCFPCcUl
+  0x8000d7dc: findIdxResource__10JKRArchiveCFUl
+  0x8000d804: findNameResource__10JKRArchiveCFPCc
+  0x8000d8ac: findPtrResource__10JKRArchiveCFPCv
+  0x8000d8e0: findIdResource__10JKRArchiveCFUs
+  0x8000d968: store__Q210JKRArchive8CArcNameFPCc
+  0x8000da04: store__Q210JKRArchive8CArcNameFPCcc
+  0x8000dac8: setExpandSize__10JKRArchiveFPQ210JKRArchive12SDIFileEntryUl
+  0x8000db04: getExpandSize__10JKRArchiveCFPQ210JKRArchive12SDIFileEntry
+  0x8000db44: mount__10JKRArchiveFPCcQ210JKRArchive10EMountModeP7JKRHeapQ210JKRArchive15EMountDirection
+  0x8000db98: mount__10JKRArchiveFPvP7JKRHeapQ210JKRArchive15EMountDirection
+  0x8000dc7c: mount__10JKRArchiveFlQ210JKRArchive10EMountModeP7JKRHeapQ210JKRArchive15EMountDirection
+  0x8000de64: becomeCurrent__10JKRArchiveFPCc
+  0x8000defc: getDirEntry__10JKRArchiveCFPQ210JKRArchive9SDirEntryUl
+  0x8000df6c: getGlbResource__10JKRArchiveFUlPCcP10JKRArchive
+  0x8000e01c: getResource__10JKRArchiveFPCc
+  0x8000e09c: getResource__10JKRArchiveFUlPCc
+  0x8000e11c: readResource__10JKRArchiveFPvUlUlPCc
+  0x8000e1b8: readResource__10JKRArchiveFPvUlPCc
+  0x8000e250: readResource__10JKRArchiveFPvUlUs
+  0x8000e2c0: removeResourceAll__10JKRArchiveFv
+  0x8000e340: removeResource__10JKRArchiveFPv
+  0x8000e398: detachResource__10JKRArchiveFPv
+  0x8000e3d4: getResSize__10JKRArchiveCFPCv
+  0x8000e408: countFile__10JKRArchiveCFPCc
+  0x8000e474: getFirstFile__10JKRArchiveCFPCc
   # JKRAramArchive.cpp
   0x80347b08: __vt__7JKRFile
   # JKRDecomp.cpp
@@ -127,6 +161,26 @@ global:
   0x803d4a8C: DBnewFreeBlock
   0x803d4a90: DBnewUsedBlock
   0x80347d50: __vt__10JKRExpHeap
+  # JKRFileCache.cpp
+  0x8001421c: __dt__13JKRFileFinderFv
+  0x80347db0: __vt__13JKRFileFinder
+  # JKRFileFinder.cpp
+  0x8001426c: __ct__12JKRArcFinderFP10JKRArchivell
+  0x800142f8: findNextFile__12JKRArcFinderFv
+  0x800143ac: __dt__12JKRArcFinderFv
+  0x80347dc0: __vt__12JKRArcFinder
+  # JKRFileLoader.cpp
+  0x80014410: __ct__13JKRFileLoaderFv
+  0x80014468: __dt__13JKRFileLoaderFv
+  0x800144f4: unmount__13JKRFileLoaderFv
+  0x80014548: getGlbResource__13JKRFileLoaderFPCc
+  0x80014594: getGlbResource__13JKRFileLoaderFPCcP13JKRFileLoader
+  0x80014628: findVolume__13JKRFileLoaderFPPCc
+  0x800146bc: fetchVolumeName__13JKRFileLoaderFPclPCc
+  0x800147d8: __dt__24JSUList<13JKRFileLoader>Fv
+  0x80347dd0: __vt__13JKRFileLoader
+  0x803d4a98: sCurrentVolume__13JKRFileLoader
+  0x803ae998: sVolumeList__13JKRFileLoader
 
   # JKRHeap.cpp
   0x8001482c: __ct__7JKRHeapFPvUlP7JKRHeapb
@@ -1260,6 +1314,7 @@ global:
   0x80102418: __kill_critical_regions
   0x8010241c: toupper
   0x80102458: tolower
+  0x80352e90: __lower_map
   0x80102494: isxdigit
   0x801024b0: isupper
   0x801024cc: isspace
