@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JKR_JKRFILE_H
 #define _JSYSTEM_JKR_JKRFILE_H
 
-#include "JSystem/JKernel/JKRDisposer.h"
+#include <JSystem/JKernel/JKRDisposer.h>
 #include "types.h"
 
 class JKRFile : JKRDisposer {

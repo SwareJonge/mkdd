@@ -1,5 +1,5 @@
 #include <dolphin/stl.h>
-#include "JSystem/JSupport/JSUStream.h"
+#include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
 
 void JSUMemoryInputStream::setBuffer(const void* buffer, long length)

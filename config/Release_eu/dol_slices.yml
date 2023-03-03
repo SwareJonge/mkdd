@@ -25,6 +25,24 @@ JSystem/JKernel/JKRAssertHeap.cpp:
     .text: [0x80017254, 0x800173e4]
     .data: [0x80347f40, 0x80347fa0]
 
+JSystem/JSupport/JSUOutputStream.cpp:
+    .data: [0x80347fa0, 0x80347fb0]
+
+JSystem/JSupport/JSUInputStream.cpp:
+    .text: [0x800173e4, 0x800177b0]
+    .data: [0x80347fb0, 0x80347ff0]
+
+JSystem/JSupport/JSUList.cpp:
+    .text: [0x800177b0, 0x80017d14]
+
+JSystem/JSupport/JSUMemoryStream.cpp:
+    .text: [0x80017d14, 0x80017e94]
+    .data: [0x80347ff0, 0x80348018]
+
+JSystem/JSupport/JSUFileStream.cpp:
+    .text: [0x80017e94, 0x800180b4]
+    .data: [0x80348018, 0x80348040]
+
 JSystem/JMath/JMath.cpp:
     .text: [0x80026880, 0x80026ad8]
     .sdata2: [0x803d66e0, 0x803d66e8]

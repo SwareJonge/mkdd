@@ -29,7 +29,7 @@ global:
 
   # JSystem
   # J3D
-  # J3DSys
+  # J3DSys.cpp
   0x803b6db0: j3dSys
   # JUtility
   # JUTGamePad.cpp
@@ -43,9 +43,15 @@ global:
   # JUTFontData_Ascfont_fix12.s
   0x8032db80: JUTResFONT_Ascfont_fix12
   # JKernel
+  # JKRAramStream.cpp
+  0x8000cc9c: getAvailable__20JSURandomInputStreamCFv
+  # JKRAramArchive.cpp
+  0x80347b08: __vt__7JKRFile
   # JKRDisposer.cpp
   0x8000fa00: __ct__11JKRDisposerFv
   0x8000fa68: __dt__11JKRDisposerFv
+  # JKRDvdAramRipper.cpp
+  0x8001059c: __dt__18JSUFileInputStreamFv
 
   # JKRExpHeap.cpp
   0x80012728: createRoot__10JKRExpHeapFib
@@ -182,6 +188,20 @@ global:
   0x800173dc: do_getTotalFreeSize__13JKRAssertHeapFv 
   0x80347f40: __vt__13JKRAssertHeap
   # JSupport
+  # JSUOutputStream.cpp
+  0x800173e4: __dt__10JSUIosBaseFv
+  # JSUInputStream.cpp
+  0x80017434: __dt__14JSUInputStreamFv
+  0x80017498: read__14JSUInputStreamFPvl
+  0x800174ec: skip__14JSUInputStreamFl
+  0x80017568: align__20JSURandomInputStreamFl
+  0x800175f4: skip__20JSURandomInputStreamFl
+  0x8001764c: peek__20JSURandomInputStreamFPvl
+  0x800176f4: seek__20JSURandomInputStreamFl17JSUStreamSeekFrom
+  0x8001773c: __dt__20JSURandomInputStreamFv
+  0x80347fa0: __vt__10JSUIosBase
+  0x80347fb0: __vt__20JSURandomInputStream
+  0x80347fd4: __vt__14JSUInputStream
   # JSUList.cpp
   0x800177b0: __ct__10JSUPtrLinkFPv
   0x800177c8: __dt__10JSUPtrLinkFv 
@@ -189,7 +209,25 @@ global:
   0x80017864: __dt__10JSUPtrListFv
   0x800178d4: initiate__10JSUPtrListFv
   0x800178e8: append__10JSUPtrListFP10JSUPtrLink
+  0x800179a0: prepend__10JSUPtrListFP10JSUPtrLink
+  0x80017a58: insert__10JSUPtrListFP10JSUPtrLinkP10JSUPtrLink
   0x80017c30: remove__10JSUPtrListFP10JSUPtrLink
+  0x80017ce4: getNthLink__10JSUPtrListCFUl
+  # JSUMemoryStream.cpp
+  0x80017d14: setBuffer__20JSUMemoryInputStreamFPCvl
+  0x80017d28: readData__20JSUMemoryInputStreamFPvl
+  0x80017d98: seekPos__20JSUMemoryInputStreamFl17JSUStreamSeekFrom
+  0x80017e14: __dt__20JSUMemoryInputStreamFv
+  0x80017e84: getLength__20JSUMemoryInputStreamCFv
+  0x80017e8c: getPosition__20JSUMemoryInputStreamCFv
+  0x80347ff0: __vt__20JSUMemoryInputStream
+  # JSUFileInputStream.cpp
+  0x80017e94: __ct__18JSUFileInputStreamFP7JKRFile
+  0x80017ed8: readData__18JSUFileInputStreamFPvl
+  0x80017fa4: seekPos__18JSUFileInputStreamFl17JSUStreamSeekFrom
+  0x8001807c: getLength__18JSUFileInputStreamCFv
+  0x800180ac: getPosition__18JSUFileInputStreamCFv
+  0x80348018: __vt__18JSUFileInputStream
   # JUtility
   # JUTConsole.cpp
   0x80019728: JUTReportConsole_f

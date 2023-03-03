@@ -1,10 +1,12 @@
 #include <dolphin/os.h>
-#include "JSystem/JSupport/JSUStream.h"
+#include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
 
 JSUInputStream::~JSUInputStream() { 
+#if DEBUG // TODO: OS Assert/Panic?
     if(isGood())
     	OSReport("JSUInputStream: occur error.\n");
+#endif
 }
 
 s32 JSUInputStream::read(void* data, s32 length)

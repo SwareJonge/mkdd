@@ -1,5 +1,5 @@
 #include <dolphin/string.h>
-#include "JSystem/JSupport/JSUStream.h"
+#include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
 
 // Unused File, however is listed in some unreferenced duplicates

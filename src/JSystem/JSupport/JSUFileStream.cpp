@@ -1,5 +1,5 @@
-#include "JSystem/JKernel/JKRFile.h"
-#include "JSystem/JSupport/JSUStream.h"
+#include <JSystem/JKernel/JKRFile.h>
+#include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
 
 JSUFileInputStream::JSUFileInputStream(JKRFile* file)
