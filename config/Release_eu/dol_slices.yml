@@ -26,10 +26,11 @@ JSystem/JKernel/JKRAssertHeap.cpp:
     .data: [0x80347f40, 0x80347fa0]
 
 JSystem/JSupport/JSUOutputStream.cpp:
+    .text: [0x800173e4, 0x80017434]
     .data: [0x80347fa0, 0x80347fb0]
 
 JSystem/JSupport/JSUInputStream.cpp:
-    .text: [0x800173e4, 0x800177b0]
+    .text: [0x80017434, 0x800177b0]
     .data: [0x80347fb0, 0x80347ff0]
 
 JSystem/JSupport/JSUList.cpp:
