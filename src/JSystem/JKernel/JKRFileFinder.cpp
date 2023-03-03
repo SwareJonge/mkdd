@@ -30,7 +30,6 @@ bool JKRArcFinder::findNextFile() {
     return mIsAvailable;
 }
 
-
 // UNUSED
 JKRDvdFinder::JKRDvdFinder(const char *path) : JKRFileFinder() {
     mIsDvdOpen = DVDOpenDir(const_cast<char *>(path), &mFstEntry);

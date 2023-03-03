@@ -6,6 +6,14 @@ kartLocale.cpp:
     .sbss: [0x803d4980, 0x803d4988]
     .sdata2: [0x803d63e0, 0x803d6408]
 
+JSystem/JKernel/JKRArchivePri.cpp:
+    .text: [0x8000ceb0, 0x8000db44]
+    .sbss: [0x803d49e8, 0x803d49f0]
+
+JSystem/JKernel/JKRArchivePub.cpp:
+    .text: [0x8000db44, 0x8000e554]
+    .data: [0x80347bd8, 0x80347c28]
+
 #JSystem/JKernel/JKRDecomp.cpp:
     #.text: [0x8000f2ec, 0x8000fa00]
     #.data: [0x80347c78, 0x80347cc8]
