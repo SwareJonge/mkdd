@@ -6,6 +6,33 @@ kartLocale.cpp:
     .sbss: [0x803d4980, 0x803d4988]
     .sdata2: [0x803d63e0, 0x803d6408]
 
+#JSystem/JKernel/JKRDecomp.cpp:
+    #.text: [0x8000f2ec, 0x8000fa00]
+    #.data: [0x80347c78, 0x80347cc8]
+
+JSystem/JKernel/JKRDisposer.cpp:
+    .text: [0x8000fa00, 0x8000faec]
+    .data: [0x80347cc8, 0x80347cd8]
+
+JSystem/JKernel/JKRDvdFile.cpp:
+    .text: [0x8000faec, 0x80010048]
+    .ctors: [0x802d84b8, 0x802d84bc]
+    .rodata: [0x8032cf08, 0x8032cf30]
+    .data: [0x80347cd8, 0x80347d00]
+    .bss: [0x8036def8, 0x8036df08]    
+    #.bss: [0x803ae974, 0x803ae980]
+    .sdata2: [0x803d6488, 0x803d6490]
+
+#JSystem/JKernel/JKRDvdRipper.cpp:
+    #.text: [0x80011a44, 0x80012728]
+    #.ctors: [0x802d84c0, 0x802d84c4]
+    #.rodata: [0x8032cfa8, 0x8032d008]
+    #.bss: [0x8036df30, 0x8036df58]    
+    ##.bss: [0x803ae98c, 0x803ae9b0] 
+    #.sdata: [0x803d3268, 0x803d3270]
+    #.sbss: [0x803d4a40, 0x803d4a80]
+    #.sdata2: [0x803d6498, 0x803d64a0]
+    
 JSystem/JKernel/JKRExpHeap.cpp:
     .text: [0x80012728, 0x8001421c]
     .rodata: [0x8032d008, 0x8032d380]
@@ -20,6 +47,14 @@ JSystem/JKernel/JKRHeap.cpp:
     .sdata: [0x803d3278, 0x803d3280]
     .sbss: [0x803d4aa0, 0x803d4ac8]
     .sdata2: [0x803d64d8, 0x803d64e8]
+
+JSystem/JKernel/JKRThread.cpp:
+    .text: [0x80016890, 0x80017254]
+    .ctors: [0x802d84c8, 0x802d84cc]
+    .data: [0x80347f20, 0x80347f40]
+    .bss: [0x8036df68, 0x8036df80]
+    #.bss: [0x803ae9a4, 0x803ae9e8] #common bss
+    .sbss: [0x803d4ac8, 0x803d4ad0]
 
 JSystem/JKernel/JKRAssertHeap.cpp:
     .text: [0x80017254, 0x800173e4]
@@ -48,6 +83,15 @@ JSystem/JMath/JMath.cpp:
     .text: [0x80026880, 0x80026ad8]
     .sdata2: [0x803d66e0, 0x803d66e8]
 
+#JSystem/JUtility/JUTProcBar.cpp:
+    #.text: [0x8001fbdc, 0x80021d38]
+    #.sdata: [0x803d32a8, 0x803d32b0]
+    #.sbss: [0x803d4b60, 0x803d4b78]
+    #.sdata2: [0x803d6668, 0x803d66b0]
+
+JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
+    .rodata: [0x8032db80, 0x80331ce0]
+
 JSystem/JMath/random.cpp:
     .text: [0x80026ad8, 0x80026ae0]
 
@@ -56,8 +100,10 @@ JSystem/JMath/JMATrigonometric.cpp:
     .ctors: [0x802d84d4, 0x802d84d8]
     .sdata2: [0x803d66f0, 0x803d6738]
 
-JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
-    .rodata: [0x8032db80, 0x80331ce0]
+JSystem/JAudio/JASReport.cpp:
+    .text: [0x80091270, 0x8009136c]
+    .bss: [0x8036e7c8, 0x8036e7e0]
+    .sbss: [0x803d4cb8, 0x803d4cc8]
 
 dolphin/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]

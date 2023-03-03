@@ -31,28 +31,56 @@ global:
   # J3D
   # J3DSys.cpp
   0x803b6db0: j3dSys
-  # JUtility
-  # JUTGamePad.cpp
-  0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
-  0x8001dbb0: __dt__10JUTGamePadFv
-  0x8001e5cc: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
-  0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
-  0x8001ec90: update__Q210JUTGamePad6CStickFScUl
-  0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
-  0x803d3290: sStickMode__10JUTGamePad
-  # JUTFontData_Ascfont_fix12.s
-  0x8032db80: JUTResFONT_Ascfont_fix12
   # JKernel
+  # JKRAramPiece.cpp
+  0x8000c4b4: sendCommand__12JKRAramPieceFP12JKRAMCommand
   # JKRAramStream.cpp
   0x8000cc9c: getAvailable__20JSURandomInputStreamCFv
   # JKRAramArchive.cpp
   0x80347b08: __vt__7JKRFile
+  # JKRDecomp.cpp
+  0x8000f2ec: create__9JKRDecompFl
+  0x8000f350: __ct__9JKRDecompFl
+  0x8000f3a0: __dt__9JKRDecompFv
+  0x8000f400: run__9JKRDecompFv
+  0x8000f4c4: sendCommand__9JKRDecompFP16JKRDecompCommand
+  0x8000f4f4: orderSync__9JKRDecompFPUcPUcUlUl
+  0x8000f598: decode__9JKRDecompFPUcPUcUlUl
+  0x8000f60c: decodeSZP__9JKRDecompFPUcPUcUlUl
+  0x8000f7f0: decodeSZS__9JKRDecompFPUcPUcUlUl
+  0x8000f8f4: checkCompressed__9JKRDecompFPUc
+  0x8000f96c: __ct__16JKRDecompCommandFv
+  0x8000f9bc: __dt__16JKRDecompCommandFv
+  0x80347cb8: __vt__9JKRDecomp
   # JKRDisposer.cpp
   0x8000fa00: __ct__11JKRDisposerFv
   0x8000fa68: __dt__11JKRDisposerFv
+  # JKRDvdFile.cpp
+  0x8000faec: __ct__10JKRDvdFileFv
+  0x8000fb58: __ct__10JKRDvdFileFl
+  0x8000fbf8: __dt__10JKRDvdFileFv
+  0x8000fc94: initiate__10JKRDvdFileFv
+  0x8000fd00: open__10JKRDvdFileFPCc
+  0x8000fd78: open__10JKRDvdFileFl
+  0x8000fdf0: close__10JKRDvdFileFv
+  0x8000fe70: readData__10JKRDvdFileFPvll
+  0x8000ff1c: writeData__10JKRDvdFileFPCvll
+  0x8000ff24: sync__10JKRDvdFileFv
+  0x8000ff78: doneProcess__10JKRDvdFileFlP11DVDFileInfo
+  0x8000ffa8: getFileSize__10JKRDvdFileCFv
+  0x8000fff4: __dt__21JSUList<10JKRDvdFile>Fv
+  0x80347cd8: __vt__10JKRDvdFile
+  0x803ae974: sDvdList__10JKRDvdFile
   # JKRDvdAramRipper.cpp
   0x8001059c: __dt__18JSUFileInputStreamFv
-
+  # JKRDvdRipper.cpp
+  0x80011a44: loadToMainRAM__12JKRDvdRipperFPCcPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+  0x80011afc: loadToMainRAM__12JKRDvdRipperFlPUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+  0x80011bb4: loadToMainRAM__12JKRDvdRipperFP10JKRDvdFilePUc15JKRExpandSwitchUlP7JKRHeapQ212JKRDvdRipper15EAllocDirectionUlPiPUl
+  0x8001209c: JKRDecompressFromDVD__FP10JKRDvdFilePvUlUlUlUlPUl
+  0x80012688: isErrorRetry__12JKRDvdRipperFv
+  0x800126d4: __dt__23JSUList<12JKRDMCommand>Fv
+  0x803ae98c: sDvdAsyncList__12JKRDvdRipper
   # JKRExpHeap.cpp
   0x80012728: createRoot__10JKRExpHeapFib
   0x800127a8: create__10JKRExpHeapFUlP7JKRHeapb
@@ -165,6 +193,27 @@ global:
   # JKRSolidHeap.cpp
   0x80015f40: create__12JKRSolidHeapFUlP7JKRHeapb
   0x80016108: adjustSize__12JKRSolidHeapFv
+  # JKRThread.cpp
+  0x80016890: __ct__9JKRThreadFUlii
+  0x80016934: __ct__9JKRThreadFP7JKRHeapUlii
+  0x800169d4: __ct__9JKRThreadFP8OSThreadi
+  0x80016a6c: __dt__9JKRThreadFv
+  0x80016b44: setCommon_mesgQueue__9JKRThreadFP7JKRHeapi
+  0x80016bb4: setCommon_heapSpecified__9JKRThreadFP7JKRHeapUli
+  0x80016c3c: start__9JKRThreadFPv
+  0x80016c68: run__9JKRThreadFv
+  0x80016c70: enter__15JKRThreadSwitchFP9JKRThreadi
+  0x80016ce8: __dt__7JKRTaskFv
+  0x80016df8: create__7JKRTaskFiiUlP7JKRHeap
+  0x80017000: run__7JKRTaskFv
+  0x80017094: request__7JKRTaskFPFPv_vPvPv
+  0x800171ac: __dt__17JSUList<7JKRTask>Fv
+  0x80017200: __dt__19JSUList<9JKRThread>Fv
+  0x80347f20: __vt__7JKRTask
+  0x80347f30: __vt__9JKRThread
+  0x803ae9a4: sThreadList__9JKRThread
+  0x803ae9dc: sTaskList__7JKRTask
+  0x803d4ac8: sManager__15JKRThreadSwitch
 
   # JKRAssertHeap.cpp
   0x80017254: __dt__13JKRAssertHeapFv
@@ -230,12 +279,37 @@ global:
   0x80348018: __vt__18JSUFileInputStream
   # JUtility
   # JUTConsole.cpp
+  0x80018794: __dt__10JUTConsoleFv
   0x80019728: JUTReportConsole_f
   0x800197f0: JUTReportConsole
   0x8001981c: JUTWarningConsole_f
   0x800198e4: JUTWarningConsole
+  0x80348040: __vt__10JUTConsole
   # JUTException.cpp
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
+  # JUTGamePad.cpp
+  0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
+  0x8001dbb0: __dt__10JUTGamePadFv
+  0x8001e5cc: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
+  0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
+  0x8001ec90: update__Q210JUTGamePad6CStickFScUl
+  0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
+  0x803d3290: sStickMode__10JUTGamePad
+  # JUTProcBar.cpp
+  0x8001fbdc: __ct__Q210JUTProcBar5CTimeFv
+  0x8001fbf0: create__10JUTProcBarFv
+  0x8001fd24: destroy__10JUTProcBarFv
+  0x8001fd64: clear__10JUTProcBarFv
+  0x8001fe34: draw__10JUTProcBarFv
+  0x8001fe68: drawProcessBar__10JUTProcBarFv
+  0x80021638: drawHeapBar__10JUTProcBarFv
+  0x803d32a8: oneFrameRate
+  0x803d32ac: oneFrameRateUser
+  0x803d4b60: sManager__10JUTProcBar
+  # JUTVideo.cpp
+  0x803d4b78: sManager__8JUTVideo
+  # JUTFontData_Ascfont_fix12.s
+  0x8032db80: JUTResFONT_Ascfont_fix12
   # JMath
   0x80026880: JMAEulerToQuat__FsssP10Quaternion
   0x80026944: JMAQuatLerp__FPC10QuaternionPC10QuaternionfP10Quaternion
@@ -250,6 +324,16 @@ global:
   0x803aed20: sincosTable___5JMath
   0x803b4d60: atanTable___5JMath
   0x803b5d80: asinAcosTable___5JMath
+  # J2D
+  # J2DOrthoGraph.cpp
+  0x80027274: J2DDrawLine__FffffQ28JUtility6TColori
+  0x800273cc: J2DFillBox__FffffQ28JUtility6TColor
+  0x80027414: J2DFillBox__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColor
+  0x800274d0: J2DDrawFrame__FffffQ28JUtility6TColorUc
+  0x8002751c: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
+  # JAudio
+  # JASReport.cpp
+  0x80091270: JASReport__FPCce
 
   # Dolphin 
   # these have been ported by hand, there might be some errors in here

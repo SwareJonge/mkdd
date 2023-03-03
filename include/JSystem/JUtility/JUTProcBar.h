@@ -38,6 +38,7 @@ public:
 
         void accumePeek()
         {
+            //u32 prev = ++_0C;
             if (++_0C >= 0x10 || mCost >= _08)
             {
                 _08 = mCost;

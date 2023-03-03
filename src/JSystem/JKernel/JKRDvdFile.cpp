@@ -1,5 +1,5 @@
-#include "JSystem/JKernel/JKRDvdFile.h"
-#include "JSystem/JUtility/JUTDbg.h"
+#include <JSystem/JKernel/JKRDvdFile.h>
+#include <JSystem/JUtility/JUTDbg.h>
 
 JSUList<JKRDvdFile> JKRDvdFile::sDvdList;
 
@@ -100,7 +100,7 @@ OSMessage JKRDvdFile::sync() {
 }
 
 BOOL JKRDvdFile::doneProcess(s32 msg, DVDFileInfo * fInfo) {
-    JKRDvdFile * dvdFile = reinterpret_cast<JKRDvdFile *>(fInfo->file);
+    JKRDvdFile * dvdFile = reinterpret_cast<JKRDvdFile *>(fInfo->file); // TODO: is this part of DVDFileInfo or JKRDvdFile?
     return OSSendMessage(&dvdFile->mMessageQueue_C0, (void*)msg, OS_MESSAGE_NOBLOCK);
 }
 

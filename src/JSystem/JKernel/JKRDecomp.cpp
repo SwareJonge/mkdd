@@ -106,6 +106,7 @@ void JKRDecomp::decode(u8 *src, u8 *dst, u32 srcSize, u32 dstSize) {
         decodeSZS(src, dst, srcSize, dstSize);
 }
 
+// doesn't match for release
 void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
 {
     // s32 decodedSize;
@@ -116,6 +117,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     s32 linkInfo;
     s32 offset;
     s32 i;
+    // TODO: Replace inline with macro
     s32 decodedSize = read_big_endian_u32(src + 4);
     s32 linkTableOffset = read_big_endian_u32(src + 8);
     s32 srcDataOffset = read_big_endian_u32(src + 12);

@@ -58,9 +58,9 @@ namespace JKRDvdRipper {
         }
     }
 
+    // Has regswaps for release
     void *loadToMainRAM(JKRDvdFile *jkrDvdFile, u8 *file, JKRExpandSwitch expandSwitch, u32 fileSize, JKRHeap *heap, EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *p9)
     {
-
         bool hasAllocated = false;
         CompressionMethod compression = TYPE_NONE;
         u32 expandSize;
@@ -297,8 +297,8 @@ int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, unsigned long p3, unsigned 
 int decompSZS_subroutine(u8 *src, u8 *dest)
 {
     u8 *endPtr;
-    u32 currCodeByte = 0;
-    s32 validBitCount = 0;
+    s32 currCodeByte = 0;
+    s32 validBitCount = 0;    
     u32 ts = 0;
 
     if (src[0] != 'Y' || src[1] != 'a' || src[2] != 'z' || src[3] != '0')
@@ -366,7 +366,7 @@ int decompSZS_subroutine(u8 *src, u8 *dest)
         }
         else
         {
-            u32 dist = ((src[0] & 0x0f) << 8) | src[1];
+            u32 dist = src[1] | (src[0] & 0x0f) << 8;
             s32 numBytes = src[0] >> 4;
             src += 2;
             u8 *copySource;
