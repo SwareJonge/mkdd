@@ -217,7 +217,7 @@ int JKRSolidHeap::do_getSize(void *ptr)
     return -1;
 }
 
-MANGLED_ASM(void g(u32 cnt)){
+MANGLED_ASM(void JKRSolidHeap::recordState(u32 cnt)){
 #include "asm/800862cc.s"
 } 
 MANGLED_ASM(void JKRSolidHeap::restoreState(u32 cnt))
