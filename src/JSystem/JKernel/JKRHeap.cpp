@@ -155,12 +155,12 @@ void JKRHeap::fillFreeArea() {
     do_fillFreeArea();
 }
 
-void JKRHeap::resize(void *memoryBlock, u32 newSize) {
+int JKRHeap::resize(void *memoryBlock, u32 newSize) {
     JUT_WARNING_F(491, !mInitFlag, "resize block %x into %x in heap %x", memoryBlock, newSize, this);
-    do_resize(memoryBlock, newSize); 
+    return do_resize(memoryBlock, newSize); 
 }
 s32 JKRHeap::getFreeSize() { return do_getFreeSize(); }
-s32 JKRHeap::getTotalFreeSize() { return do_getTotalFreeSize(); }
+u32 JKRHeap::getTotalFreeSize() { return do_getTotalFreeSize(); }
 
 u8 JKRHeap::changeGroupID(u8 newGroupID) {
     JUT_WARNING_F(570, !mInitFlag, "change heap ID into %x in heap %x", newGroupID, this);

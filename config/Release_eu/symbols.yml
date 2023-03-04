@@ -340,7 +340,30 @@ global:
   0x80015ea8: getExpandedResSize__13JKRMemArchiveCFPCv
   # JKRSolidHeap.cpp
   0x80015f40: create__12JKRSolidHeapFUlP7JKRHeapb
+  0x80015fec: do_destroy__12JKRSolidHeapFv
+  0x80016044: __ct__12JKRSolidHeapFPvUlP7JKRHeapb
+  0x800160a0: __dt__12JKRSolidHeapFv
   0x80016108: adjustSize__12JKRSolidHeapFv
+  0x800161bc: do_alloc__12JKRSolidHeapFUli
+  0x8001625c: allocFromHead__12JKRSolidHeapFUli
+  0x8001631c: allocFromTail__12JKRSolidHeapFUli
+  0x800163d4: do_free__12JKRSolidHeapFPv
+  0x800163d8: do_freeAll__12JKRSolidHeapFv
+  0x80016438: do_freeTail__12JKRSolidHeapFv
+  0x800164c4: do_fillFreeArea__12JKRSolidHeapFv
+  0x800164c8: do_resize__12JKRSolidHeapFPvUl
+  0x800164f8: do_getSize__12JKRSolidHeapFPv
+  0x80016528: recordState__12JKRSolidHeapFUl
+  0x800165a4: restoreState__12JKRSolidHeapFUl
+  0x80016660: check__12JKRSolidHeapFv
+  0x800166e4: dump__12JKRSolidHeapFv
+  0x800167d0: state_register__12JKRSolidHeapCFPQ27JKRHeap6TStateUl
+  0x80016824: state_compare__12JKRSolidHeapCFRCQ27JKRHeap6TStateRCQ27JKRHeap6TState
+  0x80016854: getHeapType__12JKRSolidHeapFv
+  0x80016860: do_getFreeSize__12JKRSolidHeapFv
+  0x80016868: do_getMaxFreeBlock__12JKRSolidHeapFv
+  0x80016870: do_getTotalFreeSize__12JKRSolidHeapFv
+  0x80347ec0: __vt__12JKRSolidHeap
   # JKRThread.cpp
   0x80016890: __ct__9JKRThreadFUlii
   0x80016934: __ct__9JKRThreadFP7JKRHeapUlii

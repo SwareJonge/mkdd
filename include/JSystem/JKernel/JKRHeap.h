@@ -113,14 +113,14 @@ public:
     void freeAll();
     void freeTail();
     void fillFreeArea();
-    void resize(void *, u32);
+    int resize(void *, u32);
 
     // ... more functions
 
     s32 getSize(void *ptr);
     s32 getFreeSize();
     void *getMaxFreeBlock();
-    s32 getTotalFreeSize();
+    u32 getTotalFreeSize();
     u8 getCurrentGroupId();
     u8 changeGroupID(u8 newGroupId);
     u32 getMaxAllocatableSize(int alignment);
@@ -254,6 +254,23 @@ protected:
 class JKRSolidHeap : public JKRHeap
 {
 public:
+    struct State
+    {
+        State(u32 cnt, u32 size, u8 *p3, u8 *p4, State *next)
+        {
+            mCnt = cnt;
+            mSize = size;
+            field_0x8 = p3;
+            field_0xc = p4;
+            mNext = next;
+        }
+        u32 mCnt;
+        u32 mSize;
+        u8 *field_0x8;
+        void *field_0xc;
+        State *mNext;
+    };
+
     JKRSolidHeap(void *, u32, JKRHeap *, bool);
 
     virtual ~JKRSolidHeap();                                          // _08
@@ -274,11 +291,21 @@ public:
     virtual void state_register(TState *, u32) const;                 // _54
     virtual bool state_compare(const TState &, const TState &) const; // _58
 
-    u32 adjustSize();
+    s32 adjustSize();
+    void recordState(u32);
+    void restoreState(u32);
     void *allocFromHead(u32, int);
     void *allocFromTail(u32, int);
 
     static JKRSolidHeap *create(u32, JKRHeap *, bool);
+
+    // TState stupidness
+    static u32 getUsedSize(JKRSolidHeap *sldHeap)
+    {
+        u32 totalFreeSize = sldHeap->getTotalFreeSize();
+        return sldHeap->mHeapSize - totalFreeSize;
+    }
+    static u32 getState_(TState *state) { return getState_buf_(state); } // might instead be a pointer to a next state?
 
     // _00     = VTBL
     // _00-_6C = JKRHeap
@@ -286,7 +313,7 @@ private:
     u32 mFreeSize;  // _6C
     u8 *mSolidHead; // _70
     u8 *mSolidTail; // _74
-    u32 _78;        // _78, seems to be some linked list struct in TP
+    State *_78;     // _78, seems to be some linked list struct in TP
 };
 
 inline JKRSolidHeap *JKRCreateSolidHeap(size_t size, JKRHeap *heap, bool p3) {

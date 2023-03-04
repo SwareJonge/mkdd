@@ -161,6 +161,12 @@ JSystem/JKernel/JKRFileLoader.cpp:
     #.sbss: [0x804159a8, 0x804159d0]
     #.sdata2: [0x80417af8, 0x80417b18]
 
+JSystem/JKernel/JKRSolidHeap.cpp:
+    .text: [0x80085cf4, 0x80086734]
+    .rodata: [0x80367438, 0x803675c8]
+    .data: [0x8038b4c8, 0x8038b528]
+    .sdata2: [0x80417b28, 0x80417b58]    
+
 JSystem/JKernel/JKRThread.cpp:
     .text: [0x80086734, 0x8008724c]
     .ctors: [0x803160ec, 0x803160f0]
