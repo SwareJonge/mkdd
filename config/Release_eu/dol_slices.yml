@@ -6,6 +6,25 @@ kartLocale.cpp:
     .sbss: [0x803d4980, 0x803d4988]
     .sdata2: [0x803d63e0, 0x803d6408]
 
+JSystem/JKernel/JKRAramBlock.cpp:
+    .text: [0x8000beac, 0x8000c138]
+    .data: [0x80347b78, 0x80347b88]
+
+JSystem/JKernel/JKRAramPiece.cpp:
+    .text: [0x8000c4b4, 0x8000c908]
+    .ctors: [0x802d84b4, 0x802d84b8]
+    .rodata: [0x8032ce28, 0x8032ce98]
+    .bss: [0x8036dee8, 0x8036def8]
+    #.bss: [0x803ae938, 0x803ae974]
+    .sdata2: [0x803d6470, 0x803d6478]
+
+JSystem/JKernel/JKRAramStream.cpp:
+    .text: [0x8000c908, 0x8000ceb0]
+    .rodata: [0x8032ce98, 0x8032cec8]
+    .data: [0x80347b98, 0x80347bd8]
+    .sbss: [0x803d49d8, 0x803d49e8]
+    .sdata2: [0x803d6478, 0x803d6480]
+
 JSystem/JKernel/JKRArchivePri.cpp:
     .text: [0x8000ceb0, 0x8000db44]
     .sbss: [0x803d49e8, 0x803d49f0]

@@ -32,6 +32,12 @@ global:
   # J3DSys.cpp
   0x803b6db0: j3dSys
   # JKernel
+  # JKRAram.cpp
+  0x8000b35c: __dt__23JSUList<12JKRAMCommand>Fv
+  0x80347ac8: sMessageBuffer__7JKRAram
+  0x80347ad8: sMessageQueue__7JKRAram
+  0x80347af8: __vt__7JKRAram
+  0x803ae920: sAramCommandList__7JKRAram
   # JKRAramArchive.cpp
   0x8000b3b0: __ct__14JKRAramArchiveFlQ210JKRArchive15EMountDirection
   0x8000b454: __dt__14JKRAramArchiveFv
@@ -43,10 +49,51 @@ global:
   0x8000bc1c: fetchResource_subroutine__14JKRAramArchiveFUlUlP7JKRHeapiPPUc
   0x8000bd74: getExpandedResSize__14JKRAramArchiveCFPCv
   0x80347b08: __vt__7JKRFile
+  0x80347b28: __vt__14JKRAramArchive
+  # JKRAramBock.cpp
+  0x8000beac: __ct__12JKRAramBlockFUlUlUlUcb
+  0x8000bf18: __dt__12JKRAramBlockFv
+  0x8000bfd4: allocHead__12JKRAramBlockFUlUcP11JKRAramHeap
+  0x8000c080: allocTail__12JKRAramBlockFUlUcP11JKRAramHeap
+  0x80347b78: __vt__12JKRAramBlock
+  # JKRAramHeap.cpp
+  0x8000c138: __ct__11JKRAramHeapFUlUl
+  0x8000c204: __dt__11JKRAramHeapFv
+  0x8000c2a8: alloc__11JKRAramHeapFUlQ211JKRAramHeap10EAllocMode
+  0x8000c318: allocFromHead__11JKRAramHeapFUl
+  0x8000c3a4: allocFromTail__11JKRAramHeapFUl
+  0x8000c460: __dt__23JSUList<12JKRAramBlock>Fv
+  0x80347b88: __vt__11JKRAramHeap
+  0x803ae92c: sAramList__11JKRAramHeap
   # JKRAramPiece.cpp
   0x8000c4b4: sendCommand__12JKRAramPieceFP12JKRAMCommand
+  0x8000c4d4: orderSync__12JKRAramPieceFiUlUlUlP12JKRAramBlock
+  0x8000c68c: startDMA__12JKRAramPieceFP12JKRAMCommand
+  0x8000c704: doneDMA__12JKRAramPieceFUl
+  0x8000c7ac: __ct__12JKRAMCommandFv
+  0x8000c81c: __dt__12JKRAMCommandFv
+  0x803ae938: sAramPieceCommandList__12JKRAramPiece
+  0x803ae95c: mMutex__12JKRAramPiece
   # JKRAramStream.cpp
+  0x8000c908: create__13JKRAramStreamFl
+  0x8000c97c: __ct__13JKRAramStreamFl
+  0x8000c9cc: __dt__13JKRAramStreamFv
+  0x8000ca2c: run__13JKRAramStreamFv
+  0x8000ca9c: readFromAram__13JKRAramStreamFv
+  0x8000caa4: writeToAram__13JKRAramStreamFP20JKRAramStreamCommand
   0x8000cc9c: getAvailable__20JSURandomInputStreamCFv
+  0x8000ccf0: write_StreamToAram_Async__13JKRAramStreamFP18JSUFileInputStreamUlUlUlPUl
+  0x8000cdbc: sync__13JKRAramStreamFP20JKRAramStreamCommandi
+  0x8000ce50: setTransBuffer__13JKRAramStreamFPUcUlP7JKRHeap
+  0x000cea4: __ct__20JKRAramStreamCommandFv
+  0x80347b98: sMessageBuffer__13JKRAramStream
+  0x80347ba8: sMessageQueue__13JKRAramStream
+  0x80347bc8: __vt__13JKRAramStream
+  0x803d49d8: sAramStreamObject__13JKRAramStream
+  0x803d49dc: transBuffer__13JKRAramStream
+  0x803d49e0: transSize__13JKRAramStream
+  0x803d49e4: transHeap__13JKRAramStream
+  
   # JKRArchivePri.cpp
   0x8000ceb0: __ct__10JKRArchiveFlQ210JKRArchive10EMountMode
   0x8000cf4c: __dt__10JKRArchiveFv

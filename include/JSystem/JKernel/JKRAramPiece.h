@@ -46,10 +46,15 @@ public:
     static JSUList<JKRAMCommand> sAramPieceCommandList;
 
 public:
-    struct Message
+    struct JKRAramCommand
     {
-        s32 field_0x00;
-        JKRAMCommand *command;
+        void setting(int p1, void * p2)
+        {
+            _00 = p1;
+            command = p2;
+        }
+        int _00;
+        void *command;
     };
 
 public:

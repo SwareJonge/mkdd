@@ -68,14 +68,14 @@ s32 JKRAramStream::writeToAram(JKRAramStreamCommand *command)
     JKRHeap *heap = command->mHeap;
     if (buffer)
     {
-        bufferSize = (bufferSize) ? bufferSize : 0x8000;
+        bufferSize = (bufferSize == nullptr) ? 0x8000 : bufferSize;
 
         command->mTransferBufferSize = bufferSize;
         command->mAllocatedTransferBuffer = false;
     }
     else
     {
-        bufferSize = (bufferSize) ? bufferSize : 0x8000;
+        bufferSize = (bufferSize == nullptr) ? 0x8000 : bufferSize;
 
         if (heap)
         {

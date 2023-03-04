@@ -40,11 +40,10 @@ JKRAMCommand* JKRAramPiece::orderAsync(int direction, u32 source, u32 destinatio
         JUT_PANIC(108, "illegal address. abort.");
     }
 
-    Message* message = new (JKRHeap::getSystemHeap(), -4) Message();
+    JKRAramCommand *message = new (JKRHeap::getSystemHeap(), -4) JKRAramCommand();
     JKRAMCommand* command =
         JKRAramPiece::prepareCommand(direction, source, destination, length, block, callback);
-    message->field_0x00 = 1;
-    message->command = command;
+    message->setting(1, command);
 
     OSSendMessage(&JKRAram::sMessageQueue, message, OS_MESSAGE_BLOCK);
     if (command->mCallback != nullptr) {
@@ -82,7 +81,7 @@ BOOL JKRAramPiece::orderSync(int direction, u32 source, u32 destination, u32 len
     lock();
 
     JKRAMCommand* command =
-        JKRAramPiece::orderAsync(direction, source, destination, length, block, NULL);
+        JKRAramPiece::orderAsync(direction, source, destination, length, block, nullptr);
     BOOL result = JKRAramPiece::sync(command, 0);
     delete command;
 
