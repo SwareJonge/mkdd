@@ -46,7 +46,9 @@ public:
     JKRAramBlock *alloc(u32, EAllocMode);
     JKRAramBlock *allocFromHead(u32);
     JKRAramBlock *allocFromTail(u32);
-    s32 getFreeSize();
+    u32 getFreeSize();
+    u32 getTotalFreeSize();
+    void dump();
 
     u8 getCurrentGroupID() const { return mGroupID; }
     JKRHeap *getMgrHeap() const { return mHeap; }

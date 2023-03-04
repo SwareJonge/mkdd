@@ -65,6 +65,13 @@ JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8007afac, 0x8007b228]
     .data: [0x8038b180, 0x8038b190]
 
+JSystem/JKernel/JKRAramHeap.cpp:
+    .text: [0x8007b228, 0x8007b588]
+    .ctors: [0x803160d4, 0x803160d8]
+    .data: [0x8038b190, 0x8038b1a0]
+    .bss: [0x803ae930, 0x803ae940]
+    #.bss: [0x803fa8fc, 0x803fa908]
+
 JSystem/JKernel/JKRAramPiece.cpp:
     .text: [0x8007b588, 0x8007b9cc]
     .ctors: [0x803160d8, 0x803160dc]
