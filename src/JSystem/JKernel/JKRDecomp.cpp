@@ -106,21 +106,24 @@ void JKRDecomp::decode(u8 *src, u8 *dst, u32 srcSize, u32 dstSize) {
         decodeSZS(src, dst, srcSize, dstSize);
 }
 
-// doesn't match for release
+#define READ_BE(ptr, offset) \
+    (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
+
+// doesn't match for release(regswaps, loads dstOffset before decodedSize and such)
 void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
 {
-    // s32 decodedSize;
-    s32 srcChunkOffset;
-    u32 count;
-    s32 dstOffset;
+    // int superior
+    int srcChunkOffset;
+    int count;
+    int dstOffset;
     u32 length;
-    s32 linkInfo;
-    s32 offset;
-    s32 i;
-    // TODO: Replace inline with macro
-    s32 decodedSize = read_big_endian_u32(src + 4);
-    s32 linkTableOffset = read_big_endian_u32(src + 8);
-    s32 srcDataOffset = read_big_endian_u32(src + 12);
+    int linkInfo;
+    int offset;
+    int i;
+
+    int decodedSize = READ_BE(src, 4);
+    int linkTableOffset = READ_BE(src, 8);
+    int srcDataOffset = READ_BE(src, 12);
 
     dstOffset = 0;
     u32 counter = 0;
@@ -137,7 +140,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     {
         if (counter == 0)
         {
-            chunkBits = read_big_endian_u32(src + srcChunkOffset);
+            chunkBits = READ_BE(src, srcChunkOffset);
             srcChunkOffset += sizeof(u32);
             counter = sizeof(u32) * 8;
         }
@@ -164,20 +167,18 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
             linkTableOffset += sizeof(u16);
 
             offset = dstOffset - (linkInfo & 0xFFF);
-            // rlwinm. r28,r29,0x14,0x1c,0x1f
             count = (linkInfo >> 12);
             if (count == 0)
             {
-                count = (u32)src[srcDataOffset] + 0x12;
-                srcDataOffset++;
+                count = (u32)src[srcDataOffset++] + 0x12;
             }
             else
                 count += 2;
 
-            if ((s32)count > decodedSize - dstOffset)
+            if ((int)count > decodedSize - dstOffset)
                 count = decodedSize - dstOffset;
 
-            for (i = 0; i < (s32)count; i++, dstOffset++, offset++)
+            for (i = 0; i < (int)count; i++, dstOffset++, offset++)
             {
                 if (dstLength == 0)
                 {
@@ -198,7 +199,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
 
 void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSize) {
 
-    u8 *decompEnd = dst_buffer + *(int *)(src_buffer + 4) - dstSize;    
+    u8 *decompEnd = dst_buffer + *(u32 *)(src_buffer + 4) - dstSize;
     u8 *copyStart;
     s32 copyByteCount;    
     s32 chunkBitsLeft = 0;
@@ -211,12 +212,9 @@ void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSi
     
     u8 *curSrcPos = src_buffer + 0x10;
     do {
-
-
         if (chunkBitsLeft == 0) {
-            chunkBits = *curSrcPos;
             chunkBitsLeft = 8;
-            curSrcPos++;
+            chunkBits = *curSrcPos++;
         }
         if ((chunkBits & 0x80) != 0) {
             if (dstSize == 0)
@@ -235,7 +233,7 @@ void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSi
         else {
             u8 curVal = *curSrcPos;
             // load is inversed
-            copyStart = dst_buffer - ((curVal & 0xF) << 8 | curSrcPos[1]);
+            copyStart = dst_buffer - (curSrcPos[1] | (curVal & 0xF) << 8);
             // copyByteCount = ;
             curSrcPos += 2;
             // instruction order differences

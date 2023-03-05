@@ -32,8 +32,6 @@ static bool isInitMutex;
 static u32 *tsPtr;
 static u32 tsArea;
 
-
-
 namespace JKRDvdRipper {
     bool errorRetry = true;
     int sSZSBufferSize = 0x400;

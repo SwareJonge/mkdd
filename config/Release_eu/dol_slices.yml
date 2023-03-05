@@ -43,6 +43,7 @@ JSystem/JKernel/JKRArchivePub.cpp:
 #JSystem/JKernel/JKRDecomp.cpp:
     #.text: [0x8000f2ec, 0x8000fa00]
     #.data: [0x80347c78, 0x80347cc8]
+    #.sbss: [0x803d49f0, 0x803d49f8]
 
 JSystem/JKernel/JKRDisposer.cpp:
     .text: [0x8000fa00, 0x8000faec]
@@ -212,6 +213,15 @@ Osako/clock.cpp:
     .text: [0x801cbe60, 0x801cbef8]
     .sbss: [0x803d5b30, 0x803d5b40]
     .sdata2: [0x803d9668, 0x803d9680]
+
+#Osako/testApp.cpp:
+    #.text: [0x801cc01c, 0x801f7154]
+    #.data: [0x8035c190, 0x8035c1a8]
+    #.sbss: [0x803d5b40, 0x803d5b48]
+    #.sdata2: [0x803d9690, 0x803d9698]
+
+Osako/main.cpp:
+    .text: [0x801cc5bc, 0x801cc5e0]
 
 Osako/kartPad.cpp:
     .text: [0x801d1000, 0x801d1a9c]

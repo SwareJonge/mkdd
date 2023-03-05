@@ -159,6 +159,7 @@ global:
   0x80347cb8: __vt__9JKRDecomp
   0x80347c78: sMessageBuffer__9JKRDecomp
   0x80347c98: sMessageQueue__9JKRDecomp
+  0x803d49f0: sDecompObject__9JKRDecomp
   # JKRDisposer.cpp
   0x8000fa00: __ct__11JKRDisposerFv
   0x8000fa68: __dt__11JKRDisposerFv
@@ -2007,11 +2008,16 @@ global:
   0x803d5b34: msPrevFrameTime__5Clock
   0x803d5b38: msPrevTick__5Clock
   0x803d9668: mscTimePerSec__5Clock
+  # main.cpp
+  0x801cc5bc: main
   # RaceApp
   0x803d5b60: mspRaceApp__7RaceApp
   # ResMgr.cpp
   0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
   0x803bd5c8: mspaLoader__6ResMgr
+  # system.cpp
+  0x801d0388: init__6SystemFv
+  0x801d0ae8: run__6SystemFv
   # kartPad.cpp
   0x801d1000: compress__11KartGamePadFRC9PADStatusP11KartPadData
   0x801d1184: compress__11KartGamePadFRC10LGPositionP11KartPadData
