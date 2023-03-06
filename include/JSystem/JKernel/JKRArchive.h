@@ -6,6 +6,9 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
+#define JKRARCHIVE_ATTR_COMPRESSION 0x04
+#define JKRARCHIVE_ATTR_YAY0 0x80
+
 enum CompressionMethod
 {
     TYPE_NONE,
@@ -100,14 +103,14 @@ public:
     // NB: Fabricated name
     struct SArcDataInfo
     {
-        u32 mNumDirEntries;   // _00
-        u32 mDirEntryOffset;  // _04
-        u32 mNumFileEntries;  // _08
-        u32 mFileEntryOffset; // _0C
-        u32 mStrTableLength;  // _10
-        u32 mStrTableOffset;  // _14
-        u16 mNextFreeFileID;  // _18
-        bool mIsSyncIDs;      // _1A
+        u32 num_nodes;        // _00
+        u32 node_offset;      // _04
+        u32 num_file_entries; // _08
+        u32 file_entry_offset; // _0C
+        u32 string_table_length; // _10
+        u32 string_table_offset; // _14
+        u16 nextFreeFileID;  // _18
+        bool isSyncIDs;      // _1A
         u8 _1B[5];            // _1B, unknown
     };
 
@@ -157,9 +160,22 @@ public:
     SDIDirEntry *findResType(u32) const;
     SDIFileEntry *findTypeResource(u32, u32) const;
 
+    static CompressionMethod convertAttrToCompressionType(u32 attr)
+    {
+        CompressionMethod compression;
+        if (FLAG_ON(attr, JKRARCHIVE_ATTR_COMPRESSION))
+            compression = TYPE_NONE;
+        else if (!FLAG_ON(attr, JKRARCHIVE_ATTR_YAY0))
+            compression = TYPE_YAZ0;
+        else
+            compression = TYPE_YAY0;
+
+        return compression;
+    }
+
     u32 getMountMode() const { return mMountMode; }
-    u32 countFile() const { return mDataInfo->mNumFileEntries; }
-    int countDirectory() const { return mDataInfo->mNumDirEntries; }
+    u32 countFile() const { return mArcInfoBlock->num_file_entries; }
+    int countDirectory() const { return mArcInfoBlock->num_nodes; }
     static u32 getCurrentDirID() { return sCurrentDirID; }
     static void setCurrentDirID(u32 dirID) { sCurrentDirID = dirID; }
 
@@ -171,7 +187,7 @@ protected:
     JKRHeap *mHeap;             // _38
     u8 mMountMode;              // _3C
     int mEntryNum;              // _40
-    SArcDataInfo *mDataInfo;    // _44
+    SArcDataInfo *mArcInfoBlock; // _44
     SDIDirEntry *mDirectories;  // _48
     SDIFileEntry *mFileEntries; // _4C
     u32 *mExpandSizes;          // _50
@@ -190,11 +206,11 @@ struct JKRMemArchive : public JKRArchive
     // NB: Fabricated name - need to check size
     struct SArcHeader
     {
-        u32 mSignature;      // _00
-        u32 mFileLength;     // _04
-        u32 mHeaderLength;   // _08
-        u32 mFileDataOffset; // _0C
-        u32 mFileDataLength; // _10
+        u32 signature;      // _00
+        u32 file_length;    // _04
+        u32 header_length;  // _08
+        u32 file_data_offset; // _0C
+        u32 file_data_length; // _10
         u32 _14;             // _14
         u32 _18;             // _18
         u32 _1C;             // _1C
@@ -228,7 +244,7 @@ struct JKRMemArchive : public JKRArchive
     // _00-_5C = JKRArchive
     CompressionMethod mCompression;     // _5C
     EMountDirection mMountDirection; // _60
-    SArcHeader *mHeader;             // _64
+    SArcHeader *mArcHeader;          // _64
     u8 *mArchiveData;                // _68
     bool mIsOpen;                    // _6C
 };
@@ -291,5 +307,10 @@ struct JKRDvdArchive : public JKRArchive
     int _64;                         // _64
     JKRDvdFile *mDvdFile;            // _68
 };
+
+inline CompressionMethod JKRConvertAttrToCompressionType(u32 attr)
+{
+    return JKRArchive::convertAttrToCompressionType(attr);
+}
 
 #endif

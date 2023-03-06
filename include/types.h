@@ -56,4 +56,6 @@ typedef int unknown;
 #define READU32_BE(ptr, offset) \
     (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
 
+#define FLAG_ON(V, F) (((V) & (F)) == 0)
+
 #endif // !TYPES_H

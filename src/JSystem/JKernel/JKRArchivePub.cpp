@@ -235,10 +235,10 @@ u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, u16 id)
 
 void JKRArchive::removeResourceAll()
 {
-    if (mDataInfo && mMountMode != MOUNT_MEM)
+    if (mArcInfoBlock && mMountMode != MOUNT_MEM)
     {
         SDIFileEntry *entry = mFileEntries;
-        for (int i = 0; i < mDataInfo->mNumFileEntries; i++)
+        for (int i = 0; i < mArcInfoBlock->num_file_entries; i++)
         {
             if (entry->mData)
             {

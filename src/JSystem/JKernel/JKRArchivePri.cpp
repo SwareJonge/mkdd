@@ -45,7 +45,7 @@ bool JKRArchive::isSameName(JKRArchive::CArcName &archiveName, u32 nameTableOffs
 JKRArchive::SDIDirEntry *JKRArchive::findResType(u32 type) const
 {
     SDIDirEntry *dirEntry = mDirectories;
-    for (u32 i = 0; i < mDataInfo->mNumDirEntries; i++, dirEntry++)
+    for (u32 i = 0; i < mArcInfoBlock->num_nodes; i++, dirEntry++)
     {
         if (dirEntry->mType == type)
         {
@@ -131,7 +131,7 @@ JKRArchive::SDIFileEntry *JKRArchive::findFsResource(const char *path, u32 index
 
 JKRArchive::SDIFileEntry *JKRArchive::findIdxResource(u32 idx) const
 {
-    if (idx < mDataInfo->mNumFileEntries)
+    if (idx < mArcInfoBlock->num_file_entries)
     {
         return mFileEntries + idx;
     }
@@ -143,7 +143,7 @@ JKRArchive::SDIFileEntry *JKRArchive::findNameResource(const char *name) const
     SDIFileEntry *fileEntry = mFileEntries;
 
     CArcName arcName(name);
-    for (int i = 0; i < mDataInfo->mNumFileEntries; fileEntry++, i++)
+    for (int i = 0; i < mArcInfoBlock->num_file_entries; fileEntry++, i++)
     {
         if (isSameName(arcName, fileEntry->mFlag & 0xFFFFFF, fileEntry->mHash))
         {
@@ -157,7 +157,7 @@ JKRArchive::SDIFileEntry *JKRArchive::findNameResource(const char *name) const
 JKRArchive::SDIFileEntry *JKRArchive::findPtrResource(const void *ptr) const
 {
     SDIFileEntry *entry = mFileEntries;
-    for (u32 i = 0; i < mDataInfo->mNumFileEntries; entry++, i++)
+    for (u32 i = 0; i < mArcInfoBlock->num_file_entries; entry++, i++)
     {
         if (entry->mData == ptr)
         {
@@ -179,7 +179,7 @@ JKRArchive::SDIFileEntry *JKRArchive::findIdResource(u16 id) const
         }
 
         entry = mFileEntries;
-        for (int i = 0; i < mDataInfo->mNumFileEntries; entry++, i++)
+        for (int i = 0; i < mArcInfoBlock->num_file_entries; entry++, i++)
         {
             if (entry->mFileID == id && (entry->getFlag01()))
             {
@@ -232,7 +232,7 @@ const char *JKRArchive::CArcName::store(const char *name, char endChar)
 void JKRArchive::setExpandSize(JKRArchive::SDIFileEntry *entry, u32 size)
 {
     u32 index = (entry - mFileEntries);
-    if (mExpandSizes == nullptr || index >= mDataInfo->mNumFileEntries)
+    if (mExpandSizes == nullptr || index >= mArcInfoBlock->num_file_entries)
     {
         return;
     }
@@ -242,7 +242,7 @@ void JKRArchive::setExpandSize(JKRArchive::SDIFileEntry *entry, u32 size)
 u32 JKRArchive::getExpandSize(JKRArchive::SDIFileEntry *entry) const
 {
     u32 index = (entry - mFileEntries);
-    if (mExpandSizes == nullptr || index >= mDataInfo->mNumFileEntries)
+    if (mExpandSizes == nullptr || index >= mArcInfoBlock->num_file_entries)
     {
         return 0;
     }

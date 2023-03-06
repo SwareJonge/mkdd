@@ -8,7 +8,6 @@
 
 // TODO: Add JKRExpHeap and JKRAssertHeap to here?
 typedef void JKRHeapErrorHandler(void *, u32, int);
-
 class JKRHeap : public JKRDisposer {
 public:
     enum EAllocMode
@@ -152,7 +151,9 @@ public:
     }
 
     // TState related
-    static void setState_u32ID_(TState * state, u32 id) {
+    static u32 getState_buf_(TState *state) { return state->mBuf; } // might instead be a pointer to a next state?
+    static void setState_u32ID_(TState *state, u32 id)
+    {
         state->mArgument.mId = id;
     }
     static void setState_uUsedSize_(TState *state, u32 usedSize)
@@ -160,7 +161,6 @@ public:
         state->mUsedSize = usedSize;
     }
     static void setState_u32CheckCode_(TState * state, u32 checkCode) { state->mCheckCode = checkCode; }
-    static u32 getState_buf_(TState * state) { return state->mBuf; } // might instead be a pointer to a next state?
 
     void lock() const {OSLockMutex(const_cast<OSMutex *>(&mMutex)); }
     void unlock() const {OSUnlockMutex(const_cast<OSMutex*>(&mMutex)); }
@@ -256,18 +256,26 @@ class JKRSolidHeap : public JKRHeap
 public:
     struct State
     {
+        /*State(State * other, u32 cnt) {
+            mCnt = cnt;
+            mSize = other->mSize;
+            _08 = other->_08;
+            _0C = other->_0C;
+            mNext = other;
+            other = this;
+        }*/
         State(u32 cnt, u32 size, u8 *p3, u8 *p4, State *next)
         {
             mCnt = cnt;
             mSize = size;
-            field_0x8 = p3;
-            field_0xc = p4;
+            _08 = p3;
+            _0C = p4;
             mNext = next;
         }
         u32 mCnt;
         u32 mSize;
-        u8 *field_0x8;
-        void *field_0xc;
+        u8 *_08;
+        void *_0C;
         State *mNext;
     };
 

@@ -2,10 +2,6 @@
 #include <JSystem/JUtility/JUTConsole.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
-extern "C" {
-    #include <ppcdis.h>
-}
-
 JKRSolidHeap *JKRSolidHeap::create(u32 size, JKRHeap *heap, bool useErrorHandler)
 {
     if (!heap)
@@ -88,28 +84,10 @@ void *JKRSolidHeap::do_alloc(u32 size, int alignment)
     lock();
 
     if (size < 4)
-    {
         size = 4;
-    }
 
-    void *ptr;
-    if (alignment >= 0)
-    {
-        ptr = allocFromHead(size, alignment < 4 ? 4 : alignment);
-    }
-    else
-    {
-        if (-alignment < 4)
-        {
-            alignment = 4;
-        }
-        else
-        {
-            alignment = -alignment;
-        }
-
-        ptr = allocFromTail(size, alignment);
-    }
+    // might not be a ternary, use TP Debug to confirm
+    void *ptr = alignment >= 0 ? allocFromHead(size, alignment < 4 ? 4 : alignment) : allocFromTail(size, -alignment < 4 ? 4 : -alignment);
 
     unlock();
     return ptr;
@@ -118,7 +96,7 @@ void *JKRSolidHeap::do_alloc(u32 size, int alignment)
 void *JKRSolidHeap::allocFromHead(u32 size, int alignment)
 {
     size = ALIGN_NEXT(size, 0x4);
-    void *ptr = NULL;
+    void *ptr = nullptr;
     u32 alignedStart = (alignment - 1 + (u32)mSolidHead) & ~(alignment - 1);
     u32 offset = alignedStart - (u32)mSolidHead;
     u32 totalSize = size + offset;
@@ -143,7 +121,7 @@ void *JKRSolidHeap::allocFromHead(u32 size, int alignment)
 void *JKRSolidHeap::allocFromTail(u32 size, int alignment)
 {
     size = ALIGN_NEXT(size, 4);
-    void *ptr = NULL;
+    void *ptr = nullptr;
     u32 alignedStart = ALIGN_PREV((u32)mSolidTail - size, alignment);
     u32 totalSize = (u32)mSolidTail - (u32)alignedStart;
     if (totalSize <= mFreeSize)
@@ -196,7 +174,7 @@ void JKRSolidHeap::do_freeTail(void)
     State *unk = _78;
     while (unk)
     {
-        unk->field_0xc = mEndAddress;
+        unk->_0C = mEndAddress;
         unk = unk->mNext;
     }
 
@@ -217,14 +195,6 @@ int JKRSolidHeap::do_getSize(void *ptr)
     return -1;
 }
 
-MANGLED_ASM(void JKRSolidHeap::recordState(u32 cnt)){
-#include "asm/800862cc.s"
-} 
-MANGLED_ASM(void JKRSolidHeap::restoreState(u32 cnt))
-{
-#include "asm/80086348.s"
-}
-/*
 void JKRSolidHeap::recordState(u32 cnt)
 {
     lock();
@@ -232,20 +202,43 @@ void JKRSolidHeap::recordState(u32 cnt)
     u8 *head = mSolidHead;
     u8 *tail = mSolidTail;
     State *next = _78;
-    u8 *mem = (u8 *)alloc(sizeof(State), 4);
-    _78 = new (mem) State(cnt, freeSize, head, tail, next); // _78 is inside this Ctor?
-
+    // NOTE: this is more than likely a fakematch, to me it makes more sense that placemnt new + ctor is used
+    // However since _78 is inside it too it can't be?
+    State *state = (State *)alloc(sizeof(State), 4);
+    if(state) {
+        state->mCnt = cnt;
+        state->mSize = freeSize;
+        state->_08 = head;
+        state->_0C = tail;
+        state->mNext = next;
+        _78 = state;
+    }
     unlock();
 }
-// currently not really bothered to work on this, effort
-void JKRSolidHeap::restoreState(u32 cnt) {
-    
+
+void JKRSolidHeap::restoreState(u32 cnt)
+{
+    State *recordedState = _78;
     lock();
+    if (cnt != 0)
+    {
+        while (recordedState != nullptr && cnt != recordedState->mCnt)
+            recordedState = recordedState->mNext;
+    }
+    if (recordedState != nullptr)
+    {
+        if (recordedState->_08 != mSolidHead)
+            dispose(recordedState->_08, mSolidHead);
+        if (recordedState->_0C != mSolidTail)
+            dispose(mSolidTail, recordedState->_0C);
 
-
+        mFreeSize = recordedState->mSize;
+        mSolidHead = recordedState->_08;
+        mSolidTail = (u8 *)recordedState->_0C;
+        _78 = recordedState->mNext;
+    }
     unlock();
 }
-*/
 
 bool JKRSolidHeap::check()
 {
@@ -285,6 +278,7 @@ bool JKRSolidHeap::dump(void)
     return result;
 }
 
+// same issue as pik2: instructions get scheduled incorrectly, #pragma scheduling off gets close but not correct
 void JKRSolidHeap::state_register(JKRHeap::TState *p, u32 id) const
 {
     JUT_ASSERT(603, p != 0);
@@ -293,6 +287,7 @@ void JKRSolidHeap::state_register(JKRHeap::TState *p, u32 id) const
     getState_(p);
     setState_u32ID_(p, id);
     setState_uUsedSize_(p, getUsedSize((JKRSolidHeap *)this));
+
     u32 sum = (u32)mSolidHead;
     sum += (u32)mSolidTail * 3;
     setState_u32CheckCode_(p, sum);
