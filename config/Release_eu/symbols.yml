@@ -341,6 +341,7 @@ global:
   0x80015d8c: removeResource__13JKRMemArchiveFPv
   0x80015dc8: fetchResource_subroutine__13JKRMemArchiveFPUcUlPUcUli
   0x80015ea8: getExpandedResSize__13JKRMemArchiveCFPCv
+  0x80347e70: __vt__13JKRMemArchive
   # JKRSolidHeap.cpp
   0x80015f40: create__12JKRSolidHeapFUlP7JKRHeapb
   0x80015fec: do_destroy__12JKRSolidHeapFv
