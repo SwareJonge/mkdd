@@ -199,6 +199,8 @@ global:
   0x80012688: isErrorRetry__12JKRDvdRipperFv
   0x800126d4: __dt__23JSUList<12JKRDMCommand>Fv
   0x803ae98c: sDvdAsyncList__12JKRDvdRipper
+  0x803d3268: errorRetry__12JKRDvdRipper
+  0x803d326c: sSZSBufferSize__12JKRDvdRipper
   # JKRExpHeap.cpp
   0x80012728: createRoot__10JKRExpHeapFib
   0x800127a8: create__10JKRExpHeapFUlP7JKRHeapb

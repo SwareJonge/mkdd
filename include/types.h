@@ -53,4 +53,7 @@ typedef int unknown;
 #define IS_ALIGNED(X, N)(((X) & ((N)-1)) == 0)
 #define IS_NOT_ALIGNED(X, N) (((X) & ((N)-1)) != 0)
 
+#define READU32_BE(ptr, offset) \
+    (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
+
 #endif // !TYPES_H

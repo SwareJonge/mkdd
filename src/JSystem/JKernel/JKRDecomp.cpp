@@ -106,9 +106,6 @@ void JKRDecomp::decode(u8 *src, u8 *dst, u32 srcSize, u32 dstSize) {
         decodeSZS(src, dst, srcSize, dstSize);
 }
 
-#define READ_BE(ptr, offset) \
-    (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
-
 // doesn't match for release(regswaps, loads dstOffset before decodedSize and such)
 void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
 {
@@ -121,12 +118,12 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     int offset;
     int i;
 
-    int decodedSize = READ_BE(src, 4);
-    int linkTableOffset = READ_BE(src, 8);
-    int srcDataOffset = READ_BE(src, 12);
+    int decodedSize = READU32_BE(src, 4);
+    int linkTableOffset = READU32_BE(src, 8);
+    int srcDataOffset = READU32_BE(src, 12);
 
     dstOffset = 0;
-    u32 counter = 0;
+    u32 counter = 0; // curently counter gets assembled before the READ_U32 operations
     srcChunkOffset = 16;
 
     u32 chunkBits;
@@ -140,7 +137,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     {
         if (counter == 0)
         {
-            chunkBits = READ_BE(src, srcChunkOffset);
+            chunkBits = READU32_BE(src, srcChunkOffset);
             srcChunkOffset += sizeof(u32);
             counter = sizeof(u32) * 8;
         }
@@ -213,8 +210,8 @@ void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSi
     u8 *curSrcPos = src_buffer + 0x10;
     do {
         if (chunkBitsLeft == 0) {
-            chunkBitsLeft = 8;
             chunkBits = *curSrcPos++;
+            chunkBitsLeft = 8;            
         }
         if ((chunkBits & 0x80) != 0) {
             if (dstSize == 0)
@@ -232,11 +229,8 @@ void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSi
         }
         else {
             u8 curVal = *curSrcPos;
-            // load is inversed
             copyStart = dst_buffer - (curSrcPos[1] | (curVal & 0xF) << 8);
-            // copyByteCount = ;
             curSrcPos += 2;
-            // instruction order differences
             if (curVal >> 4 == 0) {
                 copyByteCount = *curSrcPos + 0x12;
                 curSrcPos++;

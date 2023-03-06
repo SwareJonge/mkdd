@@ -58,15 +58,15 @@ JSystem/JKernel/JKRDvdFile.cpp:
     #.bss: [0x803ae974, 0x803ae980]
     .sdata2: [0x803d6488, 0x803d6490]
 
-#JSystem/JKernel/JKRDvdRipper.cpp:
-    #.text: [0x80011a44, 0x80012728]
-    #.ctors: [0x802d84c0, 0x802d84c4]
-    #.rodata: [0x8032cfa8, 0x8032d008]
-    #.bss: [0x8036df30, 0x8036df58]    
-    ##.bss: [0x803ae98c, 0x803ae9b0] 
-    #.sdata: [0x803d3268, 0x803d3270]
-    #.sbss: [0x803d4a40, 0x803d4a80]
-    #.sdata2: [0x803d6498, 0x803d64a0]
+JSystem/JKernel/JKRDvdRipper.cpp:
+    .text: [0x80011a44, 0x80012728]
+    .ctors: [0x802d84c0, 0x802d84c4]
+    .rodata: [0x8032cfa8, 0x8032d008]
+    .bss: [0x8036df30, 0x8036df58]    
+    #.bss: [0x803ae98c, 0x803ae9b0] 
+    .sdata: [0x803d3268, 0x803d3270]
+    .sbss: [0x803d4a40, 0x803d4a80]
+    .sdata2: [0x803d6498, 0x803d64a0]
     
 JSystem/JKernel/JKRExpHeap.cpp:
     .text: [0x80012728, 0x8001421c]
