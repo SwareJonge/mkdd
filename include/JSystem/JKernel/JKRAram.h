@@ -82,15 +82,14 @@ public:
     static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
     static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
 
-    u8 _7C[4];               // _7C
-    u32 _80;                 // _80
-    u32 _84;                 // _84
-    u32 _88;                 // _88
-    u8 _8C[4];               // _8C
-    u32 _90;                 // _90
-    JKRAramHeap *m_aramHeap; // _94
-    u32 m_blockLength;       // _98
-    u8 _9C[4];               // _9C
+    u32 mAudioArea;         // _7C
+    u32 mAudioAreaSize;     // _80
+    u32 mGraphArea;         // _84
+    u32 mGraphAreaSize;     // _88
+    u32 mUserArea;          // _8C
+    u32 mUserAreaSize;      // _90
+    JKRAramHeap *mAramHeap; // _94
+    u32 mStackArray[3];
 
     static JKRAram *sAramObject;
     static OSMessageQueue sMessageQueue;
