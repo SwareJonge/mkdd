@@ -39,26 +39,18 @@ namespace JKRDvdRipper
     {
         JKRDvdFile dvdFile;
         if (!dvdFile.open(fileName))
-        {
             return nullptr;
-        }
         else
-        {
             return loadToMainRAM(&dvdFile, ptr, expSwitch, p4, heap, allocDirection, startOffset, pCompression, p9);
-        }
     }
 
     void *loadToMainRAM(s32 entryNum, u8 *ptr, JKRExpandSwitch expSwitch, u32 p4, JKRHeap *heap, EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *p9)
     {
         JKRDvdFile dvdFile;
         if (!dvdFile.open(entryNum))
-        {
             return nullptr;
-        }
         else
-        {
             return loadToMainRAM(&dvdFile, ptr, expSwitch, p4, heap, allocDirection, startOffset, pCompression, p9);
-        }
     }
 
     void *loadToMainRAM(JKRDvdFile *jkrDvdFile, u8 *file, JKRExpandSwitch expandSwitch, u32 fileSize, JKRHeap *heap, EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *p9)
@@ -81,9 +73,8 @@ namespace JKRDvdRipper
                     break;
 
                 if (readBytes == -3 || errorRetry == false)
-                {
                     return nullptr;
-                }
+
                 VIWaitForRetrace();
             }
             DCInvalidateRange(bufPtr, 0x20);
@@ -249,10 +240,9 @@ namespace JKRDvdRipper
     }
 }
 
-int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, unsigned long p3, unsigned long inMaxDest, unsigned long inFileOffset,
-                         unsigned long inSrcOffset, unsigned long *inTsPtr)
+int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, u32 p3, u32 inMaxDest, u32 inFileOffset, u32 inSrcOffset, u32 *inTsPtr)
 {
-    int interrupts = OSDisableInterrupts();
+    BOOL interrupts = OSDisableInterrupts();
     if (isInitMutex == false)
     {
         OSInitMutex(&decompMutex);

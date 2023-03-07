@@ -52,6 +52,10 @@ public:
     static JKRDecomp *sDecompObject;
 };
 
+inline JKRDecomp *JKRCreateDecompManager(s32 priority) {
+    return JKRDecomp::create(priority);
+}
+
 inline CompressionMethod JKRCheckCompressed_noASR(u8 *pBuf) {
     CompressionMethod compression = JKRDecomp::checkCompressed(pBuf);
     if (compression == TYPE_ASR) // ternary i had before was either incorrect, or was not a ternary at all

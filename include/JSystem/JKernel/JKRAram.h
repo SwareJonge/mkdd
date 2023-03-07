@@ -77,10 +77,23 @@ public:
     virtual ~JKRAram();  // _08
     virtual void *run(); // _0C
 
+    static void checkOkAddress(u8* addr, u32 size, JKRAramBlock* block, u32 param_4);
+    static void changeGroupIdIfNeed(u8* data, int groupId);
+
     static JKRAram *create(u32, u32, long, long, long);
     static JKRAramBlock *mainRamToAram(u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
     static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
     static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
+
+    static u32 getSZSBufferSize() {
+        return sSZSBufferSize;
+    }
+
+    static u32 sSZSBufferSize;
+
+    static JKRAram *sAramObject;
+    static OSMessage sMessageBuffer[4];
+    static OSMessageQueue sMessageQueue;
 
     u32 mAudioArea;         // _7C
     u32 mAudioAreaSize;     // _80
@@ -90,9 +103,6 @@ public:
     u32 mUserAreaSize;      // _90
     JKRAramHeap *mAramHeap; // _94
     u32 mStackArray[3];
-
-    static JKRAram *sAramObject;
-    static OSMessageQueue sMessageQueue;
 };
 
 class JKRAramArchive : public JKRArchive
@@ -177,5 +187,9 @@ public:
     // _00     = VTBL
     // _00-_7C = JKRThread
 };
+
+inline JKRAramStream * JKRCreateAramStreamManager(s32 priority) {
+    return JKRAramStream::create(priority);
+}
 
 #endif
