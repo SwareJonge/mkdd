@@ -23,10 +23,10 @@ JKRAram* JKRAram::create(u32 aram_audio_buffer_size, u32 aram_audio_graph_size,
 }
 
 OSMessage JKRAram::sMessageBuffer[4] = {
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
 };
 
 OSMessageQueue JKRAram::sMessageQueue = {0};
@@ -91,11 +91,7 @@ void* JKRAram::run(void) {
 
 void JKRAram::checkOkAddress(u8* addr, u32 size, JKRAramBlock* block, u32 param_4) {
     if (!IS_ALIGNED((u32)addr, 0x20) && !IS_ALIGNED(size, 0x20)) {
-        JUTException::panic_f(__FILE__, 219, "%s", ":::address not 32Byte aligned.");
-    }
-
-    if (block && !IS_ALIGNED((u32)block->getAddress() + param_4, 0x20)) {
-        JUTException::panic_f(__FILE__, 227, "%s", ":::address not 32Byte aligned.");
+        JUT_PANIC(219, ":::address not 32Byte aligned.");
     }
 }
 
