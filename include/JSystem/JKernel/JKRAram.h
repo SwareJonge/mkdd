@@ -21,6 +21,9 @@ public:
     JKRAramBlock *allocHead(u32, u8, JKRAramHeap *);
     JKRAramBlock *allocTail(u32, u8, JKRAramHeap *);
 
+    void newGroupID(u8 newID) { mGroupID = newID; }
+    u32 getAddress() const { return mAddress; }
+
     // _00 = VTBL
     JSULink<JKRAramBlock> mLink; // _04
     u32 mAddress;                // _14
@@ -49,6 +52,10 @@ public:
     u32 getFreeSize();
     u32 getTotalFreeSize();
     void dump();
+
+    void free(JKRAramBlock *block) {
+        delete block;
+    }
 
     u8 getCurrentGroupID() const { return mGroupID; }
     JKRHeap *getMgrHeap() const { return mHeap; }
@@ -81,12 +88,21 @@ public:
     static void changeGroupIdIfNeed(u8* data, int groupId);
 
     static JKRAram *create(u32, u32, long, long, long);
-    static JKRAramBlock *mainRamToAram(u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
+    static JKRAramBlock *mainRamToAram(u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
     static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
     static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
 
     static u32 getSZSBufferSize() {
         return sSZSBufferSize;
+    }
+
+    static JKRAramHeap *getAramHeap() {
+        return sAramObject->mAramHeap;
+    }
+
+    static u8 decideAramGroupId(int id)
+    {
+        return (id >= 0) ? id : getAramHeap()->getCurrentGroupID();
     }
 
     static u32 sSZSBufferSize;
@@ -95,14 +111,14 @@ public:
     static OSMessage sMessageBuffer[4];
     static OSMessageQueue sMessageQueue;
 
-    u32 mAudioArea;         // _7C
-    u32 mAudioAreaSize;     // _80
-    u32 mGraphArea;         // _84
-    u32 mGraphAreaSize;     // _88
-    u32 mUserArea;          // _8C
-    u32 mUserAreaSize;      // _90
+    u32 mAudioMemoryPtr;    // _7C
+    u32 mAudioMemorySize;   // _80
+    u32 mGraphMemoryPtr;    // _84
+    u32 mGraphMemorySize;   // _88
+    u32 mUserMemoryPtr;     // _8C
+    u32 mUserMemorySize;    // _90
     JKRAramHeap *mAramHeap; // _94
-    u32 mStackArray[3];
+    u32 mStackArray[3];     // _98
 };
 
 class JKRAramArchive : public JKRArchive
@@ -187,6 +203,14 @@ public:
     // _00     = VTBL
     // _00-_7C = JKRThread
 };
+
+inline JKRAramBlock *JKRAllocFromAram(u32 size, JKRAramHeap::EAllocMode allocMode) {
+    return JKRAram::getAramHeap()->alloc(size, allocMode);
+}
+
+inline void JKRFreeToAram(JKRAramBlock * block) {
+    JKRAram::getAramHeap()->free(block);
+} 
 
 inline JKRAramStream * JKRCreateAramStreamManager(s32 priority) {
     return JKRAramStream::create(priority);

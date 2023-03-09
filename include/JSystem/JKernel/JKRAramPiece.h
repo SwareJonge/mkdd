@@ -38,24 +38,23 @@ public:
     /* 0x94 */ void *field_0x94;
 };
 
+struct JKRAramCommand
+{
+    void setting(int p1, void *p2)
+    {
+        _00 = p1;
+        command = p2;
+    }
+    int _00;
+    void *command;
+};
+
 class JKRAramPiece
 {
 public:
     static OSMutex mMutex;
     // TODO: fix type
     static JSUList<JKRAMCommand> sAramPieceCommandList;
-
-public:
-    struct JKRAramCommand
-    {
-        void setting(int p1, void * p2)
-        {
-            _00 = p1;
-            command = p2;
-        }
-        int _00;
-        void *command;
-    };
 
 public:
     static JKRAMCommand *prepareCommand(int, u32, u32, u32, JKRAramBlock *,
