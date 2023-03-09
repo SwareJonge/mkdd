@@ -7,9 +7,9 @@
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 
-u8 *firstSrcData();
-u8 *nextSrcData(u8 *);
-int decompSZS_subroutine(unsigned char *, unsigned char *);
+static u8 *firstSrcData();
+static u8 *nextSrcData(u8 *);
+static int decompSZS_subroutine(unsigned char *, unsigned char *);
 
 JSUList<JKRDMCommand> JKRDvdRipper::sDvdAsyncList;
 static OSMutex decompMutex;

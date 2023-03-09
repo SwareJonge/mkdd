@@ -33,11 +33,20 @@ global:
   0x803b6db0: j3dSys
   # JKernel
   # JKRAram.cpp
+  0x8000a540: create__7JKRAramFUlUllll
+  0x8000a5d8: __ct__7JKRAramFUlUll
+  0x8000a6e0: __dt__7JKRAramFv
+  0x8000a770: run__7JKRAramFv
+  0x8000a7d8: mainRamToAram__7JKRAramFPUcUlUl15JKRExpandSwitchUlP7JKRHeapiPUl
+  0x8000aa8c: aramToMainRam__7JKRAramFUlPUcUl15JKRExpandSwitchUlP7JKRHeapiPUl
+  0x8000ad98: JKRDecompressFromAramToMainRam__FUlPvUlUlUlPUl
   0x8000b35c: __dt__23JSUList<12JKRAMCommand>Fv
   0x80347ac8: sMessageBuffer__7JKRAram
   0x80347ad8: sMessageQueue__7JKRAram
   0x80347af8: __vt__7JKRAram
   0x803ae920: sAramCommandList__7JKRAram
+  0x803d3258: sSZSBufferSize__7JKRAram
+  0x803d4998: sAramObject__7JKRAram
   # JKRAramArchive.cpp
   0x8000b3b0: __ct__14JKRAramArchiveFlQ210JKRArchive15EMountDirection
   0x8000b454: __dt__14JKRAramArchiveFv

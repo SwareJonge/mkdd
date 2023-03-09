@@ -89,8 +89,8 @@ public:
 
     static JKRAram *create(u32, u32, long, long, long);
     static JKRAramBlock *mainRamToAram(u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
-    static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
-    static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, s32, u32 *);
+    static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
+    static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
 
     static u32 getSZSBufferSize() {
         return sSZSBufferSize;
@@ -102,7 +102,9 @@ public:
 
     static u8 decideAramGroupId(int id)
     {
-        return (id >= 0) ? id : getAramHeap()->getCurrentGroupID();
+        if(id < 0)
+            return getAramHeap()->getCurrentGroupID();
+        else return id;
     }
 
     static u32 sSZSBufferSize;
@@ -110,6 +112,7 @@ public:
     static JKRAram *sAramObject;
     static OSMessage sMessageBuffer[4];
     static OSMessageQueue sMessageQueue;
+    static JSUList<JKRAMCommand> sAramCommandList;
 
     u32 mAudioMemoryPtr;    // _7C
     u32 mAudioMemorySize;   // _80
@@ -203,6 +206,8 @@ public:
     // _00     = VTBL
     // _00-_7C = JKRThread
 };
+
+int JKRDecompressFromAramToMainRam(u32 src, void *dst, u32 srcLength, u32 dstLength, u32 offset, u32 *resourceSize);
 
 inline JKRAramBlock *JKRAllocFromAram(u32 size, JKRAramHeap::EAllocMode allocMode) {
     return JKRAram::getAramHeap()->alloc(size, allocMode);
