@@ -81,6 +81,7 @@ class Asset:
     def dump(self):
         # Needs fix: since multi version is now a thing it doesn't overwrite the files
         #if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
+        print(f"Ripping {self.path} from main.dol")
         os.system(
             f"{PYTHON} {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:x} {c.INCDIR}/{self.path}")
 
