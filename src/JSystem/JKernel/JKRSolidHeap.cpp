@@ -78,7 +78,6 @@ s32 JKRSolidHeap::adjustSize()
     return -1;
 }
 
-// Not matching for PAL
 void *JKRSolidHeap::do_alloc(u32 size, int alignment)
 {
     lock();

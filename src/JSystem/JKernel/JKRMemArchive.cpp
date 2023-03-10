@@ -4,10 +4,6 @@
 #include <JSystem/JKernel/JKRDvdRipper.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
-extern "C" {
-    #include <ppcdis.h>
-}
-
 JKRMemArchive::JKRMemArchive(s32 entryNum, EMountDirection mountDirection) : JKRArchive(entryNum, MOUNT_MEM)
 {
     mIsMounted = false;
@@ -51,7 +47,7 @@ JKRMemArchive::~JKRMemArchive()
     }
 }
 
-/*bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirection)
+bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirection)
 {
     mArcHeader = nullptr;
     mArcInfoBlock = nullptr;
@@ -66,7 +62,7 @@ JKRMemArchive::~JKRMemArchive()
     {
         u32 loadedSize;
         mArcHeader = (SArcHeader *)JKRDvdRipper::loadToMainRAM(
-            entryNum, nullptr, Switch_1, 0, mHeap, JKRDvdRipper::ALLOC_DIR_BOTTOM,
+            entryNum, nullptr, Switch_1, 0, mHeap, JKRDvdRipper::ALLOC_DIR_TOP,
             0, (int *)&mCompression, &loadedSize);
         if (mArcHeader)
         {
@@ -108,15 +104,12 @@ JKRMemArchive::~JKRMemArchive()
     }
 #endif
 
-    return mMountMode != UNKNOWN_MOUNT_MODE;
-}*/
-
-// PAL slice, for objdiff
-MANGLED_ASM(bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirection)){
-#include "asm/80015a24.s"
+    if (mMountMode == UNKNOWN_MOUNT_MODE)
+        return false;
+    return true;
 }
 
-/*bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
+bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
 {
     mArcHeader = (SArcHeader *)buffer;
     JUT_ASSERT(491, mArcHeader->signature == 'RARC');
@@ -124,18 +117,11 @@ MANGLED_ASM(bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection m
     mDirectories = (SDIDirEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->node_offset);
     mFileEntries = (SDIFileEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->file_entry_offset);
     mStrTable = (char *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->string_table_offset);
-    mArchiveData =
-        (u8 *)(mArcHeader->file_data_offset + mArcHeader->header_length + (u32)mArcHeader);
-    mIsOpen = (flag == MBF_1);
+    mArchiveData = (u8 *)(((u32)mArcHeader + mArcHeader->header_length) + mArcHeader->file_data_offset);
+    mIsOpen = (flag == MBF_1) ? true : false; // mIsOpen might be u8
     mHeap = JKRHeap::findFromRoot(buffer);
     mCompression = TYPE_NONE;
     return true;
-}*/
-
-// PAL slice, for objdiff
-MANGLED_ASM(bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag))
-{
-#include "asm/80015b94.s"
 }
 
 void *JKRMemArchive::fetchResource(SDIFileEntry *fileEntry, u32 *resourceSize)
@@ -211,7 +197,6 @@ bool JKRMemArchive::removeResource(void *resource)
     return true;
 }
 
-// doesn't match, i guess the if statments could be ternaries
 u32 JKRMemArchive::fetchResource_subroutine(u8 *src, u32 srcLength, u8 *dst, u32 dstLength, int compression)
 {
     switch ((CompressionMethod)compression) // Maybe change CompressionMethod to defines?
@@ -236,11 +221,11 @@ u32 JKRMemArchive::fetchResource_subroutine(u8 *src, u32 srcLength, u8 *dst, u32
     default:
     {
         JUT_PANIC(723, "??? bad sequence\n");
+        return 0;
     }
-    break;
     }
 
-    return 0;
+    return srcLength;
 }
 
 u32 JKRMemArchive::getExpandedResSize(const void *resource) const
@@ -249,8 +234,8 @@ u32 JKRMemArchive::getExpandedResSize(const void *resource) const
     if (fileEntry == nullptr)
         return -1;
 
-    if (fileEntry->isCompressed() == false)
+    if (((u8)(fileEntry->mFlag >> 24) & 4) == 0)
         return getResSize(resource);
     else
-        return JKRDecompExpandSize((u8*)resource);
+        return JKRDecompExpandSize((u8 *)resource);
 }

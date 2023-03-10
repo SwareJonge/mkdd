@@ -160,7 +160,7 @@ public:
     SDIDirEntry *findResType(u32) const;
     SDIFileEntry *findTypeResource(u32, u32) const;
 
-    static CompressionMethod convertAttrToCompressionType(u32 attr)
+    static CompressionMethod convertAttrToCompressionType(int attr)
     {
         CompressionMethod compression;
         if (FLAG_ON(attr, JKRARCHIVE_ATTR_COMPRESSION))
@@ -230,7 +230,7 @@ struct JKRMemArchive : public JKRArchive
 
     bool open(long, EMountDirection);
     bool open(void *, u32, JKRMemBreakFlag);
-    u32 fetchResource_subroutine(u8 *, u32, u8 *, u32, int);
+    static u32 fetchResource_subroutine(u8 *, u32, u8 *, u32, int);
 
     // Unused/inlined:
     void fixedInit(long);
@@ -308,7 +308,7 @@ struct JKRDvdArchive : public JKRArchive
     JKRDvdFile *mDvdFile;            // _68
 };
 
-inline CompressionMethod JKRConvertAttrToCompressionType(u32 attr)
+inline CompressionMethod JKRConvertAttrToCompressionType(int attr)
 {
     return JKRArchive::convertAttrToCompressionType(attr);
 }

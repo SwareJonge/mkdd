@@ -112,9 +112,11 @@ JSystem/JKernel/JKRHeap.cpp:
     .sbss: [0x803d4aa0, 0x803d4ac8]
     .sdata2: [0x803d64d8, 0x803d64e8]
 
-#JSystem/JKernel/JKRMemArchive.cpp:
-    #.text: [0x80015818, 0x80015f40]
-    #.data: [0x80347e70, 0x80347ec0]
+JSystem/JKernel/JKRMemArchive.cpp:
+    .text: [0x80015818, 0x80015f40]
+    .rodata: [0x8032d390, 0x8032d3b8]
+    .data: [0x80347e70, 0x80347ec0]
+    .sdata2: [0x803d64e8, 0x803d64f0]
 
 #JSystem/JKernel/JKRSolidHeap.cpp:
     #.text: [0x80015f40, 0x80016890]
