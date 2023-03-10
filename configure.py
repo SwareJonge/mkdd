@@ -358,6 +358,8 @@ class StringInclude(GeneratedInclude):
 
     def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
         folder, manual, self.start, self.end = match
+        self.manual = folder == "orderstrings"
+        print(folder)
         super().__init__(ctx, source_name,
                          f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
 
@@ -371,14 +373,18 @@ class StringInclude(GeneratedInclude):
 
         # Build
         for inc in includes:
-            sda = "--sda " if ctx.sdata2_threshold >= 4 else ""
+            flags = ""
+            if (inc.manual == False):
+                if (ctx.sdata2_threshold >= 4):
+                    flags = "--sda"        
+            print(f"{inc.start} {flags}")
             n.build(
                 inc.path,
                 rule="orderstrings",
                 inputs=ctx.binary,
                 variables={
                     "addrs" : f"{inc.start} {inc.end}",
-                    "flags" : f"{sda}"
+                    "flags": f"{flags}"
                 }
             )
 
