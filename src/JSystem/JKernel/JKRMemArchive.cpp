@@ -47,6 +47,15 @@ JKRMemArchive::~JKRMemArchive()
     }
 }
 
+#if DEBUG // function is needed to generate certain strings first, however this is not what the original function looks like
+void JKRMemArchive::fixedInit(s32)
+{
+    JUT_ASSERT(200, isMounted());
+    JUT_PANIC(200, "mMountCount == 1"); // some member is called mMountCount, if there's a game with this assert, fix
+    JUT_ASSERT(200, mArcHeader->signature == 'RARC');
+}
+#endif
+
 bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirection)
 {
     mArcHeader = nullptr;
@@ -99,11 +108,13 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
     }
 #if DEBUG
     // OS Assert?
-    if (mMountMode == 0) {
+    if (mMountMode == UNKNOWN_MOUNT_MODE)
+    {
         OSReport(":::Cannot alloc memory [%s][%d]\n", __FILE__, 460);
     }
+    return (mMountMode != UNKNOWN_MOUNT_MODE);
 #endif
-
+    // probably fakematch
     if (mMountMode == UNKNOWN_MOUNT_MODE)
         return false;
     return true;
@@ -126,6 +137,8 @@ bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
 
 void *JKRMemArchive::fetchResource(SDIFileEntry *fileEntry, u32 *resourceSize)
 {
+    JUT_ASSERT(555, isMounted())
+
     if (!fileEntry->mData)
         fileEntry->mData = mArchiveData + fileEntry->mDataOffset;
 
@@ -138,6 +151,8 @@ void *JKRMemArchive::fetchResource(SDIFileEntry *fileEntry, u32 *resourceSize)
 void *JKRMemArchive::fetchResource(void *buffer, u32 bufferSize, SDIFileEntry *fileEntry,
                                    u32 *resourceSize)
 {
+    JUT_ASSERT(595, isMounted())
+
     u32 srcLength = fileEntry->mSize;
     if (srcLength > bufferSize)
     {
@@ -166,7 +181,7 @@ void *JKRMemArchive::fetchResource(void *buffer, u32 bufferSize, SDIFileEntry *f
 
 void JKRMemArchive::removeResourceAll(void)
 {
-    JUT_ASSERT(642 isMounted());
+    JUT_ASSERT(642, isMounted());
 
     if (mArcInfoBlock == nullptr)
         return;
@@ -187,7 +202,7 @@ void JKRMemArchive::removeResourceAll(void)
 
 bool JKRMemArchive::removeResource(void *resource)
 {
-    JUT_ASSERT(673 isMounted());
+    JUT_ASSERT(673, isMounted());
 
     SDIFileEntry *fileEntry = findPtrResource(resource);
     if (!fileEntry)
