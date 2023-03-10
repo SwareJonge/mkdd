@@ -92,6 +92,8 @@ public:
     static u8 *aramToMainRam(u32, u8 *, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
     static u8 *aramToMainRam(JKRAramBlock *, u8 *, u32, u32, JKRExpandSwitch, u32, JKRHeap *, int, u32 *);
 
+    void aramSync(JKRAMCommand *, int);
+
     static u32 getSZSBufferSize() {
         return sSZSBufferSize;
     }

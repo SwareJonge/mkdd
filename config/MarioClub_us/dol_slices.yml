@@ -61,6 +61,18 @@ JSystem/JSupport/JSUFileStream.cpp:
     .text: [0x800791e8, 0x8007949c]
     .data: [0x8038b0a8, 0x8038b0d0]
 
+JSystem/JKernel/JKRAram.cpp:
+    .text: [0x8007949c, 0x8007a3ac]
+    .ctors: [0x803160d0, 0x803160d4]
+    .rodata: [0x80366798, 0x80366868]
+    .data: [0x8038b0d0, 0x8038b110]
+    .bss: [0x803ae908, 0x803ae930]
+    #.bss: [0x803fa8f0, 0x803fa8fc]
+    .sdata: [0x80414078, 0x80414080]
+    .sbss: [0x804158a0, 0x804158e0]
+    .sdata2: [0x80417a00, 0x80417a10]
+
+
 JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8007afac, 0x8007b228]
     .data: [0x8038b180, 0x8038b190]
