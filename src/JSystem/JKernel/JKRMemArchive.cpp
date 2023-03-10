@@ -112,12 +112,8 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
     {
         OSReport(":::Cannot alloc memory [%s][%d]\n", __FILE__, 460);
     }
-    return (mMountMode != UNKNOWN_MOUNT_MODE);
 #endif
-    // probably fakematch
-    if (mMountMode == UNKNOWN_MOUNT_MODE)
-        return false;
-    return true;
+    return (mMountMode == UNKNOWN_MOUNT_MODE) ? false : true;
 }
 
 bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
