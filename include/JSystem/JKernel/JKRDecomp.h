@@ -71,4 +71,8 @@ inline void JKRDecompress(u8 * src, u8 * dst, u32 expandSize, u32 dstSize) {
     JKRDecomp::orderSync(src, dst, expandSize, dstSize);
 }
 
+int JKRDecompressFromDVD(JKRDvdFile *, void *, u32, u32, u32, u32, u32 *);
+int JKRDecompressFromDVDToAram(JKRDvdFile *, u32, u32, u32, u32, u32, u32 *);
+int JKRDecompressFromAramToMainRam(u32, void *, u32, u32, u32, u32 *);
+
 #endif

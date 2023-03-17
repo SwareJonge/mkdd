@@ -21,12 +21,12 @@ JKRDvdFile::~JKRDvdFile() {
 
 void JKRDvdFile::initiate() {
     mDvdFileInfo.file = this;
-    OSInitMutex(&mMutex);
-    OSInitMutex(&mMutex_34);
+    OSInitMutex(&mDvdMutex);
+    OSInitMutex(&mAramMutex);
     OSInitMessageQueue(&mMessageQueue_C0, &mMessage_E0, OS_MESSAGE_BLOCK);
     OSInitMessageQueue(&mMessageQueue, &mMessage, OS_MESSAGE_BLOCK);
     mThread = nullptr;
-    _50 = 0;
+    mCommandThread = nullptr;
     _58 = 0;
 }
 
@@ -66,10 +66,10 @@ void JKRDvdFile::close() {
 
 s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
     JUT_ASSERT(238, ( length & 0x1f ) == 0);
-    OSLockMutex(&mMutex);
+    OSLockMutex(&mDvdMutex);
     s32 retAddr;
     if(mThread != nullptr) {
-        OSUnlockMutex(&mMutex);
+        OSUnlockMutex(&mDvdMutex);
         return -1;
     }
     else {
@@ -80,7 +80,7 @@ s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
             retAddr = (s32)sync();
         }
         mThread = nullptr;
-        OSUnlockMutex(&mMutex);
+        OSUnlockMutex(&mDvdMutex);
     }
     return retAddr;
 }
@@ -92,10 +92,10 @@ s32 JKRDvdFile::writeData(const void * addr,s32 length, s32 offset) {
 
 OSMessage JKRDvdFile::sync() {
     OSMessage msg;
-    OSLockMutex(&mMutex);
+    OSLockMutex(&mDvdMutex);
     OSReceiveMessage(&mMessageQueue_C0, &msg, OS_MESSAGE_BLOCK);
     mThread = nullptr;
-    OSUnlockMutex(&mMutex);
+    OSUnlockMutex(&mDvdMutex);
     return msg;
 }
 

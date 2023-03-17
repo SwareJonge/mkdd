@@ -128,6 +128,16 @@ JSystem/JKernel/JKRDvdFile.cpp:
     #.bss: [0x803fa944, 0x803fa950] 
     .sdata2: [0x80417a68, 0x80417a78]
 
+JSystem/JKernel/JKRDvdAramRipper.cpp:
+    .text: [0x8007f33c, 0x8008017c]
+    .ctors: [0x803160e0, 0x803160e4]
+    .rodata: [0x80366b08, 0x80366b58]
+    .bss: [0x803ae960, 0x803ae988]
+    #.bss: [0x803fa950, 0x803fa95c]
+    .sdata: [0x80414080, 0x80414088]
+    .sbss: [0x80415900, 0x80415948]
+    .sdata2: [0x80417a78, 0x80417a88]
+
 JSystem/JKernel/JKRDvdRipper.cpp:
     .text: [0x80080e68, 0x80081bcc]
     .ctors: [0x803160e4, 0x803160e8]
@@ -177,7 +187,6 @@ JSystem/JKernel/JKRMemArchive.cpp:
     .rodata: [0x803673a8, 0x80367438]
     .data: [0x8038b478, 0x8038b4c8]
     .sdata2: [0x80417b18, 0x80417b28]
-
 
 JSystem/JKernel/JKRSolidHeap.cpp:
     .text: [0x80085cf4, 0x80086734]

@@ -189,7 +189,19 @@ global:
   0x80347cd8: __vt__10JKRDvdFile
   0x803ae974: sDvdList__10JKRDvdFile
   # JKRDvdAramRipper.cpp
+  0x80010048: loadToAram__16JKRDvdAramRipperFlUl15JKRExpandSwitchUlUlPUl
+  0x800100e8: loadToAram__16JKRDvdAramRipperFP10JKRDvdFileUl15JKRExpandSwitchUlUlPUl
+  0x80010184: loadToAram_Async__16JKRDvdAramRipperFP10JKRDvdFileUl15JKRExpandSwitchPFUl_vUlUlPUl
+  0x80010234: callCommand_Async__16JKRDvdAramRipperFP12JKRADCommand
   0x8001059c: __dt__18JSUFileInputStreamFv
+  0x8001060c: syncAram__16JKRDvdAramRipperFP12JKRADCommandi
+  0x800106e4: __ct__12JKRADCommandFv
+  0x80010724: __dt__12JKRADCommandFv
+  0x800107b0: JKRDecompressFromDVDToAram__FP10JKRDvdFileUlUlUlUlUlPUl
+  0x80010df8: __dt__23JSUList<12JKRADCommand>Fv
+  0x803ae980: sDvdAramAsyncList__16JKRDvdAramRipper
+  0x803d3260: errorRetry__16JKRDvdAramRipper
+  0x803d3264: sSZSBufferSize__16JKRDvdAramRipper
   # JKRDvdArchive.cpp
   0x80010e4c: __ct__13JKRDvdArchiveFlQ210JKRArchive15EMountDirection
   0x80010ef0: __dt__13JKRDvdArchiveFv
@@ -2166,4 +2178,4 @@ global:
   # kartCtrlInfo.cpp
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
-  0x802b3134: SetTargetNum__7KartCamFUc 
+  0x802b3134: SetTargetNum__7KartCamFUc

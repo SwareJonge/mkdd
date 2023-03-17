@@ -167,7 +167,6 @@ public:
     // _00-_08	= JSUIosBase
     const void *mObject; // _08
     long mLength;        // _0C
-    int mPosition;       // _10
 };
 
 /* Not much remains of this. */

@@ -48,14 +48,10 @@ namespace JKRDvdRipper { // not sure if this is a class/struct or a namespace(if
 
     extern JSUList<JKRDMCommand> sDvdAsyncList;
 
-    // these both exist too JKRAramRipper? copy paste or is something else going on? i'm guessing copy paste
     extern bool errorRetry; 
     extern int sSZSBufferSize; // 0x400
     // Weak
     inline int getSZSBufferSize() { return sSZSBufferSize; }    
-    inline bool isErrorRetry() { return errorRetry; } // this is unused but for whatever reason it gets linked
+    inline bool isErrorRetry() { return errorRetry; }
 }
-
-int JKRDecompressFromDVD(JKRDvdFile *, void *, u32, u32, u32, u32, u32 *);
-
 #endif

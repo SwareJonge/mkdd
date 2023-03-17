@@ -209,8 +209,6 @@ public:
     // _00-_7C = JKRThread
 };
 
-int JKRDecompressFromAramToMainRam(u32 src, void *dst, u32 srcLength, u32 dstLength, u32 offset, u32 *resourceSize);
-
 inline JKRAramBlock *JKRAllocFromAram(u32 size, JKRAramHeap::EAllocMode allocMode) {
     return JKRAram::getAramHeap()->alloc(size, allocMode);
 }

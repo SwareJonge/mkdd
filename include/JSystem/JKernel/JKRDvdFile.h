@@ -3,8 +3,11 @@
 
 #include <dolphin/os.h>
 #include <dolphin/dvd.h>
-#include "JSystem/JKernel/JKRFile.h"
+#include <JSystem/JKernel/JKRFile.h>
+#include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
+
+class JKRAramBlock;
 
 class JKRDvdFile : public JKRFile {
 public:
@@ -38,24 +41,23 @@ public:
 
     // global variables 
     static JSUList<JKRDvdFile> sDvdList;
-private:
-    OSMutex mMutex; //1C
-    OSMutex mMutex_34; // probably a debug mutex, not used
-    u8 _4c[4]; // is this u64? probably not since the only read(and reference) and write to this in in initiate()
-    int _50; 
-    u8 _54[4];
-    int _58;
-
-public: // i guess a workaround
-    DVDFileInfo mDvdFileInfo; // 5C
+public:
+    OSMutex mDvdMutex;               // 1C
+    OSMutex mAramMutex;              // 34
+    JKRAramBlock *mBlock;            // 4C
+    OSThread *mCommandThread;        // 50, alternative name: mAramThread
+    JSUFileInputStream *mFileStream; // 54
+    int _58;                         // 58
+    DVDFileInfo mDvdFileInfo;        // 5C
     // 98, not sure if there's padding or if DVDFileInfo has an extra field? gets recasted in doneProcess
-    OSMessageQueue mMessageQueue; // 9C 
-    OSMessage mMessage; // BC
-    OSMessageQueue mMessageQueue_C0; 
+    OSMessageQueue mMessageQueue; // 9C
+    OSMessage mMessage;           // BC
+    OSMessageQueue mMessageQueue_C0;
     OSMessage mMessage_E0;
-    private:
+
+private:
     JSULink<JKRDvdFile> mLink; // E4
-    OSThread *mThread; // F4
+    OSThread *mThread;         // F4, alternative name: mDvdThread
 };
 
 #endif
