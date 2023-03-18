@@ -107,7 +107,7 @@ namespace System {
         mspJ2DPrint = new J2DPrint(FontMgr::mspDebugFont, 0.0f); // propably a getter for debugfont
 
         SysDebug::getManager()->setHeapGroup("Display", JKRGetRootHeap());
-        mspDisplay = JFWDisplay::createManager(nullptr, JKRGetRootHeap(), JUTXfb::UNK_2, true);
+        mspDisplay = JFWDisplay::createManager(nullptr, JKRGetRootHeap(), JUTXfb::DoubleBuffer, true);
 
         mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, 
                             SystemData::sc3DScissor.W, SystemData::sc3DScissor.H, JUtility::TColor(0, 0, 0, 0xff)));

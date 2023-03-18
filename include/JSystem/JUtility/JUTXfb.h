@@ -2,17 +2,18 @@
 #define _JSYSTEM_JUT_JUTXFB_H
 
 #include <dolphin/gx.h>
+#include <JSystem/JKernel/JKRHeap.h>
 #include "types.h"
 
 class JUTXfb
 {
 public:
     enum EXfbNumber
-    { // TODO: placeholder
-        UNK_0 = 0,
-        UNK_1 = 1,
-        UNK_2 = 2,
-        UNK_3 = 3,
+    {
+        Unset = 0,
+        SingleBuffer = 1,
+        DoubleBuffer = 2,
+        TripleBuffer = 3
     };
 
     /* 802E5214 */ void clearIndex();
@@ -25,7 +26,7 @@ public:
     /* 802E5454 */ void initiate(u16, u16, JKRHeap *, JUTXfb::EXfbNumber);
 
     s32 getBufferNum() const { return mBufferNum; }
-    s16 getDrawnXfbIndex() const { return mDrawnXfbIndex; }
+    int getDrawnXfbIndex() const { return mDrawnXfbIndex; }
     int getDrawingXfbIndex() const { return mDrawingXfbIndex; }
     int getDisplayingXfbIndex() const { return mDisplayingXfbIndex; }
     s32 getSDrawingFlag() const { return mSDrawingFlag; }

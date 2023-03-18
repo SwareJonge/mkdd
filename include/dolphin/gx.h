@@ -940,6 +940,8 @@ typedef enum _GXTlutSize {
     void GXFlush();
     void GXAbortFrame();
     void GXSetDrawDone();
+    typedef void (*GXDrawDoneCallback)(void);
+    void GXSetDrawDoneCallback(GXDrawDoneCallback callback);
 
     // GXFifo
     GXFifoObj *GXGetCPUFifo();

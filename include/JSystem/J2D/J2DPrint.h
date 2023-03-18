@@ -3,12 +3,10 @@
 
 #include "types.h"
 #include "JSystem/JUtility/TColor.h"
-//#include "JSystem/JUT/JUTFont.h"
+#include "JSystem/JUtility/JUTFont.h"
 
 struct J2DTextBoxVBinding;
 struct J2DTextBoxHBinding;
-
-struct JUTFont; //placeholder
 
 struct J2DPrint
 {

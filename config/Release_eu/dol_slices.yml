@@ -163,10 +163,6 @@ JSystem/JSupport/JSUFileStream.cpp:
     .text: [0x80017e94, 0x800180b4]
     .data: [0x80348018, 0x80348040]
 
-JSystem/JMath/JMath.cpp:
-    .text: [0x80026880, 0x80026ad8]
-    .sdata2: [0x803d66e0, 0x803d66e8]
-
 #JSystem/JUtility/JUTProcBar.cpp:
     #.text: [0x8001fbdc, 0x80021d38]
     #.sdata: [0x803d32a8, 0x803d32b0]
@@ -175,6 +171,15 @@ JSystem/JMath/JMath.cpp:
 
 JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
     .rodata: [0x8032db80, 0x80331ce0]
+
+JSystem/JUtility/JUTVideo.cpp:
+    .text: [0x8002392c, 0x80023eb0]
+    .data: [0x803484b0, 0x803484c0]
+    .sbss: [0x803d4b78, 0x803d4b90]
+
+JSystem/JMath/JMath.cpp:
+    .text: [0x80026880, 0x80026ad8]
+    .sdata2: [0x803d66e0, 0x803d66e8]
 
 JSystem/JMath/random.cpp:
     .text: [0x80026ad8, 0x80026ae0]

@@ -481,6 +481,9 @@ global:
   0x8001981c: JUTWarningConsole_f
   0x800198e4: JUTWarningConsole
   0x80348040: __vt__10JUTConsole
+  # JUTDirectPrint.cpp
+  0x8001a494: changeFrameBuffer__14JUTDirectPrintFPvUsUs
+  0x803d4af0: sDirectPrint__14JUTDirectPrint
   # JUTException.cpp
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
   # JUTGamePad.cpp
@@ -502,11 +505,29 @@ global:
   0x803d32a8: oneFrameRate
   0x803d32ac: oneFrameRateUser
   0x803d4b60: sManager__10JUTProcBar
-  # JUTVideo.cpp
-  0x803d4b78: sManager__8JUTVideo
   # JUTFontData_Ascfont_fix12.s
   0x8032db80: JUTResFONT_Ascfont_fix12
+  # JUTVideo.cpp
+  0x8002392c: createManager__8JUTVideoFPC16_GXRenderModeObj
+  0x80023988: __ct__8JUTVideoFPC16_GXRenderModeObj
+  0x80023a74: __dt__8JUTVideoFv
+  0x80023adc: preRetraceProc__8JUTVideoFUl
+  0x80023d1c: drawDoneStart__8JUTVideoFv
+  0x80023d44: dummyNoDrawWait__8JUTVideoFv
+  0x80023d50: drawDoneCallback__8JUTVideoFv
+  0x80023dd8: postRetraceProc__8JUTVideoFUl
+  0x80023e24: setRenderMode__8JUTVideoFPC16_GXRenderModeObj
+  0x80023e9c: waitRetraceIfNeed__8JUTVideoFv
+  0x80023ea0: setPostRetraceCallback__8JUTVideoFPFUl_v
+  0x803484b0: __vt__8JUTVideo
+  0x803d4b78: sManager__8JUTVideo
+  0x803d4b7c: sVideoLastTick__8JUTVideo
+  0x803d4b80: sVideoInterval__8JUTVideo
+  0x803d4b84: sDrawWaiting
+  # JUTXfb.cpp
+  0x803d4b90: sManager__6JUTXfb
   # JMath
+  # JMath.cpp
   0x80026880: JMAEulerToQuat__FsssP10Quaternion
   0x80026944: JMAQuatLerp__FPC10QuaternionPC10QuaternionfP10Quaternion
   0x80026a1c: JMAVECScaleAdd__FPC3VecPC3VecP3Vecf

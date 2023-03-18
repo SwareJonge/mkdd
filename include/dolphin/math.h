@@ -24,6 +24,8 @@ extern "C" {
 
 #define LONG_TAU 6.2831854820251465
 
+int abs(int x); // might belong to another file, future "issue"
+
 double asin(double);
 
 double cos(double);

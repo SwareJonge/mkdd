@@ -72,6 +72,7 @@ extern "C"
 
     void VIInit(void);
     void VIFlush(void);
+    void *VIGetNextFrameBuffer();
     void VIWaitForRetrace(void);
 
     void VIConfigure(const struct _GXRenderModeObj *rm);
