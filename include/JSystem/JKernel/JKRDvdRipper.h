@@ -34,9 +34,9 @@ namespace JKRDvdRipper { // not sure if this is a class/struct or a namespace(if
                           //!< bottom of free block.
     };
     // could also be u8 * return, however most functions seem to use void *
-    void * loadToMainRAM(const char *, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *); 
-    void * loadToMainRAM(s32, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *);
-    void * loadToMainRAM(JKRDvdFile *, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *);
+    void *loadToMainRAM(const char *, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *); 
+    void *loadToMainRAM(s32, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *);
+    void *loadToMainRAM(JKRDvdFile *, u8 *, JKRExpandSwitch, u32, JKRHeap *, EAllocDirection, u32, int *, u32 *);
     // Inline/Unused
     void loadToMainRAMAsync(const char *, u8 *, JKRExpandSwitch, u32, JKRHeap *, u32 *);
     void loadToMainRAMAsync(s32, u8 *, JKRExpandSwitch, u32, JKRHeap *, u32 *);
@@ -54,4 +54,10 @@ namespace JKRDvdRipper { // not sure if this is a class/struct or a namespace(if
     inline int getSZSBufferSize() { return sSZSBufferSize; }    
     inline bool isErrorRetry() { return errorRetry; }
 }
+
+inline void *JKRDvdToMainRam(long entryNum, u8 *dst, JKRExpandSwitch expandSwitch, u32 fileSize, JKRHeap *heap, JKRDvdRipper::EAllocDirection allocDirection, u32 startOffset, int *pCompression, u32 *pSize)
+{
+    return JKRDvdRipper::loadToMainRAM(entryNum, dst, expandSwitch, fileSize, heap, allocDirection, startOffset, pCompression, pSize);
+}
+
 #endif

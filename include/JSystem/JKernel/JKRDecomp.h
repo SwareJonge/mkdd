@@ -2,8 +2,9 @@
 #define JSYSTEM_JKRDECOMP_H
 
 #include <dolphin/os.h>
+#include "JSystem/JKernel/JKRCompression.h"
+#include "JSystem/JKernel/JKRDvdFile.h"
 #include "JSystem/JKernel/JKRThread.h"
-#include "JSystem/JKernel/JKRArchive.h"
 #include "types.h"
 
 #define JKRDECOMP_SYNC_BLOCKING 0

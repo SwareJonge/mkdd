@@ -319,7 +319,6 @@ int JKRDecompressFromDVDToAram(JKRDvdFile *dvdFile, u32 p2, u32 fileSize, u32 de
     return result;
 }
 
-// just copy and modify one of the existing decompSZS_subroutines
 int decompSZS_subroutine(u8 *src, u32 dmaAddr)
 {
     u32 endPtr;
