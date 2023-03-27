@@ -1,3 +1,6 @@
+PowerPC_EABI_Support/Runtime/__mem.c:
+    .init: [0x80003458, 0x80003590]
+
 kartLocale.cpp:
     .text: [0x800056c0, 0x800057b4]
     .rodata: [0x80360900, 0x80360910]
