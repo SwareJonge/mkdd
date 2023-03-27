@@ -14,7 +14,7 @@ Decompilation of Mario Kart Double Dash!!
 - Dump a copy of the Debug or PAL version and extract  `main.dol`
 - for Debug place  `main.dol` in `orig/MarioClub_us/`
 - for PAL place  `main.dol` in `orig/Release_eu/`
-- Place the compilers of GC MW 2.6 in `tools/2.6`
+- Place the compilers of GC MW 2.5 in `tools/2.5`
 - Place the compilers of GC MW 1.2.5 in `tools/1.2.5`
 - (First time only) Install the modules from requirements.txt (`pip install -r requirementstxt`)
 - To target Debug, run `python configure.py -r us`
