@@ -41,13 +41,76 @@ class Binary(Enum):
 # ppcdis source output
 SourceDesc = Union[str, Tuple[str, int, int]]
 
+
 def get_containing_slice(addr: int) -> Tuple[Binary, SourceDesc]:
     """Finds the binary containing an address and its source file
     Source file is empty string if not decompiled"""
 
-    dol_raw = get_cmd_stdout(f"{SLICES} {DOL_YML} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
+    dol_raw = get_cmd_stdout(
+        f"{SLICES} {DOL_YML} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
     containing = json.loads(dol_raw)
     return (Binary.DOL, containing)
+
+
+def lookup_sym(sym: str, dol: bool = False, rel: bool = False, source_name: str = None) -> int:
+    """Takes a symbol as a name or address and returns the address"""
+
+    # Get binary
+    if dol:
+        binary_name = DOL_YML
+    else:
+        binary_name = None
+
+    # Determine type
+    try:
+        return int(sym, 16)
+    except ValueError:
+        return get_address(sym, binary_name, source_name)
+
+
+def lookup_sym_full(sym: str, dol: bool = False, rel: bool = False, source_name: str = None
+                    ) -> int:
+    """Takes a symbol as a name or address and returns both the name and address"""
+
+    # Get binary
+    if dol:
+        binary_name = DOL_YML
+    else:
+        binary_name = None
+
+    # Determine type
+    try:
+        return int(sym, 16), get_name(sym)
+    except ValueError:
+        return get_address(sym, binary_name, source_name), sym
+
+
+def get_address(name: str, binary: bool = None, source_name: bool = None) -> int:
+    """Finds the address of a symbol"""
+
+    args = [name]
+    if binary is not None:
+        args.append(f"-b {binary}")
+    if source_name is not None:
+        args.append(f"-n {source_name}")
+
+    raw = get_cmd_stdout(
+        f"{SYMBOLSCRIPT} {SYMBOLS} --get-addr {' '.join(args)}")
+    return json.loads(raw)
+
+
+def get_name(addr: int, binary: bool = None, source_name: bool = None) -> int:
+    """Finds the name of a symbol"""
+
+    args = [addr]
+    if binary is not None:
+        args.append(f"-b {binary}")
+    if source_name is not None:
+        args.append(f"-n {source_name}")
+
+    raw = get_cmd_stdout(
+        f"{SYMBOLSCRIPT} {SYMBOLS} --get-name {' '.join(args)}")
+    return json.loads(raw)
 
 def find_headers(dirname: str, base=None) -> List[str]:
     """Returns a list of all headers in a folder recursively"""
@@ -138,6 +201,7 @@ ELF2DOL = f"{PYTHON} {PPCDIS}/elf2dol.py"
 FORCEACTIVEGEN = f"{PYTHON} {PPCDIS}/forceactivegen.py"
 SLICES = f"{PYTHON} {PPCDIS}/slices.py"
 PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
+SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 
 # Codewarrior
 SDK_CW = os.path.join(TOOLS, "1.2.5")

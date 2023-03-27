@@ -4,47 +4,58 @@ Disassembles a single function
 
 from argparse import ArgumentParser
 from os import system, unlink
+import os.path
 from tempfile import NamedTemporaryFile
 
 import common as c
 
-def get_function(binary: c.Binary, srcflag: str, addr: int) -> str:
-    # Get flags for binary
-    if binary == c.Binary.DOL:
-        binary = c.DOL_YML
-        binflags = ""
-        anlflags = f"{c.DOL_LABELS} {c.DOL_RELOCS}"
-    else:
-        binary = c.REL_YML
-        binflags = c.PPCDIS_REL_FLAGS
-        anlflags = f"{c.REL_LABELS} {c.REL_RELOCS}"
+
+def get_function(binary: c.Binary, source: c.SourceDesc, addr: int, extra: bool, inline=False) -> str:
+    # Get context
+    ctx = c.DOL_CTX if binary == c.Binary.DOL else c.REL_CTX
+    assert os.path.exists(ctx.labels), "Error: analysis has not ran!"
 
     # Disassemble function
-    with NamedTemporaryFile(suffix=".c", delete=False) as tmp:
+    extraflag = "-e" if extra else ""
+    srcflag = f"-n {source}" if isinstance(source, str) else ""
+    inlineflag = "-i" if inline else ""
+    with NamedTemporaryFile(suffix=".s", delete=False) as tmp:
         try:
             tmp.close()
             ret = system(
-                f"{c.DISASSEMBLER} {binary} {anlflags} {tmp.name} -f {addr:x} "
-                f"-m {c.SYMBOLS} {binflags} {srcflag} -q"
+                f"{c.DISASSEMBLER} {ctx.binary} {ctx.labels} {ctx.relocs} {tmp.name} -f {addr:x} "
+                f"-m {c.SYMBOLS} {srcflag} -q {extraflag} {inlineflag}"
             )
             assert ret == 0, f"Disassembly error code {ret}"
             with open(tmp.name) as f:
                 asm = f.read()
         finally:
             unlink(tmp.name)
-    
+
     return asm
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     parser = ArgumentParser()
-    hex_int = lambda s: int(s, 16)
-    parser.add_argument("addr", type=hex_int)
+    parser.add_argument("sym", type=str, help="Symbol name or address")
+    parser.add_argument("-e", "--extra", action="store_true",
+                        help="Include referenced jumptables")
+    parser.add_argument("-d", "--dol", action="store_true",
+                        help="Prioritise dol-local symbols")
+    parser.add_argument("-r", "--rel", action="store_true",
+                        help="Prioritise rel-local symbols")
+    parser.add_argument("-n", "--source-name", type=str,
+                        help="Prioritise source-local symbols")
+    parser.add_argument("-i", "--inline", action="store_true",
+                        help="Output as inline assembly")
     args = parser.parse_args()
 
+    # Find address
+    assert not (args.dol and args.rel), "--dol and --rel are incompatible"
+    addr = c.lookup_sym(args.sym, args.dol, args.rel, args.source_name)
+    assert addr is not None, f"Symbol {args.sym} not found"
+
     # Find containing binary
-    binary, source = c.get_containing_slice(args.addr)
+    binary, source = c.get_containing_slice(addr)
 
-    # Get source file name flag
-    srcflag = f"-n {source}" if isinstance(source, str) else ""
-
-    print(get_function(binary, srcflag, args.addr))
+    print(get_function(binary, source, addr, args.extra, args.inline))
