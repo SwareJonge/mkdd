@@ -1,44 +1,56 @@
 #ifndef _JUTDIRECTPRINT_H
 #define _JUTDIRECTPRINT_H
 
-#include "types.h"
+#include <dolphin/stl.h>
 #include "JSystem/JUtility/TColor.h"
 
-struct JUTDirectPrint
+class JUTDirectPrint
 {
-    JUTDirectPrint(); // unused/inlined
+private:
+    JUTDirectPrint();
 
-    void *_00;            // _00
-    u16 _04;              // _04
-    u16 _06;              // _06
-    u16 _08;              // _08
-    u8 _0A[0x2];          // _0A - padding probably
-    uint _0C;             // _0C
-    u8 _10[0x4];          // _10 - unknown
-    void *_14;            // _14
-    JUtility::TColor _18; // _18
-    s16 _1C;              // _1C
-    s16 _1E;              // _1E
-    s16 _20;              // _20
-    s16 _22;              // _22
-    u16 _24;              // _24
-    u16 _26;              // _26
-    u16 _28;              // _28
-    u8 _2A[0x2];          // _2A - padding probably
-
+public:
     static JUTDirectPrint *start();
-    void erase(int, int, int, int);
-    void setCharColor(JUtility::TColor);
-    void setCharColor(u8, u8, u8);
+    void erase(int x, int y, int w, int h);
+    void setCharColor(JUtility::TColor color);
+    void setCharColor(u8 r, u8 g, u8 b);
     void drawChar(int, int, int);
-    void drawString(u16, u16, char *);
-    void drawString_f(u16, u16, const char *, ...);
-    void changeFrameBuffer(void *, u16, u16);
+    void drawString(u16 x, u16 y, char *text);
+    void drawString_f(u16 x, u16 y, const char * text, ...);
+    void changeFrameBuffer(void *framebuffer, u16 w, u16 h );
 
+    // Inline/Unused
+    void printSub(u16, u16, const char *, __va_list_struct, bool);
+    void print(u16, u16, const char *, ...);
+
+    bool isActive() const { return mFramebuffer != nullptr; }
+    void *getFrameBuffer() { return mFramebuffer; }
+    JUtility::TColor getCharColor() const { return mCharColor; }
+
+    static JUTDirectPrint * getManager() { return sDirectPrint; }
+
+private:
+    static u8 sAsciiTable[128];
+    static u32 sFontData[64];
+    static u32 sFontData2[77];
     static JUTDirectPrint *sDirectPrint;
-    static JUTDirectPrint * getManager() {
-        return sDirectPrint;
-    }
+
+    void *mFramebuffer;          // _00
+    u16 mFbWidth;                // _04
+    u16 mFbHeight;               // _06
+    u16 mStride;                 // _08, aligned width?
+    size_t mFbSize;              // _0C
+    u8 _10[0x4];                 // _10 - unknown
+    u16 *mFrameMemory;           // _14
+    JUtility::TColor mCharColor; // _18, Color in RGBA format
+    u16 mCharColorY;             // _1C, 1C-2C = color in YCbCr
+    u16 mCharColorCb;            // _1E
+    u16 mCharColorCb2;           // _20
+    u16 mCharColorCb4;           // _22
+    u16 mCharColorCr;            // _24
+    u16 mCharColorCr2;           // _26
+    u16 mCharColorCr4;           // _28
+    u16 _2A;                     // _2A
 };
 
 inline void JUTChangeFrameBuffer(void *buffer, u16 height, u16 width)

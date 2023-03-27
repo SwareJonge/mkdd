@@ -35,7 +35,7 @@ void __fill_mem(void *dst, int c, size_t n)
 
         idest = (u32 *)(cdest - 3);
         i = n >> 5;
-        if (i)
+        if (i != 0)
         {
             do
             {
@@ -52,7 +52,7 @@ void __fill_mem(void *dst, int c, size_t n)
 
         i = (n >> 2) & 7;
 
-        if (i)
+        if (i != 0)
         {
             do
             {

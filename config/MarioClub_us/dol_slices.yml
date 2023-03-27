@@ -39,6 +39,12 @@ JSystem/JMath/JMATrigonometric.cpp:
     #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
     .sdata2: [0x80417798, 0x804177e0]
 
+JSystem/JUtility/JUTDirectPrint.cpp:
+    .text: [0x8006c1cc, 0x8006c87c]
+    .data: [0x8038abd8 , 0x8038aea0]
+    .sbss: [0x804157f0, 0x804157f8]
+    .sdata2: [0x80417858, 0x804178b8]
+
 JSystem/JUtility/JUTProcBar.cpp:
     .text: [0x80071920, 0x80073a5c]
     .sdata: [0x80414070, 0x80414078]

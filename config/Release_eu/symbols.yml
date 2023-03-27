@@ -482,7 +482,19 @@ global:
   0x800198e4: JUTWarningConsole
   0x80348040: __vt__10JUTConsole
   # JUTDirectPrint.cpp
+  # JUTDirectPrint.cpp
+  0x8001a120: start__14JUTDirectPrintFv
+  0x8001a198: erase__14JUTDirectPrintFiiii
+  0x8001a22c: drawChar__14JUTDirectPrintFiii
   0x8001a494: changeFrameBuffer__14JUTDirectPrintFPvUsUs
+  0x8001a4cc: drawString__14JUTDirectPrintFUsUsPc
+  0x8001a4f8: drawString_f__14JUTDirectPrintFUsUsPCce
+  0x8001a664: setCharColor__14JUTDirectPrintFQ28JUtility6TColor
+  0x8001a694: setCharColor__14JUTDirectPrintFUcUcUc
+  0x80348050: sAsciiTable__14JUTDirectPrint
+  0x803480d0: sFontData__14JUTDirectPrint
+  0x803481d0: sFontData2__14JUTDirectPrint
+  
   0x803d4af0: sDirectPrint__14JUTDirectPrint
   # JUTException.cpp
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce

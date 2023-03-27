@@ -166,6 +166,12 @@ JSystem/JSupport/JSUFileStream.cpp:
     .text: [0x80017e94, 0x800180b4]
     .data: [0x80348018, 0x80348040]
 
+JSystem/JUtility/JUTDirectPrint.cpp:
+    .text: [0x8001a120, 0x8001a830]
+    .data: [0x80348050, 0x80348318]
+    .sbss: [0x803d4af0, 0x803d4af8]
+    .sdata2: [0x803d6568, 0x803d65c8]
+
 #JSystem/JUtility/JUTProcBar.cpp:
     #.text: [0x8001fbdc, 0x80021d38]
     #.sdata: [0x803d32a8, 0x803d32b0]

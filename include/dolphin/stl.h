@@ -37,6 +37,7 @@ extern "C"
         char *reg_save_area;
     } __va_list[1];
     typedef __va_list va_list;
+    typedef __va_list __va_list_struct; // TODO: creates weird class in symbol
 
 #ifndef __MWERKS__
     extern void __builtin_va_info(va_list *);
@@ -49,10 +50,11 @@ extern "C"
 #define va_end(ap) (void)0
 
 #else
-typedef __builtin_va_list va_list;
 #define va_start(v, l) __builtin_va_start(v, l)
 #define va_end(v) __builtin_va_end(v)
 #define va_arg(v, l) __builtin_va_arg(v, l)
+typedef __builtin_va_list va_list;
+typedef va_list __va_list_struct;
 #endif
 
 /*
