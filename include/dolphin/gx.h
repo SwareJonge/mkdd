@@ -4,7 +4,8 @@
 #include <dolphin/mtx.h>
 #include <dolphin/types.h>
 
-//TODO: REFACTOR
+// TODO: REFACTOR
+// will i ever do this?
 
 #ifdef __cplusplus
 extern "C"
@@ -17,6 +18,13 @@ extern "C"
 #define GX_FALSE ((GXBool)0)
 #define GX_ENABLE ((GXBool)1)
 #define GX_DISABLE ((GXBool)0)
+
+// GX Types
+// Generic struct for texture look-up table objects.
+typedef struct _GXTlutObj
+{
+    u8 padding[0xC]; // _00
+} GXTlutObj;
 
 // GXEnum
 typedef enum _GXPrimitive {
@@ -970,8 +978,8 @@ typedef enum _GXTlutSize {
     GXBool GXGetTexObjMipMap(GXTexObj *obj);
     u32 GXGetTexObjTlut(GXTexObj *obj);
     void GXLoadTexObj(GXTexObj *obj, GXTexMapID id);
-    //void GXInitTlutObj(GXTlutObj *obj, void *lut, GXTlutFmt fmt, u16 entry_num);
-    //void GXLoadTlut(GXTlutObj *obj, u32 tlut_name);
+    void GXInitTlutObj(GXTlutObj *obj, void *lut, GXTlutFmt fmt, u16 entry_num);
+    void GXLoadTlut(GXTlutObj *obj, u32 tlut_name);
     //void GXInitTexCacheRegion(GXTexRegion *region, GXBool is_32b_mipmap, u32 tmem_even,
                               //GXTexCacheSize size_even, u32 tmem_odd, GXTexCacheSize size_odd);
     //void GXInitTlutRegion(GXTlutRegion *region, u32 tmem_addr, GXTlutSize tlut_size);

@@ -506,6 +506,10 @@ global:
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
   0x803d3290: sStickMode__10JUTGamePad
+  # JUTPalette.cpp
+  0x8001fab8: storeTLUT__10JUTPaletteF7_GXTlutP7ResTLUT
+  0x8001fb48: storeTLUT__10JUTPaletteF7_GXTlut10_GXTlutFmt15JUTTransparencyUsPv
+  0x8001fb94: load__10JUTPaletteFv
   # JUTProcBar.cpp
   0x8001fbdc: __ct__Q210JUTProcBar5CTimeFv
   0x8001fbf0: create__10JUTProcBarFv

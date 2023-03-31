@@ -64,11 +64,13 @@ u32 __OSBusClock : (0x800000F8);
 
 #define OSError(...) OSPanic(__FILE__, __LINE__, __VA_ARGS__)
 #ifndef MATCHING
-#define OSErrorLine(line, ...) OSError(__VA_ARGS__)
+#define OSErrorLine(...) OSError(__VA_ARGS__)
+#define OSHalt(msg) OSPanic(__FILE__, __LINE__, msg)
 #else
 #define OSErrorLine(line, ...) OSPanic(__FILE__, line, __VA_ARGS__)
-#endif
 #define OSHalt(line, msg) OSPanic(__FILE__, line, msg)
+#endif
+
 
   void OSRegisterVersion(const char *);
 

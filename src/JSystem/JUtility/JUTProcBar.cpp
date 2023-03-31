@@ -168,7 +168,7 @@ void JUTProcBar::drawProcessBar() {
             int r22 = mParams.mPosY + mParams.mBarWidth;
             int r21 = mParams.mPosX + 1;
             bar_subroutine(r21, r22, r26, r28, frameDuration, gpuTime, -1, JUtility::TColor(80, 255, 80, 255), JUtility::TColor(80, 255, 80, 255));
-            int thingy1 = gpuTime * r28 / frameDuration + r21; // inline?
+            int thingy1 = gpuTime * r28 / frameDuration + r21;
             J2DFillBox(thingy1, r22, mGpWait.calcBarSize(r28, frameDuration), r26, JUtility::TColor(0, 255, 0, 255));
             int r30 = mGp.calcBarSize(r28, frameDuration) + r21;
             r21 += totalTime * r28 / frameDuration;
@@ -186,14 +186,15 @@ void JUTProcBar::drawProcessBar() {
         for (int i = 0; i < 8; i++)
         {
             CTime *time = &mUsers[i];
-            if (++time->_0C >= 0x10 || time->mCost > time->_08) { // could be inline too
+            if (++time->_0C >= 0x10 || time->mCost > time->_08) {
                 time->_08 = time->mCost;
                 time->_0C = 0;
             }
             if (time->_08 > temp3)
                 temp3 = time->_08;
         }
-        if ((bool)temp3 == true)
+        bool temp4 = temp3 ? true : false; // yes this is needed
+        if (temp4 == true)
         {
             static int cntUser = 0;
             adjustMeterLength(temp3, &oneFrameRateUser, 1.0f, 10.0f, &cntUser);
@@ -241,40 +242,60 @@ int byteToXLen(int param_0, int param_1) {
     return param_1 * (param_0 / (float)JKRHeap::getMemorySize());
 }
 
-// TP: https://decomp.me/scratch/7uyoR
-void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_4, int param_5) {
+static void heapBar(JKRHeap *param_0, int param_1, int param_2, int param_3, int param_4,
+                    int param_5)
+{
     int stack52 = param_1 + addrToXPos(param_0->getStartAddr(), param_4);
     int var1 = param_1 + addrToXPos(param_0->getEndAddr(), param_4);
     int stack36 = byteToXLen(param_0->getTotalFreeSize(), param_4);
-    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, var1 - stack52, param_5 / 2, JUtility::TColor(255, 0, 200, 255));
-    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2, JUtility::TColor(255, 180, 250, 255));
+    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, var1 - stack52, param_5 / 2,
+               JUtility::TColor(255, 0, 200, 255));
+    J2DFillBox(stack52, param_2 - param_5 * 2 + param_5 / 2, stack36, param_5 / 2,
+               JUtility::TColor(255, 180, 250, 255));
 }
 
 /*
-MKDD: https://decomp.me/scratch/7oBDG
-TP: https://decomp.me/scratch/Mi52V
+Probably close to TP Debug, currently matches TP and MKDD(pik2 probably too)
+MKDD(Debug): https://decomp.me/scratch/BUM6J
+MKDD(Releae) https://decomp.me/scratch/bxY1q
+TP(O3): https://decomp.me/scratch/Mi52V
 */
-void JUTProcBar::drawHeapBar() { 
-    if (mHeapBarVisible) {
-        int barWidth = mParams.mBarWidth;
+void JUTProcBar::drawHeapBar()
+{
+    if (mHeapBarVisible)
+    {
+        int start; // required/workaround for regswaps, end might be a shared variable too, however doesn't seem to be needed?
         int posX = mParams.mPosX;
         int posY = mParams.mPosY;
+        int barHeight = mParams.mBarWidth * 2;
         int width = mParams.mWidth;
-        int height = barWidth * 2;
-        J2DFillBox(posX, posY - barWidth * 4, width, height, JUtility::TColor(100, 0, 50, 200));
-        J2DDrawFrame(posX, posY - barWidth * 4, width, height, JUtility::TColor(100, 50, 150, 255), 6);
-        int codeStart = posX + addrToXPos(JKRHeap::getCodeStart(), width);
+        int height = mParams.mBarWidth * 2;
+
+        // draw main box in opaque bordeaux red and main frame in purple?
+        J2DFillBox(posX, posY - (height * 2), width, height, JUtility::TColor(100, 0, 50, 200));
+        J2DDrawFrame(posX, posY - (height * 2), width, height, JUtility::TColor(100, 50, 150, 255), 6);
+        
+        // Draws a pink line that shows the size of the memstart to start of arenalow?
+        start = posX + addrToXPos(JKRHeap::getCodeStart(), width);
         int codeEnd = posX + addrToXPos(JKRHeap::getCodeEnd(), width);
-        J2DFillBox(codeStart, posY - barWidth * 4, codeEnd - codeStart, height, JUtility::TColor(255, 50, 150, 255));
-        int userRamStart = posX + addrToXPos(JKRHeap::getUserRamStart(), width);
-        int userRamEnd = posX + addrToXPos(JKRHeap::getUserRamEnd(), width);
-        J2DFillBox(userRamStart, posY - barWidth * 4, userRamEnd - userRamStart, height, JUtility::TColor(0, 50, 150, 255));
-        int totalFreeSize = byteToXLen(JKRHeap::getRootHeap()->getTotalFreeSize(), width);
-        J2DFillBox(userRamStart, posY - barWidth * 4, totalFreeSize, barWidth * 2 / 2, JUtility::TColor(0, 250, 250, 255)); // Nintendo Moment?
-        if (_128 == 0) {
+        J2DFillBox(start, posY - (height * 2), codeEnd - start, height, JUtility::TColor(255, 50, 150, 255));
+        
+        // draws a dark blue line that shows how much memory is free?
+        start = posX + addrToXPos(JKRHeap::getUserRamStart(), width);
+        int userEnd = posX + addrToXPos(JKRHeap::getUserRamEnd(), width);
+        J2DFillBox(start, posY - (height * 2), userEnd - start, height, JUtility::TColor(0, 50, 150, 255));
+        
+        // draws a light blue line that shows how much memory is free in the root heap(blends to light pink, not sure how this works)
+        int size = byteToXLen(JKRHeap::getRootHeap()->getTotalFreeSize(), width);
+        J2DFillBox(start, posY - (height * 2), size, height / 2, JUtility::TColor(0, 250, 250, 255));
+        if (_128 == 0)
+        {
+            // draws a line of either the watch heap(if available), otherwise draw the current heap
             JKRHeap *heap = mWatchHeap ? mWatchHeap : JKRGetCurrentHeap();
-            if (heap != JKRHeap::getSystemHeap())
-                heapBar(heap, posX, posY, height, width, barWidth * 2);
+            if (heap != JKRHeap::getSystemHeap()) { 
+                heapBar(heap, posX, posY, barHeight, width, height);
+            }
+                
         }
     }
 }

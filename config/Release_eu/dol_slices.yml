@@ -172,11 +172,15 @@ JSystem/JUtility/JUTDirectPrint.cpp:
     .sbss: [0x803d4af0, 0x803d4af8]
     .sdata2: [0x803d6568, 0x803d65c8]
 
-#JSystem/JUtility/JUTProcBar.cpp:
-    #.text: [0x8001fbdc, 0x80021d38]
-    #.sdata: [0x803d32a8, 0x803d32b0]
-    #.sbss: [0x803d4b60, 0x803d4b78]
-    #.sdata2: [0x803d6668, 0x803d66b0]
+JSystem/JUtility/JUTPalette.cpp:
+    .text: [0x8001fab8, 0x8001fbdc]
+    .rodata: [0x8032da38, 0x8032da68]
+
+JSystem/JUtility/JUTProcBar.cpp:
+    .text: [0x8001fbdc, 0x80021d38]
+    .sdata: [0x803d32a8, 0x803d32b0]
+    .sbss: [0x803d4b60, 0x803d4b78]
+    .sdata2: [0x803d6668, 0x803d66b0]
 
 JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
     .rodata: [0x8032db80, 0x80331ce0]
