@@ -244,7 +244,7 @@ void JUTDirectPrint::setCharColor(u8 r, u8 g, u8 b)
     u16 Cb = -0.148 * (int)r - 0.291 * (int)g + 0.439 * (int)b + 128;
     u16 Cr = 0.439 * (int)r - 0.368 * (int)g - 0.071 * (int)b + 128;
 
-    mCharColorY = Y * 256; // << 8
+    mCharColorY = Y << 8;
     mCharColorCb = Cb;
     mCharColorCb2 = Cb / 2;
     mCharColorCb4 = Cb / 4;

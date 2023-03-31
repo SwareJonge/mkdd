@@ -202,6 +202,22 @@ JSystem/JMath/JMATrigonometric.cpp:
     .ctors: [0x802d84d4, 0x802d84d8]
     .sdata2: [0x803d66f0, 0x803d6738]
 
+JSystem/JFramework/JFWSystem.cpp:
+    .text: [0x8007a494, 0x8007a7e4]    
+    .sdata: [0x803d3328, 0x803d3358]
+    .sbss: [0x803d4c20, 0x803d4c40]
+    .sdata2: [0x803d6ad8, 0x803d6ae8]
+
+JSystem/JFramework/JFWDisplay.cpp:
+    .text: [0x8007a7e4, 0x8007be38] 
+    .ctors: [0x802d84f0, 0x802d84f4]
+    .rodata: [0x803326e0, 0x803327b8]
+    .data: [0x8034af40, 0x8034afd8] # trimmed, end address is 0x0x8034afe0
+    .bss: [0x8036e4d8, 0x8036e508] 
+    #.bss: [0x803ef5c0, 0x803ef5cc]
+    .sbss: [0x803d4c40, 0x803d4c68]
+    .sdata2: [0x803d6ae8, 0x803d6b10]
+
 JSystem/JAudio/JASReport.cpp:
     .text: [0x80091270, 0x8009136c]
     .bss: [0x8036e7c8, 0x8036e7e0]

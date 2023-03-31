@@ -25,11 +25,11 @@ public:
     /* 802E5424 */ static void destroyManager();
     /* 802E5454 */ void initiate(u16, u16, JKRHeap *, JUTXfb::EXfbNumber);
 
-    s32 getBufferNum() const { return mBufferNum; }
+    int getBufferNum() const { return mBufferNum; }
     int getDrawnXfbIndex() const { return mDrawnXfbIndex; }
     int getDrawingXfbIndex() const { return mDrawingXfbIndex; }
     int getDisplayingXfbIndex() const { return mDisplayingXfbIndex; }
-    s32 getSDrawingFlag() const { return mSDrawingFlag; }
+    int getSDrawingFlag() const { return mSDrawingFlag; }
 
     void *getDrawnXfb() const {
         return (mDrawnXfbIndex >= 0) ? mBuffer[mDrawnXfbIndex] : nullptr;

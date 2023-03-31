@@ -27,7 +27,7 @@ public:
     void *getFrameBuffer() { return mFramebuffer; }
     JUtility::TColor getCharColor() const { return mCharColor; }
 
-    static JUTDirectPrint * getManager() { return sDirectPrint; }
+    static JUTDirectPrint *getManager() { return sDirectPrint; }
 
 private:
     static u8 sAsciiTable[128];

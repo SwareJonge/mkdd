@@ -147,7 +147,7 @@ void JFWDisplay::exchangeXfb_double() {
                 callDirectDraw();
             }
         }
-        s16 cur_xfb_index = xfbMng->getDrawingXfbIndex();
+        int cur_xfb_index = xfbMng->getDrawingXfbIndex();
         xfbMng->setDrawnXfbIndex(cur_xfb_index);
         xfbMng->setDrawingXfbIndex(cur_xfb_index >= 0 ? cur_xfb_index ^ 1 : 0);
     }
@@ -261,7 +261,11 @@ void JFWDisplay::beginRender() {
     u32 tick = OSGetTick();
     _30 = tick - _2C; // duration of frame in ticks?
     _2C = tick;
+    #if DEBUG // TODO: cleaner method
     _34 = _2C - JUTVideo::getVideoLastTick(); 
+    #else
+    _34 = _2C;
+    #endif
 
     if (_40) {
         JUTProcBar::getManager()->idleEnd();
@@ -380,7 +384,7 @@ void waitForTick(u32 p1, u16 p2) {
     }
     else {
         static u32 nextCount = VIGetRetraceCount();
-        u32 uVar1 = (p2 != 0) ? p2 : 1;
+        u32 uVar1 = (p2 == 0) ? 1 : p2;
         OSMessage msg;
         do {
             if (!OSReceiveMessage(JUTVideo::getManager()->getMessageQueue(), &msg, OS_MESSAGE_BLOCK)) {

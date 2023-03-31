@@ -193,8 +193,7 @@ void JUTProcBar::drawProcessBar() {
             if (time->_08 > temp3)
                 temp3 = time->_08;
         }
-        bool temp4 = temp3 ? true : false; // yes this is needed
-        if (temp4 == true)
+        if ((temp3 ? true : false) == true)
         {
             static int cntUser = 0;
             adjustMeterLength(temp3, &oneFrameRateUser, 1.0f, 10.0f, &cntUser);

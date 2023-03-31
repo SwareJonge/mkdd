@@ -474,13 +474,33 @@ global:
   0x800180ac: getPosition__18JSUFileInputStreamCFv
   0x80348018: __vt__18JSUFileInputStream
   # JUtility
+  # JUTAssert.cpp
+  0x800182a0: create__12JUTAssertionFv
+  0x800182a4: flushMessage__12JUTAssertionFv
+  0x80018390: flushMessage_dbPrint__12JUTAssertionFv
   # JUTConsole.cpp
+  0x800185a0: create__10JUTConsoleFUiUiP7JKRHeap
   0x80018794: __dt__10JUTConsoleFv
+
+  0x80018df0: __dt__13J2DOrthoGraphFv
+
+  0x80019338: createManager__17JUTConsoleManagerFP7JKRHeap
+  0x800194c8: draw__17JUTConsoleManagerCFv
+  0x80019708: JUTSetReportConsole
+  0x80019710: JUTGetReportConsole
+  0x80019718: JUTSetWarningConsole
+  0x80019720: JUTGetWarningConsole
   0x80019728: JUTReportConsole_f
   0x800197f0: JUTReportConsole
   0x8001981c: JUTWarningConsole_f
   0x800198e4: JUTWarningConsole
   0x80348040: __vt__10JUTConsole
+  0x803d4ad8: sManager__17JUTConsoleManager
+  # JUTDbPrint
+  0x80019910: start__10JUTDbPrintFP7JUTFontP7JKRHeap  
+  0x800199b4: changeFont__10JUTDbPrintFP7JUTFont
+  0x800199cc: flush__10JUTDbPrintFv
+  0x803d4ae8: sDebugPrint__10JUTDbPrint
   # JUTDirectPrint.cpp
   # JUTDirectPrint.cpp
   0x8001a120: start__14JUTDirectPrintFv
@@ -497,15 +517,23 @@ global:
   
   0x803d4af0: sDirectPrint__14JUTDirectPrint
   # JUTException.cpp
+  0x8001a830: create__12JUTExceptionFP14JUTDirectPrint
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
+  0x8001d214: createConsole__12JUTExceptionFPvUl
+  # JUTFader.cpp
+  0x8001d4c0: control__8JUTFaderFv
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
+  0x8001dc98: init__10JUTGamePadFv
   0x8001dbb0: __dt__10JUTGamePadFv
   0x8001e5cc: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
   0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
   0x803d3290: sStickMode__10JUTGamePad
+  # JUTGraphFifo.cpp
+  0x8001f70c: __ct__12JUTGraphFifoFUl
+  0x8001f7e8: __dt__12JUTGraphFifoFv
   # JUTPalette.cpp
   0x8001fab8: storeTLUT__10JUTPaletteF7_GXTlutP7ResTLUT
   0x8001fb48: storeTLUT__10JUTPaletteF7_GXTlut10_GXTlutFmt15JUTTransparencyUsPv
@@ -521,6 +549,7 @@ global:
   0x803d32a8: oneFrameRate
   0x803d32ac: oneFrameRateUser
   0x803d4b60: sManager__10JUTProcBar
+  0x80021d38: __ct__10JUTResFontFPC7ResFONTP7JKRHeap
   # JUTFontData_Ascfont_fix12.s
   0x8032db80: JUTResFONT_Ascfont_fix12
   # JUTVideo.cpp
@@ -541,6 +570,8 @@ global:
   0x803d4b80: sVideoInterval__8JUTVideo
   0x803d4b84: sDrawWaiting
   # JUTXfb.cpp
+  0x80023eb0: createManager__6JUTXfbFP7JKRHeapQ26JUTXfb10EXfbNumber
+  0x80023f5c: destroyManager__6JUTXfbFv
   0x803d4b90: sManager__6JUTXfb
   # JMath
   # JMath.cpp
@@ -559,11 +590,66 @@ global:
   0x803b5d80: asinAcosTable___5JMath
   # J2D
   # J2DOrthoGraph.cpp
+  0x80026f0c: __ct__13J2DOrthoGraphFv
+  0x80026f6c: __dt__14J2DGrafContextFv
+  0x80026fbc: __ct__13J2DOrthoGraphFffffff
+  0x800270a0: setPort__13J2DOrthoGraphFv
   0x80027274: J2DDrawLine__FffffQ28JUtility6TColori
   0x800273cc: J2DFillBox__FffffQ28JUtility6TColor
   0x80027414: J2DFillBox__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColor
   0x800274d0: J2DDrawFrame__FffffQ28JUtility6TColorUc
   0x8002751c: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
+  0x80348510: __vt__13J2DOrthoGraph
+  # J2DGrafContext.cpp
+  0x80348560: __vt__14J2DGrafContext
+  # JFramework
+  # JFWSystem.cpp
+  0x8007a494: init__9JFWSystemFv
+  0x803d3328: maxStdHeaps__Q29JFWSystem11CSetUpParam
+  0x803d332c: sysHeapSize__Q29JFWSystem11CSetUpParam
+  0x803d3330: fifoBufSize__Q29JFWSystem11CSetUpParam
+  0x803d3334: aramAudioBufSize__Q29JFWSystem11CSetUpParam
+  0x803d3338: aramGraphBufSize__Q29JFWSystem11CSetUpParam
+  0x803d333c: streamPriority__Q29JFWSystem11CSetUpParam
+  0x803d3340: decompPriority__Q29JFWSystem11CSetUpParam
+  0x803d3344: aPiecePriority__Q29JFWSystem11CSetUpParam
+  0x803d3348: systemFontRes__Q29JFWSystem11CSetUpParam
+  0x803d334c: renderMode__Q29JFWSystem11CSetUpParam
+  0x803d3350: exConsoleBufferSize__Q29JFWSystem11CSetUpParam
+  0x803d4c20: rootHeap__9JFWSystem
+  0x803d4c24: systemHeap__9JFWSystem
+  0x803d4c28: mainThread__9JFWSystem
+  0x803d4c2c: debugPrint__9JFWSystem
+  0x803d4c30: systemFont__9JFWSystem
+  0x803d4c34: systemConsoleManager__9JFWSystem
+  0x803d4c38: systemConsole__9JFWSystem
+  0x803d4c3c: sInitCalled__9JFWSystem
+  # JFWDisplay.cpp
+  0x8007a7e4: __dt__10JFWDisplayFv
+  0x8007a860: createManager__10JFWDisplayFPC16_GXRenderModeObjP7JKRHeapQ26JUTXfb10EXfbNumberb
+  0x8007a984: __dt__13J2DOrthoGraphFv
+  0x8007ae78: MyAlloc__FUl
+  0x8007b1d8: MyFree__FPv
+  0x8007a984: beginRender__10JFWDisplayFv
+  0x8007ae78: endRender__10JFWDisplayFv
+  0x8007b1d8: endFrame__10JFWDisplayFv
+  0x8007b37c: waitBlanking__10JFWDisplayFi
+  0x8007b3c4: waitForTick__FUlUs
+  0x8007b4f8: JFWThreadAlarmHandler__FP7OSAlarmP9OSContext
+  0x8007b538: threadSleep__10JFWDisplayFx
+  0x8007b5dc: clearEfb_init__10JFWDisplayFv
+  0x8007b650: clearEfb__10JFWDisplayFv
+  0x8007b67c: clearEfb__10JFWDisplayF8_GXColor
+  0x8007b6c0: clearEfb__10JFWDisplayFiiii8_GXColor
+  0x8007ba40: calcCombinationRatio__10JFWDisplayFv
+  0x8007bad0: JFWDrawDoneAlarm__Fv
+  0x8007bbb8: JFWGXAbortAlarmHandler__FP7OSAlarmP9OSContext
+  0x8007bbe0: diagnoseGpHang__Fv
+  0x8007bde4: __dt__18JSUList<8JFWAlarm>Fv  
+  0x803b9d00: sList__8JFWAlarm
+  0x8034af40: e_mtx
+  0x80388140: __vt__10JFWDisplay
+  0x803d4c40: sManager__10JFWDisplay
   # JAudio
   # JASReport.cpp
   0x80091270: JASReport__FPCce
@@ -1734,6 +1820,12 @@ global:
   0x80112214: MWExitCriticalSection
   0x80112238: MWEnterCriticalSection
   0x80112268: MWInitializeCriticalSection
+
+  0x803504d8: GXNtsc480IntDf
+  0x80350514: GXNtsc480Int
+  0x80350550: GXMpal480IntDf
+  0x8035058c: GXPal528IntDf
+  0x803505c8: GXEurgb60Hz480IntDf
 
   # float.c
   0x803d3844: __float_epsilon
