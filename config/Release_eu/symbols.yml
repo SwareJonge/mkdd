@@ -602,6 +602,11 @@ global:
   0x80348510: __vt__13J2DOrthoGraph
   # J2DGrafContext.cpp
   0x80348560: __vt__14J2DGrafContext
+
+  # J2DPrint
+  0x8002e5f4: initiate__8J2DPrintFv
+  0x8002e950: print__8J2DPrintFffPCce
+  0x8002ea60: print__8J2DPrintFffUcPCce
   # JFramework
   # JFWSystem.cpp
   0x8007a494: init__9JFWSystemFv
@@ -1868,6 +1873,14 @@ global:
   0x8012652c: reset__12PauseManagerFv
   0x803d5518: mThis__12PauseManager
 
+  # Scene.cpp
+  0x8012cfbc: __ct__5SceneFP10JKRArchiveP7JKRHeap
+  0x8012cfd8: __dt__5SceneFv
+  0x803549a0: __vt__5Scene
+
+  # SceneApp.cpp
+  0x8012d314: reset__7GameAppFv
+
   # SequenceInfo.cpp
   0x80140958: rndDemo__12SequenceInfoFUl
   0x803bad54: gSequenceInfo
@@ -2040,6 +2053,7 @@ global:
   0x803d562c: sForceTotalLapNum__7RaceMgr
 
   # SysDebug.cpp
+  0x80189c64: createHeapInfo__8SysDebugFP7JKRHeapPc
   0x80189c70: destroyHeapInfo__8SysDebugFP7JKRHeap
   0x80189bb0: setHeapGroup__8SysDebugFPCcP7JKRHeap
   0x80189bb4: setDefaultHeapGroup__8SysDebugFP7JKRHeap
@@ -2161,6 +2175,22 @@ global:
   0x803d5b34: msPrevFrameTime__5Clock
   0x803d5b38: msPrevTick__5Clock
   0x803d9668: mscTimePerSec__5Clock
+  # testApp.cpp
+  0x801cc01c: create__7TestAppFv
+  0x801cc06c: __ct__7TestAppFv
+  0x801cc0b4: __dt__7TestAppFv
+  0x801cc114: draw__7TestAppFv
+  0x801cc118: calc__7TestAppFv
+  0x8035c190: __vt__7TestApp
+  0x803d5b40: mspTestApp__7TestApp
+  # GameApp.cpp
+  0x801cc4a4: __ct__7GameAppFUlPCcPv
+  0x801cc548: __dt__7GameAppFv
+  0x801cc5b4: draw__7GameAppFv
+  0x801cc5b8: calc__7GameAppFv
+  0x8035c1f0: __vt__7GameApp
+  # MainMenuApp.cpp
+  0x801cc630: call__11MainMenuAppFv
   # main.cpp
   0x801cc5bc: main
   # RaceApp
@@ -2171,6 +2201,13 @@ global:
   # system.cpp
   0x801d0388: init__6SystemFv
   0x801d0ae8: run__6SystemFv
+  0x803d5bb0: mspDisplay__6System
+  0x803d5bb4: mspAppHeap__6System
+  0x803d5bd0: mspJ2DPrint__6System
+  0x803d5bd4: mspJ2DOrtho__6System
+  # AppMgr.cpp
+  0x803d5bf0: mspGameApp__6AppMgr
+  0x803d5bf4: msRequest__6AppMgr
   # kartPad.cpp
   0x801d1000: compress__11KartGamePadFRC9PADStatusP11KartPadData
   0x801d1184: compress__11KartGamePadFRC10LGPositionP11KartPadData

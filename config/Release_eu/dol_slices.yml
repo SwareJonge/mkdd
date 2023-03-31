@@ -227,6 +227,14 @@ dolphin/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800ec7e8, 0x800ec87c]
 
+Bando/EngineSound.cpp:
+    .text: [0x8011226c, 0x801122dc]
+    .data: [0x80353590, 0x803535e8]
+
+Kameda/Scene.cpp:
+    .text: [0x8012cfbc, 0x8012d020]
+    .data: [0x803549a0, 0x803549b8]
+
 Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]
@@ -273,11 +281,15 @@ Osako/clock.cpp:
     .sbss: [0x803d5b30, 0x803d5b40]
     .sdata2: [0x803d9668, 0x803d9680]
 
-#Osako/testApp.cpp:
-    #.text: [0x801cc01c, 0x801f7154]
-    #.data: [0x8035c190, 0x8035c1a8]
-    #.sbss: [0x803d5b40, 0x803d5b48]
-    #.sdata2: [0x803d9690, 0x803d9698]
+Osako/testApp.cpp:
+    .text: [0x801cc01c, 0x801cc11c]
+    .data: [0x8035c190, 0x8035c1a8]
+    .sbss: [0x803d5b40, 0x803d5b48]
+    .sdata2: [0x803d9690, 0x803d9698]
+
+Osako/GameApp.cpp:
+    .text: [0x801cc4a4, 0x801cc5bc]
+    .data: [0x8035c1f0, 0x8035c208]
 
 Osako/main.cpp:
     .text: [0x801cc5bc, 0x801cc5e0]
@@ -300,4 +312,3 @@ Osako/SaveFile.cpp:
     .text: [0x801dc010, 0x801dc0b4]
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
-

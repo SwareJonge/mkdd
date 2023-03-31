@@ -24,15 +24,19 @@ TestApp::~TestApp() {
 }
 
 void TestApp::draw() {
+#if DEBUG
     System::getJ2DOrtho()->setPort();
     J2DPrint *j2dPrint = System::getJ2DPrint();
     j2dPrint->initiate();
     j2dPrint->print(100.0f, 20.0f, "test");
+#endif
 }
 
 void TestApp::calc() {
+#if DEBUG
     if (gGamePad1P.testTrigger(0x200)) {
         AppMgr::msRequest |= 1;
         MainMenuApp::call();
     }
+#endif
 }
