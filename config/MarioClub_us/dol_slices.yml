@@ -237,6 +237,10 @@ dolphin/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800f31b8, 0x800f324c]
 
+PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+    .text: [0x8010d4f4, 0x8010d5dc]
+    .bss: [0x803c65f0, 0x803c6608]
+
 Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
     .data: [0x80393760, 0x803937b8]

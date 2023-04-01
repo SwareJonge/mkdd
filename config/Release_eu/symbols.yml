@@ -1832,6 +1832,8 @@ global:
   0x8035058c: GXPal528IntDf
   0x803505c8: GXEurgb60Hz480IntDf
 
+  0x80386130: signal_funcs
+
   # float.c
   0x803d3844: __float_epsilon
 
