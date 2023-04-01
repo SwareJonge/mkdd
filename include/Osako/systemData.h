@@ -4,11 +4,12 @@
 #include "dolphin/gx.h"
 #include "types.h"
 
+// maybe just use 2 dimensional arrays, or TBox<TVec2<T>?
 struct ScreenDataf {
-    float X;
-    float Y;
-    float W;
-    float H;
+    f32 X;
+    f32 Y;
+    f32 W;
+    f32 H;
 };
 
 struct ScreenDatai {
@@ -19,8 +20,7 @@ struct ScreenDatai {
 };
 
 class SystemData {
-    public:
-
+public:
     static const int scNumStandardHeaps;
     static const int scDefaultFifoSize;
     static const int scSystemHeapSize;
@@ -34,20 +34,23 @@ class SystemData {
     static const ScreenDataf sc3DViewPortSub;
     static const ScreenDatai sc3DScissorSub;
 
-    // Add PAL stuff in the future
     static const _GXRenderModeObj scNtscInt448Df;
     static const _GXRenderModeObj scNtscInt448;
     static const _GXRenderModeObj scNtscProg448Soft;
     static const _GXRenderModeObj scNtscProg448;
+    static const _GXRenderModeObj scPalInt448Df;
+    static const _GXRenderModeObj scPalInt448;
+    static const _GXRenderModeObj scEuRgb60Int448Df;
+    static const _GXRenderModeObj scEuRgb60Int448;
 
     static const ScreenDataf sca3DViewPortDiv2[2];
     static const ScreenDatai sca3DScissorDiv2[2];
     static const ScreenDataf sca3DViewPortDiv4[4];
     static const ScreenDatai sca3DScissorDiv4[4];
 
-    static const float scAspect;
-    static const float scAspectDiv2;
-    static const float scAspectSub;
+    static const f32 scAspect;
+    static const f32 scAspectDiv2;
+    static const f32 scAspectSub;
 };
 
 #endif // !SYSTEMDATA_H

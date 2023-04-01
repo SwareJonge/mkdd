@@ -2234,6 +2234,29 @@ global:
   0x803bfc10: gKartPad14P
   0x803bfcc8: gKartPad15P
   0x803bfd80: gKartPad16P
+  # systemData.cpp
+  0x80340d38: sc3DViewPort__10SystemData
+  0x80340d48: sc3DScissor__10SystemData
+  0x80340d58: sc3DAwardScissor__10SystemData
+  0x80340d68: scOrtho__10SystemData
+  0x80340d78: sc3DViewPortSub__10SystemData
+  0x80340d88: sc3DScissorSub__10SystemData
+  0x80340d98: scPalInt448Df__10SystemData
+  0x80340dd4: scPalInt448__10SystemData
+  0x80340e10: scEuRgb60Int448Df__10SystemData
+  0x80340e4c: scEuRgb60Int448__10SystemData
+  0x8035c868: sca3DViewPortDiv2__10SystemData
+  0x8035c888: sca3DScissorDiv2__10SystemData
+  0x8035c8a8: sca3DViewPortDiv4__10SystemData
+  0x8035c8e8: sca3DScissorDiv4__10SystemData
+  0x803d5c48: scAspect__10SystemData
+  0x803d5c4c: scAspectDiv2__10SystemData
+  0x803d5c50: scAspectSub__10SystemData
+  0x803d9a88: scNumStandardHeaps__10SystemData
+  0x803d9a8c: scDefaultFifoSize__10SystemData
+  0x803d9a90: scSystemHeapSize__10SystemData
+  0x803d9a94: scAudioHeapSize__10SystemData
+  0x803d9a98: scAudioAramSize__10SystemData
   # shadowMgr.cpp
   0x801da460: __ct__13ShadowManagerFv
   0x801daaa0: viewCalc__13ShadowManagerFUl

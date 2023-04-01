@@ -302,6 +302,14 @@ Osako/kartPad.cpp:
     #.bss: [0x803be230, 0x803bfe38] # common bss area
     .sdata2: [0x803d9a38, 0x803d9a50]    
 
+Osako/systemData.cpp:
+    .text: [0x801d6520, 0x801d66a8]
+    .ctors: [0x802d8798, 0x802d879c]
+    .rodata: [0x80340d38, 0x80340e88]
+    .data: [0x8035c868, 0x8035c928]
+    .sbss: [0x803d5c48, 0x803d5c58]
+    .sdata2: [0x803d9a88, 0x803d9aa8]
+
 Osako/TARecord.cpp:
     .text: [0x801db44c, 0x801db504]
 

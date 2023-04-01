@@ -46,8 +46,8 @@ extern "C"
 
     typedef enum
     {
-        VI_XFBMODE_SF = 0,
-        VI_XFBMODE_DF
+        VI_XFBMODE_SF = 0, // progressive scan
+        VI_XFBMODE_DF // interlaced
     } VIXFBMode;
 
 #define VI_FIELD_ABOVE 1
