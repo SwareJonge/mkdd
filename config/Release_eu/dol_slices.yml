@@ -298,6 +298,15 @@ Osako/GameApp.cpp:
 Osako/main.cpp:
     .text: [0x801cc5bc, 0x801cc5e0]
 
+Osako/system.cpp:
+    .text: [0x801d02f8, 0x801d0ef4] # exclude __sinit_system_cpp (801d1000)
+    #.ctors: [0x802d8780, 0x802d8784]
+    .rodata: [0x80340c70, 0x80340ca0]
+    .data: [0x8035c600, 0x8035c638]
+    #.bss: [0x803d08f0, 0x803d0920]
+    .sbss: [0x803d5bb0, 0x803d5be0]
+    .sdata2: [0x803d99f0, 0x803d9a38]
+
 Osako/kartPad.cpp:
     .text: [0x801d1000, 0x801d1a9c]
     .ctors: [0x802d8784, 0x802d8788]

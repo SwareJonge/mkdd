@@ -269,6 +269,8 @@ u32 __OSBusClock : (0x800000F8);
     }
   }
 
+  u8 OSGetLanguage();
+
 #include <dolphin/os/OSAlarm.h>
 #include <dolphin/os/OSContext.h>
 #include <dolphin/os/OSException.h>

@@ -80,6 +80,10 @@ public:
         return msCountry;
     }
 
+    static void setCountry(Country country) {
+        msCountry = country;
+    }
+
     static DatingMode getDatingMode() {
         return msDatingMode;
     }
@@ -102,6 +106,10 @@ public:
 
     static VideoFrameMode getVideoFrameMode() {
         return msVideoFrameMode;
+    }
+
+    static void setVideoFrameMode(VideoFrameMode videoFrameMode) {
+        msVideoFrameMode = videoFrameMode;
     }
 
     static VideoMode getVideoMode() {

@@ -29,13 +29,20 @@
 #include "Osako/SystemRecord.h"
 
 // .rodata
-#if DEBUG
+#ifdef DEBUG
 static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_8037d5e8)
 #pragma pop
 #endif
+
+#ifdef VIDEO_PAL
+#define BOOT_RENDERMODE &SystemData::scPalInt448Df
+#else
+#define BOOT_RENDERMODE &SystemData::scNtscInt448Df
+#endif
+
 
 namespace System {
     JFWDisplay *System::mspDisplay;
@@ -59,6 +66,28 @@ namespace System {
     }
 
     void init() {
+#ifdef REGION_EU
+        switch(OSGetLanguage()) {
+            case 0:
+                KartLocale::setCountry(UNITED_KINGDOM);
+                break;
+            case 2:
+                KartLocale::setCountry(FRANCE);
+                break;
+            case 1:
+                KartLocale::setCountry(GERMANY);
+                break;
+            case 4:
+                KartLocale::setCountry(ITALY);
+                break;
+            case 3:
+                KartLocale::setCountry(SPAIN);
+                break;
+            default: // fallback for when gamecube is set to Dutch?
+                KartLocale::setCountry(UNITED_KINGDOM);
+                break;
+        }
+#endif
         KartLocale::localize();
 
         JFWSystem::setMaxStdHeap(SystemData::scNumStandardHeaps);
@@ -66,7 +95,7 @@ namespace System {
         JFWSystem::setFifoBufSize(SystemData::scDefaultFifoSize);
         JFWSystem::setAramAudioBufSize(SystemData::scAudioAramSize);
         JFWSystem::setAramGraphBufSize(0xffffffff);
-        JFWSystem::setRenderMode(&SystemData::scNtscInt448Df);
+        JFWSystem::setRenderMode(BOOT_RENDERMODE);
         msRenderMode = NORMAL_RMODE;
 
         JFWSystem::init();
@@ -75,7 +104,7 @@ namespace System {
 
         JKRAramStream::setTransBuffer(nullptr, 0x8000, JKRGetSystemHeap());
         JUTException::setPreUserCallback(callbackException);
-#if DEBUG
+#ifdef DEBUG
         /* 
         don't make this a static name, since debugInfoS also exists
         however if the "Debug Support" build gets found then change this
@@ -149,34 +178,18 @@ namespace System {
     }
 
     /*
+    NTSC
     0 = normal render mode(NTSC 480i)
     1 = movie render mode (NTSC 480i)
     2 = normal render mode(progressive scan)
     3 = movie render mode (progressive scan)
-    these are for PAL? (just guessing), could be other way around
+    PAL
     4 = normal render mode(50hz)
     5 = movie render mode (50hz)
     6 = normal render mode(60hz)
     7 = movie render mode(60hz)
     */
-#if EU_RELEASE // TODO: Other functions, unfortunately the define approach won't work well since PAL uses 3 cases(like changePAL50())
-    void changePal50() {
-        switch (msRenderMode)
-        {
-        case ENHANCED_MOVIE_RMODE:
-            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448);
-            KartLocale::msVideoFrameMode = KartLocale::PAL50; // use setter?
-            msRenderMode = MOVIE_RMODE;
-            break;
-        case NORMAL_RMODE:
-        case ENHANCED_RMODE:
-            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448Df);
-            KartLocale::msVideoFrameMode = KartLocale::PAL50;
-            msRenderMode = NORMAL_RMODE;
-            break;
-        }
-    }
-#else
+#ifndef VIDEO_PAL // TODO: Other functions, unfortunately the define approach won't work well since PAL uses 3 cases(like changePAL50())
     void changeProgressive()
     {
         switch (msRenderMode)
@@ -191,12 +204,49 @@ namespace System {
             break;
         }
     }
+#else
+    void changeEuRgb60()
+    {
+        switch (msRenderMode)
+        {
+        case NORMAL_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448Df);
+            KartLocale::setVideoFrameMode(EURGB60);
+            msRenderMode = ENHANCED_RMODE;
+            break;
+        case MOVIE_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448);
+            KartLocale::setVideoFrameMode(EURGB60);
+            msRenderMode = ENHANCED_MOVIE_RMODE;
+            break;
+        }
+    }
+
+    void changePal50()
+    {
+        switch (msRenderMode)
+        {
+        case ENHANCED_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448Df);
+            KartLocale::setVideoFrameMode(PAL50);
+            msRenderMode = NORMAL_RMODE;
+            break;
+        case ENHANCED_MOVIE_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448);
+            KartLocale::setVideoFrameMode(PAL50);
+            msRenderMode = MOVIE_RMODE;
+            break;
+
+        }
+    }
 #endif
 
+    // perhaps create defines for the rendermode tables
     void changeMovieRenderMode()
     {
         switch (msRenderMode) 
         {
+#ifndef VIDEO_PAL
         case NORMAL_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448);
             msRenderMode = MOVIE_RMODE;
@@ -205,13 +255,24 @@ namespace System {
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448);
             msRenderMode = ENHANCED_MOVIE_RMODE;
             break;
+#else
+        case NORMAL_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448);
+            msRenderMode = MOVIE_RMODE;
+            break;
+        case ENHANCED_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448);
+            msRenderMode = ENHANCED_MOVIE_RMODE;
+#endif
         }
+
     }
 
     void changeNormalRenderMode()
     {
         switch (msRenderMode)
         {
+#ifndef VIDEO_PAL
         case MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscInt448Df);
             msRenderMode = NORMAL_RMODE;
@@ -220,13 +281,52 @@ namespace System {
             JUTVideo::getManager()->setRenderMode(&SystemData::scNtscProg448Soft);
             msRenderMode = ENHANCED_RMODE;
             break;
+#else
+        case MOVIE_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448Df);
+            msRenderMode = NORMAL_RMODE;
+            break;
+        case ENHANCED_MOVIE_RMODE:
+            JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448Df);
+            msRenderMode = ENHANCED_RMODE;
+#endif
         }
+
     }
 
     void callbackException(OSError p1, OSContext * p2, u32 p3, u32 p4)
     {
+#ifdef DEBUG // haltRumble got added in later/ only got used in debug builds? auto inline doesn't work(with ifdefing the LGWheels part)
         haltRumble();
         mspDisplay->startFadeIn(0);
+#else
+        PADControlMotor(0, 0);
+        PADControlMotor(1, 0);
+        PADControlMotor(2, 0);
+        PADControlMotor(3, 0);
+        mspDisplay->startFadeIn(0);
+
+        JUTException::getManager()->setGamePad((JUTGamePad *)-1); // set to -1 to reset all controllers?
+        JUTException::waitTime(2000);
+
+        u16 exceptionInputs[] = {
+            0x100, 0x200, 0x400, 0x800, // A, B, X, Y
+            0x40, 0x20, 0x10, 0x0,      // L, R, Z
+        };
+
+        u32 pressedButton;
+        for (int i = 0; exceptionInputs[i] != 0;) // keep looping on this until the right button sequence has been pressed
+        {
+            JUTException::waitTime(100);
+            JUTException::getManager()->readPad(&pressedButton, nullptr);
+            if (pressedButton != 0)
+            {
+                i = (pressedButton == exceptionInputs[i]) ? ++i : 0; // if current button doesn't match what's expected, reset i to 0 to restart the sequence
+            }
+        }
+
+        JUTException::getManager()->setGamePad(nullptr);
+#endif
     }
 
     void haltRumble() {
@@ -283,13 +383,13 @@ namespace System {
     }
 
     void endRender() {
-#if DEBUG
+#ifdef DEBUG
         SysDebug::getManager()->draw();
         if (ScrnShot::sScrnShot)
             ScrnShot::sScrnShot->capture();
 #endif
         mspDisplay->endRender();
-#if DEBUG
+#ifdef DEBUG
         if (gGamePad1P.testButton(JUTGamePad::L) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN)) {
             GameAudio::Main::getAudio()->setBgmVolume(0.0f);
         }        
@@ -297,7 +397,7 @@ namespace System {
     }
 
     void endFrame() {
-#if DEBUG
+#ifdef DEBUG
         SysDebug::getManager()->ctrlDebugMode();
 #endif
         mspDisplay->endFrame();

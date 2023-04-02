@@ -29,7 +29,7 @@ namespace System
 
     // callbacks
     void startAudioTask(void*);
-    extern JUTErrorHandler callbackException;
+    void callbackException(OSError error, OSContext *context, u32 p3, u32 p4);
 
     f32 get2DVpX();
     f32 get2DVpY();

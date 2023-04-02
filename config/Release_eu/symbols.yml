@@ -30,6 +30,7 @@ global:
   # JSystem
   # J3D
   # J3DSys.cpp
+  0x8004dbf4: drawInit__6J3DSysFv
   0x803b6db0: j3dSys
   # JKernel
   # JKRAram.cpp
@@ -502,7 +503,6 @@ global:
   0x800199cc: flush__10JUTDbPrintFv
   0x803d4ae8: sDebugPrint__10JUTDbPrint
   # JUTDirectPrint.cpp
-  # JUTDirectPrint.cpp
   0x8001a120: start__14JUTDirectPrintFv
   0x8001a198: erase__14JUTDirectPrintFiiii
   0x8001a22c: drawChar__14JUTDirectPrintFiii
@@ -519,8 +519,13 @@ global:
   # JUTException.cpp
   0x8001a830: create__12JUTExceptionFP14JUTDirectPrint
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
+  0x8001c17c: readPad__12JUTExceptionFPUlPUl
+  0x8001cc34: waitTime__12JUTExceptionFl
+  0x8001cda0: setPreUserCallback__12JUTExceptionFPFUsP9OSContextUlUl_v
   0x8001d214: createConsole__12JUTExceptionFPvUl
+  0x803d4af8: sErrorManager__12JUTException
   # JUTFader.cpp
+  0x8001d410: __ct__8JUTFaderFiiiiQ28JUtility6TColor
   0x8001d4c0: control__8JUTFaderFv
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
@@ -531,6 +536,8 @@ global:
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
   0x803d3290: sStickMode__10JUTGamePad
+  0x803d4b38: sCallback__Q210JUTGamePad13C3ButtonReset
+  0x803d4b3c: sCallbackArg__Q210JUTGamePad13C3ButtonReset
   # JUTGraphFifo.cpp
   0x8001f70c: __ct__12JUTGraphFifoFUl
   0x8001f7e8: __dt__12JUTGraphFifoFv
@@ -603,7 +610,8 @@ global:
   # J2DGrafContext.cpp
   0x80348560: __vt__14J2DGrafContext
 
-  # J2DPrint
+  # J2DPrint.cpp
+  0x8002e484: __ct__8J2DPrintFP7JUTFontf
   0x8002e5f4: initiate__8J2DPrintFv
   0x8002e950: print__8J2DPrintFffPCce
   0x8002ea60: print__8J2DPrintFffUcPCce
@@ -1845,7 +1853,11 @@ global:
   # GameAudioCommon.cpp
   0x80113a08: setSeed__Q29GameAudio6RandomFUl
   # GameAudioMain.cpp
+  0x80113e0c: init__Q29GameAudio4MainFP12JKRSolidHeapUlPvPvUl
+  0x80114770: bootDSP__Q29GameAudio4MainFv
+  0x80114790: isActive__Q29GameAudio4MainFv
   0x8011479c: initRaceSound__Q29GameAudio4MainFv
+  0x801148a8: frameWork__Q29GameAudio4MainFv
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
@@ -2055,6 +2067,8 @@ global:
   0x803d562c: sForceTotalLapNum__7RaceMgr
 
   # SysDebug.cpp
+  0x801899a0: createManager__8SysDebugFv
+  0x801899e8: __ct__8SysDebugFv
   0x80189c64: createHeapInfo__8SysDebugFP7JKRHeapPc
   0x80189c70: destroyHeapInfo__8SysDebugFP7JKRHeap
   0x80189bb0: setHeapGroup__8SysDebugFPCcP7JKRHeap
@@ -2161,6 +2175,12 @@ global:
 
   0x801b1d9c: get__8RaceTimeCFPiPiPi
 
+  # MovieApp.cpp
+  0x801af940: create__8MovieAppFv
+  # MoviePlayer.cpp
+  0x801b0314: drawDone__11MoviePlayerFv
+  0x803d5ab0: sPlayer__11MoviePlayer 
+
   # Kawano
   # accessory.cpp
   0x801c86c8: ptr__12AccessoryMgrFv
@@ -2198,18 +2218,111 @@ global:
   # RaceApp
   0x803d5b60: mspRaceApp__7RaceApp
   # ResMgr.cpp
+  0x801ce530: create__6ResMgrFP7JKRHeap
   0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
   0x803bd5c8: mspaLoader__6ResMgr
+  # LogoApp.cpp
+  0x801cf8c4: create__7LogoAppFv
+  0x801cf914: call__7LogoAppFv
+  0x801cf938: __ct__7LogoAppFv
+  0x801cf9d8: __dt__7LogoAppFv
+  0x801cfa38: draw__7LogoAppFv
+  0x801cfa5c: calc__7LogoAppFv
+  0x801cfff8: createMoviePlayer__7LogoAppFPv
+  0x801d0024: reset__7LogoAppFv
+  0x801d0028: restart__7LogoAppFv
+  0x801d00b8: controlLoading__7LogoAppFv
   # system.cpp
+  0x801d02f8: startAudioTask__6SystemFPv
   0x801d0388: init__6SystemFv
+  0x801d07b4: reset__6SystemFv
+  0x801d07e0: changeEuRgb60__6SystemFv
+  0x801d085c: changePal50__6SystemFv
+  0x801d08d8: changeMovieRenderMode__6SystemFv
+  0x801d0950: changeNormalRenderMode__6SystemFv
+  0x801d09c8: callbackException__6SystemFUsP9OSContextUlUl
   0x801d0ae8: run__6SystemFv
+  0x801d0bf8: get2DVpX__6SystemFv
+  0x801d0c04: get2DVpY__6SystemFv
+  0x801d0c14: get2DVpW__6SystemFv
+  0x801d0c24: get2DVpH__6SystemFv
+  0x801d0c34: get3DVpX__6SystemFv
+  0x801d0c40: get3DVpY__6SystemFv
+  0x801d0c50: get3DVpW__6SystemFv
+  0x801d0c60: get3DVpH__6SystemFv
+  0x801d0c70: get3DVpDiv2X__6SystemFUc
+  0x801d0c84: get3DVpDiv2Y__6SystemFUc
+  0x801d0c9c: get3DVpDiv2W__6SystemFUc
+  0x801d0cb4: get3DVpDiv2H__6SystemFUc
+  0x801d0ccc: get3DVpDiv4X__6SystemFUc
+  0x801d0ce0: get3DVpDiv4Y__6SystemFUc
+  0x801d0cf8: get3DVpDiv4W__6SystemFUc
+  0x801d0d10: get3DVpDiv4H__6SystemFUc
+  0x801d0d28: get2DScisX__6SystemFv
+  0x801d0d38: get2DScisY__6SystemFv
+  0x801d0d48: get2DScisW__6SystemFv
+  0x801d0d58: get2DScisH__6SystemFv
+  0x801d0d68: get3DScisX__6SystemFv
+  0x801d0d78: get3DScisY__6SystemFv
+  0x801d0d88: get3DScisW__6SystemFv
+  0x801d0d98: get3DScisH__6SystemFv
+  0x801d0da8: get3DAwardScisX__6SystemFv
+  0x801d0db8: get3DAwardScisY__6SystemFv
+  0x801d0dc8: get3DAwardScisW__6SystemFv
+  0x801d0dd8: get3DAwardScisH__6SystemFv
+  0x801d0de8: get3DScisDiv2X__6SystemFUc
+  0x801d0dfc: get3DScisDiv2Y__6SystemFUc
+  0x801d0e14: get3DScisDiv2W__6SystemFUc
+  0x801d0e2c: get3DScisDiv2H__6SystemFUc
+  0x801d0e44: get3DScisDiv4X__6SystemFUc
+  0x801d0e58: get3DScisDiv4Y__6SystemFUc
+  0x801d0e70: get3DScisDiv4W__6SystemFUc
+  0x801d0e88: get3DScisDiv4H__6SystemFUc
+  0x801d0ea0: getOrthoL__6SystemFv
+  0x801d0eac: getOrthoR__6SystemFv
+  0x801d0ebc: getOrthoT__6SystemFv
+  0x801d0ecc: getOrthoB__6SystemFv
+  0x801d0edc: getPerspAspect__6SystemFv
+  0x801d0ee4: getPerspAspectDiv2__6SystemFv
+  0x801d0eec: getPerspAspectDiv4__6SystemFv
   0x803d5bb0: mspDisplay__6System
   0x803d5bb4: mspAppHeap__6System
+  0x803d5bb8: msDvdState__6System
+  0x803d5bbc: msRenderMode__6System
+  0x803d5bc0: mspSendTask__6System
+  0x803d5bc4: mspRecvTask__6System
+  0x803d5bc8: mspAramTask__6System
+  0x803d5bcc: mspLoTask__6System
   0x803d5bd0: mspJ2DPrint__6System
   0x803d5bd4: mspJ2DOrtho__6System
+  0x803d5bd8: mspAudioHeap__6System
   # AppMgr.cpp
+  0x801d1a9c: draw__6AppMgrFv
+  0x801d1af4: calc__6AppMgrFv
+  0x801d1d04: setNextApp__6AppMgrFQ26AppMgr11KartAppEnum
+  0x801d1d48: insertErrorViewApp__6AppMgrFv
+  0x801d1d7c: createApp__6AppMgrFQ26AppMgr11KartAppEnum
+  0x801d1e28: restartApp__6AppMgrFv
+  0x801d2024: isRestartable__6AppMgrFv
   0x803d5bf0: mspGameApp__6AppMgr
   0x803d5bf4: msRequest__6AppMgr
+  # FontMgr.cpp
+  0x801d21a8: create__7FontMgrFP7JKRHeap
+  0x803d5c00: mspResFont__7FontMgr
+  0x803d5c04: mspDebugFont__7FontMgr
+  # ErrorViewApp.cpp
+  0x801d2240: create__12ErrorViewAppFv
+  0x801d2290: call__12ErrorViewAppFQ212ErrorViewApp7ErrorId
+  0x801d2384: __ct__12ErrorViewAppFv
+  0x801d23f8: __dt__12ErrorViewAppFv
+  0x801d2458: draw__12ErrorViewAppFv
+  0x801d247c: calc__12ErrorViewAppFv
+  0x801d2648: reset__12ErrorViewAppFv
+  # CardMgr.cpp
+  0x801d2780: create__7CardMgrFv
+  0x801d27fc: probe__7CardMgrFv
+  # CardAgent.cpp
+  0x801d36b0: create__9CardAgentFP7JKRHeap
   # kartPad.cpp
   0x801d1000: compress__11KartGamePadFRC9PADStatusP11KartPadData
   0x801d1184: compress__11KartGamePadFRC10LGPositionP11KartPadData
@@ -2259,6 +2372,27 @@ global:
   0x803d9a90: scSystemHeapSize__10SystemData
   0x803d9a94: scAudioHeapSize__10SystemData
   0x803d9a98: scAudioAramSize__10SystemData
+  # NetGameMgr.cpp
+  0x801d66a8: create__10NetGameMgrFP7JKRHeap
+  0x801d7c98: framework__10NetGameMgrFv
+  0x801d84b4: retraceCallback__10NetGameMgrFUl
+  0x801d8a18: adjustFrame__10NetGameMgrFv
+
+  0x803d5c58: mspNetGameMgr__10NetGameMgr
+  # SequenceApp.cpp
+  0x801d9308: create__11SequenceAppFv
+  0x801d9358: call__11SequenceAppFQ25Scene9SceneType
+  0x801d93a4: __ct__11SequenceAppFv
+  0x801d9478: __dt__11SequenceAppFv
+  0x801d958c: freeForMovieApp__11SequenceAppFv
+  0x801d96a0: draw__11SequenceAppFv
+  0x801d96e8: calc__11SequenceAppFv
+  0x801d983c: reset__11SequenceAppFv
+  0x801d9840: loadTask__11SequenceAppFPv
+  0x801d98ac: ready__11SequenceAppFQ25Scene9SceneType
+  0x801d9928: checkFinishAllLoading__11SequenceAppFv
+  0x801d9990: createScene__11SequenceAppFQ25Scene9SceneType
+  0x803d5c60: mspSequenceApp__11SequenceApp
   # shadowMgr.cpp
   0x801da460: __ct__13ShadowManagerFv
   0x801daaa0: viewCalc__13ShadowManagerFUl
@@ -2271,6 +2405,7 @@ global:
   0x801db4c4: setRaceTime__8TARecordF8RaceTime
   0x801db4d0: less__8TARecordFRC8TARecord
   # SystemRecord.cpp
+  0x801db630: applyAudioSetting__12SystemRecordFv
   0x801db824: getTARecord__12SystemRecordF9ECourseIDi
   0x801dba60: getBestLap__12SystemRecordF9ECourseID
   0x803c5fe0: gSystemRecord
@@ -2283,7 +2418,17 @@ global:
   0x801dc010: getCRC__8SaveFileFPUcPUc
   0x803c65f4: msaCRCTable__8SaveFile
   0x803d5c90: msCRCTableComputed__8SaveFile
-
+  # PadMgr.cpp
+  0x801dc0b4: init__6PadMgrFv
+  0x801dc140: framework__6PadMgrFv
+  0x801dc1c4: processKartPad__6PadMgrFv
+  0x801dc290: getPadData__6PadMgrFUcQ26PadMgr12KartPadInputP11KartPadData
+  0x801dc354: setKartPadInput__6PadMgrFQ26PadMgr12KartPadInput
+  0x801dc384: resetPort__6PadMgrFv
+  # BBAMgr.cpp
+  0x801dd058: create__6BBAMgrFP7JKRHeap
+  # ResetAgent.cpp
+  0x801dec78: callbackReset__10ResetAgentFiPv
   # Award2D
   0x801df038: __ct__7Award2DFP7JKRHeap
   0x801dfae0: calc__7Award2DFv
