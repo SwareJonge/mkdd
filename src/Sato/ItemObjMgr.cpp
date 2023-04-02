@@ -5,7 +5,7 @@
 
 void ItemObjMgr::draw() {
     JUTReport(20, 60, "SlotTable");
-    // i have a feeling this is inlined
+    // i have a feeling this is inlined / has some sort of macro
     ItemShuffleMgr::KartSlotData * slotData = &ItemShuffleMgr::mSlotList;
     JUTReport(100, 80, "Player");
 
@@ -37,18 +37,19 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata) {
     for (int i = 0; i < sSlotNormalItemNum + 1; i++, uVar3 = uVar2) {
         int itemChance = rdata.data->mList[rdata.kart_rank].slotTable[1]->chance[i];
         int itemIdx = i;
-        if (i >= (int)sSlotNormalItemNum) {
+        if (i >= sSlotNormalItemNum) {
             itemIdx = rdata.specialItemIndex;
             itemChance = rdata.specialItemChance;
         }
 
-        uVar2 = uVar2 + (itemChance & (-(ItemObjMgr::sTempSlotUseItem[i] != false)));
+        uVar2 += ItemObjMgr::sTempSlotUseItem[idx] ? itemChance : 0;
         if ((uVar3 <= randomNum) && (uVar2 > randomNum)) {
             ret = sSlotKindIndexArray[itemIdx];
             break;
         }
     }
-    JUT_ASSERT(3995, ret != -1); // ???
+    // if ret == -1 hang, in the release version, just give the player a banana as failsafe
+    JUT_ASSERT(3995, ret != -1); 
 
     if (ret == -1)
         ret = 3;
@@ -74,18 +75,14 @@ int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
     u32 randomNum = stGetRnd(0)->getRandomMax(slotRankData.total - 1);
 
     int uVar3 = 0;
-    int uVar2 = 0;
+    int uVar2 = 0; // this value adds up the probabilty of each item unless a tempSlotItem is unavailable(eg lightning, blue shell etc.)
 
-    for (int idx = 0; idx < (int)slotRankData.data->totalSlots; idx++, uVar3 = uVar2) {
-        u32 chance;
-        if (idx >= (int)sSlotNormalItemNum) {
-            chance = ItemObjMgr::sTempSpecialRatio[idx - sSlotNormalItemNum];
-        }
-        else {
-            chance = slotRankData.data->mList[slotRankData.kart_rank].slotTable[1]->chance[idx];
-        }
+    for (int idx = 0; idx < slotRankData.data->totalSlots; idx++, uVar3 = uVar2) {
+        u32 itemChance = idx >= sSlotNormalItemNum ? 
+            ItemObjMgr::sTempSpecialRatio[idx - sSlotNormalItemNum] : 
+            slotRankData.data->mList[slotRankData.kart_rank].slotTable[1]->chance[idx];
 
-        uVar2 = uVar2 + (chance & (-(ItemObjMgr::sTempSlotUseItem[idx] != false)));
+        uVar2 += ItemObjMgr::sTempSlotUseItem[idx] ? itemChance : 0;
         if ((uVar3 <= randomNum) && (uVar2 > randomNum)) {
             ret = sSlotKindIndexArray[idx];
             break;

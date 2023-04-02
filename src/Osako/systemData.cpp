@@ -35,7 +35,7 @@ const ScreenDataf SystemData::sc3DViewPortSub = {
 const ScreenDatai SystemData::sc3DScissorSub = {
     437, 312, 149, 112};
 
-#ifndef REGION_EU
+#ifndef VIDEO_PAL
 const _GXRenderModeObj SystemData::scNtscInt448Df = {
     VI_TVMODE_NTSC_INT,
     SCREEN_WIDTH,

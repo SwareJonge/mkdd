@@ -21,6 +21,7 @@ void stRandom::getArbitUnitVec(JGeometry::TVec3<f32>& dst, f32 p2, f32 p3) {
 
     _0x8 = JMASSin(_0x4);
 
+    // dst.set(_0x8 * JMASCos(_0x6), _0x8 * JMASSin(_0x6), JMASCos(_0x4));
     dst.x = _0x8 * JMASCos(_0x6);
     dst.y = _0x8 * JMASSin(_0x6);
     dst.z = JMASCos(_0x4);
@@ -34,11 +35,13 @@ void stRandom::getArbitUnitVecSimple(JGeometry::TVec3<f32> &dst, f32 p2) {
 void stRandom::getArbitUnitVecXZ(JGeometry::TVec3<f32>& dst, f32 p2) {
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
+    // dst.set(JMASSin(_0x4), 0.0f, JMASCos(_0x4));
     dst.x = JMASSin(_0x4);
     dst.y = 0.0;
     dst.z = JMASCos(_0x4);
 }
 
+// UNUSED
 stRandom *stGetRnd() {
     return stRandom::sMgr;
 }
