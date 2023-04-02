@@ -43,9 +43,10 @@ import common as c
 
 # Check CW was added
 assert os.path.exists("tools/2.5/mwcceppc.exe") and \
+    os.path.exists("tools/1.3.2/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5/mwcceppc.exe") and \
     os.path.exists("tools/2.5/mwldeppc.exe"), \
-    "Error: Codewarrior not found!"
+    "Error: Codewarrior compiler(s) not found!"
 
 # Check binaries were added
 assert os.path.exists(c.DOL), \
@@ -568,9 +569,11 @@ class CSource(Source):
             self.cflags = c.MSL_C_CFLAGS
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
-        if c.VERSION == "Release":
+        if c.VERSION == "Release":            
             if path.startswith("src/JSystem/"):
                 self.cflags = c.JSYSTEM_RELEASE_CFLAGS
+                if path.startswith("src/JSystem/JKernel/JKRSolidHeap.cpp"):
+                    self.cc = c.CC_1_3_2
         else:
             if path.startswith("src/JSystem/JUtility/"):
                 self.cflags = c.DOL_CFLAGS

@@ -206,6 +206,10 @@ SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 # Codewarrior
 SDK_CW = os.path.join(TOOLS, "1.2.5")
 SDK_CC = os.path.join(SDK_CW, "mwcceppc")
+
+MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
+CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc")
+
 CODEWARRIOR = os.path.join(TOOLS, "2.5")
 CC = os.path.join(CODEWARRIOR, "mwcceppc")
 LD = os.path.join(CODEWARRIOR, "mwldeppc")
