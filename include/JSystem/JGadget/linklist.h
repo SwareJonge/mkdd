@@ -141,7 +141,7 @@ namespace JGadget
         void Push_back(T *element)
         {
             TLinkList::iterator iter(TLinkList::end());
-            this->Insert(iter, element);
+            Insert(iter, element);
         }
 
         // _00-_08	= TNodeLinkList

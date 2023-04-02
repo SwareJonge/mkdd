@@ -1,6 +1,5 @@
-#include "types.h"
-#include "dolphin/os.h"
-#include "dolphin/PPCArch.h"
+#include <dolphin/os.h>
+#include <dolphin/PPCArch.h>
 
 #ifdef __cplusplus
 extern "C" {
