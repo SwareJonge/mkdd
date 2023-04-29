@@ -193,7 +193,15 @@ inline JKRAramBlock *JKRAllocFromAram(u32 size, JKRAramHeap::EAllocMode allocMod
 
 inline void JKRFreeToAram(JKRAramBlock * block) {
     JKRAram::getAramHeap()->free(block);
-} 
+}
+
+inline u8 *JKRAramToMainRam(u32 address, u8 *buf, u32 bufSize, JKRExpandSwitch expandSwitch, u32 p5, JKRHeap *heap, int id, u32 *pSize) {
+    JKRAram::aramToMainRam(address, buf, bufSize, expandSwitch, p5, heap, id, pSize);
+}
+
+inline JKRAramBlock *JKRMainRamToAram(u8 *buf, u32 bufSize, u32 alignedSize, JKRExpandSwitch expandSwitch, u32 fileSize, JKRHeap *heap, int id, u32 *pSize) {
+    return JKRAram::mainRamToAram(buf, bufSize, alignedSize, expandSwitch, fileSize, heap, id, pSize);
+}
 
 inline JKRAramStream * JKRCreateAramStreamManager(s32 priority) {
     return JKRAramStream::create(priority);

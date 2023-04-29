@@ -52,6 +52,8 @@ public:
     static JSUList<JKRADCommand> sDvdAramAsyncList;    
 };
 
-
+inline JKRAramBlock *JKRDvdToAram(s32 entrynum, u32 p2, JKRExpandSwitch expSwitch, u32 p4, u32 p5, u32 *p6) {
+    return JKRDvdAramRipper::loadToAram(entrynum, p2, expSwitch, p4, p5, p6);
+}
 
 #endif

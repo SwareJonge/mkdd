@@ -107,6 +107,19 @@ public:
         u8 _1B[5];            // _1B, unknown
     };
 
+    // NB: Fabricated name - need to check size
+    struct SArcHeader
+    {
+        u32 signature;        // _00
+        u32 file_length;      // _04
+        u32 header_length;    // _08
+        u32 file_data_offset; // _0C
+        u32 file_data_length; // _10
+        u32 _14;              // _14
+        u32 _18;              // _18
+        u32 _1C;              // _1C
+    };
+
     JKRArchive(long, EMountMode);
 
     virtual bool becomeCurrent(const char *);                                                                 // _10
@@ -178,7 +191,7 @@ protected:
     // _00     = VTBL
     // _00-_38 = JKRFileLoader
     JKRHeap *mHeap;              // _38
-    u8 mMountMode;               // _3C, might be mMountCount instead?
+    u8 mMountMode;               // _3C
     s32 mEntryNum;               // _40
     SArcDataInfo *mArcInfoBlock; // _44
     SDIDirEntry *mDirectories;   // _48
@@ -237,10 +250,10 @@ struct JKRCompArchive : public JKRArchive
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    int mCompression;  // _5C
+    int mCompression;                // _5C
     EMountDirection mMountDirection; // _60
     u32 _64;                         // _64
-    JKRAramBlock *_68;               // _68
+    JKRAramBlock *mAramPart;         // _68
     unknown _6C;                     // _6C
     JKRDvdFile *mDvdFile;            // _70
     u32 mSizeOfMemPart;              // _74
@@ -253,7 +266,7 @@ struct JKRDvdArchive : public JKRArchive
     JKRDvdArchive(long, JKRArchive::EMountDirection);
 
     virtual ~JKRDvdArchive();                                                                             // _00
-    virtual u32 getExpandedResSize(const void *) const;                                                   // _34
+    virtual u32 getExpandedResSize(const void *);                                                   // _34
     virtual void *fetchResource(SDIFileEntry *entry, u32 *outSize);                                       // _38
     virtual void *fetchResource(void *resourceBuffer, u32 bufferSize, SDIFileEntry *entry, u32 *resSize); // _3C
 
@@ -277,19 +290,6 @@ struct JKRDvdArchive : public JKRArchive
 
 struct JKRMemArchive : public JKRArchive
 {
-    // NB: Fabricated name - need to check size
-    struct SArcHeader
-    {
-        u32 signature;        // _00
-        u32 file_length;      // _04
-        u32 header_length;    // _08
-        u32 file_data_offset; // _0C
-        u32 file_data_length; // _10
-        u32 _14;              // _14
-        u32 _18;              // _18
-        u32 _1C;              // _1C
-    };
-
     JKRMemArchive(); // unused/inlined
     JKRMemArchive(long, EMountDirection);
     JKRMemArchive(void *, u32, JKRMemBreakFlag);

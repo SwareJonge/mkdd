@@ -123,6 +123,9 @@ libs/JSystem/JKernel/JKRArchivePub.cpp:
     .data: [0x8038b1e0, 0x8038b230]
     .sdata2: [0x80417a38, 0x80417a48]
 
+#libs/JSystem/JKernel/JKRCompArchive.cpp:
+   #.text: [0x8007d734, 0x8007e550]
+
 libs/JSystem/JKernel/JKRDecomp.cpp:
     .text: [0x8007e550, 0x8007ec74]
     .rodata: [0x80366aa0, 0x80366ac8]
