@@ -106,14 +106,12 @@ void JKRDecomp::decode(u8 *src, u8 *dst, u32 srcSize, u32 dstSize) {
         decodeSZS(src, dst, srcSize, dstSize);
 }
 
-// doesn't match for release(regswaps, loads dstOffset before decodedSize and such)
 void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
 {
-    // int superior
     int srcChunkOffset;
     int count;
     int dstOffset;
-    u32 length;
+    u32 length = srcLength;
     int linkInfo;
     int offset;
     int i;
@@ -123,7 +121,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     int srcDataOffset = READU32_BE(src, 12);
 
     dstOffset = 0;
-    u32 counter = 0; // curently counter gets assembled before the READ_U32 operations
+    u32 counter = 0;
     srcChunkOffset = 16;
 
     u32 chunkBits;
@@ -132,7 +130,6 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
     if (dstLength > decodedSize)
         return;
 
-    length = srcLength;
     do
     {
         if (counter == 0)
@@ -172,10 +169,10 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength)
             else
                 count += 2;
 
-            if ((int)count > decodedSize - dstOffset)
+            if (count > decodedSize - dstOffset)
                 count = decodedSize - dstOffset;
 
-            for (i = 0; i < (int)count; i++, dstOffset++, offset++)
+            for (i = 0; i < count; i++, dstOffset++, offset++)
             {
                 if (dstLength == 0)
                 {
