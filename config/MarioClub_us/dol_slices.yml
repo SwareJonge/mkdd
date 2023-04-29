@@ -1,7 +1,4 @@
-PowerPC_EABI_Support/Runtime/__mem.c:
-    .init: [0x80003458, 0x80003590]
-
-kartLocale.cpp:
+src/kartLocale.cpp:
     .text: [0x800056c0, 0x800057b4]
     .rodata: [0x80360900, 0x80360910]
     .data: [0x803879c0, 0x803879f8]
@@ -9,14 +6,14 @@ kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
-JSystem/JFramework/JFWSystem.cpp:
+libs/JSystem/JFramework/JFWSystem.cpp:
     .text: [0x800157b8, 0x80015b80]
     .rodata: [0x80360fa0, 0x80360fd8]
     .sdata: [0x80413f98, 0x80413fc8]
     .sbss: [0x804156f8, 0x80415718]
     .sdata2: [0x80417398, 0x804173b8]
 
-JSystem/JFramework/JFWDisplay.cpp:
+libs/JSystem/JFramework/JFWDisplay.cpp:
     .text: [0x80015b80, 0x80017308] # 0x80017308
     .ctors: [0x803160a8, 0x803160ac]
     .rodata: [0x80360fd8, 0x803610f0]
@@ -26,60 +23,60 @@ JSystem/JFramework/JFWDisplay.cpp:
     .sbss: [0x80415718, 0x80415740]
     .sdata2: [0x804173b8, 0x804173e0]
 
-JSystem/JMath/JMath.cpp:
+libs/JSystem/JMath/JMath.cpp:
     .text: [0x80069178, 0x800693c8]
     .sdata2: [0x80417788, 0x80417798]
 
-JSystem/JMath/random.cpp:
+libs/JSystem/JMath/random.cpp:
     .text: [0x800693c8, 0x800693d0]
 
-JSystem/JMath/JMATrigonometric.cpp:
+libs/JSystem/JMath/JMATrigonometric.cpp:
     .text: [0x800693d0, 0x800697f8]
     .ctors: [0x803160c4, 0x803160c8]
     #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
     .sdata2: [0x80417798, 0x804177e0]
 
-JSystem/JUtility/JUTDirectPrint.cpp:
+libs/JSystem/JUtility/JUTDirectPrint.cpp:
     .text: [0x8006c1cc, 0x8006c87c]
     .data: [0x8038abd8 , 0x8038aea0]
     .sbss: [0x804157f0, 0x804157f8]
     .sdata2: [0x80417858, 0x804178b8]
 
-JSystem/JUtility/JUTPalette.cpp:
+libs/JSystem/JUtility/JUTPalette.cpp:
     .text: [0x80071814, 0x80071920]
     .rodata: [0x80361f90, 0x80361fc0]
 
-JSystem/JUtility/JUTProcBar.cpp:
+libs/JSystem/JUtility/JUTProcBar.cpp:
     .text: [0x80071920, 0x80073a5c]
     .sdata: [0x80414070, 0x80414078]
     .sbss: [0x80415868, 0x80415880]
     .sdata2: [0x80417978, 0x804179c0]
 
-JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
+libs/JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
     .rodata: [0x80362160, 0x803662c0]
 
-JSystem/JUtility/JUTVideo.cpp:
+libs/JSystem/JUtility/JUTVideo.cpp:
     .text: [0x80075698, 0x80075c00]
     .data: [0x8038afe0, 0x8038aff0]
     .sbss: [0x80415880, 0x80415898]
 
-JSystem/JSupport/JSUInputStream.cpp:
+libs/JSystem/JSupport/JSUInputStream.cpp:
     .text: [0x80078780, 0x80078b2c]
     .rodata: [0x80366778, 0x80366798]
     .data: [0x8038b040, 0x8038b080]
 
-JSystem/JSupport/JSUList.cpp:
+libs/JSystem/JSupport/JSUList.cpp:
     .text: [0x80078b2c, 0x800790d0]
 
-JSystem/JSupport/JSUMemoryStream.cpp:
+libs/JSystem/JSupport/JSUMemoryStream.cpp:
     .text: [0x800790d0, 0x800791e8]
     .data: [0x8038b080, 0x8038b0a8]
 
-JSystem/JSupport/JSUFileStream.cpp:
+libs/JSystem/JSupport/JSUFileStream.cpp:
     .text: [0x800791e8, 0x8007949c]
     .data: [0x8038b0a8, 0x8038b0d0]
 
-JSystem/JKernel/JKRAram.cpp:
+libs/JSystem/JKernel/JKRAram.cpp:
     .text: [0x8007949c, 0x8007a3ac]
     .ctors: [0x803160d0, 0x803160d4]
     .rodata: [0x80366798, 0x80366868]
@@ -90,18 +87,18 @@ JSystem/JKernel/JKRAram.cpp:
     .sbss: [0x804158a0, 0x804158e0]
     .sdata2: [0x80417a00, 0x80417a10]
 
-JSystem/JKernel/JKRAramBlock.cpp:
+libs/JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8007afac, 0x8007b228]
     .data: [0x8038b180, 0x8038b190]
 
-JSystem/JKernel/JKRAramHeap.cpp:
+libs/JSystem/JKernel/JKRAramHeap.cpp:
     .text: [0x8007b228, 0x8007b588]
     .ctors: [0x803160d4, 0x803160d8]
     .data: [0x8038b190, 0x8038b1a0]
     .bss: [0x803ae930, 0x803ae940]
     #.bss: [0x803fa8fc, 0x803fa908]
 
-JSystem/JKernel/JKRAramPiece.cpp:
+libs/JSystem/JKernel/JKRAramPiece.cpp:
     .text: [0x8007b588, 0x8007b9cc]
     .ctors: [0x803160d8, 0x803160dc]
     .rodata: [0x803668f8, 0x80366968]
@@ -109,35 +106,35 @@ JSystem/JKernel/JKRAramPiece.cpp:
     #.bss: [0x803fa908, 0x803fa944]
     .sdata2: [0x80417a28, 0x80417a30]
 
-JSystem/JKernel/JKRAramStream.cpp:
+libs/JSystem/JKernel/JKRAramStream.cpp:
     .text: [0x8007b9cc, 0x8007bf04]
     .rodata: [0x80366968, 0x80366998]
     .data: [0x8038b1a0, 0x8038b1e0]
     .sbss: [0x804158e0, 0x804158f0]
     .sdata2: [0x80417a30, 0x80417a38]
 
-JSystem/JKernel/JKRArchivePri.cpp:
+libs/JSystem/JKernel/JKRArchivePri.cpp:
     .text: [0x8007bf04, 0x8007cb10]
     .sbss: [0x804158f0, 0x804158f8]
 
-JSystem/JKernel/JKRArchivePub.cpp:
+libs/JSystem/JKernel/JKRArchivePub.cpp:
     .text: [0x8007cb10, 0x8007d734]
     .rodata: [0x80366998, 0x803669c8]
     .data: [0x8038b1e0, 0x8038b230]
     .sdata2: [0x80417a38, 0x80417a48]
 
-JSystem/JKernel/JKRDecomp.cpp:
+libs/JSystem/JKernel/JKRDecomp.cpp:
     .text: [0x8007e550, 0x8007ec74]
     .rodata: [0x80366aa0, 0x80366ac8]
     .data: [0x8038b280, 0x8038b2d0]
     .sbss: [0x804158f8, 0x80415900]
     .sdata2: [0x80417a58, 0x80417a68]
 
-JSystem/JKernel/JKRDisposer.cpp:
+libs/JSystem/JKernel/JKRDisposer.cpp:
     .text: [0x8007ec74, 0x8007ed58]
     .data: [0x8038b2d0, 0x8038b2e0]
 
-JSystem/JKernel/JKRDvdFile.cpp:
+libs/JSystem/JKernel/JKRDvdFile.cpp:
     .text: [0x8007ed58, 0x8007f33c]
     .ctors: [0x803160dc, 0x803160e0]
     .rodata: [0x80366ac8, 0x80366b08]
@@ -146,7 +143,7 @@ JSystem/JKernel/JKRDvdFile.cpp:
     #.bss: [0x803fa944, 0x803fa950] 
     .sdata2: [0x80417a68, 0x80417a78]
 
-JSystem/JKernel/JKRDvdAramRipper.cpp:
+libs/JSystem/JKernel/JKRDvdAramRipper.cpp:
     .text: [0x8007f33c, 0x8008017c]
     .ctors: [0x803160e0, 0x803160e4]
     .rodata: [0x80366b08, 0x80366b58]
@@ -156,7 +153,7 @@ JSystem/JKernel/JKRDvdAramRipper.cpp:
     .sbss: [0x80415900, 0x80415948]
     .sdata2: [0x80417a78, 0x80417a88]
 
-JSystem/JKernel/JKRDvdRipper.cpp:
+libs/JSystem/JKernel/JKRDvdRipper.cpp:
     .text: [0x80080e68, 0x80081bcc]
     .ctors: [0x803160e4, 0x803160e8]
     .rodata: [0x80366c20, 0x80366ca8]
@@ -166,22 +163,22 @@ JSystem/JKernel/JKRDvdRipper.cpp:
     .sbss: [0x80415948, 0x80415988]
     .sdata2: [0x80417aa0, 0x80417ab0]
 
-#JSystem/JKernel/JKRExpHeap.cpp:
+#libs/JSystem/JKernel/JKRExpHeap.cpp:
     #.text: [0x80081bcc, 0x80083850]
     #.rodata: [0x80366ca8, 0x803670e8]
     #.data: [0x8038b358, 0x8038b3b8]
     #.sbss: [0x80415988, 0x804159a0]
     #.sdata2: [0x80417ab0, 0x80417af0]
 
-JSystem/JKernel/JKRFileCache.cpp:
+libs/JSystem/JKernel/JKRFileCache.cpp:
     .text: [0x80083850, 0x80083898]
     .data: [0x8038b3b8, 0x8038b3c8]
 
-JSystem/JKernel/JKRFileFinder.cpp:
+libs/JSystem/JKernel/JKRFileFinder.cpp:
     .text: [0x80083898, 0x80083a2c]
     .data: [0x8038b3c8, 0x8038b3d8]
 
-JSystem/JKernel/JKRFileLoader.cpp:
+libs/JSystem/JKernel/JKRFileLoader.cpp:
     .text: [0x80083a2c, 0x80083e20]
     .ctors: [0x803160e8, 0x803160ec]
     .data: [0x8038b3d8, 0x8038b418]
@@ -192,7 +189,7 @@ JSystem/JKernel/JKRFileLoader.cpp:
     .sdata2: [0x80417af0, 0x80417af8]
 
 # The hacks in JKRHeap cause issues for RaceMgr(and so will it for other files), disable for now
-#JSystem/JKernel/JKRHeap.cpp:
+#libs/JSystem/JKernel/JKRHeap.cpp:
     #.text: [0x80083e20, 0x800853bc]
     #.rodata: [0x803670e8, 0x803673a8]
     #.data: [0x8038b418, 0x8038b478]
@@ -200,19 +197,19 @@ JSystem/JKernel/JKRFileLoader.cpp:
     #.sbss: [0x804159a8, 0x804159d0]
     #.sdata2: [0x80417af8, 0x80417b18]
 
-JSystem/JKernel/JKRMemArchive.cpp:
+libs/JSystem/JKernel/JKRMemArchive.cpp:
     .text: [0x800853bc, 0x80085cf4]
     .rodata: [0x803673a8, 0x80367438]
     .data: [0x8038b478, 0x8038b4c8]
     .sdata2: [0x80417b18, 0x80417b28]
 
-JSystem/JKernel/JKRSolidHeap.cpp:
+libs/JSystem/JKernel/JKRSolidHeap.cpp:
     .text: [0x80085cf4, 0x80086734]
     .rodata: [0x80367438, 0x803675c8]
     .data: [0x8038b4c8, 0x8038b528]
     .sdata2: [0x80417b28, 0x80417b58]    
 
-JSystem/JKernel/JKRThread.cpp:
+libs/JSystem/JKernel/JKRThread.cpp:
     .text: [0x80086734, 0x8008724c]
     .ctors: [0x803160ec, 0x803160f0]
     .rodata: [0x803675c8, 0x80367758]
@@ -222,40 +219,43 @@ JSystem/JKernel/JKRThread.cpp:
     .sbss: [0x804159d0, 0x804159d8]
     .sdata2: [0x80417b58, 0x80417b68]
 
-JSystem/JKernel/JKRAssertHeap.cpp:
+libs/JSystem/JKernel/JKRAssertHeap.cpp:
     .text: [0x8008724c, 0x800875c4]
     .rodata: [0x80367758, 0x803677f8]
     .data: [0x8038b548, 0x8038b5a8]
     .sdata2: [0x80417b68, 0x80417b78]
 
-JSystem/JAudio/JASReport.cpp:
+libs/JSystem/JAudio/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]
     .sbss: [0x80415a28, 0x80415a38]
 
-dolphin/__ppc_eabi_init.cpp:
+libs/dolphin/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800f31b8, 0x800f324c]
 
-PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+libs/PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
     .text: [0x8010d4f4, 0x8010d5dc]
     .bss: [0x803c65f0, 0x803c6608]
 
-Bando/EngineSound.cpp:
+libs/PowerPC_EABI_Support/Runtime/__mem.c:
+    .init: [0x80003458, 0x80003590]
+
+src/Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
     .data: [0x80393760, 0x803937b8]
 
-Kameda/Scene.cpp:
+src/Kameda/Scene.cpp:
     .text: [0x8013c1e8, 0x8013c2b8]
     .rodata: [0x8036da48, 0x8036da58]
     .data: [0x80394b70, 0x80394b88]
     .sdata2: [0x80418e78, 0x80418e90]
 
-Kaneshige/HioMgr.cpp:
+src/Kaneshige/HioMgr.cpp:
     .text: [0x801a6960, 0x801a6c30]
     .data: [0x80395bb8, 0x80395bc8]
 
-Kaneshige/KartInfo.cpp:
+src/Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a8f54]
     #.ctors: [0x80316274, 0x80316278]
     .rodata: [0x803770f8, 0x80377378]    
@@ -263,7 +263,7 @@ Kaneshige/KartInfo.cpp:
     #.bss: [0x803ca7c8, 0x803ca7f8]
     .sdata2: [0x80419dc8, 0x80419dd0]
 
-Kaneshige/KartChecker.cpp:
+src/Kaneshige/KartChecker.cpp:
     .text: [0x801a9040, 0x801ac4b4]  
     #.ctors: [0x80316278, 0x0x8031627c] 
     .rodata: [0x80377378, 0x80377640] 
@@ -273,7 +273,7 @@ Kaneshige/KartChecker.cpp:
     .sbss: [0x804163a0, 0x804163a8]
     .sdata2: [0x80419dd0, 0x80419e18]
 
-#Kaneshige/RaceMgr.cpp:
+#src/Kaneshige/RaceMgr.cpp:
     #.text: [0x801ac5a0, 0x801b0c1c]
     ##.ctors: [0x8031627c, 0x80316280]
     #.rodata: [0x80377640, 0x803780c0]
@@ -283,11 +283,11 @@ Kaneshige/KartChecker.cpp:
     #.sbss: [0x804163a8, 0x804163b0]
     #.sdata2: [0x80419e18, 0x80419f88]
 
-Kaneshige/ScrnShot.cpp:
+src/Kaneshige/ScrnShot.cpp:
     .text: [0x801b4764, 0x801b4860]
     .sbss: [0x804163c0, 0x804163c8]
 
-Kaneshige/RaceInfo.cpp:
+src/Kaneshige/RaceInfo.cpp:
     .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv
     #.ctors: [0x8031628c, 0x80316290]
     .rodata: [0x80378500, 0x80378698]    
@@ -297,31 +297,31 @@ Kaneshige/RaceInfo.cpp:
     .sbss: [0x804163d0, 0x804163d8]
     .sdata2: [0x8041a028, 0x8041a030]
 
-Kaneshige/JugemPoint.cpp:
+src/Kaneshige/JugemPoint.cpp:
     .text: [0x801ba2a4, 0x801ba2b4]
 
-Kaneshige/RaceTime.cpp:
+src/Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
-Osako/clock.cpp:
+src/Osako/clock.cpp:
     .text: [0x801f6e04, 0x801f6e9c]
     .sbss: [0x804168c8, 0x804168d8]
     .sdata2: [0x8041aeb8, 0x8041aed0]
 
-Osako/testApp.cpp:
+src/Osako/testApp.cpp:
     .text: [0x801f6fc0, 0x801f7154]
     .data: [0x8039c400, 0x8039c418]
     .sbss: [0x804168d8, 0x804168e0]
     .sdata2: [0x8041aee0, 0x8041aef0]
 
-Osako/GameApp.cpp:
+src/Osako/GameApp.cpp:
     .text: [0x801f74dc, 0x801f75f4]
     .data: [0x8039c460, 0x8039c478]
 
-Osako/main.cpp:
+src/Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
 
-Osako/system.cpp:
+src/Osako/system.cpp:
     .text: [0x801feb10, 0x801ffe80] # exclude __sinit_system_cpp (801fff8c)
     #.ctors: [0x8031637c, 0x80316380]
     .rodata: [0x8037d5e8, 0x8037d658]
@@ -330,7 +330,7 @@ Osako/system.cpp:
     .sbss: [0x80416968, 0x80416998]
     .sdata2: [0x8041b688, 0x8041b6e8]
 
-Osako/kartPad.cpp:
+src/Osako/kartPad.cpp:
     .text: [0x801fff8c, 0x80200a28]
     .ctors: [0x80316380, 0x80316384]
     .data: [0x8039caf8, 0x8039cb48]
@@ -338,7 +338,7 @@ Osako/kartPad.cpp:
     #.bss: [0x803fef60, 0x80400b68] # common bss area
     .sdata2: [0x8041b6e8, 0x8041b700]
 
-Osako/systemData.cpp:
+src/Osako/systemData.cpp:
     .text: [0x80205c2c, 0x80205db4]
     .ctors: [0x80316394, 0x80316398]
     .rodata: [0x8037d938, 0x8037da88]
@@ -346,22 +346,22 @@ Osako/systemData.cpp:
     .sbss: [0x80416a00, 0x80416a10]
     .sdata2: [0x8041b758, 0x8041b778]
 
-Osako/TARecord.cpp:
+src/Osako/TARecord.cpp:
     .text: [0x8020b458, 0x8020b510]
 
-Osako/GPRecord.cpp:
+src/Osako/GPRecord.cpp:
     .text: [0x8020c078, 0x8020c230]
     .rodata: [0x8037e038, 0x8037e060]
     .sdata2: [0x8041b830, 0x8041b840]
 
-Osako/SaveFile.cpp:
+src/Osako/SaveFile.cpp:
     .text: [0x8020c230, 0x8020c3ac]
     .rodata: [0x8037e060, 0x8037e090]
     #.bss: [0x80407334, 0x80407740]
     .sbss: [0x80416a48, 0x80416a50]
     .sdata2: [0x8041b840, 0x8041b858]
 
-#Sato/stMath.cpp: # can't be compiled currently
+#src/Sato/stMath.cpp: # can't be compiled currently
     #.text: [0x8021f5fc, 0x8021f6e0] 
     #.rodata: [0x8037eec8, 0x8037eef0]
     #.data: [0x8039d6f0, 0x8039d708]

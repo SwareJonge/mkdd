@@ -562,24 +562,24 @@ class CSource(Source):
     def __init__(self, ctx: c.SourceContext, path: str):
         self.cc = c.CC
         self.cflags = ctx.cflags
-        
-        if path.startswith("src/dolphin/"):
+
+        if path.startswith("libs/dolphin/"):
             self.cc = c.SDK_CC # TODO: build flags for SDK
-        elif path.startswith("src/PowerPC_EABI_Support/MSL_C/"):
+        elif path.startswith("libs/PowerPC_EABI_Support/MSL_C/"):
             self.cflags = c.MSL_C_CFLAGS
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
         if c.VERSION == "Release":            
-            if path.startswith("src/JSystem/"):
+            if path.startswith("libs/JSystem/"):
                 self.cflags = c.JSYSTEM_RELEASE_CFLAGS
-                if path.startswith("src/JSystem/JKernel/JKRSolidHeap.cpp"):
+                if path.endswith("JKRSolidHeap.cpp"):
                     self.cc = c.CC_1_3_2
         else:
-            if path.startswith("src/JSystem/JUtility/"):
+            if path.startswith("libs/JSystem/JUtility/"):
                 self.cflags = c.DOL_CFLAGS
-            elif path.startswith("src/JSystem/JKernel/"):
+            elif path.startswith("libs/JSystem/JKernel/"):
                 self.cflags = c.DOL_CFLAGS
-            elif path.startswith("src/JSystem/"): # once i have a file for every library this can finally be removed
+            elif path.startswith("libs/JSystem/"): # once i have a file for every library this can finally be removed
                 self.cflags = c.JSYSTEM_SPEED_CFLAGS
 
             
@@ -623,7 +623,7 @@ class CSource(Source):
 
 def load_sources(ctx: c.SourceContext):
     raw = c.get_cmd_stdout(
-        f"{c.SLICES} {ctx.binary} {ctx.slices} -o -p {ctx.srcdir}/"
+        f"{c.SLICES} {ctx.binary} {ctx.slices} -o"
     )
     return [Source.make(ctx, s) for s in json.loads(raw)]
 

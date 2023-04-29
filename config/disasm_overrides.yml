@@ -1,1 +1,2 @@
 trim_ctors: true
+trim_dtors: true

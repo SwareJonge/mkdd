@@ -47,7 +47,7 @@ def get_containing_slice(addr: int) -> Tuple[Binary, SourceDesc]:
     Source file is empty string if not decompiled"""
 
     dol_raw = get_cmd_stdout(
-        f"{SLICES} {DOL_YML} {DOL_SLICES} -p {DOL_SRCDIR}/ --containing {addr:x}")
+        f"{SLICES} {DOL_YML} {DOL_SLICES} --containing {addr:x}")
     containing = json.loads(dol_raw)
     return (Binary.DOL, containing)
 
@@ -376,7 +376,6 @@ PPCDIS_DISASM_FLAGS = ' '.join([
 
 @dataclass
 class SourceContext:
-    srcdir: str
     cflags: str
     binary: str
     labels: str
@@ -384,7 +383,7 @@ class SourceContext:
     slices: str
     sdata2_threshold: int
 
-DOL_CTX = SourceContext(DOL_SRCDIR, DOL_CFLAGS, DOL_YML, DOL_LABELS, DOL_RELOCS, DOL_SLICES, DOL_SDATA2_SIZE)
+DOL_CTX = SourceContext(DOL_CFLAGS, DOL_YML, DOL_LABELS, DOL_RELOCS, DOL_SLICES, DOL_SDATA2_SIZE)
 
 ####################
 # diff.py Expected #
