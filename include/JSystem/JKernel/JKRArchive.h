@@ -266,7 +266,7 @@ struct JKRDvdArchive : public JKRArchive
     JKRDvdArchive(long, JKRArchive::EMountDirection);
 
     virtual ~JKRDvdArchive();                                                                             // _00
-    virtual u32 getExpandedResSize(const void *);                                                   // _34
+    virtual u32 getExpandedResSize(const void *) const;                                                   // _34
     virtual void *fetchResource(SDIFileEntry *entry, u32 *outSize);                                       // _38
     virtual void *fetchResource(void *resourceBuffer, u32 bufferSize, SDIFileEntry *entry, u32 *resSize); // _3C
 
