@@ -55,7 +55,6 @@ JKRCompArchive::~JKRCompArchive() {
     mIsMounted = false;
 }
 
-// only a few regswaps left
 bool JKRCompArchive::open(long entryNum) {
     mArcInfoBlock = nullptr;
     _64 = 0;
@@ -68,40 +67,41 @@ bool JKRCompArchive::open(long entryNum) {
     mFileEntries = nullptr;
     mStrTable = nullptr;
 
-    int alignment;
-
     mDvdFile = new (JKRGetSystemHeap(), 0) JKRDvdFile(entryNum);
     if(mDvdFile == nullptr) {
         mMountMode = 0;
         return 0;
     }
-    void *mem = JKRAllocFromSysHeap(32, -32);
-    if(mem == nullptr) {
+    SArcHeader *arcHeader = (SArcHeader *)JKRAllocFromSysHeap(sizeof(SArcHeader), -32); // NOTE: unconfirmed if this struct is used
+    if(arcHeader == nullptr) {
         mMountMode = 0;
     }
     else {
-        JKRDvdToMainRam(entryNum, (u8*)mem, Switch_1, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
-        DCInvalidateRange(mem, 32);
-        // TODO: struct
-        mSizeOfMemPart = *((u32 *)mem + 5);
-        mSizeOfAramPart = *((u32 *)mem + 6);
+        int alignment;
+
+        JKRDvdToMainRam(entryNum, (u8 *)arcHeader, Switch_1, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
+        DCInvalidateRange(arcHeader, 32);
+
+        mSizeOfMemPart = arcHeader->_14;
+        mSizeOfAramPart = arcHeader->_18;
         JUT_ASSERT(352, ( mSizeOfMemPart & 0x1f ) == 0);
         JUT_ASSERT(353, ( mSizeOfAramPart & 0x1f ) == 0);
-
 
         switch (mCompression)
         {
         case JKRCOMPRESSION_NONE:
         case JKRCOMPRESSION_YAZ0:
-            mArcInfoBlock = (SArcDataInfo *)JKRAllocFromHeap(mHeap, ((SDIFileEntry *)mem)->mSize + mSizeOfMemPart, mMountDirection == 1 ? 32 : -32);
+            alignment = mMountDirection == 1 ? 32 : -32;
+            mArcInfoBlock = (SArcDataInfo *)JKRAllocFromHeap(mHeap, arcHeader->file_data_offset + mSizeOfMemPart, alignment);
             if (mArcInfoBlock == nullptr) {
                 mMountMode = 0;
             }
             else
             {
-                JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, Switch_1, (u32)((SDIFileEntry *)mem)->mSize + mSizeOfMemPart, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0x20, nullptr, nullptr);
-                DCInvalidateRange(mArcInfoBlock, (u32)((SDIFileEntry *)mem)->mSize + mSizeOfMemPart);
-                _64 = (u32)mArcInfoBlock + ((SDIFileEntry *)mem)->mSize;
+                JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, Switch_1, (u32)arcHeader->file_data_offset + mSizeOfMemPart,
+                                nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0x20, nullptr, nullptr);
+                DCInvalidateRange(mArcInfoBlock, (u32)arcHeader->file_data_offset + mSizeOfMemPart);
+                _64 = (u32)mArcInfoBlock + arcHeader->file_data_offset;
 
                 if (mSizeOfAramPart != 0) {
                     mAramPart = JKRAllocFromAram(mSizeOfAramPart, JKRAramHeap::AM_Head);
@@ -110,63 +110,63 @@ bool JKRCompArchive::open(long entryNum) {
                         break;
                     }
 
-                    JKRDvdToAram(entryNum, mAramPart->getAddress(), Switch_1, (u32)((SDIFileEntry *)mem)->mDataOffset + ((SDIFileEntry *)mem)->mSize + mSizeOfMemPart, 0, nullptr);
+                    JKRDvdToAram(entryNum, mAramPart->getAddress(), Switch_1, (u32)((SDIFileEntry *)arcHeader)->mDataOffset + ((SDIFileEntry *)arcHeader)->mSize + mSizeOfMemPart, 0, nullptr);
                 }
 
                 mDirectories = (SDIDirEntry*)((u32)mArcInfoBlock + mArcInfoBlock->node_offset);
                 mFileEntries = (SDIFileEntry *)((u32)mArcInfoBlock + mArcInfoBlock->file_entry_offset);
                 mStrTable = (const char*)((u32)mArcInfoBlock + mArcInfoBlock->string_table_offset);
-                _6C = ((SDIFileEntry *)mem)->mDataOffset + ((SDIFileEntry *)mem)->mSize;
+                _6C = arcHeader->header_length + arcHeader->file_data_offset;
             }
             break;
 
         case JKRCOMPRESSION_YAY0:
             u32 alignedSize = ALIGN_NEXT(mDvdFile->getFileSize(), 32);
-            alignment = mMountDirection == 1 ? 32 : -32;
-            u8 *buf = (u8*)JKRAllocFromSysHeap(alignedSize, -alignment);
+            alignment = ((mMountDirection == 1) ? 32 : -32); // for whatever reason there's an extra mr here
+            void *buf = JKRAllocFromSysHeap(alignedSize, -alignment);
 
             if(buf == nullptr) {
                 mMountMode = 0;
             }
             else {
-                JKRDvdToMainRam(entryNum, buf, Switch_2, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
-                DCInvalidateRange(buf, alignedSize);
-                alignedSize = ALIGN_NEXT(JKRDecompExpandSize(buf), 32);
-                void *decompBuf = (u8 *)JKRAllocFromHeap(mHeap, alignedSize, -alignment);
+                JKRDvdToMainRam(entryNum, (u8 *)buf, Switch_2, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
+                DCInvalidateRange((u8*)buf, alignedSize);
+                u32 expandSize = ALIGN_NEXT(JKRDecompExpandSize((u8 *)buf), 32);
+                u8 *mem = (u8 *)JKRAllocFromHeap(mHeap, expandSize, -alignment);
 
-                if(decompBuf == nullptr) {
+                if(mem == nullptr) {
                     mMountMode = 0;
                 }
                 else {
-                    JKRDecompress(buf, (u8*)decompBuf, alignedSize, 0);
+                    arcHeader = (SArcHeader *)mem;
+                    JKRDecompress((u8 *)buf, (u8 *)mem, expandSize, 0);
                     JKRFreeToSysHeap(buf);
 
-                    mArcInfoBlock = (SArcDataInfo* )JKRAllocFromHeap(mHeap, ((SArcHeader*)decompBuf)->file_data_offset + mSizeOfMemPart, alignedSize);
+                    mArcInfoBlock = (SArcDataInfo *)JKRAllocFromHeap(mHeap, arcHeader->file_data_offset + mSizeOfMemPart, alignment);
                     if(mArcInfoBlock == nullptr) {
                         mMountMode = 0;
                     }
                     else {
-                        // decompBuf + 1 should lead to 0x20, which is the data after the header
-                        JKRHeap::copyMemory((u8 *)mArcInfoBlock, ((SArcHeader *)decompBuf) + 1, (((SArcHeader *)decompBuf)->file_data_offset + mSizeOfMemPart));
-                        _64 = (u32)mArcInfoBlock + ((SArcHeader *)decompBuf)->file_data_offset;
+                        // arcHeader + 1 should lead to 0x20, which is the data after the header
+                        JKRHeap::copyMemory((u8 *)mArcInfoBlock, arcHeader + 1, (arcHeader->file_data_offset + mSizeOfMemPart));
+                        _64 = (u32)mArcInfoBlock + arcHeader->file_data_offset;
                         if (mSizeOfAramPart != 0) {
                             mAramPart = JKRAllocFromAram(mSizeOfAramPart, JKRAramHeap::AM_Head);
                             if(mAramPart == nullptr) {
                                 mMountMode = 0;                                
                             }
                             else {
-                                JKRMainRamToAram((u8 *)decompBuf + ((SArcHeader *)decompBuf)->header_length + ((SArcHeader *)decompBuf)->file_data_offset + mSizeOfMemPart, mAramPart->getAddress(), mSizeOfAramPart, Switch_0, 0, nullptr, -1, nullptr);
+                                JKRMainRamToAram((u8 *)mem + arcHeader->header_length + arcHeader->file_data_offset + mSizeOfMemPart,
+                                                 mAramPart->getAddress(), mSizeOfAramPart, Switch_0, 0, nullptr, -1, nullptr);
                             }
                         }
-                    }
-
-                    
+                    }                    
                 }
             }
             mDirectories = (SDIDirEntry *)((u32)mArcInfoBlock + mArcInfoBlock->node_offset);
             mFileEntries = (SDIFileEntry *)((u32)mArcInfoBlock + mArcInfoBlock->file_entry_offset);
             mStrTable = (const char *)((u32)mArcInfoBlock + mArcInfoBlock->string_table_offset);
-            _6C = ((SDIFileEntry *)mem)->mDataOffset + ((SDIFileEntry *)mem)->mSize;
+            _6C = arcHeader->header_length + arcHeader->file_data_offset;
             break;
         }
         mExpandSizes = nullptr;
@@ -197,9 +197,9 @@ bool JKRCompArchive::open(long entryNum) {
         }
     }
 
-    if (mem != nullptr)
+    if (arcHeader != nullptr)
     {
-        JKRFreeToSysHeap(mem);
+        JKRFreeToSysHeap(arcHeader);
     }
     if(mMountMode == 0) {
         JUT_REPORT_MSG(":::[%s: %d] Cannot alloc memory in mounting CompArchive\n", __FILE__, 567); // TODO: macro
