@@ -51,6 +51,12 @@ libs/JSystem/JKernel/JKRArchivePub.cpp:
     .text: [0x8000db44, 0x8000e554]
     .data: [0x80347bd8, 0x80347c28]
 
+libs/JSystem/JKernel/JKRCompArchive.cpp:
+   .text: [0x8000e554, 0x8000f2ec]
+   .rodata: [0x8032cec8, 0x8032cf08]
+   .data: [0x80347c28, 0x80347c78]
+   .sdata2: [0x803d6480, 0x803d6488]
+
 libs/JSystem/JKernel/JKRDecomp.cpp:
     .text: [0x8000f2ec, 0x8000fa00]
     .data: [0x80347c78, 0x80347cc8]

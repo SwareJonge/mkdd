@@ -166,15 +166,15 @@ public:
     SDIDirEntry *findResType(u32) const;
     SDIFileEntry *findTypeResource(u32, u32) const;
 
-    static CompressionMethod convertAttrToCompressionType(int attr)
+    static int convertAttrToCompressionType(int attr)
     {
-        CompressionMethod compression;
+        int compression;
         if (FLAG_ON(attr, JKRARCHIVE_ATTR_COMPRESSION))
-            compression = TYPE_NONE;
+            compression = JKRCOMPRESSION_NONE;
         else if (!FLAG_ON(attr, JKRARCHIVE_ATTR_YAY0))
-            compression = TYPE_YAZ0;
+            compression = JKRCOMPRESSION_YAZ0;
         else
-            compression = TYPE_YAY0;
+            compression = JKRCOMPRESSION_YAY0;
 
         return compression;
     }
@@ -254,8 +254,8 @@ struct JKRCompArchive : public JKRArchive
     EMountDirection mMountDirection; // _60
     u32 _64;                         // _64
     JKRAramBlock *mAramPart;         // _68
-    unknown _6C;                     // _6C
-    JKRDvdFile *mDvdFile;            // _70
+    u32 _6C;                         // _6C
+    JKRFile *mDvdFile;               // _70
     u32 mSizeOfMemPart;              // _74
     u32 mSizeOfAramPart;             // _78
     u32 _7C;                         // _7C
@@ -271,8 +271,8 @@ struct JKRDvdArchive : public JKRArchive
     virtual void *fetchResource(void *resourceBuffer, u32 bufferSize, SDIFileEntry *entry, u32 *resSize); // _3C
 
     bool open(long);
-    static u32 fetchResource_subroutine(long, u32, u32, unsigned char *, u32, int, int);
-    static u32 fetchResource_subroutine(long, u32, u32, JKRHeap *, int, int, unsigned char **);
+    static u32 fetchResource_subroutine(long, u32, u32, u8 *, u32, int, int);
+    static u32 fetchResource_subroutine(long, u32, u32, JKRHeap *, int, int, u8 **);
 
     // Unused/inlined:
     unknown fixedInit(long, EMountDirection);
@@ -282,10 +282,10 @@ struct JKRDvdArchive : public JKRArchive
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    CompressionMethod mCompression;     // _5C
+    CompressionMethod mCompression;  // _5C
     EMountDirection mMountDirection; // _60
     int _64;                         // _64
-    JKRDvdFile *mDvdFile;            // _68
+    JKRFile *mDvdFile;               // _68
 };
 
 struct JKRMemArchive : public JKRArchive
@@ -323,7 +323,7 @@ struct JKRMemArchive : public JKRArchive
     bool mIsOpen;                    // _6C
 };
 
-inline CompressionMethod JKRConvertAttrToCompressionType(int attr)
+inline int JKRConvertAttrToCompressionType(int attr)
 {
     return JKRArchive::convertAttrToCompressionType(attr);
 }

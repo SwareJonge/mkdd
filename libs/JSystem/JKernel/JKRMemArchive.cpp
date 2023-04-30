@@ -161,7 +161,7 @@ void *JKRMemArchive::fetchResource(void *buffer, u32 bufferSize, SDIFileEntry *f
     }
     else
     {
-        CompressionMethod compression = JKRConvertAttrToCompressionType(fileEntry->getAttr());
+        int compression = JKRConvertAttrToCompressionType(fileEntry->getAttr());
         void *data = mArchiveData + fileEntry->mDataOffset;
         srcLength =
             fetchResource_subroutine((u8 *)data, srcLength, (u8 *)buffer, bufferSize, compression);
