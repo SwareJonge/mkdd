@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include "macros.h"
+
 typedef signed char s8;
 typedef signed short s16;
 typedef signed long s32;
@@ -36,15 +38,6 @@ typedef int unknown;
 #define null 0
 
 #define UINT32_MAX 0xffffffff
-
-// Array size define
-#define ARRAY_SIZE(o) (sizeof((o)) / sizeof(*(o)))
-
-// Get the maximum of two values
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
-// Get the minimum of two values
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
 // Align X to the previous N bytes (N must be power of two)
 #define ALIGN_PREV(X, N) ((X) & ~((N)-1))

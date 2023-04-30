@@ -282,7 +282,7 @@ struct JKRDvdArchive : public JKRArchive
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    CompressionMethod mCompression;  // _5C
+    int mCompression;  // _5C
     EMountDirection mMountDirection; // _60
     int _64;                         // _64
     JKRFile *mDvdFile;               // _68

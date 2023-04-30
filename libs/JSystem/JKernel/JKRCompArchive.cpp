@@ -1,5 +1,5 @@
 #include <dolphin/math.h>
-
+#include <dolphin/stl.h>
 #include <JSystem/JKernel/JKRArchive.h>
 #include <JSystem/JKernel/JKRAram.h>
 #include <JSystem/JKernel/JKRDvdAramRipper.h>

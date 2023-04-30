@@ -83,6 +83,12 @@ libs/JSystem/JKernel/JKRDvdAramRipper.cpp:
     .sdata: [0x803d3260, 0x803d3268]
     .sbss: [0x803d49f8, 0x803d4a40]
 
+libs/JSystem/JKernel/JKRDvdArchive.cpp:
+    .text: [0x80010e4c, 0x80011a44]
+    .rodata: [0x8032cf30, 0x8032cfa8]
+    .data: [0x80347d00, 0x80347d50]
+    .sdata2: [0x803d6490, 0x803d6498]
+
 libs/JSystem/JKernel/JKRDvdRipper.cpp:
     .text: [0x80011a44, 0x80012728]
     .ctors: [0x802d84c0, 0x802d84c4]
