@@ -69,7 +69,7 @@ jobs:
       
       - name: Print progress(Release)
         run: |
-          python calcprogress.py -f
+          .\tools\ProgressCalculator.exe
 
       - name: Clean
         run: |          
