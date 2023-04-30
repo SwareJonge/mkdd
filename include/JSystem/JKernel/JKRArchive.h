@@ -210,6 +210,7 @@ enum JKRMemBreakFlag
 class JKRAramArchive : public JKRArchive
 {
 public:
+    JKRAramArchive();
     JKRAramArchive(long, EMountDirection);
 
     virtual ~JKRAramArchive();                                       // _08
@@ -218,15 +219,17 @@ public:
     virtual void *fetchResource(void *, u32, SDIFileEntry *, u32 *); // _44
 
     bool open(long);
+    u32 getAramAddress_Entry(SDIFileEntry *fileEntry);
+    u32 getAramAddress(const char *file);
     static u32 fetchResource_subroutine(u32, u32, u8 *, u32, int);
     static u32 fetchResource_subroutine(u32, u32, JKRHeap *, int, u8 **);
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    CompressionMethod mCompression;  // _5C
+    int mCompression;                // _5C
     EMountDirection mMountDirection; // _60
     JKRAramBlock *mBlock;            // _64
-    JKRDvdFile *mDvdFile;            // _68
+    JKRFile *mDvdFile;               // _68
 };
 
 struct JKRCompArchive : public JKRArchive
@@ -263,6 +266,7 @@ struct JKRCompArchive : public JKRArchive
 
 struct JKRDvdArchive : public JKRArchive
 {
+    JKRDvdArchive();
     JKRDvdArchive(long, JKRArchive::EMountDirection);
 
     virtual ~JKRDvdArchive();                                                                             // _00

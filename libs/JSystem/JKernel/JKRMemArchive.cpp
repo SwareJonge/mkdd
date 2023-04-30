@@ -4,6 +4,8 @@
 #include <JSystem/JKernel/JKRDvdRipper.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
+JKRMemArchive::JKRMemArchive() : JKRArchive() {}
+
 JKRMemArchive::JKRMemArchive(s32 entryNum, EMountDirection mountDirection) : JKRArchive(entryNum, MOUNT_MEM)
 {
     mIsMounted = false;

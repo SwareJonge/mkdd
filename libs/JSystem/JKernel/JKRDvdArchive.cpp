@@ -5,6 +5,8 @@
 #include <JSystem/JKernel/JKRDvdRipper.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
+JKRDvdArchive::JKRDvdArchive() : JKRArchive() {}
+
 JKRDvdArchive::JKRDvdArchive(s32 entryNum, EMountDirection mountDirection) : JKRArchive(entryNum, MOUNT_DVD)
 {
     mMountDirection = mountDirection;
@@ -54,7 +56,7 @@ JKRDvdArchive::~JKRDvdArchive() {
 }
 
 #ifdef DEBUG
-CW_FORCE_STRINGS(JKRDvdArchive_cpp, "JKRDvdArchive.cpp", "isMounted()", "mMountCount == 1")
+CW_FORCE_STRINGS(JKRDvdArchive_cpp, __FILE__, "isMounted()", "mMountCount == 1")
 #endif
 
 bool JKRDvdArchive::open(long entryNum)
@@ -137,37 +139,37 @@ bool JKRDvdArchive::open(long entryNum)
     return true;
 }
 
-void *JKRDvdArchive::fetchResource(SDIFileEntry *entry, u32 *outSize) {
+void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize) {
     JUT_ASSERT(428, isMounted());
     u32 sizeptr;
     u32 size;
     u8 *data;
 
-    if(outSize == nullptr) {
-        outSize = &sizeptr;
+    if(pSize == nullptr) {
+        pSize = &sizeptr;
     }
 
-    int compression = JKRConvertAttrToCompressionType((u8)(entry->mFlag >> 24));
+    int compression = JKRConvertAttrToCompressionType((u8)(fileEntry->mFlag >> 24));
 
-    if(entry->mData == nullptr) {
-        size = fetchResource_subroutine(mEntryNum, _64 + entry->mDataOffset, entry->mSize, mHeap, (int)compression, mCompression, &data);
-        *outSize = size;
+    if(fileEntry->mData == nullptr) {
+        size = fetchResource_subroutine(mEntryNum, _64 + fileEntry->mDataOffset, fileEntry->mSize, mHeap, (int)compression, mCompression, &data);
+        *pSize = size;
         if(size == 0) {
             return nullptr;
         }
-        entry->mData = data;
+        fileEntry->mData = data;
         if (compression == JKRCOMPRESSION_YAZ0) {
-            setExpandSize(entry, *outSize);
+            setExpandSize(fileEntry, *pSize);
         }
     }
     else if (compression == JKRCOMPRESSION_YAZ0) {
-        *outSize = getExpandSize(entry);
+        *pSize = getExpandSize(fileEntry);
     }
     else {
-        *outSize = entry->mSize;
+        *pSize = fileEntry->mSize;
     }
 
-    return entry->mData;
+    return fileEntry->mData;
 }
 
 void *JKRDvdArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry *fileEntry, u32 *pSize)

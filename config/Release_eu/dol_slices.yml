@@ -17,6 +17,12 @@ libs/JSystem/JKernel/JKRAram.cpp:
     .sdata: [0x803d3258, 0x803d3260]
     .sdata2: [0x803d6460, 0x803d6468]
 
+libs/JSystem/JKernel/JKRAramArchive.cpp:
+    .text: [0x8000b3b0, 0x8000beac]
+    .data: [0x80347b08, 0x80347b78]
+    .rodata: [0x8032ce00, 0x8032ce28]
+    .sdata2: [0x803d6468, 0x803d6470]
+
 libs/JSystem/JKernel/JKRAramBlock.cpp:
     .text: [0x8000beac, 0x8000c138]
     .data: [0x80347b78, 0x80347b88]
