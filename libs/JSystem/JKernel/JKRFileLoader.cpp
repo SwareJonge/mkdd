@@ -1,5 +1,5 @@
-#include <dolphin/ctype.h>
-#include <dolphin/string.h>
+#include <ctype.h>
+#include <string.h>
 #include "JSystem/JKernel/JKRFileLoader.h"
 
 JSUList<JKRFileLoader> JKRFileLoader::sVolumeList;
@@ -86,16 +86,7 @@ const char *JKRFileLoader::fetchVolumeName(char *buffer, long bufferSize, const 
         {
             if (1 < bufferSize)
             {
-                int lower_char; // this should be using tolower
-                char ch = *path;
-                if (ch == -1) {
-                    lower_char = -1;
-                }
-                else {
-                    lower_char = __lower_map[ch & 0xFF];
-                }
-
-                *buffer = lower_char;
+                *buffer = _tolower(*path);
                 buffer++;
                 bufferSize--;
             }

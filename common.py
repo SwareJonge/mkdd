@@ -293,6 +293,7 @@ INCDIRS = [
     PPCDIS_INCDIR,
     BUILD_INCDIR,
     "include",
+    "libs/PowerPC_EABI_Support/include"
 ]
 MWCC_INCLUDES = ' '.join(f"-i {d}" for d in INCDIRS)
 GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
@@ -337,7 +338,19 @@ CFLAGS = [
 JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
 JSYSTEM_RELEASE = CFLAGS + [ "-opt level=4, schedule"]
 # confusion
-MSL_C = CFLAGS + ["-common off", "-use_lmw_stmw off", "-opt level=0, schedule"]
+
+MSL_C = [ 
+    "-opt level=0, peephole, schedule, nospace",
+    "-use_lmw_stmw on",
+    "-fp hard",
+    "-fp_contract on",
+    "-Cpp_exceptions off",
+    "-RTTI off",
+    "-common off",
+    "-str pool",
+    "-rostr",
+    "-inline off, deferred"
+]
 
 BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]
 KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
@@ -351,6 +364,7 @@ LOCAL_CFLAGS = [
 ]
 DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 MSL_C_CFLAGS = ' '.join(MSL_C + LOCAL_CFLAGS)
+
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)

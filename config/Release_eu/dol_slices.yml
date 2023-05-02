@@ -238,15 +238,15 @@ libs/JSystem/JAudio/JASReport.cpp:
     .bss: [0x8036e7c8, 0x8036e7e0]
     .sbss: [0x803d4cb8, 0x803d4cc8]
 
-libs/dolphin/__ppc_eabi_init.cpp:
+libs/dolphin/os/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800ec7e8, 0x800ec87c]
 
-libs/PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/signal.c:
     .text: [0x80106b24, 0x80106c0c]
     .bss: [0x80386130, 0x80386148]
 
-libs/PowerPC_EABI_Support/Runtime/__mem.c:
+libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
     .init: [0x80003458, 0x80003590]
 
 src/Bando/EngineSound.cpp:

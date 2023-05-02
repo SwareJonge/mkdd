@@ -7,6 +7,7 @@ extern "C"
 #endif // ifdef __cplusplus
 
 void exit(int);
+void __exit();
 
 #ifdef __cplusplus
 };

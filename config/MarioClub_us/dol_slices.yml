@@ -248,15 +248,50 @@ libs/JSystem/JAudio/JASReport.cpp:
     .bss: [0x803aec98, 0x803aecb0]
     .sbss: [0x80415a28, 0x80415a38]
 
-libs/dolphin/__ppc_eabi_init.cpp:
+libs/dolphin/os/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800f31b8, 0x800f324c]
 
-libs/PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+#libs/PowerPC_EABI_Support/src/MSL_C/PPC_EABI/abort_exit.c:
+    #.text: [0x8010679c, 0x801068f4]
+    #.bss: [0x803c61b8, 0x803c62b8]
+    #.sbss: [0x80416198, 0x804161a8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/alloc.c:
+    .text: [0x801068f4, 0x80106f6c]
+    .rodata: [0x8036b140, 0x8036b158]
+    .bss: [0x803c62b8, 0x803c62f0]
+    .sbss: [0x804161a8, 0x804161b0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/ansi_files.c:
+    .text: [0x80106f6c, 0x80107088]
+    .data: [0x80392cb8, 0x80392df8]
+    .bss: [0x803c62f0, 0x803c65f0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/ansi_fp.c:
+    .text: [0x80107088, 0x80108bd0]
+    .rodata: [0x8036b158, 0x8036b238]
+    .data: [0x80392df8, 0x80392f60]
+    .sdata2: [0x80418460, 0x80418490]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/arith.c:
+    .text: [0x80108bd0, 0x80108be0]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/bsearch.c:
+    #.text: [0x80108be0, 0x80108cdc]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/buffer_io.c:
+    .text: [0x80108cdc, 0x80108de0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/ctype.c:
+    .text: [0x80108dec, 0x80108ef0]
+    .data: [0x80392f60, 0x80393260]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/signal.c:
     .text: [0x8010d4f4, 0x8010d5dc]
     .bss: [0x803c65f0, 0x803c6608]
 
-libs/PowerPC_EABI_Support/Runtime/__mem.c:
+libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
     .init: [0x80003458, 0x80003590]
 
 src/Bando/EngineSound.cpp:

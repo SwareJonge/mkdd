@@ -34,8 +34,18 @@ typedef int BOOL;
 
 typedef int unknown;
 
+#ifndef __cplusplus
+typedef unsigned short wchar_t;
+typedef wchar_t wint_t;
+#endif
+
+// Basic defines to allow newer-like C++ code to be written
+#define TRUE 1
+#define FALSE 0
+
 #define nullptr 0
 #define null 0
+#define NULL 0
 
 #define UINT32_MAX 0xffffffff
 
@@ -43,7 +53,7 @@ typedef int unknown;
 #define ALIGN_PREV(X, N) ((X) & ~((N)-1))
 // Align X to the next N bytes (N must be power of two)
 #define ALIGN_NEXT(X, N) ALIGN_PREV(((X) + (N)-1), N)
-#define IS_ALIGNED(X, N)(((X) & ((N)-1)) == 0)
+#define IS_ALIGNED(X, N) (((X) & ((N)-1)) == 0)
 #define IS_NOT_ALIGNED(X, N) (((X) & ((N)-1)) != 0)
 
 #define READU32_BE(ptr, offset) \
