@@ -1,6 +1,6 @@
 #include "types.h"
-#define K1 0x80808080
-#define K2 0xFEFEFEFF
+//#define K1 0x80808080
+//#define K2 0xFEFEFEFF
 
 size_t(strlen)(const char* str)
 {
@@ -17,6 +17,8 @@ char*(strcpy)(char* dst, const char* src)
 {
 	register u8 *destb, *fromb;
 	register u32 w, t, align;
+
+	u32 K1, K2;
 
 	fromb = (u8*)src;
 	destb = (u8*)dst;
@@ -38,7 +40,10 @@ char*(strcpy)(char* dst, const char* src)
 
 	w = *((int*)(fromb));
 
+	K2 = 0xFEFEFEFF;
 	t = w + K2;
+
+	K1 = 0x80808080;
 
 	t &= K1;
 	if (t)
@@ -114,6 +119,8 @@ int strcmp(const char* str1, const char* str2)
 	register u8* right = (u8*)str2;
 	u32 align, l1, r1, x;
 
+	u32 K1, K2;
+
 	l1 = *left;
 	r1 = *right;
 	if (l1 - r1) {
@@ -143,6 +150,10 @@ int strcmp(const char* str1, const char* str2)
 
 	l1 = *(int*)left;
 	r1 = *(int*)right;
+
+	K1 = 0x80808080;
+	K2 = 0xFEFEFEFF;
+
 	x  = l1 + K2;
 	if (x & K1) {
 		goto adjust;
@@ -257,9 +268,31 @@ void strtok(void)
 	// UNUSED FUNCTION
 }
 
-void strstr(void)
-{
-	// UNUSED FUNCTION
+char* strstr(const char *str, const char *pat) {
+    unsigned char* s1 = (unsigned char*)str - 1;
+    unsigned char* p1 = (unsigned char*)pat - 1;
+    unsigned long firstc, c1, c2;
+
+    if ((pat == 0) || (!(firstc = *++p1))) {
+        return ((char*)str);
+    }
+
+    while (c1 = *++s1) {
+        if (c1 == firstc) {
+            const unsigned char* s2 = s1 - 1;
+            const unsigned char* p2 = p1 - 1;
+
+            while ((c1 = *++s2) == (c2 = *++p2) && c1) {
+
+            }
+
+            if (!c2) {
+                return ((char*)s1);
+            }
+        }
+    }
+
+    return NULL;
 }
 
 void strerror(void)
