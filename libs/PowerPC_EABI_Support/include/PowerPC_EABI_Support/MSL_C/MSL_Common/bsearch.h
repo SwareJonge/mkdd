@@ -8,10 +8,8 @@ extern "C"
 {
 #endif // ifdef __cplusplus
 
-void *
-bsearch (const void *key, const void *base0,
-         size_t nmemb, size_t size,
-         int (*compar)(const void *, const void *));
+void *bsearch(const void *key, const void *base0, size_t nmemb, size_t size,
+                int (*compar)(const void *, const void *));
 
 #ifdef __cplusplus
 };

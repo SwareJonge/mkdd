@@ -1,8 +1,6 @@
 #include "PowerPC_EABI_Support/MSL_C/MSL_Common/bsearch.h"
 
-void *
-bsearch(const void *key, const void *base,
-        size_t nmemb, size_t size,
+void *bsearch(const void *key, const void *base, size_t nmemb, size_t size,
         int (*compar)(const void *, const void *))
 {
     int cmp;
@@ -18,25 +16,25 @@ bsearch(const void *key, const void *base,
     if(cmp == 0)
         return (void *)p;
 
-    if(cmp < 0) {
+    if(cmp < 0)
         return NULL;
-    }
 
+    lower = 1;
     upper = nmemb - 1;
-    lower = 1;        
+          
     while (lower <= upper)
     {
-        index = lower + upper >> 1;
-        p = (const char *)base + size * index;
+        index = (lower + upper) / 2;
+        p = (const char *)base + (size * index);
         cmp = (*compar)(key, p);
+
         if (cmp == 0)
             return (void *)p;
         if (cmp < 0)
             upper = index - 1;
-        else {
+        else 
             lower = index + 1;
-        }
     }
 
-    return (NULL);
+    return NULL;
 }
