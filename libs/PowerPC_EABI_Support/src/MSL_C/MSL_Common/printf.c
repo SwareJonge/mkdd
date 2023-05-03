@@ -48,11 +48,6 @@ typedef struct {
 	int precision;                       // _C
 } print_format;
 
-/*
- * --INFO--
- * Address:	800C9094
- * Size:	000504
- */
 static const char* parse_format(const char* format_string, va_list* arg, print_format* format)
 {
 	print_format f;
@@ -288,11 +283,6 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
 	return ((const char*)s + 1);
 }
 
-/*
- * --INFO--
- * Address:	800C8E3C
- * Size:	000258
- */
 static char* long2str(long num, char* buff, print_format format)
 {
 	unsigned long unsigned_num, base;
@@ -397,11 +387,6 @@ static char* long2str(long num, char* buff, print_format format)
 	return p;
 }
 
-/*
- * --INFO--
- * Address:	800C8B28
- * Size:	000314
- */
 static char* longlong2str(long long num, char* pBuf, print_format fmt)
 {
 	unsigned long long unsigned_num, base;
@@ -504,11 +489,6 @@ static char* longlong2str(long long num, char* pBuf, print_format fmt)
 	return p;
 }
 
-/*
- * --INFO--
- * Address:	800C87F0
- * Size:	000338
- */
 static char* double2hex(long double num, char* buff, print_format format)
 {
 	int offset, what_nibble = 0;
@@ -638,11 +618,6 @@ static char* double2hex(long double num, char* buff, print_format format)
 	return p;
 }
 
-/*
- * --INFO--
- * Address:	800C86C4
- * Size:	00012C
- */
 static void round_decimal(decimal* dec, int new_length)
 {
 	char c;
@@ -697,11 +672,6 @@ static void round_decimal(decimal* dec, int new_length)
 	dec->sig.length = new_length;
 }
 
-/*
- * --INFO--
- * Address:	800C7FA8
- * Size:	00071C
- */
 static char* float2str(long double num, char* buff, print_format format)
 {
 	decimal dec;
@@ -924,11 +894,6 @@ static char* float2str(long double num, char* buff, print_format format)
 	return p;
 }
 
-/*
- * --INFO--
- * Address:	800C7834
- * Size:	000774
- */
 static int __pformatter(void* (*WriteProc)(void*, const char*, size_t), void* WriteProcArg, const char* format_str, va_list arg)
 {
 	int num_chars, chars_written, field_width;
@@ -1197,21 +1162,11 @@ static int __pformatter(void* (*WriteProc)(void*, const char*, size_t), void* Wr
 	return chars_written;
 }
 
-/*
- * --INFO--
- * Address:	800C77DC
- * Size:	000058
- */
 static void* __FileWrite(void* pFile, const char* pBuffer, size_t char_num)
 {
 	return (fwrite(pBuffer, 1, char_num, (FILE*)pFile) == char_num ? pFile : 0);
 }
 
-/*
- * --INFO--
- * Address:	800C7770
- * Size:	00006C
- */
 static void* __StringWrite(void* pCtrl, const char* pBuffer, size_t char_num)
 {
 	size_t chars;
@@ -1224,31 +1179,16 @@ static void* __StringWrite(void* pCtrl, const char* pBuffer, size_t char_num)
 	return (void*)1;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E8
- */
 void printf(const char* format, ...)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E0
- */
 int fprintf(FILE* file, const char* format, ...)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C76D8
- * Size:	000098
- */
 int vprintf(const char* pFormat, va_list arg)
 {
 	int ret;
@@ -1263,21 +1203,11 @@ int vprintf(const char* pFormat, va_list arg)
 	return ret;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00008C
- */
 void vfprintf(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C7664
- * Size:	000074
- */
 int vsnprintf(char* s, size_t n, const char* format, va_list arg)
 {
 	int end;
@@ -1295,18 +1225,8 @@ int vsnprintf(char* s, size_t n, const char* format, va_list arg)
 	return end;
 }
 
-/*
- * --INFO--
- * Address:	800C75EC
- * Size:	000078
- */
 int vsprintf(char* s, const char* format, va_list arg) { return vsnprintf(s, 0xFFFFFFFF, format, arg); }
 
-/*
- * --INFO--
- * Address:	800C7518
- * Size:	0000D4
- */
 int snprintf(char* s, size_t n, const char* format, ...)
 {
 	va_list args;
@@ -1314,11 +1234,6 @@ int snprintf(char* s, size_t n, const char* format, ...)
 	return vsnprintf(s, n, format, args);
 }
 
-/*
- * --INFO--
- * Address:	800C7438
- * Size:	0000E0
- */
 int sprintf(char* s, const char* format, ...)
 {
 	va_list args;

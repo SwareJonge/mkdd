@@ -2,11 +2,6 @@
 #define K1 0x80808080
 #define K2 0xFEFEFEFF
 
-/*
- * --INFO--
- * Address:	800CA910
- * Size:	00001C
- */
 size_t(strlen)(const char* str)
 {
 	size_t len = -1;
@@ -18,11 +13,6 @@ size_t(strlen)(const char* str)
 	return (len);
 }
 
-/*
- * --INFO--
- * Address:	800CA858
- * Size:	0000B8
- */
 char*(strcpy)(char* dst, const char* src)
 {
 	register u8 *destb, *fromb;
@@ -78,11 +68,6 @@ bytecopy:
 	return dst;
 }
 
-/*
- * --INFO--
- * Address:	800CA814
- * Size:	000044
- */
 char* strncpy(char* dst, const char* src, size_t n)
 {
 	const unsigned char* p = (const unsigned char*)src - 1;
@@ -100,11 +85,6 @@ char* strncpy(char* dst, const char* src, size_t n)
 	return (dst);
 }
 
-/*
- * --INFO--
- * Address:	800CA7E8
- * Size:	00002C
- */
 char* strcat(char* dst, const char* src)
 {
 	const u8* p = (u8*)src - 1;
@@ -121,21 +101,11 @@ char* strcat(char* dst, const char* src)
 	return (dst);
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00004C
- */
 void strncat(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800CA6C0
- * Size:	000128
- */
 int strcmp(const char* str1, const char* str2)
 {
 	// bless metrowerks for this implementation
@@ -211,11 +181,6 @@ bytecopy:
 	} while (1);
 }
 
-/*
- * --INFO--
- * Address:	800CA680
- * Size:	000040
- */
 int strncmp(const char* str1, const char* str2, size_t n)
 {
 	const u8* p1 = (u8*)str1 - 1;
@@ -232,11 +197,6 @@ int strncmp(const char* str1, const char* str2, size_t n)
 	return 0;
 }
 
-/*
- * --INFO--
- * Address:	800CA650
- * Size:	000030
- */
 char* strchr(const char* str, int chr)
 {
 	const u8* p = (u8*)str - 1;
@@ -250,31 +210,16 @@ char* strchr(const char* str, int chr)
 	return (c ? 0 : (char*)p);
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000020
- */
 void strcoll(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000080
- */
 void strxfrm(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800CA608
- * Size:	000048
- */
 char* strrchr(const char* str, int chr)
 {
 	const u8* p = (u8*)str - 1;
@@ -292,71 +237,36 @@ char* strrchr(const char* str, int chr)
 	return (c ? 0 : (char*)p);
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000D4
- */
 void strpbrk(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000D0
- */
 void strspn(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000D0
- */
 void strcspn(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00013C
- */
 void strtok(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000068
- */
 void strstr(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000028
- */
 void strerror(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000458
- */
 void __strerror(void)
 {
 	// UNUSED FUNCTION

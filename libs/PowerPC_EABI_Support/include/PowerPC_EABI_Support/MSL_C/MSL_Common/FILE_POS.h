@@ -8,10 +8,10 @@
 extern "C" {
 #endif // ifdef __cplusplus
 
-int fseek(FILE* stream, u32 offset, int whence);
-int _fseek(FILE* stream, u32 offset, int whence);
-int ftell(FILE* stream);
-int _ftell(FILE* stream);
+    int fseek(FILE *stream, fpos_t offset, int whence);
+    int _fseek(FILE *stream, fpos_t offset, int whence);
+    int ftell(FILE *stream);
+    int _ftell(FILE *stream);
 
 #ifdef __cplusplus
 };

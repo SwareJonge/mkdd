@@ -1,14 +1,7 @@
 #include "types.h"
 #include "mem.h"
 
-/*
- * --INFO--
- * Address:	800C708C
- * Size:	0000CC
- */
-
 // thanks, kiwi!
-
 void* memmove(void* dst, const void* src, size_t len)
 {
 	u8* csrc;
@@ -55,12 +48,6 @@ void* memmove(void* dst, const void* src, size_t len)
 	return dst;
 }
 
-/*
- * --INFO--
- * Address:	800C7060
- * Size:	00002C
- */
-
 void* memchr(u8* s, int c, size_t n)
 {
 	int n_count;
@@ -78,13 +65,6 @@ void* memchr(u8* s, int c, size_t n)
 	return 0;
 }
 
-/*
- * --INFO--
- * Address:	800C7034
- * Size:	00002C
- */
-
-// https://decomp.me/scratch/hTmGp
 u8* __memrchr(u8* s, u8 c, size_t n)
 {
 	int n_count;
@@ -101,12 +81,6 @@ u8* __memrchr(u8* s, u8 c, size_t n)
 
 	return 0;
 }
-
-/*
- * --INFO--
- * Address:	800C6FE8
- * Size:	00004C
- */
 
 int memcmp(const void* __s1, const void* __s2, size_t __n)
 {

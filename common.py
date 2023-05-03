@@ -341,15 +341,17 @@ JSYSTEM_RELEASE = CFLAGS + [ "-opt level=4, schedule"]
 
 MSL_C = [ 
     "-opt level=0, peephole, schedule, nospace",
-    "-use_lmw_stmw on",
+    "-inline off, deferred",
+    "-sym on",
+    "-enum int",
+    "-rostr",
+    "-str pool",
     "-fp hard",
     "-fp_contract on",
+    "-use_lmw_stmw on",
     "-Cpp_exceptions off",
     "-RTTI off",
-    "-common off",
-    "-str pool",
-    "-rostr",
-    "-inline off, deferred"
+    "-common off"
 ]
 
 BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]

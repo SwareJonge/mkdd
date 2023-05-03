@@ -156,11 +156,6 @@ unsigned long __strtoul(int base, int max_width, int (*ReadProc)(void*, int, int
 	return value;
 }
 
-/*
- * --INFO--
- * Address:	800CBAD4
- * Size:	00040C
- */
 unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg, int* chars_scanned,
                               int* negative, int* overflow)
 {
@@ -293,11 +288,6 @@ unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, in
 	return value;
 }
 
-/*
- * --INFO--
- * Address:	800CBA28
- * Size:	0000AC
- */
 unsigned long strtoul(const char* str, char** end, int base)
 {
 	unsigned long value;
@@ -323,21 +313,11 @@ unsigned long strtoul(const char* str, char** end, int base)
 	return value;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000B4
- */
 void strtoull(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800CB938
- * Size:	0000F0
- */
 long strtol(const char* str, char** end, int base)
 {
 	unsigned long uvalue;
@@ -364,31 +344,16 @@ long strtol(const char* str, char** end, int base)
 	return svalue;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000124
- */
 void strtoll(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000C0
- */
 int atoi(const char* str)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000C0
- */
 void atol(void)
 {
 	// UNUSED FUNCTION

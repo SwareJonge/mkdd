@@ -2,11 +2,6 @@
 #include "ctype.h"
 #include "limits.h"
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000070
- */
 static int __count_trailing_zerol(unsigned long x)
 {
 	int result           = 0;
@@ -36,11 +31,6 @@ static int __count_trailing_zerol(unsigned long x)
 	return result;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000FC
- */
 static int __count_trailing_zero(double x)
 {
 	unsigned long* l = (unsigned long*)&x;
@@ -52,11 +42,6 @@ static int __count_trailing_zero(double x)
 	return (int)(sizeof(unsigned long) * CHAR_BIT + __count_trailing_zerol(l[0] | 0x00100000));
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000080
- */
 static int __must_round(const decimal* d, int digits)
 {
 	u8 const* i = d->sig.text + digits;
@@ -86,11 +71,6 @@ static int __must_round(const decimal* d, int digits)
 	return -1;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000058
- */
 static void __dorounddecup(decimal* d, int digits)
 {
 	u8* b = d->sig.text;
@@ -110,11 +90,6 @@ static void __dorounddecup(decimal* d, int digits)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000FC
- */
 static void __rounddec(decimal* d, int digits)
 {
 	int unkBool;
@@ -131,11 +106,6 @@ static void __rounddec(decimal* d, int digits)
 	
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000110
- */
 void __ull2dec(decimal* result, u64 val)
 {
 	result->sign = 0;
@@ -172,12 +142,6 @@ void __ull2dec(decimal* result, u64 val)
 	result->exp = result->sig.length - 1;
 }
 
-/*
- * --INFO--
- * Address:	800C5E80
- * Size:	000278
- */
-#pragma sym on
 void __timesdec(decimal* result, const decimal* x, const decimal* y)
 {
 	u32 accumulator = 0;
@@ -245,11 +209,6 @@ void __timesdec(decimal* result, const decimal* x, const decimal* y)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000F0
- */
 void __str2dec(decimal* d, const char* s, short exp)
 {
 	int i;
@@ -284,11 +243,6 @@ void __str2dec(decimal* d, const char* s, short exp)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C46FC
- * Size:	001784
- */
 void __two_exp(decimal* result, long exp)
 {
 	switch (exp) {
@@ -375,11 +329,6 @@ void __two_exp(decimal* result, long exp)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C45F0
- * Size:	00010C
- */
 BOOL __equals_dec(const decimal* x, const decimal* y)
 {
 	if (x->sig.text[0] == 0) {
@@ -426,11 +375,6 @@ BOOL __equals_dec(const decimal* x, const decimal* y)
 	return FALSE;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000F8
- */
 BOOL __less_dec(const decimal* x, const decimal* y)
 {
 	if (x->sig.text[0] == 0) {
@@ -472,11 +416,6 @@ BOOL __less_dec(const decimal* x, const decimal* y)
 	return x->exp < y->exp;
 }
 
-/*
- * --INFO--
- * Address:	800C40F4
- * Size:	0004FC
- */
 void __minus_dec(decimal* z, const decimal* x, const decimal* y)
 {
 	int zlen, dexp;
@@ -577,11 +516,6 @@ done:
 	z->sig.length = (u8)(i - ib + 1);
 }
 
-/*
- * --INFO--
- * Address:	800C3D40
- * Size:	0003B4
- */
 void __num2dec_internal(decimal* d, double x)
 {
 	s8 sign = (s8)(signbit(x) != 0);
@@ -621,11 +555,6 @@ void __num2dec_internal(decimal* d, double x)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C3B9C
- * Size:	0001A4
- */
 void __num2dec(const decform* form, double x, decimal* d)
 {
 	short digits = form->digits;
@@ -653,11 +582,6 @@ void __num2dec(const decform* form, double x, decimal* d)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C2B1C
- * Size:	001080
- */
 double __dec2num(const decimal* d)
 {
 	if (d->sig.length <= 0) {

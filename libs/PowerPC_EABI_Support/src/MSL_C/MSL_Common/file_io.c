@@ -1,11 +1,7 @@
 #include "types.h"
+#include "string.h"
 #include "PowerPC_EABI_Support/MSL_C/MSL_Common/ansi_files.h"
 
-/*
- * --INFO--
- * Address:	800C6748
- * Size:	0001BC
- */
 int fclose(FILE* file)
 {
 	int flush_result, close_result;
@@ -27,14 +23,9 @@ int fclose(FILE* file)
 	return ((flush_result || close_result) ? -1 : 0);
 }
 
-/*
- * --INFO--
- * Address:	800C6610
- * Size:	000138
- */
 int fflush(FILE* file)
 {
-	int pos;
+	u32 pos;
 
 	if (file == nullptr) {
 		return __flush_all();
@@ -61,11 +52,8 @@ int fflush(FILE* file)
 		return 0;
 	}
 
-	if (file->mMode.file_kind != __disk_file) {
+	if (file->mMode.file_kind != __disk_file || (pos = ftell(file)) < 0)
 		pos = 0;
-	} else {
-		pos = ftell(file);
-	}
 
 	if (__flush_buffer(file, 0) != 0) {
 		file->mState.error  = 1;
@@ -77,4 +65,29 @@ int fflush(FILE* file)
 	file->mPosition       = pos;
 	file->mBufferLength   = 0;
 	return 0;
+}
+
+int __msl_strnicmp(const char *s1, const char *s2, int n)
+{
+	int i;
+	char c1, c2;
+
+	for (i = 0; i < n; i++) {
+		c1 = tolower(*s1++);
+		c2 = tolower(*s2++);
+
+		if(c1 < c2) {
+			return -1;
+		}
+
+		if (c1 > c2) {
+			return 1;
+		}
+
+		if(c1 == '\0') {
+			return 0;
+		}
+	}
+	return 0;
+	
 }

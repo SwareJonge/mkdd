@@ -113,11 +113,6 @@ FILE __files[4] =
 };
 // clang-format on
 
-/*
- * --INFO--
- * Address:	800C2A74
- * Size:	0000A8
- */
 void __close_all()
 {
 	FILE* p = &__files[0];
@@ -126,7 +121,7 @@ void __close_all()
 	__begin_critical_region(stdin_access);
 
 	while (p) {
-		if (p->mMode.file_kind) {
+		if (p->mMode.file_kind != __closed_file) {
 			fclose(p);
 		}
 
@@ -143,12 +138,6 @@ void __close_all()
 
 	__end_critical_region(stdin_access);
 }
-
-/*
- * --INFO--
- * Address:	800C2A04
- * Size:	000070
- */
 
 u32 __flush_all()
 {

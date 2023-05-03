@@ -1,20 +1,10 @@
 #include "PowerPC_EABI_Support/MSL_C/MSL_Common/mbstring.h"
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00011C
- */
-// void mblen(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void mblen(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	800C6EFC
- * Size:	0000EC
- */
 static int is_utf8_complete(const char* s, size_t n)
 {
 	if (n == 0) { // must have more than zero characters
@@ -52,28 +42,73 @@ static int is_utf8_complete(const char* s, size_t n)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000120
- */
-// void utf8_to_unicode(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+static int utf8_to_unicode(wchar_t *pwc, const char *s, size_t n)
+{
+	int number_of_bytes;
+	int isUTF8;
+	char *source;
+	u16 result_chr = 0;
 
-/*
- * --INFO--
- * Address:	800C6DDC
- * Size:	000120
- */
-int mbtowc(wchar_t* pwc, const char* s, size_t n) { return mbstowcs(pwc, s, n); }
+	if (!s)
+	{
+		return 0;
+	}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000A4
- */
+	if (n <= 0)
+	{
+		return -1;
+	}
+
+	number_of_bytes = is_utf8_complete(s, n);
+	if (number_of_bytes < 0)
+	{
+		return -1;
+	}
+
+	source = (char *)s;
+	switch (number_of_bytes)
+	{
+	case 3:
+		result_chr |= (*source++ & 0x0f);
+		result_chr <<= 6;
+	case 2:
+		result_chr |= (*source++ & 0x3f);
+		result_chr <<= 6;
+	case 1:
+		result_chr |= (*source++ & 0x7f);
+	}
+
+	if (result_chr == 0)
+	{
+		isUTF8 = 0;
+	}
+	else if (result_chr < 0x00000080)
+	{
+		isUTF8 = 1;
+	}
+	else if (result_chr < 0x00000800)
+	{
+		isUTF8 = 2;
+	}
+	else
+	{
+		isUTF8 = 3;
+	}
+
+	if (isUTF8 != number_of_bytes)
+	{
+		return -1;
+	}
+	if (pwc)
+	{
+		*pwc = result_chr;
+	}
+
+	return number_of_bytes;
+}
+
+int mbtowc(wchar_t *pwc, const char *s, size_t n) { return utf8_to_unicode(pwc, s, n); }
+
 inline static int unicode_to_UTF8(char* s, wchar_t wchar)
 {
 	int number_of_bytes;
@@ -108,18 +143,8 @@ inline static int unicode_to_UTF8(char* s, wchar_t wchar)
 	return number_of_bytes;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000A4
- */
 inline int wctomb(char* s, wchar_t wchar) { return (unicode_to_UTF8(s, wchar)); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000188
- */
 inline int mbstowcs(wchar_t* pwc, const char* s, size_t n)
 {
 	u32 result_chr;
@@ -181,11 +206,6 @@ inline int mbstowcs(wchar_t* pwc, const char* s, size_t n)
 	return isUTF8;
 }
 
-/*
- * --INFO--
- * Address:	800C6CC4
- * Size:	000118
- */
 size_t wcstombs(char* s, const wchar_t* pwcs, size_t n)
 {
 	int chars_written = 0;
@@ -214,52 +234,27 @@ size_t wcstombs(char* s, const wchar_t* pwcs, size_t n)
 	return chars_written;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000054
- */
-// void mbrlen(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void mbrlen(void)
+{
+ 	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000188
- */
-// void mbrtowc(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void mbrtowc(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000B0
- */
-// void wcrtomb(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void wcrtomb(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0001E0
- */
-// void mbsrtowcs(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void mbsrtowcs(void)
+{
+ 	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000114
- */
-// void wcsrtombs(void)
-// {
-// 	// UNUSED FUNCTION
-// }
+void wcsrtombs(void)
+{
+	// UNUSED FUNCTION
+}

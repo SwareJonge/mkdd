@@ -119,31 +119,16 @@ static const unsigned long fix_pool_sizes[] = { 4, 12, 20, 36, 52, 68 };
 
 #define Block_empty(ths) (_sb = (SubBlock*)((char*)(ths) + 16)), SubBlock_is_free(_sb) && SubBlock_size(_sb) == Block_size((ths)) - 24
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000238
- */
 void Block_construct(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0001E4
- */
 void Block_subBlock(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0001F0
- */
 void Block_link(Block* ths, SubBlock* sb)
 {
 	SubBlock** st;
@@ -167,51 +152,26 @@ void Block_link(Block* ths, SubBlock* sb)
 		ths->max_size = SubBlock_size(*st);
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000074
- */
 void Block_unlink(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000284
- */
 void Block_report(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000050
- */
 void SubBlock_construct(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E0
- */
 void SubBlock_split(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000098
- */
 static SubBlock* SubBlock_merge_prev(SubBlock* ths, SubBlock** start)
 {
 	unsigned long prevsz;
@@ -233,11 +193,6 @@ static SubBlock* SubBlock_merge_prev(SubBlock* ths, SubBlock** start)
 	return ths;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000B8
- */
 static void SubBlock_merge_next(SubBlock* pBlock, SubBlock** pStart)
 {
 	SubBlock* next_sub_block;
@@ -274,31 +229,16 @@ static void SubBlock_merge_next(SubBlock* pBlock, SubBlock** pStart)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000088
- */
 void SubBlock_report(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000044
- */
 void link(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00004C
- */
 static Block* __unlink(__mem_pool_obj* pool_obj, Block* bp)
 {
 	Block* result = bp->next;
@@ -320,41 +260,21 @@ static Block* __unlink(__mem_pool_obj* pool_obj, Block* bp)
 	return result;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000B4
- */
 void link_new_block(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000DC
- */
 void allocate_from_var_pools(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000D8
- */
 void soft_allocate_from_var_pools(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C2770
- * Size:	000294
- */
 static void deallocate_from_var_pools(__mem_pool_obj* pool_obj, void* ptr)
 {
 	SubBlock* sb = SubBlock_from_pointer(ptr);
@@ -369,28 +289,13 @@ static void deallocate_from_var_pools(__mem_pool_obj* pool_obj, void* ptr)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000128
- */
 void FixBlock_construct(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000028
- */
 void __init_pool_obj(__mem_pool* pool_obj) { memset(pool_obj, 0, sizeof(__mem_pool_obj)); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00004C
- */
 static __mem_pool* get_malloc_pool(void)
 {
 	static __mem_pool protopool;
@@ -403,21 +308,11 @@ static __mem_pool* get_malloc_pool(void)
 	return &protopool;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0002D0
- */
 void allocate_from_fixed_pools(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C2618
- * Size:	000158
- */
 void deallocate_from_fixed_pools(__mem_pool_obj* pool_obj, void* ptr, unsigned long size)
 {
 	unsigned long i = 0;
@@ -475,51 +370,26 @@ void deallocate_from_fixed_pools(__mem_pool_obj* pool_obj, void* ptr, unsigned l
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000B4
- */
 void __report_on_pool_heap(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E4
- */
 void __report_on_heap(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000024
- */
 void __msize(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000054
- */
 void __pool_alloc(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C25C0
- * Size:	000058
- */
 void __pool_free(__mem_pool* pool, void* ptr)
 {
 	__mem_pool_obj* pool_obj;
@@ -539,41 +409,21 @@ void __pool_free(__mem_pool* pool, void* ptr)
 	}
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0007B4
- */
 void __pool_realloc(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00004C
- */
 void __pool_alloc_clear(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00007C
- */
 void malloc(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C2550
- * Size:	000070
- */
 void free(void* ptr)
 {
 	__begin_critical_region(malloc_pool_access);
@@ -581,41 +431,21 @@ void free(void* ptr)
 	__end_critical_region(malloc_pool_access);
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00008C
- */
 void realloc(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000088
- */
 void calloc(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000064
- */
 void __pool_free_all(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000090
- */
 void __malloc_free_all(void)
 {
 	// UNUSED FUNCTION

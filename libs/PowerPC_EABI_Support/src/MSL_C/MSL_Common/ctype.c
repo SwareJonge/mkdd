@@ -52,126 +52,57 @@ unsigned char __upper_map[256] = {
 	0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF,
 };
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-// void isalnum(void)
-//{
-//	// UNUSED FUNCTION
-//}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
+void isalnum(void)
+{
+	// UNUSED FUNCTION
+}
+
 int isalpha(int c) { return (int)(__ctype_map[(u8)c] & __letter); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-// void iscntrl(void)
-//{
-//	// UNUSED FUNCTION
-//}
+void iscntrl(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
 BOOL isdigit(int c)
 {
 	{ return (int)(__ctype_map[(u8)c] & __digit); }
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-// void isgraph(void)
-//{
-//	// UNUSED FUNCTION
-//}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
+void isgraph(void)
+{
+	// UNUSED FUNCTION
+}
+
 BOOL islower(unsigned char c)
 {
 	return __ctype_map[c] & olowc;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-// void isprint(void)
-//{
-//	// UNUSED FUNCTION
-//}
+void isprint(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-// void ispunct(void)
-//{
-//	// UNUSED FUNCTION
-//}
+void ispunct(void)
+{
+	// UNUSED FUNCTION
+}
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
 int isspace(int c) { return (int)(__ctype_map[(u8)c] & __whitespace); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
 BOOL isupper(int c)	{ return (int)(__ctype_map[(u8)c] & __upper_case); }
 
+BOOL isxdigit(int c) { return (int)(__ctype_map[(u8)c] & __hex_digit); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000018
- */
-BOOL isxdigit(unsigned char c) { return (int)(__ctype_map[c] & __hex_digit); }
-
-/*
- * --INFO--
- * Address:	800C6264
- * Size:	000024
- */
 int tolower(int c) { return (c == -1 ? -1 : (int)__lower_map[(u8)c]); }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000024
- */
 int toupper(int c) { return (c == -1 ? -1 : (int)__upper_map[(u8)c]); }
 
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000020
- */
-// void iswblank(void)
-//{
-//	// UNUSED FUNCTION
-//}
+void iswblank(void)
+{
+	// UNUSED FUNCTION
+}

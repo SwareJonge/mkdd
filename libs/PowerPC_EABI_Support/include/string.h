@@ -21,6 +21,8 @@ char* strstr(const char*, const char*);
 char* strrchr(const char* str, int chr);
 size_t strlen(const char*);
 
+int __msl_strnicmp(const char *s1, const char *s2, int n);
+
 #ifdef __cplusplus
 }
 #endif

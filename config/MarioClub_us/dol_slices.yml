@@ -287,9 +287,69 @@ libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/ctype.c:
     .text: [0x80108dec, 0x80108ef0]
     .data: [0x80392f60, 0x80393260]
 
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/direct_io.c:
+    .text: [0x80108ef0, 0x8010928c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/errno.c:
+    .sbss: [0x804161b0, 0x804161b8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/file_io.c:
+    .text: [0x8010928c, 0x8010954c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/FILE_POS.C:
+    .text: [0x8010954c, 0x801098a0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/locale.c:
+    .rodata: [0x8036b238, 0x8036b240]
+    .data: [0x80393260, 0x80393298]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mbstring.c:
+    .text: [0x801098a0, 0x80109cb4]
+    .sdata2: [0x80418490, 0x80418498]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
+    #.text: [0x80109cb4, 0x80109eec]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem_funcs.c:
+    .text: [0x80109eec, 0x8010a1fc]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/misc_io.c:
+    .text: [0x8010a1fc, 0x8010a20c]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/printf.c:
+    #.text: [0x8010a20c, 0x8010c3f0]
+    #.rodata: [0x8036b240, 0x8036b268]
+    #.data: [0x80393298, 0x803934c8]
+    #.sdata: [0x80414560, 0x80414568]
+    #.sdata2: [0x80418498, 0x804184a0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/scanf.c:
+    .text: [0x8010c3f0, 0x8010d4f4]
+    .rodata: [0x8036b268, 0x8036b290]
+    .data: [0x803934c8, 0x80393598]
+
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/signal.c:
     .text: [0x8010d4f4, 0x8010d5dc]
     .bss: [0x803c65f0, 0x803c6608]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/string.c:
+    #.text: [0x8010d5dc, 0x8010da90]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/strtold.c:
+    .text: [0x8010da90, 0x8010f09c]
+    .rodata: [0x8036b290, 0x8036b2e8]
+    .sdata2: [0x804184a0, 0x804184b8]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/strtoul.c:
+    #.text: [0x8010f09c, 0x8010f9e4]
+    #.data: [0x80393598, 0x80393620]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/float.c:
+    .sdata: [0x80414568, 0x80414598]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/wchar_io.c:
+    .text: [0x8010f9e4, 0x8010fa94]
+    
 
 libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
     .init: [0x80003458, 0x80003590]

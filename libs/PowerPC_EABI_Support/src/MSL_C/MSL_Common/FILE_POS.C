@@ -13,27 +13,6 @@
 #define SEEK_CUR (1)
 #define SEEK_END (2)
 
-/*
- * --INFO--
- * Address:	800C6BE0
- * Size:	0000E4
- */
-int ftell(FILE* stream)
-{
-	int retval;
-
-	__begin_critical_region(stdin_access);
-	retval = (long)_ftell(stream);
-	__end_critical_region(stdin_access);
-	return retval;
-}
-
-
-/*
- * --INFO--
- * Address:	........
- * Size:	0000AC
- */
 int _ftell(FILE* file)
 {
 	int charsInUndoBuffer = 0;
@@ -55,34 +34,36 @@ int _ftell(FILE* file)
 		position -= charsInUndoBuffer;
 	}
 
-	if (!file->mMode.binary_io) {
+	// got added in later it seems?
+	/*if (!file->mMode.binary_io) {
 		int n = file->mBufferPtr - file->mBuffer - charsInUndoBuffer;
 		u8* p = (u8*)file->mBuffer;
 
 		while (n--)
 			if (*p++ == '\n')
 				position++;
-	}
+	}*/
 
 	return (position);
 }
 
-/*
- * --INFO--
- * Address:	800C6970
- * Size:	000270
- */
-int _fseek(FILE* file, u32 offset, int whence)
+int ftell(FILE* stream)
 {
-	int bufferCode;
-	int pos;
-	int adjust;
-	u32 state;
-	int buffLen;
+	int retval;
 
-	char* ptr;
+	__begin_critical_region(stdin_access);
+	retval = (long)_ftell(stream);
+	__end_critical_region(stdin_access);
+	return retval;
+}
 
-	if (file->mMode.file_kind != 1 || file->mState.error != 0) {
+int _fseek(FILE *file, fpos_t offset, int whence)
+{
+	fpos_t pos;
+	__pos_proc func;
+
+	unsigned char fileKind = file->mMode.file_kind;
+	if (fileKind != 1 || file->mState.error != 0) {
 		errno = 0x28;
 		return -1;
 	}
@@ -98,37 +79,11 @@ int _fseek(FILE* file, u32 offset, int whence)
 
 	if (whence == SEEK_CUR) {
 		whence = SEEK_SET;
-		adjust = 0;
-		if ((file->mMode.file_kind != 1 && file->mMode.file_kind != 2) || file->mState.error != 0) {
-			errno = 0x28;
-			pos   = -1;
-		} else {
-			state = file->mState.io_state;
-			if (state == 0) {
-				pos = file->mPosition;
-			} else {
-				pos     = file->mBufferPosition;
-				ptr     = file->mBuffer;
-				buffLen = (file->mBufferPtr - ptr);
-				pos += buffLen;
-				if ((state >= 3)) {
-					adjust = (state - 2);
-					pos -= adjust;
-				}
 
-				if (file->mMode.binary_io == 0) {
-					int i;
-					for (i = (buffLen - adjust); i != 0; i--) {
-						u8 c = *ptr;
-						ptr++;
-						if (c == 10) {
-							pos++;
-						}
-					}
-				}
-			}
-		}
-		offset += pos;
+		if ((pos = _ftell(file)) < 0)
+			pos = 0;
+
+		offset +=  pos;
 	}
 
 	if ((whence != SEEK_END) && (file->mMode.io_mode != 3) && (file->mState.io_state == 2 || file->mState.io_state == 3)) {
@@ -144,12 +99,16 @@ int _fseek(FILE* file, u32 offset, int whence)
 	}
 
 	if (file->mState.io_state == 0) {
-		if (file->positionFunc != nullptr && (int)file->positionFunc(file->mHandle, &offset, whence, file->ref_con)) {
-			file->mState.error  = 1;
+
+		if ((func = file->positionFunc) != nullptr && func(file->mHandle, &offset, whence, file->ref_con) != 0)
+		{
+			file->mState.error = 1;
 			file->mBufferLength = 0;
-			errno                = 0x28;
+			errno = 0x28;
 			return -1;
-		} else {
+		}
+		else
+		{
 			file->mState.eof    = 0;
 			file->mPosition     = offset;
 			file->mBufferLength = 0;
@@ -159,16 +118,13 @@ int _fseek(FILE* file, u32 offset, int whence)
 	return 0;
 }
 
-/*
- * --INFO--
- * Address:	800C6904
- * Size:	00006C
- */
-int fseek(FILE* stream, u32 offset, int whence)
+int fseek(FILE *stream, fpos_t offset, int whence)
 {
+	fpos_t start;
 	int code;
+	start = offset;
 	__begin_critical_region(stdin_access);
-	code = _fseek(stream, offset, whence); // 0 if successful, -1 if error
+	code = _fseek(stream, start, whence); // 0 if successful, -1 if error
 	__end_critical_region(stdin_access);
 	return code;
 }

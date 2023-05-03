@@ -13,7 +13,7 @@ __declspec(weak) int isalpha(int __c);
 __declspec(weak) BOOL isdigit(int __c);
 __declspec(weak) int isspace(int __c);
 __declspec(weak) int isupper(int __c);
-__declspec(weak) BOOL isxdigit(unsigned char __c);
+__declspec(weak) int isxdigit(int __c);
 
 __declspec(weak) int tolower(int __c);
 __declspec(weak) int toupper(int __c);

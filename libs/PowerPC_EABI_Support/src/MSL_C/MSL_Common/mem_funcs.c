@@ -5,31 +5,16 @@
 #define srcLongPtr  ((unsigned long*)pSrc)
 #define destLongPtr ((unsigned long*)pDest)
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000060
- */
 void __copy_mem(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0001FC
- */
 void __move_mem(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C736C
- * Size:	0000BC
- */
 void __copy_longs_aligned(void* pDest, const void* pSrc, unsigned long len)
 {
 	unsigned long i = (-(unsigned long)pDest) & 3;
@@ -82,11 +67,6 @@ void __copy_longs_aligned(void* pDest, const void* pSrc, unsigned long len)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C72C4
- * Size:	0000A8
- */
 void __copy_longs_rev_aligned(void* pDest, const void* pSrc, unsigned long len)
 {
 	unsigned long i;
@@ -134,11 +114,6 @@ void __copy_longs_rev_aligned(void* pDest, const void* pSrc, unsigned long len)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C7204
- * Size:	0000C0
- */
 void __copy_longs_unaligned(void* pDest, const void* pSrc, unsigned long len)
 {
 	unsigned long i, v1, v2;
@@ -193,11 +168,6 @@ void __copy_longs_unaligned(void* pDest, const void* pSrc, unsigned long len)
 	}
 }
 
-/*
- * --INFO--
- * Address:	800C7158
- * Size:	0000AC
- */
 void __copy_longs_rev_unaligned(void* pDest, const void* pSrc, unsigned long len)
 {
 	unsigned long i, v1, v2;

@@ -3,6 +3,9 @@ This file contains some documtation about the compiler flags that are used for e
 ## General Flags
 `-lang=c++ -fp fmadd -fp_contract on -Cpp_exceptions off -rostr  -RTTI off -char signed -enum int -use_lmw_stmw on -common on -inline auto`
 
+## MSL C Flags
+`-opt level=0, peephole, schedule, nospace -use_lmw_stmw on -fp hard -fp_contract on -Cpp_exceptions off -RTTI off -common off -str pool -rostr -inline off, deferred -enum int`
+
 ## Debug
 ### JSystem
 General Flags + `-O4,s` or `-O4,p` varies per subLibarary

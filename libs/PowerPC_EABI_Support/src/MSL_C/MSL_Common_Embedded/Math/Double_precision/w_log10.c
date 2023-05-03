@@ -1,11 +1,5 @@
 extern double __ieee754_log10();
 
-/*
- * --INFO--
- * Address:	800CF9EC
- * Size:	000020
- */
-
 double log10(double __x) { return (double)__ieee754_log10(); }
 
 /*

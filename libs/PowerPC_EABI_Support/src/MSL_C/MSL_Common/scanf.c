@@ -34,11 +34,6 @@ typedef struct {
 #define set_char_map(map, ch) map[(unsigned char)ch >> 3] |= (1 << (ch & 7))
 #define tst_char_map(map, ch) (map[(unsigned char)ch >> 3] & (1 << (ch & 7)))
 
-/*
- * --INFO--
- * Address:	800CA0C0
- * Size:	000548
- */
 static const char* parse_format(const char* format_string, scan_format* format)
 {
 	const char* s = format_string;
@@ -243,11 +238,6 @@ static const char* parse_format(const char* format_string, scan_format* format)
 	return ((const char*)s + 1);
 }
 
-/*
- * --INFO--
- * Address:	800C9714
- * Size:	0009AC
- */
 static int __sformatter(int (*ReadProc)(void*, int, int), void* ReadProcArg, const char* format_str, va_list arg)
 {
 	int num_chars, chars_read, items_assigned, conversions;
@@ -589,21 +579,11 @@ exit:
 	return items_assigned;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000084
- */
 void __FileRead(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	800C9684
- * Size:	000090
- */
 int __StringRead(void* pPtr, int ch, int act)
 {
 	char ret;
@@ -637,41 +617,21 @@ int __StringRead(void* pPtr, int ch, int act)
 	return 0;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000F0
- */
 void fscanf(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000090
- */
 void vscanf(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	0000E0
- */
 void scanf(void)
 {
 	// UNUSED FUNCTION
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	000098
- */
 void vfscanf(void)
 {
 	// UNUSED FUNCTION
@@ -689,11 +649,6 @@ inline int isspace_string(const char* s)
 	return 1;
 }
 
-/*
- * --INFO--
- * Address:	........
- * Size:	00005C
- */
 inline int vsscanf(const char* s, const char* format, va_list arg)
 {
 	__InStrCtrl isc;
@@ -707,11 +662,6 @@ inline int vsscanf(const char* s, const char* format, va_list arg)
 	return __sformatter(&__StringRead, (void*)&isc, format, arg);
 }
 
-/*
- * --INFO--
- * Address:	800C95C0
- * Size:	0000C4
- */
 int sscanf(const char* s, const char* pFormat, ...)
 {
 	va_list args;

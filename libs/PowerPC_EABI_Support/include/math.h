@@ -15,7 +15,6 @@ extern "C" {
 #endif
 
 #define FABS(x) (float)__fabs(x)
-#define fabs(x) __fabs(x)
 // #define __frsqrtes opword
 
 #define SQUARE(v) ((v) * (v))
@@ -37,6 +36,8 @@ extern int __double_huge[];
 #define HUGE_VAL (*(double*)__double_huge)
 
 inline long double fabsl(long double x) { return __fabs((double)x); }
+
+inline double fabs(double x) { return __fabs(x); }
 
 double acos(double);
 double asin(double);
