@@ -19,11 +19,6 @@ enum scan_states {
 #define fetch()                 (count++, (*ReadProc)(ReadProcArg, 0, __GetAChar))
 #define unfetch(c)              (*ReadProc)(ReadProcArg, c, __UngetAChar)
 
-/*
- * --INFO--
- * Address:	800CBEE0
- * Size:	000378
- */
 unsigned long __strtoul(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg, int* chars_scanned, int* negative,
                         int* overflow)
 {
@@ -144,9 +139,7 @@ unsigned long __strtoul(int base, int max_width, int (*ReadProc)(void*, int, int
 	}
 
 	if (!success(scan_state)) {
-		count          = 0;
-		value          = 0;
-		*chars_scanned = 0;
+		count = value = *chars_scanned = 0;
 	} else {
 		count--;
 		*chars_scanned = count + spaces;
@@ -176,7 +169,7 @@ unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, in
 	}
 
 	if (base != 0) {
-		value_max = ULLONG_MAX / base;
+		value_max = ullmax / base;
 	}
 
 	while (count <= max_width && c != -1 && !final_state(scan_state)) {
@@ -277,8 +270,8 @@ unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, in
 	}
 
 	if (!success(scan_state)) {
-		count = 0;
-		value = *chars_scanned = 0;
+		count = value = *chars_scanned = 0;
+		
 	} else {
 		count--;
 		*chars_scanned = count + spaces;
