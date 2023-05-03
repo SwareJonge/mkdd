@@ -1,17 +1,55 @@
 #include "PowerPC_EABI_Support/MSL_C/PPC_EABI/math_ppc.h"
 #include "fdlibm.h"
 
-void __fpclassifyf(void)
+int __fpclassifyf(float x)
 {
-	// UNUSED FUNCTION
+	switch ((*(s32 *)&x) & 0x7f800000)
+	{
+	case 0x7f800000:
+	{
+		if ((*(s32 *)&x) & 0x007fffff)
+			return 1;
+		else
+			return 2;
+		break;
+	}
+	case 0:
+	{
+		if ((*(s32 *)&x) & 0x007fffff)
+			return 5;
+		else
+			return 3;
+		break;
+	}
+	}
+	return 4;
 }
 
-void __fpclassifyd(void)
+int __fpclassifyd(double x)
 {
-	// UNUSED FUNCTION
+	switch (__HI(x) & 0x7ff00000)
+	{
+	case 0x7ff00000:
+	{
+		if ((__HI(x) & 0x000fffff) || (__LO(x) & 0xffffffff))
+			return 1;
+		else
+			return 2;
+		break;
+	}
+	case 0:
+	{
+		if ((__HI(x) & 0x000fffff) || (__LO(x) & 0xffffffff))
+			return 5;
+		else
+			return 3;
+		break;
+	}
+	}
+	return 4;
 }
 
-double scalbn(double x, int y)
+/*double scalbn(double x, int y)
 {
 	// UNUSED FUNCTION
 }
@@ -284,7 +322,7 @@ void atanf(void)
 void atan2f(void)
 {
 	// UNUSED FUNCTION
-}
+}*/
 
 __declspec(weak) float cosf(float __x) { return cos((double)__x); }
 
@@ -292,7 +330,7 @@ __declspec(weak) float sinf(float __x) { return sin((double)__x); }
 
 __declspec(weak) float tanf(float __x) { return tan((double)__x); }
 
-void coshf(void)
+/*void coshf(void)
 {
 	// UNUSED FUNCTION
 }
@@ -370,14 +408,14 @@ void sqrtf(void)
 void _inv_sqrtf(void)
 {
 	// UNUSED FUNCTION
-}
+}*/
 
-double fabs(double x)
+/*extern inline double fabs(double x)
 {
-	// UNUSED FUNCTION
-}
+	return __fabs(x);
+}*/
 
-void modff(float f1, float* fp)
+/*void modff(float f1, float* fp)
 {
 	// UNUSED FUNCTION
 }
@@ -525,4 +563,4 @@ void log2(void)
 void exp2(void)
 {
 	// UNUSED FUNCTION
-}
+}*/

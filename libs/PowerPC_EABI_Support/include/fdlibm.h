@@ -225,4 +225,6 @@ extern int __kernel_rem_pio2 __P((double*, double*, int, int, int, const int*));
 };
 #endif // ifdef __cplusplus
 
+#include "math.h"
+
 #endif

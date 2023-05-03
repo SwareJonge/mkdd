@@ -567,6 +567,9 @@ class CSource(Source):
             self.cc = c.SDK_CC # TODO: build flags for SDK
         elif path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/"):            
             self.cflags = c.MSL_C_CFLAGS
+            if path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math") or path.endswith("math_ppc.c") or path.endswith("extras.c"):
+                self.cflags = c.FDLIBM_CFLAGS
+                
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
         if c.VERSION == "Release":            

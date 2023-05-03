@@ -8,9 +8,9 @@
 extern "C" {
 #endif // ifdef __cplusplus
 
-// int __fpclassifyf(float);
-// int __signbitd(double);
-// int __fpclassifyd(double);
+int __fpclassifyf(float);
+int __signbitd(double);
+int __fpclassifyd(double);
 
 inline int __fpclassifyf(f32 x)
 {

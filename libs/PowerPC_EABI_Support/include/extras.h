@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 int stricmp(const char*, const char*);
+int strnicmp(const char *s1, const char *s2, int n);
 
 #ifdef __cplusplus
 }

@@ -336,12 +336,27 @@ CFLAGS = [
 
 JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
 JSYSTEM_RELEASE = CFLAGS + [ "-opt level=4, schedule"]
-# confusion
 
+# confusion
 MSL_C = [ 
     "-opt level=0, peephole, schedule, nospace",
     "-inline off, deferred",
     "-sym on",
+    "-enum int",
+    "-rostr",
+    "-str pool",
+    "-fp hard",
+    "-fp_contract on",
+    "-use_lmw_stmw on",
+    "-common off",
+    "-Cpp_exceptions off",
+    "-RTTI off"
+]
+
+FDLIBM = [
+    "-O4,p",
+    "-inline auto, deferred", # considering there's only one function per file, this shouldn't matter
+    "-common off",
     "-enum int",
     "-rostr",
     "-str pool",
@@ -366,6 +381,7 @@ LOCAL_CFLAGS = [
 ]
 DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 MSL_C_CFLAGS = ' '.join(MSL_C + LOCAL_CFLAGS)
+FDLIBM_CFLAGS = ' '.join(FDLIBM + LOCAL_CFLAGS)
 
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
