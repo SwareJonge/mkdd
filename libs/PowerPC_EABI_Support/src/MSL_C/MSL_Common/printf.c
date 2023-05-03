@@ -491,8 +491,6 @@ static char* longlong2str(long long num, char* pBuf, print_format fmt)
 
 static char* double2hex(long double num, char* buff, print_format format)
 {
-	int offset, what_nibble = 0;
-	char* wrk_byte_ptr;
 	char *p, *q;
 	char working_byte;
 	long double ld;
@@ -571,7 +569,7 @@ static char* double2hex(long double num, char* buff, print_format format)
 
 	q = (char*)&num;
 
-	for (hex_precision = format.precision; hex_precision >= 1; hex_precision--) {
+	for (hex_precision = format.precision; hex_precision >= 1; --hex_precision) {
 		working_byte = *(q + (hex_precision / 2) + 1);
 		if (hex_precision % 2)
 			working_byte = working_byte & 0x0f;
@@ -680,9 +678,6 @@ static char* float2str(long double num, char* buff, print_format format)
 	char* q;
 	int n, digits, sign;
 	int int_digits, frac_digits;
-	int radix_marker;
-
-	radix_marker = '.';
 
 	if (format.precision > 509) {
 		return 0;
@@ -820,7 +815,7 @@ static char* float2str(long double num, char* buff, print_format format)
 		}
 
 		if (format.precision || format.alternate_form) {
-			*--p = radix_marker;
+			*--p = '.';
 		}
 
 		*--p = *dec.sig.text;
@@ -866,7 +861,7 @@ static char* float2str(long double num, char* buff, print_format format)
 			*--p = '0';
 
 		if (format.precision || format.alternate_form)
-			*--p = radix_marker;
+			*--p = '.';
 
 		if (int_digits) {
 			for (digits = 0; digits < int_digits - dec.sig.length; ++digits) {
@@ -1186,7 +1181,20 @@ void printf(const char* format, ...)
 
 int fprintf(FILE* file, const char* format, ...)
 {
-	// UNUSED FUNCTION
+	int ret;
+	va_list args;
+
+	if (fwide(file, -1) >= 0) {
+		return -1;
+	}
+
+	__begin_critical_region(stdin_access);
+	
+	va_start(args, format);
+	ret = __pformatter(&__FileWrite, file, format, args);
+	va_end(args);
+	__end_critical_region(stdin_access);
+	return ret;
 }
 
 int vprintf(const char* pFormat, va_list arg)
