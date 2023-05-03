@@ -1,12 +1,35 @@
 #include <dolphin/stl.h>
 #include <dolphin/types.h>
 
-void *memset(void *dst, int c, size_t n)
+void *memcpy(void *dst, const void *src, size_t n)
 {
-    __fill_mem(dst, c, n);
-    return dst;
-}
+    u8 *__src;
+    u8 *__dst;
+    int i;
 
+    if (src >= dst)
+    {
+        __src = ((u8 *)src) - 1;
+        __dst = ((u8 *)dst) - 1;
+        i = n + 1;
+        while (--i)
+        {
+            *((u8 *)++__dst) = *((u8 *)++__src);
+        }
+        return dst;
+    }
+    else
+    {
+        __src = ((u8 *)src) + n;
+        __dst = ((u8 *)dst) + n;
+        i = n + 1;
+        while (--i)
+        {
+            *((u8 *)--__dst) = *((u8 *)--__src);
+        }
+        return dst;
+    }
+}
 void __fill_mem(void *dst, int c, size_t n)
 {
     u8 *cdest;
@@ -72,32 +95,8 @@ void __fill_mem(void *dst, int c, size_t n)
     }
 }
 
-void *memcpy(void *dst, const void *src, size_t n)
+void *memset(void *dst, int c, size_t n)
 {
-    u8 *__src;
-    u8 *__dst;
-    int i;
-
-    if (src >= dst)
-    {
-        __src = ((u8 *)src) - 1;
-        __dst = ((u8 *)dst) - 1;
-        i = n + 1;
-        while (--i)
-        {
-            *((u8 *)++__dst) = *((u8 *)++__src);
-        }
-        return dst;
-    }
-    else
-    {
-        __src = ((u8 *)src) + n;
-        __dst = ((u8 *)dst) + n;
-        i = n + 1;
-        while (--i)
-        {
-            *((u8 *)--__dst) = *((u8 *)--__src);
-        }
-        return dst;
-    }
+    __fill_mem(dst, c, n);
+    return dst;
 }

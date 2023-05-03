@@ -5017,9 +5017,17 @@ global:
     0x80105efc: __ptmf_scall4
     0x80105f24: __cvt_fp2unsigned
     0x80105f80: __save_fpr
+    0x80105fa8: _savefpr_24
     0x80105fac: _savefpr_25
+    0x80105fb4: _savefpr_27
+    0x80105fb8: _savefpr_28
+    0x80105fbc: _savefpr_29
     0x80105fcc: __restore_fpr
+    0x80105ff4: _restfpr_24
     0x80105ff8: _restfpr_25
+    0x80106000: _restfpr_27
+    0x80106004: _restfpr_28
+    0x80106008: _restfpr_29
     0x80106018: __save_gpr
     0x80106048: _savegpr_26
     0x80106064: __restore_gpr

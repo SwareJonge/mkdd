@@ -1555,7 +1555,7 @@ global:
   0x800ff630: _restfpr_27
   0x800ff634: _restfpr_28
   0x800ff638: _restfpr_29
-  0x800ff678: __save_gpr26
+  0x800ff678: _savegpr_26
   0x800ff6c4: _restgpr_26
   0x800ff6e0: __div2u
   0x800ff7cc: __div2i
@@ -1840,10 +1840,41 @@ global:
   0x8035058c: GXPal528IntDf
   0x803505c8: GXEurgb60Hz480IntDf
 
+  0x803d34f0: __OSCurrHeap
+
+  0x80352ae8: __files
+
+  0x80352d90: __ctype_map
+  0x80352e90: __lower_map
+  0x80352f90: __upper_map
+  0x80353090: __lconv
+
   0x80386130: signal_funcs
 
   # float.c
+  0x803d3818: __float_nan
+  0x803d381c: __float_huge
+  0x803d3820: __double_max
+  0x803d3828: __double_huge
+  0x803d3830: __extended_min
+  0x803d3838: __extended_max
+  0x803d3840: __float_max
   0x803d3844: __float_epsilon
+
+  # ptmf.c
+  0x80333a20: __ptmf_null
+
+  # runtime.c
+  0x80333a30: __constants
+
+  # abort_exit.c
+  0x803d5418: __aborting
+  0x803d541c: __atexit_curr_func
+  0x803d5420: __stdio_exit
+  0x803d5424: __console_exit
+
+  # errno.c
+  0x803d5430: errno
 
   # Bando
   # EngineSound.cpp

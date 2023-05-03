@@ -8,4 +8,6 @@ struct va_list {
 	char* mInput_arg_area;
 	char* mReg_save_area;
 };
+
+void *__va_arg(struct va_list *v_list, s32 type);
 #endif
