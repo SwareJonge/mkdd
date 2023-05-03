@@ -277,8 +277,8 @@ libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/ansi_fp.c:
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/arith.c:
     .text: [0x80108bd0, 0x80108be0]
 
-#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/bsearch.c:
-    #.text: [0x80108be0, 0x80108cdc]
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/bsearch.c:
+    .text: [0x80108be0, 0x80108cdc]
 
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/buffer_io.c:
     .text: [0x80108cdc, 0x80108de0]
@@ -349,7 +349,7 @@ libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/float.c:
 
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/wchar_io.c:
     .text: [0x8010f9e4, 0x8010fa94]
-    
+
 
 libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
     .init: [0x80003458, 0x80003590]

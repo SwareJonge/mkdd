@@ -348,9 +348,9 @@ MSL_C = [
     "-fp hard",
     "-fp_contract on",
     "-use_lmw_stmw on",
+    "-common off",
     "-Cpp_exceptions off",
-    "-RTTI off",
-    "-common off"
+    "-RTTI off"
 ]
 
 BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]
