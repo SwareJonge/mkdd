@@ -293,6 +293,7 @@ INCDIRS = [
     PPCDIS_INCDIR,
     BUILD_INCDIR,
     "include",
+    "libs/PowerPC_EABI_Support/include"
 ]
 MWCC_INCLUDES = ' '.join(f"-i {d}" for d in INCDIRS)
 GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
@@ -328,7 +329,6 @@ CFLAGS = [
     "-char signed",
     "-enum int",
     "-use_lmw_stmw on",
-    "-w off",
     "-common on",
     "-inline auto", 
     MWCC_DEFINES
@@ -336,21 +336,53 @@ CFLAGS = [
 
 JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
 JSYSTEM_RELEASE = CFLAGS + [ "-opt level=4, schedule"]
+
 # confusion
-MSL_C = CFLAGS + ["-common off", "-use_lmw_stmw off", "-opt level=0, schedule"]
+MSL_C_DEBUG = [ 
+    "-opt level=0, peephole, schedule, nospace",
+    "-inline off, deferred",
+    "-sym on",
+    "-enum int",
+    "-rostr",
+    "-str pool",
+    "-fp hard",
+    "-fp_contract on",
+    "-use_lmw_stmw on",
+    "-common off",
+    "-Cpp_exceptions off",
+    "-RTTI off"
+]
+
+MSL_C = [
+    "-O4,p",
+    "-inline auto, deferred",
+    "-common off",
+    "-enum int",
+    "-rostr",
+    "-str pool",
+    "-fp hard",
+    "-fp_contract on",
+    "-use_lmw_stmw on",
+    "-common off",
+    "-Cpp_exceptions off",
+    "-RTTI off"
+]
 
 BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]
 KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
 
 LOCAL_CFLAGS = [
     "-nostdinc",
+    "-w off",
     "-proc gekko",
     "-maxerrors 1",
     "-I-",
     MWCC_INCLUDES
 ]
 DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
+MSL_C_DEBUG_CFLAGS = ' '.join(MSL_C_DEBUG + LOCAL_CFLAGS)
 MSL_C_CFLAGS = ' '.join(MSL_C + LOCAL_CFLAGS)
+
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)

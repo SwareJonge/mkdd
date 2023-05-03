@@ -238,16 +238,241 @@ libs/JSystem/JAudio/JASReport.cpp:
     .bss: [0x8036e7c8, 0x8036e7e0]
     .sbss: [0x803d4cb8, 0x803d4cc8]
 
-libs/dolphin/__ppc_eabi_init.cpp:
+libs/dolphin/os/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800ec7e8, 0x800ec87c]
 
-libs/PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
+    .init: [0x80003458, 0x80003590]
+
+libs/PowerPC_EABI_Support/src/Runtime/__va_arg.c:
+    .text: [0x800fefd0, 0x800ff098]
+
+libs/PowerPC_EABI_Support/src/Runtime/CPlusLibPPC.cp:
+    .text: [0x800ff0f8, 0x800ff128]
+
+libs/PowerPC_EABI_Support/src/Runtime/ptmf.c:
+    .text: [0x800ff4d4, 0x800ff554]
+    .rodata: [0x80333a20, 0x80333a30]
+
+libs/PowerPC_EABI_Support/src/Runtime/runtime.c:
+    .text: [0x800ff554, 0x800ffc30]
+    .rodata: [0x80333a30, 0x80333a48]
+
+#libs/PowerPC_EABI_Support/src/Runtime/GCN_mem_alloc.c:
+    #.text: [0x800ffd14, 0x800ffdcc]
+    #.rodata: [0x80333a48, 0x80333ac0]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/PPC_EABI/abort_exit.c:
+    #.text: [0x800ffdcc, 0x800fff24]
+    #.bss: [0x80385cf8, 0x80385df8]
+    #.sbss: [0x803d5418, 0x803d5428]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/alloc.c:
+    .text: [0x800fff24, 0x8010059c]
+    .rodata: [0x80333ac0, 0x80333ad8]
+    .bss: [0x80385df8, 0x80385E30]
+    .sbss: [0x803d5428, 0x803d5430]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/ansi_files.c:
+    .text: [0x8010059c, 0x801006b8]
+    .data: [0x80352ae8, 0x80352c28]
+    .bss: [0x80385E30, 0x80386130]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/ansi_fp.c:
+    .text: [0x801006b8, 0x80102200]
+    .rodata: [0x80333ad8, 0x80333bb8]
+    .data: [0x80352c28, 0x80352d90]
+    .sdata2: [0x803d7170, 0x803d71a0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/arith.c:
+    .text: [0x80102200, 0x80102210]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/bsearch.c:
+    .text: [0x80102210, 0x8010230c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/buffer_io.c:
+    .text: [0x8010230c, 0x80102410]
+
+libs/PowerPC_EABI_Support/src/MSL_C/PPC_EABI/critical_regions.gamecube.c:
+    .text: [0x80102410, 0x8010241c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/ctype.c:
+    .text: [0x8010241c, 0x80102520]
+    .data: [0x80352d90, 0x80353090]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/direct_io.c:
+    .text: [0x80102520, 0x801028bc]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/errno.c:
+    .sbss: [0x803d5430, 0x803d5438]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/file_io.c:
+    .text: [0x801028bc, 0x80102b7c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/FILE_POS.C:
+    .text: [0x80102b7c, 0x80102ed0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/locale.c:
+    .rodata: [0x80333bb8, 0x80333bc0]
+    .data: [0x80353090, 0x803530C8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mbstring.c:
+    .text: [0x80102ed0, 0x801032e4]
+    .sdata2: [0x803d71a0, 0x803d71a8]
+
+#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
+    #.text: [0x801032e4, 0x8010351c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem_funcs.c:
+    .text: [0x8010351c, 0x8010382c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/misc_io.c:
+    .text: [0x8010382c, 0x8010383c]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/printf.c:
+    .text: [0x8010383c, 0x80105a20]
+    .rodata: [0x80333bc0, 0x80333be8]
+    .data: [0x803530C8, 0x803532f8]
+    .sdata: [0x803d3810, 0x803d3818]
+    .sdata2: [0x803d71a8, 0x803d71b0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/scanf.c:
+    .text: [0x80105a20, 0x80106b24]
+    .rodata: [0x80333be8, 0x80333c10]
+    .data: [0x803532f8, 0x803533c8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/signal.c:
     .text: [0x80106b24, 0x80106c0c]
     .bss: [0x80386130, 0x80386148]
 
-libs/PowerPC_EABI_Support/Runtime/__mem.c:
-    .init: [0x80003458, 0x80003590]
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/string.c:
+    .text: [0x80106c0c, 0x801070c0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/strtold.c:
+    .text: [0x801070c0, 0x801086c4]
+    .rodata: [0x80333c10, 0x80333c68]
+    .sdata2: [0x803d71b0, 0x803d71c8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/strtoul.c:
+    .text: [0x801086c4, 0x8010900c]
+    .data: [0x803533c8, 0x80353450]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/float.c:
+    .sdata: [0x803d3818, 0x803d3848]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/wchar_io.c:
+    .text: [0x8010900c, 0x801090bc]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/uart_console_io_gcn.c:
+    .text: [0x801090bc, 0x801091b0]
+    .sbss: [0x803d5438, 0x803d5440]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_asin.c:
+    .text: [0x801091b0, 0x801093e8]
+    .sdata2: [0x803d71c8, 0x803d7250]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_atan2.c:
+    .text: [0x801093e8, 0x80109678]
+    .sdata2: [0x803d7250, 0x803d72a8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_exp.c:
+    .text: [0x80109678, 0x8010989c]
+    .rodata: [0x80333c68, 0x80333c98]
+    .sdata2: [0x803d72a8, 0x803d7320]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_pow.c:
+    .text: [0x8010989c, 0x8010a0cc]
+    .rodata: [0x80333c98, 0x80333cc8]
+    .sdata2: [0x803d7320, 0x803d7430]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_rem_pio2.c:
+    .text: [0x8010a0cc, 0x8010a46c]
+    .rodata: [0x80333cc8, 0x80333e50]
+    .sdata2: [0x803d7430, 0x803d7488]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/k_cos.c:
+    .text: [0x8010a46c, 0x8010a560]
+    .sdata2: [0x803d7488, 0x803d74d0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/k_rem_pio2.c:
+    .text: [0x8010a560, 0x8010b3b4]
+    .rodata: [0x80333e50, 0x80333ea0]
+    .sdata2: [0x803d74d0, 0x803d7510]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/k_sin.c:
+    .text: [0x8010b3b4, 0x8010b454]
+    .sdata2: [0x803d7510, 0x803d7548]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/k_tan.c:
+    .text: [0x8010b454, 0x8010b668]
+    .rodata: [0x80333ea0, 0x80333f08]
+    .sdata2: [0x803d7548, 0x803d7580]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_atan.c:
+    .text: [0x8010b668, 0x8010b880]
+    .rodata: [0x80333f08, 0x80333fa0]
+    .sdata2: [0x803d7580, 0x803d75a8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ceil.c:
+    .text: [0x8010b880, 0x8010b9c4]
+    .sdata2: [0x803d75a8, 0x803d75b8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_copysign.c:
+    .text: [0x8010b9c4, 0x8010b9ec]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_cos.c:
+    .text: [0x8010b9ec, 0x8010bac0]
+    .sdata2: [0x803d75b8, 0x803d75c0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_floor.c:
+    .text: [0x8010bac0, 0x8010bc08]
+    .sdata2: [0x803d75c0, 0x803d75d0]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_frexp.c:
+    .text: [0x8010bc08, 0x8010bc94]
+    .sdata2: [0x803d75d0, 0x803d75d8]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ldexp.c:
+    .text: [0x8010bc94, 0x8010be58]
+    .sdata2: [0x803d75d8, 0x803d7600]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_modf.c:
+    .text: [0x8010be58, 0x8010bf54]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_sin.c:
+    .text: [0x8010bf54, 0x8010c02c]
+    .sdata2: [0x803d7600, 0x803d7608]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_tan.c:
+    .text: [0x8010c02c, 0x8010c0a4]
+    .sdata2: [0x803d7608, 0x803d7610]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/w_asin.c:
+    .text: [0x8010c0a4, 0x8010c0c4]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/w_atan2.c:
+    .text: [0x8010c0c4, 0x8010c0e4]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/w_exp.c:
+    .text: [0x8010c0e4, 0x8010c104]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/w_pow.c:
+    .text: [0x8010c104, 0x8010c124]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_sqrt.c:
+    .text: [0x8010c124, 0x8010c348]
+    .sdata2: [0x803d7610, 0x803d7618]
+
+# file can't be linked because __fclassify is weak and gets put at the top of the file while it lives in a header
+#libs/PowerPC_EABI_Support/src/MSL_C/PPC_EABI/math_ppc.c:
+    #.text: [0x80112d20, 0x8010c434]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math/Double_precision/w_sqrt.c:
+    .text: [0x8010c434, 0x8010c454]
+
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/extras.c:
+    .text: [0x8010c454, 0x8010c500]
 
 src/Bando/EngineSound.cpp:
     .text: [0x8011226c, 0x801122dc]

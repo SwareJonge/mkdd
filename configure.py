@@ -565,8 +565,13 @@ class CSource(Source):
 
         if path.startswith("libs/dolphin/"):
             self.cc = c.SDK_CC # TODO: build flags for SDK
-        elif path.startswith("libs/PowerPC_EABI_Support/MSL_C/"):
+        elif path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/"):            
+            self.cflags = c.MSL_C_DEBUG_CFLAGS
+            if path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math") or path.endswith("math_ppc.c") or path.endswith("extras.c"):
+                self.cflags = c.MSL_C_CFLAGS
+        elif path.startswith("libs/PowerPC_EABI_Support/src/Runtime/"):
             self.cflags = c.MSL_C_CFLAGS
+
         elif path.startswith("src/Kaneshige/"):
             self.cflags = c.KANESHIGE_CFLAGS
         if c.VERSION == "Release":            
