@@ -80,9 +80,9 @@ void _stricmp(void)
 	// UNUSED FUNCTION
 }
 
-void strnicmp(void)
+int strnicmp(const char *s1, const char *s2, int n)
 {
-	// UNUSED FUNCTION
+	return __msl_strnicmp(s1, s2, n);
 }
 
 void _strnicmp(void)
