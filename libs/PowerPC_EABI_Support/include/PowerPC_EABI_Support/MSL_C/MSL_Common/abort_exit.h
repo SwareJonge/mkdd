@@ -6,8 +6,8 @@ extern "C"
 {
 #endif // ifdef __cplusplus
 
-void exit(int);
-void __exit();
+void exit(int status);
+void __exit(int status);
 
 #ifdef __cplusplus
 };

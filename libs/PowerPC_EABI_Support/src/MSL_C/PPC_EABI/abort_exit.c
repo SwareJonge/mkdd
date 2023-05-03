@@ -1,5 +1,6 @@
 #include "PowerPC_EABI_Support/MSL_C/MSL_Common/critical_regions.h"
 #include "PowerPC_EABI_Support/MSL_C/MSL_Common/signal.h"
+#include "PowerPC_EABI_Support/MSL_C/MSL_Common/abort_exit.h"
 
 void __destroy_global_chain(void);
 void _ExitProcess(void);
@@ -49,10 +50,10 @@ void exit(int status)
 			__stdio_exit = NULL;
 		}
 	}
-	__exit();
+	__exit(status);
 }
 
-void __exit()
+void __exit(int status)
 {
 	__begin_critical_region(atexit_funcs_access);
 	while (__atexit_curr_func > 0)
