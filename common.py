@@ -329,7 +329,6 @@ CFLAGS = [
     "-char signed",
     "-enum int",
     "-use_lmw_stmw on",
-    "-w off",
     "-common on",
     "-inline auto", 
     MWCC_DEFINES
@@ -359,6 +358,7 @@ KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
 
 LOCAL_CFLAGS = [
     "-nostdinc",
+    "-w off",
     "-proc gekko",
     "-maxerrors 1",
     "-I-",
