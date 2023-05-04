@@ -321,8 +321,8 @@ libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mbstring.c:
     .text: [0x80102ed0, 0x801032e4]
     .sdata2: [0x803d71a0, 0x803d71a8]
 
-#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
-    #.text: [0x801032e4, 0x8010351c]
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
+    .text: [0x801032e4, 0x8010351c]
 
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem_funcs.c:
     .text: [0x8010351c, 0x8010382c]

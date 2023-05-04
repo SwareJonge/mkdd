@@ -9,8 +9,9 @@ extern "C" {
 #endif // ifdef __cplusplus
 
 int memcmp(const void*, const void*, size_t);
-void* memchr(u8*, int, size_t);
-void* memmove(void*, const void*, size_t);
+void *__memrchr(const void *src, int val, size_t n);
+void *memchr(const void *src, int val, size_t n);
+void *memmove(void *, const void *, size_t);
 
 #ifdef __cplusplus
 };

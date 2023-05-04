@@ -269,6 +269,10 @@ libs/PowerPC_EABI_Support/src/Runtime/runtime.c:
     .text: [0x80105f24, 0x80106600]
     .rodata: [0x8036b0b0, 0x8036b0c8]
 
+#libs/PowerPC_EABI_Support/src/Runtime/GCN_mem_alloc.c:
+    #.text: [0x80106600, 0x8010679c]
+    #.rodata: [0x8036b0c8, 0x8036b140]
+
 #libs/PowerPC_EABI_Support/src/MSL_C/PPC_EABI/abort_exit.c:
     #.text: [0x8010679c, 0x801068f4]
     #.bss: [0x803c61b8, 0x803c62b8]
@@ -327,8 +331,8 @@ libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mbstring.c:
     .text: [0x801098a0, 0x80109cb4]
     .sdata2: [0x80418490, 0x80418498]
 
-#libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
-    #.text: [0x80109cb4, 0x80109eec]
+libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem.c:
+    .text: [0x80109cb4, 0x80109eec]
 
 libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common/mem_funcs.c:
     .text: [0x80109eec, 0x8010a1fc]
