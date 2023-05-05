@@ -85,7 +85,7 @@ namespace JGeometry
             return 3.1415927f;
         }*/
 
-        static T clamp(T, T, T);
+        static T clamp(T p1, T p2, T p3);
     };
 
     template <typename T>
@@ -156,7 +156,22 @@ namespace JGeometry
 
         TVec3 &operator=(const TVec3 &);
         TVec3 &operator*=(const TVec3 &operand);
+        TVec3 &operator+(const TVec3 &operand){
+            add(operand);
+            return *this;
+        } 
+        TVec3 & operator*=(float scalar)
+        {
+            scale(scalar);
+        }
         TVec3 &operator-=(const TVec3 &operand);
+
+        /*TVec3 &operator*(float scalar) const
+        {
+            TVec3 scaled(*this);
+            scaled *= scalar;
+            this->TVec3(scaled);
+        }*/
 
         void add(const TVec3 &operand)
         {
@@ -191,13 +206,15 @@ namespace JGeometry
         {
             JMathInlineVEC::PSVECScale((const Vec *)this, (Vec *)this, scalar);
         }
-        /*void scale(T scalar)
+
+        void scale(f32 scalar, const TVec3 &operand)
         {
-            x *= scalar;
-            y *= scalar;
-        }*/
-        void scale(f32 scale, const TVec3 &operand);
-        void scaleAdd(f32 scale, const TVec3 &operand, const TVec3 &translate);
+            JMathInlineVEC::PSVECScale((const Vec *)&operand, (Vec *)this, scalar);
+        }
+
+        void scaleAdd(f32 scalar, const TVec3 &operand, const TVec3 &translate) {
+            JMAVECScaleAdd((const Vec *)&operand, (const Vec *)&translate, (Vec *)this, scalar);
+        }
 
         f32 squared() const
         {
@@ -220,6 +237,19 @@ namespace JGeometry
             z = src.z;
         }
 
+        f32 setLength(f32 length)
+        {
+            if (length <= TUtil<f32>::epsilon())
+            {
+                return 0.0f;
+            }
+            else
+            {
+                f32 invsqrt = TUtil<f32>::inv_sqrt(length);
+                scale(invsqrt);
+                return invsqrt * length;
+            }
+        }
         void setLength(const TVec3 &operand, f32 length);
         void setMax(const TVec3 &other);
         void setMin(const TVec3 &other);

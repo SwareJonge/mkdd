@@ -31,9 +31,9 @@ void stMakePlaneParam(stPlaneParam &, const TVec3<float> &, const TVec3<float> &
 void stSearchInSurface(const TVec3<float> &, const TVec3<float> &, const TVec3<float> &);
 void stSearchInSurface(const TVec3<float> &, const stPlaneParam &);
 void stCollideSurfaceAndSphere(const TVec3<float> &, float, const stPlaneParam &, float &);
-void stCollideLineToPlaneIn(const TVec3<float> &, const TVec3<float> &, const stPlaneParam &);
-void stGetCollidePosFromT(const TVec3<float> &, const TVec3<float> &, float);
-void stGetCollideDepthFromT(const TVec3<float> &, const TVec3<float> &, float);
+f32 stCollideLineToPlaneIn(const TVec3<float> &, const TVec3<float> &, const stPlaneParam &);
+TVec3f stGetCollidePosFromT(const TVec3<float> &, const TVec3<float> &, float);
+f32 stGetCollideDepthFromT(const TVec3<float> &, const TVec3<float> &, float);
 void stMTXRotDeg(Mtx, char, float);
 void stMTXRotRad(Mtx, char, float);
 
