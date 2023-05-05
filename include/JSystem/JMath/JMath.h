@@ -206,11 +206,17 @@ inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
 inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
 inline f32 JMASSin(s16 v) { return JMASinShort(v); }
 
-// not tested
-inline f32 JMAFastSqrt(f32 input) {
-    if (input < 0.0f)
-        return input;
-    return __frsqrte(input) * input;
+inline f32 JMAFastSqrt(register f32 x) {
+    register f32 recip;
+
+    if (x > 0.0f)
+    {
+        asm {
+            frsqrte recip, x
+        }
+        return recip * x;
+    }
+    return x;
 }
 
 void JMAEulerToQuat(s16, s16, s16, Quaternion *);

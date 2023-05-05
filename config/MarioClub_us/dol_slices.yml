@@ -605,7 +605,7 @@ src/Osako/SaveFile.cpp:
     .sdata2: [0x8041b840, 0x8041b858]
 
 #src/Sato/stMath.cpp: # can't be compiled currently
-    #.text: [0x8021f5fc, 0x8021f6e0] 
+    #.text: [0x8021e070, 0x8021fa40] 
     #.rodata: [0x8037eec8, 0x8037eef0]
     #.data: [0x8039d6f0, 0x8039d708]
     #.sbss: [0x80416ac8, 0x80416ad0]

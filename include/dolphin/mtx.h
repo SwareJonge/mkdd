@@ -22,6 +22,7 @@ extern "C"
     } Quaternion, *QuaternionPtr, Qtrn, *QtrnPtr;
 
     typedef float Mtx[3][4];
+    typedef float (*MtxPtr)[4];
     typedef float Mtx33[3][3];
     typedef float Mtx44[4][4];
     typedef float PSQuaternion[4];
