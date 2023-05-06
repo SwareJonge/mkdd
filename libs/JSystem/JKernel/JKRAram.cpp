@@ -1,6 +1,7 @@
+#include <string.h>
+
 #include <dolphin/ar/ar.h>
 #include <dolphin/ar/arq.h>
-#include <dolphin/stl.h>
 #include <JSystem/JKernel/JKRAram.h>
 #include <JSystem/JKernel/JKRAramPiece.h>
 #include <JSystem/JKernel/JKRExpHeap.h>

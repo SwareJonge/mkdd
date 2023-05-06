@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <dolphin/os.h>
 #include <dolphin/vi.h>
 #include <JSystem/JUtility/JUTConsole.h>

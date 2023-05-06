@@ -1,8 +1,10 @@
 #ifndef JMATH_H
 #define JMATH_H
 
+#include <math.h>
+#include <float.h>
+
 #include <dolphin/mtx.h>
-#include <dolphin/math.h>
 #include <std/pair.h>
 #include "types.h"
 
@@ -211,7 +213,7 @@ inline f32 JMAFastSqrt(register f32 x) {
 
     if (x > 0.0f)
     {
-        asm { frsqrte recip, x }
+        __asm { frsqrte recip, x }
         return recip * x;
     }
     return x;
@@ -267,24 +269,24 @@ namespace JMathInlineVEC
             psq_l       vxy, 0(src), 0, 0
             psq_l       vz,  8(src), 1, 0
             ps_muls0    rxy, vxy, scalar
-            ps_muls0    rz,  vz,  scalar
-            psq_st      rxy, 0(dst), 0, 0            
+            psq_st      rxy, 0(dst), 0, 0
+            ps_muls0    rz,  vz,  scalar                        
             psq_st      rz,  8(dst), 1, 0
             // clang-format on
         }
     }
     inline f32 PSVECDotProduct(register const Vec *vec1, register const Vec *vec2)
     {
-        register f32 dp, v1yz, v2xy, v2yz, v1xy;
+        register f32 dp, v1yz, v2yz, v2xy, v1xy;
         __asm {
-            // clang-format off      
+            // clang-format off
             psq_l    v1yz, 4(vec1), 0, 0
-            psq_l    v2xy, 4(vec2), 0, 0 // typo? it's needed to match it for functions where this got inlined
-            ps_mul   v1yz, v1yz, v2xy
+            psq_l    v2yz, 4(vec2), 0, 0
+            ps_mul   v1yz, v1yz, v2yz
             psq_l    v1xy, 0(vec1), 0, 0
             psq_l    v2xy, 0(vec2), 0, 0
-            ps_madd  v2xy, v1xy, v2xy, v1yz
-            ps_sum0  dp, v2xy, v1yz, v1yz
+            ps_madd  v2yz, v1xy, v2xy, v1yz
+            ps_sum0  dp, v2yz, v1yz, v1yz
             // clang-format on
         }
         return dp;
@@ -293,11 +295,13 @@ namespace JMathInlineVEC
     {
         register f32 xy, z, ret;
         __asm {
+            // clang-format off
             psq_l xy, 0(src), 0, 0
-            lfs z, 8(src)
             ps_mul xy, xy, xy
+            lfs z, 8(src)            
             ps_madd ret, z, z, xy
             ps_sum0 ret, ret, xy, xy
+            // clang-format on
         }
         return ret;
     }

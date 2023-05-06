@@ -1,4 +1,4 @@
-#include <dolphin/stl.h>
+#include <string.h>
 #include <JSystem/JSupport/JSUStream.h>
 #include "types.h"
 

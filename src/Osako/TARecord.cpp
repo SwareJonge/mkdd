@@ -1,4 +1,4 @@
-#include <dolphin/string.h>
+#include <string.h>
 #include "Osako/TARecord.h"
 #include "types.h"
 

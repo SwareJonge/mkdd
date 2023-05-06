@@ -1,4 +1,4 @@
-#include <dolphin/string.h>
+#include <string.h>
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/GPRecord.h"
 

@@ -1,4 +1,4 @@
-#include <dolphin/stl.h>
+#include <string.h>
 #include <dolphin/types.h>
 
 void *memcpy(void *dst, const void *src, size_t n)

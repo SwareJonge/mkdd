@@ -1,5 +1,6 @@
+#include <stdio.h>
+
 #include <dolphin/os.h>
-#include <dolphin/stl.h>
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRThread.h"

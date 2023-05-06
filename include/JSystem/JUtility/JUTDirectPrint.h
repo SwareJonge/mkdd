@@ -1,7 +1,7 @@
 #ifndef _JUTDIRECTPRINT_H
 #define _JUTDIRECTPRINT_H
 
-#include <dolphin/stl.h>
+#include <stdarg.h>
 #include "JSystem/JUtility/TColor.h"
 
 class JUTDirectPrint

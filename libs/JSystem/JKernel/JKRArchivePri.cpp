@@ -1,5 +1,6 @@
-#include <dolphin/ctype.h>
-#include <dolphin/string.h>
+#include <ctype.h>
+#include <string.h>
+
 #include "JSystem/JKernel/JKRArchive.h"
 #include "JSystem/JKernel/JKRFileLoader.h"
 #include "types.h"

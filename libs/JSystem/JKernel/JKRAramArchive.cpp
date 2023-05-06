@@ -1,4 +1,7 @@
-#include <dolphin/math.h>
+#include <string.h>
+#include <math.h>
+#include "PowerPC_EABI_Support/MSL_C/MSL_Common/arith.h"
+
 #include <JSystem/JKernel/JKRAram.h>
 #include <JSystem/JKernel/JKRArchive.h>
 #include <JSystem/JKernel/JKRDvdAramRipper.h>

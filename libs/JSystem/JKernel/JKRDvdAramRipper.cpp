@@ -1,4 +1,4 @@
-#include <dolphin/stl.h>
+#include <string.h>
 #include <dolphin/vi.h>
 #include <JSystem/JKernel/JKRAramPiece.h>
 #include <JSystem/JKernel/JKRDvdAramRipper.h>

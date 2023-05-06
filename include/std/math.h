@@ -7,23 +7,24 @@
 
 namespace std
 {
-    inline f32 sqrtf(f32 x)
+    extern inline f32 sqrtf(f32 x)
     {
+        const double _half = .5f;
+        const double _three = 3.0f;
         if (x > 0.0f)
         {
-            const double _half = .5;
-            const double _three = 3.0;
-            double guess = __frsqrte((double)x);                  // returns an approximation to
-            guess = _half * guess * (_three - guess * guess * x); // now have 12 sig bits
-            guess = _half * guess * (_three - guess * guess * x); // now have 24 sig bits
-            guess = _half * guess * (_three - guess * guess * x); // now have 32 sig bits
-            return (x * guess);
+            double xd = (double)x;
+            double guess = __frsqrte(xd);                          // returns an approximation to
+            guess = _half * guess * (_three - guess * guess * xd); // now have 12 sig bits
+            guess = _half * guess * (_three - guess * guess * xd); // now have 24 sig bits
+            guess = _half * guess * (_three - guess * guess * xd); // now have 32 sig bits
+            return (float)(xd * guess);
         }
         else if (x < 0.0)
         {
             return NAN;
         }
-        else if (__fpclassifyf(x) == 1)
+        else if (isnan(x))
         {
             return NAN;
         }

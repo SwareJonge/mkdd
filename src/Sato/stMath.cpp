@@ -37,7 +37,7 @@ int stVecNormalize(TVec3f *vec)
     return ret;
 }
 
-void stClampVecMax(TVec3f &vec, f32 clampval)
+void stClampVecMax(TVec3f &vec, float clampval)
 {
     if (vec.length() > clampval)
     {
@@ -46,101 +46,150 @@ void stClampVecMax(TVec3f &vec, f32 clampval)
     }
 }
 
-void stClampVecMin(TVec3f &vec, f32 clampval)
+void stClampVecMin(TVec3f &vec, float clampval)
 {
     if (vec.length() < clampval)
     {
         stVecNormalize(vec);
-        vec.scale((f32)clampval);
+        vec.scale((float)clampval);
     }
 }
 
 // might use JMAFastSqrt instead, who knows
-f32 stspeedy_sqrtf(register f32 x)
+float stspeedy_sqrtf(register float x)
 {
-    register f32 recip;
+    register float recip;
 
     if(x > 0.0f) {
-        asm {
-            frsqrte recip, x
-        }
+        __asm { frsqrte recip, x }
         return recip * x;
     }
     return x;
 }
 
-f32 stLength2(float x, float z)
+float stLength2(float x, float z)
 {
-    f32 x_square = x * x;
-    f32 z_square = z * z;
+    float x_square = x * x;
+    float z_square = z * z;
 
     return stspeedy_sqrtf(x_square + z_square);
 }
 
-void stMakeDirectionMtx(TMtx34f *, const TVec3f &, char) {
+void stMakeDirectionMtx(TMtx34f *dirMtx, const TVec3f &vec, char axis) {
+    TVec3f dir;
+    TVec3f normal;
+    
+    if(axis == 'Z') {
+        normal.set(0.0f, 1.0f, 0.0f);
+    }
+    else {
+        normal.set(0.0f, 0.0f, 1.0f);
+    }
+    
+    dir.cross(normal, vec);
+    stVecNormalize(&dir);
 
+    normal.cross(vec, dir);
+    stVecNormalize(&normal);
+
+    if (axis == 'Z') {
+        dirMtx->mMtx[0][0] = dir.x;
+        dirMtx->mMtx[1][0] = dir.y;
+        dirMtx->mMtx[2][0] = dir.z;
+
+        dirMtx->mMtx[0][1] = normal.x;
+        dirMtx->mMtx[1][1] = normal.y;
+        dirMtx->mMtx[2][1] = normal.z;
+
+        dirMtx->mMtx[0][2] = vec.x;
+        dirMtx->mMtx[1][2] = vec.y;
+        dirMtx->mMtx[2][2] = vec.z;
+    }
+    else {
+        dir.negate();
+        dirMtx->mMtx[0][0] = dir.x;
+        dirMtx->mMtx[1][0] = dir.y;
+        dirMtx->mMtx[2][0] = dir.z;
+
+        dirMtx->mMtx[0][1] = vec.x;
+        dirMtx->mMtx[1][1] = vec.y;
+        dirMtx->mMtx[2][1] = vec.z;
+
+        dirMtx->mMtx[0][2] = normal.x;
+        dirMtx->mMtx[1][2] = normal.y;
+        dirMtx->mMtx[2][2] = normal.z;
+    }
+
+    dirMtx->mMtx[0][3] = 0.0f;
+    dirMtx->mMtx[1][3] = 0.0f;
+    dirMtx->mMtx[2][3] = 0.0f;
 }
 
-void stMakeRMtx(Mtx mtx, const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
+void stMakeRMtx(Mtx m, const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
 {
-    mtx[0][0] = vec1.x;
-    mtx[1][0] = vec1.y;
-    mtx[2][0] = vec1.z;
+    m[0][0] = vec1.x;
+    m[1][0] = vec1.y;
+    m[2][0] = vec1.z;
 
-    mtx[0][1] = vec2.x;
-    mtx[1][1] = vec2.y;
-    mtx[2][1] = vec2.z;
+    m[0][1] = vec2.x;
+    m[1][1] = vec2.y;
+    m[2][1] = vec2.z;
 
-    mtx[0][2] = vec3.x;
-    mtx[1][2] = vec3.y;
-    mtx[2][2] = vec3.z;
+    m[0][2] = vec3.x;
+    m[1][2] = vec3.y;
+    m[2][2] = vec3.z;
 
-    mtx[0][3] = mtx[1][3] = mtx[2][3] = 0.0f;
+    m[0][3] = m[1][3] = m[2][3] = 0.0f;
 }
 
 // Is it possible to actually clean this up?
-void stQt2Mtx(Mtx mat, const Quaternion *q)
+void stQt2Mtx(Mtx m, const Quaternion *q)
 {
-    f32 qx = q->x;
-    f32 qy = q->y;
-    f32 qz = q->z;
-    f32 qw = q->w;
+    float qx = q->x;
+    float qy = q->y;
+    float qz = q->z;
+    float qw = q->w;
 
-    f32 qxqx = qx * qx;
-    f32 qyqy = qy * qy;
-    f32 qzqz = qz * qz;
-    f32 qwqw = qw * qw;
+    float qxqx = qx * qx;
+    float qyqy = qy * qy;
+    float qzqz = qz * qz;
+    float qwqw = qw * qw;
 
-    f32 length = (qxqx) + (qyqy) + (qzqz) + (qwqw);
-    f32 normal = length == 0.0f ? 1.0f : 2.0f / length;
+    float length = (qxqx) + (qyqy) + (qzqz) + (qwqw);
+    float normal = length == 0.0f ? 1.0f : 2.0f / length;
 
-    f32 qx_normal = qx * normal;
-    f32 qy_normal = qy * normal;
-    f32 qz_normal = qz * normal;
+    float qx_normal = qx * normal;
+    float qy_normal = qy * normal;
+    float qz_normal = qz * normal;
 
-    f32 qw_qx_normal = qw * qx_normal;
-    f32 qw_qy_normal = qw * qy_normal;
-    f32 qw_qz_normal = qw * qz_normal;
-    f32 qx_squared   = qx * qx_normal;
-    f32 qx_qy_normal = qx * qy_normal;
-    f32 qx_qz_normal = qx * qz_normal;
-    f32 qy_squared   = qy * qy_normal;
-    f32 qy_qz_normal = qy * qz_normal;
-    f32 qz_squared   = qz * qz_normal;
+    float qw_qx_normal = qw * qx_normal;
+    float qw_qy_normal = qw * qy_normal;
+    float qw_qz_normal = qw * qz_normal;
+    float qx_squared   = qx * qx_normal;
+    float qx_qy_normal = qx * qy_normal;
+    float qx_qz_normal = qx * qz_normal;
+    float qy_squared   = qy * qy_normal;
+    float qy_qz_normal = qy * qz_normal;
+    float qz_squared   = qz * qz_normal;
 
-    mat[0][0] = 1.0f - (qy_squared + qz_squared);
-    mat[1][0] = qx_qy_normal + qw_qz_normal;
-    mat[2][0] = qx_qz_normal - qw_qy_normal;
+    m[0][0] = 1.0f - (qy_squared + qz_squared);
+    m[1][0] = qx_qy_normal + qw_qz_normal;
+    m[2][0] = qx_qz_normal - qw_qy_normal;
 
-    mat[0][1] = qx_qy_normal - qw_qz_normal;
-    mat[1][1] = 1.0f - (qz_squared + qx_squared);
-    mat[2][1] = qy_qz_normal + qw_qx_normal;
+    m[0][1] = qx_qy_normal - qw_qz_normal;
+    m[1][1] = 1.0f - (qz_squared + qx_squared);
+    m[2][1] = qy_qz_normal + qw_qx_normal;
 
-    mat[0][2] = qw_qy_normal + qx_qz_normal;
-    mat[1][2] = qy_qz_normal - qw_qx_normal;
-    mat[2][2] = 1.0f - (qx_squared + qy_squared);
+    m[0][2] = qw_qy_normal + qx_qz_normal;
+    m[1][2] = qy_qz_normal - qw_qx_normal;
+    m[2][2] = 1.0f - (qx_squared + qy_squared);
 
-    mat[0][3] = mat[1][3] = mat[2][3] = 0.0f;
+    m[0][3] = m[1][3] = m[2][3] = 0.0f;
+}
+
+// Unused
+float stQtMult(Quaternion *dst, const Quaternion *p, const Quaternion *q) {
+
 }
 
 void stVec2QtUpdate(Quaternion &, Quaternion &, const TVec3f &, const TVec3f &){
@@ -151,11 +200,32 @@ void stVec2QtUpdate(Quaternion &q, const Vec &vec1, const Vec &vec2) {
 
 }
 
-void stVec2Qt(Quaternion &, const Vec &, const Vec &) {
+bool stVec2Qt(Quaternion &q, const Vec &dir, const Vec &vec) {
+    Vec cross;
+    bool ret = false;
+    PSVECCrossProduct(&dir, &vec, &cross);
+    float dot = PSVECDotProduct(&dir, &vec);
 
+    float length = stspeedy_sqrtf(2.0f * (1.0f + dot));
+
+    if (length > 0.0f)
+    {
+        q.x = cross.x / length;
+        q.y = cross.y / length;
+        q.z = cross.z / length;
+        q.w = 0.5f * length;
+        ret = true;
+    }
+
+    return ret;
 }
 
-void stMtx2Qt(Quaternion *, const Mtx) {
+void stMtx2Qt(Quaternion *q, const Mtx m) {
+    f32 x = m[0][0];
+    f32 y = m[1][0];
+    f32 z = m[2][0];
+    f32 length = x * y * z;
+
 
 }
 
@@ -172,7 +242,7 @@ void stQtLerp(Quaternion *dst, const Quaternion *p, const Quaternion *q, float t
     else
     {
         f64 length = p->x * q->x + p->y * q->y + p->z * q->z + p->w * q->w;
-        if (length < 0.0f)
+        if (length < 0.0)
             t = -t;
 
         dst->w = negt * p->w + (f64)t * q->w;
@@ -182,26 +252,38 @@ void stQtLerp(Quaternion *dst, const Quaternion *p, const Quaternion *q, float t
     }
 }
 
-// regswaps
-void stQtNormalize(Quaternion *dst, const Quaternion *q) {
+f32 stQtNormalize(Quaternion *dst, const Quaternion *q) {
+    float length = (q->x * q->x + q->y * q->y + q->z * q->z + q->w * q->w);
+    if (length != 0.0f)
+    {
+        float mag = 1.0f / std::sqrtf(length);
 
-    f32 length = q->x * q->x + q->y * q->y + q->z * q->z + q->w * q->w;
-    if (length != 0.0f) {
-        f32 invlength = std::inv_sqrtf(length);
-
-        dst->x = q->x * invlength;
-        dst->y = q->y * invlength;
-        dst->z = q->z * invlength;
-        dst->w = q->w * invlength;
+        dst->x = q->x * mag;
+        dst->y = q->y * mag;
+        dst->z = q->z * mag;
+        dst->w = q->w * mag;
     }
+    return length;
 }
 
-void stMakePlaneParam(stPlaneParam &, TVec3f &, const TVec3f &) {
-
+int stMakePlaneParam(stPlaneParam &planeParam, TVec3f &vec1, const TVec3f &vec2) {
+    vec1.normalize();
+    if (vec1.length() == 0.0f)
+        return 0;
+    
+    planeParam.x = vec1.x;
+    planeParam.y = vec1.y;
+    planeParam.z = vec1.z;
+    planeParam.angle = -vec1.dot(vec2);
+    return 1;
 }
 
-void stMakePlaneParam(stPlaneParam &, const TVec3f &, const TVec3f &, const TVec3f &) {
+int stMakePlaneParam(stPlaneParam &planeParam, const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
+{
+    TVec3f crossp;
 
+    crossp.cross(vec1, vec2);
+    return stMakePlaneParam(planeParam, crossp, vec3);
 }
 
 void stSearchInSurface(const TVec3f &, const TVec3f &, const TVec3f &){
@@ -216,20 +298,23 @@ void stCollideSurfaceAndSphere(const TVec3f &, float, const stPlaneParam &, floa
 
 }
 
-f32 stCollideLineToPlaneIn(const TVec3f &, const TVec3f &, const stPlaneParam &){
+float stCollideLineToPlaneIn(const TVec3f &, const TVec3f &, const stPlaneParam &){
+
 }
 
-// not matching
 TVec3f stGetCollidePosFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
 {
-    TVec3f pos;
+    TVec3f pos;    
+    TVec3f scaledpos;
+
     pos.sub(vec2, vec1);
     pos.scale(1.0f - scalar, pos);
-    // setTVec3f((const f32 *)&pos, (f32 *)&vec1);
+    scaledpos.add(vec1, pos);
 
-    return pos + vec1;
+    return scaledpos;
 }
-f32 stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
+
+float stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
 {
     TVec3f depth;
     depth.sub(vec1, vec2);
@@ -238,20 +323,20 @@ f32 stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
 }
 
 // Unused, but i'm sure it was this
-void stMTXRotS16(Mtx matrix, char p2, short v) {
-    f32 sin = JMASinShort(v);
-    f32 cos = JMASCosShort(v);
-    PSMTXRotTrig(matrix, p2, sin, cos);
+void stMTXRotS16(Mtx matrix, char axis, short v) {
+    float sin = JMASinShort(v);
+    float cos = JMASCosShort(v);
+    PSMTXRotTrig(matrix, axis, sin, cos);
 }
 
-void stMTXRotDeg(Mtx matrix, char p2, float x)
+void stMTXRotDeg(Mtx matrix, char axis, float x)
 {
-    stMTXRotS16(matrix, p2, x * 182.0f);
+    stMTXRotS16(matrix, axis, x * 182.0f);
 }
 
-void stMTXRotRad(Mtx matrix, char p2, float x)
+void stMTXRotRad(Mtx matrix, char axis, float x)
 {
-    stMTXRotS16(matrix, p2, x * 10435.0f);
+    stMTXRotS16(matrix, axis, x * 10435.0f);
 }
 
 void stRandom::createAllRandom() {
@@ -266,14 +351,13 @@ void stRandom::deleteAllRandom()
     for (u32 i = 0; i < 6; i++) {
         delete sRndMgr[i];
     }
-    delete sMgr;
 }
 
 u32 stRandom::getRandomMax(u32 max) {
     return ((max + 1) * get_ufloat_1());
 }
 
-void stRandom::getArbitUnitVec(TVec3f& dst, f32 p2, f32 p3) {
+void stRandom::getArbitUnitVec(TVec3f& dst, float p2, float p3) {
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
     _0x6 = p3 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
@@ -285,11 +369,11 @@ void stRandom::getArbitUnitVec(TVec3f& dst, f32 p2, f32 p3) {
     dst.z = JMASCos(_0x4);
 }
 
-void stRandom::getArbitUnitVecSimple(TVec3f &dst, f32 p2) {
+void stRandom::getArbitUnitVecSimple(TVec3f &dst, float p2) {
     getArbitUnitVec(dst, p2, 1.0f);
 }
 
-void stRandom::getArbitUnitVecXZ(TVec3f& dst, f32 p2) {
+void stRandom::getArbitUnitVecXZ(TVec3f& dst, float p2) {
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
     // dst.set(JMASSin(_0x4), 0.0f, JMASCos(_0x4));

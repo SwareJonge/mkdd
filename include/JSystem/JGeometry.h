@@ -10,10 +10,28 @@ namespace JGeometry
     {
         register f32 xy, z;
         __asm {
+            // clang-format off
             psq_l xy, 0(src), 0, 0
             lfs z, 8(src)
             psq_st xy, 0(dst), 0, 0
             stfs z, 8(dst)
+            // clang-format on
+        }
+    }
+
+    inline void negateInternal(register const f32 *src, register f32 *dst)
+    {
+        register f32 xy, z, negz;
+        __asm {
+            // clang-format off
+            psq_l xy, 0(src), 0, 0
+            ps_neg xy, xy
+            psq_st xy, 0(dst), 0, 0
+
+            lfs z, 8(src)            
+            fneg negz, z;            
+            stfs negz, 8(dst)
+            // clang-format on
         }
     }
 
@@ -21,6 +39,9 @@ namespace JGeometry
     class TUtil
     {
     public:
+        static f32 abs(f32 x) {
+            return __fabs(x);
+        }
         static f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); }
         static const f32 epsilon() { return 32.0f * FLT_EPSILON; }
 
@@ -173,9 +194,22 @@ namespace JGeometry
             this->TVec3(scaled);
         }*/
 
+        f32 angle(TVec3 vec2) {
+            TVec3 crossp;
+            crossp.cross(*this, vec2);
+
+            f32 ang = TUtil<f32>::atan2(crossp.length(), dot(vec2));
+
+            return TUtil<f32>::abs(ang);
+        }
+
         void add(const TVec3 &operand)
         {
             JMathInlineVEC::PSVECAdd((const Vec *)this, (Vec *)&operand, (Vec *)this);
+        }
+        void add(const TVec3 &vec1, const TVec3 &vec2)
+        {
+            JMathInlineVEC::PSVECAdd((const Vec *)&vec1, (const Vec *)&vec2, (Vec *)this);
         }
         void div(f32 divisor);
         void cross(const TVec3 &vec1, const TVec3 &vec2)
@@ -189,7 +223,14 @@ namespace JGeometry
         f32 length() const {
             return PSVECMag((Vec *)this);
         }
-        void negate();
+        void negate()
+        {
+            negateInternal((const f32 *)this, (f32 *)this);
+        }
+        void negate(const TVec3 &other)
+        {
+            negateInternal((const f32 *)&other, (f32 *)this);
+        }
         f32 normalize()
         {
             f32 this_squared = squared();
@@ -452,7 +493,7 @@ struct TBox2 : TBox<TVec2<T> > {
             register f32 rzxtx;
             register f32 rxxyx;
 
-            __asm {
+            ____asm {
                 psq_l     rxxyx, 0(pSrc), 0, 0
                 psq_l     rzxtx, 8(pSrc), 0, 0
                 psq_l     rxyyy, 0x10(pSrc), 0, 0

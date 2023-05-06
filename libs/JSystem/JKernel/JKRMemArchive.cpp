@@ -1,4 +1,4 @@
-#include <dolphin/stl.h>
+#include <string.h>
 #include <JSystem/JKernel/JKRArchive.h>
 #include <JSystem/JKernel/JKRDecomp.h>
 #include <JSystem/JKernel/JKRDvdRipper.h>

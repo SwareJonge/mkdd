@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <dolphin/os.h>
 #include <JSystem/JUtility/JUTDirectPrint.h>
 

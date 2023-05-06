@@ -7,14 +7,16 @@ extern "C" {
 #endif
 
 #ifdef __MWERKS__
-typedef struct {
+typedef struct
+{
 	char gpr;
 	char fpr;
 	char reserved[2];
-	char* input_arg_area;
-	char* reg_save_area;
+	char *input_arg_area;
+	char *reg_save_area;
 } __va_list[1];
 typedef __va_list va_list;
+typedef __va_list __va_list_struct; // TODO: creates weird class in symbol
 
 #ifndef __MWERKS__
 extern void __builtin_va_info(va_list*);
