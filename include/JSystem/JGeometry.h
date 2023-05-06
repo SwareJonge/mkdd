@@ -493,7 +493,8 @@ struct TBox2 : TBox<TVec2<T> > {
             register f32 rzxtx;
             register f32 rxxyx;
 
-            ____asm {
+            __asm {
+                // clang-format off
                 psq_l     rxxyx, 0(pSrc), 0, 0
                 psq_l     rzxtx, 8(pSrc), 0, 0
                 psq_l     rxyyy, 0x10(pSrc), 0, 0
@@ -506,6 +507,7 @@ struct TBox2 : TBox<TVec2<T> > {
                 psq_st    rzyty, 0x18(pDest), 0, 0
                 psq_st    rxzyz, 0x20(pDest), 0, 0
                 psq_st    rzztz, 0x28(pDest), 0, 0
+                // clang-format on
             }
             ;
         }
