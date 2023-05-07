@@ -2467,6 +2467,30 @@ global:
 
   # Sato
   # stMath.cpp
+  0x801ebb10: stVecNormalize__FRQ29JGeometry8TVec3<f>
+  0x801ebbc0: stVecNormalize__FPQ29JGeometry8TVec3<f>
+  0x801ebc70: stClampVecMax__FRQ29JGeometry8TVec3<f>f
+  0x801ebda4: stClampVecMin__FRQ29JGeometry8TVec3<f>f
+  0x801ebed8: stLength2__Fff
+  0x801ebefc: stMakeDirectionMtx__FPQ29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>RCQ29JGeometry8TVec3<f>c
+  0x801ec1cc: stMakeRMtx__FPA4_fRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x801ec228: stQt2Mtx__FPA4_fPC10Quaternion
+  0x801ec334: stVec2QtUpdate__FR10QuaternionR10QuaternionRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x801ec450: stVec2QtUpdate__FR10QuaternionRC3VecRC3Vec
+  0x801ec558: stVec2Qt__FR10QuaternionRC3VecRC3Vec
+  0x801ec610: stMtx2Qt__FP10QuaternionPA4_Cf
+  0x801ec8ec: stQtLerp__FP10QuaternionPC10QuaternionPC10Quaternionf
+  0x801ec9c0: stQtNormalize__FP10QuaternionPC10Quaternion
+  0x801ecb18: stMakePlaneParam__FR12stPlaneParamRQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x801ecc28: stMakePlaneParam__FR12stPlaneParamRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x801ecd64: stSearchInSurface__FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x801ecdc0: stSearchInSurface__FRCQ29JGeometry8TVec3<f>RC12stPlaneParam
+  0x801ece0c: stCollideSurfaceAndSphere__FRCQ29JGeometry8TVec3<f>fRC12stPlaneParamRf
+  0x801ece80: stCollideLineToPlaneIn__FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>RC12stPlaneParam
+  0x801ecf48: stGetCollidePosFromT__FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>f
+  0x801ecfa8: stGetCollideDepthFromT__FRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>f
+  0x801ed004: stMTXRotDeg__FPA4_fcf
+  0x801ed050: stMTXRotRad__FPA4_fcf
   0x801ed09c: createAllRandom__8stRandomFv
   0x801ed108: getRandomMax__8stRandomFUl
   0x801ed180: getArbitUnitVec__8stRandomFRQ29JGeometry8TVec3<f>ff
@@ -2474,6 +2498,8 @@ global:
   0x801ed3a8: getArbitUnitVecXZ__8stRandomFRQ29JGeometry8TVec3<f>f
   0x801ed444: stGetRnd__FUl
   0x801ed458: stSetRndPermission__FUlb
+  0x8035d110: sRndMgr__8stRandom
+  0x803d5cf8: sMgr__8stRandom
   # GeographyObjManager.cpp
   0x801f057c: __ct__19GeographyObjManagerFRC7CrsData
   0x801f2434: createModel__19GeographyObjManagerFP12JKRSolidHeapUl

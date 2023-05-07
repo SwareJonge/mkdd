@@ -48,6 +48,23 @@ void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32
     }
 }
 
+void JMAFastVECNormalize(register const Vec *src, register Vec *dst)
+{
+    register f32 vxy, rxy, vz, length;
+    __asm {
+        psq_l vxy, 0(src), 0, 0
+        ps_mul rxy, vxy, vxy
+        lfs vz, src->z
+        ps_madd length, vz, vz, rxy
+        ps_sum0 length, length, rxy, rxy
+        frsqrte length, length
+        ps_muls0 vxy, vxy, length;
+        psq_st vxy, 0(dst), 0, 0
+        fmuls vz, vz, length
+        stfs vz, dst->z
+    }
+}
+
 void JMAVECScaleAdd(register const Vec *vec1, register const Vec *vec2, register Vec *dst, register f32 scale)
 {
     register f32 v1xy, v2xy, rxy, v1z, v2z, rz;

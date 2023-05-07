@@ -576,3 +576,10 @@ src/Osako/SaveFile.cpp:
     .text: [0x801dc010, 0x801dc0b4]
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
+
+src/Sato/stMath.cpp:
+    .text: [0x801ebb10, 0x801ed470] 
+    .data: [0x8035d110, 0x8035d128]
+    .sdata: [0x803d3b78, 0x803d3b80]
+    .sbss: [0x803d5cf8, 0x803d5d00]
+    .sdata2: [0x803d9d60, 0x803d9db0]

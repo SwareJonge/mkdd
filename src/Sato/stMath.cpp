@@ -26,15 +26,7 @@ int stVecNormalize(TVec3f &vec) {
 
 int stVecNormalize(TVec3f *vec)
 {
-    int ret = 0;
-
-    if (!vec->isZero())
-    {
-        vec->normalize();
-        ret = 1;
-    }
-
-    return ret;
+    return stVecNormalize(*vec);
 }
 
 void stClampVecMax(TVec3f &vec, float clampval)
@@ -75,7 +67,8 @@ float stLength2(float x, float z)
     return stspeedy_sqrtf(x_square + z_square);
 }
 
-void stMakeDirectionMtx(TMtx34f *dirMtx, const TVec3f &vec, char axis) {
+void stMakeDirectionMtx(TPos3f *dirMtx, const TVec3f &vec, char axis)
+{
     TVec3f dir;
     TVec3f normal;
     
@@ -188,16 +181,56 @@ void stQt2Mtx(Mtx m, const Quaternion *q)
 }
 
 // Unused
-float stQtMult(Quaternion *dst, const Quaternion *p, const Quaternion *q) {
-
+void stQtMult(Quaternion *dst, const Quaternion *a, const Quaternion *b) {
+    f32 x = (a->x * b->w) + (a->w * b->x) + (a->y * b->z) - (a->z * b->y);
+    f32 y = (a->y * b->w) + (a->w * b->y) + (a->z * b->x) - (a->x * b->z);
+    f32 z = (a->z * b->w) + (a->w * b->z) + (a->x * b->y) - (a->y * b->x);
+    f32 w = (a->w * b->w) - (a->x * b->x) - (a->y * b->y) - (a->z * b->z);
+    dst->x = x;
+    dst->y = y;
+    dst->z = z;
+    dst->w = w;
 }
 
-void stVec2QtUpdate(Quaternion &, Quaternion &, const TVec3f &, const TVec3f &){
+void stVec2QtUpdate(Quaternion &p, Quaternion &q, const TVec3f &dir, const TVec3f &vec){
+    TVec3f crossp;
+    crossp.cross(dir, vec);
 
+    float length = stspeedy_sqrtf(2.0f * (1.0f + dir.dot(vec)));
+    if(length > 0.0f) {
+        Quaternion a;
+        a.x = crossp.x / length;       
+        a.y = crossp.y / length;
+        a.z = crossp.z / length;
+        a.w = (0.5f * length);
+
+        Quaternion c;
+        stQtMult(&c, &a, &p);
+        stQtNormalize(&q, &c);
+    }
 }
 
-void stVec2QtUpdate(Quaternion &q, const Vec &vec1, const Vec &vec2) {
+void stVec2QtUpdate(Quaternion &q, const Vec &dir, const Vec &vec)
+{
+    Vec cross;
+    PSVECCrossProduct(&dir, &vec, &cross);
+    float dot = PSVECDotProduct(&dir, &vec);
 
+    float length = stspeedy_sqrtf(2.0f * (1.0f + dot));
+
+    if (length > sLerpEpsilon)
+    {
+        Quaternion a;
+        a.x = cross.x / length;
+        a.y = cross.y / length;
+        a.z = cross.z / length;
+        a.w = (0.5f * length);
+
+        Quaternion c;
+        stQtMult(&c, &a, &q);
+
+        stQtNormalize(&q, &c);
+    }
 }
 
 bool stVec2Qt(Quaternion &q, const Vec &dir, const Vec &vec) {
@@ -220,13 +253,63 @@ bool stVec2Qt(Quaternion &q, const Vec &dir, const Vec &vec) {
     return ret;
 }
 
-void stMtx2Qt(Quaternion *q, const Mtx m) {
+// TODO: match it in a way that makes sense
+// https://decomp.me/scratch/2u8r1
+void stMtx2Qt(Quaternion *q, const Mtx m)
+{
     f32 x = m[0][0];
-    f32 y = m[1][0];
-    f32 z = m[2][0];
-    f32 length = x * y * z;
+    f32 y = m[1][1];
+    f32 z = m[2][2];
+    f32 length = x + y + z;
+    if (length > 0.0f)
+    {
+        length = std::sqrtf(1.0f + length);
+        f32 t = 0.5f / length;
+        q->w = 0.5f * length;
+        q->x = t * (m[2][1] - m[1][2]);
+        q->y = t * (m[0][2] - m[2][0]);
+        q->z = t * (m[1][0] - m[0][1]);
+    }
+    else
+    {
+        f32 direction = x;
+        if (y > x)
+        {
+            direction = m[1][1];
+        }
+        else if (z > x)
+        {
+            direction = m[2][2];
+        }
 
-
+        if (direction == x)
+        {
+            x = stspeedy_sqrtf(1.0f + (x - (y + z)));
+            f32 t = 0.5f / x;
+            q->x = 0.5f * x;
+            q->y = t * (m[0][1] + m[1][0]);
+            q->z = t * (m[2][0] + m[0][2]);
+            q->w = t * (m[2][1] - m[1][2]);
+        }
+        else if (direction == y)
+        {
+            x = stspeedy_sqrtf(1.0f + (y - (z + x)));
+            f32 t = 0.5f / x;
+            q->y = 0.5f * x;
+            q->z = t * (m[1][2] + m[2][1]);
+            q->x = t * (m[0][1] + m[1][0]);
+            q->w = t * (m[0][2] - m[2][0]);
+        }
+        else
+        {
+            x = stspeedy_sqrtf(1.0f + (z - (x + y)));
+            f32 t = 0.5f / x;
+            q->z = 0.5f * x;
+            q->x = t * (m[2][0] + m[0][2]);
+            q->y = t * (m[1][2] + m[2][1]);
+            q->w = t * (m[1][0] - m[0][1]);
+        }
+    }
 }
 
 void stQtLerp(Quaternion *dst, const Quaternion *p, const Quaternion *q, float t)
@@ -286,32 +369,80 @@ int stMakePlaneParam(stPlaneParam &planeParam, const TVec3f &vec1, const TVec3f 
     return stMakePlaneParam(planeParam, crossp, vec3);
 }
 
-void stSearchInSurface(const TVec3f &, const TVec3f &, const TVec3f &){
-
+int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3) {
+    int ret = 0;
+    if (vec2.x * (vec1.x - vec3.x) + vec2.y * (vec1.y - vec3.y) + vec2.z * (vec1.z - vec3.z) <=
+        0.0f)
+    {
+        ret = 1;
+    }
+    return ret;
 }
 
-void stSearchInSurface(const TVec3f &, const stPlaneParam &) {
-
+int stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam) {
+    int ret = 0;
+    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle) <= 0.0f) {
+        ret = 1;
+    }
+    return ret;
 }
 
-void stCollideSurfaceAndSphere(const TVec3f &, float, const stPlaneParam &, float &){
+int stCollideSurfaceAndSphere(const TVec3f &vec, float radius, const stPlaneParam &planeparam, float &retVal)
+{
+    int ret = 0;
 
+    f32 length = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle);
+    if (length > 0.0f)
+    {
+        if (length < radius) {
+            ret = 1;
+            retVal = radius - length;
+        }
+        else {
+            retVal = -1.0f;
+        }
+    }
+    else {
+        ret = 1;
+        retVal = radius - length;
+    }
+
+    return ret;
 }
 
-float stCollideLineToPlaneIn(const TVec3f &, const TVec3f &, const stPlaneParam &){
+float stCollideLineToPlaneIn(const TVec3f &vec1, const TVec3f &vec2, const stPlaneParam &planeparam)
+{
+    TVec3f diff;
+    TVec3f planePos;
+    planePos.set(planeparam.x, planeparam.y, planeparam.z);
 
+    diff.sub(vec2, vec1);
+
+    if (planePos.dot(diff) >= 0.0f)
+    {
+        return -1.0f;
+    }
+
+    float f = planePos.x * vec1.x + planePos.y * vec1.y + planePos.z * vec1.z;
+    float f2 = planePos.x * vec2.x + planePos.y * vec2.y + planePos.z * vec2.z;
+
+    if (f == f2)
+    {
+        return -1.0f;
+    }
+    return -(f2 + planeparam.angle) / (f - f2);
 }
 
 TVec3f stGetCollidePosFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
 {
-    TVec3f pos;    
-    TVec3f scaledpos;
+    TVec3f diff;
+    TVec3f collidePos;
 
-    pos.sub(vec2, vec1);
-    pos.scale(1.0f - scalar, pos);
-    scaledpos.add(vec1, pos);
+    diff.sub(vec2, vec1);
+    diff.scale(1.0f - scalar, diff);
+    collidePos.add(vec1, diff);
 
-    return scaledpos;
+    return collidePos;
 }
 
 float stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)
@@ -322,7 +453,7 @@ float stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scala
     return depth.length();
 }
 
-// Unused, but i'm sure it was this
+// Unused
 void stMTXRotS16(Mtx matrix, char axis, short v) {
     float sin = JMASinShort(v);
     float cos = JMASCosShort(v);
@@ -345,7 +476,7 @@ void stRandom::createAllRandom() {
     }
 }
 
-// Unused, however most likely is something like this
+// Unused nor auto inlined
 void stRandom::deleteAllRandom()
 {
     for (u32 i = 0; i < 6; i++) {
