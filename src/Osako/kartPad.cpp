@@ -49,7 +49,7 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
     }
     else
     {
-        s8 lgStick = lgPosition.stick3;
+        s8 lgStick = lgPosition.steerDirection;
         int iVar2 = (lgStick * lgStick) / 30;
         if (lgStick > 0)
         {
@@ -85,7 +85,8 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
         ConvertBtn(buttons, input, Z, KARTBTN_Z);
         ConvertBtn(buttons, input, START, KARTBTN_START);
 
-        if (input & 8) // is this D-Pad perhaps? afaik mkdd never makes use of D-Pad
+        // Considering a steering wheel only go left and right, the up and down inputs have to be done with the D-Pad
+        if (input & 8)
             stickY = 3;
         else if (input & 4)
             stickY = -3;
@@ -97,15 +98,15 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
         else if (input & 2)
             stickX = 15;
 
-        // analog input detection(i thought the buttons were digital but ok)
+        // analog input detection
         if (lgPosition.analogL > 175)
             buttons |= KARTBTN_L;
         if (lgPosition.analogR > 175)
             buttons |= KARTBTN_R;
 
-        if (lgPosition.analogA > 80)
+        if (lgPosition.gasPedal > 80)
             buttons |= KARTBTN_A;
-        if (lgPosition.analogB > 80)
+        if (lgPosition.brakePedal > 80)
             buttons |= KARTBTN_B;
     }
     kartPadData->mStickX = stickX;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include <dolphin/os.h>
 #include <dolphin/PAD.h>
-#include "JSystem/LGWheels.h"
+#include "JSystem/Logitech/Wheels.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 
 typedef void (*JUTResetBtnCb)(int, void*);

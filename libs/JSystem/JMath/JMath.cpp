@@ -22,6 +22,7 @@ void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32
     register f32 dp;
     __asm // compute dot product
     {
+        // clang-format off
         psq_l       pxy, 0(p), 0, 0
         psq_l       qxy, 0(q), 0, 0
         ps_mul      dp, pxy, qxy
@@ -31,6 +32,7 @@ void JMAQuatLerp(register const Quaternion *p, register const Quaternion *q, f32
         ps_madd     dp, pzw, qzw, dp
         
         ps_sum0     dp, dp, dp, dp
+        // clang-format on
     }
 
     if (dp < 0.0)
@@ -52,6 +54,7 @@ void JMAFastVECNormalize(register const Vec *src, register Vec *dst)
 {
     register f32 vxy, rxy, vz, length;
     __asm {
+        // clang-format off
         psq_l vxy, 0(src), 0, 0
         ps_mul rxy, vxy, vxy
         lfs vz, src->z
@@ -62,12 +65,14 @@ void JMAFastVECNormalize(register const Vec *src, register Vec *dst)
         psq_st vxy, 0(dst), 0, 0
         fmuls vz, vz, length
         stfs vz, dst->z
+        // clang-format on
     }
 }
 
 void JMAVECScaleAdd(register const Vec *vec1, register const Vec *vec2, register Vec *dst, register f32 scale)
 {
     register f32 v1xy, v2xy, rxy, v1z, v2z, rz;
+    // clang-format off
     __asm {
         // load vector XY of vector 1
         psq_l v1xy, 0(vec1), 0, 0
@@ -86,11 +91,13 @@ void JMAVECScaleAdd(register const Vec *vec1, register const Vec *vec2, register
         // store result Z in dst
         psq_st rz,  8(dst), 1, 0
     }
+    // clang-format on
 }
 
 void JMAVECLerp(register const Vec *vec1, register const Vec *vec2, register Vec *dst, register f32 t)
 {
     register f32 v1xy, v2xy, v1z, v2z;
+    // clang-format off
     __asm {
         // load XY components of both vectors
         psq_l v1xy, 0(vec1), 0, 0
@@ -112,6 +119,8 @@ void JMAVECLerp(register const Vec *vec1, register const Vec *vec2, register Vec
         // store result z in dst
         stfs v2z, 8(dst)
     }
+    // clang-format on
+
     /*dst->x = (vec2->x - vec1->x) * t + vec1->x;
     dst->y = (vec2->y - vec1->y) * t + vec1->y;
     dst->z = (vec2->z - vec1->z) * t + vec1->z;*/
@@ -130,6 +139,7 @@ register f32 xScale, register f32 yScale, register f32 zScale)
 {    
     register f32 scale, x, y, z;
     register f32 normal = 1.0f;
+    // clang-format off
     __asm {
         // scale first 2 components
         psq_l x, 0(src), 0, 0
@@ -155,8 +165,9 @@ register f32 xScale, register f32 yScale, register f32 zScale)
         psq_st y, 0x18(dst), 0, 0
         psq_st z, 0x28(dst), 0, 0
     }
+    // clang-format on
 
-    /* thanks ChatGPT, very cool
+    /*
     dst[0][0] = src[0][0] * xScale;
     dst[0][1] = src[0][1] * yScale;
     dst[0][2] = src[0][2] * zScale;

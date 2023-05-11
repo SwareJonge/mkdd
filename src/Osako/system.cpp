@@ -43,7 +43,6 @@ DUMMY_POINTER(lbl_8037d5e8)
 #define BOOT_RENDERMODE &SystemData::scNtscInt448Df
 #endif
 
-
 namespace System {
     JFWDisplay *System::mspDisplay;
     JKRExpHeap *System::mspAppHeap;
