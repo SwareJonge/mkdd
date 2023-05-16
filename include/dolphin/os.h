@@ -203,7 +203,7 @@ u32 __OSBusClock : (0x800000F8);
 
 #define LCGetBase() ((void *)LC_BASE)
 
-  u64 OSGetTime();
+  s64 OSGetTime();
   u32 OSGetTick();
 
 #define OS_SYS_CALL_HANDLER ((void *)0x80000C00)

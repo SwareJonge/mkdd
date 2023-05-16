@@ -44,7 +44,8 @@ enum ECharID
     cCharIDMax = 21
 };
 
-enum EKartID {
+enum EKartID
+{
     RED_FIRE = 0,
     DK_JUMBO = 1,
     TURBO_YOSHI = 2,
@@ -65,16 +66,19 @@ enum EKartID {
     TOADETTE_KART = 17,
     BOO_PIPES = 18,
     PIRANHA_PIPES = 19,
-    PARADE_KART = 20
+    PARADE_KART = 20,
+    cKartIDMax = 21
 };
 
-enum EKartWeight {
+enum EKartWeight 
+{
     LIGHT = 0,
     NORMAL = 1,
     HEAVY = 2
 };
 
-class KartInfo {
+class KartInfo 
+{
 public:
     struct SCharDB
     {

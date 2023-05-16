@@ -2465,6 +2465,9 @@ global:
   0x801dfae0: calc__7Award2DFv
   0x801dfdec: draw__7Award2DFv
 
+  # password.cpp
+  0x801e76a8: make__8PasswordF7EKartID7ECharID7ECharID9ECourseID8RaceTime8RaceTime
+
   # Sato
   # stMath.cpp
   0x801ebb10: stVecNormalize__FRQ29JGeometry8TVec3<f>

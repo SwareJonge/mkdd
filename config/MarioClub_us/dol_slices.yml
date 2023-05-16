@@ -604,6 +604,10 @@ src/Osako/SaveFile.cpp:
     .sbss: [0x80416a48, 0x80416a50]
     .sdata2: [0x8041b840, 0x8041b858]
 
+src/Osako/password.cpp:
+    .text: [0x802195f0, 0x802199d4]
+    .rodata: [0x8037ed08, 0x8037ed70]
+
 src/Sato/stMath.cpp:
     .text: [0x8021e070, 0x8021fa40] 
     .rodata: [0x8037eec8, 0x8037eef0]

@@ -4,15 +4,50 @@
 #include "types.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Kaneshige/Course/Course.h"
+#include "Kaneshige/RaceInfo.h"
+
+struct PWUnion
+{
+    // 0x0
+    u32 totalTime : 19;
+    // 0x2
+    u32 unk1 : 1;
+    u32 region : 2;
+    u32 back : 5;
+    u32 checkData : 5;
+    // 0x4
+    u32 flapTime : 18;
+    // 0x6
+    u16 kart : 5;
+    u16 driver : 5;
+    u16 course : 4;
+    u16 rnd;
+};
+
+union PW
+{
+    PWUnion bits;
+    u8 packed[0xa];
+};
 
 class Password {
-    public:
-    Password() {
-        mMake = false;
-    }
+public:
+    Password() { mMake = false; }
     u8 convCrsNo(ECourseID);
     // TODO: Make header with just the enums
-    //bool make();
+
+    u8 calcCheckData();
+    void setCheckData();
+
+    void crypt(u16);
+    void decode();
+    void encode();
+
+    bool pack(EKartID kartId, ECharID driverId, ECharID backId, ECourseID crsID, RaceTime total, RaceTime flap);
+    bool unpack(EKartID *kartId, ECharID *driverId, ECharID *backId, ECourseID *crsID, RaceTime *total, RaceTime *flap);
+    bool make(EKartID kartId, ECharID driverId, ECharID backId, ECourseID crsID, RaceTime totalTime, RaceTime flapTime);
+
+    char searchPasswordTable(char c);
 
     char getPassAtIndex(int n) {
         JUT_ASSERT(48, mMake);
@@ -20,8 +55,8 @@ class Password {
         return mPass[n];
     }
 
-    private:
-    u8 _0 [0xC]; // might be an array of unions, since sometimes a member is u16 and sometimes u8
+private:
+    PW mPWTable;
     char mPass[17]; // last byte is a hardcoded terminator
     bool mMake;
 };
