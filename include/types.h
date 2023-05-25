@@ -45,7 +45,10 @@ typedef wchar_t wint_t;
 
 #define nullptr 0
 #define null 0
+
+#ifndef NULL
 #define NULL 0
+#endif
 
 #define UINT32_MAX 0xffffffff
 

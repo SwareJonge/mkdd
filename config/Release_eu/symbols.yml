@@ -667,6 +667,8 @@ global:
   # JASReport.cpp
   0x80091270: JASReport__FPCce
 
+  # JASSoundParams.cpp
+  0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.

@@ -13,7 +13,8 @@
 namespace JMath
 {
     template <typename T>
-    struct TAngleConstant_ {
+    struct TAngleConstant_
+    {
         static const f32 RADIAN_DEG090() { return HALF_PI; }
         static const f32 RADIAN_DEG180() { return PI; }
         static const f32 RADIAN_DEG360() { return TAU; }
@@ -52,8 +53,9 @@ namespace JMath
 
         void init()
         {
-            for (int i = 0; i < 2048; i++) {
-                mTable[i].first  = sin(((f64)i * TAngleConstant_<f32>::RADIAN_DEG360()) / 2048.0);
+            for (int i = 0; i < 2048; i++)
+            {
+                mTable[i].first = sin(((f64)i * TAngleConstant_<f32>::RADIAN_DEG360()) / 2048.0);
                 mTable[i].second = cos(((f64)i * TAngleConstant_<f32>::RADIAN_DEG360()) / 2048.0);
             }
         }
@@ -67,15 +69,16 @@ namespace JMath
 
     template <>
     struct TAtanTable<1024, f32>
-    {        
+    {
         TAtanTable() { init(); }
 
         void init()
         {
-            for (int i = 0; i < (u32)1024; i++) {
+            for (int i = 0; i < (u32)1024; i++)
+            {
                 mTable[i] = atan(i / 1024.0);
             }
-            mTable[0]  = 0.0f;
+            mTable[0] = 0.0f;
             mTable2[0] = TAngleConstant_<f32>::RADIAN_DEG180() / 4;
         }
 
@@ -147,11 +150,13 @@ namespace JMath
     struct TAsinAcosTable<1024, f32>
     {
         TAsinAcosTable() { init(); }
-        void init() {
-            for (int i = 0; i < 1024; i++) {
+        void init()
+        {
+            for (int i = 0; i < 1024; i++)
+            {
                 mTable[i] = asin(i / 1024.0);
             }
-            mTable[0]  = 0.0f;
+            mTable[0] = 0.0f;
             mTable2[0] = TAngleConstant_<f32>::RADIAN_DEG180() / 4;
         }
         f32 acos2_(f32, f32) const;
@@ -201,7 +206,7 @@ namespace JMath
     {
     public:
         TRandom_(u32 num) : TRandom_fast_(num){};
-    };    
+    };
 
     inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
@@ -216,7 +221,8 @@ inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
 inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
 inline f32 JMASSin(s16 v) { return JMASinShort(v); }
 
-inline f32 JMAFastSqrt(register f32 x) {
+inline f32 JMAFastSqrt(register f32 x)
+{
     register f32 recip;
 
     if (x > 0.0f)

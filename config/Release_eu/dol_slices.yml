@@ -238,6 +238,10 @@ libs/JSystem/JAudio/JASReport.cpp:
     .bss: [0x8036e7c8, 0x8036e7e0]
     .sbss: [0x803d4cb8, 0x803d4cc8]
 
+libs/JSystem/JAudio/JASSoundParams.cpp:
+    .text: [0x80096134, 0x80096190]
+    .sdata2: [0x803d6e10, 0x803d6e18]
+
 libs/dolphin/os/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800ec7e8, 0x800ec87c]

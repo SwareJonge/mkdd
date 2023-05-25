@@ -8,11 +8,13 @@
 stRandom *stRandom::sRndMgr[6] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 stRandom *stRandom::sMgr;
 
-namespace {
+namespace
+{
     static double sLerpEpsilon = 0.0010000000474974513;
 }
 
-int stVecNormalize(TVec3f &vec) {
+int stVecNormalize(TVec3f &vec)
+{
     int ret = 0;
 
     if (!vec.isZero())
@@ -52,7 +54,8 @@ float stspeedy_sqrtf(register float x)
 {
     register float recip;
 
-    if(x > 0.0f) {
+    if (x > 0.0f)
+    {
         __asm { frsqrte recip, x }
         return recip * x;
     }
@@ -71,21 +74,24 @@ void stMakeDirectionMtx(TPos3f *dirMtx, const TVec3f &vec, char axis)
 {
     TVec3f dir;
     TVec3f normal;
-    
-    if(axis == 'Z') {
+
+    if (axis == 'Z')
+    {
         normal.set(0.0f, 1.0f, 0.0f);
     }
-    else {
+    else
+    {
         normal.set(0.0f, 0.0f, 1.0f);
     }
-    
+
     dir.cross(normal, vec);
     stVecNormalize(&dir);
 
     normal.cross(vec, dir);
     stVecNormalize(&normal);
 
-    if (axis == 'Z') {
+    if (axis == 'Z')
+    {
         dirMtx->mMtx[0][0] = dir.x;
         dirMtx->mMtx[1][0] = dir.y;
         dirMtx->mMtx[2][0] = dir.z;
@@ -98,7 +104,8 @@ void stMakeDirectionMtx(TPos3f *dirMtx, const TVec3f &vec, char axis)
         dirMtx->mMtx[1][2] = vec.y;
         dirMtx->mMtx[2][2] = vec.z;
     }
-    else {
+    else
+    {
         dir.negate();
         dirMtx->mMtx[0][0] = dir.x;
         dirMtx->mMtx[1][0] = dir.y;
@@ -158,12 +165,12 @@ void stQt2Mtx(Mtx m, const Quaternion *q)
     float qw_qx_normal = qw * qx_normal;
     float qw_qy_normal = qw * qy_normal;
     float qw_qz_normal = qw * qz_normal;
-    float qx_squared   = qx * qx_normal;
+    float qx_squared = qx * qx_normal;
     float qx_qy_normal = qx * qy_normal;
     float qx_qz_normal = qx * qz_normal;
-    float qy_squared   = qy * qy_normal;
+    float qy_squared = qy * qy_normal;
     float qy_qz_normal = qy * qz_normal;
-    float qz_squared   = qz * qz_normal;
+    float qz_squared = qz * qz_normal;
 
     m[0][0] = 1.0f - (qy_squared + qz_squared);
     m[1][0] = qx_qy_normal + qw_qz_normal;
@@ -181,7 +188,8 @@ void stQt2Mtx(Mtx m, const Quaternion *q)
 }
 
 // Unused
-void stQtMult(Quaternion *dst, const Quaternion *a, const Quaternion *b) {
+void stQtMult(Quaternion *dst, const Quaternion *a, const Quaternion *b)
+{
     f32 x = (a->x * b->w) + (a->w * b->x) + (a->y * b->z) - (a->z * b->y);
     f32 y = (a->y * b->w) + (a->w * b->y) + (a->z * b->x) - (a->x * b->z);
     f32 z = (a->z * b->w) + (a->w * b->z) + (a->x * b->y) - (a->y * b->x);
@@ -192,14 +200,16 @@ void stQtMult(Quaternion *dst, const Quaternion *a, const Quaternion *b) {
     dst->w = w;
 }
 
-void stVec2QtUpdate(Quaternion &p, Quaternion &q, const TVec3f &dir, const TVec3f &vec){
+void stVec2QtUpdate(Quaternion &p, Quaternion &q, const TVec3f &dir, const TVec3f &vec)
+{
     TVec3f crossp;
     crossp.cross(dir, vec);
 
     float length = stspeedy_sqrtf(2.0f * (1.0f + dir.dot(vec)));
-    if(length > 0.0f) {
+    if (length > 0.0f)
+    {
         Quaternion a;
-        a.x = crossp.x / length;       
+        a.x = crossp.x / length;
         a.y = crossp.y / length;
         a.z = crossp.z / length;
         a.w = (0.5f * length);
@@ -233,7 +243,8 @@ void stVec2QtUpdate(Quaternion &q, const Vec &dir, const Vec &vec)
     }
 }
 
-bool stVec2Qt(Quaternion &q, const Vec &dir, const Vec &vec) {
+bool stVec2Qt(Quaternion &q, const Vec &dir, const Vec &vec)
+{
     Vec cross;
     bool ret = false;
     PSVECCrossProduct(&dir, &vec, &cross);
@@ -335,7 +346,8 @@ void stQtLerp(Quaternion *dst, const Quaternion *p, const Quaternion *q, float t
     }
 }
 
-f32 stQtNormalize(Quaternion *dst, const Quaternion *q) {
+f32 stQtNormalize(Quaternion *dst, const Quaternion *q)
+{
     float length = (q->x * q->x + q->y * q->y + q->z * q->z + q->w * q->w);
     if (length != 0.0f)
     {
@@ -349,11 +361,12 @@ f32 stQtNormalize(Quaternion *dst, const Quaternion *q) {
     return length;
 }
 
-int stMakePlaneParam(stPlaneParam &planeParam, TVec3f &vec1, const TVec3f &vec2) {
+int stMakePlaneParam(stPlaneParam &planeParam, TVec3f &vec1, const TVec3f &vec2)
+{
     vec1.normalize();
     if (vec1.length() == 0.0f)
         return 0;
-    
+
     planeParam.x = vec1.x;
     planeParam.y = vec1.y;
     planeParam.z = vec1.z;
@@ -369,7 +382,8 @@ int stMakePlaneParam(stPlaneParam &planeParam, const TVec3f &vec1, const TVec3f 
     return stMakePlaneParam(planeParam, crossp, vec3);
 }
 
-int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3) {
+int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
+{
     int ret = 0;
     if (vec2.x * (vec1.x - vec3.x) + vec2.y * (vec1.y - vec3.y) + vec2.z * (vec1.z - vec3.z) <=
         0.0f)
@@ -379,9 +393,11 @@ int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3
     return ret;
 }
 
-int stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam) {
+int stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam)
+{
     int ret = 0;
-    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle) <= 0.0f) {
+    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle) <= 0.0f)
+    {
         ret = 1;
     }
     return ret;
@@ -394,15 +410,18 @@ int stCollideSurfaceAndSphere(const TVec3f &vec, float radius, const stPlanePara
     f32 length = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle);
     if (length > 0.0f)
     {
-        if (length < radius) {
+        if (length < radius)
+        {
             ret = 1;
             retVal = radius - length;
         }
-        else {
+        else
+        {
             retVal = -1.0f;
         }
     }
-    else {
+    else
+    {
         ret = 1;
         retVal = radius - length;
     }
@@ -454,7 +473,8 @@ float stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scala
 }
 
 // Unused
-void stMTXRotS16(Mtx matrix, char axis, short v) {
+void stMTXRotS16(Mtx matrix, char axis, short v)
+{
     float sin = JMASinShort(v);
     float cos = JMASCosShort(v);
     PSMTXRotTrig(matrix, axis, sin, cos);
@@ -470,8 +490,10 @@ void stMTXRotRad(Mtx matrix, char axis, float x)
     stMTXRotS16(matrix, axis, x * 10435.0f);
 }
 
-void stRandom::createAllRandom() {
-    for (u32 i = 0; i < 6; i++) {
+void stRandom::createAllRandom()
+{
+    for (u32 i = 0; i < 6; i++)
+    {
         sRndMgr[i] = new stRandom();
     }
 }
@@ -479,16 +501,19 @@ void stRandom::createAllRandom() {
 // Unused nor auto inlined
 void stRandom::deleteAllRandom()
 {
-    for (u32 i = 0; i < 6; i++) {
+    for (u32 i = 0; i < 6; i++)
+    {
         delete sRndMgr[i];
     }
 }
 
-u32 stRandom::getRandomMax(u32 max) {
+u32 stRandom::getRandomMax(u32 max)
+{
     return ((max + 1) * get_ufloat_1());
 }
 
-void stRandom::getArbitUnitVec(TVec3f& dst, float p2, float p3) {
+void stRandom::getArbitUnitVec(TVec3f &dst, float p2, float p3)
+{
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
     _0x6 = p3 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
@@ -500,11 +525,13 @@ void stRandom::getArbitUnitVec(TVec3f& dst, float p2, float p3) {
     dst.z = JMASCos(_0x4);
 }
 
-void stRandom::getArbitUnitVecSimple(TVec3f &dst, float p2) {
+void stRandom::getArbitUnitVecSimple(TVec3f &dst, float p2)
+{
     getArbitUnitVec(dst, p2, 1.0f);
 }
 
-void stRandom::getArbitUnitVecXZ(TVec3f& dst, float p2) {
+void stRandom::getArbitUnitVecXZ(TVec3f &dst, float p2)
+{
     _0x4 = p2 * (32767.0f * (2.0f * get_ufloat_1() - 1.0f));
 
     // dst.set(JMASSin(_0x4), 0.0f, JMASCos(_0x4));
@@ -514,15 +541,18 @@ void stRandom::getArbitUnitVecXZ(TVec3f& dst, float p2) {
 }
 
 // Unused
-stRandom *stGetRnd() {
+stRandom *stGetRnd()
+{
     return stRandom::sMgr;
 }
 
-stRandom *stGetRnd(u32 idx) {
+stRandom *stGetRnd(u32 idx)
+{
     JUT_ASSERT_F(924, stRandom::sRndMgr[idx]->permission, "Random can\'t get :%d", idx);
     return stRandom::sRndMgr[idx];
 }
 
-void stSetRndPermission(u32 idx, bool perm) {
+void stSetRndPermission(u32 idx, bool perm)
+{
     stRandom::sRndMgr[idx]->permission = perm;
 }

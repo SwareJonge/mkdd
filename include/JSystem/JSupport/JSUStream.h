@@ -21,24 +21,27 @@ public:
     }
 
     virtual ~JSUIosBase() {} //_08 (weak)
-    enum EIoState {
+    enum EIoState
+    {
         State_Bad,
         State_1,
         State_2
     };
 
-    void setState(EIoState state) {
+    void setState(EIoState state)
+    {
         mState |= state;
     }
 
-    void clrState(EIoState state) {
+    void clrState(EIoState state)
+    {
         mState &= ~state;
     }
 
-    bool isGood() {
+    bool isGood()
+    {
         return mState != State_Bad;
     }
-
 
     // _00 VTBL
     u8 mState; // _04
@@ -172,7 +175,7 @@ public:
 /* Not much remains of this. */
 class JSUOutputStream : public JSUIosBase
 {
-    public:
+public:
     virtual ~JSUOutputStream(); // _08
     /* No calls to this appear to have survived. */
     virtual void _0C(); // _0C
