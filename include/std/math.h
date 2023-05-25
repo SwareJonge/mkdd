@@ -32,7 +32,7 @@ namespace std
             return x;
         }        
     }
-    inline f32 inv_sqrtf(f32 x) {
+    extern inline f32 inv_sqrtf(f32 x) {
         return 1.0f / sqrtf(x);
 
     }

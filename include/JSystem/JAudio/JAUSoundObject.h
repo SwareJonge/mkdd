@@ -1,10 +1,9 @@
 #ifndef JAUSOUNDOBJECT_H
 #define JAUSOUNDOBJECT_H
 
-#include "types.h"
+#include "JSystem/JAudio/JAISound.h"
 #include "JSystem/JGeometry.h"
-
-class JAISoundHandle;
+#include "types.h"
 
 class JAUSoundObject
 {
@@ -19,10 +18,11 @@ public:
     virtual void dispose();
     virtual void stopOK(JAISoundHandle &);
     virtual void *startSound(int);
-    //virtual void startSoundIndex(int, unsigned char);
-    //virtual void stopSound(int soundID, u32); // unused, not sure
     virtual void *startLevelSound(int);
-    //virtual void startLevelSoundIndex(int, unsigned char);
+    
+    //void startLevelSoundIndex(int, unsigned char);
+    //void startSoundIndex(int, unsigned char);
+    //void stopSound(int soundID, u32); // unused, not sure
 
     bool _C;
     u8 _D[3];
@@ -32,6 +32,7 @@ public:
 
 class JAUDopplerSoundObject : JAUSoundObject
 { 
+public:
     virtual void process();
     virtual void *startSound(int soundID);
     virtual void *startLevelSound(int soundID);
