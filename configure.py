@@ -427,12 +427,13 @@ class FloatInclude(GeneratedInclude):
         return f"FloatInclude({self.start}, {self.end})"
 
 class DoubleInclude(GeneratedInclude):
-    REGEX = r'#include "orderdoubles\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
+    REGEX = r'#include "(orderdoubles(m?))\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
 
     def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
-        self.start, self.end = match
+        folder, manual, self.start, self.end = match
+        self.manual = manual != ''
         super().__init__(ctx, source_name,
-                         f"{c.BUILD_INCDIR}/orderdoubles/{self.start}_{self.end}.inc")
+                         f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
 
     def build(includes: List["DoubleInclude"]):
         # Skip empty list
@@ -444,13 +445,15 @@ class DoubleInclude(GeneratedInclude):
 
         # Build
         for inc in includes:
+            sda = "--sda " if ctx.sdata2_threshold >= 4 else ""
+            asm = "" if inc.manual else "--asm"
             n.build(
                 inc.path,
                 rule="orderfloats",
                 inputs=ctx.binary,
                 variables={
                     "addrs" : f"{inc.start} {inc.end}",
-                    "flags" : f"--double"
+                    "flags": f"--double {sda} {asm}"
                 }
             )
 

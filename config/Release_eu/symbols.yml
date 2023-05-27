@@ -664,6 +664,13 @@ global:
   0x80388140: __vt__10JFWDisplay
   0x803d4c40: sManager__10JFWDisplay
   # JAudio
+  # JASCalc.cpp
+  0x8008f938: imixcopy__7JASCalcFPCsPCsPsUl
+  0x8008fa48: bcopy__7JASCalcFPCvPvUl
+  0x8008fde4: bzero__7JASCalcFPvUl
+  0x80090084: pow2__7JASCalcFf
+  0x80090198: clamp<s,l>__7JASCalcFl
+  0x80332810: CUTOFF_TO_IIR_TABLE__7JASCalc
   # JASReport.cpp
   0x80091270: JASReport__FPCce
 
