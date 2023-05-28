@@ -1,3 +1,7 @@
+#ifndef JSYSTEM_JASCALC_H
+#define JSYSTEM_JASCALC_H
+
+#include <limits>
 #include "types.h"
 
 // might be a class, who knows
@@ -23,3 +27,5 @@ namespace JASCalc {
 
     extern const s16 CUTOFF_TO_IIR_TABLE[128][4];
 }
+
+#endif
