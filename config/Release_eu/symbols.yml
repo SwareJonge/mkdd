@@ -682,6 +682,9 @@ global:
   0x80091498: __ct__13JASTaskThreadFiiUl 
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
+  # JASInstRand.cpp
+  0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
+  0x8034b8b8: __vt__11JASInstRand
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.

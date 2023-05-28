@@ -251,6 +251,12 @@ libs/JSystem/JAudio/JASSoundParams.cpp:
     .text: [0x80096134, 0x80096190]
     .sdata2: [0x803d6e10, 0x803d6e18]
 
+libs/JSystem/JAudio/JASInstRand.cpp:
+    .text: [0x8009853c, 0x8009867c]
+    .data: [0x8034b8b8, 0x8034b8c8]
+    .sbss: [0x803d4d40, 0x803d4d48]
+    .sdata2: [0x803d6e50, 0x803d6e60]
+
 libs/dolphin/os/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800ec7e8, 0x800ec87c]

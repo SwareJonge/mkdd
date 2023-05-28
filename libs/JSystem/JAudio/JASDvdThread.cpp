@@ -12,7 +12,7 @@ namespace JASDvd
     bool createThread(s32 threadPriority, int msgCount, u32 stackSize)
     {
         // check if createThread already has been called
-        if (sThread != 0) // could be conditional JUT_CRITICAL_WARNING_F, who knows
+        if (sThread != 0)
         {
 #line 32
             JUT_CRITICAL_WARNING_F("%s", "JASDvd::createThread が２回呼び出されました");

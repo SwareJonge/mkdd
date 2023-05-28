@@ -3,9 +3,8 @@
 
 #include "types.h"
 
-class JASSoundParams
+struct JASSoundParams
 {
-public:
     JASSoundParams() { init(); }
 
     void clamp();
@@ -66,7 +65,6 @@ public:
             mDolby = 1.0f;
     }
 
-private:
     f32 mVolume;
     f32 mFxMix;
     f32 mPitch;
