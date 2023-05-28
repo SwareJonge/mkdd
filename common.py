@@ -210,7 +210,7 @@ SDK_CC = os.path.join(SDK_CW, "mwcceppc")
 MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
 CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc")
 
-CODEWARRIOR = os.path.join(TOOLS, "2.5")
+CODEWARRIOR = os.path.join(TOOLS, "2.6")
 CC = os.path.join(CODEWARRIOR, "mwcceppc")
 LD = os.path.join(CODEWARRIOR, "mwldeppc")
 if platform != "win32": # perhaps make a way to figure out if wibo exists, if not, default to wine

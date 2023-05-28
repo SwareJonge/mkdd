@@ -42,10 +42,10 @@ import common as c
 ####################
 
 # Check CW was added
-assert os.path.exists("tools/2.5/mwcceppc.exe") and \
+assert os.path.exists("tools/2.6/mwcceppc.exe") and \
     os.path.exists("tools/1.3.2/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5/mwcceppc.exe") and \
-    os.path.exists("tools/2.5/mwldeppc.exe"), \
+    os.path.exists("tools/2.6/mwldeppc.exe"), \
     "Error: Codewarrior compiler(s) not found!"
 
 # Check binaries were added
