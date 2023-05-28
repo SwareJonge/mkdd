@@ -4,6 +4,9 @@
 #include <JSYstem/JUtility/JUTDbg.h>
 #include <JSystem/JAudio/JASCalc.h>
 
+// Note: currently i don't know the compiler flags for JAudio
+// So far the release version used the non peephole flags for every sublibrary
+// However currently there's no difference between speed and space for the 3 JAudio files i have decompiled
 #pragma optimize_for_size off
 
 namespace JASCalc
@@ -303,59 +306,54 @@ namespace JASCalc
     // JASCalc::hammWindow(short *, unsigned long)
     // JASCalc::fft(float *, float *, unsigned long, long)
     f32 fake1() { return 0.5f; }
-    f32 fake2(int x) { return x; }
+    f32 fake2(long x) { return clamp<s16, long>(x); }
     f32 fake3() { return 0.0f; }
 
     // Thanks Lazy Pony on decomp.me for documenting this!
-    /*     
+    /*
      * Calculate 2^x as a float
      */
     f32 pow2(f32 x)
     {
-        int frac_index = 0;
-        union
-        {
-            int i;
+        s32 frac_index = 0;
+        union {
+            s32 l;
             f32 f;
         } exponent;
-        exponent.i = (x >= 0.0f ? (int)(x - 0.5f) : (int)(x + 0.5f)); // Shift towards 0 and round
-        f32 pannedval = x - exponent.i;                               // strictly between 1.5 and -1.5
+        exponent.l = (x >= 0.0f ? (s32)(x - 0.5f) : (s32)(x + 0.5f)); // Shift towards 0 and round
+        f32 pannedval = x - exponent.l; // strictly between 1.5 and -1.5
 
         // 2^x will not fit in an IEEE-754 float
-        if (exponent.i > 0x80)
-        {
+        if(exponent.l > 128) {
             return INFINITY;
         }
 
         // convert to exponent of IEEE-754 float
-        exponent.i += 0x7F;
-        exponent.i *= 0x800000;
+        exponent.l += 127;
+        exponent.l <<= 23;
 
         // Calculate the mantissa
 
-        static const f32 scale_frac[2] = {0.0f, 0.5f};
+        static const f32 scale_frac[] = { 0.0f, 0.5f };
         // { 1 , 1/sqrt2 }
-        static const f32 two_to_frac[2] = {1.0f, 0.70710677f};
-        // coefficients of power series of 2^x - 1 at 0:
+        static const f32 two_to_frac[] = {1.0f, 0.70710677f};
+        // coefficients of Taylor polynomial of 2^x - 1 at 0:
         // 2^x - 1 = (log2) * x + (log2)^2 / 2! * x^2 + ...
-        static const f32 __two_to_x[6] = {
+        static const f32 __two_to_x[] = {
             0.6931472f, 0.24022661,
             0.055502914f, 0.009625022f,
-            0.0013131053f, 1.8300806E-4f};
+            0.0013131053f, 1.8300806E-4f        
+        };
 
-        if (pannedval < 0.0f)
-        {
+        if (pannedval < 0.0f) {
             frac_index += 1;
         }
-
+        
         f32 ret = pannedval + scale_frac[frac_index];
 
         // Evaluate Taylor polynomial using Horner's method
         ret = ret * (ret * (ret * (ret * (ret * (ret * __two_to_x[5] + __two_to_x[4]) +
-                                          __two_to_x[3]) +
-                                   __two_to_x[2]) +
-                            __two_to_x[1]) +
-                     __two_to_x[0]);
+            __two_to_x[3]) + __two_to_x[2]) + __two_to_x[1]) + __two_to_x[0]);
         // 2^n * (corrected mantissa)
         ret = exponent.f * (0.75f * two_to_frac[frac_index] + ((0.25f + ret) * two_to_frac[frac_index]));
 

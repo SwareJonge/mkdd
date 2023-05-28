@@ -244,7 +244,7 @@ libs/JSystem/JKernel/JKRAssertHeap.cpp:
     .sdata2: [0x80417b68, 0x80417b78]
 
 libs/JSystem/JAudio/JASCalc.cpp:
-    .text: [0x8008f094, 0x8008f968] # NOTE: currently has to exclude clamp<s,l>__7JASCalcFl
+    .text: [0x8008f094, 0x8008f990]
     .rodata: [0x80368090, 0x80368520]
     .sdata2: [0x80417d10, 0x80417d48]
 

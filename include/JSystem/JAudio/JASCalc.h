@@ -8,19 +8,17 @@ namespace JASCalc {
     void bzerofast(void *dest, u32 size);
     void bzero(void *dest, u32 size);
 
-    template <typename T1, typename T2>
-    T1 clamp(T1, T2);
-    template <typename T1, typename T2>
-    extern T1 clamp(T2) {
-        if (std::numeric_limits<T1>::min() >= val)
-        {
-            return std::numeric_limits<T1>::min();
-        }
-        if (val >= std::numeric_limits<T1>::max())
-        {
-            return std::numeric_limits<T1>::max();
-        }
-        return val;
+    //template <typename A, typename B>
+    //A clamp(A, B);
+    // TODO: does this create problems for other files? if so try making JASCalc a class or declare this as extern?
+    template <typename A, typename B>
+    A clamp(B x)
+    {
+        if (std::numeric_limits<A>::min() >= x)
+            return std::numeric_limits<A>::min();
+        if (x >= std::numeric_limits<A>::max())
+            return std::numeric_limits<A>::max();
+        return x;
     }
 
     extern const s16 CUTOFF_TO_IIR_TABLE[128][4];

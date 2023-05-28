@@ -234,7 +234,7 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
     .sdata2: [0x803d6ae8, 0x803d6b10]
 
 libs/JSystem/JAudio/JASCalc.cpp:
-    .text: [0x8008f938, 0x80090198] # NOTE: currently has to exclude clamp<s,l>__7JASCalcFl
+    .text: [0x8008f938, 0x800901c0]
     .rodata: [0x80332810, 0x80332c28]
     .sdata2: [0x803d6cd8, 0x803d6d08]
 
