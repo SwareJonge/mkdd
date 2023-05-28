@@ -3,11 +3,6 @@
 #include <JSYstem/JUtility/JUTDbg.h>
 #include <JSystem/JAudio/JASCalc.h>
 
-// Note: currently i don't know the compiler flags for JAudio
-// So far the release version used the non peephole flags for every sublibrary
-// However currently there's no difference between speed and space for the 3 JAudio files i have decompiled
-#pragma optimize_for_size off
-
 namespace JASCalc
 {
     // There is some sort of pattern, this probably got calculated in some way

@@ -671,9 +671,15 @@ global:
   0x80090084: pow2__7JASCalcFf
   0x80090198: clamp<s,l>__7JASCalcFl
   0x80332810: CUTOFF_TO_IIR_TABLE__7JASCalc
+  # JASDvdThread.cpp
+  0x800905c4: getThreadPointer__6JASDvdFv
+  0x800905cc: createThread__6JASDvdFliUl
+  # JASHeapCtrl.cpp
+  0x803d4ca8: JASDram
   # JASReport.cpp
   0x80091270: JASReport__FPCce
-
+  # JASTaskThread.cpp
+  0x80091498: __ct__13JASTaskThreadFiiUl 
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
   # Dolphin 

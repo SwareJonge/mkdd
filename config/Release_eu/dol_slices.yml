@@ -238,6 +238,10 @@ libs/JSystem/JAudio/JASCalc.cpp:
     .rodata: [0x80332810, 0x80332c28]
     .sdata2: [0x803d6cd8, 0x803d6d08]
 
+libs/JSystem/JAudio/JASDvdThread.cpp:
+    .text: [0x800905c4, 0x8009067c]
+    .sbss: [0x803d4ca0, 0x803d4ca8]
+
 libs/JSystem/JAudio/JASReport.cpp:
     .text: [0x80091270, 0x8009136c]
     .bss: [0x8036e7c8, 0x8036e7e0]

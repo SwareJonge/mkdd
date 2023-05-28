@@ -9,7 +9,6 @@
 #include "types.h"
 
 struct JKRThread;
-struct JUTFont;
 
 struct JKRThreadName_ {
     s32 id;
@@ -121,12 +120,18 @@ struct JKRThread : public JKRDisposer
 
     void setCurrentHeap(JKRHeap *heap)
     {
-        if (!heap)
-        {
-            heap = JKRGetCurrentHeap();
+        /*
+        JKRHeap *curHeap;
+        if(heap) {
+            curHeap = heap;
         }
+        else {
+            curHeap = JKRGetCurrentHeap();
+        }
+        mCurrentHeap = curHeap;
+        */
 
-        mCurrentHeap = heap;
+        mCurrentHeap = heap ? heap : JKRGetCurrentHeap(); 
     }
 
     static JSUList<JKRThread> sThreadList;
@@ -134,16 +139,16 @@ struct JKRThread : public JKRDisposer
     // _00     = VTBL
     // _00-_18 = JKRDisposer
     JSULink<JKRThread> mThreadListLink; // _18
-    JKRHeap *mHeap;           // _28
-    OSThread *mThreadRecord;        // _2C
-    OSMessageQueue mMessageQueue; // _30
-    OSMessage *mMesgBuffer;    // _50
-    s32 mMessageCount;            // _54
-    void *mStackMemory;             // _58
-    u32 mStackSize;           // _5C
-    TLoad mLoadInfo;          // _60
-    JKRHeap *mCurrentHeap;    // _74
-    s32  mCurrentHeapError;    // _78
+    JKRHeap *mHeap;                     // _28
+    OSThread *mThreadRecord;            // _2C
+    OSMessageQueue mMessageQueue;       // _30
+    OSMessage *mMesgBuffer;             // _50
+    s32 mMessageCount;                  // _54
+    void *mStackMemory;                 // _58
+    u32 mStackSize;                     // _5C
+    TLoad mLoadInfo;                    // _60
+    JKRHeap *mCurrentHeap;              // _74
+    s32 mCurrentHeapError;              // _78
 };
 
 /**
