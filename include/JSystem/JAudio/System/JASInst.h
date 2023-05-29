@@ -2,7 +2,7 @@
 #define JSYSTEM_JASINST_H
 
 #include <JSystem/JMath/JMath.h>
-#include <JSystem/JAudio/JASSoundParams.h>
+#include <JSystem/JAudio/System/JASSoundParams.h>
 
 
 // NOTE: none of these constructors have been tested

@@ -1,4 +1,4 @@
-#include <JSystem/JAudio/JASSoundParams.h>
+#include <JSystem/JAudio/System/JASSoundParams.h>
 
 // UNUSED
 void JASSoundParams::clamp()

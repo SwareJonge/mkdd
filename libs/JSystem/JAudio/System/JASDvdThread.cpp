@@ -1,6 +1,6 @@
 #include "types.h"
 #include <JSystem/JAudio/System/JASDvd.h>
-#include <JSystem/JAudio/JASHeap.h>
+#include <JSystem/JAudio/System/JASHeap.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
 namespace JASDvd

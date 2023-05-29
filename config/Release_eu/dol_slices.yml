@@ -233,25 +233,25 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
     .sbss: [0x803d4c40, 0x803d4c68]
     .sdata2: [0x803d6ae8, 0x803d6b10]
 
-libs/JSystem/JAudio/JASCalc.cpp:
+libs/JSystem/JAudio/System/JASCalc.cpp:
     .text: [0x8008f938, 0x800901c0]
     .rodata: [0x80332810, 0x80332c28]
     .sdata2: [0x803d6cd8, 0x803d6d08]
 
-libs/JSystem/JAudio/JASDvdThread.cpp:
+libs/JSystem/JAudio/System/JASDvdThread.cpp:
     .text: [0x800905c4, 0x8009067c]
     .sbss: [0x803d4ca0, 0x803d4ca8]
 
-libs/JSystem/JAudio/JASReport.cpp:
+libs/JSystem/JAudio/System/JASReport.cpp:
     .text: [0x80091270, 0x8009136c]
     .bss: [0x8036e7c8, 0x8036e7e0]
     .sbss: [0x803d4cb8, 0x803d4cc8]
 
-libs/JSystem/JAudio/JASSoundParams.cpp:
+libs/JSystem/JAudio/System/JASSoundParams.cpp:
     .text: [0x80096134, 0x80096190]
     .sdata2: [0x803d6e10, 0x803d6e18]
 
-libs/JSystem/JAudio/JASInstRand.cpp:
+libs/JSystem/JAudio/System/JASInstRand.cpp:
     .text: [0x8009853c, 0x8009867c]
     .data: [0x8034b8b8, 0x8034b8c8]
     .sbss: [0x803d4d40, 0x803d4d48]

@@ -243,27 +243,27 @@ libs/JSystem/JKernel/JKRAssertHeap.cpp:
     .data: [0x8038b548, 0x8038b5a8]
     .sdata2: [0x80417b68, 0x80417b78]
 
-libs/JSystem/JAudio/JASCalc.cpp:
+libs/JSystem/JAudio/System/JASCalc.cpp:
     .text: [0x8008f094, 0x8008f990]
     .rodata: [0x80368090, 0x80368520]
     .sdata2: [0x80417d10, 0x80417d48]
 
-libs/JSystem/JAudio/JASDvdThread.cpp:
+libs/JSystem/JAudio/System/JASDvdThread.cpp:
     .text: [0x8008fd8c, 0x8008fee0]
     .rodata: [0x80368520, 0x80368570]
     .sbss: [0x80415a10, 0x80415a18]
     .sdata2: [0x80417d48, 0x80417d60]
 
-libs/JSystem/JAudio/JASReport.cpp:
+libs/JSystem/JAudio/System/JASReport.cpp:
     .text: [0x80090df4, 0x80090ef0]
     .bss: [0x803aec98, 0x803aecb0]
     .sbss: [0x80415a28, 0x80415a38]
 
-libs/JSystem/JAudio/JASSoundParams.cpp:
+libs/JSystem/JAudio/System/JASSoundParams.cpp:
     .text: [0x800967d0, 0x8009682c]
     .sdata2: [0x80417f28, 0x80417f30]
 
-libs/JSystem/JAudio/JASInstRand.cpp:
+libs/JSystem/JAudio/System/JASInstRand.cpp:
     .text: [0x800997f8, 0x8009996c]
     .rodata: [0x80369540, 0x80369550]
     .data: [0x8038b9a8, 0x8038b9b8]

@@ -1,7 +1,7 @@
 #include <math.h>
 #include <dolphin/os.h>
 #include <JSYstem/JUtility/JUTDbg.h>
-#include <JSystem/JAudio/JASCalc.h>
+#include <JSystem/JAudio/System/JASCalc.h>
 
 namespace JASCalc
 {

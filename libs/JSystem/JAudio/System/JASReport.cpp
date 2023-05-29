@@ -3,8 +3,8 @@
 
 #include <dolphin/os.h>
 
-#include "JSystem/JAudio/JASReport.h"
-#include "JSystem/JAudio/JASMutex.h"
+#include "JSystem/JAudio/System/JASReport.h"
+#include "JSystem/JAudio/System/JASMutex.h"
 
 static OSMutex sMutex;
 static char *sBuffer;
