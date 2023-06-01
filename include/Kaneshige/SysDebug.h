@@ -40,7 +40,15 @@ private:
     JKRHeap * mDebugHeap;
 };
 
-#if DEBUG
+#define SYSDBG_SetHeapGroup(name, heap) \
+    SysDebug::getManager()->setHeapGroup(name, heap);
+
+#define SYSDBG_SetDefaultHeapGroup(heap) \
+    SysDebug::getManager()->setDefaultHeapGroup(heap);
+
+#ifdef DEBUG
+#define SYSDBG_CreateHeapInfo(heap, name) \
+    SysDebug::getManager()->createHeapInfo(heap, name);
 #define SYSDBG_SetUserTimeLabel(id, name) \
     SysDebug::getManager()->setUserTimeLabel(id, name);
 #define SYSDBG_BeginUserTime(id) \
@@ -49,6 +57,7 @@ private:
     SysDebug::getManager()->endUserTime(id);
 
 #else
+#define SYSDBG_CreateHeapInfo(...)
 #define SYSDBG_SetUserTimeLabel(...)
 #define SYSDBG_BeginUserTime(...)
 #define SYSDBG_EndUserTime(...)

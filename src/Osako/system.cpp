@@ -125,33 +125,33 @@ namespace System {
         SysDebug::getManager()->createHeapInfo(mspAudioHeap, "Audio");
         SysDebug::getManager()->createHeapInfo(JKRGetRootHeap(), "root");
         SysDebug::getManager()->createHeapInfo(JKRGetSystemHeap(), "JSystem");
-        SysDebug::getManager()->setHeapGroup("Resource", JKRGetRootHeap());
+        SYSDBG_SetHeapGroup("Resource", JKRGetRootHeap());
         ResMgr::create(JKRGetRootHeap());
 
-        SysDebug::getManager()->setHeapGroup("Font", JKRGetRootHeap());
+        SYSDBG_SetHeapGroup("Font", JKRGetRootHeap());
         FontMgr::create(JKRGetRootHeap());
 
         mspJ2DOrtho = new J2DOrthoGraph(getOrthoL(), getOrthoT(), getOrthoR(), getOrthoB(), -1.0f, 1.0f);
         mspJ2DPrint = new J2DPrint(FontMgr::mspDebugFont, 0.0f); // propably a getter for debugfont
 
-        SysDebug::getManager()->setHeapGroup("Display", JKRGetRootHeap());
+        SYSDBG_SetHeapGroup("Display", JKRGetRootHeap());
         mspDisplay = JFWDisplay::createManager(nullptr, JKRGetRootHeap(), JUTXfb::DoubleBuffer, true);
 
         mspDisplay->setFader(new JUTFader(SystemData::sc3DScissor.X, SystemData::sc3DScissor.Y, 
                             SystemData::sc3DScissor.W, SystemData::sc3DScissor.H, JUtility::TColor(0, 0, 0, 0xff)));
 
-        SysDebug::getManager()->setHeapGroup("Card", JKRGetRootHeap());
+        SYSDBG_SetHeapGroup("Card", JKRGetRootHeap());
         CardMgr::create();
         CardAgent::create(JKRGetRootHeap());
 
-        SysDebug::getManager()->setHeapGroup("Net", JKRGetRootHeap());
+        SYSDBG_SetHeapGroup("Net", JKRGetRootHeap());
         BBAMgr::create(JKRGetRootHeap());
         NetGameMgr::create(JKRGetRootHeap());
         JUTVideo::getManager()->setPostRetraceCallback(NetGameMgr::retraceCallback);
 
-        SysDebug::getManager()->setDefaultHeapGroup(JKRGetRootHeap());
+        SYSDBG_SetDefaultHeapGroup(JKRGetRootHeap());
         JKRGetRootHeap()->becomeCurrentHeap();
-        SysDebug::getManager()->setDefaultHeapGroup(JKRGetRootHeap());
+        SYSDBG_SetDefaultHeapGroup(JKRGetRootHeap());
 
         JUTProcBar::getManager()->setVisible(false);
         JUTProcBar::getManager()->setHeapBarVisible(false);
@@ -295,16 +295,9 @@ namespace System {
 
     void callbackException(OSError p1, OSContext * p2, u32 p3, u32 p4)
     {
-#ifdef DEBUG // haltRumble got added in later/ only got used in debug builds? auto inline doesn't work(with ifdefing the LGWheels part)
         haltRumble();
         mspDisplay->startFadeIn(0);
-#else
-        PADControlMotor(0, 0);
-        PADControlMotor(1, 0);
-        PADControlMotor(2, 0);
-        PADControlMotor(3, 0);
-        mspDisplay->startFadeIn(0);
-
+#ifndef DEBUG
         JUTException::getManager()->setGamePad((JUTGamePad *)-1); // set to -1 to reset all controllers?
         JUTException::waitTime(2000);
 
@@ -328,11 +321,9 @@ namespace System {
 #endif
     }
 
+#ifdef DEBUG
     void haltRumble() {
-        PADControlMotor(0, 0);
-        PADControlMotor(1, 0);
-        PADControlMotor(2, 0);
-        PADControlMotor(3, 0);
+        stopMotors();
 
         LGWheels *wheels = JUTGamePad::getLGWheels();
 
@@ -344,6 +335,7 @@ namespace System {
             }
         }
     }
+#endif
 
     void checkDVDState()
     {

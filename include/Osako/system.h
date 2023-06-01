@@ -18,8 +18,22 @@ namespace System
     void reset();
     void changeProgressive();
     void changeMovieRenderMode();
-    void changeNormalRenderMode();    
+    void changeNormalRenderMode();
+    inline void stopMotors() {
+        PADControlMotor(0, 0);
+        PADControlMotor(1, 0);
+        PADControlMotor(2, 0);
+        PADControlMotor(3, 0);
+    }
+
     void haltRumble();
+#ifndef DEBUG
+    inline void haltRumble()
+    {
+        stopMotors();
+    }
+#endif
+
     void run();
     // Unused functions however i'm sure these get auto inlined in run()
     void checkDVDState();

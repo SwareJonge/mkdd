@@ -149,7 +149,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     sRaceManager = this;
 
-    SysDebug::getManager()->setHeapGroup("RACE MGR", nullptr);
+    SYSDBG_SetHeapGroup("RACE MGR", nullptr);
     _0x22 = 0;
     mFrame = 0;
     mRaceHeap = JKRGetCurrentHeap();
@@ -158,8 +158,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     editRaceInfoForDebug();
 #if DEBUG
-    RaceUsrPage *racePage = new RaceUsrPage(mRaceInfo);
-    SysDebug::getManager()->appendPage(racePage);
+    SysDebug::getManager()->appendPage(new RaceUsrPage(mRaceInfo));
 #endif
 
     _0x30 = 0; // might've been used for debug only, this is the only time it gets used
@@ -169,7 +168,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     if (getProcLevel() <= 0)
         activeAreaLight();
 
-    bool bVar17 = false;
+    bool hasRacePhase = false;
     if (!isWaitDemoMode())
     {
         switch (getRaceMode())
@@ -179,7 +178,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
         case ROBBERY_BATTLE:
         case BOMB_BATTLE:
         case ESCAPE_BATTLE:
-            bVar17 = true;
+            hasRacePhase = true;
             break;
         }
     }
@@ -190,13 +189,13 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     else if (isStaffRoll())
         timeKeeper = new StaffRollTimeKeeper();
 
-    mRaceDirector = new RaceDirector(bVar17, timeKeeper, getConsoleNumber());
+    mRaceDirector = new RaceDirector(hasRacePhase, timeKeeper, getConsoleNumber());
 
-    u16 uVar20 = 1;
+    u16 numLevels = 1;
     if (mRaceInfo->isDriverLODOn())
-        uVar20 = 2;
+        numLevels = 2;
 
-    SysDebug::getManager()->setHeapGroup("COURSE MGR", nullptr);
+    SYSDBG_SetHeapGroup("COURSE MGR", nullptr);
 
     CrsData::SColHeader *bco = (CrsData::SColHeader *)ResMgr::getPtr(ResMgr::COURSE_BCO);
     CrsData::SOblHeader *bol = (CrsData::SOblHeader *)ResMgr::getPtr(ResMgr::COURSE_BOL);
@@ -238,17 +237,17 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     else
         mTotalLapNumber = sForceTotalLapNum;
 
-    int iVar4 = 0;
+    int level = 0;
     if (!isRaceModeMiniGame() && getConsoleNumber() >= 3)
-        iVar4 = 1;
+        level = 1;
 
-    TexLODControl *texLod = new TexLODControl(iVar4);
+    TexLODControl *texLod = new TexLODControl(level);
     texLod->setGeographyLODBiasOn(crsData->isTexLODBiasOn());
     bool staffRoll = isStaffRoll();
 
-    SysDebug::getManager()->setHeapGroup("RACE DRAWER", nullptr);
-    mRaceDrawer = new RaceDrawer(uVar20, staffRoll);
-    SysDebug::getManager()->setHeapGroup("RACE BGM", nullptr);
+    SYSDBG_SetHeapGroup("RACE DRAWER", nullptr);
+    mRaceDrawer = new RaceDrawer(numLevels, staffRoll);
+    SYSDBG_SetHeapGroup("RACE BGM", nullptr);
     mRaceBGMPlayer = new RaceBGMPlayer();
 
     createConsole();
@@ -256,14 +255,14 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     setRandomSeed();
 
     ExMdlDataMgr *mdlData = new ExMdlDataMgr(isMirror());
-    SysDebug::getManager()->setHeapGroup("SHADOW SCR", nullptr);
+    SYSDBG_SetHeapGroup("SHADOW SCR", nullptr);
     JUtility::TColor color;
     crsData->getShadowColor(&color);
     ShadowManager::ptr()->setMirror(isMirror());
     ShadowManager::ptr()->setShadowColor(color);
     ShadowManager::ptr()->setShadowDepth(crsData->getShadowDepth());
 
-    SysDebug::getManager()->setHeapGroup("COURSE MGR", nullptr);
+    SYSDBG_SetHeapGroup("COURSE MGR", nullptr);
     bool credits = false; // Kaneshige moment
     if (isStaffRoll())
         credits = true;
@@ -275,7 +274,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
         mAwardArc = ResMgr::getArchive(ResMgr::mcArcAward);
         JUT_ASSERT_MSG(2185, mAwardArc, "NOT LOAD AWARD ARC");
     }
-    SysDebug::getManager()->setHeapGroup("OBJECT MGR", nullptr);
+    SYSDBG_SetHeapGroup("OBJECT MGR", nullptr);
     CreateGeoObjMgr(mCourse->getCrsData());
     CreateCharIKParamMgr();
 
@@ -287,13 +286,13 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     for (int i = 0; i < 8; i++)
     {
-        SysDebug::getManager()->setHeapGroup("KART WORK", nullptr);
+        SYSDBG_SetHeapGroup("KART WORK", nullptr);
         KartChecker *kartChker = nullptr;
         KartLoader *kartLdr = nullptr;
         if (i < getKartNumber())
         {
             kartChker = new KartChecker(i, getKartInfo(i), getCourse()->getTrackSectorNumber(), getTotalLapNumber());
-            kartLdr = new KartLoader(i, getKartInfo(i), uVar20, isTT, isAwardDemoMode());
+            kartLdr = new KartLoader(i, getKartInfo(i), numLevels, isTT, isAwardDemoMode());
         }
         mKartChecker[i] = kartChker;
         mKartLoader[i] = kartLdr;
@@ -302,27 +301,27 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     if (isAwardDemoMode())
         mKartLoader[0]->setDemoBodyBmd(ObjUtility::getPtrCourseArc("/Objects/demo_k_body.bmd"));
 
-    SysDebug::getManager()->setHeapGroup("PARTICLE MGR", nullptr);
+    SYSDBG_SetHeapGroup("PARTICLE MGR", nullptr);
     CreateJPAMgr(mRaceHeap, false);
     CreateStEfctMgr();
     GetStEfctMgr()->init();
     CreateJ3DEfctMgr();
     CreateJ3DEfctKarAnmMgr();
 
-    SysDebug::getManager()->setHeapGroup("ITEM MGR", nullptr);
+    SYSDBG_SetHeapGroup("ITEM MGR", nullptr);
     CreateItemObjMgr();
 
-    SysDebug::getManager()->setHeapGroup("KART MGR", nullptr);
+    SYSDBG_SetHeapGroup("KART MGR", nullptr);
     KartCtrl::makeKartCtrl();
     KartCtrl::getKartCtrl()->DynamicsInit(ExModel::isMtxCombinationOn());
     createModel();
     CreateEfctScreenMgr();
     createLight();
 
-    SysDebug::getManager()->setHeapGroup("MOTOR MGR", nullptr);
+    SYSDBG_SetHeapGroup("MOTOR MGR", nullptr);
     new MotorManager(mRaceHeap);
 
-    SysDebug::getManager()->setHeapGroup("2D DATA", nullptr);
+    SYSDBG_SetHeapGroup("2D DATA", nullptr);
     J2DManager *j2dMgr = new J2DManager(mRaceHeap);
     PauseManager *pauseMgr = new PauseManager(mRaceHeap);
 
@@ -333,10 +332,10 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     if (isStaffRoll())
     {
-        SysDebug::getManager()->setHeapGroup("STAFF ROLL2D", nullptr);
+        SYSDBG_SetHeapGroup("STAFF ROLL2D", nullptr);
         bool ending = mRaceInfo->isTrueEnding();
         mStaffRoll2D = new StaffRoll2D(mRaceHeap, lang, videoMode, ending);
-        SysDebug::getManager()->setHeapGroup("2D DATA", nullptr);
+        SYSDBG_SetHeapGroup("2D DATA", nullptr);
     }
     else
         mStaffRoll2D = nullptr;
@@ -352,7 +351,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
         }
     }
 
-    SysDebug::getManager()->setHeapGroup("RACE MGR", nullptr);
+    SYSDBG_SetHeapGroup("RACE MGR", nullptr);
     for (int i = 0; i < mRaceInfo->getConsoleNumber(); i++)
     {
         Console *cns = &mConsole[i];
@@ -371,8 +370,8 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     mProctime3 = -1;
     mProctime4 = -1;
 
-    SysDebug::getManager()->setHeapGroup("RESTART", nullptr); // these also might be a define, who would write SysDebug::getManager a million times?
-    SysDebug::getManager()->setDefaultHeapGroup(nullptr);
+    SYSDBG_SetHeapGroup("RESTART", nullptr);
+    SYSDBG_SetDefaultHeapGroup(nullptr);
     SYSDBG_SetUserTimeLabel(0, "GX ISSUE");
     SYSDBG_SetUserTimeLabel(1, nullptr);
     SYSDBG_SetUserTimeLabel(2, "CALC");
@@ -414,13 +413,13 @@ void RaceMgr::editRaceInfoForDebug()
     s16 startpointID = sMyStartPointID;
     if (startpointID >= 0)
     {
-        RaceInfo *rInfo = mRaceInfo;
-        s16 origStartPosIdx = rInfo->mStartPosIndex[0];
+        RaceInfo *raceInfo = mRaceInfo;
+        s16 origStartPosIdx = raceInfo->mStartPosIndex[0];
         for (int i = 0; i < 8; i++)
         {
-            if (rInfo->mStartPosIndex[i] == startpointID)
+            if (raceInfo->mStartPosIndex[i] == startpointID)
             {
-                rInfo->mStartPosIndex[i] = origStartPosIdx;
+                raceInfo->mStartPosIndex[i] = origStartPosIdx;
                 break;
             }
         }
@@ -482,15 +481,15 @@ void RaceMgr::createModel()
     Mtx viewMtx;
     PSMTXIdentity(viewMtx);
     j3dSys.setViewMtx(viewMtx);
-    SysDebug::getManager()->setHeapGroup("KART MODEL", nullptr);
+    SYSDBG_SetHeapGroup("KART MODEL", nullptr);
     createKartModel();
-    SysDebug::getManager()->setHeapGroup("COURSE MODEL", nullptr);
+    SYSDBG_SetHeapGroup("COURSE MODEL", nullptr);
     createCourseModel();
-    SysDebug::getManager()->setHeapGroup("OBJECT MODEL", nullptr);
+    SYSDBG_SetHeapGroup("OBJECT MODEL", nullptr);
     createObjectModel();
-    SysDebug::getManager()->setHeapGroup("ITEM MODEL", nullptr);
+    SYSDBG_SetHeapGroup("ITEM MODEL", nullptr);
     createItemModel();
-    SysDebug::getManager()->setHeapGroup("EFFECT MODEL", nullptr);
+    SYSDBG_SetHeapGroup("EFFECT MODEL", nullptr);
     createEffectModel();
 }
 
@@ -499,9 +498,7 @@ void RaceMgr::createKartModel()
     ShadowManager::ptr();
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-#if DEBUG
-    SysDebug::getManager()->createHeapInfo(solidHeap, "KART MDL");
-#endif
+    SYSDBG_CreateHeapInfo(solidHeap, "KART MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
 
     for (int i = 0; i < getKartNumber(); i++)
@@ -519,9 +516,7 @@ void RaceMgr::createCourseModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-#if DEBUG
-    SysDebug::getManager()->createHeapInfo(solidHeap, "CRS  MDL");
-#endif
+    SYSDBG_CreateHeapInfo(solidHeap, "CRS  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     mCourse->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -532,9 +527,7 @@ void RaceMgr::createObjectModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-#if DEBUG
-    SysDebug::getManager()->createHeapInfo(solidHeap, "OBJ  MDL");
-#endif
+    SYSDBG_CreateHeapInfo(solidHeap, "OBJ  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetGeoObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -545,9 +538,7 @@ void RaceMgr::createItemModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-#if DEBUG
-    SysDebug::getManager()->createHeapInfo(solidHeap, "ITEM MDL");
-#endif
+    SYSDBG_CreateHeapInfo(solidHeap, "ITEM MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetItemObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -558,9 +549,7 @@ void RaceMgr::createEffectModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-#if DEBUG
-    SysDebug::getManager()->createHeapInfo(solidHeap, "EFCT MDL");
-#endif
+    SYSDBG_CreateHeapInfo(solidHeap, "EFCT MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetStEfctMgr()->createModel(solidHeap, getCameraNumber());
     GetJ3DEfctMgr()->createModel(solidHeap, getCameraNumber());
@@ -570,7 +559,7 @@ void RaceMgr::createEffectModel()
 
 void RaceMgr::createLight()
 {
-    SysDebug::getManager()->setHeapGroup("LIGHT MGR", nullptr);
+    SYSDBG_SetHeapGroup("LIGHT MGR", nullptr);
 
     LightMgr::createManager();
     bool balloonExists = false;
@@ -676,7 +665,7 @@ void RaceMgr::resetRaceCommon()
         setJugemZClr(i, true);
     }
     resetConsole();
-    SysDebug::getManager()->setHeapGroup("RESTART", nullptr);
+    SYSDBG_SetHeapGroup("RESTART", nullptr);
     mCourse->reset();
     GetGeoObjMgr()->reset(*mCourse->getCrsData());
     GetItemObjMgr()->reset();
@@ -711,7 +700,7 @@ void RaceMgr::resetRaceCommon()
     if (!isRaceModeMiniGame())
         RivalKart::Reset();
 
-    SysDebug::getManager()->setDefaultHeapGroup(nullptr);
+    SYSDBG_SetDefaultHeapGroup(nullptr);
     JUT_REPORT_MSG("End   Reset.............................................\n");
 }
 
