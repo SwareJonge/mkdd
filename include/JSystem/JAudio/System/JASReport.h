@@ -1,5 +1,5 @@
-#ifndef JASREPORT_H
-#define JASREPORT_H
+#ifndef JAUDIO_JASREPORT_H
+#define JAUDIO_JASREPORT_H
 
 #include "types.h"
 

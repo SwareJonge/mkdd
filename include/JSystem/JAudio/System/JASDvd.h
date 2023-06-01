@@ -1,5 +1,5 @@
-#ifndef JSYSTEM_JASDVD_H
-#define JSYSTEM_JASDVD_H
+#ifndef JAUDIO_JASDVD_H
+#define JAUDIO_JASDVD_H
 #include "types.h"
 #include <JSystem/JAudio/System/JASTaskThread.h>
 

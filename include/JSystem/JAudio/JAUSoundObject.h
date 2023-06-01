@@ -1,5 +1,5 @@
-#ifndef JAUSOUNDOBJECT_H
-#define JAUSOUNDOBJECT_H
+#ifndef JAUDIO_JAUSOUNDOBJECT_H
+#define JAUDIO_JAUSOUNDOBJECT_H
 
 #include "JSystem/JAudio/Interface/JAISound.h"
 #include "JSystem/JGeometry.h"

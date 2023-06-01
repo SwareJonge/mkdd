@@ -1,5 +1,5 @@
-#ifndef JSYSTEM_JASCALC_H
-#define JSYSTEM_JASCALC_H
+#ifndef JAUDIO_JASCALC_H
+#define JAUDIO_JASCALC_H
 
 #include <limits>
 #include "types.h"

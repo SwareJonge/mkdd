@@ -1,5 +1,5 @@
-#ifndef JSYSTEM_JASTASKTHREAD_H
-#define JSYSTEM_JASTASKTHREAD_H
+#ifndef JAUDIO_JASTASKTHREAD_H
+#define JAUDIO_JASTASKTHREAD_H
 
 #include "JSystem/JKernel/JKRThread.h"
 #include "types.h"

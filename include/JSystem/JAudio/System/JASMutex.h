@@ -1,5 +1,5 @@
-#ifndef JASMUTEX_H
-#define JASMUTEX_H
+#ifndef JAUDIO_JASMUTEX_H
+#define JAUDIO_JASMUTEX_H
 
 #include <dolphin/os.h>
 

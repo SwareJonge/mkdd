@@ -1,5 +1,5 @@
-#ifndef JSYSTEM_JAISOUND_H
-#define JSYSTEM_JAISOUND_H
+#ifndef JAUDIO_JAISOUND_H
+#define JAUDIO_JAISOUND_H
 
 #include <JSystem/JUtility/JUTDbg.h>
 

@@ -1,5 +1,5 @@
-#ifndef JSYSTEM_JASINST_H
-#define JSYSTEM_JASINST_H
+#ifndef JAUDIO_JASINST_H
+#define JAUDIO_JASINST_H
 
 #include <JSystem/JMath/JMath.h>
 #include <JSystem/JAudio/System/JASSoundParams.h>
