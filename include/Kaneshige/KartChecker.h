@@ -24,7 +24,7 @@ public:
     void clrPass(int sectoridx) {
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
-        cpBitfields[index] &= ~(1 << bitIndex);
+        mPassedSectors[index] &= ~(1 << bitIndex);
     }
 
     int getRank() const { return mRank; }
@@ -41,20 +41,20 @@ public:
     bool isPass(int sectoridx)  {        
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
-        JUT_MINMAX_ASSERT(131, 0, index, bitfieldCnt);
-        return (cpBitfields[index] & (1 << bitIndex)) != false;
+        JUT_MINMAX_ASSERT(131, 0, index, mNumBitfields);
+        return (mPassedSectors[index] & (1 << bitIndex)) != false;
     }
 
     bool isPassAll(int sectorCnt);
 
-    bool isRabbitWinner() const { return (rabbitWinFrame <= 0); }
+    bool isRabbitWinner() const { return (mRabbitWinFrame <= 0); }
 
     bool isReverse();
 
     // https://decomp.me/scratch/RWx4a
     void printPass(int x, int y) {
-        for (int i = 0; i < bitfieldCnt; i++) {
-            JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, cpBitfields[i]);
+        for (int i = 0; i < mNumBitfields; i++) {
+            JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, mPassedSectors[i]);
         }
     }
 
@@ -69,7 +69,7 @@ public:
     }
 
     void setGoal() {
-        _0x78 = false;
+        mIsInRace = false;
         mRaceEnd = true;
     }
 
@@ -79,7 +79,7 @@ public:
     bool isRankAvailable() const { return mRank != 0; };
     int getBombPoint() const { return mBombPoint; };
     const RaceTime &getMarkTime() { return mMarkTime; };
-    f32 getTotalUnitDist() const { return raceProgression; };
+    f32 getTotalUnitDist() const { return mRaceProgression; };
     // cmpw was signed right?
     int getGoalFrame() const { return mGoalFrame; };
 
@@ -87,29 +87,29 @@ public:
 
     void setGoalTime() {
         mTotalTime = mBestLapTimes[mMaxLap - 1];
-        mGoalFrame = curFrame;
+        mGoalFrame = mCurFrame;
     }
 
     void setLapTime();
 
-    void setLapChecking() { raceFlags |= 1; }
-    void setBalloonCtrl() { raceFlags |= 2; }
-    void setBombCtrl()  { raceFlags |= 4; }
-    void setRabbitCtrl() { raceFlags |= 8; }
-    void setDemoRank() { raceFlags |= 16; }
-    void setDead() { battleFlags |= 4; }
+    void setLapChecking() { mRaceFlags |= 1; }
+    void setBalloonCtrl() { mRaceFlags |= 2; }
+    void setBombCtrl()  { mRaceFlags |= 4; }
+    void setRabbitCtrl() { mRaceFlags |= 8; }
+    void setDemoRank() { mRaceFlags |= 16; }
+    void setDead() { mBattleFlags |= 4; }
     void setRank(int rank) { mRank = rank; }
     bool setPass(int index);
     void clrRank() { mRank = 0; }
-    void resumeRabbitTimer() { battleFlags &= 0xfffe; }
-    bool tstLapChecking() const { return raceFlags & 1; }
-    bool tstBalloonCtrl() const { return raceFlags & 2; }
-    bool tstBombCtrl() const { return raceFlags & 4; }
-    bool tstRabbitCtrl() const { return raceFlags & 8; }
-    bool tstDemoRank() const { return raceFlags & 16; }
-    bool tstFixMiniPoint() const { return battleFlags & 2; }
-    bool tstDead() const { return battleFlags & 4; }
-    bool tstStillRabbitTimer() const { return battleFlags & 1; }
+    void resumeRabbitTimer() { mBattleFlags &= 0xfffe; }
+    bool tstLapChecking() const { return mRaceFlags & 1; }
+    bool tstBalloonCtrl() const { return mRaceFlags & 2; }
+    bool tstBombCtrl() const { return mRaceFlags & 4; }
+    bool tstRabbitCtrl() const { return mRaceFlags & 8; }
+    bool tstDemoRank() const { return mRaceFlags & 16; }
+    bool tstFixMiniPoint() const { return mBattleFlags & 2; }
+    bool tstDead() const { return mBattleFlags & 4; }
+    bool tstStillRabbitTimer() const { return mBattleFlags & 1; }
     bool isMaxTotalTime() const { return !mTotalTime.isAvailable(); }
     bool isDead() const { return tstDead(); }
     bool isBombPointFull() const { return mBombPoint >= sBombPointFull; }
@@ -172,53 +172,49 @@ public:
 
     static short sBombPointCrushOneself;
 
-    // rewrite all names
     // private: // i'm not really sure how else KartChkUsrPage got access to this
-    u16 raceFlags;
+    u16 mRaceFlags;
     s16 mTargetKartNo;
-    int sectorCount;
-    int bitfieldCnt;
+    int mNumSectors;
+    int mNumBitfields;
     int mMaxLap;
-    int mBestLapIdx;     // i think this stores the index of the fastest lap
-    RaceTime *mLapTimes; // i'm not sure of these 2 names, it could be the other way around or something completely different
+    int mBestLapIdx;
+    RaceTime *mLapTimes;
     RaceTime *mBestLapTimes;
     int mPlayerKartColor;
     KartGamePad *mKartGamePads[2];
     bool mLapRenewal;
     bool mRaceEnd;
     u8 _0x2a; // only seems to get set in the constructor
-    u8 _0x2b; // probably padding
     int mLap;
-    f32 sectorProgression;
-    int warpState;
+    f32 mSectorProgression;
+    int mWarpState;
     int mGeneration;
-    int sectorIndex;
-    Course::Sector *sector1;
-    Course::Sector *sector2;
-    f32 lapProgression;
-    f32 prevlapProgression;
-    f32 lapProgression2; // might be max Lap Progression
-    f32 raceProgression;
-    u32 *cpBitfields; // seems to store what checkpoint have been passed
+    int mSectorIdx;
+    Course::Sector *mSector1; // TODO: figure out difference between these, sector 2 seems to get used all the time
+    Course::Sector *mSector2;
+    f32 mLapProgression;
+    f32 mPrevLapProgression;
+    f32 mLapProgression2; // might be max Lap Progression
+    f32 mRaceProgression;
+    u32 *mPassedSectors; // array of what bitfields have been passed(1 = passed, 0 = not passed)
     JGeometry::TVec3<f32> mPos;
     JGeometry::TVec3<f32> mPrevPos;
     JugemPoint *mJugemPoint;
-    bool _0x78; // true = in race | false = finished
-    u8 _0x79[3];
-    int curFrame;
+    bool mIsInRace;
+    int mCurFrame;
     int mGoalFrame;
     RaceTime mTotalTime;
     int mRank;
-    u16 battleFlags;
+    u16 mBattleFlags;
     s16 mBalForbiddenTime;
     s16 mBalloonNum;
-    u8 _0x92[2]; // this is probaby padding
     RaceTime mDeathTime;
     RaceTime mMarkTime;
-    s8 bombPointTable[10];
+    s8 mBombPointTable[10];
     s16 mBombPoint;
-    s16 rabbitWinFrame;
-    int demoPoint;
+    s16 mRabbitWinFrame;
+    int mDemoPoint;
     // these only get set in the constructor?
     JGeometry::TVec3<f32> _0xb0;
     int _0xbc;

@@ -55,18 +55,18 @@ void KartChkUsrPage::draw()
 
     JUTReport(40, 80, "CRS: %f", RCMGetCourse()->getTrackSectorDist());
     mKartChecker->printPass(80, 100);
-    JUTReport(280, 30, "ALL  %08d", mKartChecker->sectorCount);
+    JUTReport(280, 30, "ALL  %08d", mKartChecker->mNumSectors);
     JUTReport(280, 50, "LNEW %08X", mKartChecker->isLapRenewal());
-    JUTReport(280, 70, "TAR  %08d", mKartChecker->sectorIndex);
+    JUTReport(280, 70, "TAR  %08d", mKartChecker->mSectorIdx);
 
-    if (mKartChecker->sector2)
+    if (mKartChecker->mSector2)
     {
-        JUTReport(280, 90, "CUR  %08d:%f:%d", mKartChecker->sector2->getGeneration(),
-                  mKartChecker->sectorProgression, (u8)mKartChecker->sector2->isMainSector());
+        JUTReport(280, 90, "CUR  %08d:%f:%d", mKartChecker->mSector2->getGeneration(),
+                  mKartChecker->mSectorProgression, (u8)mKartChecker->mSector2->isMainSector());
     }
 
-    JUTReport(280, 110, "U/T  %f", mKartChecker->lapProgression);
-    JUTReport(280, 130, "TUD  %f", mKartChecker->raceProgression);
+    JUTReport(280, 110, "U/T  %f", mKartChecker->mLapProgression);
+    JUTReport(280, 130, "TUD  %f", mKartChecker->mRaceProgression);
     JUTReport(280, 150, "LAP  %4d", mKartChecker->mLap);
 
     JUTReport(180, 170, "POS  %8.3f,%8.3f,%8.3f", mKartChecker->mPos.x, mKartChecker->mPos.y, mKartChecker->mPos.z);
@@ -100,7 +100,7 @@ short KartChecker::sBombPointCrushOneself = 0;
 // https://decomp.me/scratch/DJxMp
 KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lapNum)
 {
-    raceFlags = 0;
+    mRaceFlags = 0;
     switch (RaceMgr::getManager()->getRaceMode())
     {
     case BALLOON_BATTLE:
@@ -125,9 +125,9 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     }
 
     mTargetKartNo = kartNum;
-    sectorCount = sectorNum;
-    bitfieldCnt = (sectorCount + 31) / 32; // macro?
-    cpBitfields = new u32[bitfieldCnt];
+    mNumSectors = sectorNum;
+    mNumBitfields = (mNumSectors + 31) / 32;
+    mPassedSectors = new u32[mNumBitfields];
     mMaxLap = lapNum;
 
     mLapTimes = new RaceTime[mMaxLap];
@@ -142,8 +142,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
 #if DEBUG
     if (mTargetKartNo == 0)
     {
-        KartChkUsrPage *usrPage = new KartChkUsrPage(this);
-        SysDebug::getManager()->appendPage(usrPage);
+        SysDebug::getManager()->appendPage(new KartChkUsrPage(this));
     }
 #endif
 }
@@ -155,8 +154,8 @@ void KartChecker::reset()
     mRaceEnd = false;
     _0x2a = 0;
     clrCheckPointIndex();
-    _0x78 = true;
-    curFrame = 0;
+    mIsInRace = true;
+    mCurFrame = 0;
     mGoalFrame = 0;
     mTotalTime.zero();
     mBestLapIdx = -1;
@@ -174,50 +173,50 @@ void KartChecker::reset()
     mPrevPos.zero();
 
     mJugemPoint = nullptr;
-    battleFlags = 0;
+    mBattleFlags = 0;
     mBalloonNum = 3;
     mBalForbiddenTime = 0;
     mDeathTime.reset();
 
     for (int i = 0; i < 10; i++)
-        bombPointTable[i] = -1;
+        mBombPointTable[i] = -1;
 
     mBombPoint = 0;
     mMarkTime.reset();
 
     if (GeoRabbitMark::getSupervisor())
-        rabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
+        mRabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
     else
-        rabbitWinFrame = 0;
+        mRabbitWinFrame = 0;
 
-    demoPoint = 0;
+    mDemoPoint = 0;
 }
 
 // https://decomp.me/scratch/zVUdm
 void KartChecker::clrCheckPointIndex()
 {
     mLap = -1;
-    sectorProgression = 0.0f;
-    warpState = 0;
+    mSectorProgression = 0.0f;
+    mWarpState = 0;
     mGeneration = -1;
-    sectorIndex = 0;
-    sector2 = nullptr;
+    mSectorIdx = 0;
+    mSector2 = nullptr;
 
     if (RCMGetCourse()->getStartSector() != nullptr)
     {
-        sector2 = RCMGetCourse()->getStartSector()->getPrevSector(0);
+        mSector2 = RCMGetCourse()->getStartSector()->getPrevSector(0);
     }
-    sector1 = sector2;
-    lapProgression = 1.0f;
-    prevlapProgression = lapProgression;
-    lapProgression2 = lapProgression;
+    mSector1 = mSector2;
+    mLapProgression = 1.0f;
+    mPrevLapProgression = mLapProgression;
+    mLapProgression2 = mLapProgression;
 
-    for (int i = 0; i < bitfieldCnt; i++)
+    for (int i = 0; i < mNumBitfields; i++)
     {
-        cpBitfields[i] = 0;
+        mPassedSectors[i] = 0;
     }
 
-    raceProgression = 0.0f;
+    mRaceProgression = 0.0f;
 }
 
 // https://decomp.me/scratch/8JI09
@@ -387,10 +386,10 @@ void KartChecker::checkKart()
         if (mBalForbiddenTime > 0)
             mBalForbiddenTime--;
         if (!mDeathTime.isAvailable() && isDead())
-            mDeathTime.set(curFrame);
+            mDeathTime.set(mCurFrame);
     }
     if (tstBombCtrl() && !mMarkTime.isAvailable() && isBombPointFull())
-        mMarkTime.set(curFrame);
+        mMarkTime.set(mCurFrame);
     if (tstRabbitCtrl())
         calcRabbitTime();
 }
@@ -399,11 +398,11 @@ void KartChecker::checkKart()
 void KartChecker::checkKartLap()
 {
     Course::Sector *nextSector = nullptr;
-    sector1 = sector2;
+    mSector1 = mSector2;
 
-    if (sector2->isRevSearchEnable())
+    if (mSector2->isRevSearchEnable())
     {
-        for (int i = sectorIndex; i >= 0; i--)
+        for (int i = mSectorIdx; i >= 0; i--)
         {
             if (isInsideSector(RCMGetCourse()->getMainSector(i)->calcUnitDist(mPos)))
             {
@@ -414,7 +413,7 @@ void KartChecker::checkKartLap()
     }
     else
     {
-        if (warpState == 3 && mJugemPoint != nullptr)
+        if (mWarpState == 3 && mJugemPoint != nullptr)
         {
             s16 respawnSectorID = mJugemPoint->getSectorID();
             if (respawnSectorID >= 0)
@@ -438,7 +437,7 @@ void KartChecker::checkKartLap()
     }
     if (nextSector == nullptr)
     {
-        if (sector2 == RCMGetCourse()->getStartSector()->getPrevSector(0))
+        if (mSector2 == RCMGetCourse()->getStartSector()->getPrevSector(0))
         {
             if (isInsideSector(RCMGetCourse()->getStartSector()->calcUnitDist(mPos)))
             {
@@ -447,24 +446,24 @@ void KartChecker::checkKartLap()
         }
         if (nextSector == nullptr)
         {
-            f32 unitDist = sector2->calcUnitDist(mPos);
+            f32 unitDist = mSector2->calcUnitDist(mPos);
             if (!isInsideSector(unitDist))
-                nextSector = searchCurrentSector(&unitDist, mPos, sector2, sectorCount);
+                nextSector = searchCurrentSector(&unitDist, mPos, mSector2, mNumSectors);
         }
     }
     if (nextSector != nullptr)
-        sector2 = nextSector;
+        mSector2 = nextSector;
 
-    f32 unitDist = sector2->calcUnitDist(mPos);
-    prevlapProgression = lapProgression;
+    f32 unitDist = mSector2->calcUnitDist(mPos);
+    mPrevLapProgression = mLapProgression;
     if (unitDist >= 0.0f && unitDist <= 1.0f)
     {
-        sectorProgression = unitDist;
-        lapProgression = (sectorProgression * sector2->getMainSector()->getSectorDist() + sector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-        JUT_ASSERT_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", lapProgression, mPos.x, mPos.y, mPos.z);
+        mSectorProgression = unitDist;
+        mLapProgression = (mSectorProgression * mSector2->getMainSector()->getSectorDist() + mSector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
+        JUT_ASSERT_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapProgression, mPos.x, mPos.y, mPos.z);
     }
 
-    f32 lapProgDiff = lapProgression - prevlapProgression;
+    f32 lapProgDiff = mLapProgression - mPrevLapProgression;
 
     if (lapProgDiff < -0.5f)
     {
@@ -475,16 +474,16 @@ void KartChecker::checkKartLap()
         lapProgDiff -= 1.0f;
     }
 
-    raceProgression += lapProgDiff;
+    mRaceProgression += lapProgDiff;
 
     // failsafe to prevent underflows
-    if (raceProgression < -100.0f)
-        raceProgression = -100.0f;
+    if (mRaceProgression < -100.0f)
+        mRaceProgression = -100.0f;
 }
 
 bool KartChecker::isUDValid()
 {
-    return validUD(lapProgression);
+    return validUD(mLapProgression);
 }
 
 // https://decomp.me/scratch/7mQAF
@@ -506,70 +505,70 @@ void KartChecker::checkLap(bool raceEnd)
     if (tstLapChecking())
     {
         mLapRenewal = false;
-        if (warpState == 3)
+        if (mWarpState == 3)
         {
-            if (sector2->getGeneration() > mGeneration)
+            if (mSector2->getGeneration() > mGeneration)
             {
                 int sectorGeneration = -1;
-                for (int curGeneration = mGeneration; curGeneration <= sector2->getGeneration(); curGeneration++)
+                for (int curGeneration = mGeneration; curGeneration <= mSector2->getGeneration(); curGeneration++)
                 {
                     if (setPass(curGeneration))
                         sectorGeneration = curGeneration;
                 }
                 if (sectorGeneration != -1)
-                    sectorIndex = (sectorGeneration + 1) % sectorCount;
+                    mSectorIdx = (sectorGeneration + 1) % mNumSectors;
             }
         }
         else
         {
-            if (sector2->getShortcutID() != 0)
+            if (mSector2->getShortcutID() != 0)
             {
-                Course::Sector *prevSector = sector2->getPrevSector(0);
-                while (prevSector->getShortcutID() == sector2->getShortcutID())
+                Course::Sector *prevSector = mSector2->getPrevSector(0);
+                while (prevSector->getShortcutID() == mSector2->getShortcutID())
                     prevSector = prevSector->getPrevSector(0);
 
                 if (isPass(prevSector->getGeneration()))
                 {
-                    int shortcutID = sector2->getShortcutID();
-                    sectorIndex = sector2->getGeneration();
+                    int shortcutID = mSector2->getShortcutID();
+                    mSectorIdx = mSector2->getGeneration();
                     for (int curGeneration = 0; RCMGetCourse()->getTotalSectorNumber() > curGeneration; curGeneration++)
                     {
                         Course::Sector *pSector = RCMGetCourse()->getSector(curGeneration);
                         if (shortcutID == pSector->getShortcutID())
                         {
                             setPass(pSector->getGeneration());
-                            if (pSector->getGeneration() > sectorIndex)
-                                sectorIndex = pSector->getGeneration();
+                            if (pSector->getGeneration() > mSectorIdx)
+                                mSectorIdx = pSector->getGeneration();
                         }
                     }
 
-                    int nextSectorId = sectorIndex + 1; // stupid code
-                    sectorIndex = nextSectorId;
+                    int nextSectorId = mSectorIdx + 1; // stupid code
+                    mSectorIdx = nextSectorId;
 
-                    if (nextSectorId >= sectorCount)
-                        sectorIndex = 0;
+                    if (nextSectorId >= mNumSectors)
+                        mSectorIdx = 0;
                 }
             }
             else
             {
-                if (sectorIndex == sector2->getGeneration())
+                if (mSectorIdx == mSector2->getGeneration())
                 {
-                    setPass(sectorIndex);
-                    int nextSectorId = sectorIndex + 1; // stupid code
-                    sectorIndex = nextSectorId;
+                    setPass(mSectorIdx);
+                    int nextSectorId = mSectorIdx + 1; // stupid code
+                    mSectorIdx = nextSectorId;
 
-                    if (nextSectorId >= sectorCount)
-                        sectorIndex = 0;
+                    if (nextSectorId >= mNumSectors)
+                        mSectorIdx = 0;
                 }
             }
         }
-        if (sector2->getGeneration() == 0)
+        if (mSector2->getGeneration() == 0)
         {
             if (mLap < 0)
                 incLap();
             else
             {
-                if (isPassAll(sectorCount) && (int)raceProgression > mLap)
+                if (isPassAll(mNumSectors) && (int)mRaceProgression > mLap)
                 {
                     if (!isGoal())
                         setLapTime();
@@ -581,7 +580,7 @@ void KartChecker::checkLap(bool raceEnd)
                         setGoal();
                         setGoalTime();
                     }
-                    for (int i = 1; i < sectorCount; i++)
+                    for (int i = 1; i < mNumSectors; i++)
                         clrPass(i);
                 }
             }
@@ -590,22 +589,22 @@ void KartChecker::checkLap(bool raceEnd)
         if ((RaceMgr::getManager()->getKartInfo(mTargetKartNo)->isComKart() && raceEnd) && !isGoal())
             setForceGoal();
 
-        int sector = sectorIndex;
+        int sector = mSectorIdx;
         if (sector == 0)
-            sector = sectorCount;
+            sector = mNumSectors;
 
-        if (sector2->getGeneration() < sector)
-            lapProgression2 = lapProgression;
+        if (mSector2->getGeneration() < sector)
+            mLapProgression2 = mLapProgression;
 
-        switch (warpState)
+        switch (mWarpState)
         {
         case 1:
-            mGeneration = sector2->getGeneration();
-            warpState = 2;
+            mGeneration = mSector2->getGeneration();
+            mWarpState = 2;
             break;
         case 3:
             mGeneration = -1;
-            warpState = 0;
+            mWarpState = 0;
             mJugemPoint = nullptr;
             break;
         }
@@ -624,7 +623,7 @@ void KartChecker::setLapTime()
         velPerMs.scale(scale);
         JGeometry::TVec3<f32> curPos = mPos;
 
-        int prevgoalframe = curFrame - 1;
+        int prevgoalframe = mCurFrame - 1;
         if (prevgoalframe < 0)
             prevgoalframe = 0;
 
@@ -672,7 +671,7 @@ void KartChecker::setForceGoal()
     float distToGoal = 0.0f;
     if (mTotalTime.get() > 0)
     {
-        distToGoal = raceProgression / (float)mTotalTime.get();
+        distToGoal = mRaceProgression / (float)mTotalTime.get();
     }
     if (distToGoal < 0.0f)
     {
@@ -689,7 +688,7 @@ void KartChecker::setForceGoal()
     {
         if (!mBestLapTimes[i].isAvailable())
         {
-            float lapDist = (((i + 1) - raceProgression) / distToGoal) + (mTotalTime.get());
+            float lapDist = (((i + 1) - mRaceProgression) / distToGoal) + (mTotalTime.get());
             if (lapDist > (float)forcedTime.get())
             {
                 lapDist = (float)forcedTime.get();
@@ -734,8 +733,8 @@ bool KartChecker::setPass(int sectorIdx)
         int bitIndex = sectorIdx % 32;
         valid = false;
 
-        JUT_MINMAX_ASSERT(1791, 0, index, bitfieldCnt);
-        cpBitfields[index] |= (1 << bitIndex);
+        JUT_MINMAX_ASSERT(1791, 0, index, mNumBitfields);
+        mPassedSectors[index] |= (1 << bitIndex);
     }
     return pass;
 }
@@ -744,14 +743,14 @@ bool KartChecker::setPass(int sectorIdx)
 bool KartChecker::isPassAll(int SectorCnt)
 {
     bool allPassed = true;
-    int thing = -1;
+    int lastSectorIdx = -1; // stores the index of the first sector that has not been passed
     for (int i = 0; i < SectorCnt; i++)
     {
         if (!isPass(i))
         {
             allPassed = false;
-            if (thing == -1)
-                thing = i;
+            if (lastSectorIdx == -1)
+                lastSectorIdx = i;
         }
     }
     return allPassed;
@@ -760,13 +759,13 @@ bool KartChecker::isPassAll(int SectorCnt)
 // https://decomp.me/scratch/mCXI2
 void KartChecker::incTime()
 {
-    if (_0x78)
+    if (mIsInRace)
     {
-        if (curFrame < MAX_FRAME)
+        if (mCurFrame < MAX_FRAME)
         {
-            curFrame++;
+            mCurFrame++;
         }
-        mTotalTime.setFrame(curFrame);
+        mTotalTime.setFrame(mCurFrame);
     }
 }
 
@@ -777,14 +776,13 @@ bool KartChecker::isReverse()
 
     if (tstLapChecking())
     {
-        // i don't consider this correct
         Mtx &m = *RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
         JGeometry::TVec3<f32> thing;
         thing.set(m[0][2], m[1][2], m[2][2]);
         thing.normalize();
 
         JGeometry::TVec3<f32> courseNormal;
-        sector2->getBNormal(&courseNormal);
+        mSector2->getBNormal(&courseNormal);
         if (thing.dot(courseNormal) <= -0.5f)
             reverse = true;
     }
@@ -899,7 +897,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
             for (int pntNo = mBombPoint; pntNo < bombPoint; pntNo++)
             {
                 JUT_MINMAX_ASSERT(2071, 0, pntNo, 10);
-                bombPointTable[pntNo] = -1;
+                mBombPointTable[pntNo] = -1;
             }
             if (bombPoint == sBombPointFull - 1)
                 GetKartCtrl()->GetKartSoundMgr(mTargetKartNo)->setSe(0x1009a);
@@ -909,7 +907,7 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
             for (int pntNo = bombPoint; pntNo < mBombPoint; pntNo++)
             {
                 JUT_MINMAX_ASSERT(2097, 0, pntNo, 10);
-                bombPointTable[pntNo] = pnt;
+                mBombPointTable[pntNo] = pnt;
             }
         }
         increased = true;
@@ -996,7 +994,7 @@ bool KartChecker::isRabbit() const
     bool rabbit = false;
     if (GeoRabbitMark::getSupervisor())
     {
-        rabbit = rabbitWinFrame < GeoRabbitMark::getSupervisor()->getWinFrame();
+        rabbit = mRabbitWinFrame < GeoRabbitMark::getSupervisor()->getWinFrame();
     }
     return rabbit;
 }
@@ -1006,14 +1004,14 @@ void KartChecker::calcRabbitTime()
     GeoRabbitMarkSupervisor *supervisor = GeoRabbitMark::getSupervisor();
     if (supervisor != nullptr)
     {
-        if (rabbitWinFrame > 0)
+        if (mRabbitWinFrame > 0)
             if (mTargetKartNo == supervisor->getRabbitKartNo())
             {
                 if (!tstStillRabbitTimer())
                 {
-                    rabbitWinFrame--;
+                    mRabbitWinFrame--;
                     RaceTime rabbitTime;
-                    rabbitTime.setFrame(rabbitWinFrame);
+                    rabbitTime.setFrame(mRabbitWinFrame);
                     int ms = rabbitTime.getUpwardMSec() / 1000;
                     if (!(rabbitTime.get() % 1000))
                     {
@@ -1032,7 +1030,7 @@ void KartChecker::calcRabbitTime()
             }
             else
             {
-                rabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
+                mRabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
                 resumeRabbitTimer();
             }
         else
