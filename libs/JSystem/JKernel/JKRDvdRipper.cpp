@@ -186,16 +186,18 @@ namespace JKRDvdRipper
             }
             else
             {
-                JUT_PANIC(323, "Sorry, not applied for SZP archive.");
+#line 323
+                JUT_PANIC("Sorry, not applied for SZP archive.");
             }
             return file;
         }
         else if (compression == TYPE_YAY0)
         {
+            // SZP decompression
             // s32 readoffset = startOffset;
             if (startOffset != 0)
             {
-                JUT_PANIC(333, "Not support SZP with offset read");
+                JUT_PANIC("Not support SZP with offset read");
             }
             while (true)
             {
@@ -253,12 +255,14 @@ int JKRDecompressFromDVD(JKRDvdFile *file, void *p2, u32 p3, u32 inMaxDest, u32 
     OSLockMutex(&decompMutex);
     int bufSize = JKRDvdRipper::getSZSBufferSize();
     szpBuf = (u8 *)JKRAllocFromSysHeap(bufSize, -0x20);
-    JUT_ASSERT(909, szpBuf != 0);
+#line 909
+    JUT_ASSERT(szpBuf != 0);
     szpEnd = szpBuf + bufSize;
     if (inFileOffset != 0)
     {
         refBuf = (u8 *)JKRAllocFromSysHeap(0x1120, -4);
-        JUT_ASSERT(918, refBuf != 0);
+#line 918
+        JUT_ASSERT(refBuf != 0);
         refEnd = refBuf + 0x1120;
         refCurrent = refBuf;
     }
@@ -477,8 +481,8 @@ u8 *nextSrcData(u8 *src)
     u32 transSize = (u32)(szpEnd - (buf + limit));
     if (transSize > transLeft)
         transSize = transLeft;
-
-    JUT_ASSERT(1208, transSize > 0);
+#line 1208
+    JUT_ASSERT(transSize > 0);
     while (true)
     {
         s32 result = DVDReadPrio(srcFile->getFileInfo(), (buf + limit), transSize, srcOffset, 2);

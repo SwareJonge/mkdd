@@ -60,7 +60,8 @@ JFWDisplay::~JFWDisplay() {
 }
 
 JFWDisplay *JFWDisplay::createManager(const _GXRenderModeObj *renderModeObj, JKRHeap *heap, JUTXfb::EXfbNumber bufferCount, bool p4) {
-    JUT_CONFIRM_MESSAGE(175, sManager == 0);
+#line 175
+    JUT_CONFIRM_MESSAGE(sManager == 0);
 
     if (renderModeObj != nullptr)
         JUTVideo::sManager->setRenderMode(renderModeObj);
@@ -72,7 +73,8 @@ JFWDisplay *JFWDisplay::createManager(const _GXRenderModeObj *renderModeObj, JKR
 }
 
 void JFWDisplay::destroyManager() {
-    JUT_CONFIRM_MESSAGE(533, sManager); // fabricated
+#line 533
+    JUT_CONFIRM_MESSAGE(sManager); // fabricated
     delete sManager;
     sManager = nullptr;
 }
@@ -526,7 +528,8 @@ void JFWDisplay::calcCombinationRatio() {
 }
 
 s32 JFWDisplay::frameToTick(float mTemporarySingle) { // fabricated
-    JUT_CONFIRM_MESSAGE(999, mTemporarySingle);
+#line 999
+    JUT_CONFIRM_MESSAGE(mTemporarySingle);
     return OSMillisecondsToTicks(mFrameRate);
 }
 

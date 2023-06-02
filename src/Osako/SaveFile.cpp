@@ -25,10 +25,10 @@ void SaveFile::makeCRCTable()
 u32 SaveFile::getCRC(u8 *pBegin, u8 *pEndNext)
 {
     u32 crc = 0xffffffff;
-
-    JUT_ASSERT(59, pBegin);
-    JUT_ASSERT(60, pEndNext);
-    JUT_ASSERT(61, pBegin < pEndNext);
+#line 59
+    JUT_ASSERT(pBegin);
+    JUT_ASSERT(pEndNext);
+    JUT_ASSERT(pBegin < pEndNext);
 
     if (!msCRCTableComputed)
         makeCRCTable();

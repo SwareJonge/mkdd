@@ -548,7 +548,8 @@ stRandom *stGetRnd()
 
 stRandom *stGetRnd(u32 idx)
 {
-    JUT_ASSERT_F(924, stRandom::sRndMgr[idx]->permission, "Random can\'t get :%d", idx);
+#line 924
+    JUT_ASSERT_F(stRandom::sRndMgr[idx]->permission, "Random can\'t get :%d", idx);
     return stRandom::sRndMgr[idx];
 }
 

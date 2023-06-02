@@ -52,9 +52,10 @@ JKRMemArchive::~JKRMemArchive()
 #if DEBUG // function is needed to generate certain strings first, however this is not what the original function looks like
 void JKRMemArchive::fixedInit(s32)
 {
-    JUT_ASSERT(200, isMounted());
-    JUT_PANIC(200, "mMountCount == 1"); // some member is called mMountCount, if there's a game with this assert, fix
-    JUT_ASSERT(200, mArcHeader->signature == 'RARC');
+#line 200
+    JUT_ASSERT(isMounted());
+    JUT_PANIC("mMountCount == 1"); // some member is called mMountCount, if there's a game with this assert, fix
+    JUT_ASSERT(mArcHeader->signature == 'RARC');
 }
 #endif
 
@@ -98,7 +99,8 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
     }
     else
     {
-        JUT_ASSERT(438, mArcHeader->signature == 'RARC');
+#line 438
+        JUT_ASSERT(mArcHeader->signature == 'RARC');
         mArcInfoBlock = (SArcDataInfo *)((u8 *)mArcHeader + mArcHeader->header_length);
         mDirectories = (SDIDirEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->node_offset);
         mFileEntries = (SDIFileEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->file_entry_offset);
@@ -120,8 +122,9 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
 
 bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
 {
+#line 490
     mArcHeader = (SArcHeader *)buffer;
-    JUT_ASSERT(491, mArcHeader->signature == 'RARC');
+    JUT_ASSERT(mArcHeader->signature == 'RARC');
     mArcInfoBlock = (SArcDataInfo *)((u8 *)mArcHeader + mArcHeader->header_length);
     mDirectories = (SDIDirEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->node_offset);
     mFileEntries = (SDIFileEntry *)((u8 *)&mArcInfoBlock->num_nodes + mArcInfoBlock->file_entry_offset);
@@ -135,7 +138,8 @@ bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
 
 void *JKRMemArchive::fetchResource(SDIFileEntry *fileEntry, u32 *resourceSize)
 {
-    JUT_ASSERT(555, isMounted())
+#line 555
+    JUT_ASSERT(isMounted())
 
     if (!fileEntry->mData)
         fileEntry->mData = mArchiveData + fileEntry->mDataOffset;
@@ -149,7 +153,8 @@ void *JKRMemArchive::fetchResource(SDIFileEntry *fileEntry, u32 *resourceSize)
 void *JKRMemArchive::fetchResource(void *buffer, u32 bufferSize, SDIFileEntry *fileEntry,
                                    u32 *resourceSize)
 {
-    JUT_ASSERT(595, isMounted())
+#line 595
+    JUT_ASSERT(isMounted())
 
     u32 srcLength = fileEntry->mSize;
     if (srcLength > bufferSize)
@@ -179,7 +184,8 @@ void *JKRMemArchive::fetchResource(void *buffer, u32 bufferSize, SDIFileEntry *f
 
 void JKRMemArchive::removeResourceAll(void)
 {
-    JUT_ASSERT(642, isMounted());
+#line 642
+    JUT_ASSERT(isMounted());
 
     if (mArcInfoBlock == nullptr)
         return;
@@ -200,7 +206,8 @@ void JKRMemArchive::removeResourceAll(void)
 
 bool JKRMemArchive::removeResource(void *resource)
 {
-    JUT_ASSERT(673, isMounted());
+#line 673
+    JUT_ASSERT(isMounted());
 
     SDIFileEntry *fileEntry = findPtrResource(resource);
     if (!fileEntry)
@@ -233,7 +240,8 @@ u32 JKRMemArchive::fetchResource_subroutine(u8 *src, u32 srcLength, u8 *dst, u32
 
     default:
     {
-        JUT_PANIC(723, "??? bad sequence\n");
+#line 723
+        JUT_PANIC("??? bad sequence\n");
         return 0;
     }
     }

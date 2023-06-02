@@ -98,12 +98,13 @@ public:
         Sector *getMainSector() { return mMainSector; }
 
         Sector *getPrevSector(int no) {
-            JUT_MINMAX_ASSERT(100, 0, no, 4);
+#line 100
+            JUT_MINMAX_ASSERT(0, no, 4);
             return mPrevSectors[no];
         }
 
         Sector *getNextSector(int no) {
-            JUT_MINMAX_ASSERT(105, 0, no, 4);
+            JUT_MINMAX_ASSERT(0, no, 4);
             return mNextSectors[no];
         }
 
@@ -167,13 +168,16 @@ public:
         getCrsData()->getLightOffsetPosition(dst);
     }*/
 
-    Sector *getSector(int no) const {
-        JUT_MINMAX_ASSERT(300, 0, no, mTotalSectors);
+    Sector *getSector(int no) const 
+    {
+#line 300
+        JUT_MINMAX_ASSERT(0, no, mTotalSectors);
         return &mSectors[no];
     }
 
-    Sector *getMainSector(int gen) const {
-        JUT_MINMAX_ASSERT(306, 0, gen, mTrackSectorNum);
+    Sector *getMainSector(int gen) const 
+    {
+        JUT_MINMAX_ASSERT(0, gen, mTrackSectorNum);
         return mMainSector[gen];
     }
 

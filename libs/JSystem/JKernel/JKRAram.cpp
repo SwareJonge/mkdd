@@ -93,7 +93,8 @@ void* JKRAram::run() {
 
 void JKRAram::checkOkAddress(u8* addr, u32 size, JKRAramBlock* block, u32 param_4) {
     if (!IS_ALIGNED((u32)addr, 0x20) && !IS_ALIGNED(size, 0x20)) {
-        JUT_PANIC(219, ":::address not 32Byte aligned.");
+#line 219
+        JUT_PANIC(":::address not 32Byte aligned.");
     }
 }
 
@@ -310,13 +311,15 @@ int JKRDecompressFromAramToMainRam(u32 src, void *dst, u32 srcLength, u32 dstLen
 
     u32 szsBufferSize = JKRAram::getSZSBufferSize();
     szpBuf = (u8 *)JKRAllocFromSysHeap(szsBufferSize, 32);
-    JUT_ASSERT(1114, szpBuf != 0);
+#line 1114
+    JUT_ASSERT(szpBuf != 0);
 
     szpEnd = szpBuf + szsBufferSize;
     if (offset != 0)
     {
         refBuf = (u8 *)JKRAllocFromSysHeap(0x1120, 0);
-        JUT_ASSERT(1123, refBuf != 0);
+#line 1123
+        JUT_ASSERT(refBuf != 0);
         refEnd = refBuf + 0x1120;
         refCurrent = refBuf;
     }
@@ -524,7 +527,8 @@ u8 *nextSrcData(u8 *current)
     u32 transSize = (u32)(szpEnd - (dest + left));
     if (transSize > transLeft)
         transSize = transLeft;
-    JUT_ASSERT(1403, transSize > 0);
+#line 1403
+    JUT_ASSERT(transSize > 0);
 
     JKRAramPcs(1, (u32)(srcAddress + srcOffset), ((u32)dest + left), ALIGN_NEXT(transSize, 0x20),
                nullptr);

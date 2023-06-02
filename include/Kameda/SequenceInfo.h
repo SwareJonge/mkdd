@@ -15,7 +15,8 @@ class SequenceInfo {
     void rndDemo(u32);
     void getDemoKart(int no, ECharID &charID1, ECharID &charID2, EKartID &kartID)
     {
-        JUT_MINMAX_ASSERT(413, 0, no, 8);
+#line 413
+        JUT_MINMAX_ASSERT(0, no, 8);
 
         charID1 = mDemoKart[no].char1;
         charID2 = mDemoKart[no].char2;

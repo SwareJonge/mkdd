@@ -144,8 +144,9 @@ public:
     int getTotalLapNumber() const { return mTotalLapNumber; }
     
     KartInfo *getKartInfo(int index) {
-        JUT_MINMAX_ASSERT(170, 0, index, 8);
-// TODO: in release it needs the other assert to prevent regswaps, if i do the same for debug, it creates 2 asserts
+#line 170
+        JUT_MINMAX_ASSERT(0, index, 8);
+// TODO: in release it needs the other inline to prevent regswaps, debug grabs stuff from raceInfo without getters in some cases so it had access to it?
 #if DEBUG
         return &mRaceInfo->mKartInfo[index];
 #else
@@ -177,22 +178,24 @@ public:
     }
 
     KartLoader *getKartLoader(int index) const {
-        JUT_MINMAX_ASSERT(257, 0, index, 8);
+#line 257
+        JUT_MINMAX_ASSERT(0, index, 8);
         return mKartLoader[index];
     }
 
     KartCam *getCamera(int cameraNo) const {
-        JUT_MINMAX_ASSERT(262, 0, cameraNo, 4);
+        JUT_MINMAX_ASSERT(0, cameraNo, 4);
         return KartCtrl::getKartCtrl()->getKartCam(cameraNo);
     }
 
     KartChecker *getKartChecker(int index) const {
-        JUT_MINMAX_ASSERT(267, 0, index, 8);
+        JUT_MINMAX_ASSERT(0, index, 8);
         return mKartChecker[index];
     }
 
     const RaceTime &getBestTotalTime(int recID) {
-        JUT_MINMAX_ASSERT(328, 0, recID, 5);
+#line 328
+        JUT_MINMAX_ASSERT(0, recID, 5);
         return mBestTotalTimes[recID];
     }
 

@@ -49,7 +49,8 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata) {
         }
     }
     // if ret == -1 hang, in the release version, just give the player a banana as failsafe
-    JUT_ASSERT(3995, ret != -1); 
+#line 3995
+    JUT_ASSERT(ret != -1); 
 
     if (ret == -1)
         ret = 3;
@@ -59,7 +60,8 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata) {
 }
 
 int ItemShuffleMgr::calcSlot(KartSlotRankDataSet &rdata, int p2, int p3, bool p4) {
-    JUT_MINMAX_ASSERT(4017, 0, rdata.kart_rank, rdata.data->kartCount);
+#line 4017
+    JUT_MINMAX_ASSERT(0, rdata.kart_rank, rdata.data->kartCount);
     u32 total = 0;
 
     calcRaceUseNormalItem(&total, &rdata, p3);

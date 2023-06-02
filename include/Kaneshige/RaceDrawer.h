@@ -41,19 +41,21 @@ public:
     void getMaskScreen();          // 0x801ca490
     void isMaskActive() const;     // 0x801ca4a0
 
+    DrawBuffer *getItemDrawBuffer(int kartNo) {
+#line 163
+        JUT_MINMAX_ASSERT(-1, kartNo, 8)
+        return kartNo >= 0 ? mItmDrawBufs[kartNo] : mItmDrawBuf; // the day Kaneshige discovered ternaries
+    }
+
     KartDrawer * getKartDrawer(int kartNo) {
-        JUT_MINMAX_ASSERT(172, 0, kartNo, mKartNum);
+#line 172
+        JUT_MINMAX_ASSERT(0, kartNo, mKartNum);
         return &mKartDrawer[kartNo];
     }
 
     // TODO: own class types
     DrawBuffer *getEffectDrawBuffer() {
         return mEfctDrawBuf;
-    }
-    DrawBuffer *getItemDrawBuffer(int kartNo) {
-        JUT_MINMAX_ASSERT(163, -1, kartNo, 8)
-        return kartNo >= 0 ? mItmDrawBufs[kartNo] : mItmDrawBuf; // the day Kaneshige discovered ternaries
-
     }
     DrawBuffer *getFeelDrawBuffer() {
         return mFeelDrawBuf;

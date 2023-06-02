@@ -23,7 +23,7 @@ u32 JKRThreadSwitch::sTotalCount;
 
 JKRThread::JKRThread(u32 stack_size, int message_count, int param_3) : mThreadListLink(this) {
     JKRHeap* heap = JKRHeap::findFromRoot(this);
-    if (heap == NULL) {
+    if (heap == nullptr) {
         heap = JKRHeap::getSystemHeap();
     }
 
@@ -33,7 +33,7 @@ JKRThread::JKRThread(u32 stack_size, int message_count, int param_3) : mThreadLi
 
 JKRThread::JKRThread(JKRHeap* heap, u32 stack_size, int message_count, int param_4)
     : mThreadListLink(this) {
-    if (heap == NULL) {
+    if (heap == nullptr) {
         heap = JKRHeap::getCurrentHeap();
     }
 
@@ -66,9 +66,10 @@ JKRThread::~JKRThread()
 
 void JKRThread::setCommon_mesgQueue(JKRHeap* heap, int msgCount)
 {
-	mMessageCount  = msgCount;
+#line 128
+    mMessageCount  = msgCount;
 	mMesgBuffer = (OSMessage*)JKRHeap::alloc(mMessageCount << 2, 0, heap);
-    JUT_ASSERT(130, mMesgBuffer);
+    JUT_ASSERT(mMesgBuffer);
 
 	OSInitMessageQueue(&mMessageQueue, (void**)mMesgBuffer, mMessageCount);
 	JKRThread::sThreadList.append(&mThreadListLink);
@@ -78,14 +79,15 @@ void JKRThread::setCommon_mesgQueue(JKRHeap* heap, int msgCount)
 
 BOOL JKRThread::setCommon_heapSpecified(JKRHeap* heap, unsigned long stackSize, int threadPriority)
 {
-	mHeap      = heap;
+#line 161
+    mHeap      = heap;
 	mStackSize = stackSize & ~0x1F;
 	mStackMemory     = JKRHeap::alloc(mStackSize, 0x20, mHeap);
-    JUT_ASSERT(164, mStackMemory);
+    JUT_ASSERT(mStackMemory);
 
     // maybe a custom struct is used here, investigate someday
 	mThreadRecord    = (OSThread*)JKRHeap::alloc(sizeof(OSThread) + 8, 0x20, mHeap);
-    JUT_ASSERT(168, mThreadRecord);
+    JUT_ASSERT(mThreadRecord);
 	return OSCreateThread(mThreadRecord, &JKRThread::start, this, (void*)((u32)mStackMemory + mStackSize), mStackSize, threadPriority, 1);
 }
 
@@ -132,7 +134,8 @@ JKRThreadSwitch::JKRThreadSwitch(JKRHeap *param_0)
 }
 
 JKRThreadSwitch* JKRThreadSwitch::createManager(JKRHeap* heap) {
-    JUT_ASSERT(0x157, sManager == 0);
+#line 343
+    JUT_ASSERT(sManager == 0);
 
     if (!heap) {
         heap = JKRGetCurrentHeap();
@@ -196,7 +199,8 @@ void JKRThreadSwitch::callback(OSThread* current, OSThread* next) {
                 } else {
                     switch (thread->getCurrentHeapError()) {
                     case 0:
-                        JUT_PANIC(0x1fc, "JKRThreadSwitch: currentHeap destroyed.");
+                    #line 508
+                        JUT_PANIC("JKRThreadSwitch: currentHeap destroyed.");
                         break;
                     case 1:
                         JUTWarningConsole("JKRThreadSwitch: currentHeap destroyed.\n");

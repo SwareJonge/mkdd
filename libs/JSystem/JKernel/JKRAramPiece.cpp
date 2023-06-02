@@ -37,7 +37,8 @@ JKRAMCommand* JKRAramPiece::orderAsync(int direction, u32 source, u32 destinatio
         OSReport("source = %x\n", source);
         OSReport("destination = %x\n", destination);
         OSReport("length = %x\n", length);
-        JUT_PANIC(108, "illegal address. abort.");
+#line 108
+        JUT_PANIC("illegal address. abort.");
     }
 
     JKRAramCommand *message = new (JKRHeap::getSystemHeap(), -4) JKRAramCommand();

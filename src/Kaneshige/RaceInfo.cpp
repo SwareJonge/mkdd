@@ -93,7 +93,8 @@ void RaceInfo::reset()
 
 void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
 {
-    JUT_MINMAX_ASSERT(453, 0, cnsNo, 4);
+#line 453
+    JUT_MINMAX_ASSERT(0, cnsNo, 4);
     _0x114[cnsNo] = target;
     _0x11c[cnsNo] = p3;
 }
@@ -194,7 +195,8 @@ void RaceInfo::settingForAwardDemo()
 
     for (int idx = 0; idx < getKartNumber(); idx++)
     {
-        JUT_MINMAX_ASSERT(585, 0, idx, 3);
+#line 585
+        JUT_MINMAX_ASSERT(0, idx, 3);
         setKart(idx, sAwardDebugKartIDTable[idx], sAwardDebugDriver1IDTable[idx], 0, sAwardDebugDriver2IDTable[idx], 0);
     }
 }
@@ -245,11 +247,13 @@ void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int c
 
 void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad *kartPad1, ECharID charID2, KartGamePad *kartPad2)
 {
-    JUT_MINMAX_ASSERT(685, 0, kartNo, 8);
+#line 685
+    JUT_MINMAX_ASSERT( 0, kartNo, 8);
     KartInfo * kartInfo = &mKartInfo[kartNo];
     kartInfo->setKartID(kartID);
-    JUT_ASSERT(694, charID1 != cCharIDNone);
-    JUT_ASSERT(695, charID2 != cCharIDNone);
+#line 694
+    JUT_ASSERT(charID1 != cCharIDNone);
+    JUT_ASSERT(charID2 != cCharIDNone);
 
     // this meme must stay alive
     for (int idx = 0; 2 > idx; ++idx) // the most useful loop ever
@@ -283,8 +287,10 @@ void RaceInfo::shuffleStartNo()
 
     for (u32 i = 0; i < (u32)getKartNumber(); i++)
     {
+#line 750
         u32 dst = i + (rndm.get() % (getKartNumber() - i));
-        JUT_MAX_ASSERT(751, dst, getKartNumber());
+        JUT_MAX_ASSERT(dst, getKartNumber());
+        
         int playerStartIdx = mStartPosIndex[i];
         mStartPosIndex[i] = mStartPosIndex[dst];
         mStartPosIndex[dst] = playerStartIdx;
@@ -293,6 +299,7 @@ void RaceInfo::shuffleStartNo()
 
 void RaceInfo::hideConsole(u32 viewNo)
 {
-    JUT_MINMAX_ASSERT(772, 1, viewNo, 5);
+#line 772
+    JUT_MINMAX_ASSERT(1, viewNo, 5);
     mHideConsole = mHideConsole | (1 << viewNo);
 }

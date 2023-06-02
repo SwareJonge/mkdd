@@ -131,7 +131,8 @@ bool JKRDvdArchive::open(long entryNum)
     }
     if (mMountMode == 0)
     {
-        JUT_REPORT_MSG(":::Cannot alloc memory [%s][%d]\n", __FILE__, 397); // TODO: macro
+#line 397
+        JUT_REPORT_MSG(":::Cannot alloc memory [%s][%d]\n", __FILE__, __LINE__); // TODO: macro
         if (mDvdFile != nullptr)
         {
             delete mDvdFile;
@@ -142,7 +143,8 @@ bool JKRDvdArchive::open(long entryNum)
 }
 
 void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize) {
-    JUT_ASSERT(428, isMounted());
+#line 428
+    JUT_ASSERT(isMounted());
     u32 sizeptr;
     u32 size;
     u8 *data;
@@ -176,7 +178,8 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize) {
 
 void *JKRDvdArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry *fileEntry, u32 *pSize)
 {
-    JUT_ASSERT(504, isMounted());
+#line 504
+    JUT_ASSERT(isMounted());
 
     u32 fileSize = fileEntry->mSize;
     u32 alignedSize = ALIGN_NEXT(fileSize, 32);
@@ -257,11 +260,15 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         return size;
     }
 
-    case JKRCOMPRESSION_YAY0:
-        JUT_PANIC(649, "Sorry, not applied for SZP archive.\n");
+    case JKRCOMPRESSION_YAY0: {
+#line 649
+        JUT_PANIC("Sorry, not applied for SZP archive.\n");
+    }        
     
-    default:
-        JUT_PANIC(653, "??? bad sequence\n");
+    default: {
+        JUT_PANIC("??? bad sequence\n");
+    }
+        
     }
     return 0;
 }
@@ -278,7 +285,8 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         {
         case JKRCOMPRESSION_NONE:
             buffer = (u8 *)JKRAllocFromHeap(heap, alignedSize, 32);
-            JUT_ASSERT(675, buffer != 0);
+#line 675
+            JUT_ASSERT(buffer != 0);
 
             JKRDvdToMainRam(entryNum, buffer, Switch_0, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(buffer, alignedSize);
@@ -295,7 +303,8 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
             alignedSize = JKRDecompExpandSize(bufptr);
 
             buffer = (u8 *)JKRAllocFromHeap(heap, alignedSize, 32);
-            JUT_ASSERT(715, buffer);
+#line 715
+            JUT_ASSERT(buffer);
 
             JKRDvdToMainRam(entryNum, buffer, Switch_1, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(buffer, alignedSize);
@@ -306,18 +315,23 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
     case JKRCOMPRESSION_YAZ0:
     {
         buffer = (u8 *)JKRAllocFromHeap(heap, alignedSize, 32);
-        JUT_ASSERT(735, buffer);
+#line 735
+        JUT_ASSERT(buffer);
         JKRDvdToMainRam(entryNum, buffer, Switch_1, size, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
         DCInvalidateRange(buffer, size);
         *pBuf = buffer;
         return alignedSize;
     }
 
-    case JKRCOMPRESSION_YAY0:
-        JUT_PANIC(754, "Sorry, not applied SZP archive.\n");
+    case JKRCOMPRESSION_YAY0: {
+#line 754
+        JUT_PANIC("Sorry, not applied SZP archive.\n");
+    }
 
-    default:
-        JUT_PANIC(758, "??? bad sequence\n");
+    default: {
+        JUT_PANIC("??? bad sequence\n");
+    }
+        
     }
     return 0;
 }

@@ -50,8 +50,9 @@ public:
     char searchPasswordTable(char c);
 
     char getPassAtIndex(int n) {
-        JUT_ASSERT(48, mMake);
-        JUT_MINMAX_ASSERT(49, 0, n, 16);
+#line 48
+        JUT_ASSERT(mMake);
+        JUT_MINMAX_ASSERT(0, n, 16);
         return mPass[n];
     }
 

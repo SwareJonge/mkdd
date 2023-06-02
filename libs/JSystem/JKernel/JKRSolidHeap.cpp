@@ -277,11 +277,12 @@ bool JKRSolidHeap::dump(void)
     return result;
 }
 
-// same issue as pik2: instructions get scheduled incorrectly, #pragma scheduling off gets close but not correct
+// only matches with 1.3.2 for release
 void JKRSolidHeap::state_register(JKRHeap::TState *p, u32 id) const
 {
-    JUT_ASSERT(603, p != 0);
-    JUT_ASSERT(604, p->getHeap() == this);
+#line 603
+    JUT_ASSERT(p != 0);
+    JUT_ASSERT(p->getHeap() == this);
 
     getState_(p);
     setState_u32ID_(p, id);
@@ -294,7 +295,8 @@ void JKRSolidHeap::state_register(JKRHeap::TState *p, u32 id) const
 
 bool JKRSolidHeap::state_compare(JKRHeap::TState const &r1, JKRHeap::TState const &r2) const
 {
-    JUT_ASSERT(631, r1.getHeap() == r2.getHeap());
+#line 631
+    JUT_ASSERT(r1.getHeap() == r2.getHeap());
 
     bool result = true;
     if (r1.getCheckCode() != r2.getCheckCode())

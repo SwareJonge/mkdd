@@ -65,7 +65,8 @@ JKRDecompCommand *JKRDecomp::prepareCommand(u8 *srcBuffer, u8 *dstBuffer, u32 sr
 
 void JKRDecomp::sendCommand(JKRDecompCommand *decompCmd) {
     BOOL msgret = OSSendMessage(&sMessageQueue, decompCmd, 0);
-    JUT_ASSERT_MSG(142, msgret, "Decomp MesgBuf FULL!");
+#line 142
+    JUT_ASSERT_MSG(msgret, "Decomp MesgBuf FULL!");
 }
 
 JKRDecompCommand *JKRDecomp::orderAsync(u8 *srcBuffer, u8 *dstBuffer, u32 srcLength, u32 dstLength,

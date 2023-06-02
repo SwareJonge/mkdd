@@ -41,7 +41,8 @@ class JAISoundHandle {
     }
 
     JAISound *getSound() {
-        JUT_ASSERT(41, sound_ != 0);
+#line 41
+        JUT_ASSERT(sound_ != 0);
         return sound_;
     }
     

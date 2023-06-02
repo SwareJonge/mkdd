@@ -94,12 +94,24 @@ public:
 
     void aramSync(JKRAMCommand *, int);
 
+    u32 getAudioMemory() const {
+        return mAudioMemoryPtr;
+    }
+
+    u32 getAudioMemSize() const {
+        return mAudioMemorySize;
+    }
+
     static u32 getSZSBufferSize() {
         return sSZSBufferSize;
     }
 
     static JKRAramHeap *getAramHeap() {
         return sAramObject->mAramHeap;
+    }
+
+    static JKRAram *getManager() { 
+        return sAramObject;
     }
 
     static u8 decideAramGroupId(int id)

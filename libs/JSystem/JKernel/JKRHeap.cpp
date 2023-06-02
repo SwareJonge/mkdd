@@ -92,7 +92,8 @@ JKRHeap *JKRHeap::becomeCurrentHeap()
 }
 
 void JKRHeap::destroy(JKRHeap * heap) {
-    JUT_ASSERT(200, heap != 0);
+#line 200
+    JUT_ASSERT(heap != 0);
     heap->destroy();
 }
 
@@ -113,7 +114,8 @@ void *JKRHeap::alloc(u32 byteCount, int padding, JKRHeap *heap)
 }
 
 void *JKRHeap::alloc(u32 byteCount, int padding) {
-    JUT_WARNING_F(317, !mInitFlag, "alloc %x byte in heap %x", byteCount, this);
+#line 317
+    JUT_WARNING_F(!mInitFlag, "alloc %x byte in heap %x", byteCount, this);
     return do_alloc(byteCount, padding); 
 }
 
@@ -126,7 +128,8 @@ void JKRHeap::free(void *memory, JKRHeap *heap)
 }
 
 void JKRHeap::free(void *memory) {
-    JUT_WARNING_F(365, !mInitFlag, "free %x in heap %x", memory, this);
+#line 365
+    JUT_WARNING_F(!mInitFlag, "free %x in heap %x", memory, this);
     do_free(memory); 
 }
 
@@ -140,30 +143,35 @@ void JKRHeap::callAllDisposer()
 }
 
 void JKRHeap::freeAll() {
-    JUT_WARNING_F(417, !mInitFlag, "freeAll in heap %x", this);
+#line 417
+    JUT_WARNING_F(!mInitFlag, "freeAll in heap %x", this);
     do_freeAll(); 
 }
 
 void JKRHeap::freeTail() {
-    JUT_WARNING_F(431, !mInitFlag, "freeTail in heap %x", this);
+#line 431
+    JUT_WARNING_F(!mInitFlag, "freeTail in heap %x", this);
     do_freeTail(); 
 }
 
 // fabricated
 void JKRHeap::fillFreeArea() {
-    JUT_WARNING_F(461, !mInitFlag, "fillFreeArea in heap %x", this);
+#line 461
+    JUT_WARNING_F(!mInitFlag, "fillFreeArea in heap %x", this);
     do_fillFreeArea();
 }
 
 int JKRHeap::resize(void *memoryBlock, u32 newSize) {
-    JUT_WARNING_F(491, !mInitFlag, "resize block %x into %x in heap %x", memoryBlock, newSize, this);
+#line 491
+    JUT_WARNING_F(!mInitFlag, "resize block %x into %x in heap %x", memoryBlock, newSize, this);
     return do_resize(memoryBlock, newSize); 
 }
 s32 JKRHeap::getFreeSize() { return do_getFreeSize(); }
 u32 JKRHeap::getTotalFreeSize() { return do_getTotalFreeSize(); }
 
 u8 JKRHeap::changeGroupID(u8 newGroupID) {
-    JUT_WARNING_F(570, !mInitFlag, "change heap ID into %x in heap %x", newGroupID, this);
+#line 570
+    JUT_WARNING_F(!mInitFlag, "change heap ID into %x in heap %x", newGroupID, this);
     return do_changeGroupID(newGroupID); 
 }
 
@@ -301,8 +309,9 @@ void JKRHeap::copyMemory(void *dst, void *src, u32 size)
 }
 
 void JKRDefaultMemoryErrorRoutine(void * heap, u32 size, int alignment) {
+#line 830
     JUT_REPORT_MSG("Error: Cannot allocate memory %d(0x%x)byte in %d byte alignment from %08x\n", size, size, alignment, heap);
-    JUT_PANIC(831, "abort\n");
+    JUT_PANIC("abort\n");
 }
 
 // attempt to reconstruct function but lazy
@@ -393,11 +402,12 @@ JKRHeap::TState::TState(const JKRHeap::TState &other, const JKRHeap::TState::TLo
 #if DEBUG
 static void genData()
 {
-    JUT_LOG_F(1000, "heap unchanged");
-    JUT_LOG_F(1001, "**** heap changed ****");
-    JUT_LOG_F(1002, "location   : [%s:%d]");
-    JUT_LOG_F(1003, "**** heap changed : old ****");
-    JUT_LOG_F(1004, "**** heap changed : new ****");
+#line 1000
+    JUT_LOG_F("heap unchanged");
+    JUT_LOG_F("**** heap changed ****");
+    JUT_LOG_F("location   : [%s:%d]");
+    JUT_LOG_F("**** heap changed : old ****");
+    JUT_LOG_F("**** heap changed : new ****");
 }
 #endif
 
@@ -407,8 +417,9 @@ JKRHeap::TState::~TState()
 }
 
 void JKRHeap::state_register(JKRHeap::TState * p, u32) const {
-    JUT_ASSERT(1132, p != 0);
-    JUT_ASSERT(1133, p->getHeap() == this);
+#line 1132
+    JUT_ASSERT(p != 0);
+    JUT_ASSERT(p->getHeap() == this);
 }
 
 bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2) const {
@@ -418,14 +429,16 @@ bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2
 
 // fabricated, but probably matches(except for line numbers)
 void JKRHeap::state_dumpDifference(const JKRHeap::TState & r1, const JKRHeap::TState & r2) {
-    JUT_LOG_F(1157, "heap       : %p / %p", r1.getHeap(), r2.getHeap());
-    JUT_LOG_F(1158, "check-code : 0x%08x / 0x%08x", r1.getCheckCode(), r2.getCheckCode());
-    JUT_LOG_F(1159, "id         : 0x%08x / 0x%08x", r1.getId(), r2.getId());
-    JUT_LOG_F(1160, "used size  : %10u / %10u", r1.getUsedSize(), r2.getUsedSize());
+#line 1157
+    JUT_LOG_F("heap       : %p / %p", r1.getHeap(), r2.getHeap());
+    JUT_LOG_F("check-code : 0x%08x / 0x%08x", r1.getCheckCode(), r2.getCheckCode());
+    JUT_LOG_F("id         : 0x%08x / 0x%08x", r1.getId(), r2.getId());
+    JUT_LOG_F("used size  : %10u / %10u", r1.getUsedSize(), r2.getUsedSize());
 }
 
 void JKRHeap::state_dump(const TState & state) const {
-    JUT_LOG_F(1165, "check-code : 0x%08x", state.getCheckCode());
-    JUT_LOG_F(1166, "id         : 0x%08x", state.getId());
-    JUT_LOG_F(1167, "used size  : %u", state.getUsedSize());
+#line 1165
+    JUT_LOG_F("check-code : 0x%08x", state.getCheckCode());
+    JUT_LOG_F("id         : 0x%08x", state.getId());
+    JUT_LOG_F("used size  : %u", state.getUsedSize());
 }

@@ -35,7 +35,8 @@ bool GPRecord::less(const GPRecord &rRec) {
     if ((_6 & 1) == 0)
         ret = true;
     else {
-        JUT_ASSERT(82, rRec.mLevel == mLevel);
+#line 82
+        JUT_ASSERT(rRec.mLevel == mLevel);
         if (rRec._4 < _4)
             ret = true;
         else { // can this be cleaned up somehow?

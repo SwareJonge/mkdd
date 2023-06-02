@@ -419,46 +419,24 @@ namespace System {
     f32 get3DVpW() { return SystemData::sc3DViewPort.W; }
     f32 get3DVpH() { return SystemData::sc3DViewPort.H; }
 
-    // how the hell did they format this
-    f32 get3DVpDiv2X(u8 pos) {
-        JUT_ASSERT(788, pos < 2);
-        return SystemData::sca3DViewPortDiv2[(u32)pos].X;
-    }
-    f32 get3DVpDiv2Y(u8 pos) {
-        JUT_ASSERT(789, pos < 2);
-        return SystemData::sca3DViewPortDiv2[(u32)pos].Y;
-    }
-    f32 get3DVpDiv2W(u8 pos) {
-        JUT_ASSERT(790, pos < 2);
-        return SystemData::sca3DViewPortDiv2[(u32)pos].W;
-    }
-    f32 get3DVpDiv2H(u8 pos) {
-        JUT_ASSERT(791, pos < 2);
-        return SystemData::sca3DViewPortDiv2[(u32)pos].H;
-    }
+    // dumb formatting
+#line 788
+    f32 get3DVpDiv2X(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DViewPortDiv2[(u32)pos].X; }
+    f32 get3DVpDiv2Y(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DViewPortDiv2[(u32)pos].Y; }
+    f32 get3DVpDiv2W(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DViewPortDiv2[(u32)pos].W; }
+    f32 get3DVpDiv2H(u8 pos) { JUT_ASSERT( pos < 2); return SystemData::sca3DViewPortDiv2[(u32)pos].H; }
 
-    f32 get3DVpDiv4X(u8 pos) {
-        JUT_ASSERT(793, pos < 4);
-        return SystemData::sca3DViewPortDiv4[(u32)pos].X;
-    }
-    f32 get3DVpDiv4Y(u8 pos) {
-        JUT_ASSERT(794, pos < 4);
-        return SystemData::sca3DViewPortDiv4[(u32)pos].Y;
-    }
-    f32 get3DVpDiv4W(u8 pos) {
-        JUT_ASSERT(795, pos < 4);
-        return SystemData::sca3DViewPortDiv4[(u32)pos].W;
-    }
-    f32 get3DVpDiv4H(u8 pos) {
-        JUT_ASSERT(796, pos < 4);
-        return SystemData::sca3DViewPortDiv4[(u32)pos].H;
-    }
+    f32 get3DVpDiv4X(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DViewPortDiv4[(u32)pos].X; }
+    f32 get3DVpDiv4Y(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DViewPortDiv4[(u32)pos].Y; }
+    f32 get3DVpDiv4W(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DViewPortDiv4[(u32)pos].W; }
+    f32 get3DVpDiv4H(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DViewPortDiv4[(u32)pos].H; }
 
     f32 get3DVpSubX() { return SystemData::sc3DViewPortSub.X; }
     f32 get3DVpSubY() { return SystemData::sc3DViewPortSub.Y; }
     f32 get3DVpSubW() { return SystemData::sc3DViewPortSub.W; }
     f32 get3DVpSubH() { return SystemData::sc3DViewPortSub.H; } // Unused
 
+    // Scissor data
     u32 get2DScisX() { return SystemData::sc3DScissor.X; }
     u32 get2DScisY() { return SystemData::sc3DScissor.Y; }
     u32 get2DScisW() { return SystemData::sc3DScissor.W; }
@@ -474,39 +452,15 @@ namespace System {
     u32 get3DAwardScisW() { return SystemData::sc3DAwardScissor.W; }
     u32 get3DAwardScisH() { return SystemData::sc3DAwardScissor.H; }
 
-    u32 get3DScisDiv2X(u8 pos) {
-        JUT_ASSERT(819, pos < 2);
-        return SystemData::sca3DScissorDiv2[(u32)pos].X;
-    }
-    u32 get3DScisDiv2Y(u8 pos) {
-        JUT_ASSERT(820, pos < 2);
-        return SystemData::sca3DScissorDiv2[(u32)pos].Y;
-    }
-    u32 get3DScisDiv2W(u8 pos) {
-        JUT_ASSERT(821, pos < 2);
-        return SystemData::sca3DScissorDiv2[(u32)pos].W;
-    }
-    u32 get3DScisDiv2H(u8 pos) {
-        JUT_ASSERT(822, pos < 2);
-        return SystemData::sca3DScissorDiv2[(u32)pos].H;
-    }
+    u32 get3DScisDiv2X(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DScissorDiv2[(u32)pos].X; }
+    u32 get3DScisDiv2Y(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DScissorDiv2[(u32)pos].Y; }
+    u32 get3DScisDiv2W(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DScissorDiv2[(u32)pos].W; }
+    u32 get3DScisDiv2H(u8 pos) { JUT_ASSERT(pos < 2); return SystemData::sca3DScissorDiv2[(u32)pos].H; }
 
-    u32 get3DScisDiv4X(u8 pos) {
-        JUT_ASSERT(824, pos < 4);
-        return SystemData::sca3DScissorDiv4[(u32)pos].X;
-    }
-    u32 get3DScisDiv4Y(u8 pos) {
-        JUT_ASSERT(825, pos < 4);
-        return SystemData::sca3DScissorDiv4[(u32)pos].Y;
-    }
-    u32 get3DScisDiv4W(u8 pos) {
-        JUT_ASSERT(826, pos < 4);
-        return SystemData::sca3DScissorDiv4[(u32)pos].W;
-    }
-    u32 get3DScisDiv4H(u8 pos) {
-        JUT_ASSERT(827, pos < 4);
-        return SystemData::sca3DScissorDiv4[(u32)pos].H;
-    }
+    u32 get3DScisDiv4X(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DScissorDiv4[(u32)pos].X; }
+    u32 get3DScisDiv4Y(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DScissorDiv4[(u32)pos].Y; }
+    u32 get3DScisDiv4W(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DScissorDiv4[(u32)pos].W; }
+    u32 get3DScisDiv4H(u8 pos) { JUT_ASSERT(pos < 4); return SystemData::sca3DScissorDiv4[(u32)pos].H; }
 
     u32 get3DScisSubX() { return SystemData::sc3DScissorSub.X; }
     u32 get3DScisSubY() { return SystemData::sc3DScissorSub.Y; }

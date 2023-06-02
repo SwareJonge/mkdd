@@ -19,9 +19,9 @@ namespace JASDvd
             return false;
         }
         sThread = new (JASDram, 0) JASTaskThread(threadPriority, msgCount, stackSize);
-        JUT_ASSERT(36, sThread);
+        JUT_ASSERT(sThread);
         JKRHeap *pCurrentHeap = JKRGetSystemHeap();
-        JUT_ASSERT(38, pCurrentHeap);
+        JUT_ASSERT(pCurrentHeap);
         sThread->setCurrentHeap(pCurrentHeap);
         sThread->resume();
         return true;

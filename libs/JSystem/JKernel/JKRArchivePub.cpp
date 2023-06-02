@@ -142,7 +142,8 @@ void *JKRArchive::getGlbResource(u32 type, const char *name, JKRArchive *archive
 
 void *JKRArchive::getResource(const char *path)
 {
-    JUT_ASSERT(303, isMounted());
+#line 303
+    JUT_ASSERT(isMounted());
     SDIFileEntry *fileEntry;
     if (*path == '/')
     {
@@ -157,7 +158,8 @@ void *JKRArchive::getResource(const char *path)
 
 void *JKRArchive::getResource(u32 type, const char *name)
 {
-    JUT_ASSERT(347, isMounted());
+#line 347
+    JUT_ASSERT(isMounted());
     SDIFileEntry *fileEntry;
     if (type == 0 || type == '????')
     {
@@ -178,7 +180,8 @@ void *JKRArchive::getIdxResource(u32 index)
 
 u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, u32 type, const char *name)
 {
-    JUT_ASSERT(493, isMounted());
+#line 493
+    JUT_ASSERT(isMounted());
     SDIFileEntry *fileEntry;
     if (type == 0 || type == '????')
     {
@@ -200,7 +203,8 @@ u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, u32 type, con
 // Returns the size of the resource at the given path, or 0 if not found.
 u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, const char *path)
 {
-    JUT_ASSERT(539, isMounted());
+#line 539
+    JUT_ASSERT(isMounted());
     SDIFileEntry *fileEntry;
     if (*path == '/')
     {
@@ -222,7 +226,8 @@ u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, const char *p
 // Returns the size of the resource with the given ID, or 0 if not found.
 u32 JKRArchive::readResource(void *resourceBuffer, u32 bufferSize, u16 id)
 {
-    JUT_ASSERT(625, isMounted());
+#line 625
+    JUT_ASSERT(isMounted());
     SDIFileEntry *fileEntry = findIdResource(id);
     if (fileEntry)
     {
@@ -252,7 +257,8 @@ void JKRArchive::removeResourceAll()
 
 bool JKRArchive::removeResource(void *resource)
 {
-    JUT_ASSERT(678, resource != 0);
+#line 678
+    JUT_ASSERT(resource != 0);
     SDIFileEntry *entry = findPtrResource(resource);
     if (entry == nullptr)
     {
@@ -265,7 +271,8 @@ bool JKRArchive::removeResource(void *resource)
 
 bool JKRArchive::detachResource(void *resource)
 {
-    JUT_ASSERT(707, resource != 0);
+#line 707
+    JUT_ASSERT(resource != 0);
     SDIFileEntry *entry = findPtrResource(resource);
     if (entry == nullptr)
     {
@@ -277,7 +284,8 @@ bool JKRArchive::detachResource(void *resource)
 
 s32 JKRArchive::getResSize(const void *resource) const
 {
-    JUT_ASSERT(732, resource != 0);
+#line 732
+    JUT_ASSERT(resource != 0);
     SDIFileEntry *entry = findPtrResource(resource);
     return (entry == nullptr) ? -1 : entry->getSize();
 }

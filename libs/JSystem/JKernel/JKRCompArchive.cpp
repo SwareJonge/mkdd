@@ -25,8 +25,8 @@ JKRCompArchive::JKRCompArchive(long entryNum, EMountDirection mountDirection) : 
 
 #ifdef DEBUG
 void stringGen() {
-    JUT_PANIC(1, "isMounted()");
-    JUT_PANIC(1, "mMountCount == 1");
+    JUT_PANIC("isMounted()");
+    JUT_PANIC("mMountCount == 1");
 }
 #endif
 
@@ -88,8 +88,9 @@ bool JKRCompArchive::open(long entryNum) {
 
         mSizeOfMemPart = arcHeader->_14;
         mSizeOfAramPart = arcHeader->_18;
-        JUT_ASSERT(352, ( mSizeOfMemPart & 0x1f ) == 0);
-        JUT_ASSERT(353, ( mSizeOfAramPart & 0x1f ) == 0);
+#line 352
+        JUT_ASSERT(( mSizeOfMemPart & 0x1f ) == 0);
+        JUT_ASSERT(( mSizeOfAramPart & 0x1f ) == 0);
 
         switch (mCompression)
         {
@@ -216,7 +217,8 @@ bool JKRCompArchive::open(long entryNum) {
 }
 
 void* JKRCompArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize) {
-    JUT_ASSERT(597, isMounted());
+#line 597
+    JUT_ASSERT(isMounted());
     
     u32 ptrSize;
     u32 size = fileEntry->mSize;
@@ -263,7 +265,8 @@ void* JKRCompArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize) {
 void *JKRCompArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry *fileEntry, u32 *pSize)
 {
     u32 size = 0;
-    JUT_ASSERT(708, isMounted());
+#line 708
+    JUT_ASSERT(isMounted());
 
     u32 fileSize = fileEntry->mSize;
     u32 alignedSize = ALIGN_NEXT(fileSize, 32);
@@ -305,7 +308,8 @@ void *JKRCompArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry
         }
         else
         {
-            JUT_PANIC(776, "illegal archive.");
+#line 776
+            JUT_PANIC("illegal archive.");
         }
     }
 
@@ -385,7 +389,8 @@ u32 JKRCompArchive::getExpandedResSize(const void *resource) const
         DCInvalidateRange(bufPtr, sizeof(buf) / 2);
     }
     else {
-        JUT_PANIC(943, "illegal resource.");
+#line 943
+        JUT_PANIC("illegal resource.");
     }
     u32 expandSize = JKRDecompExpandSize(bufPtr);
     const_cast<JKRCompArchive *>(this)->setExpandSize(fileEntry, expandSize);

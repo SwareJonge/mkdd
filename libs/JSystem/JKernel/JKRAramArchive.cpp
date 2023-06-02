@@ -162,7 +162,8 @@ cleanup:
 
 void *JKRAramArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize)
 {
-    JUT_ASSERT(442, isMounted());
+#line 442
+    JUT_ASSERT(isMounted());
 
     u32 sizeRef;
     u8 *data;
@@ -195,7 +196,8 @@ void *JKRAramArchive::fetchResource(SDIFileEntry *fileEntry, u32 *pSize)
 }
 
 void *JKRAramArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry *fileEntry, u32 *pSize) {
-    JUT_ASSERT(515, isMounted());
+#line 515
+    JUT_ASSERT(isMounted());
     u32 fileSize = fileEntry->mSize;
     if (fileSize > compressedSize) {
         fileSize = compressedSize;
@@ -232,7 +234,8 @@ void *JKRAramArchive::fetchResource(void *data, u32 compressedSize, SDIFileEntry
 // UNUSED
 u32 JKRAramArchive::getAramAddress_Entry(SDIFileEntry *fileEntry)
 {
-    JUT_ASSERT(572, isMounted());
+#line 572
+    JUT_ASSERT(isMounted());
 
     if(fileEntry == nullptr) {
         return 0;
@@ -248,7 +251,8 @@ u32 JKRAramArchive::getAramAddress(const char *file) {
 u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, u8 *data, u32 expandSize, int compression)
 {
     // do macros show in asserts? if not, use a macro here because if i ever reformat this then it'll screw this up
-    JUT_ASSERT(628, ( srcAram & 0x1f ) == 0);
+#line 628
+    JUT_ASSERT(( srcAram & 0x1f ) == 0);
 
     u32 sizeRef;
 
@@ -268,7 +272,8 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, u8 *data, u3
         JKRAramToMainRam(srcAram, data, alignedSize, Switch_1, prevAlignedSize, nullptr, -1, &sizeRef);
         return sizeRef;
     default:
-        JUT_PANIC(655, "??? bad sequence\n")
+#line 655
+        JUT_PANIC("??? bad sequence\n")
         return 0;
     }
 }
@@ -282,7 +287,8 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, JKRHeap *hea
     switch(compression) {
     case JKRCOMPRESSION_NONE:
         buffer = (u8 *)JKRAllocFromHeap(heap, alignedSize, 32);
-        JUT_ASSERT(677, buffer != 0);
+#line 677
+        JUT_ASSERT(buffer != 0);
 
         JKRAramToMainRam(srcAram, buffer, alignedSize, Switch_0, alignedSize, nullptr, -1, nullptr);
         *pBuf = buffer;
@@ -295,13 +301,15 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, JKRHeap *hea
         
         u32 expandSize = ALIGN_NEXT(JKRDecompExpandSize(bufptr), 32);
         buffer = (u8 *)JKRAllocFromHeap(heap, expandSize, 32);
-        JUT_ASSERT(703, buffer);
+#line 703
+        JUT_ASSERT(buffer);
 
         JKRAramToMainRam(srcAram, buffer, alignedSize, Switch_1, expandSize, heap, -1, &resSize);
         *pBuf = buffer;
         return resSize;
     default:
-        JUT_PANIC(713, "??? bad sequence\n");
+#line 713
+        JUT_PANIC("??? bad sequence\n");
         return 0;
     }
 }

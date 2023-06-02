@@ -224,7 +224,8 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
 {
     if (RaceMgr::getManager()->isLANMode())
     {
-        JUT_MINMAX_ASSERT(1004, 0, mTargetKartNo, 8);
+#line 1004
+        JUT_MINMAX_ASSERT(0, mTargetKartNo, 8);
         mPlayerKartColor = sPlayerKartColorTable[mTargetKartNo];
     }
     else
@@ -429,7 +430,8 @@ void KartChecker::checkKartLap()
                             break;
                     }
                 }
-                JUT_ASSERT_F(1293, inSector, "NOT INSIDE SCT%d", nextSector->getGeneration());
+#line 1293
+                JUT_ASSERT_F(inSector, "NOT INSIDE SCT%d", nextSector->getGeneration());
                 if (!inSector)
                     nextSector = nullptr;
             }
@@ -460,7 +462,8 @@ void KartChecker::checkKartLap()
     {
         mSectorProgression = unitDist;
         mLapProgression = (mSectorProgression * mSector2->getMainSector()->getSectorDist() + mSector2->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-        JUT_ASSERT_F(1388, isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapProgression, mPos.x, mPos.y, mPos.z);
+#line 1388
+        JUT_ASSERT_F(isUDValid(), "UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapProgression, mPos.x, mPos.y, mPos.z);
     }
 
     f32 lapProgDiff = mLapProgression - mPrevLapProgression;
@@ -645,7 +648,8 @@ void KartChecker::setLapTime()
                 }
             }
         }
-        JUT_MINMAX_ASSERT(1687, 0, mLap, mMaxLap);
+#line 1687
+        JUT_MINMAX_ASSERT(0, mLap, mMaxLap);
 
         mBestLapTimes[mLap].set(computedTime);
         if (!isMaxTotalTime())
@@ -732,8 +736,8 @@ bool KartChecker::setPass(int sectorIdx)
         pass = true;
         int bitIndex = sectorIdx % 32;
         valid = false;
-
-        JUT_MINMAX_ASSERT(1791, 0, index, mNumBitfields);
+#line 1791
+        JUT_MINMAX_ASSERT(0, index, mNumBitfields);
         mPassedSectors[index] |= (1 << bitIndex);
     }
     return pass;
@@ -896,7 +900,8 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = mBombPoint; pntNo < bombPoint; pntNo++)
             {
-                JUT_MINMAX_ASSERT(2071, 0, pntNo, 10);
+#line 2071
+                JUT_MINMAX_ASSERT(0, pntNo, 10);
                 mBombPointTable[pntNo] = -1;
             }
             if (bombPoint == sBombPointFull - 1)
@@ -906,7 +911,8 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
         {
             for (int pntNo = bombPoint; pntNo < mBombPoint; pntNo++)
             {
-                JUT_MINMAX_ASSERT(2097, 0, pntNo, 10);
+#line 2097
+                JUT_MINMAX_ASSERT(0, pntNo, 10);
                 mBombPointTable[pntNo] = pnt;
             }
         }
@@ -1074,7 +1080,8 @@ void LapChecker::calc(const JGeometry::TVec3<f32> &pos)
         {
             mSectorDist = unitDist;
             mLapUnitDist = (mSectorDist * mSector->getMainSector()->getSectorDist() + mSector->getMainSector()->getTotalPriorDist()) / RCMGetCourse()->getTrackSectorDist();
-            JUT_ASSERT_F(2430, isUDValid(), "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
+#line 2430
+            JUT_ASSERT_F(isUDValid(), "LAP UD:%5.3f,P:%8.3f,%8.3f,%8.3f", mLapUnitDist, pos.x, pos.y, pos.z);
         }
     }
 }

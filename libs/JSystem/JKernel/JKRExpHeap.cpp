@@ -400,7 +400,8 @@ void JKRExpHeap::do_free(void * memblock) {
         }
     }
     else {
-        JUT_WARNING_F2(894, "free: memblock %x not in heap %x", memblock, this);
+#line 894
+        JUT_WARNING_F2("free: memblock %x not in heap %x", memblock, this);
     }
     unlock();
 }
@@ -616,7 +617,8 @@ void JKRExpHeap::appendUsedList(JKRExpHeap::CMemBlock *blockToAppend)
 {
     if (!blockToAppend)
     {
-        JUT_PANIC(1568, "bad appendUsedList\n");
+#line 1568
+        JUT_PANIC("bad appendUsedList\n");
     }
     CMemBlock *block = mTailUsedList;
     CMemBlock *tail = mTailUsedList;
@@ -769,7 +771,8 @@ void JKRExpHeap::joinTwoBlocks(CMemBlock *block)
         JUT_REPORT_MSG(":::: endAddr = %x\n", endAddr);
         JUT_REPORT_MSG(":::: nextAddr = %x\n", nextAddr);
         JKRGetCurrentHeap()->dump();
-        JUT_PANIC(1820, "Bad Block\n");
+#line 1820
+        JUT_PANIC("Bad Block\n");
     }
     if (endAddr == nextAddr)
     {
@@ -1041,8 +1044,9 @@ JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::getHeapBlock(void *mem)
 
 void JKRExpHeap::state_register(JKRHeap::TState *p, u32 param_1) const
 {
-    JUT_ASSERT(2406, p != 0); 
-    JUT_ASSERT(2407, p->getHeap() == this);
+#line 2406
+    JUT_ASSERT(p != 0); 
+    JUT_ASSERT(p->getHeap() == this);
     getState_(p); // not needed, however TP debug has it
     setState_u32ID_(p, param_1);
     if (param_1 <= 0xff)
@@ -1074,7 +1078,8 @@ void JKRExpHeap::state_register(JKRHeap::TState *p, u32 param_1) const
 
 bool JKRExpHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2) const
 {
-    JUT_ASSERT(2454, r1.getHeap() == r2.getHeap());
+#line 2454
+    JUT_ASSERT(r1.getHeap() == r2.getHeap());
     bool result = true;
     if (r1.mCheckCode != r2.mCheckCode)
     {

@@ -44,25 +44,26 @@ struct JFWSystem
     
     // No idea how they formatted this lol
     static void setMaxStdHeap(int stdHeaps) { 
-        JUT_ASSERT(47, sInitCalled == 0);
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::maxStdHeaps = stdHeaps; }
     static void setSysHeapSize(u32 heapSize) {
-        JUT_ASSERT(50, sInitCalled == 0);
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::sysHeapSize = heapSize; }
     static void setFifoBufSize(u32 bufSize) {
-        JUT_ASSERT(53, sInitCalled == 0);
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::fifoBufSize = bufSize; }
     
     // Inlines for Aram
     static void setAramAudioBufSize(u32 bufSize) {
-        JUT_ASSERT(58, sInitCalled == 0);
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::aramAudioBufSize = bufSize; }
     static void setAramGraphBufSize(u32 bufSize) {
-        JUT_ASSERT(61, sInitCalled == 0);
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::aramGraphBufSize = bufSize; }
     // probably some more inlines for other variables, not used by MKDD
     static void setRenderMode(const _GXRenderModeObj * rmode) {
-        JUT_ASSERT(80, sInitCalled == 0);
+#line 80
+        JUT_ASSERT(sInitCalled == 0);
         CSetUpParam::renderMode = rmode; }
 };
 

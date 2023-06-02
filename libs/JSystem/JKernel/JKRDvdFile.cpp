@@ -59,13 +59,15 @@ void JKRDvdFile::close() {
             sDvdList.remove(&mLink);
         }
         else {
-            JUT_PANIC(213, "cannot close DVD file\n");
+#line 213
+            JUT_PANIC("cannot close DVD file\n");
         }
     }
 }
 
 s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
-    JUT_ASSERT(238, ( length & 0x1f ) == 0);
+#line 238
+    JUT_ASSERT(( length & 0x1f ) == 0);
     OSLockMutex(&mDvdMutex);
     s32 retAddr;
     if(mThread != nullptr) {
@@ -86,7 +88,8 @@ s32 JKRDvdFile::readData(void * addr,s32 length, s32 offset) {
 }
 
 s32 JKRDvdFile::writeData(const void * addr,s32 length, s32 offset) {
-    JUT_ASSERT(344, ( length & 0x1f ) == 0);
+#line 344
+    JUT_ASSERT(( length & 0x1f ) == 0);
     return -1;
 }
 

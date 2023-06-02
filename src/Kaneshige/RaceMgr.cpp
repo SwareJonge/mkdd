@@ -271,8 +271,9 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     mAwardArc = nullptr;
     if (isAwardDemoMode())
     {
+#line 2184
         mAwardArc = ResMgr::getArchive(ResMgr::mcArcAward);
-        JUT_ASSERT_MSG(2185, mAwardArc, "NOT LOAD AWARD ARC");
+        JUT_ASSERT_MSG(mAwardArc, "NOT LOAD AWARD ARC");
     }
     SYSDBG_SetHeapGroup("OBJECT MGR", nullptr);
     CreateGeoObjMgr(mCourse->getCrsData());
@@ -1331,7 +1332,8 @@ bool RaceMgr::isAbleStart() const
 
 void RaceMgr::setJugemZClr(u32 viewNo, bool clear)
 {
-    JUT_MINMAX_ASSERT(4353, 0, viewNo, mRaceInfo->getConsoleNumber());
+#line 4353
+    JUT_MINMAX_ASSERT(0, viewNo, mRaceInfo->getConsoleNumber());
     Console *console = &mConsole[viewNo];
     if (clear)
         console->setJugemZClr();
@@ -1362,7 +1364,8 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
     position->set(0.0f, 0.0f, 0.0f); // .zero exists
     direction->set(0.0f, 0.0f, 1.0f);
 
-    JUT_MINMAX_ASSERT(4396, 0, kartNo, getKartNumber());
+#line 4396
+    JUT_MINMAX_ASSERT(0, kartNo, getKartNumber());
     int startPosIdx = mRaceInfo->mStartPosIndex[kartNo];
     u8 startID = getStartID(startPosIdx);
     int tindex = -1;
@@ -1394,8 +1397,9 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
     }
     if (getCourse()->getCrsData())
     {
+#line 4437
         CrsData::StartPoint *startPoint = getCourse()->getCrsData()->getStartPoint(startID);
-        JUT_ASSERT_F(4437, startPoint, "NOT FOUND START:%d", startID);
+        JUT_ASSERT_F(startPoint, "NOT FOUND START:%d", startID);
         isRight = startPoint->isRight();
         startPoint->getPosition(position);
         startPoint->getFrDirection(direction);
@@ -1421,7 +1425,8 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
                 {-167.0f, 0.0f, 250.0f},
                 {-500.0f, 0.0f, 250.0f}};
             JGeometry::TVec3f startPos;
-            JUT_MINMAX_ASSERT(4480, 0, tindex, 18);
+#line 4480
+            JUT_MINMAX_ASSERT(0, tindex, 18);
             const f32 startPosX = startPosTable[tindex][0];
             const f32 startPosZ = startPosTable[tindex][2];
             startPos.set(startPosX, 0.0f, startPosZ);
@@ -1448,7 +1453,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
 f32 RaceMgr::getStartJugemOffsetY(int kartNo)
 {
     f32 y = 0.0f;
-    JUT_MINMAX_ASSERT(4507, 0, kartNo, getKartNumber())
+    JUT_MINMAX_ASSERT(0, kartNo, getKartNumber());
     u8 startID = getStartID(mRaceInfo->mStartPosIndex[kartNo]);
     if (getCourse()->getCrsData())
         y = getCourse()->getCrsData()->getStartPoint(startID)->getJugemOffsetY();

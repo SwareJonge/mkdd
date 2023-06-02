@@ -52,7 +52,8 @@ void JUTConsole::print_f(char const *text, ...)
 void JUTConsole_print_f_va_(JUTConsole *console, const char *text, va_list args)
 {
     char buf[1024];
-    JUT_ASSERT(563, console!=0);
+#line 563
+    JUT_ASSERT(console!=0);
     vsnprintf(buf, sizeof(buf), text, args);
     console->print(buf);
 }
@@ -117,6 +118,7 @@ JUTConsoleManager::JUTConsoleManager()
 
 JUTConsoleManager *JUTConsoleManager::createManager(JKRHeap *pHeap)
 {
+#line 563
     JUT_ASSERT(924, sManager == 0);
     if (pHeap == nullptr)
     {
@@ -127,9 +129,11 @@ JUTConsoleManager *JUTConsoleManager::createManager(JKRHeap *pHeap)
 
 void JUTConsoleManager::appendConsole(JUTConsole *console)
 {
-    JUT_ASSERT(961, sManager != 0 && console != 0);
-    // maybe local soLink_
-    JUT_ASSERT(964, soLink_.Find( console ) == soLink_.end());
+#line 961
+    JUT_ASSERT(sManager != 0 && console != 0);
+
+    // not sure why this asser was 3 lines later
+    JUT_ASSERT(soLink_.Find( console ) == soLink_.end());
     soLink_.Push_back(console);
     if (mActiveConsole == nullptr)
     {

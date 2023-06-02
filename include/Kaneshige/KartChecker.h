@@ -38,10 +38,11 @@ public:
     bool isFinalLapRenewal() const;
     bool isGoal() const { return mRaceEnd; }
 
-    bool isPass(int sectoridx)  {        
+    bool isPass(int sectoridx)  {
+#line 129
         int index = sectoridx / 32;
-        int bitIndex = sectoridx % 32;
-        JUT_MINMAX_ASSERT(131, 0, index, mNumBitfields);
+        int bitIndex = sectoridx % 32;        
+        JUT_MINMAX_ASSERT(0, index, mNumBitfields);
         return (mPassedSectors[index] & (1 << bitIndex)) != false;
     }
 
@@ -59,12 +60,14 @@ public:
     }
 
     const RaceTime &getLapTime(int no) {
-        JUT_MINMAX_ASSERT(206, 0, no, mMaxLap);
+#line 206
+        JUT_MINMAX_ASSERT(0, no, mMaxLap);
         return mLapTimes[no];
     }
 
     KartGamePad * getDriverPad(int driverNo) const {
-        JUT_MINMAX_ASSERT(220, 0, driverNo, 2);
+#line 220
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartGamePads[driverNo];
     }
 
@@ -99,7 +102,7 @@ public:
     void setDemoRank() { mRaceFlags |= 16; }
     void setDead() { mBattleFlags |= 4; }
     void setRank(int rank) { mRank = rank; }
-    bool setPass(int index);
+    inline bool setPass(int index); // ??? function is weak yet in cpp file itself
     void clrRank() { mRank = 0; }
     void resumeRabbitTimer() { mBattleFlags &= 0xfffe; }
     bool tstLapChecking() const { return mRaceFlags & 1; }

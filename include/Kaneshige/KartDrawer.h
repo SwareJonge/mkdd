@@ -57,7 +57,8 @@ public:
     void hide();                      // 0x801b9b88
 
     void setLight(u32 viewNo, RaceKartLight * kartLight) {
-        JUT_MAX_ASSERT(107, viewNo, 4);
+#line 107
+        JUT_MAX_ASSERT(viewNo, 4);
         mKartLight[viewNo] = kartLight;
     }
 

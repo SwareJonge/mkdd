@@ -162,23 +162,26 @@ public:
     KartGamePad * getYoungestPad();
     // TODO: not important but move to "correct" location
     bool isComDriver(int driverNo) const {
-        JUT_MINMAX_ASSERT(113, 0, driverNo, 2);
+#line 113
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].isComPlayer();
     }
 
     // Enum?
     int getPlayerKind(int driverNo) const { 
-        JUT_MINMAX_ASSERT(119, 0, driverNo, 2);
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].getPlayerKind();
     }
 
     KartGamePad* getPad(int driverNo) {
-        JUT_MINMAX_ASSERT(126, 0, driverNo, 2);
+#line 126
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].getPad();
     }
     
-    ECharID getDriverCharID(int driverNo) const { 
-        JUT_MINMAX_ASSERT(142, 0, driverNo, 2);
+    ECharID getDriverCharID(int driverNo) const {
+#line 142
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].getCharID();
     }
 
