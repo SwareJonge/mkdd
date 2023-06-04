@@ -27,6 +27,11 @@ global:
   0x803d324c: msVideoFrameMode__10KartLocale
   0x803d3250: msDatingMode__10KartLocale
 
+  # unknown section, JStudio?
+  0x80005ad4: isLeadByte_1Byte__7JUTFontFi
+  0x80005adc: isLeadByte_2Byte__7JUTFontFi
+  0x80005ae4: isLeadByte_ShiftJIS__7JUTFontFi
+
   # JSystem
   # J3D
   # J3DSys.cpp
@@ -497,11 +502,20 @@ global:
   0x800198e4: JUTWarningConsole
   0x80348040: __vt__10JUTConsole
   0x803d4ad8: sManager__17JUTConsoleManager
-  # JUTDbPrint
+  # JUTDbPrint.cpp
   0x80019910: start__10JUTDbPrintFP7JUTFontP7JKRHeap  
   0x800199b4: changeFont__10JUTDbPrintFP7JUTFont
   0x800199cc: flush__10JUTDbPrintFv
+  0x80019a04: flush__10JUTDbPrintFiiii
+  0x80019b64: drawString__10JUTDbPrintFiiiPCUc
+  0x80019c4c: JUTReport__FiiPCce
   0x803d4ae8: sDebugPrint__10JUTDbPrint
+  # JUTDirectFile.cpp
+  0x80019d88: __ct__13JUTDirectFileFv
+  0x80019dac: __dt__13JUTDirectFileFv
+  0x80019df8: fopen__13JUTDirectFileFPCc
+  0x80019e94: fclose__13JUTDirectFileFv
+  0x80019eec: fgets__13JUTDirectFileFPvi
   # JUTDirectPrint.cpp
   0x8001a120: start__14JUTDirectPrintFv
   0x8001a198: erase__14JUTDirectPrintFiiii
@@ -527,6 +541,23 @@ global:
   # JUTFader.cpp
   0x8001d410: __ct__8JUTFaderFiiiiQ28JUtility6TColor
   0x8001d4c0: control__8JUTFaderFv
+  0x803483b0: __vt__8JUTFader
+  0x8001d5d8: draw__8JUTFaderFv
+  0x8001d668: startFadeIn__8JUTFaderFi
+  0x8001d6b0: startFadeOut__8JUTFaderFi
+  0x8001d6f4: setStatus__8JUTFaderFQ28JUTFader7EStatusi
+  0x8001d76c: __dt__8JUTFaderFv
+  # JUTFont.cpp
+  0x8001d7bc: __ct__7JUTFontFv  
+  0x8001d7e8: initialize_state__7JUTFontFv
+  0x8001d834: setCharColor__7JUTFontFQ28JUtility6TColor
+  0x8001d888: setGradColor__7JUTFontFQ28JUtility6TColorQ28JUtility6TColor
+  0x8001d8ec: drawString_size_scale__7JUTFontFffffPCcUlb  
+  0x8001da0c: __dt__7JUTFontFv
+  0x8001da5c: setGX__7JUTFontFQ28JUtility6TColorQ28JUtility6TColor
+  0x8001da88: getCellHeight__7JUTFontCFv
+  0x8001dab4: getCellWidth__7JUTFontCFv
+  0x803483c8: __vt__7JUTFont
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
   0x8001dc98: init__10JUTGamePadFv
@@ -541,6 +572,19 @@ global:
   # JUTGraphFifo.cpp
   0x8001f70c: __ct__12JUTGraphFifoFUl
   0x8001f7e8: __dt__12JUTGraphFifoFv
+  0x80348440: __vt__12JUTGraphFifo
+  0x803d4b50: sInitiated__12JUTGraphFifo
+  0x803d4b54: sCurrentFifo__12JUTGraphFifo
+  0x803d4b58: mGpStatus__12JUTGraphFifo
+  # JUTNameTab.cpp
+  0x8001f8b0: __ct__10JUTNameTabFv
+  0x8001f8f0: __ct__10JUTNameTabFPC7ResNTAB
+  0x8001f92c: setResource__10JUTNameTabFPC7ResNTAB
+  0x8001f968: getIndex__10JUTNameTabCFPCc
+  0x8001fa04: getName__10JUTNameTabCFUs
+  0x8001fa34: calcKeyCode__10JUTNameTabCFPCc
+  0x8001fa68: __dt__10JUTNameTabFv
+  0x80348450: __vt__10JUTNameTab
   # JUTPalette.cpp
   0x8001fab8: storeTLUT__10JUTPaletteF7_GXTlutP7ResTLUT
   0x8001fb48: storeTLUT__10JUTPaletteF7_GXTlut10_GXTlutFmt15JUTTransparencyUsPv
@@ -556,9 +600,39 @@ global:
   0x803d32a8: oneFrameRate
   0x803d32ac: oneFrameRateUser
   0x803d4b60: sManager__10JUTProcBar
+  # JUTResFont.cpp
   0x80021d38: __ct__10JUTResFontFPC7ResFONTP7JKRHeap
-  # JUTFontData_Ascfont_fix12.s
-  0x8032db80: JUTResFONT_Ascfont_fix12
+  0x80021d9c: __dt__10JUTResFontFv
+  0x80021e28: deleteMemBlocks_ResFont__10JUTResFontFv
+  0x80021e4c: initialize_state__10JUTResFontFv
+  0x80021e78: initiate__10JUTResFontFPC7ResFONTP7JKRHeap
+  0x80021efc: protected_initiate__10JUTResFontFPC7ResFONTP7JKRHeap
+  0x80022024: countBlock__10JUTResFontFv
+  0x80022118: setBlock__10JUTResFontFv
+  0x80022254: setGX__10JUTResFontFv
+  0x8002234c: setGX__10JUTResFontFQ28JUtility6TColorQ28JUtility6TColor
+  0x80022584: drawChar_scale__10JUTResFontFffffib
+  0x800229a0: getDescent__10JUTResFontCFv
+  0x800229ac: getHeight__10JUTResFontCFv
+  0x80022a00: getAscent__10JUTResFontCFv
+  0x80022a0c: loadFont__10JUTResFontFi11_GXTexMapIDPQ27JUTFont6TWidth
+  0x80022a84: getWidthEntry__10JUTResFontCFiPQ27JUTFont6TWidth\
+  0x80022b28: getCellWidth__10JUTResFontCFv
+  0x80022b74: getWidth__10JUTResFontCFv
+  0x80022b80: getCellHeight__10JUTResFontCFv
+  0x80022bcc: isLeadByte__10JUTResFontCFi
+  0x80022bfc: getFontCode__10JUTResFontCFi
+  0x80022d7c: getFontType__10JUTResFontCFv
+  0x80022d88: loadImage__10JUTResFontFi11_GXTexMapID
+  0x80022ee8: convertSjis__10JUTResFontCFiPUs
+  0x80022f34: getResFont__10JUTResFontCFv
+  0x80022f3c: getLeading__10JUTResFontCFv
+
+  0x8032da68: saoAboutEncoding_
+  # JUTResource.cpp
+  0x80022f48: getResource__15JUTResReferenceFP14JSUInputStreamUlP10JKRArchive
+  0x80022fe8: getResource__15JUTResReferenceFPCvUlP10JKRArchive
+  0x8002307c: getResource__15JUTResReferenceFUlP10JKRArchive
   # JUTVideo.cpp
   0x8002392c: createManager__8JUTVideoFPC16_GXRenderModeObj
   0x80023988: __ct__8JUTVideoFPC16_GXRenderModeObj
@@ -579,7 +653,10 @@ global:
   # JUTXfb.cpp
   0x80023eb0: createManager__6JUTXfbFP7JKRHeapQ26JUTXfb10EXfbNumber
   0x80023f5c: destroyManager__6JUTXfbFv
+  0x80023fdc: initiate__6JUTXfbFUsUsP7JKRHeapQ26JUTXfb10EXfbNumber
   0x803d4b90: sManager__6JUTXfb
+  # JUTFontData_Ascfont_fix12.s
+  0x8032db80: JUTResFONT_Ascfont_fix12
   # JMath
   # JMath.cpp
   0x80026880: JMAEulerToQuat__FsssP10Quaternion
@@ -608,6 +685,8 @@ global:
   0x8002751c: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
   0x80348510: __vt__13J2DOrthoGraph
   # J2DGrafContext.cpp
+  0x80027f14: setColor__14J2DGrafContextFQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColor
+  0x8002805c: fillBox__14J2DGrafContextFRCQ29JGeometry8TBox2<f>
   0x80348560: __vt__14J2DGrafContext
 
   # J2DPrint.cpp

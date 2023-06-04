@@ -344,7 +344,6 @@ inline void *JKRAllocFromSysHeap(u32 size, int alignment) {
     return JKRHeap::getSystemHeap()->alloc(size, alignment);
 }
 
-// TODO: i think this returns as u8*, in almost all cases i have to cast it to u8* to generate an extra mr
 inline void * JKRAllocFromHeap(JKRHeap * heap, u32 size, int alignment) {
     return JKRHeap::alloc(size, alignment, heap);
 }

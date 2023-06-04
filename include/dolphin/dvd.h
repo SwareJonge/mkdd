@@ -87,6 +87,9 @@ extern "C"
     BOOL DVDReadAbsAsyncPrio(DVDFileInfo *, void *readBuffer, long byteCount, u8 *startAddress,
                              DVDDoneReadCallback *doneReadCallback, int queueIndex);
 
+#define DVDReadAsync(fileInfo, addr, length, offset, callback) DVDReadAsyncPrio((fileInfo), (addr), (length), (offset), (callback), 2)
+// Minimum transfer size.
+#define DVD_MIN_TRANSFER_SIZE 32
     BOOL DVDConvertEntrynumToPath(int, char *);
     int DVDConvertPathToEntrynum(char *);
 

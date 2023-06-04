@@ -3,18 +3,12 @@
 
 #include <dolphin/gx.h>
 #include <dolphin/types.h>
+#include "JSystem/ResTLUT.h"
 
 enum JUTTransparency
 {
     UNK0,
     UNK1
-};
-
-struct ResTLUT
-{
-    u8 format;
-    u8 transparency;
-    u16 numColors;
 };
 
 class JUTPalette
@@ -34,6 +28,7 @@ public:
 
     _GXTlut getTlutName() const { return (_GXTlut)mTlutName; }
     _GXTlutFmt getFormat() const { return (_GXTlutFmt)mFormat; }
+    ResTLUT *getColorTable() const { return mColorTable; }
     u16 getNumColors() const { return mNumColors; }
     JUTTransparency getTransparency() const { return (JUTTransparency)mTransparency; }
 

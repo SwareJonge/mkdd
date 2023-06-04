@@ -63,14 +63,8 @@ u32 __OSBusClock : (0x800000F8);
   volatile u16 OS_DI_DMA_ADDR : 0xCC006014;
 
 #define OSError(...) OSPanic(__FILE__, __LINE__, __VA_ARGS__)
-#ifndef MATCHING
 #define OSErrorLine(...) OSError(__VA_ARGS__)
 #define OSHalt(msg) OSPanic(__FILE__, __LINE__, msg)
-#else
-#define OSErrorLine(line, ...) OSPanic(__FILE__, line, __VA_ARGS__)
-#define OSHalt(line, msg) OSPanic(__FILE__, line, msg)
-#endif
-
 
   void OSRegisterVersion(const char *);
 
@@ -157,12 +151,6 @@ u32 __OSBusClock : (0x800000F8);
 #define OSFree(ptr) OSFreeToHeap(__OSCurrHeap, (ptr))
   // OSLink
   void __OSModuleInit(void);
-
-  // OSFont
-  u16 OSGetFontEncode();
-  u8 OSInitFont();
-  char *OSGetFontTexture(const char *string, void **image, s32 *x, s32 *y, s32 *width);
-  char *OSGetFontWidth(const char *string, s32 *width);
 
   // targsupp
   extern void TRKAccessFile(void);
@@ -275,6 +263,7 @@ u32 __OSBusClock : (0x800000F8);
 #include <dolphin/os/OSContext.h>
 #include <dolphin/os/OSException.h>
 #include <dolphin/os/OSError.h>
+#include <dolphin/os/OSFont.h>
 #include <dolphin/os/OSMessage.h>
 #include <dolphin/os/OSMutex.h>
 #include <dolphin/os/OSThread.h>

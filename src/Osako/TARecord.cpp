@@ -21,7 +21,7 @@ void TARecord::setRaceTime(RaceTime raceTime) {
     mTime = raceTime;
 }
 
-void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char * name, RaceTime raceTime) {
+void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char *name, RaceTime raceTime) {
     mCharID1 = charId1;
     mCharID2 = charId2;
     mKartID = kartId;
@@ -30,7 +30,7 @@ void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char * 
     setRaceTime(raceTime);
 }
 
-bool TARecord::less(const TARecord & mRec) {
+bool TARecord::less(const TARecord &mRec) {
     if(mKartID == 0xff)
         return true;
 

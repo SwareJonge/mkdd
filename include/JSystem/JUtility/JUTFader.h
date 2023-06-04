@@ -1,41 +1,47 @@
-
-#ifndef JUTFADER_H
-#define JUTFADER_H
+#ifndef _JUTFADER_H
+#define _JUTFADER_H
 
 #include "JSystem/JGeometry.h"
 #include "JSystem/JUtility/TColor.h"
+#include "JSystem/JUtility/JUTVideo.h"
 #include "types.h"
 
-class JUTFader
+struct JUTFader
 {
-public:
     enum EStatus
     {
-        UNKSTATUS_M1 = -1,
-        UNKSTATUS_0 = 0,
+        Status_Out = 0,
+        Status_In = 1,
+        Status_FadingIn = 2,
+        Status_FadingOut = 3
     };
 
-    /* 802E5530 */ JUTFader(int, int, int, int, JUtility::TColor);
-    /* 802E55DC */ void control();
-    /* 802E57D0 */ void setStatus(JUTFader::EStatus, int);
+    JUTFader(int, int, int, int, JUtility::TColor);
 
-    /* 802E5840 */ virtual ~JUTFader();
-    /* 802E576C */ virtual bool startFadeIn(int);
-    /* 802E579C */ virtual bool startFadeOut(int);
-    /* 802E56DC */ virtual void draw();
+    virtual ~JUTFader() {}                   // _08 (weak)
+    virtual bool startFadeIn(int duration);  // _0C
+    virtual bool startFadeOut(int duration); // _10
+    virtual void draw();                     // _14
 
-    s32 getStatus() const { return mStatus; }
+    void control();
+
+    // unused/inlined:
+    void start(int);
+    void setStatus(EStatus, int);
+
+    EStatus getStatus() const { return mStatus; }
     void setColor(JUtility::TColor color) { mColor.set(color); }
 
-    // private:
-    /* 0x04 */ s32 mStatus;
-    /* 0x08 */ u16 field_0x8;
-    /* 0x0A */ u16 field_0xa;
-    /* 0x0C */ JUtility::TColor mColor;
-    /* 0x10 */ JGeometry::TBox2<f32> mBox;
-    /* 0x20 */ int mEStatus;
-    /* 0x24 */ u32 field_0x24;
-    /* 0x28 */ u32 field_0x28;
+    // _00 VTBL
+    EStatus mStatus;            // _04 - current status
+    u16 mTicksTarget;           // _08 - ticks (calls to control()) to run a fade in/out for
+    u16 mTicksRun;              // _0A - ticks the current fade has run
+    bool mResetting;            // _0C - probably exclusive to mkdd, holds true when starting the fadeout for reset, sets back to false when fading in
+    u8 _0D[3];                  // padding
+    JUtility::TColor mColor;    // _10 - color of fade
+    JGeometry::TBox2f mViewBox; // _14 - ortho box to render within
+    int mEStatus;               // _24 - ???
+    EStatus _28;                // _28 - ???
 };
 
-#endif /* JUTFADER_H */
+#endif

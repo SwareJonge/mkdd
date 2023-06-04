@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include <dolphin/os.h>
-#include <JSystem/JUtility/JUTDirectPrint.h>
+#include "JSystem/JUtility/JUTDirectPrint.h"
 
 JUTDirectPrint *JUTDirectPrint::sDirectPrint;
 
@@ -161,7 +161,7 @@ void JUTDirectPrint::changeFrameBuffer(void *fb, u16 width, u16 height)
     mFbSize = (u32)mStride * (u32)mFbHeight * 2;
 }
 
-void JUTDirectPrint::printSub(u16 position_x, u16 position_y, const char *format, __va_list_struct args,
+void JUTDirectPrint::printSub(u16 position_x, u16 position_y, const char *format, __va_list_struct *args,
                               bool clear)
 {
     char buffer[256];

@@ -1,17 +1,18 @@
 #include <dolphin/os.h>
-#include <JSystem/JUtility/JUTPalette.h>
-#include <JSystem/JUtility/JUTDbg.h>
+#include "JSystem/JUtility/JUTPalette.h"
+#include "JSystem/JUtility/JUTDbg.h"
 
 void JUTPalette::storeTLUT(_GXTlut name, ResTLUT *tlut)
 {
     if (tlut == NULL) {
-        OSErrorLine(35, "JUTTexture: TLUT is NULL\n");
+#line 35
+        OSErrorLine("JUTTexture: TLUT is NULL\n");
     }
     mTlutName = name;
-    mFormat = tlut->format;
-    mTransparency = tlut->transparency;
-    mNumColors = tlut->numColors;
-    mColorTable = tlut + 8;
+    mFormat = tlut->mFormat;
+    mTransparency = tlut->mTransparency;
+    mNumColors = tlut->mNumColors;
+    mColorTable = reinterpret_cast<ResTLUT *>(&tlut->_20);
     GXInitTlutObj(&mTlutObj, (void *)mColorTable, (GXTlutFmt)mFormat, mNumColors);
 }
 

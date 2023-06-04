@@ -52,7 +52,7 @@
   else                                                                               \
   {                                                                                  \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
-    OSHalt(__LINE__, "Halt");                                                        \
+    OSHalt("Halt");                                                        \
   }
 
 #define JUT_ASSERT_F(COND, ...)                                                        \
@@ -63,7 +63,7 @@
   else                                                                                       \
   {                                                                                          \
     JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
-    OSHalt(__LINE__, "Halt");                                                                \
+    OSHalt("Halt");                                                                \
   }
 
 #define JUT_ASSERT_MSG(COND, MSG)                                                  \
@@ -74,7 +74,7 @@
   else                                                                             \
   {                                                                                \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG); \
-    OSHalt(__LINE__, "Halt");                                                      \
+    OSHalt("Halt");                                                      \
   }
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \

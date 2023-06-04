@@ -952,7 +952,14 @@ typedef enum _GXTlutSize {
     void GXSetDrawDoneCallback(GXDrawDoneCallback callback);
 
     // GXFifo
-    GXFifoObj *GXGetCPUFifo();
+    extern GXFifoObj *GXInit(void *base, u32 size);
+    extern GXFifoObj *GXGetCPUFifo();
+    extern void GXSetCPUFifo(GXFifoObj *obj);
+    extern void GXSetGPFifo(GXFifoObj *obj);
+    extern void GXSaveCPUFifo(GXFifoObj *obj);
+    extern void GXInitFifoBase(GXFifoObj *obj, void *base, u32 size);
+    extern void GXInitFifoPtrs(GXFifoObj *obj, void *readPtr, void *writePtr);
+    extern void GXInitFifoLimits(GXFifoObj *obj, u32 hiWaterMark, u32 loWaterMark);
     inline void *GXGetFifoBase(GXFifoObj *fifo) {
         return fifo->base;
     }
@@ -1071,6 +1078,7 @@ typedef enum _GXTlutSize {
     void GXSetChanCtrl(GXChannelID channel, GXBool enable, GXColorSrc amb_src, GXColorSrc mat_src, u32 light_mask, GXDiffuseFn diff_fn, GXAttnFn attn_fn);
 
 // GXTev
+    extern void GXSetTevOp(GXTevStageID stage, GXTevMode mode);
     void GXSetTevColorIn(GXTevStageID stage, GXTevColorArg a, GXTevColorArg b, GXTevColorArg c,
                          GXTevColorArg d);
     void GXSetTevColorOp(GXTevStageID stage, GXTevOp op, GXTevBias bias, GXTevScale scale, GXBool clamp,
@@ -1090,6 +1098,7 @@ typedef enum _GXTlutSize {
 // GXGeometry
     void __GXSetDirtyState(void);
     void GXBegin(GXPrimitive type, GXVtxFmt fmt, u16 vert_num);
+    static void GXEnd(void) {}
     void __GXSendFlushPrim(void);
     void GXSetLineWidth(u8 width, GXTexOffset offsets);
     void GXSetPointSize(u8 size, GXTexOffset offsets);

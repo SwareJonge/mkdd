@@ -36,11 +36,47 @@ libs/JSystem/JMath/JMATrigonometric.cpp:
     #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
     .sdata2: [0x80417798, 0x804177e0]
 
+libs/JSystem/JUtility/JUTAssert.cpp:
+    .text: [0x800697f8, 0x8006a0dc]
+    .rodata: [0x80361740, 0x803617c8]
+    .bss: [0x803ae4c8, 0x803ae608]
+    .sdata: [0x80414040, 0x80414050]
+    .sbss: [0x804157c8, 0x804157d8]
+    .sdata2: [0x804177e0, 0x80417810]
+
+libs/JSystem/JUtility/JUTDbPrint.cpp:
+    .text: [0x8006b8c0, 0x8006be44]
+    .sbss: [0x804157e8, 0x804157f0]
+    .sdata2: [0x80417848, 0x80417858]
+
+libs/JSystem/JUtility/JUTDirectFile.cpp:
+    .text: [0x8006be44, 0x8006c1cc]
+
 libs/JSystem/JUtility/JUTDirectPrint.cpp:
     .text: [0x8006c1cc, 0x8006c87c]
     .data: [0x8038abd8 , 0x8038aea0]
     .sbss: [0x804157f0, 0x804157f8]
     .sdata2: [0x80417858, 0x804178b8]
+
+libs/JSystem/JUtility/JUTFader.cpp:
+    .text: [0x8006f324, 0x8006f6b0]
+    .data: [0x8038af38, 0x8038af50]
+    .sdata2: [0x80417900, 0x80417908]
+
+libs/JSystem/JUtility/JUTFont.cpp:
+    .text: [0x8006f6b0, 0x8006f93c]
+    .rodata: [0x80361f38, 0x80361f50]
+    .sdata2: [0x80417908, 0x80417918]
+
+libs/JSystem/JUtility/JUTGraphFifo.cpp:
+    .text: [0x8007140c, 0x800715a4]
+    .data: [0x8038af80, 0x8038af90]
+    .sbss: [0x80415858, 0x80415868]
+
+libs/JSystem/JUtility/JUTNameTab.cpp:
+    .text: [0x800715a4, 0x80071814]
+    .rodata: [0x80361f70, 0x80361f90]
+    .sdata2: [0x80417968, 0x80417978]
 
 libs/JSystem/JUtility/JUTPalette.cpp:
     .text: [0x80071814, 0x80071920]
@@ -52,13 +88,27 @@ libs/JSystem/JUtility/JUTProcBar.cpp:
     .sbss: [0x80415868, 0x80415880]
     .sdata2: [0x80417978, 0x804179c0]
 
-libs/JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
-    .rodata: [0x80362160, 0x803662c0]
+libs/JSystem/JUtility/JUTResFont.cpp:
+    .text: [0x80073a5c, 0x80074d00]
+    .rodata: [0x80361fc0, 0x803620e8]
+    .data: [0x8038af90, 0x8038afe0]
+    .sdata2: [0x804179c0, 0x804179e8]
+
+libs/JSystem/JUtility/JUTResource.cpp:
+    .text: [0x80074d00, 0x80074eac]
 
 libs/JSystem/JUtility/JUTVideo.cpp:
     .text: [0x80075698, 0x80075c00]
     .data: [0x8038afe0, 0x8038aff0]
     .sbss: [0x80415880, 0x80415898]
+
+libs/JSystem/JUtility/JUTXfb.cpp:
+    .text: [0x80075c00, 0x80075e4c]
+    .rodata: [0x80362120, 0x80362160]
+    .sbss: [0x80415898, 0x804158a0]
+
+libs/JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
+    .rodata: [0x80362160, 0x803662c0]
 
 libs/JSystem/JSupport/JSUInputStream.cpp:
     .text: [0x80078780, 0x80078b2c]

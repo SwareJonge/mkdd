@@ -7,28 +7,26 @@
 
 #include "types.h"
 
-/** Unknown struct pointed to by offset 0 of JUTDbPrint. */
-struct JUTDbPrint_0x0
+struct JUTDbPrintList
 {
-    JUTDbPrint_0x0 *m_next; // _00
-    s16 _04;                // _04
-    s16 _06;                // _06
-    s16 _08;                // _08
-    s16 _0A;                // _0A
-    u8 _0C;                 // _0C
+    JUTDbPrintList *mNext; // _00
+    s16 mX;                // _04
+    s16 mY;                // _06
+    s16 mDuration;         // _08
+    s16 mLen;              // _0A
+    u8 mStr;               // _0C
 };
 
 struct JUTDbPrint
 {
     JUTDbPrint(JUTFont *, JKRHeap *); // unused/inlined
-    ~JUTDbPrint();                    // unused/inlined
 
-    static JUTDbPrint *start(JUTFont *, JKRHeap *);
+    ~JUTDbPrint(); // unused/inlined
 
     JUTFont *changeFont(JUTFont *);
     void flush();
     void flush(int, int, int, int);
-    void drawString(int, int, int, const unsigned char *);
+    void drawString(int, int, int, const u8 *);
 
     // Unused/inlined:
     void enter(int, int, int, const char *, int);
@@ -36,17 +34,20 @@ struct JUTDbPrint
     void print(int, int, int, const char *, ...);
     void reset();
 
-    static JUTDbPrint *getManager() {
-        return sDebugPrint;
-    }
+    void setVisible(bool visible) { mVisible = visible; }
+    JUTFont *getFont() const { return mFont; }
+    JUTDbPrintList *getList() const { return mList; }
 
-    JUTDbPrint_0x0 *_00;      // _00
-    JUTFont *m_font;          // _04
-    JUtility::TColor m_color; // _08
-    u8 _0C;                   // _0C
-    JKRHeap *m_heap;          // _10
+    static JUTDbPrint *start(JUTFont *, JKRHeap *);
+    static JUTDbPrint *getManager() { return sDebugPrint; }
 
     static JUTDbPrint *sDebugPrint;
+
+    JUTDbPrintList *mList;   // _00
+    JUTFont *mFont;          // _04
+    JUtility::TColor mColor; // _08
+    bool mVisible;         // _0C
+    JKRHeap *mHeap;          // _10
 };
 
 void JUTReport(int, int, const char *, ...);

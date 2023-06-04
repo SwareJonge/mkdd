@@ -20,7 +20,7 @@ public:
     void changeFrameBuffer(void *framebuffer, u16 w, u16 h );
 
     // Inline/Unused
-    void printSub(u16, u16, const char *, __va_list_struct, bool);
+    void printSub(u16, u16, const char *, __va_list_struct *, bool);
     void print(u16, u16, const char *, ...);
 
     bool isActive() const { return mFramebuffer != nullptr; }

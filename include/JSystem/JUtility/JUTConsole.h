@@ -19,7 +19,9 @@ class JUTConsole : public JKRDisposer
 public:
     enum EConsoleType
     {
-        UNK_TYPE2 = 2,
+        CONSOLE_TYPE_0 = 0,
+        CONSOLE_TYPE_1 = 1,
+        CONSOLE_TYPE_2 = 2,
     };
 
     enum OutputFlag
@@ -161,6 +163,7 @@ void JUTReportConsole_f(const char *, ...);
 void JUTReportConsole_f_va(const char *, va_list);
 void JUTWarningConsole(const char*);
 void JUTWarningConsole_f(const char *, ...);
+void JUTWarningConsole_f_va(const char *, va_list);
 #ifdef __cplusplus
 };
 #endif // ifdef __cplusplus

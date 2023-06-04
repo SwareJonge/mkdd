@@ -1,7 +1,7 @@
 #include <dolphin/vi.h>
-#include <JSystem/JUtility/JUTDirectPrint.h>
-#include <JSystem/JUtility/JUTVideo.h>
-#include <JSystem/JUtility/JUTXfb.h>
+#include "JSystem/JUtility/JUTDirectPrint.h"
+#include "JSystem/JUtility/JUTVideo.h"
+#include "JSystem/JUtility/JUTXfb.h"
 
 JUTVideo *JUTVideo::sManager;
 OSTick JUTVideo::sVideoLastTick;

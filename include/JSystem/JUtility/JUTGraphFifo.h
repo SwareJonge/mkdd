@@ -13,20 +13,31 @@ struct JUTGraphFifo
     void becomeCurrent();
     void setBreakPt();
 
+    void getGpStatus()
+    {
+        GXGetGPStatus((GXBool *)&mGpStatus[0], (GXBool *)&mGpStatus[1], (GXBool *)&mGpStatus[2], (GXBool *)&mGpStatus[3],
+                      (GXBool *)&mGpStatus[4]);
+    }
+
+    bool isGPActive()
+    {
+        getGpStatus();
+        return mGpStatus[2] == false;
+    }
+
+    void save() { GXSaveCPUFifo(this->mFifo); }
+
     static JUTGraphFifo *sCurrentFifo;
     static GXBool mGpStatus[5];
-
-    // VTBL _00
-    GXFifoObj *m_fifo; // _04
-    void *_08;         // _08
-    u32 _0C;           // _0C
-    u8 _10[0xC];       // _10
-
     static bool sInitiated;
+
+    // _00 = VTBL
+    GXFifoObj *mFifo; // _04
+    void *mBase;      // _08
+    u32 mSize;        // _0C
+    u8 _10[0xC];      // _10
 };
 
-inline JUTGraphFifo *JUTCreateFifo(u32 p1) {
-    return new JUTGraphFifo(p1);
-}
+inline void JUTCreateFifo(u32 bufSize) { new JUTGraphFifo(bufSize); }
 
 #endif
