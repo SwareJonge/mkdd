@@ -236,6 +236,9 @@ libs/JSystem/JUtility/JUTResFont.cpp:
     .data: [0x80348460, 0x803484b0]
     .sdata2: [0x803d66b0, 0x803d66c8]
 
+libs/JSystem/JUtility/JUTResource.cpp:
+    .text: [0x80022f48, 0x800230f4]
+
 libs/JSystem/JUtility/JUTVideo.cpp:
     .text: [0x8002392c, 0x80023eb0]
     .data: [0x803484b0, 0x803484c0]
