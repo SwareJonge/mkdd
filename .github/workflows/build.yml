@@ -37,7 +37,7 @@ jobs:
           args: get "$env:SECRET_LINK" .\
         
       - name: Extract Dependencies
-          run: |
+        run: |
           Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
           Remove-Item '.\build-dependencies.zip'
