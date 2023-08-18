@@ -29,15 +29,13 @@ jobs:
       - run: pip install -r requirements.txt
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - name: Get dependencies
-        uses: Difegue/action-megacmd@master
+      - name: Get Dependencies
         env:        
           SECRET_LINK: ${{ secrets.MKDD_DEPS_LINK }}
-        with:
-          args: get "$env:SECRET_LINK" .\
-        
-      - name: Extract Dependencies
         run: |
+          # Download Dependencies
+          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
+          # Extract Dependencies
           Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
           Remove-Item '.\build-dependencies.zip'
@@ -69,10 +67,8 @@ jobs:
           ninja -t clean
           # Remove files stored in build-dependencies
           Remove-Item '.\tools\1.2.5\' -Recurse
-          Remove-Item '.\tools\1.2.5e\' -Recurse
+          Remove-Item '.\tools\1.2.5n\' -Recurse
           Remove-Item '.\tools\1.3.2\' -Recurse
-          Remove-Item '.\tools\2.0\' -Recurse
-          Remove-Item '.\tools\2.5\' -Recurse
           Remove-Item '.\tools\2.6\' -Recurse
           Remove-Item '.\orig\MarioClub_us\main.dol'
           Remove-Item '.\orig\Release_eu\main.dol'
