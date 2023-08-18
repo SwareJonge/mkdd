@@ -34,7 +34,7 @@ jobs:
           SECRET_LINK: ${{ secrets.MKDD_DEPS_LINK }}
         run: |
           # Download Dependencies
-          Invoke-WebRequest "$Env:TOOLS_URL" -OutFile .\tools.zip
+          Invoke-WebRequest "$Env:SECRET_LINK" -OutFile .\build-dependencies.zip
           # Extract Dependencies
           Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
