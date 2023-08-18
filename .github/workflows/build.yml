@@ -30,23 +30,14 @@ jobs:
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
       - name: Get dependencies
-        env:
-          SECRET_CLIENT: ${{ secrets.SFTP_CLIENT }}
-          SECRET_ADDRESS: ${{ secrets.SFTP_ADDRESS }}
-          SECRET_PORT: ${{ secrets.SFTP_PORT }}
-          SECRET_UNAME: ${{ secrets.SFTP_USERNAME }}
-          SECRET_PW: ${{ secrets.SFTP_PASSWORD }}
-        run: |        
-          # Download sftp client zip
-          Invoke-WebRequest "$env:SECRET_CLIENT" -OutFile .\sftp.zip
-          # Extract SFTP client
-          Expand-Archive sftp.zip
-          # Download and extract all tools and required files
-          .\sftp\sftp-client.exe "$env:SECRET_ADDRESS" "$env:SECRET_PORT" "$env:SECRET_UNAME" "$env:SECRET_PW"
+        uses: Difegue/action-megacmd@master
+        env:        
+          SECRET_LINK: ${{ secrets.MKDD_DEPS_LINK }}
+        with:
+          args: get "$env:SECRET_LINK" .\
+        run: |
           Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
-          Remove-Item '.\sftp.zip'
-          Remove-Item '.\sftp\' -Recurse
           Remove-Item '.\build-dependencies.zip'
           
       - name: Build Debug
