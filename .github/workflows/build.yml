@@ -35,7 +35,9 @@ jobs:
           SECRET_LINK: ${{ secrets.MKDD_DEPS_LINK }}
         with:
           args: get "$env:SECRET_LINK" .\
-        run: |
+        
+      - name: Extract Dependencies
+          run: |
           Expand-Archive -Path build-dependencies.zip .\ -Force
           # Clean up
           Remove-Item '.\build-dependencies.zip'
