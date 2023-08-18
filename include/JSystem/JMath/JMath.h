@@ -4,8 +4,8 @@
 #include <math.h>
 #include <float.h>
 
+#include <utility>
 #include <dolphin/mtx.h>
-#include <std/pair.h>
 #include <JSystem/JMath/Inline.h>
 
 #include "types.h"

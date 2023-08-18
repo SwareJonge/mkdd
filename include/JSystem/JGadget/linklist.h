@@ -1,9 +1,10 @@
 #ifndef LINKLIST_H
 #define LINKLIST_H
 
+#include <algorithm>
+#include <iterator>
+
 #include "types.h"
-#include "std/algorithm.h"
-#include "std/iterator.h"
 
 namespace JGadget
 {

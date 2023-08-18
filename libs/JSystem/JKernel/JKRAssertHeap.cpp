@@ -11,7 +11,7 @@ JKRAssertHeap *JKRAssertHeap::create(JKRHeap *parent)
         parent = sRootHeap;
 
     // 0x70 is sizeof(JKRAssertHeap) aligned to 16 bytes
-    // casting is need for an extra mr
+    // casting is needed for an extra mr
     u8 *ptr = (u8 *)JKRAllocFromHeap(parent, 0x70, 16);
     if (!ptr)
         return nullptr;

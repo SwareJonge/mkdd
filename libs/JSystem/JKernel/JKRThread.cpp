@@ -105,17 +105,8 @@ JKRThread* JKRThread::searchThread(OSThread* thread) {
     return nullptr;
 }
 
-#if DEBUG
-char lbl_80367604[] : 0x80367604;
-void order_strings_80367604();
-#pragma push
-#pragma force_active on
-void FORCESTRIP order_strings_80367604()
-{
-    __dummy_str("JKRThread:%x  OSThread:%x  Load:ID:%d  (%s)\n"); // most likely inside JKRThread::dump
-    __dummy_str("sThread == 0"); // either in JKRIdleThread::create(JKRHeap *, int, unsigned long) or JRThread::dump
-}
-#pragma pop
+#ifdef DEBUG
+CW_FORCE_STRINGS(JKRThread_1, "JKRThread:%x  OSThread:%x  Load:ID:%d  (%s)\n", "sThread == 0")
 #endif
 
 JKRThreadSwitch::JKRThreadSwitch(JKRHeap *param_0)
@@ -284,19 +275,8 @@ void JKRThreadSwitch::draw(JKRThreadName_* thread_name_list, JUTConsole* console
     }
 }
 
-#if DEBUG
-char lbl_80367718[] : 0x80367718;
-void order_strings_80367718();
-#pragma push
-#pragma force_active on
-void FORCESTRIP order_strings_80367718()
-{
-    __dummy_str("JUTConsole.h"); // inside inline JUTConsole functions
-    __dummy_str("console != 0");
-    __dummy_str("bufSize > 0");
-    __dummy_str("sEndMesgBuffer"); // inside JKRTask::createTaskEndMessageQueue(int, JKRHeap *)?
-}
-#pragma pop
+#ifdef DEBUG
+CW_FORCE_STRINGS(JKRThread_2, "JUTConsole.h", "console != 0", "bufSize > 0", "sEndMesgBuffer")
 #endif
 
 JKRTask::JKRTask(int msgCount, int threadPriority, u32 stackSize)
