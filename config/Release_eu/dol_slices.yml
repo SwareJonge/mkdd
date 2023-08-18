@@ -239,6 +239,10 @@ libs/JSystem/JUtility/JUTResFont.cpp:
 libs/JSystem/JUtility/JUTResource.cpp:
     .text: [0x80022f48, 0x800230f4]
 
+#libs/JSystem/JUtility/JUTTexture.cpp:
+    #.text: [0x800230f4, 0x8002392c]
+    #.sdata2: [0x803d66c8, 0x803d66e0]
+
 libs/JSystem/JUtility/JUTVideo.cpp:
     .text: [0x8002392c, 0x80023eb0]
     .data: [0x803484b0, 0x803484c0]
@@ -273,7 +277,7 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
     .text: [0x8007a7e4, 0x8007be38] 
     .ctors: [0x802d84f0, 0x802d84f4]
     .rodata: [0x803326e0, 0x803327b8]
-    .data: [0x8034af40, 0x8034afd8] # trimmed, end address is 0x0x8034afe0
+    .data: [0x8034af40, 0x8034afd8] # trimmed, end address is 0x8034afe0
     .bss: [0x8036e4d8, 0x8036e508] 
     #.bss: [0x803ef5c0, 0x803ef5cc]
     .sbss: [0x803d4c40, 0x803d4c68]

@@ -15,7 +15,7 @@ public:
     }
     // this constructor might not be needed
     /*RaceTime::RaceTime(RaceTime const & racetime) {
-        value = racetime.value;
+        mTime = racetime.mTime;
     }*/
 
     // inline void operator=(const RaceTime &);
@@ -23,34 +23,34 @@ public:
 
     int get() const
     {
-        return value;
+        return mTime;
     }
 
     int getUpwardMSec() const
     {
-        return value + MAX_MS;
+        return mTime + MAX_MS;
     }
 
     bool isAvailable() const
     {
-        return value != MAX_TIME;
+        return mTime != MAX_TIME;
     }
 
     bool isLittle(RaceTime const &raceTime) const
     {
-        return value < raceTime.value;
+        return mTime < raceTime.mTime;
     }
 
     void reset()
     {
-        value = MAX_TIME;
+        mTime = MAX_TIME;
     }
 
     void set(int frame)
     {
-        value = frame; // no idea why framecount is used here,
-        if (value > MAX_TIME)
-            value = MAX_TIME;
+        mTime = frame; // no idea why framecount is used here,
+        if (mTime > MAX_TIME)
+            mTime = MAX_TIME;
     }
 
     void set(RaceTime const & raceTime) {
@@ -59,28 +59,28 @@ public:
 
     void setFrame(int frame)
     {
-        value = (frame * 1000) / 60;
-        if (value > MAX_TIME)
-            value = MAX_TIME;
+        mTime = (frame * 1000) / 60;
+        if (mTime > MAX_TIME)
+            mTime = MAX_TIME;
     }
 
     void sub(const RaceTime &split1, const RaceTime &split2)
     {
-        value = split1.value - split2.value;
+        mTime = split1.mTime - split2.mTime;
     }
 
     void sub(int p1)
     {
-        value = value - p1;
+        mTime = mTime - p1;
     }
 
     void zero()
     {
-        value = 0;
+        mTime = 0;
     }
 
 private:
-    int value;
+    int mTime; // time in miliseconds
 };
 
 #endif

@@ -45,7 +45,7 @@ public:
 
 private:
     u8 _0[0x3c];
-    GeoRabbitMark * mRabbitMark;
+    GeoRabbitMark *mRabbitMark;
     s16 mWinTime;
 };
 

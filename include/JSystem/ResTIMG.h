@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_RESTIMG_H
 #define _JSYSTEM_RESTIMG_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "types.h"
 
 #ifndef _JUTTransparency
@@ -36,7 +36,7 @@ struct ResTIMG
     u8 mTotalImageCount;            // _18
     u8 _19;                         // _19, unknown
     s16 mLODBias;                   // _1A
-    int mImageDataOffset;           // _1C
+    u32 mImageDataOffset;           // _1C
 };
 
 struct ResTIMGPair

@@ -22,7 +22,6 @@ struct J3DAnmTransformKeyTable;
 struct J3DAnmVisibilityFullTable;
 struct J3DTransformInfo;
 struct J3DTextureSRTInfo;
-struct Vec;
 
 enum J2DAnmKind
 {

@@ -39,7 +39,6 @@ enum ERaceGpCup
     REVERSE2_CUP = 4,
 };
 
-// Kaneshige doesn seem to use s32? refactor if this is the case
 class RaceInfo
 {
 public:
@@ -49,10 +48,10 @@ public:
     static u16 sWaitDemoSelector;
     static ERaceGpCup sAwardDebugCup;
 
-    static int sForceDemoNo;
+    static u32 sForceDemoNo;
     static u32 sForceRandomSeed;
     static ERaceLevel sAwardDebugLevel;
-    static short sAwardDebugRank;
+    static s16 sAwardDebugRank;
 
     static EKartID sAwardDebugKartIDTable[];
     static ECharID sAwardDebugDriver1IDTable[];
@@ -77,16 +76,14 @@ public:
     int getConsoleNumber() const { return mConsoleNum; }
     int getStatusNumber() const { return mStatusNum; }
     ERaceMode getRaceMode() const { return mRaceMode; }
-    s32 getItemSlotType() const { return mItemSlotType; }
+    int getItemSlotType() const { return mItemSlotType; }
 
-    bool isLANMode() { return mLanMode; }
-    bool isTrueEnding() const { return mTrueEnding; }
-    bool isMirror() const { return mMirror; }
+    bool isLANMode() { return mIsLanMode; }
+    bool isTrueEnding() const { return mIsTrueEnding; }
+    bool isMirror() const { return mIsMirror; }
     bool isWaitDemo() const  {return mDemoType != 0; }
     bool isDriverLODOn() const  { return (mLOD & 2); };
-    bool isHiddingConsole(u32 p1) const {
-        return (mHideConsole & 1 << p1) != 0;
-    }
+    bool isHiddingConsole(u32 p1) const { return (mHidingConsoles & 1 << p1) != 0; }
     void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
     void setGpCup(ERaceGpCup cup) { mGpCup = cup; }
     void setRandomSeed(u32 value) { mRandomSeed = value; }
@@ -101,12 +98,12 @@ public:
     int getConsoleTarget(int cnsNo) const {
 #line 124
         JUT_MINMAX_ASSERT(0, cnsNo, 4);
-        return _0x114[cnsNo];
+        return mTargetKarts[cnsNo];
     }
 
     bool isDemoConsole(int cnsNo) const {
         JUT_MINMAX_ASSERT(0, cnsNo, 4);
-        return _0x11c[cnsNo];
+        return mIsDemoKart[cnsNo];
     }
 
     KartInfo *getKartInfo(int kartNo) {
@@ -116,14 +113,14 @@ public:
     }
 
 //private:
-    bool mTinyProcess;
-    bool mLanMode;
-    bool mTrueEnding;
+    bool mIsTinyProcess;
+    bool mIsLanMode;
+    bool mIsTrueEnding;
     u32 mRandomSeed;
     ERaceMode mRaceMode;
     ERaceGpCup mGpCup;
     ERaceLevel mRaceLevel;
-    s32 mItemSlotType; // perhaps this is an enum too
+    int mItemSlotType; // perhaps this is an enum too
     s16 mVsLapNum;
     s16 mLapNumLAN;
     s16 mKartNum;
@@ -132,25 +129,23 @@ public:
     s16 mStatusNum;
     u16 mLOD;
     s16 mGpStageNo;
-    s32 mDemoType;
-    bool mMirror;
+    int mDemoType;
+    bool mIsMirror;
     // padding bytes
     KartInfo mKartInfo[8];
     s16 mStartPosIndex[8];
     s16 mPointTable[8];
     s16 mRivalKarts[2];
-
-    s16 _0x114[4];
-    bool _0x11c[4]; // not sure what these two arrays do, setConsoleTarget sets this so maybe this bool array means isActive and the other the console number / consoleTarget
-
+    s16 mTargetKarts[4];
+    bool mIsDemoKart[4];
     s16 mAwardKartNo;
     // padding bytes
-    s32 mDemoNextPhase;
+    int mDemoNextPhase;
     s16 mRank[8]; // stores what rank you finished at previous race, basically the same as startPosIndex
     RaceTime mFinishTime[8];
     RaceTime mLapTimes[8][10];
-    s32 _0x298; // mWaitDemoResult, rename this at some point
-    u16 mHideConsole;
+    int mWaitDemoResult; 
+    u16 mHidingConsoles;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 // unfortunately i can't enable this yet

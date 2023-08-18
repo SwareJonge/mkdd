@@ -340,8 +340,7 @@ KartInfo::KartInfo() {
 
 void KartInfo::reset() {
     mKartDB = nullptr;
-    int charCount = 2;
-    for (int i = 0; i < charCount; i++) {
+    for (int i = 0; i < 2; i++) {
         mKartCharacters[i].reset();
     }
     mGhostKind = KIND_0;
@@ -360,7 +359,7 @@ void KartInfo::setDriver(int driverNo, ECharID charID, KartGamePad * gamePad) {
 }
 
 const KartInfo::SCharDB * KartInfo::getCharDB(ECharID charID) {
-    const SCharDB * charDB = 0;
+    const SCharDB *charDB = nullptr;
     switch (charID)
     {
     case BABY_MARIO:
@@ -428,7 +427,7 @@ const KartInfo::SCharDB * KartInfo::getCharDB(ECharID charID) {
 }
 
 const KartInfo::SKartDB * KartInfo::getKartDB(EKartID kartID) {
-    const SKartDB * kartDB = 0;
+    const SKartDB *kartDB = nullptr;
     switch (kartID)
     {
     case RED_FIRE:
@@ -525,7 +524,7 @@ EKartID KartInfo::getPartnerKartID(ECharID charID) {
 bool KartInfo::isDefaultCharCombi()
 {
     bool ret = false;
-#if DEBUG
+#ifdef DEBUG
     if (mKartCharacters[0].getPartnerID() == mKartCharacters[1].getCharID())
         ret = true;
 #else // No idea if this got refactored or that what i have is wrong, last is more likely tbh
@@ -539,30 +538,31 @@ bool KartInfo::isDefaultCharCombi()
 }
 
 KartGamePad* KartInfo::getYoungestPad() {
-    KartGamePad* youngestPad = 0;
-    int iVar2 = 100; // what even is this for?
+    KartGamePad* youngestPad = nullptr;
+    int youngestPadIdx = 100;
     for (int i = 0; i < 2; i++) {
         KartGamePad* curPad = getPad(i);
-        int iVar1 = 100;
+        int curIdx = 100;
         if (curPad) {
             switch (curPad->getPadPort()) {
             case KartGamePad::PORT_1:
-                iVar1 = 0;
+                curIdx = 0;
                 break;
             case KartGamePad::PORT_2:
-                iVar1 = 1;
+                curIdx = 1;
                 break;
             case KartGamePad::PORT_3:
-                iVar1 = 2;
+                curIdx = 2;
                 break;
             case KartGamePad::PORT_4:
-                iVar1 = 3;
+                curIdx = 3;
                 break;
             }
         }
-        if (youngestPad == 0 || (iVar1 < iVar2)) {
+        if (youngestPad == 0 || (curIdx < youngestPadIdx))
+        {
             youngestPad = curPad;
-            iVar2 = iVar1;
+            youngestPadIdx = curIdx;
         }
     }
     return youngestPad;

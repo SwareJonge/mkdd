@@ -1,4 +1,3 @@
-#include "Osako/main.h"
 #include "Osako/system.h"
 
 void main(int argc, char **argv)

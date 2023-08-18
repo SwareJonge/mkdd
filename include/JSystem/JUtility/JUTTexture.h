@@ -62,7 +62,10 @@ struct JUTTexture : public GXTexObj
     const ResTIMG *getTexInfo() const { return mTexInfo; }
     void setCaptureFlag(bool flag) { mFlags &= TEXFLAG_Unk2 | flag; }
     u8 getCaptureFlag() const { return mFlags & TEXFLAG_Unk1; }
-    u8 getEmbPaletteDelFlag() const { return mFlags & TEXFLAG_Unk2; }
+    int getEmbPaletteDelFlag() const { return (mFlags & TEXFLAG_Unk2) != 0; }
+    void setEmbPaletteDelFlag(bool del) {
+        mFlags &= 1 | del << 1;
+    }
     u8 getTlutName() const { return mTlut; }
 
     void setTlutName(u8 tlut) { mTlut = tlut; }

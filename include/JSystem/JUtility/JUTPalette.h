@@ -27,10 +27,10 @@ public:
     bool load();
 
     _GXTlut getTlutName() const { return (_GXTlut)mTlutName; }
-    _GXTlutFmt getFormat() const { return (_GXTlutFmt)mFormat; }
+    u8 getFormat() const { return mFormat; }
     ResTLUT *getColorTable() const { return mColorTable; }
     u16 getNumColors() const { return mNumColors; }
-    JUTTransparency getTransparency() const { return (JUTTransparency)mTransparency; }
+    u8 getTransparency() const { return mTransparency; }
 
 private:
     _GXTlutObj mTlutObj;  // 0x0

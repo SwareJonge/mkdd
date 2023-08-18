@@ -633,6 +633,18 @@ global:
   0x80022f48: getResource__15JUTResReferenceFP14JSUInputStreamUlP10JKRArchive
   0x80022fe8: getResource__15JUTResReferenceFPCvUlP10JKRArchive
   0x8002307c: getResource__15JUTResReferenceFUlP10JKRArchive
+  # JUTTexture
+  0x800230f4: __ct__10JUTTextureFii9_GXTexFmt
+  0x800231f8: __dt__10JUTTextureFv
+  0x80023274: storeTIMG__10JUTTextureFPC7ResTIMGUc
+  0x8002341c: storeTIMG__10JUTTextureFPC7ResTIMGP10JUTPalette
+  0x80023450: storeTIMG__10JUTTextureFPC7ResTIMGP10JUTPalette7_GXTlut
+  0x80023580: attachPalette__10JUTTextureFP10JUTPalette
+  0x800235d8: init__10JUTTextureFv
+  0x80023628: initTexObj__10JUTTextureFv
+  0x80023720: initTexObj__10JUTTextureF7_GXTlut
+  0x80023828: load__10JUTTextureF11_GXTexMapID
+  0x80023870: capture__10JUTTextureFii9_GXTexFmtbUc
   # JUTVideo.cpp
   0x8002392c: createManager__8JUTVideoFPC16_GXRenderModeObj
   0x80023988: __ct__8JUTVideoFPC16_GXRenderModeObj

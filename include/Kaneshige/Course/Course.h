@@ -36,6 +36,7 @@ enum ECourseID {
     TEST_25 = 0x19,
     TEST_26 = 0x1a,
     TEST_27 = 0x1b,
+    // UNK0 = 0x1c,
     DEBOKOKO = 0x1d,
     A3 = 0x1e,
     E3 = 0x1f,

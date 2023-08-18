@@ -10,45 +10,43 @@ namespace JGeometry {
     class TUtil
     {
     public:
-        static f32 abs(f32 x) {
-            return __fabs(x);
-        }
+        static f32 abs(f32 x) { return __fabs(x); }
         static f32 atan2(f32 y, f32 x) { return JMAAtan2Radian(y, x); }
         static const f32 epsilon() { return 32.0f * FLT_EPSILON; }
 
-        static int epsilonEquals(T a1, T a2, T a3)
+        static bool epsilonEquals(T a1, T a2, T a3)
         {
-            int ret = 0;
+            bool equal = false;
 
             a1 -= a2;
 
             if (-a3 <= a1 && a1 <= a3)
             {
-                ret = 1;
+                equal = true;
             }
 
-            return ret;
+            return equal;
         }
 
-        static T sqrt(T val)
+        f32 invert(f32 x) { return 1.0f/x; }
+
+        static f32 sqrt(f32 x)
         {
-            if (val <= 0.0f)
-                return 0.0f;
+            if (x <= 0.0f)
+                return x;
 
-
-            float outVal = __frsqrte(val);
-            return (val * (0.5f * outVal * (3.0f - (val * (outVal * outVal)))));
+            f32 y = __frsqrte(x);
+            y = 0.5f * y * (3.0f - (x * (y * y)));
+            return x * y;
         }
 
-        static T inv_sqrt(T number)
+        static f32 inv_sqrt(f32 x)
         {
-            if (number <= 0.0f)
-                return number;
-
-            const f32 threehalfs = 3.0f;
-            f32 y = __frsqrte(number);
-            y = 0.5f * y * (threehalfs - (number * (y * y)));
-
+            if (x <= 0.0f)
+                return x;
+            
+            f32 y = __frsqrte(x);
+            y = 0.5f * y * (3.0f - (x * (y * y)));
             return y;
         }
 
@@ -80,6 +78,8 @@ namespace JGeometry {
 
         static T clamp(T p1, T p2, T p3);
     };
+
+    typedef TUtil<f32> TUtilf;
 }
 
 #endif

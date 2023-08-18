@@ -18,7 +18,7 @@ DUMMY_POINTER(lbl_80378500)
 u16 RaceInfo::sWaitDemoSelector;
 ERaceGpCup RaceInfo::sAwardDebugCup;
 
-int RaceInfo::sForceDemoNo = 0xFFFFFFFF;
+u32 RaceInfo::sForceDemoNo = 0xFFFFFFFF;
 u32 RaceInfo::sForceRandomSeed = 0xFFFFFFFF;
 ERaceLevel RaceInfo::sAwardDebugLevel = LVL_150CC;
 short RaceInfo::sAwardDebugRank = 1;
@@ -43,9 +43,9 @@ RaceInfo::RaceInfo()
 
 void RaceInfo::reset()
 {
-    mTinyProcess = false;
-    mLanMode = false;
-    mTrueEnding = false;
+    mIsTinyProcess = false;
+    mIsLanMode = false;
+    mIsTrueEnding = false;
     mRandomSeed = 0;
     mGpCup = INV_CUP;
     mRaceMode = INV_MODE;
@@ -60,9 +60,9 @@ void RaceInfo::reset()
     mLOD = 0;
     mGpStageNo = 0;
     mDemoType = 0;
-    mMirror = false;
-    _0x298 = 0;
-    mHideConsole = 0;
+    mIsMirror = false;
+    mWaitDemoResult = 0;
+    mHidingConsoles = 0;
 
     for (int i = 0; i < 8; i++)
     {
@@ -83,35 +83,35 @@ void RaceInfo::reset()
 
     for (int i = 0; i < 4; i++)
     {
-        _0x114[i] = i;
-        _0x11c[i] = 0;
+        mTargetKarts[i] = i;
+        mIsDemoKart[i] = 0;
     }
 
     mAwardKartNo = -1;
     mDemoNextPhase = 6;
 }
 
-void RaceInfo::setConsoleTarget(int cnsNo, int target, bool p3)
+void RaceInfo::setConsoleTarget(int cnsNo, int target, bool demo)
 {
 #line 453
     JUT_MINMAX_ASSERT(0, cnsNo, 4);
-    _0x114[cnsNo] = target;
-    _0x11c[cnsNo] = p3;
+    mTargetKarts[cnsNo] = target;
+    mIsDemoKart[cnsNo] = demo;
 }
 
 void RaceInfo::settingForWaitDemo(bool settingThing)
 {
-    bool iVar1 = true;
+    bool doDemo = true;
     int uVar7 = sWaitDemoSelector % 3;
 
     if (sWaitDemoSelector & 0x1)
     {
-        iVar1 = false;
+        doDemo = false;
     }
 #if DEBUG
     if (sForceDemoNo != 0xffffffff)
     {
-        uVar7 = (u32)sForceDemoNo % 3;
+        uVar7 = sForceDemoNo % 3;
     }
 #endif
     sWaitDemoSelector++;
@@ -146,7 +146,7 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
     }
 #endif
     setRaceLevel(LVL_150CC);
-    if (!iVar1)
+    if (!doDemo)
     {
         gSequenceInfo.rndDemo(mRandomSeed);
     }
@@ -165,7 +165,7 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
         EKartID kartID = demoKartIDs[no];
         ECharID driver = KartInfo::getDefaultDriver(kartID);
         ECharID partner = KartInfo::getDefaultPartner(driver);
-        if (!iVar1)
+        if (!doDemo)
         {
             gSequenceInfo.getDemoKart(no, driver, partner, kartID);
         }
@@ -204,7 +204,7 @@ void RaceInfo::settingForAwardDemo()
 void RaceInfo::settingForStaffRoll(bool trueEnding)
 {
     setRace(STAFF_ROLL, 8, 0, 1, 1);
-    mTrueEnding = trueEnding;
+    mIsTrueEnding = trueEnding;
     setRivalKartNo(0, 3);
     setRivalKartNo(1, 7);
     setRandomSeed(0);
@@ -242,14 +242,14 @@ void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int c
         mLOD |= 2;
 
     if ((consoleCount >= 3) && (kartCount >= 5))
-        mTinyProcess = true;
+        mIsTinyProcess = true;
 }
 
 void RaceInfo::setKart(int kartNo, EKartID kartID, ECharID charID1, KartGamePad *kartPad1, ECharID charID2, KartGamePad *kartPad2)
 {
 #line 685
     JUT_MINMAX_ASSERT( 0, kartNo, 8);
-    KartInfo * kartInfo = &mKartInfo[kartNo];
+    KartInfo *kartInfo = &mKartInfo[kartNo];
     kartInfo->setKartID(kartID);
 #line 694
     JUT_ASSERT(charID1 != cCharIDNone);
@@ -269,9 +269,9 @@ void RaceInfo::setRaceLevel(ERaceLevel raceLvl)
 {
     mRaceLevel = raceLvl;
     if (raceLvl == LVL_MIRROR)
-        mMirror = true;
+        mIsMirror = true;
     else
-        mMirror = false;
+        mIsMirror = false;
 }
 
 void RaceInfo::shuffleRandomSeed()
@@ -301,5 +301,5 @@ void RaceInfo::hideConsole(u32 viewNo)
 {
 #line 772
     JUT_MINMAX_ASSERT(1, viewNo, 5);
-    mHideConsole = mHideConsole | (1 << viewNo);
+    mHidingConsoles |= (1 << viewNo);
 }

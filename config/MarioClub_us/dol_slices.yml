@@ -97,6 +97,11 @@ libs/JSystem/JUtility/JUTResFont.cpp:
 libs/JSystem/JUtility/JUTResource.cpp:
     .text: [0x80074d00, 0x80074eac]
 
+libs/JSystem/JUtility/JUTTexture.cpp:
+    .text: [0x80074eac, 0x80075698]
+    .rodata: [0x803620e8, 0x80362120]
+    .sdata2: [0x804179e8, 0x80417a00]
+
 libs/JSystem/JUtility/JUTVideo.cpp:
     .text: [0x80075698, 0x80075c00]
     .data: [0x8038afe0, 0x8038aff0]

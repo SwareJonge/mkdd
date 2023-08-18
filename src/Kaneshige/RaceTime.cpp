@@ -1,16 +1,16 @@
 #include "Kaneshige/RaceTime.h"
 
 void RaceTime::get(int *minutes, int * seconds, int *miliseconds) const {
-    int _time = value;
-    if (_time < 0) {
-        _time = -_time;
+    int absTime = mTime;
+    if (absTime < 0) {
+        absTime = -absTime;
     }
 
-    *miliseconds = _time % 1000;
-    *seconds = (_time / 1000) % 60;
-    *minutes = (_time / 1000) / 60;
+    *miliseconds = absTime % 1000;
+    *seconds = (absTime / 1000) % 60;
+    *minutes = (absTime / 1000) / 60;
 
-    if (value < 0)
+    if (mTime < 0)
         *minutes = -*minutes;
 
 }

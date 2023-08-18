@@ -14,7 +14,7 @@ Also, make headers for all libraries itself?
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTGamePad.h"
 
-#if DEBUG
+#ifdef DEBUG
 #pragma sym on
 #endif
 
@@ -64,7 +64,7 @@ short RaceMgr::sDispFrameCounter;
 
 short RaceMgr::sMyStartPointID = -1;
 
-#if PAL // not sure if needed
+#ifdef PAL // not sure if needed
 static const float lbl_8033ce58[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
@@ -157,7 +157,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     mRaceInfo = raceInfo;
 
     editRaceInfoForDebug();
-#if DEBUG
+#ifdef DEBUG
     SysDebug::getManager()->appendPage(new RaceUsrPage(mRaceInfo));
 #endif
 
@@ -206,7 +206,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     JUT_REPORT_MSG("Course ID:%08X\n", crsData->getCourseID());
 
-#if DEBUG
+#ifdef DEBUG
     for (int i = 0; i < 16; i++)
     {
         KartGamePad *gamepad = gpaKartPad[i];
@@ -1107,7 +1107,7 @@ void RaceMgr::setRaceResult()
         for (int j = 0; j < getTotalLapNumber(); j++)
             mRaceInfo->mLapTimes[i][j] = getKartChecker(i)->getLapTime(j);
     }
-    mRaceInfo->_0x298 = mRaceDirector->getWaitDemoResult();
+    mRaceInfo->mWaitDemoResult = mRaceDirector->getWaitDemoResult();
 }
 
 void RaceMgr::calcRace()
@@ -1133,7 +1133,7 @@ void RaceMgr::calcRace()
     checkRank();
     _0x22++;
     SYSDBG_EndUserTime(2);
-#if DEBUG
+#ifdef DEBUG
     if (gGamePad1P.testButton(JUTGamePad::Z) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN))
     {
         sDispFrameCounter ^= 1;
@@ -1491,7 +1491,7 @@ bool RaceMgr::isItemBoxValid()
 
 void RaceMgr::beginProcTime(short id)
 {
-#if DEBUG
+#ifdef DEBUG
     s16 idx = -1; // not sure how to name this, one day i'll open up dolphin and use the debugger
     s16 i = (id >> 8) & 0xff;
 
@@ -1521,7 +1521,7 @@ void RaceMgr::beginProcTime(short id)
 
 void RaceMgr::endProcTime(short id)
 {
-#if DEBUG
+#ifdef DEBUG
     s16 idx = -1; // not sure how to name this, one day i'll open up dolphin and use the debugger
     s16 i = (id >> 8) & 0xff;
 
@@ -1641,7 +1641,7 @@ bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx)
 {
     bool robbed = false;
     TBalloonManager *balloonMgr = GetGeoObjMgr()->getBalloonMgr(playerIdx);
-#if DEBUG
+#ifdef DEBUG
     if (getKartChecker(playerIdx)->getBalloonNumber() <= 0)
     {
         return false;
@@ -1660,7 +1660,7 @@ bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx)
             balloonMgr->robRivalOfBalloon(rivalIdx);
             robbed = true;
         }
-#if DEBUG
+#ifdef DEBUG
     }
 #endif
     return robbed;

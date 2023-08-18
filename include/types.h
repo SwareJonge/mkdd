@@ -52,16 +52,4 @@ typedef wchar_t wint_t;
 
 #define UINT32_MAX 0xffffffff
 
-// Align X to the previous N bytes (N must be power of two)
-#define ALIGN_PREV(X, N) ((X) & ~((N)-1))
-// Align X to the next N bytes (N must be power of two)
-#define ALIGN_NEXT(X, N) ALIGN_PREV(((X) + (N)-1), N)
-#define IS_ALIGNED(X, N) (((X) & ((N)-1)) == 0)
-#define IS_NOT_ALIGNED(X, N) (((X) & ((N)-1)) != 0)
-
-#define READU32_BE(ptr, offset) \
-    (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
-
-#define FLAG_ON(V, F) (((V) & (F)) == 0)
-
 #endif // !TYPES_H

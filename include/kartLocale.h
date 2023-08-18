@@ -9,8 +9,8 @@ enum Country {
     ITALY = 2,
     JAPAN = 3,
     SPAIN = 4,
-    UNITED_STATES = 5,
-    UNITED_KINGDOM = 6
+    UNITED_STATES = 5, // WORLD_AMERICA?
+    UNITED_KINGDOM = 6 // WORLD_EUROPE?
 };
 
 enum DatingMode { // not too sure of this but this makes most sense
@@ -49,7 +49,7 @@ enum VideoMode {
     PAL = 1
 };
 
-#if VIDEO_PAL
+#ifdef VIDEO_PAL
 #define NORMAL_RMODE 4         // PAL 50hz
 #define MOVIE_RMODE 5          // PAL 50hz
 #define ENHANCED_RMODE 6       // EURGB 60hz
