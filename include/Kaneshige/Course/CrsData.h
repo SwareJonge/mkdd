@@ -3,8 +3,11 @@
 
 #include "JSystem/JUtility/TColor.h"
 #include "JSystem/JGeometry.h"
+#include "Sato/stMath.h"
 #include "kartLocale.h"
 #include "types.h"
+
+class Course; // Forward Declaration
 
 class CrsData
 {
@@ -26,13 +29,18 @@ public:
         void **matList;
     };
 
+    struct SColInfoSphere 
+    {
+        // TODO
+    };
+
     struct SOblHeader
     {
         char mMagic[4];
         u8 mShaking;
         u8 mAmbientColor[3];
         JUtility::TColor mLightColor;
-        JGeometry::TVec3<f32> mLightOffsetPos;
+        JGeometry::TVec3f mLightOffsetPos;
         u8 mTotalLapNum;
         u8 mCourseID;
         u16 mCLPointNum;
@@ -70,6 +78,11 @@ public:
         u8 _70[0xc];
     };
 
+    struct SObject 
+    {
+        // TODO
+    };
+
     struct SJugemPoint
     { // mostly copied from https://mkdd.miraheze.org/wiki/BOL_(File_Format) (Section 9: Respawn Points)
         JGeometry::TVec3f mPosition;
@@ -83,12 +96,36 @@ public:
         s16 mSectorID;
     };
 
+    class Ground
+    {
+    public:
+        bool checkPosition(stPlaneParam *, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f *) const;                                                                     // 0x8019fb34
+        void checkWallBySphere(JGeometry::TVec3f *, const SColInfoSphere &, const JGeometry::TVec3f *, float *, JGeometry::TVec3f *, JGeometry::TVec3f *) const;                                 // 0x801a0078
+        void getNearPoint(const SColInfoSphere &, float, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, JGeometry::TVec3f *) const; // 0x801a02fc
+        void checkPolygonCoverWall(const JGeometry::TVec3f &, const SColInfoSphere &, const Ground *);                                                                                                             // 0x801a0590
+        void checkFront(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                                         // 0x801a0770
+        void checkFaceSide(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                                      // 0x801a083c
+        void getPlaneY(const JGeometry::TVec3f &, Course *) const;                                                                                                                                                 // 0x801a097c
+        void checkPolygonTouchBySphere(const JGeometry::TVec3f *, const JGeometry::TVec3f &, float, Course *) const;                                                                                         // 0x801a0ae4
+        void getTouchState(const SColInfoSphere &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, float *, float) const;                                                   // 0x801a0c5c
+        void getCenter(JGeometry::TVec3f *, const JGeometry::TVec3f *, Course *) const;                                                                                                                      // 0x801a0f64
+        // Inline
+        u8 getZmaxIndex() const;    // 0x801a0034
+        u8 getXmaxIndex() const;    // 0x801a0040
+        u8 getZminIndex() const;    // 0x801a004c
+        u8 getXminIndex() const;    // 0x801a0058
+        u8 getAddThickness() const; // 0x801a0064
+    private:
+        // TODO
+    };
+
     class StartPoint {
     public:
-        bool isRight() const { return mRight != 0; };
+        void getLinePosition(JGeometry::TVec3f *) const; // 0x801a1260
+
+        bool isRight() const { return mOrientation != 0; };
         f32 getJugemOffsetY() const { return mJugemOffsetY; };
 
-        // inline but too lazy to add it
         void getPosition(JGeometry::TVec3f *dst) const
         {
             dst->set(mPos);
@@ -101,11 +138,12 @@ public:
             vec->normalize();
         }
 
+    private:
         JGeometry::TVec3f mPos;
         JGeometry::TVec3f mScale;
         JGeometry::TVec3<s16> mRot;
         u8 _1E[0x24 - 0x1E];
-        u8 mRight; // probably call this something else
+        u8 mOrientation;
         s16 mJugemOffsetY; // could be TVec2/3
     };
 

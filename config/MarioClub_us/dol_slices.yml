@@ -565,6 +565,12 @@ src/Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
     .data: [0x80393760, 0x803937b8]
 
+src/Inagaki/GameAudioHostIO.cpp:
+    .text: [0x8011b264, 0x8011b2c4] # 0x8011b478
+    #.ctors: [0x80316194, 0x80316198]
+    #.bss: [0x803c93a8, 0x803c9400]
+    .sdata2: [0x80418960, 0x80418968]
+
 src/Kameda/Scene.cpp:
     .text: [0x8013c1e8, 0x8013c2b8]
     .rodata: [0x8036da48, 0x8036da58]

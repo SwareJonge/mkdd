@@ -1,6 +1,8 @@
 #ifndef RIVALKART_H
 #define RIVALKART_H
 
+#include <JSystem/JKernel/JKRDisposer.h>
+
 class KartBody;
 
 class RivalKart

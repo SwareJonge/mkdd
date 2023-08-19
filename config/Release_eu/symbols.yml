@@ -1992,6 +1992,9 @@ global:
   # Inagaki
   # GameAudioCommon.cpp
   0x80113a08: setSeed__Q29GameAudio6RandomFUl
+  # GameAudioHostIO.cpp
+  0x803d7658: GA_MULTI_CAMERA_VOL_DOWN_DISTANCE__9GameAudio
+  0x803d765c: GA_MULTI_CAMERA_VOL_DOWN_RATE__9GameAudio
   # GameAudioMain.cpp
   0x80113e0c: init__Q29GameAudio4MainFP12JKRSolidHeapUlPvPvUl
   0x80114770: bootDSP__Q29GameAudio4MainFv
