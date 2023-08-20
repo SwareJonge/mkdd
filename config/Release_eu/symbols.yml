@@ -2701,3 +2701,6 @@ global:
   0x802c7994: MakeStar__8KartStarFv
   0x802c7a44: StopStar__8KartStarFv
   0x802c7ac4: DoStarCrl__8KartStarFv
+
+  # KartTire.cpp
+  0x802c7c68: Init__8KartTireFi

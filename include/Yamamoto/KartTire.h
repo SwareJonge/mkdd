@@ -8,11 +8,15 @@ class KartTire
 public:
     KartTire() {}
 
-    void Init(int); // 0x80307eb8
+    void Init(int idx); // 0x80307eb8
     // Inline/Unused
     // void MakeComeOff();
     // void DoComeOffCrl();
 private:
     KartBody *mBody;
+    u8 _4;
+    u8 _5;
+    u8 _6;
+    u16 _8;
 };
 #endif // KARTTIRE_H

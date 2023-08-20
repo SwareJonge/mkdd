@@ -665,3 +665,8 @@ src/Sato/stMath.cpp:
 
 src/Yamamoto/KartStar.cpp:
     .text: [0x802c796c, 0x802c7b5c] # 0x802c7c68
+    #.ctors: [0x802d8a2c, 0x802d8a30]
+
+src/Yamamoto/KartTire.cpp:
+    .text: [0x802c7c68, 0x802c7c94] # 0x802c7da0
+    #.ctors: [0x802d8a30, 0x802d8a34]
