@@ -36,8 +36,12 @@ namespace std
     }
     extern inline f32 inv_sqrtf(f32 x) {
         return 1.0f / sqrtf(x);
-
     }
+
+    extern inline f32 fabsf(f32 x) { return ::fabs(x); }
+    extern inline f32 fabs(f32 x) { return fabsf(x); }
+
+    extern inline f32 atan2f(f32 y, f32 x) { return ::atan2(y, x); }
 }
 
 #endif

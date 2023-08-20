@@ -1,2 +1,4 @@
 trim_ctors: true
 trim_dtors: true
+
+global_manual_floats: true
