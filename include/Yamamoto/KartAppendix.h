@@ -8,7 +8,7 @@ struct KartAppendix
     KartAppendix() {}
     void Init(int);
 
-    void *mModelWheel;
+    ExModel *mModelWheel;
     KartLoader *mKartLoader;
 };
 

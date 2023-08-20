@@ -706,3 +706,7 @@ src/Yamamoto/KartStar.cpp:
 src/Yamamoto/KartTire.cpp:
     .text: [0x80307eb8, 0x80307f08] # 0x80307ff4
     #.ctors: [0x8031662c, 0x80316630]
+
+src/Yamamoto/KartApeendix.cpp:
+    .text: [0x80312154, 0x803121a0] # 0x8031228c
+    #.ctors: [0x80316648, 0x8031664c]

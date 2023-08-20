@@ -15,7 +15,7 @@ class ExModel
 {
 public:
     // Global
-    ExModel(s16);                                                                        // 0x801a4450
+    ExModel(s16 id = 1);                                                                        // 0x801a4450
     ~ExModel();                                                                          // 0x801a4538
     void setModelData(J3DModelData *);                                                   // 0x801a4598
     void setModelData(s16, J3DModelData *);                                              // 0x801a45c0
@@ -68,7 +68,8 @@ public:
 private:
     u8 _4[0x2c - 0x4];
     Mtx mBaseTRMtx;
-};
+    Mtx _5c;
+}; // Size: 0x8c
 
 class ExMDRecord;
 

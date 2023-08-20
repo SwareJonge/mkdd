@@ -2704,3 +2704,6 @@ global:
 
   # KartTire.cpp
   0x802c7c68: Init__8KartTireFi
+
+  # KartApeendix.cpp
+  0x802d45bc: Init__12KartAppendixFi

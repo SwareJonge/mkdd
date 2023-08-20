@@ -26,31 +26,38 @@ public:
     // void ViewCtrlModel::~ViewCtrlModel();
     // ~KartLoader();
     //  Inline
-    bool isShockExist() const;                              // 0x801a7720
-    void getShockTevRegKey(int);                            // 0x801a7bcc
-    void getExModelShock(int);                              // 0x801a7c64
-    void getWheelRTevRegKey(int);                           // 0x801a7cfc
-    void getWheelLTevRegKey(int);                           // 0x801a7d94
-    void getExModelWheel(int);                              // 0x801a7e2c
-    void getArmTevRegKey(int);                              // 0x801a7ec4
-    void getExModelArm(int);                                // 0x801a7f5c
-    void getBodyTevRegKey(int);                             // 0x801a7ff4
-    ExModel *getExModelBody() { return &mModelBody;  }      // 0x801a808c
-    bool isKartTevAnmEnable(int);                           // 0x801a8094
-    void getAccessoryTevRegKey(int, int);                   // 0x801a80cc
-    void getExModelDriver(int);                             // 0x801a81e8
-    void getDriverTevRegKey(int, int);                      // 0x801a8280
-    bool isDriverTevAnmEnable(int);                         // 0x801a8378
-    void setDemoBodyBmd(void * ptr) {
-        mDemoBmd = ptr;
-    }
+    bool isShockExist() const;          // 0x801a7720
+    void getShockTevRegKey(int);        // 0x801a7bcc
+    void getExModelShock(int);          // 0x801a7c64
+    void getWheelRTevRegKey(int);       // 0x801a7cfc
+    void getWheelLTevRegKey(int);       // 0x801a7d94
+    ExModel *getExModelWheel(int wheel) // 0x801a7e2c
+    {
+        JUT_MINMAX_ASSERT(0, wheel, 6);
+        return &mModelWheels[wheel];
+    };
+    void getArmTevRegKey(int);                        // 0x801a7ec4
+    void getExModelArm(int);                          // 0x801a7f5c
+    void getBodyTevRegKey(int);                       // 0x801a7ff4
+    ExModel *getExModelBody() { return &mModelBody; } // 0x801a808c
+    bool isKartTevAnmEnable(int);                     // 0x801a8094
+    void getAccessoryTevRegKey(int, int);             // 0x801a80cc
+    void getExModelDriver(int);                       // 0x801a81e8
+    void getDriverTevRegKey(int, int);                // 0x801a8280
+    bool isDriverTevAnmEnable(int);                   // 0x801a8378
+    void setDemoBodyBmd(void *ptr) { mDemoBmd = ptr; }
+    int getWheelNumber() { return mWheelNum; }
 
 private:
     u8 _0[0x8];
     void *mDemoBmd;
     u8 _0C[0x14 - 0xC];
     ExModel mModelBody;
-    u8 _70[0xb7c - 0x70];
+    int mWheelNum;
+    ExModel mModelWheels[6];
+    ExModel _3ec[6];
+    ExModel _734[6];
+    u8 _a7c[0xb7c - 0xa7c];
 
 }; // Size 0xb7c
 
