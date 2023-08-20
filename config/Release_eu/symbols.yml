@@ -2274,6 +2274,8 @@ global:
   
   0x8018f1f4: setAnimation__10KartDrawerFv
   0x8018fad0: update__10KartDrawerFv
+  0x8018fdac: playTevAnm__10KartDrawerFi
+  0x8018fdcc: stopTevAnm__10KartDrawerFv  
 
   # TexLODControl.cpp
   0x8018fefc: __ct__13TexLODControlFi
@@ -2654,6 +2656,8 @@ global:
   0x803d5e1c: sJ3DKartAnmMgr__17J3DEfctKartAnmMgr
   # ObjUtility.cpp
   0x802255b8: getPtrCourseArc__10ObjUtilityFPc
+  # JPEffectPerformer.cpp
+  0x8022c340: setEffect__17JPEffectPerformerFQ217JPEffectPerformer10EffectTypeiRCQ29JGeometry8TVec3<f>Uc
   # EffectScreen.cpp
   0x80231cd8: __ct__15EffectScreenMgrFv
   0x80231dc8: reset__15EffectScreenMgrFv
@@ -2687,3 +2691,13 @@ global:
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
   0x802b3134: SetTargetNum__7KartCamFUc
+
+  # KartSound.cpp
+  0x802bd74c: DoStarStartSound__9KartSoundFv
+  0x802bd774: DoStarStopSound__9KartSoundFv
+
+  # KartStar.cpp
+  0x802c796c: Init__8KartStarFi
+  0x802c7994: MakeStar__8KartStarFv
+  0x802c7a44: StopStar__8KartStarFv
+  0x802c7ac4: DoStarCrl__8KartStarFv

@@ -575,8 +575,8 @@ class CSource(Source):
         elif path.startswith("libs/PowerPC_EABI_Support/src/Runtime/"):
             self.cflags = c.MSL_C_CFLAGS
 
-        elif path.startswith("src/Kaneshige/"):
-            self.cflags = c.KANESHIGE_CFLAGS
+        elif path.startswith("src/Kaneshige/") or path.startswith("src/Yamamoto/"):
+            self.cflags = c.KANESHIGE_CFLAGS # TODO: Rename
         if c.VERSION == "Release":       
             if (path.startswith("libs/JSystem/JAudio/")):
                 self.cflags = c.JAUDIO_RELEASE_CFLAGS

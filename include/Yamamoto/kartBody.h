@@ -306,8 +306,7 @@ public:
     f32 _564;
     f32 _568;
     u8 _56c[4]; // padding?
-    u32 mCarStatus;
-    u32 _574; // another type of status
+    u64 mCarStatus;
     u32 mGameStatus;
     u32 _57c;
     u32 _580;

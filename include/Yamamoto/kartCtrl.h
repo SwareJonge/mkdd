@@ -4,14 +4,17 @@
 #include "types.h"
 #include "Inagaki/KartSoundMgr.h"
 #include "Sato/RivalKart.h"
-#include "Yamamoto/kartPad.h"
+
 #include "Yamamoto/kartCamera.h"
+#include "Yamamoto/kartPad.h"
 #include "Yamamoto/kartSus.h"
 #include "Yamamoto/KartAnime.h"
 #include "Yamamoto/KartAppendix.h"
 #include "Yamamoto/KartDisp.h"
 #include "Yamamoto/KartSound.h"
 #include "Yamamoto/KartTarget.h"
+
+#include "Yamamoto/kartBody.h"
 
 class KartCtrl
 {
@@ -131,6 +134,7 @@ public:
     bool HaveRabbit();
 
     int GetKartNumber() { return mKartCount; }
+    KartBody *getKartBody(int idx){return mKartBodies[idx]; } 
     KartCam *getKartCam(int idx) { return mKartCams[idx]; }
     KartSound *getKartSound(int idx) { return mKartSounds[idx]; }
 

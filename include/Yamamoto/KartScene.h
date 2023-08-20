@@ -1,10 +1,11 @@
 #ifndef KARTSCENE_H
 #define KARTSCENE_H
 
-struct  KartScene {
+struct KartScene {
 public:
     KartScene() {}
     // TODO
+    int mChapter;
 };
 
 #endif

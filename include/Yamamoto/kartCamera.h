@@ -36,7 +36,8 @@ public:
     int GetPosh() { return mPosH; } // KartCam.h // 0x801afd8c
     int GetPosv() { return mPosV; } // KartCam.h // 0x801afd94
 private:
-    u8 _00[0x80];
+    KartBody *mBody;
+    u8 _04[0x7c];
     Mtx mMtx;
     u8 _B0[0xEC - 0xB0];
     int mPosV;

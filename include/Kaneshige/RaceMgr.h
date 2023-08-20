@@ -37,6 +37,7 @@ public:
     static short sDispFrameCounter;
 
     static RaceMgr *getManager() { return sRaceManager; }
+    static RaceMgr *getCurrentManager() { return getManager(); }
 
     class Console {
     public:

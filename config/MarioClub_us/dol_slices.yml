@@ -698,3 +698,6 @@ src/Sato/stMath.cpp:
     .sdata: [0x804148e0, 0x804148e8]
     .sbss: [0x80416ac8, 0x80416ad0]
     .sdata2: [0x8041bb60, 0x8041bbb8]
+
+src/Yamamoto/KartStar.cpp:
+    .text: [0x80307c44, 0x80307dcc] # 0x80307eb8
