@@ -2687,6 +2687,39 @@ global:
   0x8029fd1c: DynamicsStage1__8KartCtrlFv
   0x802a01b4: DynamicsStage2__8KartCtrlFv
   0x803d63c8: mCtrl__8KartCtrl
+  # kartvec.cpp
+  0x802a20cc: SetVector__7KartVecFP3Vecfff
+  0x802a20dc: AddVector__7KartVecFP3Vecfff
+  0x802a2104: MulVector__7KartVecFP3Vecfff
+  0x802a212c: VectorLength__7KartVecFP3Vec
+  0x802a2150: VectorLengthSqrtf__7KartVecFP3Vec
+  0x802a2190: OuterCalc__7KartVecFP3VecP3VecP3Vec
+  0x802a21d0: VectorElement__7KartVecFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x802a2270: SpeedySqrtf__8KartMathFf
+  0x802a229c: CrossToPolar__8KartMathFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>PfPfPf
+  0x802a2384: PolarToCross__8KartMathFP3VecP3Vecfff
+  0x802a2424: lu__8KartMathFPA3_fPi
+  0x802a25cc: Gauss__8KartMathFPA3_fPfPf
+  0x802a26d8: LimmtNumber__8KartMathFff
+  0x802a26fc: fcnvge__8KartMathFffff
+  0x802a272c: ChaseFnumber__8KartMathFPfff
+  0x802a2764: ChaseFcnvge__8KartMathFPfPUsfUs
+  0x802a27d0: ChaseFcnvge4__8KartMathFPfPUsfUs
+  0x802a2844: ClearRotMatrix__7KartMatFPA4_f
+  0x802a2880: SetPosePosMatrix__7KartMatFPA4_fPA4_fP3Vec
+  0x802a28e4: SetPosMatrix__7KartMatFPA4_fP3Vec
+  0x802a2900: MulMatrixByVector__7KartMatFP3VecP3VecPA4_f
+  0x802a2964: DevMatrixByVector__7KartMatFP3VecP3VecPA4_f
+  0x802a29c8: DevMatrixByVector2__7KartMatFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>PA4_f
+  0x802a2a2c: DevCrdMatrixByVector__7KartMatFP3VecP3VecPA4_f
+  0x802a2aa8: MulMatrix__7KartMatFPA4_fPA4_fPA4_f
+  0x802a2c14: RotYMatrix__7KartMatFPA4_ff
+  0x802a2ca0: RotYMatrix33__7KartMatFPA4_ff
+  0x802a2d20: RotXMatrix__7KartMatFPA4_ff
+  0x802a2dac: RotZMatrix__7KartMatFPA4_ff
+  0x802a2e38: AddMatrix__7KartMatFPA4_fPA4_f
+  0x802a2ecc: NormalizeMatrix__7KartMatFPA4_f
+  0x802a30a4: OmegaMatrix__7KartMatFPA4_fP3Vecf
   # kartCtrlInfo.cpp
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>

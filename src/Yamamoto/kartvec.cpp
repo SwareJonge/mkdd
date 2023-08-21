@@ -4,12 +4,15 @@
 
 #include "std/math.h"
 
-#include <ppcdis.h>
-
-#include "orderfloatsm/8041d7f8_8041d818.inc"
-#include "orderdoublesm/8041d818_8041d830.inc"
-
 // TODO: hire a mathematician to properly name variables
+
+// Unused
+void KartVec::SetZeroVector(VecPtr vec)
+{
+    vec->x = 0.0f;
+    vec->y = 0.0f;
+    vec->z = 0.0f;
+}
 
 void KartVec::SetVector(VecPtr vec, f32 x, f32 y, f32 z)
 {
@@ -18,10 +21,18 @@ void KartVec::SetVector(VecPtr vec, f32 x, f32 y, f32 z)
     vec->z = z;
 }
 
-void KartVec::AddVector(VecPtr vec, f32 x, f32 y, f32 z){
+void KartVec::AddVector(VecPtr vec, f32 x, f32 y, f32 z)
+{
     vec->x += x;
     vec->y += y;
     vec->z += z;
+}
+
+void KartVec::SubVector(VecPtr vec, f32 x, f32 y, f32 z)
+{
+    vec->x -= x;
+    vec->y -= y;
+    vec->z -= z;
 }
 
 void KartVec::MulVector(VecPtr vec, f32 x, f32 y, f32 z)
@@ -31,11 +42,20 @@ void KartVec::MulVector(VecPtr vec, f32 x, f32 y, f32 z)
     vec->z *= z;
 }
 
-f32 KartVec::VectorLength(VecPtr vec){
+void KartVec::DevVector(VecPtr vec, f32 x, f32 y, f32 z)
+{
+    vec->x /= x;
+    vec->y /= y;
+    vec->z /= z;
+}
+
+f32 KartVec::VectorLength(VecPtr vec)
+{
     return vec->x * vec->x + vec->y * vec->y + vec->z * vec->z;
 }
 
-f32 KartVec::VectorLengthSqrtf(VecPtr vec){
+f32 KartVec::VectorLengthSqrtf(VecPtr vec)
+{
     return SpeedySqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
@@ -58,27 +78,37 @@ f32 KartVec::InnerCalc(VecPtr vec1, VecPtr vec2)
     return vec1->x * vec2->x + vec1->y * vec2->y + vec1->z * vec2->z;
 }
 
+// Unused, size match, not confirmed matching, needed for float ordering
+void KartVec::NormalizeVector(VecPtr vec)
+{
+    f32 len = 1.0f / KartMath::SpeedySqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
+    vec->x *= len;
+    vec->y *= len;
+    vec->z *= len;
+}
+
 void KartVec::VectorElement(JGeometry::TVec3f *out, JGeometry::TVec3f *vec1, JGeometry::TVec3f *vec2)
 {
     f32 len = VectorLength((VecPtr)vec1);
-    if(vec1->isZero() == false) {
-        f32 inner = InnerCalc((VecPtr)vec2, (VecPtr)vec1);
-        out->x = vec2->x * (inner / len);
-        out->y = vec2->y * (inner / len);
-        out->z = vec2->z * (inner / len);
+    if (!vec1->isZero())
+    {
+        f32 inner = InnerCalc((VecPtr)vec2, (VecPtr)vec1) / len;
+        out->x = vec2->x * inner;
+        out->y = vec2->y * inner;
+        out->z = vec2->z * inner;
     }
-    else {
+    else
+    {
         out->zero();
     }
 }
 
-f32 KartMath::SpeedySqrtf(register f32 x) {
-    register f64 recip;
+f32 KartMath::SpeedySqrtf(f32 x)
+{
     volatile f32 xf;
     if (x > 0.0f)
     {
-        __asm { frsqrte recip, x }
-        xf = x * recip;
+        xf = __frsqrte(x) * x;
         return xf;
     }
     return x;
@@ -86,7 +116,7 @@ f32 KartMath::SpeedySqrtf(register f32 x) {
 
 void KartMath::CrossToPolar(JGeometry::TVec3f *vec1, JGeometry::TVec3f *vec2, f32 *pLength, f32 *pAng1, f32 *pAng2)
 {
-    f32 divX = (vec2->x - vec1->x);
+    f32 divX = (vec2->x - vec1->x); // i hate this codec!
     f32 divY = (vec2->y - vec1->y);
     f32 divZ = (vec2->z - vec1->z);
 
@@ -97,8 +127,9 @@ void KartMath::CrossToPolar(JGeometry::TVec3f *vec1, JGeometry::TVec3f *vec2, f3
     *pAng2 = std::atan2f(divZ, divX);
 }
 
-void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 x, f32 y, f32 z) {
-    // angle in ??? convert radian to euler?    
+void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 x, f32 y, f32 z)
+{
+    // angle in ??? convert radian to euler?
     s16 angleY = 16384.0f * ((180.0f * y) / 3.141f) / 90.0f;
     s16 angleZ = 16384.0f * ((180.0f * z) / 3.141f) / 90.0f;
 
@@ -113,68 +144,164 @@ void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 x, f32 y, f32 z) {
     out->z = base->z + x * cosY * cosZ;
 }
 
-
-// These 2 are by far the hardest in this file
-MANGLED_ASM(f32 KartMath::lu(Mtx33, int *)){
-#include "asm/802e5600.s"
-}
-
-f32 fake(f32 x) // remove when ::lu is decompiled
+f32 KartMath::lu(Mtx33 m, int *pivot)
 {
-    return std::fabs(x);
-}
-
-/*f32 KartMath::lu(Mtx33 m, int *pValidMatrices) {
-
+    // TODO: rename everything, get rid of hacky matches, figure out if this is matrix43
+    // release https://decomp.me/scratch/YnEQ9
+    // debug: https://decomp.me/scratch/XSADp
+    // f1: ret
+    // f2: tmp
+    // f3: max_val
+    // f4: 0.0f
+    // f5: row_val
     f32 tmp[3];
+    f32 rowMaxValue;
+    f32 scaleFactor;
+    f32 rowValue;
+    f32 ret = 0.0f;
 
-    for(int i = 0; i < 3; i++) {
-        pValidMatrices[i] = i;
-        f32 x = 0.0f;
+    int i, j, k;
+    for (i = 0; i < 3; i++)
+    {
+        pivot[i] = i;
+        rowMaxValue = 0.0f;
 
-        for(int j = 0; j < 3; j++) {
-            f32 absval = std::fabs(m[j][i]);
-            if (x < absval) {
-                x = absval;
+        for (k = 0; k < 3; k++)
+        {
+            f32 absval = std::fabs(m[i][k]);
+            if (absval > rowMaxValue)
+            {
+                rowMaxValue = absval;
             }
         }
-        if(x == 0.0f) return x;
+        if (ret == rowMaxValue)
+        {
+            goto hell;
+        }
 
-        tmp[i] = 1.0f / x;
+        tmp[i] = 1.0f / rowMaxValue;
     }
 
-    for(int i = 0; i < 3; i++) {
-        for(int j = 0; j < 3; j++) {
+    ret = 1.0f;
 
+    for (i = 0; i < 3; i++)
+    {
+        rowMaxValue = -1.0f;
+        for (j = i; j < 3; j++)
+        {
+            int pk = pivot[j];
+            f32 absval = tmp[pk] * std::fabs(m[pk][i]);
+            if (absval > rowMaxValue)
+            {
+                rowMaxValue = absval;
+                k = j;
+            }
+        }
+
+        int row = pivot[k];
+
+        if (k != i)
+        { // swap pivot rows
+            ret = -ret;
+            pivot[k] = pivot[i];
+            pivot[i] = row;
+        }
+
+        rowValue = m[row][i];
+        ret *= rowValue;
+
+        if (0.0f == rowValue)
+            break;
+
+        for (j = i; ++j < 3;)
+        {
+            int prow = pivot[j];
+            scaleFactor = m[prow][i] / rowValue;
+            m[prow][i] = scaleFactor;
+
+            for (k = i; ++k < 3;)
+            {
+                m[prow][k] -= scaleFactor * m[row][k];
+            }
         }
     }
-
-}*/
-
-MANGLED_ASM(void KartMath::solve(Mtx33, f32 *, int *, f32 *, int n)){
-#include "asm/802e5824.s"
-}
-
-f32 KartMath::Gauss(Mtx33 mtx, f32 *vec1, f32 *vec2)
-{
-    int stack[4];
-    f32 ret = lu(mtx, stack);
-
-    if (ret != 0.0f)
-    {
-        solve(mtx, vec1, stack, vec2, 3);
-    }
+hell:
     return ret;
 }
 
-f32 KartMath::LimmtNumber(f32 f1, f32 f2) {
-    if(f1 < -f2) {
+void KartMath::solve(Mtx33 m, f32 *a, int *pivot, f32 *b, int n)
+{
+    int i, j;
+    // Solve Ly
+    for (i = 0; i < n; i++)
+    {
+        int pivot_row = pivot[i];
+        f32 val = a[pivot_row];
+
+        for (j = 0; j < i; j++)
+        {
+            val -= b[j] * m[pivot_row][j];
+        }
+        b[i] = val;
+    }
+
+    // Solve Ux
+    for (i = n; --i >= 0;)
+    {
+        int pivot_row = pivot[i];
+        f32 val = b[i];
+
+        for (j = i + 1; j < n; j++)
+        {
+            val -= b[j] * m[pivot_row][j];
+        }
+        b[i] = val / m[pivot_row][i];
+    }
+}
+
+f32 KartMath::Gauss(Mtx33 a, f32 *b, f32 *x)
+{
+    int pivot[4]; // 3 or 4?
+    f32 max_val = lu(a, pivot);
+
+    if (max_val != 0.0f)
+    {
+        solve(a, b, pivot, x, 3);
+    }
+    return max_val;
+}
+
+f32 KartMath::LimmtNumber(f32 f1, f32 f2)
+{
+    if (f1 < -f2)
+    {
         return -f2;
     }
-    if(f1 > f2) {
+    if (f1 > f2)
+    {
         return f2;
     }
     return f1;
+}
+
+int KartMath::cnvge(int x, int y, int z, int w)
+{
+    if (x < y)
+    {
+        if (x + z > y)
+        {
+            return y;
+        }
+        return x + z;
+    }
+    else
+    {
+        if (x - w < y)
+        {
+            return y;
+        }
+        return x - w;
+    }
 }
 
 f32 KartMath::fcnvge(f32 x, f32 y, f32 z, f32 w)
@@ -197,7 +324,8 @@ f32 KartMath::fcnvge(f32 x, f32 y, f32 z, f32 w)
     }
 }
 
-void KartMath::ChaseFnumber(f32 *out, f32 x, f32 y) {
+void KartMath::ChaseFnumber(f32 *out, f32 x, f32 y)
+{
     *out += y * (x - *out);
 
     if (*out < 0.001 && *out > -0.001)
@@ -206,7 +334,8 @@ void KartMath::ChaseFnumber(f32 *out, f32 x, f32 y) {
     }
 }
 
-void KartMath::ChaseFcnvge(f32 *outf, u16 *outi, f32 x, u16 y) {
+void KartMath::ChaseFcnvge(f32 *outf, u16 *outi, f32 x, u16 y)
+{
     *outf += (f32)*outi / (f32)y * (x - *outf);
     *outi = *outi + 1;
 
@@ -229,7 +358,8 @@ void KartMath::ChaseFcnvge4(f32 *outf, u16 *outi, f32 x, u16 y)
     }
 }
 
-void KartMat::ClearRotMatrix(Mtx mtx) {
+void KartMat::ClearRotMatrix(Mtx mtx)
+{
     mtx[0][0] = 1.0f;
     mtx[1][0] = 0.0f;
     mtx[2][0] = 0.0f;
@@ -247,7 +377,8 @@ void KartMat::ClearRotMatrix(Mtx mtx) {
     mtx[2][3] = 0.0f;
 }
 
-void KartMat::SetPosePosMatrix(Mtx out, Mtx in, VecPtr vec){
+void KartMat::SetPosePosMatrix(Mtx out, Mtx in, VecPtr vec)
+{
     out[0][0] = in[0][0];
     out[1][0] = in[1][0];
     out[2][0] = in[2][0];
@@ -265,7 +396,8 @@ void KartMat::SetPosePosMatrix(Mtx out, Mtx in, VecPtr vec){
     out[2][3] = vec->z;
 }
 
-void KartMat::SetPosMatrix(Mtx out, VecPtr vec) {
+void KartMat::SetPosMatrix(Mtx out, VecPtr vec)
+{
     out[0][3] = vec->x;
     out[1][3] = vec->y;
     out[2][3] = vec->z;
@@ -282,7 +414,8 @@ void KartMat::MulMatrixByVector(VecPtr out, VecPtr base, Mtx m)
     out->z = z;
 }
 
-void KartMat::DevMatrixByVector(VecPtr out, VecPtr base, Mtx m) {
+void KartMat::DevMatrixByVector(VecPtr out, VecPtr base, Mtx m)
+{
     f32 x = m[0][0] * base->x + m[1][0] * base->y + m[2][0] * base->z;
     f32 y = m[0][1] * base->x + m[1][1] * base->y + m[2][1] * base->z;
     f32 z = m[0][2] * base->x + m[1][2] * base->y + m[2][2] * base->z;
@@ -292,8 +425,8 @@ void KartMat::DevMatrixByVector(VecPtr out, VecPtr base, Mtx m) {
     out->z = z;
 }
 
-void KartMat::DevMatrixByVector2(JGeometry::TVec3f *out, JGeometry::TVec3f *base, Mtx m) {
-
+void KartMat::DevMatrixByVector2(JGeometry::TVec3f *out, JGeometry::TVec3f *base, Mtx m)
+{
     f32 x = m[0][0] * base->x + m[1][0] * base->y + m[2][0] * base->z;
     f32 y = m[0][1] * base->x + m[1][1] * base->y + m[2][1] * base->z;
     f32 z = m[0][2] * base->x + m[1][2] * base->y + m[2][2] * base->z;
@@ -303,8 +436,9 @@ void KartMat::DevMatrixByVector2(JGeometry::TVec3f *out, JGeometry::TVec3f *base
     out->z = z;
 }
 
-void KartMat::DevCrdMatrixByVector(VecPtr out, VecPtr base, Mtx m) {
-    f32 divX = (base->x - m[0][3]); // i hate this codec!
+void KartMat::DevCrdMatrixByVector(VecPtr out, VecPtr base, Mtx m)
+{
+    f32 divX = (base->x - m[0][3]);
     f32 divY = (base->y - m[1][3]);
     f32 divZ = (base->z - m[2][3]);
 
@@ -317,7 +451,8 @@ void KartMat::DevCrdMatrixByVector(VecPtr out, VecPtr base, Mtx m) {
     out->z = z;
 }
 
-void KartMat::MulMatrix(Mtx m, Mtx m2, Mtx m3) {
+void KartMat::MulMatrix(Mtx m, Mtx m2, Mtx m3)
+{
     m[0][0] = m2[0][0] * m3[0][0] + m2[1][0] * m3[0][1] + m2[2][0] * m3[0][2];
     m[1][0] = m2[0][0] * m3[1][0] + m2[1][0] * m3[1][1] + m2[2][0] * m3[1][2];
     m[2][0] = m2[0][0] * m3[2][0] + m2[1][0] * m3[2][1] + m2[2][0] * m3[2][2];
@@ -331,8 +466,8 @@ void KartMat::MulMatrix(Mtx m, Mtx m2, Mtx m3) {
     m[2][2] = m2[0][2] * m3[2][0] + m2[1][2] * m3[2][1] + m2[2][2] * m3[2][2];
 }
 
-void KartMat::RotYMatrix(Mtx m, f32 ang) {
-    // Use PI Macro later
+void KartMat::RotYMatrix(Mtx m, f32 ang)
+{
     s16 v = 16384.0f * ((180.0f * ang) / 3.141f) / 90.0f;
 
     f32 cos = JMASCos(v);
@@ -355,8 +490,8 @@ void KartMat::RotYMatrix(Mtx m, f32 ang) {
     m[2][3] = 0.0f;
 }
 
-void KartMat::RotYMatrix33(Mtx m, f32 ang){
-    // Use PI Macro later
+void KartMat::RotYMatrix33(Mtx m, f32 ang)
+{
     s16 v = 16384.0f * ((180.0f * ang) / 3.141f) / 90.0f;
 
     f32 cos = JMASCos(v);
@@ -375,8 +510,8 @@ void KartMat::RotYMatrix33(Mtx m, f32 ang){
     m[2][2] = cos;
 }
 
-void KartMat::RotXMatrix(Mtx m, f32 ang) {
-    // Use PI Macro later
+void KartMat::RotXMatrix(Mtx m, f32 ang)
+{
     s16 v = 16384.0f * ((180.0f * ang) / 3.141f) / 90.0f;
 
     f32 cos = JMASCos(v);
@@ -399,8 +534,8 @@ void KartMat::RotXMatrix(Mtx m, f32 ang) {
     m[2][3] = 0.0f;
 }
 
-void KartMat::RotZMatrix(Mtx m, f32 ang) {
-    // Use PI Macro later
+void KartMat::RotZMatrix(Mtx m, f32 ang)
+{
     s16 v = 16384.0f * ((180.0f * ang) / 3.141f) / 90.0f;
 
     f32 cos = JMASCos(v);
@@ -423,7 +558,8 @@ void KartMat::RotZMatrix(Mtx m, f32 ang) {
     m[2][3] = 0.0f;
 }
 
-void KartMat::AddMatrix(Mtx m, Mtx other) {
+void KartMat::AddMatrix(Mtx m, Mtx other)
+{
     m[0][0] += other[0][0];
     m[1][0] += other[1][0];
     m[2][0] += other[2][0];
@@ -437,20 +573,22 @@ void KartMat::AddMatrix(Mtx m, Mtx other) {
     m[2][2] += other[2][2];
 }
 
-void KartMat::NormalizeMatrix(Mtx m) {
-
+void KartMat::NormalizeMatrix(Mtx m)
+{
     f32 x = m[0][2];
     f32 y = m[1][2];
     f32 z = m[2][2];
     f32 len = x * x + y * y + z * z;
 
-    if (len == 0.0f) {
+    if (len == 0.0f)
+    {
         m[0][2] = 0.0f;
         m[1][2] = 0.0f;
         m[2][2] = 0.0f;
     }
-    else {
-        len = 1.0f/KartMath::SpeedySqrtf(len);
+    else
+    {
+        len = 1.0f / KartMath::SpeedySqrtf(len); // new variable?
         m[0][2] *= len;
         m[1][2] *= len;
         m[2][2] *= len;
@@ -505,7 +643,7 @@ void KartMat::OmegaMatrix(Mtx m, VecPtr vec, f32 w)
 
     m[0][2] = vec->y;
     m[1][2] = -vec->x;
-    m[2][2] =  0.0f;
+    m[2][2] = 0.0f;
 
     m[0][3] = 0.0;
     m[1][3] = w;

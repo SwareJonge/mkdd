@@ -663,6 +663,12 @@ src/Sato/stMath.cpp:
     .sbss: [0x803d5cf8, 0x803d5d00]
     .sdata2: [0x803d9d60, 0x803d9db0]
 
+#src/Yamamoto/kartvec.cpp:
+    #.text: [0x802a20cc, 0x802a3100] # 0x802a320c
+    #.ctors: [0x802d89e8, 0x802d89ec]
+    #.bss: [0x803ae380, 0x803ae3b0]
+    #.sdata2: [0x803db638, 0x803db670]
+
 src/Yamamoto/KartStar.cpp:
     .text: [0x802c796c, 0x802c7b5c] # 0x802c7c68
     #.ctors: [0x802d8a2c, 0x802d8a30]

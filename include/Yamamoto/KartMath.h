@@ -19,7 +19,7 @@ public:
     void ChaseFcnvge4(f32 *, u16 *, f32, u16);
     // Inline/Unused
     // void GetDir(JGeometry::TVec3f *, JGeometry::TVec3f *);
-    // void cnvge(int, int, int, int);
+    int cnvge(int, int, int, int);
 };
 
 #endif
