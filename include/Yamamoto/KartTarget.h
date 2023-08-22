@@ -18,7 +18,7 @@ public:
     void DoSearchRescueTarget(CLPoint *);
 
 private:
-    // TODO
+    CLPoint *mTargetPoint;
 };
 
 #endif

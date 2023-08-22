@@ -78,6 +78,25 @@ public:
         u8 _70[0xc];
     };
 
+    // https://mkdd.miraheze.org/wiki/BOL_(File_Format)#Section_1
+    struct SCLPoint
+    {
+        //SCLPoint() : mPos() { }
+
+        JGeometry::TVec3f mPos;
+        u16 mDriftDir; 
+        s16 mGroupID; 
+        f32 mScale;
+        char mSwerve;
+        u8 mGroupSetting;
+        u8 mUniqueGroupID;
+        u8 mDriftAcuteness;
+        u8 mDriftDuration;
+        u8 mDriftSupplement;
+        u8 mIsNoMushroomZone;
+        u8 pad[5];
+    }; // Size: 0x20
+
     struct SObject 
     {
         // TODO

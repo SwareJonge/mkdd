@@ -2250,6 +2250,15 @@ global:
   0x80355b3c: __vt__8LightObj
   0x803d5638: sLightManager__8LightMgr
 
+  # CenterLine.cpp
+  0x8018b004: __ct__7CLPointFv
+  0x8018b038: setPrevPoint__7CLPointFP7CLPoint
+  0x8018b078: setNextPoint__7CLPointFP7CLPoint
+  0x8018b0b8: getPrevPointNumber__7CLPointFv
+  0x8018b0ec: getNextPointNumber__7CLPointFv
+  0x8018b120: getBrosPointNumber__7CLPointFv
+  0x8018b1d4: getBrosPoint__7CLPointFi
+  
   # RaceInfo.cpp
   0x8018b298: reset__8RaceInfoFv
   0x8018b3d8: setConsoleTarget__8RaceInfoFiib

@@ -613,6 +613,9 @@ src/Kaneshige/ScrnShot.cpp:
     .text: [0x801b4764, 0x801b4860]
     .sbss: [0x804163c0, 0x804163c8]
 
+src/Kaneshige/CenterLine.cpp:
+    .text: [0x801b4e4c, 0x801b5098]
+
 src/Kaneshige/RaceInfo.cpp:
     .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv
     #.ctors: [0x8031628c, 0x80316290]

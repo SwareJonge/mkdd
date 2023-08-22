@@ -587,6 +587,9 @@ src/Kaneshige/RaceMgr.cpp:
     .sbss: [0x803d5628, 0x803d5630]
     .sdata2: [0x803d8740, 0x803d8838]
 
+src/Kaneshige/Centerline.cpp:
+    .text: [0x8018b004, 0x8018b298]
+
 src/Kaneshige/RaceInfo.cpp:
     .text: [0x8018b298, 0x8018b954] # exclude sinit and dtor
     .rodata: [0x8033d518, 0x8033d558]

@@ -1,5 +1,7 @@
 #include "Kaneshige/Course/Course.h"
 
+// WIP, not actively working on
+
 void Course::Sector::calcGeneration(Course::Sector * sector) {
     Sector * cur;
 
