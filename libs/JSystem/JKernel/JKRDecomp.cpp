@@ -23,8 +23,6 @@ JKRDecomp::JKRDecomp(s32 threadPriority) : JKRThread(0x4000, 16, threadPriority)
 JKRDecomp::~JKRDecomp() {}
 
 void *JKRDecomp::run() {
-    
-    
     OSInitMessageQueue(&sMessageQueue, sMessageBuffer, 8);
     for (;;) {
         OSMessage msg;
@@ -100,10 +98,10 @@ bool JKRDecomp::orderSync(u8 *srcBuffer, u8 *dstBuffer, u32 srcLength, u32 dstLe
 }
 
 void JKRDecomp::decode(u8 *src, u8 *dst, u32 srcSize, u32 dstSize) {
-    CompressionMethod compression = checkCompressed(src);
-    if (compression == TYPE_YAY0)
+    int compression = checkCompressed(src);
+    if (compression == JKRCOMPRESSION_YAY0)
         decodeSZP(src, dst, srcSize, dstSize);
-    else if (compression == TYPE_YAZ0)
+    else if (compression == JKRCOMPRESSION_YAZ0)
         decodeSZS(src, dst, srcSize, dstSize);
 }
 
@@ -256,20 +254,20 @@ void JKRDecomp::decodeSZS(u8 *src_buffer, u8 *dst_buffer, u32 srcSize, u32 dstSi
     } while (dst_buffer != decompEnd);
 }
 
-CompressionMethod JKRDecomp::checkCompressed(u8 *src)
+int JKRDecomp::checkCompressed(u8 *src)
 {
     if ((src[0] == 'Y') && (src[1] == 'a') && (src[3] == '0'))
     {
         if (src[2] == 'y')
-            return TYPE_YAY0;
+            return JKRCOMPRESSION_YAY0;
 
         if (src[2] == 'z')
-            return TYPE_YAZ0;
+            return JKRCOMPRESSION_YAZ0;
     }
     if ((src[0] == 'A') && (src[1] == 'S') && (src[2] == 'R'))
-        return TYPE_ASR;
+        return JKRCOMPRESSION_ASR;
 
-    return TYPE_NONE;
+    return JKRCOMPRESSION_NONE;
 }
 
 JKRDecompCommand::JKRDecompCommand() {

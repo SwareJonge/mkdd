@@ -113,7 +113,7 @@ JKRAramBlock *JKRAram::mainRamToAram(u8 *buf, u32 bufSize, u32 alignedSize, JKRE
     checkOkAddress(buf, bufSize, nullptr, 0);
     if (expandSwitch == Switch_1)
     {
-        expandSwitch = (JKRCheckCompressed_noASR(buf) == TYPE_NONE) ? Switch_0 : Switch_1;
+        expandSwitch = (JKRCheckCompressed_noASR(buf) == JKRCOMPRESSION_NONE) ? Switch_0 : Switch_1;
     }
     if (expandSwitch == Switch_1)
     {
@@ -182,7 +182,7 @@ JKRAramBlock *JKRAram::mainRamToAram(u8 *buf, u32 bufSize, u32 alignedSize, JKRE
 
 u8 *JKRAram::aramToMainRam(u32 address, u8 *buf, u32 p3, JKRExpandSwitch expandSwitch, u32 p5, JKRHeap *heap, int id, u32 *pSize)
 {
-    CompressionMethod compression = TYPE_NONE;
+    int compression = JKRCOMPRESSION_NONE;
     if (pSize != nullptr)
         *pSize = 0;
 
@@ -198,7 +198,7 @@ u8 *JKRAram::aramToMainRam(u32 address, u8 *buf, u32 p3, JKRExpandSwitch expandS
         expandSize = JKRDecompExpandSize(bufPtr);
     }
 
-    if (compression == TYPE_YAZ0) // SZS
+    if (compression == JKRCOMPRESSION_YAZ0) // SZS
     { 
         if (p5 != 0 && p5 < expandSize)
             expandSize = p5;
@@ -214,7 +214,7 @@ u8 *JKRAram::aramToMainRam(u32 address, u8 *buf, u32 p3, JKRExpandSwitch expandS
             return buf;
         }
     }
-    else if (compression == TYPE_YAY0) // SZP
+    else if (compression == JKRCOMPRESSION_YAY0) // SZP
     {
         u8 *szpSpace = (u8 *)JKRAllocFromHeap(heap, p3, -32);
         if (szpSpace == nullptr)

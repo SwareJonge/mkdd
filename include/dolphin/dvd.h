@@ -15,32 +15,11 @@ extern "C"
 {
 #endif // ifdef __cplusplus
 
-#pragma cplusplus on
-    struct DVDPlayer
-    {
-        struct DVDPlayer *_00; // _00
-        struct DVDPlayer *_04; // _04
-        int _08;               // _08
-        int _0C;               // _0C
-        u8 *m_startAddress;    // _10
-        long m_byteCount;      // _14
-        void *m_inputBuffer;   // _18
-        u8 _1C[4];             // _1C
-        u32 _20;               // _20
-        u8 _24[4];             // _24
-        void *_28;             // _28
-        u8 _2C[4];             // _2C
-        u32 _30;               // _30
-        u32 m_fileSize;        // _34
-        void *m_func;          // _38
-    };
-#pragma cplusplus reset
-
     typedef struct DVDCommandBlock DVDCommandBlock;
 
     typedef void (*DVDCBCallback)(s32 result, DVDCommandBlock *block);
 
-    struct DVDCommandBlock
+    typedef struct DVDCommandBlock
     {
         DVDCommandBlock *next;
         DVDCommandBlock *prev;
@@ -54,20 +33,19 @@ extern "C"
         DVDDiskID *id;
         DVDCBCallback callback;
         void *userData;
-    };
+    } DVDCommandBlock;
 
     typedef struct DVDFileInfo DVDFileInfo;
 
     typedef void (*DVDCallback)(s32 result, DVDFileInfo *fileInfo);
 
-    struct DVDFileInfo
+    typedef struct DVDFileInfo
     {
         DVDCommandBlock cb;
         u32 startAddr;
         u32 length; 
         DVDCallback callback;
-        void *file;
-    };
+    } DVDFileInfo;
 
     typedef BOOL DVDDoneReadCallback(long, DVDFileInfo *);
     typedef void DVDState(OSDummyCommandBlock *);

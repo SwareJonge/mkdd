@@ -140,6 +140,13 @@ namespace JGeometry {
             z = src.z;
         }
 
+        void setAll(T val)
+        {
+            x = val;
+            y = val;
+            z = val;
+        }
+
         f32 setLength(f32 length)
         {
             if (length <= TUtilf::epsilon())

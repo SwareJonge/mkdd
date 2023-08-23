@@ -11,7 +11,7 @@ extern "C" {
 
     typedef void (*PADSamplingCallback)();
 
-    struct PADStatus
+    typedef struct PADStatus
     {
         u16 mButton;      // _0
         s8 mStickX;       // _2
@@ -23,7 +23,7 @@ extern "C" {
         u8 mAnalogA;      // _8
         u8 mAnalogB;      // _9
         s8 mCurError;     // Some odd number based on some constant (_10)
-    };
+    } PADStatus;
 
     bool PADReset(u32 mask);
     bool PADRecalibrate(u32 mask);

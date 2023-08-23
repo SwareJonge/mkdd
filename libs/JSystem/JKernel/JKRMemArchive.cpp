@@ -49,7 +49,7 @@ JKRMemArchive::~JKRMemArchive()
     }
 }
 
-#if DEBUG // function is needed to generate certain strings first, however this is not what the original function looks like
+#ifdef DEBUG // function is needed to generate certain strings first, however this is not what the original function looks like
 void JKRMemArchive::fixedInit(s32)
 {
 #line 200
@@ -132,7 +132,7 @@ bool JKRMemArchive::open(void *buffer, u32 bufferSize, JKRMemBreakFlag flag)
     mArchiveData = (u8 *)(((u32)mArcHeader + mArcHeader->header_length) + mArcHeader->file_data_offset);
     mIsOpen = (flag == MBF_1) ? true : false; // mIsOpen might be u8
     mHeap = JKRHeap::findFromRoot(buffer);
-    mCompression = TYPE_NONE;
+    mCompression = JKRCOMPRESSION_NONE;
     return true;
 }
 
@@ -219,17 +219,17 @@ bool JKRMemArchive::removeResource(void *resource)
 
 u32 JKRMemArchive::fetchResource_subroutine(u8 *src, u32 srcLength, u8 *dst, u32 dstLength, int compression)
 {
-    switch ((CompressionMethod)compression) // Maybe change CompressionMethod to defines?
+    switch (compression) // Maybe change CompressionMethod to defines?
     {
-    case TYPE_NONE:
+    case JKRCOMPRESSION_NONE:
         if (srcLength > dstLength)
             srcLength = dstLength;
 
         memcpy(dst, src, srcLength);
         return srcLength;
 
-    case TYPE_YAY0:
-    case TYPE_YAZ0:
+    case JKRCOMPRESSION_YAY0:
+    case JKRCOMPRESSION_YAZ0:
         u32 expendedSize = JKRDecompExpandSize(src);
         srcLength = expendedSize;
         if (expendedSize > dstLength)

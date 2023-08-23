@@ -9,7 +9,16 @@
 
 class JKRAramBlock;
 
-class JKRDvdFile : public JKRFile {
+class JKRDvdFile;
+
+// fabricated
+struct JKRDvdFileInfo : public DVDFileInfo
+{
+    JKRDvdFile *mFile;
+};
+
+class JKRDvdFile : public JKRFile
+{
 public:
     JKRDvdFile();
     JKRDvdFile(s32);
@@ -21,7 +30,7 @@ public:
     void writeDataAsync(void *, s32, s32);
     void check();
     void load(const char *, JKRHeap *);
-    
+
     // Vtable layout
     virtual ~JKRDvdFile();                                           // 08
     virtual bool open(const char *fileName);                         // 0C
@@ -32,28 +41,26 @@ public:
     virtual bool open(s32);                                          // 20
 
     // Inline getters/setters
-    DVDFileInfo * getFileInfo() {
-        return &mDvdFileInfo;
-    }
+    DVDFileInfo *getFileInfo() { return &mDvdFileInfo; }
 
     // Callback functions
     static DVDDoneReadCallback doneProcess;
 
-    // global variables 
+    // global variables
     static JSUList<JKRDvdFile> sDvdList;
+
 public:
-    OSMutex mDvdMutex;               // 1C
-    OSMutex mAramMutex;              // 34
-    JKRAramBlock *mBlock;            // 4C
-    OSThread *mCommandThread;        // 50, alternative name: mAramThread
-    JSUFileInputStream *mFileStream; // 54
-    int _58;                         // 58
-    DVDFileInfo mDvdFileInfo;        // 5C
-    // 98, not sure if there's padding or if DVDFileInfo has an extra field? gets recasted in doneProcess
-    OSMessageQueue mMessageQueue; // 9C
-    OSMessage mMessage;           // BC
-    OSMessageQueue mMessageQueue_C0;
-    OSMessage mMessage_E0;
+    OSMutex mDvdMutex;                // 1C
+    OSMutex mAramMutex;               // 34
+    JKRAramBlock *mBlock;             // 4C
+    OSThread *mCommandThread;         // 50, alternative name: mAramThread
+    JSUFileInputStream *mFileStream;  // 54
+    int _58;                          // 58
+    JKRDvdFileInfo mDvdFileInfo;      // 5C
+    OSMessageQueue mAramMessageQueue; // 9C
+    OSMessage mAramMessage;           // BC
+    OSMessageQueue mDvdMessageQueue;
+    OSMessage mDvdMessage;
 
 private:
     JSULink<JKRDvdFile> mLink; // E4

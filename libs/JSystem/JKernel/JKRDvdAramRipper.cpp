@@ -73,7 +73,7 @@ JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *command)
     
     bool isCmdTrdNull = true;
     JKRDvdFile *dvdFile = command->mDvdFile;
-    CompressionMethod compression = TYPE_NONE;
+    int compression = JKRCOMPRESSION_NONE;
     OSLockMutex(&dvdFile->mAramMutex);
 
     s32 uncompressedSize;
@@ -127,7 +127,7 @@ JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *command)
             }
         }
 
-        if (compression == TYPE_NONE)
+        if (compression == JKRCOMPRESSION_NONE)
         {
             command->mExpandSwitch = Switch_0;
         }
@@ -181,13 +181,13 @@ JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *command)
                 stream, command->_2C, fileSize - command->_3C, command->_3C,
                 command->_44);
         }
-        else if (compression == TYPE_YAY0)
+        else if (compression == JKRCOMPRESSION_YAY0)
         {
             command->mStreamCommand = JKRAramStream::write_StreamToAram_Async(
                 stream, command->_2C, fileSize - command->_3C, command->_3C,
                 command->_44);
         }
-        else if (compression == TYPE_YAZ0)
+        else if (compression == JKRCOMPRESSION_YAZ0)
         {
             command->mStreamCommand = nullptr;
             JKRDecompressFromDVDToAram(command->mDvdFile, command->_2C, fileSize,

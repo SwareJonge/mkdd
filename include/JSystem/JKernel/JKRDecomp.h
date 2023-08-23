@@ -46,7 +46,7 @@ public:
     static void decode(u8 *, u8 *, u32, u32);
     static void decodeSZP(u8 *, u8 *, u32, u32);
     static void decodeSZS(u8 *, u8 *, u32, u32);
-    static CompressionMethod checkCompressed(unsigned char *);
+    static int checkCompressed(u8 *);
 
     static OSMessage sMessageBuffer[8];
     static OSMessageQueue sMessageQueue;
@@ -57,10 +57,11 @@ inline JKRDecomp *JKRCreateDecompManager(s32 priority) {
     return JKRDecomp::create(priority);
 }
 
-inline CompressionMethod JKRCheckCompressed_noASR(u8 *pBuf) {
-    CompressionMethod compression = JKRDecomp::checkCompressed(pBuf);
-    if (compression == TYPE_ASR) // ternary i had before was either incorrect, or was not a ternary at all
-        compression = TYPE_NONE;
+inline int JKRCheckCompressed_noASR(u8 *pBuf)
+{
+    int compression = JKRDecomp::checkCompressed(pBuf);
+    if (compression == JKRCOMPRESSION_ASR) // ternary i had before was either incorrect, or was not a ternary at all
+        compression = JKRCOMPRESSION_NONE;
     return compression;
 }
 

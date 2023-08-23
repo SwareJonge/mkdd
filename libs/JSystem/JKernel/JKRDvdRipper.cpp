@@ -58,7 +58,7 @@ namespace JKRDvdRipper
     {
         s32 fileSizeAligned;
         bool hasAllocated = false;
-        CompressionMethod compression = TYPE_NONE;
+        int compression = JKRCOMPRESSION_NONE;
         u32 expandSize;
         u8 *mem = nullptr;
 
@@ -87,7 +87,7 @@ namespace JKRDvdRipper
         if (pCompression)
             *pCompression = (int)compression;
 
-        if (expandSwitch == Switch_1 && compression != TYPE_NONE)
+        if (expandSwitch == Switch_1 && compression != JKRCOMPRESSION_NONE)
         {
             if (fileSize != 0 && expandSize > fileSize)
             {
@@ -100,7 +100,7 @@ namespace JKRDvdRipper
             }
             if (file == nullptr)
                 return nullptr;
-            if (compression == TYPE_YAY0)
+            if (compression == JKRCOMPRESSION_YAY0)
             {
                 mem = (u8 *)JKRAllocFromHeap((heap), fileSizeAligned, 32);
                 if (mem == nullptr)
@@ -127,9 +127,9 @@ namespace JKRDvdRipper
             if (file == nullptr)
                 return nullptr;
         }
-        if (compression == TYPE_NONE)
+        if (compression == JKRCOMPRESSION_NONE)
         {
-            CompressionMethod compression2 = TYPE_NONE; // maybe for a sub archive?
+            int compression2 = JKRCOMPRESSION_NONE; // maybe for a sub archive?
 
             if (startOffset != 0)
             {
@@ -155,7 +155,7 @@ namespace JKRDvdRipper
 
                 compression2 = JKRCheckCompressed_noASR(bufPtr);
             }
-            if ((compression2 == TYPE_NONE || expandSwitch == Switch_2) || expandSwitch == Switch_0)
+            if ((compression2 == JKRCOMPRESSION_NONE || expandSwitch == Switch_2) || expandSwitch == Switch_0)
             {
                 s32 size = fileSizeAligned - startOffset;
                 if (fileSize != 0 && fileSize < size)
@@ -180,7 +180,7 @@ namespace JKRDvdRipper
                 }
                 return file;
             }
-            else if (compression2 == TYPE_YAZ0)
+            else if (compression2 == JKRCOMPRESSION_YAZ0)
             {
                 JKRDecompressFromDVD(jkrDvdFile, file, fileSizeAligned, fileSize, 0, startOffset, p9);
             }
@@ -191,7 +191,7 @@ namespace JKRDvdRipper
             }
             return file;
         }
-        else if (compression == TYPE_YAY0)
+        else if (compression == JKRCOMPRESSION_YAY0)
         {
             // SZP decompression
             // s32 readoffset = startOffset;
@@ -224,7 +224,7 @@ namespace JKRDvdRipper
             }
             return file;
         }
-        else if (compression == TYPE_YAZ0)
+        else if (compression == JKRCOMPRESSION_YAZ0)
         {
             if (JKRDecompressFromDVD(jkrDvdFile, file, fileSizeAligned, expandSize, startOffset, 0, p9) != 0u)
             {

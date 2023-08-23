@@ -20,11 +20,11 @@ JKRDvdFile::~JKRDvdFile() {
 }
 
 void JKRDvdFile::initiate() {
-    mDvdFileInfo.file = this;
+    mDvdFileInfo.mFile = this;
     OSInitMutex(&mDvdMutex);
     OSInitMutex(&mAramMutex);
-    OSInitMessageQueue(&mMessageQueue_C0, &mMessage_E0, OS_MESSAGE_BLOCK);
-    OSInitMessageQueue(&mMessageQueue, &mMessage, OS_MESSAGE_BLOCK);
+    OSInitMessageQueue(&mDvdMessageQueue, &mDvdMessage, OS_MESSAGE_BLOCK);
+    OSInitMessageQueue(&mAramMessageQueue, &mAramMessage, OS_MESSAGE_BLOCK);
     mThread = nullptr;
     mCommandThread = nullptr;
     _58 = 0;
@@ -96,14 +96,14 @@ s32 JKRDvdFile::writeData(const void * addr,s32 length, s32 offset) {
 OSMessage JKRDvdFile::sync() {
     OSMessage msg;
     OSLockMutex(&mDvdMutex);
-    OSReceiveMessage(&mMessageQueue_C0, &msg, OS_MESSAGE_BLOCK);
+    OSReceiveMessage(&mDvdMessageQueue, &msg, OS_MESSAGE_BLOCK);
     mThread = nullptr;
     OSUnlockMutex(&mDvdMutex);
     return msg;
 }
 
 BOOL JKRDvdFile::doneProcess(s32 msg, DVDFileInfo * fInfo) {
-    JKRDvdFile * dvdFile = reinterpret_cast<JKRDvdFile *>(fInfo->file); // TODO: is this part of DVDFileInfo or JKRDvdFile?
-    return OSSendMessage(&dvdFile->mMessageQueue_C0, (void*)msg, OS_MESSAGE_NOBLOCK);
+    JKRDvdFile *dvdFile = static_cast<JKRDvdFileInfo *>(fInfo)->mFile;
+    return OSSendMessage(&dvdFile->mDvdMessageQueue, (void *)msg, OS_MESSAGE_NOBLOCK);
 }
 

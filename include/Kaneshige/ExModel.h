@@ -54,11 +54,11 @@ public:
     virtual void viewCalc(u32) {}                                     // 0x801a6824
     virtual void setCurrentViewNo(u32);                               // 0x801a5614
 
+    // Inlines    
+    Mtx *getBaseTRMtx() { return &mBaseTRMtx; }
+
     static bool isMtxCombinationOn() { return sMtxCombinationOn; };
-    Mtx *getBaseTRMtx()
-    {
-        return &mBaseTRMtx;
-    }
+    static f32 getInvalidLODBias() { return sExModelInvalidLODBias; }
 
     static bool sClippingOn;           // 0x80414610
     static bool sMtxCombinationOn;     // 0x80416398
@@ -66,6 +66,7 @@ public:
     static f32 sExModelInvalidLODBias; // 0x80419d90
 
 private:
+    // Vtable 0x0
     u8 _4[0x2c - 0x4];
     Mtx mBaseTRMtx;
     Mtx _5c;
