@@ -194,7 +194,7 @@ void JUTVideo::postRetraceProc(u32 p1)
 
 void JUTVideo::setRenderMode(const GXRenderModeObj *newRenderModeObj)
 {
-    if (mRenderModeObj && newRenderModeObj->tvMode != mRenderModeObj->tvMode)
+    if (mRenderModeObj && newRenderModeObj->viTVmode != mRenderModeObj->viTVmode)
     {
         mIsSetBlack = true;
         mSetBlackFrameCount = 4;
