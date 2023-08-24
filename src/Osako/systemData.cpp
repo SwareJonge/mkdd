@@ -268,76 +268,74 @@ const _GXRenderModeObj SystemData::scEuRgb60Int448 = {
 
 const float SystemData::scAspect = (float)(sc3DViewPort.W / sc3DViewPort.H);
 
-#define getHalfSize(size) size / 2 // this shoudn't be needed, instead make a proper macro that already has this calculated?
-
 // 2 Player Splitscreen screen coordinates/size
 const ScreenDataf SystemData::sca3DViewPortDiv2[2] = {
     {
-        sc3DViewPort.X,                                      // 0
-        sc3DViewPort.Y,                                      // 0
-        sc3DViewPort.W,                                      // 608
-        getHalfSize(sc3DViewPort.H) - 1.0f                   // 223
+        sc3DViewPort.X,             // 0
+        sc3DViewPort.Y,             // 0
+        sc3DViewPort.W,             // 608
+        (sc3DViewPort.H / 2) - 1.0f // 223
     },
     {
-        sc3DViewPort.X,                                      // 0
-        sc3DViewPort.Y + getHalfSize(sc3DViewPort.H) + 1.0f, // 225
-        sc3DViewPort.W,                                      // 608
-        getHalfSize(sc3DViewPort.H) - 1.0f                   // 223
+        sc3DViewPort.X,                               // 0
+        sc3DViewPort.Y + (sc3DViewPort.H / 2) + 1.0f, // 225
+        sc3DViewPort.W,                               // 608
+        (sc3DViewPort.H / 2) - 1.0f                   // 223
     }};
 
 const ScreenDatai SystemData::sca3DScissorDiv2[2] = {
     {sc3DScissor.X,
      sc3DScissor.Y,
      sc3DScissor.W,
-     getHalfSize(sc3DScissor.H) - 1},
+     (sc3DScissor.H / 2) - 1},
     {sc3DScissor.X,
-     sc3DScissor.Y + getHalfSize(sc3DScissor.H) + 1,
+     sc3DScissor.Y + (sc3DScissor.H / 2) + 1,
      sc3DScissor.W,
-     getHalfSize(sc3DScissor.H) - 1}};
-const float SystemData::scAspectDiv2 = SystemData::sc3DViewPort.W / (getHalfSize(sc3DViewPort.H) - 1.0f); // 223);
+     (sc3DScissor.H / 2) - 1}};
+const float SystemData::scAspectDiv2 = SystemData::sc3DViewPort.W / ((sc3DViewPort.H / 2) - 1.0f); // 223);
 
 // 4 Player Splitscreen screen coordinates/size
 const ScreenDataf SystemData::sca3DViewPortDiv4[4] = {
     {
         sc3DViewPort.X,                                      // 0
         sc3DViewPort.Y,                                      // 0
-        getHalfSize(sc3DViewPort.W) - 1.0f,                  // 303
-        getHalfSize(sc3DViewPort.H) - 1.0f},                 // 223
+        (sc3DViewPort.W / 2) - 1.0f,                  // 303
+        (sc3DViewPort.H / 2) - 1.0f},                 // 223
     {
-        sc3DViewPort.X + getHalfSize(sc3DViewPort.W) + 1.0f, // 305
+        sc3DViewPort.X + (sc3DViewPort.W / 2) + 1.0f, // 305
         sc3DViewPort.Y,                                      // 0
-        getHalfSize(sc3DViewPort.W) - 1.0f,                  // 303
-        getHalfSize(sc3DViewPort.H) - 1.0f                   // 223
+        (sc3DViewPort.W / 2) - 1.0f,                  // 303
+        (sc3DViewPort.H / 2) - 1.0f                   // 223
     },
     {
         sc3DViewPort.X,                                      // 0
-        sc3DViewPort.Y + getHalfSize(sc3DViewPort.H) + 1.0f, // 225
-        getHalfSize(sc3DViewPort.W) - 1.0f,                  // 303
-        getHalfSize(sc3DViewPort.H) - 1.0f                   // 223
+        sc3DViewPort.Y + (sc3DViewPort.H / 2) + 1.0f, // 225
+        (sc3DViewPort.W / 2) - 1.0f,                  // 303
+        (sc3DViewPort.H / 2) - 1.0f                   // 223
     },
     {
-        sc3DViewPort.X + getHalfSize(sc3DViewPort.W) + 1.0f, // 305
-        sc3DViewPort.Y + getHalfSize(sc3DViewPort.H) + 1.0f, // 225
-        getHalfSize(sc3DViewPort.W) - 1.0f,                  // 303
-        getHalfSize(sc3DViewPort.H) - 1.0f                   // 223
+        sc3DViewPort.X + (sc3DViewPort.W / 2) + 1.0f, // 305
+        sc3DViewPort.Y + (sc3DViewPort.H / 2) + 1.0f, // 225
+        (sc3DViewPort.W / 2) - 1.0f,                  // 303
+        (sc3DViewPort.H / 2) - 1.0f                   // 223
     }};
 
 const ScreenDatai SystemData::sca3DScissorDiv4[4] = {
     {sc3DScissor.X,
      sc3DScissor.Y,
-     getHalfSize(sc3DScissor.W) - 1,
-     getHalfSize(sc3DScissor.H) - 1},
+     (sc3DScissor.W / 2) - 1,
+     (sc3DScissor.H / 2) - 1},
     {sc3DScissor.X + sc3DScissor.W / 2 + 1,
      sc3DScissor.Y,
-     getHalfSize(sc3DScissor.W) - 1,
-     getHalfSize(sc3DScissor.H) - 1},
+     (sc3DScissor.W / 2) - 1,
+     (sc3DScissor.H / 2) - 1},
     {sc3DScissor.X,
-     sc3DScissor.Y + getHalfSize(sc3DScissor.H) + 1,
-     getHalfSize(sc3DScissor.W) - 1,
-     getHalfSize(sc3DScissor.H) - 1},
+     sc3DScissor.Y + (sc3DScissor.H / 2) + 1,
+     (sc3DScissor.W / 2) - 1,
+     (sc3DScissor.H / 2) - 1},
     {sc3DScissor.X + sc3DScissor.W / 2 + 1,
-     sc3DScissor.Y + getHalfSize(sc3DScissor.H) + 1,
-     getHalfSize(sc3DScissor.W) - 1,
-     getHalfSize(sc3DScissor.H) - 1}};
+     sc3DScissor.Y + (sc3DScissor.H / 2) + 1,
+     (sc3DScissor.W / 2) - 1,
+     (sc3DScissor.H / 2) - 1}};
 
 const float SystemData::scAspectSub = SystemData::sc3DViewPortSub.W / SystemData::sc3DViewPortSub.H;

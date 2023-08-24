@@ -1,7 +1,7 @@
 #ifndef _DOLPHIN_OS_H
 #define _DOLPHIN_OS_H
 
-#include "types.h"
+#include <dolphin/types.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -24,7 +24,11 @@ extern "C"
 #define OS_UNCACHED_REGION_PREFIX 0xC000
 #define OS_PHYSICAL_MASK 0x3FFF
 
-u32 __OSBusClock : (0x800000F8);
+#ifdef __MWERKS__
+  u32 __OSBusClock : (0x800000F8);
+#else
+  u32 __OSBusClock = *(u32*)0x800000F8;
+#endif
 
 #define OS_BUS_CLOCK __OSBusClock
 #define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)
@@ -39,28 +43,38 @@ u32 __OSBusClock : (0x800000F8);
 #define OSNanosecondsToTicks(nsec) (((nsec) * (OS_TIMER_CLOCK / 125000)) / 8000)
 #define OSDiffTick(tick1, tick0) ((s32)(tick1) - (s32)(tick0))
 
-  // __ppc_eabi_init
-  extern void __OSPSInit();
-  extern void __OSFPRInit();
-  extern void __OSCacheInit();
+// __ppc_eabi_init
+extern void __OSPSInit();
+extern void __OSFPRInit();
+extern void __OSCacheInit();
 
-  void OSInit();
+void OSInit();
 
-  // OS logging
-  void OSReport(const char *message, ...);
-  void OSPanic(const char *file, int line, const char *message, ...);
+// OS logging
+void OSReport(const char *message, ...);
+void OSPanic(const char *file, int line, const char *message, ...);
 
-  typedef s16 __OSInterrupt;
-  typedef u64 OSTime;
-  typedef u32 OSTick;
+typedef s16 __OSInterrupt;
+typedef u64 OSTime;
+typedef u32 OSTick;
 
-  volatile u16 OS_AI_DMA_ADDR_HI : 0xCC005030;
-  volatile u16 OS_AI_DMA_ADDR_LO : 0xCC005032;
+#ifdef __MWERKS__
+volatile u16 OS_AI_DMA_ADDR_HI : 0xCC005030;
+volatile u16 OS_AI_DMA_ADDR_LO : 0xCC005032;
 
-  volatile u16 OS_ARAM_DMA_BASE : 0xCC005000;
-  volatile u16 OS_ARAM_DMA_ADDR_HI : 0xCC005020;
-  volatile u16 OS_ARAM_DMA_ADDR_LO : 0xCC005022;
-  volatile u16 OS_DI_DMA_ADDR : 0xCC006014;
+volatile u16 OS_ARAM_DMA_BASE : 0xCC005000;
+volatile u16 OS_ARAM_DMA_ADDR_HI : 0xCC005020;
+volatile u16 OS_ARAM_DMA_ADDR_LO : 0xCC005022;
+volatile u16 OS_DI_DMA_ADDR : 0xCC006014;
+#else
+volatile u16 OS_AI_DMA_ADDR_HI = *(volatile u16 *)0xCC005030;
+volatile u16 OS_AI_DMA_ADDR_LO = *(volatile u16 *)0xCC005032;
+
+volatile u16 OS_ARAM_DMA_BASE = *(volatile u16 *)0xCC005000;
+volatile u16 OS_ARAM_DMA_ADDR_HI = *(volatile u16 *)0xCC005020;
+volatile u16 OS_ARAM_DMA_ADDR_LO = *(volatile u16 *)0xCC005022;
+volatile u16 OS_DI_DMA_ADDR = *(volatile u16 *)0xCC006014;
+#endif
 
 #define OSError(...) OSPanic(__FILE__, __LINE__, __VA_ARGS__)
 #define OSErrorLine(...) OSError(__VA_ARGS__)

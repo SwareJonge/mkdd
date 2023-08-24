@@ -29,5 +29,5 @@ public:
 
 private:
     // TODO
-};     // class MoviePlayer
+};
 #endif // MOVIEPLAYER_H

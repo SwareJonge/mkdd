@@ -23,32 +23,32 @@ extern "C"
 
 #define VI_TVMODE(FMT, INT) (((FMT) << 2) + (INT))
 
-    typedef enum
-    {
-        VI_TVMODE_NTSC_INT = VI_TVMODE(VI_NTSC, VI_INTERLACE),
-        VI_TVMODE_NTSC_DS = VI_TVMODE(VI_NTSC, VI_NON_INTERLACE),
-        VI_TVMODE_NTSC_PROG = VI_TVMODE(VI_NTSC, VI_PROGRESSIVE),
+typedef enum
+{
+    VI_TVMODE_NTSC_INT = VI_TVMODE(VI_NTSC, VI_INTERLACE),
+    VI_TVMODE_NTSC_DS = VI_TVMODE(VI_NTSC, VI_NON_INTERLACE),
+    VI_TVMODE_NTSC_PROG = VI_TVMODE(VI_NTSC, VI_PROGRESSIVE),
 
-        VI_TVMODE_PAL_INT = VI_TVMODE(VI_PAL, VI_INTERLACE),
-        VI_TVMODE_PAL_DS = VI_TVMODE(VI_PAL, VI_NON_INTERLACE),
+    VI_TVMODE_PAL_INT = VI_TVMODE(VI_PAL, VI_INTERLACE),
+    VI_TVMODE_PAL_DS = VI_TVMODE(VI_PAL, VI_NON_INTERLACE),
 
-        VI_TVMODE_EURGB60_INT = VI_TVMODE(VI_EURGB60, VI_INTERLACE),
-        VI_TVMODE_EURGB60_DS = VI_TVMODE(VI_EURGB60, VI_NON_INTERLACE),
+    VI_TVMODE_EURGB60_INT = VI_TVMODE(VI_EURGB60, VI_INTERLACE),
+    VI_TVMODE_EURGB60_DS = VI_TVMODE(VI_EURGB60, VI_NON_INTERLACE),
 
-        VI_TVMODE_MPAL_INT = VI_TVMODE(VI_MPAL, VI_INTERLACE),
-        VI_TVMODE_MPAL_DS = VI_TVMODE(VI_MPAL, VI_NON_INTERLACE),
+    VI_TVMODE_MPAL_INT = VI_TVMODE(VI_MPAL, VI_INTERLACE),
+    VI_TVMODE_MPAL_DS = VI_TVMODE(VI_MPAL, VI_NON_INTERLACE),
 
-        VI_TVMODE_DEBUG_INT = VI_TVMODE(VI_DEBUG, VI_INTERLACE),
+    VI_TVMODE_DEBUG_INT = VI_TVMODE(VI_DEBUG, VI_INTERLACE),
 
-        VI_TVMODE_DEBUG_PAL_INT = VI_TVMODE(VI_DEBUG_PAL, VI_INTERLACE),
-        VI_TVMODE_DEBUG_PAL_DS = VI_TVMODE(VI_DEBUG_PAL, VI_NON_INTERLACE)
-    } VITVMode;
+    VI_TVMODE_DEBUG_PAL_INT = VI_TVMODE(VI_DEBUG_PAL, VI_INTERLACE),
+    VI_TVMODE_DEBUG_PAL_DS = VI_TVMODE(VI_DEBUG_PAL, VI_NON_INTERLACE)
+} VITVMode;
 
-    typedef enum
-    {
-        VI_XFBMODE_SF = 0, // progressive scan
-        VI_XFBMODE_DF // interlaced
-    } VIXFBMode;
+typedef enum
+{
+    VI_XFBMODE_SF = 0, // progressive scan
+    VI_XFBMODE_DF // interlaced
+} VIXFBMode;
 
 #define VI_FIELD_ABOVE 1
 #define VI_FIELD_BELOW 0
@@ -66,30 +66,30 @@ extern "C"
 #define VI_MAX_WIDTH_EURGB60 VI_MAX_WIDTH_NTSC
 #define VI_MAX_HEIGHT_EURGB60 VI_MAX_HEIGHT_NTSC
 
-    typedef void (*VIRetraceCallback)(u32 retraceCount);
+typedef void (*VIRetraceCallback)(u32 retraceCount);
 
 #define VIPadFrameBufferWidth(width) ((u16)(((u16)(width) + 15) & ~15))
 
-    void VIInit(void);
-    void VIFlush(void);
-    void *VIGetNextFrameBuffer();
-    void VIWaitForRetrace(void);
+void VIInit(void);
+void VIFlush(void);
+void *VIGetNextFrameBuffer();
+void VIWaitForRetrace(void);
 
-    void VIConfigure(const struct _GXRenderModeObj *rm);
-    void VIConfigurePan(u16 PanPosX, u16 PanPosY, u16 PanSizeX, u16 PanSizeY);
-    void VISetNextFrameBuffer(void *fb);
-    void *VIGetCurrentFrameBuffer();
+void VIConfigure(const struct _GXRenderModeObj *rm);
+void VIConfigurePan(u16 PanPosX, u16 PanPosY, u16 PanSizeX, u16 PanSizeY);
+void VISetNextFrameBuffer(void *fb);
+void *VIGetCurrentFrameBuffer();
 
-    VIRetraceCallback VISetPreRetraceCallback(VIRetraceCallback callback);
-    VIRetraceCallback VISetPostRetraceCallback(VIRetraceCallback callback);
+VIRetraceCallback VISetPreRetraceCallback(VIRetraceCallback callback);
+VIRetraceCallback VISetPostRetraceCallback(VIRetraceCallback callback);
 
-    void VISetBlack(BOOL black);
-    u32 VIGetRetraceCount(void);
-    u32 VIGetNextField(void);
-    u32 VIGetCurrentLine(void);
-    u32 VIGetTvFormat(void);
+void VISetBlack(BOOL black);
+u32 VIGetRetraceCount();
+u32 VIGetNextField();
+u32 VIGetCurrentLine();
+u32 VIGetTvFormat();
 
-    u32 VIGetDTVStatus(void);
+u32 VIGetDTVStatus();
 
 #ifdef __cplusplus
 };

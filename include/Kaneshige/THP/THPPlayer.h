@@ -2,12 +2,12 @@
 #define _THP_THPPLAYER_H
 
 #include <dolphin/dvd.h>
+#include <dolphin/gx.h>
 
 #include "Kaneshige/THP/THPBuffer.h"
 #include "Kaneshige/THP/THPFile.h"
 #include "Kaneshige/THP/THPInfo.h"
 
-#include "types.h"
 
 // TODO: Move to dolphin?
 
@@ -48,6 +48,7 @@ typedef struct THPPlayer
     s32 curAudioTrack;
     s32 curVideoNumber;
     s32 curAudioNumber;
+    THPTextureSet *dispTextureSet;
     THPAudioBuffer *playAudioBuffer;
     THPReadBuffer readBuffer[10];
     THPTextureSet textureSet[3];
@@ -56,10 +57,34 @@ typedef struct THPPlayer
 
 extern THPPlayer ActivePlayer; // size: 0x220, aligned ?
 
+BOOL THPPlayerInit();
+void THPPlayerQuit();
+BOOL THPPlayerOpen(const char *fileName, BOOL onMemory);
+BOOL THPPlayerClose();
+BOOL THPPlayerPlay();
+void THPPlayerStop();
+BOOL THPPlayerPause();
+BOOL THPPlayerPrepare(s32 offset, u8 flag, s32 audioTrack);
+
+BOOL THPPlayerSetBuffer(u8 *data);
+
+u32 THPPlayerCalcNeedMemory();
+
+BOOL THPPlayerGetVideoInfo(void *dst);
+// BOOL THPPlayerGetAudioInfo(void *dst);
+// f32 THPPlayerGetFrameRate();
+BOOL THPPlayerSetVolume(s32 vol, s32 duration);
+
+s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, s32, s32, s32, s32); // TODO, parameter names from dwarf info if it exists
 u32 THPPlayerGetTotalFrame();
+u8 THPPlayerGetState();
+
+void THPPlayerPostDrawDone();
 
 #ifdef __cplusplus
 }
 #endif
+
+void PrepareReady(int msg);
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef _THP_THPBUFFER_H
 #define _THP_THPBUFFER_H
 
-#include "types.h"
+#include <dolphin/types.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -18,8 +18,8 @@ typedef struct THPTextureSet
 
 typedef struct THPAudioBuffer
 {
-    short *buffer;
-    short *curPtr;
+    s16 *buffer;
+    s16 *curPtr;
     u32 validSample;
 } THPAudioBuffer;
 

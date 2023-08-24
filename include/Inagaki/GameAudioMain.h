@@ -14,9 +14,13 @@ namespace GameAudio {
         void setBgmVolume(f32);
         bool isActive();
         void frameWork();
+
+        f32 getMasterVolumeValue();
+        f32 getTHPOptionVolume() { return getMasterVolumeValue() / 2; };
+
         static Main *getAudio() { return msBasic; };
 
-        static Main * msBasic; 
+        static Main *msBasic; 
     };
     namespace Parameters {
         extern u8 getDemoMode();

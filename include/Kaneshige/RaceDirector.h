@@ -13,7 +13,7 @@ public:
     void calc();
     bool checkRaceEnd();
     bool isFrameRenewal() const {
-#if DEBUG
+#ifdef DEBUG
         bool ret = false;
         if (mFrameRenewal && !sForceStopFrame) {
             ret = true;
@@ -25,12 +25,8 @@ public:
     }
     ERacePhase getRacePhase() const { return mRacePhase; };
     bool isRaceEnd() const { return mIsRaceEnd; };
-    int getWaitDemoResult() const {
-        return mWaitDemoResult;
-    }
-    const RaceTime & getMiniGameTime() {
-        return mMinigameTime;
-    }
+    int getWaitDemoResult() const { return mWaitDemoResult; }
+    const RaceTime & getMiniGameTime() { return mMinigameTime; }
     void reset();
 
     static u8 sForceStopFrame;

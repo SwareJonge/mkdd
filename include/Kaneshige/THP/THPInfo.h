@@ -1,7 +1,7 @@
 #ifndef _THP_THPINFO_H
 #define _THP_THPINFO_H
 
-#include "types.h"
+#include <dolphin/types.h>
 
 #ifdef __cplusplus
 extern "C"

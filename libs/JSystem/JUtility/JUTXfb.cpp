@@ -116,5 +116,5 @@ u32 JUTXfb::accumeXfbSize()
     const u16 height = video->getEfbHeight();
     const u16 width = video->getFbWidth();
     const u16 lines = GXGetNumXfbLines(height, GXGetYScaleFactor(height, video->mRenderModeObj->xfbHeight));
-    return (u16)ALIGN_NEXT(width, 0x10) * lines * 2;
+    return (u16)ALIGN_NEXT(width, 16) * lines * 2;
 }

@@ -1,7 +1,7 @@
 #ifndef _DOLPHIN_DVD_H
 #define _DOLPHIN_DVD_H
 
-#include "types.h"
+#include <dolphin/types.h>
 #include <dolphin/os.h>
 
 struct DVDQueue
