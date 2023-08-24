@@ -19,6 +19,8 @@
 #endif
 #include "Kaneshige/KartChecker.h"
 
+#include <JSystem/JAudio/JASFakeMatch2.h>
+
 #if DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
@@ -26,6 +28,8 @@ static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 DUMMY_POINTER(lbl_80377378)
 #pragma pop
 #endif
+
+
 
 int KartChecker::sPlayerKartColorTable[] = {
     0, 1, 2, 3, 4, 5, 6, 7};
@@ -1090,3 +1094,5 @@ bool LapChecker::isUDValid()
 {
     return validUD(mLapUnitDist);
 }
+
+

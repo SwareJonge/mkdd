@@ -2,7 +2,7 @@
 #include "Sato/JPEffectPerformer.h"
 #include "Yamamoto/kartCtrl.h"
 
-#include <ppcdis.h>
+#include "JSystem/JAudio/JASFakeMatch2.h"
 
 void KartStar::Init(int idx)
 {

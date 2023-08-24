@@ -31,7 +31,7 @@ bool JUTPalette::load()
 {
     bool check = mNumColors != 0;
     if (check) {
-        GXLoadTlut(&mTlutObj, (GXTlut)mTlutName);
+        GXLoadTlut(&mTlutObj, mTlutName);
     }
 
     return check;

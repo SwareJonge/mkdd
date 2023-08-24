@@ -566,9 +566,9 @@ src/Bando/EngineSound.cpp:
     .data: [0x80393760, 0x803937b8]
 
 src/Inagaki/GameAudioHostIO.cpp:
-    .text: [0x8011b264, 0x8011b2c4] # 0x8011b478
-    #.ctors: [0x80316194, 0x80316198]
-    #.bss: [0x803c93a8, 0x803c9400]
+    .text: [0x8011b264, 0x8011b478] 
+    .ctors: [0x80316194, 0x80316198]
+    .bss: [0x803c93a8, 0x803c9400]
     .sdata2: [0x80418960, 0x80418968]
 
 src/Kameda/Scene.cpp:
@@ -583,18 +583,18 @@ src/Kaneshige/HioMgr.cpp:
 
 src/Kaneshige/KartInfo.cpp:
     .text: [0x801a8844, 0x801a8f54]
-    #.ctors: [0x80316274, 0x80316278]
+    .ctors: [0x80316274, 0x80316278]
     .rodata: [0x803770f8, 0x80377378]    
     .data: [0x80395bf0, 0x80395c98]
-    #.bss: [0x803ca7c8, 0x803ca7f8]
+    .bss: [0x803ca7c8, 0x803ca7f8]
     .sdata2: [0x80419dc8, 0x80419dd0]
 
 src/Kaneshige/KartChecker.cpp:
-    .text: [0x801a9040, 0x801ac4b4]  
-    #.ctors: [0x80316278, 0x0x8031627c] 
+    .text: [0x801a9040, 0x801ac5a0]  
+    .ctors: [0x80316278, 0x8031627c] 
     .rodata: [0x80377378, 0x80377640] 
     .data: [0x80395c98, 0x80395cd8]
-    #.bss: [0x803ca7f8, 0x803ca828]
+    .bss: [0x803ca7f8, 0x803ca828]
     .sdata: [0x80414618, 0x80414628]
     .sbss: [0x804163a0, 0x804163a8]
     .sdata2: [0x80419dd0, 0x80419e18]
@@ -617,7 +617,7 @@ src/Kaneshige/CenterLine.cpp:
     .text: [0x801b4e4c, 0x801b5098]
 
 src/Kaneshige/RaceInfo.cpp:
-    .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv
+    .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv (0x801b5f78)
     #.ctors: [0x8031628c, 0x80316290]
     .rodata: [0x80378500, 0x80378698]    
     .data: [0x80395e08, 0x80395e30]
@@ -661,11 +661,11 @@ src/Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
 
 src/Osako/system.cpp:
-    .text: [0x801feb10, 0x801ffe80] # exclude __sinit_system_cpp (801fff8c)
-    #.ctors: [0x8031637c, 0x80316380]
+    .text: [0x801feb10, 0x801fff8c]
+    .ctors: [0x8031637c, 0x80316380]
     .rodata: [0x8037d5e8, 0x8037d658]
     .data: [0x8039cac0, 0x8039caf8]
-    #.bss: [0x803d08f0, 0x803d0920]
+    .bss: [0x803d08f0, 0x803d0920]
     .sbss: [0x80416968, 0x80416998]
     .sdata2: [0x8041b688, 0x8041b6e8]
 
@@ -713,19 +713,22 @@ src/Sato/stMath.cpp:
     .sdata2: [0x8041bb60, 0x8041bbb8]
 
 src/Yamamoto/kartvec.cpp:
-    .text: [0x802e5210, 0x802e63fc] # 0x802e64e8
-    #.ctors: [0x803165e4, 0x803165e8]
-    #.bss: [0x803ef020, 0x803ef050]
+    .text: [0x802e5210, 0x802e64e8]
+    .ctors: [0x803165e4, 0x803165e8]
+    .bss: [0x803ef020, 0x803ef050]
     .sdata2: [0x8041d7f8, 0x8041d830]
 
 src/Yamamoto/KartStar.cpp:
-    .text: [0x80307c44, 0x80307dcc] # 0x80307eb8
-    #.ctors: [0x80316628, 0x8031662c]
+    .text: [0x80307c44, 0x80307eb8]
+    .ctors: [0x80316628, 0x8031662c]
+    .bss: [0x803ef350, 0x803ef380]
 
 src/Yamamoto/KartTire.cpp:
-    .text: [0x80307eb8, 0x80307f08] # 0x80307ff4
-    #.ctors: [0x8031662c, 0x80316630]
+    .text: [0x80307eb8, 0x80307ff4]
+    .ctors: [0x8031662c, 0x80316630]
+    .bss: [0x803ef380, 0x803ef3b0]
 
-src/Yamamoto/KartApeendix.cpp:
-    .text: [0x80312154, 0x803121a0] # 0x8031228c
+src/Yamamoto/KartApeendix.cpp: # 0x8031228c
+    .text: [0x80312154, 0x803121a0] #
     #.ctors: [0x80316648, 0x8031664c]
+    #.bss: [0x803ef4d0, 0x803ef500]

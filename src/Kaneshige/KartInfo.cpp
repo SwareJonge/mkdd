@@ -4,6 +4,8 @@
 #include "Osako/kartPad.h"
 #include "Kaneshige/KartInfo.h"
 
+#include "JSystem/JAudio/JASFakeMatch2.h"
+
 const KartInfo::SCharDB KartInfo::cBabyMarioCharDB = {
     BABY_MARIO,
     BABY_LUIGI,

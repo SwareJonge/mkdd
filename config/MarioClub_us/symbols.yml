@@ -18420,6 +18420,20 @@ global:
     0x8041d288: sAnmTable__15TMapObjMareBase
     0x8041d2a8: sAnmTable__16TMapObjMonteBase
     0x8041d3b0: sAnmTable__13TMapObjPakkun
+    # mempool leak
+    0x804159ec: __init__memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
+    0x804159ed: __init__memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
+    0x804159ee: __init__memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
+    0x804159ef: __init__memPool___30JASPoolAllocObject<9JAIStream>
+    0x804159f0: __init__memPool___27JASPoolAllocObject<6JAISeq>
+    0x804159f1: __init__memPool___26JASPoolAllocObject<5JAISe>
+    0x80415a00: __init__memPool___35JASPoolAllocObject<13JAISoundChild>
+    0x80415b24: __init__memPool___35JASPoolAllocObject<13JAUAudible<4>>
+    0x80415b28: __init__memPool___42JASPoolAllocObject<20JAUDopplerAudible<4>>
+    0x80415b29: __init__memPool___42JASPoolAllocObject<20JAUDopplerAudible<2>>
+    0x80415b2a: __init__memPool___42JASPoolAllocObject<20JAUDopplerAudible<1>>
+    0x80415b2b: __init__memPool___35JASPoolAllocObject<13JAUAudible<2>>
+    0x80415b2c: __init__memPool___35JASPoolAllocObject<13JAUAudible<1>>
 src/JKRAram.cpp:
     0x80079ee4: decompSZS_subroutine__FPUcPUc
     0x8007a17c: firstSrcData__Fv

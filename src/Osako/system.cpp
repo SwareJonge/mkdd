@@ -28,6 +28,8 @@
 #include "Osako/systemData.h"
 #include "Osako/SystemRecord.h"
 
+#include "JSystem/JAudio/JASFakeMatch2.h"
+
 // .rodata
 #ifdef DEBUG
 static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};

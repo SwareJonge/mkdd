@@ -15,6 +15,8 @@ DUMMY_POINTER(lbl_80378500)
 #pragma pop
 #endif
 
+// RaceInfo gRaceInfo; enable when common bss works
+
 u16 RaceInfo::sWaitDemoSelector;
 ERaceGpCup RaceInfo::sAwardDebugCup;
 

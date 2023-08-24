@@ -555,3 +555,5 @@ BOOL THPPlayerSetVolume(s32 vol, s32 duration)
     } 
     return FALSE;
 }
+
+#include <JSystem/JAudio/System/JASFakeMatch.h>

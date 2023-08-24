@@ -42,8 +42,8 @@ enum ERaceGpCup
 class RaceInfo
 {
 public:
-    RaceInfo(); // inlined in release version, inline auto?
-    ~RaceInfo();
+    RaceInfo();
+    ~RaceInfo() { }
 
     static u16 sWaitDemoSelector;
     static ERaceGpCup sAwardDebugCup;
@@ -148,7 +148,7 @@ public:
     u16 mHidingConsoles;
     s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
-// unfortunately i can't enable this yet
-// RaceInfo gRaceInfo;
+
+extern RaceInfo gRaceInfo;
 
 #endif // !RACEINFO_H
