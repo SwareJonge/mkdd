@@ -729,6 +729,6 @@ src/Yamamoto/KartTire.cpp:
     .bss: [0x803ef380, 0x803ef3b0]
 
 src/Yamamoto/KartApeendix.cpp: 
-    .text: [0x80312154, 0x803121a0] # 0x8031228c
-    #.ctors: [0x80316648, 0x8031664c]
-    #.bss: [0x803ef4d0, 0x803ef500]
+    .text: [0x80312154, 0x8031228c]
+    .ctors: [0x80316648, 0x8031664c]
+    .bss: [0x803ef4d0, 0x803ef500]
