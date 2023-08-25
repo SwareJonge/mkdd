@@ -148,17 +148,9 @@ void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 x, f32 y, f32 z)
 
 f32 KartMath::lu(Mtx33 m, int *pivot)
 {
-    // TODO: rename everything, get rid of hacky matches, figure out if this is matrix43
-    // release https://decomp.me/scratch/YnEQ9
-    // debug: https://decomp.me/scratch/XSADp
-    // f1: ret
-    // f2: tmp
-    // f3: max_val
-    // f4: 0.0f
-    // f5: row_val
+    // TODO: rename everything, figure out if this is matrix43
     f32 tmp[3];
     f32 rowMaxValue;
-    f32 scaleFactor;
     f32 rowValue;
     f32 ret = 0.0f;
 
@@ -212,14 +204,13 @@ f32 KartMath::lu(Mtx33 m, int *pivot)
         rowValue = m[row][i];
         ret *= rowValue;
 
-        if (0.0f == rowValue)
+        if (rowValue == 0.0f)
             break;
 
         for (j = i; ++j < 3;)
         {
             int prow = pivot[j];
-            scaleFactor = m[prow][i] / rowValue;
-            m[prow][i] = scaleFactor;
+            f32 scaleFactor = m[prow][i] /= rowValue;
 
             for (k = i; ++k < 3;)
             {
