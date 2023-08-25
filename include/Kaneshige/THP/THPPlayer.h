@@ -55,7 +55,7 @@ typedef struct THPPlayer
     THPAudioBuffer audioBuffer[6];
 } THPPlayer; // Size: 0x1f0
 
-extern THPPlayer ActivePlayer; // size: 0x220, aligned ?
+extern THPPlayer ActivePlayer;
 
 BOOL THPPlayerInit();
 void THPPlayerQuit();
