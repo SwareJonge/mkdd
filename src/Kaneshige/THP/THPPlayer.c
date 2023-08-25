@@ -338,8 +338,8 @@ static void InitAllMessageQueue() {
 }
 
 static BOOL WaitUntilPrepare() {
-    OSMessage msg;
-    OSReceiveMessage(&PrepareReadyQueue, &msg, 1);
+    s32 msg;
+    OSReceiveMessage(&PrepareReadyQueue, (OSMessage*)&msg, 1);
     return msg ? TRUE : FALSE;
 }
 
@@ -414,7 +414,7 @@ BOOL THPPlayerPrepare(s32 frame, u8 flag, s32 audioTrack)
         if (ActivePlayer.onMemory == 0)
             ReadThreadStart();
 
-        if (WaitUntilPrepare() == FALSE)
+        if (!WaitUntilPrepare())
             return FALSE;
 
         ActivePlayer.state = 1;
@@ -678,7 +678,7 @@ static void PushUsedTextureSet(OSMessage msg)
 
 static OSMessage PopUsedTextureSet()
 {
-    OSMessage msg;
+    OSMessage msg; // TODO: correct type
     if(OSReceiveMessage(&UsedTextureSetQueue, &msg, OS_MESSAGE_NOBLOCK) == 1) {
         return msg;
     }

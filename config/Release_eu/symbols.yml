@@ -806,6 +806,10 @@ global:
   0x80091270: JASReport__FPCce
   # JASTaskThread.cpp
   0x80091498: __ct__13JASTaskThreadFiiUl 
+  # JASAiCtrl.cpp
+  0x80092544: registerMixCallback__9JASDriverFPFl_Ps10JASMixMode
+  # JASDriverIF.cpp
+  0x8009472c: getOutputMode__9JASDriverFv
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
   # JASInstRand.cpp
@@ -2037,6 +2041,7 @@ global:
   0x8011479c: initRaceSound__Q29GameAudio4MainFv
   0x801148a8: frameWork__Q29GameAudio4MainFv
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
+  0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
@@ -2369,7 +2374,71 @@ global:
   # MoviePlayer.cpp
   0x801b0314: drawDone__11MoviePlayerFv
   0x803d5ab0: sPlayer__11MoviePlayer 
+  # THPDraw.c
+  0x801b0458: THPGXRestore
+  0x801b0570: THPGXYuv2RgbSetup
+  0x801b0a28: THPGXYuv2RgbDraw
 
+  # THPPlayer.c
+  0x801b2558: audioCallback__Fl
+  0x801b25fc: THPPlayerInit
+  0x801b26c0: THPPlayerQuit
+  0x801b26f4: THPPlayerOpen
+  0x801b2a18: THPPlayerClose
+  0x801b2a6c: THPPlayerCalcNeedMemory
+  0x801b2b1c: THPPlayerSetBuffer
+  0x801b2c94: PrepareReady__Fi
+  0x801b2cc4: THPPlayerPrepare
+  0x801b3010: THPPlayerPlay
+  0x801b3070: THPPlayerStop
+  0x801b3130: THPPlayerPause
+  0x801b316c: PlayControl__FUl
+  0x801b34fc: ProperTimingForStart__Fv
+  0x801b3550: ProperTimingForGettingNextFrame__Fv
+  0x801b3680: THPPlayerDrawCurrentFrame
+  0x801b3758: THPPlayerGetVideoInfo
+  0x801b37a0: THPPlayerGetTotalFrame
+  0x801b37c4: THPPlayerGetState
+  0x801b37d4: PushUsedTextureSet__FPv
+  0x801b3804: PopUsedTextureSet__Fv
+  0x801b3848: THPPlayerPostDrawDone
+  0x801b38b4: MixAudio__FPsUl
+  0x801b3a9c: THPPlayerSetVolume
+  0x803bb5a8: ActivePlayer
+  # THPVideoDecode.c
+  0x801b3c88: CreateVideoDecodeThread
+  0x801b3d60: VideoDecodeThreadStart
+  0x801b3d94: VideoDecodeThreadCancel 
+  0x801b3dd0: VideoDecoder__FPv
+  0x801b3e98: VideoDecoderForOnMemory__FPv
+  0x801b3fc8: VideoDecode__FP13THPReadBuffer
+  0x801b4104: PopFreeTextureSet
+  0x801b4138: PushFreeTextureSet
+  0x801b4168: PopDecodedTextureSet
+  0x801b41ac: PushDecodedTextureSet
+  # THPRead.c
+  0x801b41dc: CreateReadThread
+  0x801b427c: ReadThreadStart
+  0x801b42b0: ReadThreadCancel
+  0x801b42ec: Reader__FPv
+  0x801b43cc: PopReadedBuffer
+  0x801b4400: PushReadedBuffer
+  0x801b4430: PopFreeReadBuffer
+  0x801b4464: PushFreeReadBuffer
+  0x801b4494: PopReadedBuffer2
+  0x801b44c8: PushReadedBuffer2
+  # THPAudioDecode.c
+  0x801b44f8: CreateAudioDecodeThread
+  0x801b45cc: AudioDecodeThreadStart
+  0x801b4600: AudioDecodeThreadCancel
+  0x801b463c: AudioDecoder__FPv
+  0x801b4664: AudioDecoderForOnMemory__FPv
+  0x801b4704: AudioDecode__FP13THPReadBuffer
+  0x801b47d0: PopFreeAudioBuffer
+  0x801b4804: PushFreeAudioBuffer
+  0x801b4834: PopDecodedAudioBuffer
+  0x801b4878: PushDecodedAudioBuffer
+  
   # Kawano
   # accessory.cpp
   0x801c86c8: ptr__12AccessoryMgrFv
