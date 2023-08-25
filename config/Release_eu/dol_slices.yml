@@ -609,6 +609,11 @@ src/Kaneshige/THP/THPPlayer.c:
     .sbss: [0x803d5ab8, 0x803d5ad0]
     .sdata2: [0x803d8ea0, 0x803d8ec0]
 
+src/Kaneshige/THP/THPRead.c:
+    .text: [0x801b41dc, 0x801b44f8]
+    .bss: [0x8038d118, 0x8038e508]
+    .sbss: [0x803d5ad8, 0x803d5ae0]
+
 src/Osako/clock.cpp:
     .text: [0x801cbe60, 0x801cbef8]
     .sbss: [0x803d5b30, 0x803d5b40]

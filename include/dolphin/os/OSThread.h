@@ -8,75 +8,80 @@ extern "C"
 
 #include <dolphin/os/OSContext.h>
 
-    typedef struct OSThread OSThread;
-    typedef struct OSThreadQueue OSThreadQueue;
-    typedef struct OSThreadLink OSThreadLink;
-    typedef s32 OSPriority; //  0 highest, 31 lowest
+#define OS_THREAD_SPECIFIC_MAX 2
 
-    typedef struct OSMutex OSMutex;
-    typedef struct OSMutexQueue OSMutexQueue;
-    typedef struct OSMutexLink OSMutexLink;
-    typedef struct OSCond OSCond;
+typedef struct OSThread OSThread;
+typedef struct OSThreadQueue OSThreadQueue;
+typedef struct OSThreadLink OSThreadLink;
+typedef s32 OSPriority; //  0 highest, 31 lowest
 
-    typedef void (*OSIdleFunction)(void *param);
+typedef struct OSMutex OSMutex;
+typedef struct OSMutexQueue OSMutexQueue;
+typedef struct OSMutexLink OSMutexLink;
+typedef struct OSCond OSCond;
 
-    struct OSThreadQueue
-    {
-        OSThread *head;
-        OSThread *tail;
-    };
+typedef void (*OSIdleFunction)(void *param);
+typedef void *(*OSThreadFunc)(void *arg);
 
-    struct OSThreadLink
-    {
-        OSThread *next;
-        OSThread *prev;
-    };
+struct OSThreadQueue
+{
+    OSThread *head;
+    OSThread *tail;
+};
 
-    struct OSMutexQueue
-    {
-        OSMutex *head;
-        OSMutex *tail;
-    };
+struct OSThreadLink
+{
+    OSThread *next;
+    OSThread *prev;
+};
 
-    struct OSMutexLink
-    {
-        OSMutex *next;
-        OSMutex *prev;
-    };
+struct OSMutexQueue
+{
+    OSMutex *head;
+    OSMutex *tail;
+};
 
-    struct OSThread
-    {
-        OSContext context; // register context
+struct OSMutexLink
+{
+    OSMutex *next;
+    OSMutex *prev;
+};
 
-        u16 state;           // OS_THREAD_STATE_*
-        u16 attr;            // OS_THREAD_ATTR_*
-        s32 suspend;         // suspended if the count is greater than zero
-        OSPriority priority; // effective scheduling priority
-        OSPriority base;     // base scheduling priority
-        void *val;           // exit value
+struct OSThread
+{
+    OSContext context; // register context
 
-        OSThreadQueue *queue; // queue thread is on
-        OSThreadLink link;    // queue link
+    u16 state;           // OS_THREAD_STATE_*
+    u16 attr;            // OS_THREAD_ATTR_*
+    s32 suspend;         // suspended if the count is greater than zero
+    OSPriority priority; // effective scheduling priority
+    OSPriority base;     // base scheduling priority
+    void *val;           // exit value
 
-        OSThreadQueue queueJoin; // list of threads waiting for termination (join)
+    OSThreadQueue *queue; // queue thread is on
+    OSThreadLink link;    // queue link
 
-        OSMutex *mutex;          // mutex trying to lock
-        OSMutexQueue queueMutex; // list of mutexes owned
+    OSThreadQueue queueJoin; // list of threads waiting for termination (join)
 
-        OSThreadLink linkActive; // link of all threads for debugging
+    OSMutex *mutex;          // mutex trying to lock
+    OSMutexQueue queueMutex; // list of mutexes owned
 
-        u8 *stackBase; // the thread's designated stack (high address)
-        u32 *stackEnd; // last word of stack (low address)
-    };
+    OSThreadLink linkActive; // link of all threads for debugging
 
-    // Thread states
-    enum OS_THREAD_STATE
-    {
-        OS_THREAD_STATE_READY = 1,
-        OS_THREAD_STATE_RUNNING = 2,
-        OS_THREAD_STATE_WAITING = 4,
-        OS_THREAD_STATE_MORIBUND = 8
-    };
+    u8 *stackBase; // the thread's designated stack (high address)
+    u32 *stackEnd; // last word of stack (low address)
+    s32 error;
+    void *specific[OS_THREAD_SPECIFIC_MAX];
+};
+
+// Thread states
+enum OS_THREAD_STATE
+{
+    OS_THREAD_STATE_READY = 1,
+    OS_THREAD_STATE_RUNNING = 2,
+    OS_THREAD_STATE_WAITING = 4,
+    OS_THREAD_STATE_MORIBUND = 8
+};
 
 // Thread priorities
 #define OS_PRIORITY_MIN 0  // highest
@@ -96,13 +101,8 @@ BOOL OSIsThreadTerminated(OSThread *thread);
 s32 OSDisableScheduler(void);
 s32 OSEnableScheduler(void);
 void OSYieldThread(void);
-BOOL OSCreateThread(OSThread *thread,
-                        void *(*func)(void *),
-                        void *param,
-                        void *stack,
-                        u32 stackSize,
-                        OSPriority priority,
-                        u16 attr);
+BOOL OSCreateThread(OSThread *thread, OSThreadFunc func, void *funcArg,
+                    void *stackBegin, u32 stackSize, OSPriority prio, u16 flags);
 void OSExitThread(void *val);
 void OSCancelThread(OSThread *thread);
 BOOL OSJoinThread(OSThread *thread, void **val);
@@ -115,9 +115,9 @@ void OSSleepThread(OSThreadQueue *queue);
 void OSWakeupThread(OSThreadQueue *queue);
 
 OSThread *OSSetIdleFunction(OSIdleFunction idleFunction,
-                                void *param,
-                                void *stack,
-                                u32 stackSize);
+                            void *param,
+                            void *stack,
+                            u32 stackSize);
 OSThread *OSGetIdleFunction(void);
 
 long OSCheckActiveThreads(void);

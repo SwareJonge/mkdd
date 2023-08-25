@@ -71,7 +71,7 @@ void JKRThread::setCommon_mesgQueue(JKRHeap* heap, int msgCount)
 	mMesgBuffer = (OSMessage*)JKRHeap::alloc(mMessageCount << 2, 0, heap);
     JUT_ASSERT(mMesgBuffer);
 
-	OSInitMessageQueue(&mMessageQueue, (void**)mMesgBuffer, mMessageCount);
+	OSInitMessageQueue(&mMessageQueue, mMesgBuffer, mMessageCount);
 	JKRThread::sThreadList.append(&mThreadListLink);
 	mCurrentHeap = nullptr;
 	mCurrentHeapError = nullptr;
@@ -85,8 +85,8 @@ BOOL JKRThread::setCommon_heapSpecified(JKRHeap* heap, unsigned long stackSize, 
 	mStackMemory     = JKRHeap::alloc(mStackSize, 0x20, mHeap);
     JUT_ASSERT(mStackMemory);
 
-    // maybe a custom struct is used here, investigate someday
-	mThreadRecord    = (OSThread*)JKRHeap::alloc(sizeof(OSThread) + 8, 0x20, mHeap);
+#line 167
+    mThreadRecord    = (OSThread*)JKRHeap::alloc(sizeof(OSThread), 0x20, mHeap);
     JUT_ASSERT(mThreadRecord);
 	return OSCreateThread(mThreadRecord, &JKRThread::start, this, (void*)((u32)mStackMemory + mStackSize), mStackSize, threadPriority, 1);
 }

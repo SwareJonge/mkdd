@@ -12,7 +12,12 @@ BOOL CreateReadThread(OSPriority prio);
 void ReadThreadStart();
 void ReadThreadCancel();
 
-void PushFreeReadBuffer(OSMessage msg);
+void *PopReadedBuffer();
+void *PopFreeReadBuffer();
+void *PopReadedBuffer2();
+void *PushReadedBuffer(void *buffer);
+void PushFreeReadBuffer(void *buffer);
+void PushReadedBuffer2(void *buffer);
 
 #ifdef __cplusplus
 }
