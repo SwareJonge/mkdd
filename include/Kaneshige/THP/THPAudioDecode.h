@@ -11,6 +11,8 @@ extern "C"
 BOOL CreateAudioDecodeThread(OSPriority, void *);
 void AudioDecodeThreadStart();
 void AudioDecodeThreadCancel();
+void PushFreeAudioBuffer(OSMessage msg);
+void *PopDecodedAudioBuffer(OSMessage msg);
 
 #ifdef __cplusplus
 }

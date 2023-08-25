@@ -632,15 +632,15 @@ src/Kaneshige/JugemPoint.cpp:
 src/Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
-#src/Kaneshige/THP/THPPlayer.c:
-    #.text: [0x801da760, 0x801dbec4] # 0x801dbf80
-    ##.ctors: [0x80316328, 0x8031632c]
-    #.rodata: [0x80379b90, 0x80379bb0]
-    #.data: [0x803982a0, 0x803983a0]
-    #.bss: [0x803cb060, 0x803cc280] # 803cc2a8
-    ##.bss: [0x803fc2d8, 0x803fc4f8]
-    #.sbss: [0x80416850, 0x80416868]
-    #.sdata2: [0x8041a690, 0x8041a6c0]
+src/Kaneshige/THP/THPPlayer.c:
+    .text: [0x801da760, 0x801dbf80]
+    .ctors: [0x80316328, 0x8031632c]
+    .rodata: [0x80379b90, 0x80379bb0]
+    .data: [0x803982a0, 0x803983a0]
+    .bss: [0x803cb060, 0x803cc2a8] 
+    #.bss: [0x803fc2d8, 0x803fc4f8]
+    .sbss: [0x80416850, 0x80416868]
+    .sdata2: [0x8041a690, 0x8041a6c0]
 
 src/Osako/clock.cpp:
     .text: [0x801f6e04, 0x801f6e9c]

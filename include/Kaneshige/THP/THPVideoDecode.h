@@ -11,7 +11,8 @@ extern "C"
 BOOL CreateVideoDecodeThread(OSPriority, void *);
 void VideoDecodeThreadStart();
 void VideoDecodeThreadCancel();
-
+void PushFreeTextureSet(OSMessage msg);
+void *PopDecodedTextureSet(OSMessage msg);
 #ifdef __cplusplus
 }
 #endif

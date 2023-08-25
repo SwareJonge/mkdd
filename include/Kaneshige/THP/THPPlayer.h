@@ -36,7 +36,7 @@ typedef struct THPPlayer
     s32 initOffset;
     s32 initReadSize;
     s32 initReadFrame;
-    u32 fieldType;
+    u32 curField;
     s64 retaceCount;
     s32 prevCount;
     s32 curCount;

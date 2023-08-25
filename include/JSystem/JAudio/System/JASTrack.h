@@ -1,5 +1,5 @@
-#ifndef JAUDIO_TCHANNELMGR_H
-#define JAUDIO_TCHANNELMGR_H
+#ifndef JAUDIO_JASTRACK_H
+#define JAUDIO_JASTRACK_H
 
 #include "types.h"
 #include "JSystem/JAudio/System/JASSoundParams.h"

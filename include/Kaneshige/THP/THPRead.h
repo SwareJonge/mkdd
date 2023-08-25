@@ -12,6 +12,8 @@ BOOL CreateReadThread(OSPriority prio);
 void ReadThreadStart();
 void ReadThreadCancel();
 
+void PushFreeReadBuffer(OSMessage msg);
+
 #ifdef __cplusplus
 }
 #endif
