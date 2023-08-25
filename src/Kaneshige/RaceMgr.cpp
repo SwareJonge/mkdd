@@ -58,6 +58,8 @@ Also, make headers for all libraries itself?
 #include "Shiraiwa/JugemRodSignal.h"
 #include "Yamamoto/kartCamera.h"
 
+#include <JSystem/JAudio/JASFakeMatch2.h>
+
 RaceMgr *RaceMgr::sRaceManager;
 short RaceMgr::sForceTotalLapNum;
 short RaceMgr::sDispFrameCounter;

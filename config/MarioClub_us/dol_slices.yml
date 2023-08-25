@@ -582,7 +582,7 @@ src/Kaneshige/HioMgr.cpp:
     .data: [0x80395bb8, 0x80395bc8]
 
 src/Kaneshige/KartInfo.cpp:
-    .text: [0x801a8844, 0x801a8f54]
+    .text: [0x801a8844, 0x801a9040]
     .ctors: [0x80316274, 0x80316278]
     .rodata: [0x803770f8, 0x80377378]    
     .data: [0x80395bf0, 0x80395c98]
@@ -728,7 +728,7 @@ src/Yamamoto/KartTire.cpp:
     .ctors: [0x8031662c, 0x80316630]
     .bss: [0x803ef380, 0x803ef3b0]
 
-src/Yamamoto/KartApeendix.cpp: # 0x8031228c
-    .text: [0x80312154, 0x803121a0] #
+src/Yamamoto/KartApeendix.cpp: 
+    .text: [0x80312154, 0x803121a0] # 0x8031228c
     #.ctors: [0x80316648, 0x8031664c]
     #.bss: [0x803ef4d0, 0x803ef500]

@@ -1,7 +1,7 @@
 #ifndef JAUDIO_JASFAKEMATCH_H
 #define JAUDIO_JASFAKEMATCH_H
 
-#if defined(MATCHING) && defined(DEBUG) // TODO: fix release
+#ifdef MATCHING
 #include "JSystem/JAudio/System/JASMemPool.h"
 #include "JSystem/JAudio/System/JASTrack.h"
 

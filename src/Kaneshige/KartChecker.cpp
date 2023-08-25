@@ -14,14 +14,14 @@
 #include "Sato/ItemObjMgr.h"
 #include "Yamamoto/kartCtrl.h"
 
-#if DEBUG
+#ifdef DEBUG
 #include "Kaneshige/KartChkUsrPage.h"
 #endif
 #include "Kaneshige/KartChecker.h"
 
 #include <JSystem/JAudio/JASFakeMatch2.h>
 
-#if DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
+#ifdef DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
 static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on

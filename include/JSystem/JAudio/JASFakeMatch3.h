@@ -1,7 +1,7 @@
 #ifndef JAUDIO_JASFAKEMATCH3_H
 #define JAUDIO_JASFAKEMATCH3_H
 
-#if defined(MATCHING) && defined(DEBUG) // TODO: fix release
+#ifdef MATCHING
 #include "JSystem/JAudio/System/JASMemPool.h"
 #include "JSystem/JAudio/System/JASTrack.h"
 class JAIStream;

@@ -755,6 +755,13 @@ global:
   0x80388140: __vt__10JFWDisplay
   0x803d4c40: sManager__10JFWDisplay
   # JAudio
+  # JAiAudience
+  0x80089780: __dt__18JASMemPool<5JAISe>Fv
+  0x800897dc: __dt__19JASMemPool<6JAISeq>Fv
+  0x80089838: __dt__22JASMemPool<9JAIStream>Fv
+  0x80089894: __dt__38JASMemPool_MultiThreaded<10JASChannel>Fv
+  0x800898f0: __dt__35JASMemPool_MultiThreaded<8JASTrack>Fv
+  0x8008994c: __dt__50JASMemPool_MultiThreaded<Q28JASTrack11TChannelMgr>Fv
   # JASCalc.cpp
   0x8008f938: imixcopy__7JASCalcFPCsPCsPsUl
   0x8008fa48: bcopy__7JASCalcFPCvPvUl
@@ -766,7 +773,35 @@ global:
   0x800905c4: getThreadPointer__6JASDvdFv
   0x800905cc: createThread__6JASDvdFliUl
   # JASHeapCtrl.cpp
+  0x80090c84: __ct__17JASGenericMemPoolFv
+  0x80090c9c: __dt__17JASGenericMemPoolFv
+  0x80090d14: newMemPool__17JASGenericMemPoolFUli
+  0x80090da4: alloc__17JASGenericMemPoolFUl
+  0x80090df0: free__17JASGenericMemPoolFPvUl
   0x803d4ca8: JASDram
+  # oops we forgor extern
+  #sInstance__33JASGlobalInstance<12JAIStreamMgr>
+  #sInstance__29JASGlobalInstance<9JAISeqMgr>
+  #sInstance__28JASGlobalInstance<8JAISeMgr>
+  #sInstance__36JASGlobalInstance<15JAISoundStarter>
+  #sInstance__40JASGlobalInstance<19JASDefaultBankTable>
+  # common bss
+  0x803b9d0c: memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
+  0x803b9d6c: memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
+  0x803b9d7c: memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
+  0x803b9d8c: memPool___30JASPoolAllocObject<9JAIStream>
+  0x803b9d9c: memPool___27JASPoolAllocObject<6JAISeq>
+  0x803b9dac: memPool___26JASPoolAllocObject<5JAISe>
+  0x803b9dbc: memPool___35JASPoolAllocObject<13JAISoundChild>
+  0x803d4c90: __init__memPool___35JASPoolAllocObject<13JAISoundChild>
+  0x803d4c7c: __init__memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
+  0x803d4c7d: __init__memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
+  0x803d4c7e: __init__memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
+  0x803d4c7f: __init__memPool___30JASPoolAllocObject<9JAIStream>
+  0x803d4c80: __init__memPool___27JASPoolAllocObject<6JAISeq>
+  0x803d4c81: __init__memPool___26JASPoolAllocObject<5JAISe>
+  # JAISeq.cpp
+  0x8008c978: __dt__27JASMemPool<13JAISoundChild>Fv
   # JASReport.cpp
   0x80091270: JASReport__FPCce
   # JASTaskThread.cpp
