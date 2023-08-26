@@ -4,15 +4,15 @@
 #include "ppcdis.h"
 
 #define STACK_SIZE 4096
-#define MESSAGE_COUNT 10
+#define BUFFER_COUNT 10
 
 static OSMessageQueue FreeReadBufferQueue;
 static OSMessageQueue ReadedBufferQueue;
 static OSMessageQueue ReadedBufferQueue2;
 
-static OSMessage FreeReadBufferMessage[MESSAGE_COUNT];
-static OSMessage ReadedBufferMessage[MESSAGE_COUNT];
-static OSMessage ReadedBufferMessage2[MESSAGE_COUNT];
+static OSMessage FreeReadBufferMessage[BUFFER_COUNT];
+static OSMessage ReadedBufferMessage[BUFFER_COUNT];
+static OSMessage ReadedBufferMessage2[BUFFER_COUNT];
 
 static OSThread ReadThread;
 static u8 ReadThreadStack[STACK_SIZE];
@@ -26,9 +26,9 @@ BOOL CreateReadThread(OSPriority prio)
     if (OSCreateThread(&ReadThread, Reader, NULL, ReadThreadStack + STACK_SIZE, STACK_SIZE, prio, 1) == FALSE)
         return FALSE;
 
-    OSInitMessageQueue(&FreeReadBufferQueue, FreeReadBufferMessage, MESSAGE_COUNT);
-    OSInitMessageQueue(&ReadedBufferQueue, ReadedBufferMessage, MESSAGE_COUNT);
-    OSInitMessageQueue(&ReadedBufferQueue2, ReadedBufferMessage2, MESSAGE_COUNT);
+    OSInitMessageQueue(&FreeReadBufferQueue, FreeReadBufferMessage, BUFFER_COUNT);
+    OSInitMessageQueue(&ReadedBufferQueue, ReadedBufferMessage, BUFFER_COUNT);
+    OSInitMessageQueue(&ReadedBufferQueue2, ReadedBufferMessage2, BUFFER_COUNT);
     ReadThreadCreated = TRUE;
 
     return TRUE;

@@ -7,8 +7,8 @@
 #include <JSystem/JUtility/JUTDbg.h>
 
 #include "Inagaki/GameAudioMain.h"
+#include "Kaneshige/Movie/THPDraw.h"
 #include "Kaneshige/THP/THPPlayer.h"
-#include "Kaneshige/THP/THPDraw.h"
 #include "Kaneshige/THP/THPRead.h"
 #include "Kaneshige/THP/THPAudioDecode.h"
 #include "Kaneshige/THP/THPVideoDecode.h"

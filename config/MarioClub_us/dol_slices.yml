@@ -629,6 +629,10 @@ src/Kaneshige/RaceInfo.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x801ba2a4, 0x801ba2b4]
 
+src/Kaneshige/Movie/THPDraw.c:
+    .text: [0x801d85dc, 0x801d8de8]
+    .sdata2: [0x8041a620, 0x8041a648]
+
 src/Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
 
@@ -641,6 +645,11 @@ src/Kaneshige/THP/THPPlayer.c:
     #.bss: [0x803fc2d8, 0x803fc4f8]
     .sbss: [0x80416850, 0x80416868]
     .sdata2: [0x8041a690, 0x8041a6c0]
+
+#src/Kaneshige/THP/THPVideoDecode.c:
+    #.text: [0x801dbf80, 0x801dc4d4]
+    #.bss: [0x803cc2a8, 0x803cd618]
+    #.sbss: [0x80416868, 0x80416870]
 
 src/Kaneshige/THP/THPRead.c:
     .text: [0x801dc4d4, 0x801dc7f0]

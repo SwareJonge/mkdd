@@ -598,6 +598,10 @@ src/Kaneshige/RaceInfo.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x80190324, 0x80190334]
 
+src/Kaneshige/Movie/THPDraw.c:
+    .text: [0x801b0458, 0x801b0c04]
+    .sdata2: [0x803d8e28, 0x803d8e50]
+
 src/Kaneshige/RaceTime.cpp:
     .text: [0x801b1d9c, 0x801b1df0]
 
