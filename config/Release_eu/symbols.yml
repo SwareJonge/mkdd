@@ -472,13 +472,18 @@ global:
   0x80017e84: getLength__20JSUMemoryInputStreamCFv
   0x80017e8c: getPosition__20JSUMemoryInputStreamCFv
   0x80347ff0: __vt__20JSUMemoryInputStream
-  # JSUFileInputStream.cpp
+  # JSUFileStream.cpp
   0x80017e94: __ct__18JSUFileInputStreamFP7JKRFile
   0x80017ed8: readData__18JSUFileInputStreamFPvl
   0x80017fa4: seekPos__18JSUFileInputStreamFl17JSUStreamSeekFrom
   0x8001807c: getLength__18JSUFileInputStreamCFv
   0x800180ac: getPosition__18JSUFileInputStreamCFv
   0x80348018: __vt__18JSUFileInputStream
+
+  # JGadget
+  # hashcode.cpp
+  0x800180b4: getHashCode__7JGadgetFPCc
+  
   # JUtility
   # JUTAssert.cpp
   0x800182a0: create__12JUTAssertionFv

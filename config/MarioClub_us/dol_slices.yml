@@ -115,6 +115,9 @@ libs/JSystem/JUtility/JUTXfb.cpp:
 libs/JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
     .rodata: [0x80362160, 0x803662c0]
 
+libs/JSystem/JGadget/hashcode.cpp:
+    .text: [0x8007853c, 0x800785a4]
+
 libs/JSystem/JSupport/JSUInputStream.cpp:
     .text: [0x80078780, 0x80078b2c]
     .rodata: [0x80366778, 0x80366798]
