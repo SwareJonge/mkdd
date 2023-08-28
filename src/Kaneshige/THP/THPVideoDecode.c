@@ -230,7 +230,7 @@ void *PopDecodedTextureSet(s32 flags)
     return NULL;
 }
 
-void PushDecodedTextureSet(void *text)
+void PushDecodedTextureSet(void *tex)
 {
-    OSSendMessage(&DecodedTextureSetQueue, text, OS_MESSAGE_BLOCK);
+    OSSendMessage(&DecodedTextureSetQueue, tex, OS_MESSAGE_BLOCK);
 }
