@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 BOOL THPInit();
+s32 THPVideoDecode(void *file, void *tileY, void *tileU, void *tileV, void *work);
 
 #ifdef __cplusplus
 }

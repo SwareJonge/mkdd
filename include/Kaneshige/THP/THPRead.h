@@ -12,9 +12,10 @@ BOOL CreateReadThread(OSPriority prio);
 void ReadThreadStart();
 void ReadThreadCancel();
 
+// TODO: figure out if these returns THPBuffer * instead(DWARF info pls)
 void *PopReadedBuffer();
 void *PopFreeReadBuffer();
-void *PopReadedBuffer2();
+void *PopReadedBuffer2(); 
 void *PushReadedBuffer(void *buffer);
 void PushFreeReadBuffer(void *buffer);
 void PushReadedBuffer2(void *buffer);

@@ -616,6 +616,11 @@ src/Kaneshige/THP/THPPlayer.c:
     .sbss: [0x803d5ab8, 0x803d5ad0]
     .sdata2: [0x803d8ea0, 0x803d8ec0]
 
+src/Kaneshige/THP/THPVideoDecode.c:
+    .text: [0x801b3c88, 0x801b41dc]
+    .bss: [0x8038bda8, 0x8038d118]
+    .sbss: [0x803d5ad0, 0x803d5ad8]
+
 src/Kaneshige/THP/THPRead.c:
     .text: [0x801b41dc, 0x801b44f8]
     .bss: [0x8038d118, 0x8038e508]
