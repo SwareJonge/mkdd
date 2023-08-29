@@ -36,7 +36,8 @@ JKRHeap::JKRHeap(void *data, u32 size, JKRHeap *heap, bool errorFlag) : JKRDispo
     }
     mErrorFlag = errorFlag;
     if (mErrorFlag == true && mErrorHandler == nullptr)
-    mErrorHandler = JKRDefaultMemoryErrorRoutine;
+        mErrorHandler = JKRDefaultMemoryErrorRoutine;
+    
     mIsDebugFill = sDefaultFillFlag;
     mFillCheckFlag = sDefaultFillCheckFlag;
     mInitFlag = false;
@@ -318,7 +319,8 @@ void JKRDefaultMemoryErrorRoutine(void * heap, u32 size, int alignment) {
 void JKRHeap::checkMemoryFilled(u8 * address, u32 size, u8 p3)
 {
     for (int i = 0; i < size; i++) {
-        JUT_WARNING_F(999, p3 == address[i], "**** checkMemoryFilled:\n address %08x size %x:\n (%08x = %02x)\n", address, size, address[i], address[i]);
+#line 999
+        JUT_WARNING_F( p3 == address[i], "**** checkMemoryFilled:\n address %08x size %x:\n (%08x = %02x)\n", address, size, address[i], address[i]);
     }
 }
 
@@ -423,7 +425,8 @@ void JKRHeap::state_register(JKRHeap::TState * p, u32) const {
 }
 
 bool JKRHeap::state_compare(const JKRHeap::TState &r1, const JKRHeap::TState &r2) const {
-    JUT_ASSERT(1141, r1.getHeap() == r2.getHeap());
+#line 1141
+    JUT_ASSERT(r1.getHeap() == r2.getHeap());
     return (r1.getCheckCode() == r2.getCheckCode());
 }
 

@@ -2101,6 +2101,8 @@ global:
   0x8017b238: getLightOffsetPosition__6CourseFPQ29JGeometry8TVec3<f>
   0x8017b25c: getAmbientColor__6CourseFPQ28JUtility6TColor
   0x8017b9c4: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f> 
+  0x8017bd4c: check__Q26Course4AreaFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x8017bea0: getRate__Q26Course4AreaFRCQ29JGeometry8TVec3<f>
 
   # CrsData.cpp
   0x8017c3a8: __ct__7CrsDataFPQ27CrsData10SColHeaderPQ27CrsData10SOblHeader
@@ -2264,6 +2266,16 @@ global:
   0x80189bb8: clrAllUserTimeLabel__8SysDebugFv
   0x80355ae0: __vt__12SysDbUsrPage
   0x803d5630: sManager__8SysDebug
+
+  # CrsArea.cpp
+  0x80189d68: __ct__7CrsAreaFv
+  0x80189d98: reset__7CrsAreaFv
+  0x80189db8: search__7CrsAreaFUcRCQ29JGeometry8TVec3<f>
+  0x80189ee4: getCameraID__7CrsAreaCFv
+  0x80189f0c: getRoofPosition__7CrsAreaFPQ29JGeometry8TVec3<f>
+  0x80189fe0: getEchoRate__7CrsAreaFv
+  0x8018a000: getLightParamID__7CrsAreaFv
+  0x8018a01c: getShadowID__7CrsAreaCFv
 
   # LightMgr.cpp
   0x8018a144: __ct__8LightObjFPCcUl

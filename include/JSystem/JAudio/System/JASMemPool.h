@@ -29,7 +29,6 @@ struct JASPoolAllocObject
         OSRestoreInterrupts(inter);
     }
     static JASMemPool<T> memPool_;
-    static bool __init__memPool_;
 };
 
 template <typename T>

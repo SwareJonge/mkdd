@@ -612,6 +612,13 @@ src/Kaneshige/KartChecker.cpp:
     #.sbss: [0x804163a8, 0x804163b0]
     #.sdata2: [0x80419e18, 0x80419f88]
 
+src/Kaneshige/CrsArea.cpp:
+    .text: [0x801b35f8, 0x801b3bdc]
+    .ctors: [0x80316280, 0x80316284]
+    .rodata: [0x80378448, 0x80378490]
+    .bss: [0x803ca858, 0x803ca888]
+    .sdata2: [0x80419ff8, 0x8041a008]
+
 src/Kaneshige/ScrnShot.cpp:
     .text: [0x801b4764, 0x801b4860]
     .sbss: [0x804163c0, 0x804163c8]

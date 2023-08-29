@@ -12,6 +12,32 @@ class Course; // Forward Declaration
 class CrsData
 {
 public:
+    struct SArea
+    {
+        JGeometry::TVec3f pos;
+        JGeometry::TVec3f scale;
+        JGeometry::TVec3<int> rot;
+        u8 shape; 
+        u8 kind;
+        s16 cameraId;
+        u32 feather1;
+        u32 feather2;
+        s16 _30;
+        s16 _32;
+        s16 shadowId;
+        s16 lightParamId;
+    };
+
+    struct SCheckPoint
+    {
+        JGeometry::TVec3f cpStart;
+        JGeometry::TVec3f cpEnd;
+        u8 mShortcutID;
+        u8 _0x19;
+        bool mRevSearchEnable;
+        u8 _0x1b;
+    };
+
     struct SColHeader
     {
         char signature[4];

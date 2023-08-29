@@ -170,7 +170,7 @@ public:
         return mHeapTree.getParent()->getObject();
     }
 
-    const JSUTree<JKRHeap> & getHeapTree() {
+    const JSUTree<JKRHeap> &getHeapTree() {
         return mHeapTree;
     }
 

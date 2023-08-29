@@ -475,7 +475,8 @@ bool RaceMgr::hideConsole(u32 cnsNo)
 // its probably something close to this, currently it has a small size mismatch(not that it matters)
 bool RaceMgr::isHiddingConsole(u32 viewNo)
 {
-    JUT_MINMAX_ASSERT(3969, 0, viewNo, mRaceInfo->getConsoleNumber());
+#line 3969
+    JUT_MINMAX_ASSERT(0, viewNo, mRaceInfo->getConsoleNumber());
     return mRaceInfo->isHiddingConsole(viewNo);
 }
 

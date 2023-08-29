@@ -1,6 +1,9 @@
 #ifndef JAUDIO_JASFAKEMATCH_H
 #define JAUDIO_JASFAKEMATCH_H
 
+// NOTE it's not really a fakematch since this is probably what they've done, however with seperate headers it's easier to control what TU gets it
+// should've been declared in a .cpp file
+
 #ifdef MATCHING
 #include "JSystem/JAudio/System/JASMemPool.h"
 #include "JSystem/JAudio/System/JASTrack.h"
