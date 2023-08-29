@@ -18,8 +18,8 @@ DatingMode KartLocale::msDatingMode = MM_DD_YYYY; // worst format
 #else                                             // REGION_EU
 Country KartLocale::msCountry = UNITED_KINGDOM;
 Region KartLocale::msRegion = EU;
-VideoMode KartLocale::msVideoMode = PAL;
-VideoFrameMode KartLocale::msVideoFrameMode = PAL50;
+VideoMode KartLocale::msVideoMode = VideoMode_PAL;
+VideoFrameMode KartLocale::msVideoFrameMode = VideoFrameMode_50Hz;
 DatingMode KartLocale::msDatingMode = DD_MM_YYYY;
 #endif
 
@@ -36,45 +36,45 @@ void KartLocale::localize() {
     switch (getCountry()) {
     case JAPAN:
         msLanguage = JAPANESE;
-        msSpeedUnit = KMH;
-        msVideoMode = NTSC;
-        msVideoFrameMode = EURGB60;
+        msSpeedUnit = SpeedUnit_Metric;
+        msVideoMode = VideoMode_NTSC;
+        msVideoFrameMode = VideoFrameMode_60Hz;
         return;
     case UNITED_STATES:
         msLanguage = ENGLISH;
-        msSpeedUnit = MPH;
-        msVideoMode = NTSC;
-        msVideoFrameMode = EURGB60;
+        msSpeedUnit = SpeedUnit_Impractical;
+        msVideoMode = VideoMode_NTSC;
+        msVideoFrameMode = VideoFrameMode_60Hz;
         return;
     case UNITED_KINGDOM:
         msLanguage = ENGLISH;
-        msSpeedUnit = MPH;
-        msVideoMode = PAL;
-        msVideoFrameMode = PAL50;
+        msSpeedUnit = SpeedUnit_Impractical;
+        msVideoMode = VideoMode_PAL;
+        msVideoFrameMode = VideoFrameMode_50Hz;
         return;
     case GERMANY:
         msLanguage = GERMAN;
-        msSpeedUnit = KMH;
-        msVideoMode = PAL;
-        msVideoFrameMode = PAL50;
+        msSpeedUnit = SpeedUnit_Metric;
+        msVideoMode = VideoMode_PAL;
+        msVideoFrameMode = VideoFrameMode_50Hz;
         return;
     case FRANCE:
         msLanguage = FRENCH;
-        msSpeedUnit = KMH;
-        msVideoMode = PAL;
-        msVideoFrameMode = PAL50;
+        msSpeedUnit = SpeedUnit_Metric;
+        msVideoMode = VideoMode_PAL;
+        msVideoFrameMode = VideoFrameMode_50Hz;
         return;
     case ITALY:
         msLanguage = ITALIAN;
-        msSpeedUnit = KMH;
-        msVideoMode = PAL;
-        msVideoFrameMode = PAL50;
+        msSpeedUnit = SpeedUnit_Metric;
+        msVideoMode = VideoMode_PAL;
+        msVideoFrameMode = VideoFrameMode_50Hz;
         return;
     case SPAIN:
         msLanguage = SPANISH;
-        msSpeedUnit = KMH;
-        msVideoMode = PAL;
-        msVideoFrameMode = PAL50;
+        msSpeedUnit = SpeedUnit_Metric;
+        msVideoMode = VideoMode_PAL;
+        msVideoFrameMode = VideoFrameMode_50Hz;
         return;
     }
 }

@@ -34,19 +34,22 @@ enum Region {
     EU = 2
 };
 
-enum SpeedUnit {
-    KMH = 0, // correct
-    MPH = 1 // incorrect
+enum SpeedUnit
+{
+    SpeedUnit_Metric = 0,
+    SpeedUnit_Impractical = 1
 };
 
-enum VideoFrameMode {
-    EURGB60 = 0,
-    PAL50 = 1
+enum VideoFrameMode
+{
+    VideoFrameMode_60Hz = 0,
+    VideoFrameMode_50Hz = 1
 };
 
-enum VideoMode {
-    NTSC = 0,
-    PAL = 1
+enum VideoMode
+{
+    VideoMode_NTSC = 0,
+    VideoMode_PAL = 1
 };
 
 #ifdef VIDEO_PAL

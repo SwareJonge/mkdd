@@ -7,8 +7,8 @@
 #include "JSystem/JKernel/JKRAram.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "Inagaki/GameAudioMain.h"
-#include "Kaneshige/MovieApp.h"
-#include "Kaneshige/MoviePlayer.h"
+#include "Kaneshige/Movie/MovieApp.h"
+#include "Kaneshige/Movie/MoviePlayer.h"
 #include "Kaneshige/ScrnShot.h"
 #include "Kaneshige/SysDebug.h"
 #include "Osako/AppMgr.h"
@@ -212,12 +212,12 @@ namespace System {
         {
         case NORMAL_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448Df);
-            KartLocale::setVideoFrameMode(EURGB60);
+            KartLocale::setVideoFrameMode(VideoFrameMode_60Hz);
             msRenderMode = ENHANCED_RMODE;
             break;
         case MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scEuRgb60Int448);
-            KartLocale::setVideoFrameMode(EURGB60);
+            KartLocale::setVideoFrameMode(VideoFrameMode_60Hz);
             msRenderMode = ENHANCED_MOVIE_RMODE;
             break;
         }
@@ -229,12 +229,12 @@ namespace System {
         {
         case ENHANCED_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448Df);
-            KartLocale::setVideoFrameMode(PAL50);
+            KartLocale::setVideoFrameMode(VideoFrameMode_50Hz);
             msRenderMode = NORMAL_RMODE;
             break;
         case ENHANCED_MOVIE_RMODE:
             JUTVideo::getManager()->setRenderMode(&SystemData::scPalInt448);
-            KartLocale::setVideoFrameMode(PAL50);
+            KartLocale::setVideoFrameMode(VideoFrameMode_50Hz);
             msRenderMode = MOVIE_RMODE;
             break;
 

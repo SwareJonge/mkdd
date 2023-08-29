@@ -2377,8 +2377,24 @@ global:
   # MovieApp.cpp
   0x801af940: create__8MovieAppFv
   # MoviePlayer.cpp
+  0x801b0084: create__11MoviePlayerFP7JKRHeap
+  0x801b00e0: __ct__11MoviePlayerF9VideoMode14VideoFrameModeP7JKRHeap
+  0x801b01d4: __dt__11MoviePlayerFv
+  0x801b024c: reset__11MoviePlayerFv
+  0x801b0290: calc__11MoviePlayerFv
+  0x801b02b0: draw__11MoviePlayerFv
   0x801b0314: drawDone__11MoviePlayerFv
-  0x803d5ab0: sPlayer__11MoviePlayer 
+  0x801b0334: quit__11MoviePlayerFv
+  0x801b0370: play__11MoviePlayerFv
+  0x801b03b0: replay__11MoviePlayerFv
+  0x801b03dc: pause__11MoviePlayerFv
+  0x801b0408: audioFadeOut__11MoviePlayerFi
+  0x801b0438: getFrameNumber__11MoviePlayerFv
+  0x803d3a70: cMovieFileNameTable__11MoviePlayer
+  0x803d3a74: cMovie50FileNameTable__11MoviePlayer
+  0x803d5ab0: sPlayer__11MoviePlayer
+  0x803d5ab4: sMovieSelector__11MoviePlayer
+
   # THPDraw.c
   0x801b0458: THPGXRestore
   0x801b0570: THPGXYuv2RgbSetup

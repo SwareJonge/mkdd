@@ -601,6 +601,13 @@ src/Kaneshige/RaceInfo.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x80190324, 0x80190334]
 
+src/Kaneshige/Movie/MoviePlayer.cpp:
+    .text: [0x801b0084, 0x801b0458]
+    .rodata: [0x8033dd98, 0x8033ddc0]
+    .data: [0x80357fb8, 0x80357fc8]
+    .sdata: [0x803d3a70, 0x803d3a78]
+    .sbss: [0x803d5ab0, 0x803d5ab8]
+
 src/Kaneshige/Movie/THPDraw.c:
     .text: [0x801b0458, 0x801b0c04]
     .sdata2: [0x803d8e28, 0x803d8e50]
