@@ -2113,6 +2113,7 @@ global:
   # ExModel.cpp
   0x80180f38: __ct__12ExMdlDataMgrFb
   0x803d5618: sMtxCombinationOn__7ExModel
+  0x803d86d8: sExModelInvalidLODBias__7ExModel
   # KartLoader.cpp
   0x80182e1c: __ct__10KartLoaderFiPC8KartInfoUsbb
   0x80183048: reset__10KartLoaderFv
@@ -2347,6 +2348,11 @@ global:
   0x8018fefc: __ct__13TexLODControlFi
   0x8018ff4c: __dt__13TexLODControlFv
   0x8018ffac: getLODBias__13TexLODControlFQ213TexLODControl10ELODBiasID
+
+  0x80355d68: __vt__13TexLODControl
+  0x803d5658: sManager__13TexLODControl
+  0x803d88e8: cGeoObjLBTable__13TexLODControl
+  0x803d88f0: cCharLBTable__13TexLODControl  
 
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv

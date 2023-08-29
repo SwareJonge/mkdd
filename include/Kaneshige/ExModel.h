@@ -1,9 +1,12 @@
 #ifndef EXMODEL_H
 #define EXMODEL_H
 
-#include <dolphin/mtx.h>
+#include "JSystem/JGeometry/Vec.h"
+#include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
+#include "JSystem/JUtility/TColor.h"
+
 #include "types.h"
 
 // TODO: JSystem

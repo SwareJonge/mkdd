@@ -604,6 +604,14 @@ src/Kaneshige/RaceInfo.cpp:
     .rodata: [0x8033d518, 0x8033d558]
     .sbss: [0x803d5648, 0x803d5650]
 
+src/Kaneshige/TexLODControl.cpp:
+    .text: [0x8018fefc, 0x80190134]
+    .ctors: [0x802d869c, 0x802d86a0]
+    .data: [0x80355d68, 0x80355d78]
+    .bss: [0x8038a4d0, 0x8038a500]
+    .sbss: [0x803d5658, 0x803d5660]
+    .sdata2: [0x803d88e0, 0x803d88f8]
+
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x80190324, 0x80190334]
 
