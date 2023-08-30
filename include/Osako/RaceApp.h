@@ -5,7 +5,9 @@
 #include "Osako/PadRecorder.h"
 #include "types.h"
 
-class RaceApp : GameApp
+class RaceMgr;
+
+class RaceApp : public GameApp
 {
 public:
     static RaceApp *create();
@@ -22,8 +24,9 @@ public:
 
     static RaceApp* mspRaceApp;
 private:
-    u8 _0C[0x28 - 0xc];
+    RaceMgr *mRaceMgr;
+    u8 _10[0x28 - 0x10];
     PadRecorder * mPadRecorder;
-};
+}; // Size: 0x54
 
 #endif

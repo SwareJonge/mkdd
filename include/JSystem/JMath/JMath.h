@@ -172,7 +172,7 @@ namespace JMath
     class TRandom_fast_
     {
     public:
-        TRandom_fast_(u32 num);
+        TRandom_fast_(u32 num); // maybe has a default ctor?
         u32 get()
         {
             seed = (seed * 0x19660d) + 0x3c6ef35f;

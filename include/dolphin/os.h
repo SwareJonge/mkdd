@@ -224,15 +224,15 @@ volatile u16 OS_DI_DMA_ADDR = *(volatile u16 *)0xCC006014;
   BOOL OSRestoreInterrupts(BOOL);
   BOOL OSEnableInterrupts();
 
-  uint OSGetSoundMode();
-  void OSSetSoundMode(uint);
+  u32 OSGetSoundMode();
+  void OSSetSoundMode(u32);
   void OSSetSaveRegion(int, int);
   int OSGetProgressiveMode();
 
   typedef struct OSFunctionInfo
   {
     void *m_function;
-    uint _04;
+    u32 _04;
     u8 _08[8];
   } OSFunctionInfo;
 

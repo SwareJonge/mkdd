@@ -14,7 +14,8 @@ namespace GameAudio {
         void setBgmVolume(f32);
         bool isActive();
         void frameWork();
-
+        void setMasterVolume(s8);
+        void setOutputMode(u32);
         f32 getMasterVolumeValue();
         f32 getTHPOptionVolume() { return getMasterVolumeValue() / 2; };
 

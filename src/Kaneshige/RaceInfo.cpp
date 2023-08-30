@@ -7,7 +7,7 @@
 
 // i assume this data is from some include related to audio (edit: unlikely since release doesn't seem to have it as often)
 // also thanks seeky
-#if DEBUG
+#ifdef DEBUG
 static const float lbl_80378500[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
@@ -15,7 +15,9 @@ DUMMY_POINTER(lbl_80378500)
 #pragma pop
 #endif
 
-// RaceInfo gRaceInfo; enable when common bss works
+RaceInfo gRaceInfo;
+
+#include "JSystem/JAudio/JASFakeMatch2.h"
 
 u16 RaceInfo::sWaitDemoSelector;
 ERaceGpCup RaceInfo::sAwardDebugCup;

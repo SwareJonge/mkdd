@@ -11,8 +11,8 @@ void TARecord::setName(const char * name) {
 }
 
 void TARecord::setStatus(u8 charId1, u8 charId2, u8 kartId, u8 courseId) {
-    mCharID1 = charId1;
-    mCharID2 = charId2;
+    mCharIDs[0] = charId1;
+    mCharIDs[1] = charId2;
     mKartID = kartId;
     mCourseID = courseId;
 }
@@ -22,8 +22,8 @@ void TARecord::setRaceTime(RaceTime raceTime) {
 }
 
 void TARecord::set(u8 charId1, u8 charId2, u8 kartId, u8 courseId, const char *name, RaceTime raceTime) {
-    mCharID1 = charId1;
-    mCharID2 = charId2;
+    mCharIDs[0] = charId1;
+    mCharIDs[1] = charId2;
     mKartID = kartId;
     mCourseID = courseId;
     strncpy(mName, name, sizeof(mName));

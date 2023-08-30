@@ -600,8 +600,10 @@ src/Kaneshige/Centerline.cpp:
     .text: [0x8018b004, 0x8018b298]
 
 src/Kaneshige/RaceInfo.cpp:
-    .text: [0x8018b298, 0x8018b954] # exclude sinit and dtor
+    .text: [0x8018b298, 0x8018bb3c]
+    .ctors: [0x802d868c, 0x802d8690]
     .rodata: [0x8033d518, 0x8033d558]
+    .bss: [0x8038a400, 0x8038a440]
     .sbss: [0x803d5648, 0x803d5650]
 
 src/Kaneshige/TexLODControl.cpp:
@@ -697,6 +699,13 @@ src/Osako/systemData.cpp:
 
 src/Osako/TARecord.cpp:
     .text: [0x801db44c, 0x801db504]
+
+src/Osako/SystemRecord.cpp:
+    .text: [0x801db504, 0x801dbecc]
+    .ctors: [0x802d87a8, 0x802d87ac]
+    .data: [0x8035ca08, 0x8035cbb8]
+    .bss: [0x803a3e80, 0x803a3eb0]
+    .sdata2: [0x803d9ad8, 0x803d9ae0]
 
 src/Osako/GPRecord.cpp:
     .text: [0x801dbecc, 0x801dc010]

@@ -3,8 +3,8 @@
 #include "Osako/GPRecord.h"
 
 GPRecord::GPRecord() {
-    _0 = 0;
-    _1 = 0;
+    _mCharIDs[0] = 0;
+    _mCharIDs[1] = 0;
     _4 = 0;
     _6 = 0;
 }
@@ -13,9 +13,10 @@ void GPRecord::setName(const char * name) {
     strncpy(mName, name, sizeof(mName));
 }
 
-void GPRecord::set(u8 p1, u8 p2, u8 p3, u8 level, u8 p5, u8 p6, bool p7, const char * name, RaceTime raceTime) {
-    _0 = p1;
-    _1 = p2;
+void GPRecord::set(u8 charId1, u8 charId2, u8 p3, u8 level, u8 p5, u8 p6, bool p7, const char *name, RaceTime raceTime)
+{
+    _mCharIDs[0] = charId1;
+    _mCharIDs[1] = charId2;
     _2 = p3;
     mLevel = level;
     _4 = p5;

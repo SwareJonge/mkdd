@@ -146,7 +146,6 @@ public:
     RaceTime mLapTimes[8][10];
     int mWaitDemoResult; 
     u16 mHidingConsoles;
-    s8 _0x29e[0x2e0 - 0x29e]; // unknown
 };
 
 extern RaceInfo gRaceInfo;

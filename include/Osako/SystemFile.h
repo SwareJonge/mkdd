@@ -25,6 +25,14 @@ class SystemFile : public SaveFile {
     virtual long getLength();              // 4C
     virtual long getOffset();              // 50
     virtual ~SystemFile();                 // 54
+
+    // vtable 0x0
+    // aligned buffer?
+    u8 _4[0x20 - 0x4];
+    u8 _20[3072];
+    u8 _c20[512];
+    u8 _e20[3072];
+    u8 _1a20[512];
 };
 
 extern SystemFile gSystemFile;

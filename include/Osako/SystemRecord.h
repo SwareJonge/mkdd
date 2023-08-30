@@ -1,33 +1,56 @@
 #ifndef SYSTEMRECORD_H
 #define SYSTEMRECORD_H
 
-#include "Kaneshige/Course/Course.h"
+#include "kartEnums.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Osako/GPRecord.h"
 #include "Osako/TARecord.h"
 #include "types.h"
 
-struct SystemRecord {
+struct SystemRecord
+{
     SystemRecord() {}
-    void applyAudioSetting();
-    TARecord * getBestLap(ECourseID);
-    TARecord * getTARecord(ECourseID, int);
+    void init();
+    void crypt(u16 seed);
 
-    u32 mOptions;
+    void applyAudioSetting();
+
+    TARecord *getTARecord(ECourseID, int rank);
+    TARecord *getBestLap(ECourseID crsID);
+    GPRecord *getGPRecord(ERaceGpCup cup, ERaceLevel level);
+
+    int rankTARecord(ECourseID crsId, TARecord &record);
+
+    void setBestLap(ECourseID crsID, TARecord &newBestLap);
+    void setTARecord(ECourseID crsID, int rank, TARecord &newRecord); // Unused
+    void setGPRecord(ERaceGpCup cup, ERaceLevel level, GPRecord &newRecord);
+
+    static int convCourseID(ECourseID crsId);
+    static int convKartID(EKartID kartId);
+    static bool tstSecretKart(EKartID kartId, u16 flags);
+
+    void setDefaultName(const char *name);
+
+    /*union
+    {
+    struct
+    {*/
+    s32 mOptions;
     u16 mUnlock1;
     u16 mUnlock2;
-    u8 mVolume;
+    s8 mVolume;
     u8 mItemSlotType;
     u8 mVsLapNum;
-    char mDefaultName[4]; // AAA
-    GPRecord mGPRecordData[4][5]; // stores all levels(50cc to mirror), and a top 5 of that
+    char mDefaultName[4];            // AAA
+    GPRecord mGPRecordData[5][4];    // stores all levels(50cc to mirror) of all 5 cups
     TARecord mBestFinalTimes[16][5]; // course idx, rank
     TARecord mBestLapTimes[16];
-    u32 _5d0;
-    // not sure how many padding bytes there actually are, will become clear when SystemFile is decompiled
-    u8 _5d4[0x614 - 0x5d4];
+    u32 mTimesFetched;
+    /*};
+    u32 data[0x185];
+    };*/
 };
 
-extern SystemRecord gSystemRecord; // bss size: 0x614
+extern SystemRecord gSystemRecord; // bss size: 0x614(bss bug)
 
 #endif

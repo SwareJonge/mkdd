@@ -6,9 +6,15 @@
 
 struct TARecord {
     TARecord() {
+        reset();
+    }
+    // fabricated
+    void reset()
+    {
         mKartID = 0xff;
         mTime.reset();
     }
+
     TARecord(u8, u8, u8, u8);
     void setName(const char *);
     void setStatus(u8, u8, u8, u8);
@@ -19,14 +25,13 @@ struct TARecord {
     void set(u8, u8, u8, u8, const char *, RaceTime);
 
     // Inline
-    bool isValid() { return ((mKartID < 0x15) && 
-    ((mCharID1 != 0) && mCharID1 < 0x15) && 
-    ((mCharID2 != 0) && mCharID2 < 0x15)); }
+    bool isValid() { return ((mKartID < 0x15) &&
+                             ((mCharIDs[0] != 0) && mCharIDs[0] < 0x15) &&
+                             ((mCharIDs[1] != 0) && mCharIDs[1] < 0x15)); }
     RaceTime getRaceTime() const { return mTime; }
 
     // perhaps these are signed
-    u8 mCharID1;
-    u8 mCharID2;
+    u8 mCharIDs[2];
     u8 mKartID;
     u8 mCourseID;
     char mName[4];

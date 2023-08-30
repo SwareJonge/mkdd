@@ -2046,7 +2046,9 @@ global:
   0x8011479c: initRaceSound__Q29GameAudio4MainFv
   0x801148a8: frameWork__Q29GameAudio4MainFv
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
+  0x801167b0: setMasterVolume__Q29GameAudio4MainFSc
   0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
+  0x80116b40: setOutputMode__Q29GameAudio4MainFUl
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
@@ -2328,7 +2330,9 @@ global:
   0x8018b848: shuffleRandomSeed__8RaceInfoFv  
   0x8018b89c: shuffleStartNo__8RaceInfoFv
   0x8018b93c: hideConsole__8RaceInfoFUl
-  0x803d5648: sWaitDemoSelector__8RaceInfo
+  0x8018bae0: __dt__8RaceInfoFv
+  0x803bb27c: gRaceInfo
+  0x803d5648: sWaitDemoSelector__8RaceInfo  
 
   # RaceLight.cpp
   0x8018bb3c: __ct__14RaceSceneLightFPCcUlRCQ28JUtility6TColorRCQ29JGeometry8TVec3<f>
@@ -2669,6 +2673,8 @@ global:
   0x803d9a90: scSystemHeapSize__10SystemData
   0x803d9a94: scAudioHeapSize__10SystemData
   0x803d9a98: scAudioAramSize__10SystemData
+  # SystemFile.cpp
+  0x801d59b0: __ct__8TARecordFv
   # NetGameMgr.cpp
   0x801d66a8: create__10NetGameMgrFP7JKRHeap
   0x801d7c98: framework__10NetGameMgrFv
@@ -2702,9 +2708,18 @@ global:
   0x801db4c4: setRaceTime__8TARecordF8RaceTime
   0x801db4d0: less__8TARecordFRC8TARecord
   # SystemRecord.cpp
+  0x801db504: init__12SystemRecordFv
   0x801db630: applyAudioSetting__12SystemRecordFv
+  0x801db6fc: crypt__12SystemRecordFUs
+  0x801db778: convCourseID__12SystemRecordF9ECourseID
   0x801db824: getTARecord__12SystemRecordF9ECourseIDi
+  0x801db8e8: rankTARecord__12SystemRecordF9ECourseIDR8TARecord
   0x801dba60: getBestLap__12SystemRecordF9ECourseID
+  0x801dbb1c: setBestLap__12SystemRecordF9ECourseIDR8TARecord
+  0x801dbbfc: getGPRecord__12SystemRecordF10ERaceGpCup10ERaceLevel
+  0x801dbc18: setGPRecord__12SystemRecordF10ERaceGpCup10ERaceLevelR8GPRecord
+  0x801dbc74: tstSecretKart__12SystemRecordF7EKartIDUs
+  0x801dbd2c: setDefaultName__12SystemRecordFPCc
   0x803c5fe0: gSystemRecord
   # GPRecord.cpp
   0x801dbecc: __ct__8GPRecordFv

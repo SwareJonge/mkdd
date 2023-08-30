@@ -627,11 +627,11 @@ src/Kaneshige/CenterLine.cpp:
     .text: [0x801b4e4c, 0x801b5098]
 
 src/Kaneshige/RaceInfo.cpp:
-    .text: [0x801b5098, 0x801b5e14] # excludes __sinit_RaceInfo_cpp and __dt__8RaceInfoFv (0x801b5f78)
-    #.ctors: [0x8031628c, 0x80316290]
+    .text: [0x801b5098, 0x801b5f78]
+    .ctors: [0x8031628c, 0x80316290]
     .rodata: [0x80378500, 0x80378698]    
     .data: [0x80395e08, 0x80395e30]
-    #.bss: [0x803ca8e8, 0x803ca928]
+    .bss: [0x803ca8e8, 0x803ca928]
     .sdata: [0x80414630, 0x80414640]
     .sbss: [0x804163d0, 0x804163d8]
     .sdata2: [0x8041a028, 0x8041a030]
@@ -733,6 +733,15 @@ src/Osako/systemData.cpp:
 
 src/Osako/TARecord.cpp:
     .text: [0x8020b458, 0x8020b510]
+
+src/Osako/SystemRecord.cpp:
+    .text: [0x8020b510, 0x8020c078]
+    .ctors: [0x803163a4, 0x803163a8]
+    .rodata: [0x8037dfe0, 0x8037e038]
+    .data: [0x8039cfe8, 0x8039d198]
+    .bss: [0x803e4b20, 0x803e4b50]
+    #.bss: [0x80406d20, 0x80407334] # common bss area
+    .sdata2: [0x8041b820, 0x8041b828]
 
 src/Osako/GPRecord.cpp:
     .text: [0x8020c078, 0x8020c230]
