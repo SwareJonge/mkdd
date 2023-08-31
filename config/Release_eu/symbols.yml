@@ -2745,7 +2745,9 @@ global:
   0x801df038: __ct__7Award2DFP7JKRHeap
   0x801dfae0: calc__7Award2DFv
   0x801dfdec: draw__7Award2DFv
-
+  # GIRecord.cpp 
+  0x801e758c: __ct__8GIRecordFR8TARecord
+  0x801e7638: isValid__8GIRecordFv
   # password.cpp
   0x801e76a8: make__8PasswordF7EKartID7ECharID7ECharID9ECourseID8RaceTime8RaceTime
 

@@ -16,6 +16,8 @@ namespace GameAudio {
         void frameWork();
         void setMasterVolume(s8);
         void setOutputMode(u32);
+        void resetAudio(u32);
+        void resumeAudio();
         f32 getMasterVolumeValue();
         f32 getTHPOptionVolume() { return getMasterVolumeValue() / 2; };
 
@@ -28,5 +30,7 @@ namespace GameAudio {
         extern void setDemoMode(u8);
     }
 }
+
+#define GameAudioMain GameAudio::Main::getAudio()
 
 #endif

@@ -755,6 +755,15 @@ src/Osako/SaveFile.cpp:
     .sbss: [0x80416a48, 0x80416a50]
     .sdata2: [0x8041b840, 0x8041b858]
 
+src/Osako/ResetAgent.cpp: 
+    .text: [0x8020f4dc, 0x8020f884]
+    .ctors: [0x803163b8, 0x803163bc]
+    .bss: [0x803ed238, 0x803ed268]
+    .sbss: [0x80416a78, 0x80416a88]
+
+src/Osako/GIRecord.cpp:
+    .text: [0x802194d4, 0x802195f0]
+
 src/Osako/password.cpp:
     .text: [0x802195f0, 0x802199d4]
     .rodata: [0x8037ed08, 0x8037ed70]

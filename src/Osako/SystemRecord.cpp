@@ -10,7 +10,8 @@ SystemRecord gSystemRecord;
 
 static const char scaName[] = "AAA";
 
-void SystemRecord::init() {
+void SystemRecord::init()
+{
     mOptions = 0;
     if (OSGetSoundMode() == 0)
     {
@@ -26,8 +27,10 @@ void SystemRecord::init() {
 
     strncpy(mDefaultName, scaName, 4);
 
-    for(int i = 0; i < 5; i++) {
-        for(int j = 0; j < 3; j++) {
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 3; j++) // typo? there are 4 levels
+        {
             mGPRecordData[i][j].reset();
         }
     }
@@ -44,12 +47,15 @@ void SystemRecord::init() {
     mTimesFetched = 0;
 }
 
-void SystemRecord::applyAudioSetting() {
-    if(OSGetSoundMode() == 0) {
+void SystemRecord::applyAudioSetting()
+{
+    if (OSGetSoundMode() == 0)
+    {
         mOptions &= ~0x3;
         mOptions |= 1;
     }
-    else if((mOptions & 3) == 1) {
+    else if ((mOptions & 3) == 1)
+    {
         mOptions &= ~0x3;
     }
 
@@ -58,11 +64,9 @@ void SystemRecord::applyAudioSetting() {
     case 1:
         GameAudio::Main::getAudio()->setOutputMode(0);
         break;
-
     case 0:
         GameAudio::Main::getAudio()->setOutputMode(1);
         break;
-
     case 2:
         GameAudio::Main::getAudio()->setOutputMode(2);
         break;
@@ -84,7 +88,8 @@ void SystemRecord::crypt(u16 seed)
     }
 }
 
-int SystemRecord::convCourseID(ECourseID crsId) {
+int SystemRecord::convCourseID(ECourseID crsId)
+{
 
     switch (crsId)
     {
@@ -127,7 +132,8 @@ int SystemRecord::convCourseID(ECourseID crsId) {
 
 int SystemRecord::convKartID(EKartID kartId)
 {
-    switch(kartId) {
+    switch (kartId)
+    {
     case GREEN_FIRE:
         return 6;
     case BARREL_TRAIN:
@@ -166,29 +172,31 @@ TARecord *SystemRecord::getTARecord(ECourseID crsId, int rank)
     return &mBestFinalTimes[convCourseID(crsId)][rank];
 }
 
-
-
 int SystemRecord::rankTARecord(ECourseID crsId, TARecord &record)
 {
     int rank = 4;
-    int crsNo =  convCourseID(crsId); 
+    int crsNo = convCourseID(crsId);
 
-    while(rank >= 0 && mBestFinalTimes[crsNo][rank].less(record)) {
-        if(rank < 4) {
+    while (rank >= 0 && mBestFinalTimes[crsNo][rank].less(record))
+    {
+        if (rank < 4)
+        {
             mBestFinalTimes[crsNo][rank + 1] = mBestFinalTimes[crsNo][rank];
         }
 
         mBestFinalTimes[crsNo][rank] = record;
         rank--;
     }
-    if(rank == 4) {
+    if (rank == 4)
+    {
         return 0;
     }
 
     return rank + 2;
 }
 
-TARecord *SystemRecord::getBestLap(ECourseID crsID) {
+TARecord *SystemRecord::getBestLap(ECourseID crsID)
+{
     return &mBestLapTimes[convCourseID(crsID)];
 }
 
@@ -197,7 +205,8 @@ void SystemRecord::setBestLap(ECourseID crsID, TARecord &newBestLap)
     mBestLapTimes[convCourseID(crsID)] = newBestLap;
 }
 
-GPRecord *SystemRecord::getGPRecord(ERaceGpCup cup, ERaceLevel level) {
+GPRecord *SystemRecord::getGPRecord(ERaceGpCup cup, ERaceLevel level)
+{
 #line 284
     JUT_MINMAX_ASSERT(0, cup, 5);
     return &mGPRecordData[cup][level];
@@ -210,10 +219,11 @@ void SystemRecord::setGPRecord(ERaceGpCup cup, ERaceLevel level, GPRecord &recor
     mGPRecordData[cup][level] = record;
 }
 
-bool SystemRecord::tstSecretKart(EKartID kartId, u16 flags) {
+bool SystemRecord::tstSecretKart(EKartID kartId, u16 flags)
+{
     int kartNo = convKartID(kartId);
 
-    return kartNo == 13 || (flags & 1 << kartNo) ;
+    return kartNo == 13 || (flags & 1 << kartNo);
 }
 
 void SystemRecord::setDefaultName(const char *name)

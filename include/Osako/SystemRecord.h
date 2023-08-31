@@ -35,7 +35,7 @@ struct SystemRecord
     {
     struct
     {*/
-    s32 mOptions;
+    int mOptions;
     u16 mUnlock1;
     u16 mUnlock2;
     s8 mVolume;

@@ -14,7 +14,7 @@ namespace JUtility
     {
         TColor() { set(0xFFFFFFFF); }
 
-        TColor(u8 r, u8 g, u8 b, u8 a) { set(r, g, b, a); }
+        TColor(u8 _r, u8 _g, u8 _b, u8 _a) { set(_r, _g, _b, _a); }
 
         TColor(u32 u32Color) { set(u32Color); }
 
@@ -50,6 +50,7 @@ namespace JUtility
         void set(u32 u32Color) { *(u32 *)&r = u32Color; }
 
         void set(GXColor gxColor) { *(GXColor *)&r = gxColor; }
+        void set(TColor color) { *this = color; }
 
         void setRGB(u8 cR, u8 cG, u8 cB)
         {

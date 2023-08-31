@@ -18126,6 +18126,7 @@ global:
     0x804169ec: mspSaveFile__9CardAgent
     0x804169f0: mspSystemFile__9CardAgent
     0x804169f4: mspGhostFile__9CardAgent
+    0x804169f8: msFlags__9CardAgent
     0x804169fc: mspPrintMemoryCard__9CardAgent
     0x80416a00: scAspect__10SystemData
     0x80416a04: scAspectDiv2__10SystemData
@@ -18143,6 +18144,9 @@ global:
     0x80416a70: mspKart2DCommon__12Kart2DCommon
     0x80416a78: msState__10ResetAgent
     0x80416a7c: msCount__10ResetAgent
+    0x80416a80: msForceMenu__10ResetAgent
+    0x80416a81: msInvalid__10ResetAgent
+    0x80416a82: msAudioReset__10ResetAgent
     0x80416a88: mspMenuBackground__14MenuBackground
     0x80416a90: mspMenuTitleLine__13MenuTitleLine
     0x80416a98: g_connected

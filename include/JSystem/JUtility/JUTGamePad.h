@@ -70,7 +70,7 @@ public:
     static void init();
     void initList();
     void read();
-    bool recalibrate(u32);
+    static bool recalibrate(u32);
     void setButtonRepeat(u32, u32, u32);
     void update();
 

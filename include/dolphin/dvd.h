@@ -78,6 +78,7 @@ extern "C"
                               // is it's treated as 4 bytes...
 
     BOOL DVDCompareDiskID(DVDDiskID *, DVDDiskID *);
+    int DVDCheckDisk();
 
     int DVDGetDriveStatus();
     int DVDGetCommandBlockStatus(DVDFileInfo *);

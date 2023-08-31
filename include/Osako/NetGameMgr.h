@@ -90,5 +90,9 @@ public:
     // void startRecvTask();
     // void checkUSN(const char *, UPnPUuid *);
     // void checkSERVER(const char *);
-};     // class NetGameMgr
+//private:
+    u8 _0[0x96c];
+    int mState;
+    u8 _970[0x1308 - 0x970];
+}; // size: 0x1308
 #endif // NETGAMEMGR_H

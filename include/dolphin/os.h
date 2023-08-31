@@ -224,6 +224,8 @@ volatile u16 OS_DI_DMA_ADDR = *(volatile u16 *)0xCC006014;
   BOOL OSRestoreInterrupts(BOOL);
   BOOL OSEnableInterrupts();
 
+  void OSResetSystem(BOOL reset, u32 resetCode, BOOL forceMenu);
+
   u32 OSGetSoundMode();
   void OSSetSoundMode(u32);
   void OSSetSaveRegion(int, int);

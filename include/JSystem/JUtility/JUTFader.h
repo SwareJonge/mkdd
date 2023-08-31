@@ -28,9 +28,11 @@ struct JUTFader
     // unused/inlined:
     void start(int);
     void setStatus(EStatus, int);
+    void setResetState(bool reset) { mResetting = reset; }
 
     EStatus getStatus() const { return mStatus; }
-    void setColor(JUtility::TColor color) { mColor.set(color); }
+
+    void setColor(JUtility::TColor color) { mColor.set(color.r, color.g, color.b, mColor.a); }
 
     // _00 VTBL
     EStatus mStatus;            // _04 - current status

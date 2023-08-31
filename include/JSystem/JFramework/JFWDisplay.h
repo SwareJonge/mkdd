@@ -95,7 +95,7 @@ public:
         return JUTVideo::getManager()->getFbWidth();
     }
 
-    JUTFader * getFader() const { return mFader; }
+    JUTFader *getFader() const { return mFader; }
     void setFader(JUTFader * fader) { mFader = fader; }
 
     void set_38(int val) {

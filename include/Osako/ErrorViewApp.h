@@ -9,7 +9,8 @@ class ErrorViewApp : public GameApp
 public:
     enum ErrorId
     {
-        ERROR1 = 1,
+        ERROR0,
+        ERROR1,
         ERROR2,
         ERROR3,
         ERROR4,
@@ -26,5 +27,8 @@ public:
 
     static ErrorViewApp *mspErrorViewApp; // 0x804169c0
     static ErrorId msErrorId;             // 0x804169c4
-};
+
+    int mErrorState;
+    u8 _10[0x1c - 0x10];
+}; // Size: 0x1c
 #endif // ERRORVIEWAPP_H

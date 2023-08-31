@@ -715,6 +715,9 @@ src/Osako/SaveFile.cpp:
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
 
+src/Osako/GIRecord.cpp:
+    .text: [0x801e758c, 0x801e76a8]
+
 src/Osako/password.cpp:
     .text: [0x801e76a8, 0x801e7a8c]
     .rodata: [0x80341938, 0x803419a0]
