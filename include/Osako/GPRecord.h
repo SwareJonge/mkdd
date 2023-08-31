@@ -11,8 +11,9 @@ struct GPRecord {
     bool less(const GPRecord & rRec);
 
     // fabricated
-    void reset() {
-       _6 &= ~0x1;
+    void reset()
+    {
+        _6 &= ~0x1;
         mTime.reset();
     }
 
