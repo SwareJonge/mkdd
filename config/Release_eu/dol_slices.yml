@@ -560,6 +560,11 @@ src/Kameda/Scene.cpp:
     .text: [0x8012cfbc, 0x8012d020]
     .data: [0x803549a0, 0x803549b8]
 
+src/Kameda/PrintDvdError.cpp:
+    .text: [0x80140d5c, 0x801411c8]
+    .data: [0x80354eb0, 0x80354ee8]
+    .sdata2: [0x803d7bf8, 0x803d7c18]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]

@@ -37,13 +37,19 @@ struct ResFONT;
 struct ResTIMG;
 struct ResTLUT;
 
-enum J2DPaneTypeID
+enum J2DPaneType
 {
-    PANETYPE_Screen = 0x8,
-    PANETYPE_Pane = 0x10,
-    PANETYPE_Window = 0x11,
-    PANETYPE_Picture = 0x12,
-    PANETYPE_TextBox = 0x13,
+    J2DPane_Screen = 0x8,
+    J2DPane_Pane = 0x10,
+    J2DPane_Window = 0x11,
+    J2DPane_Picture = 0x12,
+    J2DPane_TextBox = 0x13,
+
+    J2DPaneType_Screen = 0x8,
+    J2DPaneType_Pane = 0x10,
+    J2DPaneType_Window = 0x11,
+    J2DPaneType_Picture = 0x12,
+    J2DPaneType_TextBox = 0x13
 };
 
 enum J2DRotateAxis
@@ -154,7 +160,7 @@ struct J2DPane
     J2DPane(J2DPane *parent, JSURandomInputStream *input, u8 version);
 
     virtual ~J2DPane();                                                                           // _08
-    virtual u16 getTypeID() const { return PANETYPE_Pane; }                                       // _0C (weak)
+    virtual u16 getTypeID() const { return J2DPaneType_Pane; }                                       // _0C (weak)
     virtual void move(f32 x, f32 y);                                                              // _10
     virtual void add(f32 x, f32 y);                                                               // _14
     virtual void resize(f32, f32);                                                                // _18
@@ -386,7 +392,7 @@ struct J2DScreen : public J2DPane
     J2DScreen();
 
     virtual ~J2DScreen();                                                                                                  // _08
-    virtual u16 getTypeID() const { return PANETYPE_Screen; }                                                              // _0C (weak)
+    virtual u16 getTypeID() const { return J2DPaneType_Screen; }                                                              // _0C (weak)
     virtual void calcMtx() { makeMatrix(mOffset.x, mOffset.y); }                                                           // _2C (weak)
     virtual void drawSelf(f32, f32, f32 (*)[3][4]);                                                                        // _38
     virtual J2DPane *search(u64);                                                                                          // _3C
@@ -477,7 +483,7 @@ struct J2DPicture : public J2DPane
     J2DPicture(u64, const JGeometry::TBox2f &);
 
     virtual ~J2DPicture();                                                             // _08
-    virtual u16 getTypeID() const { return PANETYPE_Picture; };                        // _0C (weak)
+    virtual u16 getTypeID() const { return J2DPaneType_Picture; };                      // _0C (weak)
     virtual void drawSelf(f32, f32);                                                   // _34
     virtual void drawSelf(f32, f32, f32 (*)[3][4]);                                    // _38
     virtual bool isUsed(const ResTIMG *resource);                                      // _4C
@@ -734,18 +740,18 @@ struct J2DTextBox : public J2DPane
     J2DTextBox(J2DPane *parent, JSURandomInputStream *input);                                                            // unused/inlined
     J2DTextBox(u64, const JGeometry::TBox2f &, const char *, const char *, s16, J2DTextBoxHBinding, J2DTextBoxVBinding); // unused/inlined
 
-    virtual ~J2DTextBox();                                     // _08
-    virtual u16 getTypeID() const { return PANETYPE_TextBox; } // _0C (weak)
-    virtual void resize(f32, f32);                             // _18
-    virtual bool setConnectParent(bool);                       // _28
-    virtual void drawSelf(f32, f32);                           // _34
-    virtual void drawSelf(f32, f32, f32 (*)[3][4]);            // _38
-    virtual bool isUsed(const ResFONT *resource);              // _50
-    virtual void draw(f32, f32);                               // _94
-    virtual void draw(f32, f32, f32, J2DTextBoxHBinding);      // _98
-    virtual void setFont(JUTFont *font);                       // _9C
-    virtual JUTResFont *getFont() const { return mFont; }      // _A0 (weak)
-    virtual bool setBlack(JUtility::TColor black)              // _A4 (weak)
+    virtual ~J2DTextBox();                                        // _08
+    virtual u16 getTypeID() const { return J2DPaneType_TextBox; } // _0C (weak)
+    virtual void resize(f32, f32);                                // _18
+    virtual bool setConnectParent(bool);                          // _28
+    virtual void drawSelf(f32, f32);                              // _34
+    virtual void drawSelf(f32, f32, f32 (*)[3][4]);               // _38
+    virtual bool isUsed(const ResFONT *resource);                 // _50
+    virtual void draw(f32, f32);                                  // _94
+    virtual void draw(f32, f32, f32, J2DTextBoxHBinding);         // _98
+    virtual void setFont(JUTFont *font);                          // _9C
+    virtual JUTResFont *getFont() const { return mFont; }         // _A0 (weak)
+    virtual bool setBlack(JUtility::TColor black)                 // _A4 (weak)
     {
         mBlack = black;
         return true;
@@ -771,11 +777,26 @@ struct J2DTextBox : public J2DPane
     void private_readStream(J2DPane *parent, JSURandomInputStream *input, JKRArchive *archive);
     size_t setString(const char *, ...);
 
+    struct TFontSize {
+        f32 x, y;
+    };
+
+    void getFontSize(TFontSize &fontSize) {
+        fontSize.x = mFontSize.x;
+        fontSize.y = mFontSize.y;
+    }
+
+    void setFontColor(JUtility::TColor a, JUtility::TColor b)
+    {
+        mCharColor = a;
+        mGradientColor = b;
+    }
+
     // unused/inlined:
     void setFontSize();
     void setLineSpace();
     void getString(char *);
-    void getStringPtr() const;
+    char *getStringPtr() const;
     void setString(s16, const char *, ...);
 
     /** @fabricated */
@@ -843,7 +864,7 @@ struct J2DTextBox : public J2DPane
     f32 _110;                        // _110
     f32 mCharSpacing;                // _114
     f32 mLineSpacing;                // _118
-    JGeometry::TVec2f mFontSize;     // _11C
+    TFontSize mFontSize;             // _11C
     char *mStringPtr;                // _124
     JUtility::TColor mWhite;         // _128
     JUtility::TColor mBlack;         // _12C
@@ -924,7 +945,7 @@ struct J2DWindow : public J2DPane
     J2DWindow(J2DPane *parent, JSURandomInputStream *input, J2DMaterial *materials);
 
     virtual ~J2DWindow();                                                              // _08
-    virtual u16 getTypeID() const { return PANETYPE_Window; }                          // _0C (weak)
+    virtual u16 getTypeID() const { return J2DPaneType_Window; }                          // _0C (weak)
     virtual void resize(f32, f32);                                                     // _18
     virtual void drawSelf(f32, f32);                                                   // _34
     virtual void drawSelf(f32, f32, f32 (*)[3][4]);                                    // _38

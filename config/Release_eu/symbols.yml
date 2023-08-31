@@ -712,6 +712,9 @@ global:
   0x8002e5f4: initiate__8J2DPrintFv
   0x8002e950: print__8J2DPrintFffPCce
   0x8002ea60: print__8J2DPrintFffUcPCce
+
+  # J2DTextBox.cpp
+  0x80032b00: getStringPtr__10J2DTextBoxCFv
   # JFramework
   # JFWSystem.cpp
   0x8007a494: init__9JFWSystemFv
@@ -2092,8 +2095,34 @@ global:
   0x80140958: rndDemo__12SequenceInfoFUl
   0x803bad54: gSequenceInfo
 
+  # PrintDvdError.cpp
+  0x80140d5c: __ct__13PrintDvdErrorFP7JKRHeap
+  0x80140dd0: init__13PrintDvdErrorFi
+  0x80141180: draw__13PrintDvdErrorFv
+  0x801411a4: calc__13PrintDvdErrorFv
+
+  # ReadPrintMessage.cpp
+  0x80151af8: getColor__16ReadPrintMessageFPvi
+  0x80151b08: getDefaultColor__16ReadPrintMessageFPv
+  0x80151b74: getRate__16ReadPrintMessageFPvi
+  0x80151be8: getCharSpace__16ReadPrintMessageFPvi
+  0x80151c5c: getMessage__16ReadPrintMessageFPvi
+  0x80151cdc: tagCnv__16ReadPrintMessageFPcPvQ210J2DTextBox9TFontSizeiPc
+  0x8015201c: getBmgMessageID__16ReadPrintMessageFQ213PrintDvdError9MessageID
+  0x801520b8: getBmgMessageID__16ReadPrintMessageFQ28PrintPal9MessageID
+  0x80152110: getBmgMessageID__16ReadPrintMessageFQ215PrintMemoryCard9MessageID
+  0x8015231c: getBmgMessageID__16ReadPrintMessageFi
+
   # PrintMemoryCard.cpp
   0x80152d60: closeWindowNoSe__15PrintMemoryCardFv
+
+  # PrintWindow.cpp
+  0x801700f8: __ct__11PrintWindowFP7JKRHeap
+  0x8017079c: init__11PrintWindowFv
+  0x8017084c: draw__11PrintWindowFv
+  0x8017089c: calc__11PrintWindowFv
+  0x80170df0: getTextBox__11PrintWindowFv
+  0x80170e30: getBaseFontSize__11PrintWindowFv
 
   # Kaneshige
   # Course.cpp
@@ -2526,7 +2555,28 @@ global:
   0x803d5b60: mspRaceApp__7RaceApp
   # ResMgr.cpp
   0x801ce530: create__6ResMgrFP7JKRHeap
+  0x801ce610: loadKeepTask__6ResMgrFPv
+  0x801ce7d8: loadCourseTask__6ResMgrFPv
+  0x801ce994: loadAwardTask__6ResMgrFPv
+  0x801cead8: loadOpeningTask__6ResMgrFPv
+  0x801ceb3c: loadKeepData__6ResMgrFv
+  0x801cebac: loadCourseData__6ResMgrF9ECourseIDQ26ResMgr11CourseOrder
+  0x801cec50: loadAwardData__6ResMgrF10ERaceGpCupP7JKRHeap
+  0x801cece0: loadOpeningData__6ResMgrFP7JKRHeap
   0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
+  0x801ced5c: isFinishLoadingArc__6ResMgrFQ26ResMgr9ArchiveId
+  0x801ced78: isLoadingArc__6ResMgrFQ26ResMgr9ArchiveId
+  0x801ced94: getPtr__6ResMgrFQ26ResMgr10KartDataId7EKartID
+  0x801cefec: getPtr__6ResMgrFQ26ResMgr12DriverDataIdQ26ResMgr8DriverId
+  0x801cf148: getPtr__6ResMgrFQ26ResMgr12ShadowDataId7EKartID
+  0x801cf310: getPtr__6ResMgrFQ26ResMgr12CourseDataId
+  0x801cf434: getPtr__6ResMgrFQ26ResMgr13MessageDataId
+  0x801cf524: getPtr__6ResMgrFQ26ResMgr9ArchiveIdPCc
+  0x801cf560: getResSize__6ResMgrFQ26ResMgr9ArchiveIdPCv
+  0x801cf59c: readResourceAsync__6ResMgrFPvUlPcPcPQ26ResMgr14AramAsyncState
+  0x801cf680: readAnmResTask__6ResMgrFPv
+  0x801cf73c: findResource__6ResMgrFQ26ResMgr9ArchiveIdPc
+  0x801cf77c: isFinishLoadingAram__6ResMgrFv
   0x803bd5c8: mspaLoader__6ResMgr
   # LogoApp.cpp
   0x801cf8c4: create__7LogoAppFv

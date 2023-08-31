@@ -4,9 +4,10 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
-class J2DManager {
+class J2DManager
+{
 public:
-    J2DManager(JKRHeap *);   
+    J2DManager(JKRHeap *);
     void calc();
     void calcParticle();
     void reset();
@@ -14,15 +15,16 @@ public:
 
     void setStatus2Kart(int, int);
 
-        void setDrawFlag(bool flag)
+    void setDrawFlag(bool flag)
     {
         mDrawFlag = flag;
     }
-    static J2DManager * getManager() {
+    static J2DManager *getManager()
+    {
         return mThis;
     }
 
-    static J2DManager * mThis;
+    static J2DManager *mThis;
 
     u8 _00[0x8];
     bool mDrawFlag;

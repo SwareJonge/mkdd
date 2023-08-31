@@ -580,6 +580,16 @@ src/Kameda/Scene.cpp:
     .data: [0x80394b70, 0x80394b88]
     .sdata2: [0x80418e78, 0x80418e90]
 
+src/Kameda/PrintDvdError.cpp:
+    .text: [0x80152d4c, 0x801531b8]
+    .data: [0x80395080, 0x803950b8]
+    .sdata2: [0x804190c0, 0x804190e0]
+
+#src/Kameda/PrintWindow.cpp:
+    #.text: [0x8018f960, 0x80190a94]
+    #.rodata: [0x80375e70, 0x80376048]
+    #.sdata2: [0x804199b8, 0x804199f8]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x801a6960, 0x801a6c30]
     .data: [0x80395bb8, 0x80395bc8]
