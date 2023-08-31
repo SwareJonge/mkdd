@@ -85,15 +85,18 @@ namespace ResetAgent {
                     else {
                         System::getDisplay()->getFader()->setResetState(false);
                         JUTGamePad::recalibrate(0xf0000000);
+#ifdef DEBUG
                         System::haltRumble();
-                        
+#endif
                         AppMgr::msRequest |= 2;
 
                         if(msAudioReset) {
                             GameAudioMain->resumeAudio();
                         }
                         gSystemRecord.applyAudioSetting();
+#ifdef DEBUG
                         gSystemFile._6024 = 0;
+#endif
 
                         if (MoviePlayer::getPlayer()) {
                             MoviePlayer::getPlayer()->quit();

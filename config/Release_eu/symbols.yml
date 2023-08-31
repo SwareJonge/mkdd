@@ -571,6 +571,7 @@ global:
   0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
+  0x8001f438: recalibrate__10JUTGamePadFUl
   0x803d3290: sStickMode__10JUTGamePad
   0x803d4b38: sCallback__Q210JUTGamePad13C3ButtonReset
   0x803d4b3c: sCallbackArg__Q210JUTGamePad13C3ButtonReset
@@ -2049,6 +2050,8 @@ global:
   0x801167b0: setMasterVolume__Q29GameAudio4MainFSc
   0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
   0x80116b40: setOutputMode__Q29GameAudio4MainFUl
+  0x80116b78: resetAudio__Q29GameAudio4MainFUl
+  0x80116c70: resumeAudio__Q29GameAudio4MainFv
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
@@ -2088,6 +2091,9 @@ global:
   # SequenceInfo.cpp
   0x80140958: rndDemo__12SequenceInfoFUl
   0x803bad54: gSequenceInfo
+
+  # PrintMemoryCard.cpp
+  0x80152d60: closeWindowNoSe__15PrintMemoryCardFv
 
   # Kaneshige
   # Course.cpp
@@ -2619,11 +2625,51 @@ global:
   0x801d2458: draw__12ErrorViewAppFv
   0x801d247c: calc__12ErrorViewAppFv
   0x801d2648: reset__12ErrorViewAppFv
+  0x803d5c08: mspErrorViewApp__12ErrorViewApp
+  0x803d5c0c: msErrorId__12ErrorViewApp
   # CardMgr.cpp
   0x801d2780: create__7CardMgrFv
   0x801d27fc: probe__7CardMgrFv
   # CardAgent.cpp
   0x801d36b0: create__9CardAgentFP7JKRHeap
+  0x801d3704: ask__9CardAgentFQ29CardAgent7Commandl
+  0x801d38f0: draw__9CardAgentFv
+  0x801d3938: calc__9CardAgentFv
+  0x801d3a10: waitMessage__9CardAgentFv
+  0x801d3b30: waitButton__9CardAgentFv
+  0x801d3c40: waitSelect__9CardAgentFv
+  0x801d3ff8: check0__9CardAgentFv
+  0x801d40f8: waitMount__9CardAgentFv
+  0x801d4224: waitCheck__9CardAgentFv
+  0x801d437c: waitFormat__9CardAgentFv
+  0x801d4474: checkFree__9CardAgentFv
+  0x801d459c: open__9CardAgentFv
+  0x801d4850: waitCreate__9CardAgentFv
+  0x801d4a34: waitWrite__9CardAgentFv
+  0x801d4c30: waitRead__9CardAgentFv
+  0x801d4fac: waitRename__9CardAgentFv
+  0x801d50d0: waitDelete__9CardAgentFv
+  0x801d51e4: waitSetStatus__9CardAgentFv
+  0x801d54b8: waitQuit__9CardAgentFv
+  0x801d5548: reset__9CardAgentFv
+  0x801d5560: isGhostSavable__9CardAgentFv
+  0x801d55f0: errorNoCard__9CardAgentFv
+  0x801d56b0: errorWrongDevice__9CardAgentFv
+  0x801d5770: errorIOError__9CardAgentFv
+  0x801d5834: errorEncoding__9CardAgentFv
+  0x803bff90: msMessageTimer__9CardAgent
+  0x803d5c18: msCommand__9CardAgent
+  0x803d5c1c: msState__9CardAgent
+  0x803d5c20: msSelectAt__9CardAgent
+  0x803d5c24: msButtonAt__9CardAgent
+  0x803d5c28: msMessageAt__9CardAgent
+  0x803d5c2c: msResult__9CardAgent
+  0x803d5c30: msChan__9CardAgent
+  0x803d5c34: mspSaveFile__9CardAgent
+  0x803d5c38: mspSystemFile__9CardAgent
+  0x803d5c3c: mspGhostFile__9CardAgent
+  0x803d5c40: msFlags__9CardAgent
+  0x803d5c44: mspPrintMemoryCard__9CardAgent
   # kartPad.cpp
   0x801d1000: compress__11KartGamePadFRC9PADStatusP11KartPadData
   0x801d1184: compress__11KartGamePadFRC10LGPositionP11KartPadData
@@ -2675,8 +2721,10 @@ global:
   0x803d9a98: scAudioAramSize__10SystemData
   # SystemFile.cpp
   0x801d59b0: __ct__8TARecordFv
+  0x803bffa0: gSystemFile
   # NetGameMgr.cpp
   0x801d66a8: create__10NetGameMgrFP7JKRHeap
+  0x801d6a28: end__10NetGameMgrFb
   0x801d7c98: framework__10NetGameMgrFv
   0x801d84b4: retraceCallback__10NetGameMgrFUl
   0x801d8a18: adjustFrame__10NetGameMgrFv
@@ -2741,6 +2789,14 @@ global:
   0x801dd058: create__6BBAMgrFP7JKRHeap
   # ResetAgent.cpp
   0x801dec78: callbackReset__10ResetAgentFiPv
+  0x801deca4: reset__10ResetAgentFb
+  0x801deccc: draw__10ResetAgentFv
+  0x801decd0: calc__10ResetAgentFv
+  0x803d5cc0: msState__10ResetAgent
+  0x803d5cc4: msCount__10ResetAgent
+  0x803d5cc8: msForceMenu__10ResetAgent
+  0x803d5cc9: msInvalid__10ResetAgent
+  0x803d5cca: msAudioReset__10ResetAgent
   # Award2D
   0x801df038: __ct__7Award2DFP7JKRHeap
   0x801dfae0: calc__7Award2DFv

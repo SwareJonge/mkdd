@@ -715,6 +715,12 @@ src/Osako/SaveFile.cpp:
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
 
+src/Osako/ResetAgent.cpp:
+    .text: [0x801dec78, 0x801df038]
+    .ctors: [0x802d87bc, 0x802d87c0]
+    .bss: [0x803ac598, 0x803ac5c8]
+    .sbss: [0x803d5cc0, 0x803d5cd0]
+
 src/Osako/GIRecord.cpp:
     .text: [0x801e758c, 0x801e76a8]
 
