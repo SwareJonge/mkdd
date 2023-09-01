@@ -2429,6 +2429,9 @@ global:
   0x803d5720: sSupervisorCreateNum__13GeoRabbitMark
   0x803d5724: sSupervisor__13GeoRabbitMark
 
+  # KartMtx.cpp
+  0x801a6678: KartMtxPerspective__FPA4_fffffb
+
   # DemoTimeKeeper.cpp
   0x801a681c: __ct__19AwardDemoTimeKeeperFv
   0x801a6f94: __ct__19StaffRollTimeKeeperFv

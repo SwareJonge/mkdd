@@ -629,6 +629,10 @@ src/Kaneshige/TexLODControl.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x80190324, 0x80190334]
 
+src/Kaneshige/KartMtx.cpp:
+    .text: [0x801a6678, 0x801a6728]
+    .sdata2: [0x803d8d38, 0x803d8d40]
+
 src/Kaneshige/Movie/MoviePlayer.cpp:
     .text: [0x801b0084, 0x801b0458]
     .rodata: [0x8033dd98, 0x8033ddc0]

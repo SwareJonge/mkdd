@@ -5,7 +5,7 @@
 
 class PrintPal {
 public:
-        enum MessageID // Based of how it's structured in the file itself, might be wrong
+    enum MessageID // Based of how it's structured in the file itself, might be wrong
     {
         mcShow_PAL,
         mcSet_60Hz,

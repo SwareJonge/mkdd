@@ -42,6 +42,10 @@ namespace std
     extern inline f32 fabs(f32 x) { return fabsf(x); }
 
     extern inline f32 atan2f(f32 y, f32 x) { return ::atan2(y, x); }
+    
+    extern inline f32 tanf(f32 x) { return ::tan(x); }
+    extern inline f32 tan(f32 x) { return tanf(x); }
+
 }
 
 #endif
