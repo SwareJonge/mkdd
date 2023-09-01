@@ -7,9 +7,12 @@
 class PrintProgressive
 {
 public:
-    enum MessageID
+    enum MessageID // according to debug test screen
     {
-
+        mcShow_Progressive,
+        mcSet_Progressive,
+        mcSet_Interlaced,
+        mcShow_Logo
     };
     PrintProgressive(JKRHeap *); // 0x8016aac4
     void init(MessageID);        // 0x8016b138

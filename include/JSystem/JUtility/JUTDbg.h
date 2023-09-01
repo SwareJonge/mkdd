@@ -4,7 +4,7 @@
 #include <JSystem/JUtility/JUTAssert.h>
 #include <JSystem/JUtility/JUTException.h>
 
-// the 1 == 1; inside the conditions was to match TP debug, likely fakematch
+// NOTE: in TP debug this doesn't match
 
 // Panic functions
 #define JUT_PANIC(MSG) \
@@ -18,22 +18,14 @@
   JUTAssertion::setConfirmMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, COND, #COND);
 
 // not sure if it's conditional?
-#define JUT_WARNING(COND)                                                             \
-  if ((COND))                                                                               \
-  {                                                                                         \
-    1 == 1;                                                                                 \
-  }                                                                                         \
-  else                                                                                      \
+#define JUT_WARNING(COND)                                                                   \
+  if (!(COND))                                                                              \
   {                                                                                         \
     JUTAssertion::setWarningMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
   }
 
-#define JUT_WARNING_F(COND, ...)                                                              \
-  if ((COND))                                                                                       \
-  {                                                                                                 \
-    1 == 1;                                                                                         \
-  }                                                                                                 \
-  else                                                                                              \
+#define JUT_WARNING_F(COND, ...)                                                                    \
+  if (!(COND))                                                                                      \
   {                                                                                                 \
     JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
   }
@@ -45,36 +37,24 @@
   JUTAssertion::setWarningMessage_f(2, __FILE__, __LINE__, __VA_ARGS__);
 
 #define JUT_ASSERT(COND)                                                             \
-  if ((COND))                                                                        \
-  {                                                                                  \
-    1 == 1;                                                                          \
-  }                                                                                  \
-  else                                                                               \
+  if (!(COND))                                                                       \
   {                                                                                  \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
-    OSHalt("Halt");                                                        \
+    OSHalt("Halt");                                                                  \
   }
 
-#define JUT_ASSERT_F(COND, ...)                                                        \
-  if ((COND))                                                                                \
-  {                                                                                          \
-    1 == 1;                                                                                  \
-  }                                                                                          \
-  else                                                                                       \
+#define JUT_ASSERT_F(COND, ...)                                                              \
+  if (!(COND))                                                                               \
   {                                                                                          \
     JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
-    OSHalt("Halt");                                                                \
+    OSHalt("Halt");                                                                          \
   }
 
 #define JUT_ASSERT_MSG(COND, MSG)                                                  \
-  if ((COND))                                                                      \
-  {                                                                                \
-    1 == 1;                                                                        \
-  }                                                                                \
-  else                                                                             \
+  if (!(COND))                                                                     \
   {                                                                                \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG); \
-    OSHalt("Halt");                                                      \
+    OSHalt("Halt");                                                                \
   }
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \

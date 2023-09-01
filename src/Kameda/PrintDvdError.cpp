@@ -17,45 +17,45 @@ void PrintDvdError::init(int errorId) {
     switch (errorId)
     {
     case 1:
-        mBmgId = getBmgMessageID(mcError3);
+        mBmgId = getBmgMessageID(mcCoverOpen);
         mBmgFile = getPtr(mcDvd);
         break;
-    case 2:
-    case 3:
-        mBmgId = getBmgMessageID(mcError4);
+    case 2: // No Disk
+    case 3: // Wrong Disk
+        mBmgId = getBmgMessageID(mcDiskError);
         mBmgFile = getPtr(mcDvd);
         break;
     case 4:
-        mBmgId = getBmgMessageID(mcError1);
+        mBmgId = getBmgMessageID(mcRetryError);
         mBmgFile = getPtr(mcDvd);
         break;
     case 5:
-        mBmgId = getBmgMessageID(mcError0);
+        mBmgId = getBmgMessageID(mcFatalError);
         mBmgFile = getPtr(mcDvd);
         break;
     case 6:
     case 7:
-        mBmgId = getBmgMessageID(mcError7);
+        mBmgId = getBmgMessageID(mcLANError2);
         mBmgFile = getPtr(mcLan);
         break;
     case 8:
-        mBmgId = getBmgMessageID(mcError8);
+        mBmgId = getBmgMessageID(mcLANError3);
         mBmgFile = getPtr(mcLan);
         break;
     case 9:
-        mBmgId = getBmgMessageID(mcError6);
+        mBmgId = getBmgMessageID(mcLANError1);
         mBmgFile = getPtr(mcLan);
         break;
     case 10:
-        mBmgId = getBmgMessageID(mcError5);
+        mBmgId = getBmgMessageID(mcLANError0);
         mBmgFile = getPtr(mcLan);
         break;
     case 11:
-        mBmgId = getBmgMessageID(mcError9);
+        mBmgId = getBmgMessageID(mcLANDisconnect);
         mBmgFile = getPtr(mcLan);
         break;
     case 12:
-        mBmgId = getBmgMessageID(mcError10);
+        mBmgId = getBmgMessageID(mcLANDisconnectError);
         mBmgFile = getPtr(mcLan);
         break;
     default:

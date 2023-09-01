@@ -585,6 +585,14 @@ src/Kameda/PrintDvdError.cpp:
     .data: [0x80395080, 0x803950b8]
     .sdata2: [0x804190c0, 0x804190e0]
 
+src/Kameda/ReadPrintMessage.cpp:
+    .text: [0x801690b4, 0x8016aac4]
+    .rodata: [0x80370da0, 0x80370f98]
+    .data: [0x80395478, 0x80395548]
+    #.bss: [0x803fbf34, 0x803fbf70]
+    .sbss: [0x80416350, 0x80416358]
+    .sdata2: [0x80419498, 0x804194c8]
+
 #src/Kameda/PrintWindow.cpp:
     #.text: [0x8018f960, 0x80190a94]
     #.rodata: [0x80375e70, 0x80376048]

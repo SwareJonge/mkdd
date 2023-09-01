@@ -2112,6 +2112,10 @@ global:
   0x801520b8: getBmgMessageID__16ReadPrintMessageFQ28PrintPal9MessageID
   0x80152110: getBmgMessageID__16ReadPrintMessageFQ215PrintMemoryCard9MessageID
   0x8015231c: getBmgMessageID__16ReadPrintMessageFi
+  0x803bb208: mNum__16ReadPrintMessage
+  0x803bb244: mStr__16ReadPrintMessage
+  0x803d55d0: mInfoPtr__16ReadPrintMessage
+  0x803d55d4: mDataPtr__16ReadPrintMessage
 
   # PrintMemoryCard.cpp
   0x80152d60: closeWindowNoSe__15PrintMemoryCardFv

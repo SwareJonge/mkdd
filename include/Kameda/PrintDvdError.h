@@ -11,18 +11,17 @@ class PrintDvdError
 public:
     enum MessageID
     {
-        // TODO
-        mcError0,
-        mcError1,
-        mcError2,
-        mcError3,
-        mcError4,
-        mcError5,
-        mcError6,
-        mcError7,
-        mcError8,
-        mcError9,
-        mcError10
+        mcFatalError,
+        mcRetryError,
+        mcError2, // Unused?
+        mcCoverOpen,
+        mcDiskError,
+        mcLANError0,
+        mcLANError1,
+        mcLANError2,
+        mcLANError3,
+        mcLANDisconnect,
+        mcLANDisconnectError
     };
 
     PrintDvdError(JKRHeap *heap);

@@ -565,6 +565,13 @@ src/Kameda/PrintDvdError.cpp:
     .data: [0x80354eb0, 0x80354ee8]
     .sdata2: [0x803d7bf8, 0x803d7c18]
 
+src/Kameda/ReadPrintMessage.cpp:
+    .text: [0x80151af8, 0x80152374]
+    .rodata: [0x80337cc0, 0x80337d00]
+    .data: [0x803552a8, 0x80355378]
+    .sbss: [0x803d55d0, 0x803d55d8]
+    .sdata2: [0x803d7fb8, 0x803d7fe0]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]

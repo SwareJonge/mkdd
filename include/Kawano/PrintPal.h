@@ -5,8 +5,11 @@
 
 class PrintPal {
 public:
-    enum MessageID {
-
+        enum MessageID // Based of how it's structured in the file itself, might be wrong
+    {
+        mcShow_PAL,
+        mcSet_60Hz,
+        mcSet_50Hz
     };
 
     PrintPal(JKRHeap *heap);
