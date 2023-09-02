@@ -89,7 +89,7 @@ namespace ReadPrintMessage
     {
         while (*msg && n--)
         {
-            u8 excapeBuf[32];
+            u8 tagData[32];
             char buf[32];
 
             if (*msg != 0x1a)
@@ -99,13 +99,13 @@ namespace ReadPrintMessage
             }
             *msg++;
 
-            u8 sz = *msg++;
+            u8 tagSize = *msg++;
             u8 tagGroup = *msg++;
             u16 tagID = (*msg++ << 8);
             tagID += *msg++;
 
-            for (u8 i = 0; i < sz - 5; i++)
-                excapeBuf[i] = *msg++;
+            for (u8 i = 0; i < tagSize - 5; i++)
+                tagData[i] = *msg++;
 
             switch (tagGroup)
             {
@@ -115,8 +115,8 @@ namespace ReadPrintMessage
                 {
                 case 0:
                 {
-                    JUtility::TColor color = getColor(bmcPtr, excapeBuf[0]);
-                    JUtility::TColor gradient = getColor(bmcPtr, excapeBuf[1]);
+                    JUtility::TColor color = getColor(bmcPtr, tagData[0]);
+                    JUtility::TColor gradient = getColor(bmcPtr, tagData[1]);
                     snprintf(buf, sizeof(buf), "\x1b"
                                                "CC[%02X%02X%02X%02X]"
                                                "\x1b"
@@ -151,7 +151,7 @@ namespace ReadPrintMessage
                 switch (tagID)
                 {
                 case 0:
-                    JUtility::TColor color = getColor(bmcPtr, excapeBuf[0]);
+                    JUtility::TColor color = getColor(bmcPtr, tagData[0]);
                     snprintf(buf, sizeof(buf), "\x1b"
                                                "CC[%02X%02X%02X%02X]"
                                                "\x1b"
@@ -160,7 +160,7 @@ namespace ReadPrintMessage
                              color.r, color.g, color.b, color.a);
                     break;
                 case 1:
-                    u16 scalar = (u16)((excapeBuf[0] << 8) + excapeBuf[1]);
+                    u16 scalar = (u16)((tagData[0] << 8) + tagData[1]);
                     int fontX = fontSize.x * scalar / 100.0f;
                     int fonty = fontSize.y * scalar / 100.0f;
                     snprintf(buf, sizeof(buf), "\x1b"
