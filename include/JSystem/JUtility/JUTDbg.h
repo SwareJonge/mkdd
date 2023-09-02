@@ -19,13 +19,13 @@
 
 // not sure if it's conditional?
 #define JUT_WARNING(COND)                                                                   \
-  if (!(COND))                                                                              \
+  if ((COND) == false)                                                                              \
   {                                                                                         \
     JUTAssertion::setWarningMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
   }
 
 #define JUT_WARNING_F(COND, ...)                                                                    \
-  if (!(COND))                                                                                      \
+  if ((COND) == false)                                                                                      \
   {                                                                                                 \
     JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
   }
@@ -37,28 +37,28 @@
   JUTAssertion::setWarningMessage_f(2, __FILE__, __LINE__, __VA_ARGS__);
 
 #define JUT_ASSERT(COND)                                                             \
-  if (!(COND))                                                                       \
+  if ((COND) == false)                                                                       \
   {                                                                                  \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
     OSHalt("Halt");                                                                  \
   }
 
 #define JUT_ASSERT_F(COND, ...)                                                              \
-  if (!(COND))                                                                               \
+  if ((COND) == false)                                                                               \
   {                                                                                          \
     JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
     OSHalt("Halt");                                                                          \
   }
 
 #define JUT_ASSERT_MSG(COND, MSG)                                                  \
-  if (!(COND))                                                                     \
+  if ((COND) == false)                                                                     \
   {                                                                                \
     JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG); \
     OSHalt("Halt");                                                                \
   }
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \
-  JUT_ASSERT_F((((cur) >= (min)) && ((cur) < (max))) != false, "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));
+  JUT_ASSERT_F((((cur) >= (min)) && ((cur) < (max))), "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));
 
 #define JUT_MAX_ASSERT(cur, max) \
   JUT_ASSERT_F(((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max));

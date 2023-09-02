@@ -286,6 +286,9 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
     .sbss: [0x803d4c40, 0x803d4c68]
     .sdata2: [0x803d6ae8, 0x803d6b10]
 
+libs/JSystem/JParticle/JPAResourceManager.cpp:
+    .text: [0x800893f4, 0x800894d0]
+
 libs/JSystem/JAudio/System/JASCalc.cpp:
     .text: [0x8008f938, 0x800901c0]
     .rodata: [0x80332810, 0x80332c28]

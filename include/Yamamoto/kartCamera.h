@@ -37,7 +37,8 @@ public:
     int GetPosv() { return mPosV; } // KartCam.h // 0x801afd94
 private:
     KartBody *mBody;
-    u8 _04[0x7c];
+    KartCtrl *mCtrl;
+    u8 _08[0x78];
     Mtx mMtx;
     u8 _B0[0xEC - 0xB0];
     int mPosV;

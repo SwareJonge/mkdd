@@ -763,6 +763,15 @@ global:
   0x8034af40: e_mtx
   0x80388140: __vt__10JFWDisplay
   0x803d4c40: sManager__10JFWDisplay
+  # JParticle
+  # JPAResourceLoader.cpp
+  0x80088fd8: __ct__17JPAResourceLoaderFPCUcP18JPAResourceManager
+  0x80089018: load_jpc__17JPAResourceLoaderFPCUcP18JPAResourceManager
+  # JPAResourceManager.cpp
+  0x800893f4: __ct__18JPAResourceManagerFPCvP7JKRHeap
+  0x8008944c: getResource__18JPAResourceManagerCFUs
+  0x80089490: registRes__18JPAResourceManagerFP11JPAResource
+  0x800894b0: registTex__18JPAResourceManagerFP10JPATexture
   # JAudio
   # JAiAudience
   0x80089780: __dt__18JASMemPool<5JAISe>Fv

@@ -6,6 +6,11 @@ src/kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
+libs/JSystem/JParticle/JPAResourceManager.cpp:
+    .text: [0x800154b4, 0x800156ec]
+    .rodata: [0x80360f38, 0x80360fa0]
+    .sdata2: [0x80417388, 0x80417398]
+
 libs/JSystem/JFramework/JFWSystem.cpp:
     .text: [0x800157b8, 0x80015b80]
     .rodata: [0x80360fa0, 0x80360fd8]
