@@ -56,7 +56,7 @@ void AudioDecodeThreadCancel()
     }
 }
 
-void *AudioDecoder(void *arg) {
+static void *AudioDecoder(void *arg) {
     THPReadBuffer *buf;
     while(TRUE) {
         buf = (THPReadBuffer *)PopReadedBuffer();
@@ -65,7 +65,7 @@ void *AudioDecoder(void *arg) {
     }
 }
 
-void *AudioDecoderForOnMemory(void *arg){
+static void *AudioDecoderForOnMemory(void *arg){
     s32 readSize;
     s32 frame;
     THPReadBuffer readBuffer;
@@ -103,7 +103,7 @@ void *AudioDecoderForOnMemory(void *arg){
 
 }
 
-void AudioDecode(THPReadBuffer *readBuffer)
+static void AudioDecode(THPReadBuffer *readBuffer)
 {
     THPAudioBuffer *audioBuf;
     s32 i;
