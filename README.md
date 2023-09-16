@@ -26,8 +26,10 @@ Decompilation of Mario Kart Double Dash!!
 ## Credits
 - [Seeky](https://github.com/SeekyCt) for ppcdis, without it this project wouldn't have been where it is now
 ### Matching
-Used code from the following repositories(JSystem)
+Used code from the following repositories(JSystem, SDK)
+* [Metroid Prime Decomp](https://github.com/PrimeDecomp/prime)
 * [Pikmin 2 Decomp](https://github.com/projectPiki/pikmin2)
+* [Super Mario Galaxy Decomp](https://github.com/shibbo/Petari)
 * [Super Mario Sunshine Decomp](https://github.com/doldecomp/sms)
 * [Syati](https://github.com/PMArkive/Syati-pretransfer)
 * [Twilight Princess Decomp](https://github.com/zeldaret/tp)

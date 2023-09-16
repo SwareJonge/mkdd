@@ -1,6 +1,7 @@
 #ifndef _THP_THPPLAYER_H
 #define _THP_THPPLAYER_H
 
+#include <dolphin/os.h>
 #include <dolphin/dvd.h>
 #include <dolphin/gx.h>
 

@@ -1,51 +1,12 @@
-#ifndef DOLPHIN_OSCONTEXT_H
-#define DOLPHIN_OSCONTEXT_H
+#ifndef _DOLPHIN_OSCONTEXT
+#define _DOLPHIN_OSCONTEXT
 
-#include <dolphin/types.h>
+#include <types.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-// Floating point context modes
-#define OS_CONTEXT_MODE_FPU 0x01u
-#define OS_CONTEXT_MODE_PSFP 0x02u
-
-// Context status
-#define OS_CONTEXT_STATE_FPSAVED 0x01u // set if FPU is saved
-#define OS_CONTEXT_STATE_EXC 0x02u     // set if saved by exception
-
-    typedef struct OSContext
-    {
-        // General-purpose registers
-        u32 gpr[32];
-
-        u32 cr;
-        u32 lr;
-        u32 ctr;
-        u32 xer;
-
-        // Floating-point registers
-        f64 fpr[32];
-
-        u32 fpscr_pad;
-        u32 fpscr;
-
-        // Exception handling registers
-        u32 srr0;
-        u32 srr1;
-
-        // Context mode
-        u16 mode;  // since UIMM is 16 bits in PPC
-        u16 state; // OR-ed OS_CONTEXT_STATE_*
-
-        u32 gqr[8];
-        f64 psf[32];
-
-    } OSContext;
-
-// Size of context frame on stack.
 #define __OS_CONTEXT_FRAME 768
 
 #define OS_CONTEXT_R0 0
@@ -119,13 +80,13 @@ extern "C"
 #define OS_CONTEXT_FPR30 384
 #define OS_CONTEXT_FPR31 392
 
-#define OS_CONTEXT_FPSCR 400 // 8 bytes including padding
+#define OS_CONTEXT_FPSCR 400
 
 #define OS_CONTEXT_SRR0 408
 #define OS_CONTEXT_SRR1 412
 
-#define OS_CONTEXT_MODE 416  // only 2 bytes
-#define OS_CONTEXT_STATE 418 // only 2 bytes
+#define OS_CONTEXT_MODE 416
+#define OS_CONTEXT_STATE 418
 
 #define OS_CONTEXT_GQR0 420
 #define OS_CONTEXT_GQR1 424
@@ -135,7 +96,7 @@ extern "C"
 #define OS_CONTEXT_GQR5 440
 #define OS_CONTEXT_GQR6 444
 #define OS_CONTEXT_GQR7 448
-#define __OSCONTEXT_PADDING 452 // double word alignment for the 64 bit psf
+#define __OSCONTEXT_PADDING 452
 
 #define OS_CONTEXT_PSF0 456
 #define OS_CONTEXT_PSF1 464
@@ -169,28 +130,41 @@ extern "C"
 #define OS_CONTEXT_PSF29 688
 #define OS_CONTEXT_PSF30 696
 #define OS_CONTEXT_PSF31 704
+#define OS_CONTEXT_STATE_EXC 0x02u
 
-u32 OSGetStackPointer(void);
-u32 OSSwitchStack(u32 newsp);
-int OSSwitchFiber(u32 pc, u32 newsp);
+#define OS_CONTEXT_STATE_FPSAVED 0x01u
 
-void OSSetCurrentContext(OSContext *context);
-OSContext *OSGetCurrentContext(void);
-u32 OSSaveContext(OSContext *context);
+typedef struct OSContext {
+  u32 gpr[32];
+  u32 cr;
+  u32 lr;
+  u32 ctr;
+  u32 xer;
 
-void OSLoadContext(OSContext *context);
-void OSClearContext(OSContext *context);
-void OSInitContext(OSContext *context, u32 pc, u32 sp);
+  f64 fpr[32];
 
-void OSLoadFPUContext(OSContext *context);
-void OSSaveFPUContext(OSContext *context);
+  u32 fpscr_pad;
+  u32 fpscr;
 
-void OSFillFPUContext(OSContext *context);
+  u32 srr0;
+  u32 srr1;
 
-void OSDumpContext(OSContext *context);
+  u16 mode;
+  u16 state;
+
+  u32 gqr[8];
+  u32 psf_pad;
+  f64 psf[32];
+
+} OSContext;
+
+u32 OSSaveContext(OSContext* context);
+void OSClearContext(OSContext* context);
+OSContext* OSGetCurrentContext();
+void OSSetCurrentContext(OSContext* context);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // DOLPHIN_OSCONTEXT_H
+#endif // _DOLPHIN_OSCONTEXT

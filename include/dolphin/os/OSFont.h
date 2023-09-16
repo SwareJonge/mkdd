@@ -1,16 +1,12 @@
-#ifndef _DOLPHIN_OS_OSFONT_H
-#define _DOLPHIN_OS_OSFONT_H
+#ifndef _DOLPHIN_OSFONT
+#define _DOLPHIN_OSFONT
 
-#include "types.h"
-#include "Dolphin/OS/OSContext.h"
+#include <types.h>
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif // ifdef __cplusplus
+extern "C" {
+#endif
 
-    /////////// FONT HEADER //////////
-    // Struct for holding font information (size 0x30).
     typedef struct OSFontHeader
     {
         u16 fontType;      // _00
@@ -38,43 +34,23 @@ extern "C"
         u8 c3;             // _2F
     } OSFontHeader;
 
-    //////////////////////////////////
-
-    ///////// FONT FUNCTIONS /////////
-    // Common functions.
-    u16 OSGetFontEncode();
-    char *OSGetFontWidth(char *string, s32 *width);
-
-    // High-level functions.
-    BOOL OSInitFont(OSFontHeader *fontInfo);
-    char *OSGetFontTexture(char *string, void **image, s32 *x, s32 *y, s32 *width);
-
-    // Low-level functions.
-    u32 OSLoadFont(void *fontInfo, void *temp);
-
-    // Unused/inlined in P2.
-    char *OSGetFontTexel(char *string, void *image, s32 pos, s32 stride, s32 *width);
-
-//////////////////////////////////
-
-////////// FONT DEFINES //////////
 #define OS_FONT_ENCODE_NULL -1
-#define OS_FONT_ENCODE_ANSI 0
-#define OS_FONT_ENCODE_SJIS 1
+#define OS_FONT_ENCODE_ANSI 0u
+#define OS_FONT_ENCODE_SJIS 1u
+#define OS_FONT_ENCODE_UTF8 3u  // UTF-8 [RFC 3629]
+#define OS_FONT_ENCODE_UTF16 4u // UTF-16BE [RFC 2781]
+#define OS_FONT_ENCODE_UTF32 5u // UTF-32
+#define OS_FONT_ENCODE_MAX 5u
+#define OS_FONT_ENCODE_VOID 0xffffu
 
-#define OS_FONT_SIZE_ANSI (288 + 131072)   // 9 sheets
-#define OS_FONT_SIZE_SJIS (3840 + 1179648) // 1 sheet
+#define OS_FONT_PROPORTIONAL FALSE
+#define OS_FONT_FIXED TRUE
 
-#define OS_FONT_ROM_SIZE_ANSI 12288  // 0x03000
-#define OS_FONT_ROM_SIZE_SJIS 315392 // 0x4D000
-
-#define OS_FONT_DATA_SIZE_ANSI 65824
-#define OS_FONT_DATA_SIZE_SJIS 593636
-
-    //////////////////////////////////
+u16 OSGetFontEncode(void);
+u16 OSSetFontEncode(u16 encode);
 
 #ifdef __cplusplus
-};
-#endif // ifdef __cplusplus
-
+}
 #endif
+
+#endif // _DOLPHIN_OSFONT

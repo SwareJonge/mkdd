@@ -32,7 +32,7 @@ bool JKRArcFinder::findNextFile() {
 
 // UNUSED
 JKRDvdFinder::JKRDvdFinder(const char *path) : JKRFileFinder() {
-    mIsDvdOpen = DVDOpenDir(const_cast<char *>(path), &mFstEntry);
+    mIsDvdOpen = DVDOpenDir(const_cast<char *>(path), &mDir);
     mIsAvailable = mIsDvdOpen;
     findNextFile();
 }
@@ -41,13 +41,13 @@ JKRDvdFinder::JKRDvdFinder(const char *path) : JKRFileFinder() {
 bool JKRDvdFinder::findNextFile() {
     if (mIsAvailable)
     {
-        OSFstEntry entry;
-        mIsAvailable = DVDReadDir(&mFstEntry, &entry);
+        DVDDirEntry entry;
+        mIsAvailable = DVDReadDir(&mDir, &entry);
         if (mIsAvailable)
         {
-            mIsFileOrDir = (bool)entry.mNextEntryNum;
-            mFileName = entry.mFileNameMaybe;
-            mFileIndex = entry.mEntryNum;
+            mIsFileOrDir = (bool)entry.isDir;
+            mFileName = entry.name;
+            mFileIndex = entry.entryNum;
             mFileID = 0;
 
             mFileTypeFlags = mIsFileOrDir ? 2 : 1;

@@ -207,6 +207,10 @@ SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 SDK_CW = os.path.join(TOOLS, "1.2.5")
 SDK_CC = os.path.join(SDK_CW, "mwcceppc")
 
+# Codewarrior
+SDK_PACTHED_CW = os.path.join(TOOLS, "1.2.5n")
+SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc")
+
 MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
 CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc")
 
@@ -215,6 +219,8 @@ CC = os.path.join(CODEWARRIOR, "mwcceppc")
 LD = os.path.join(CODEWARRIOR, "mwldeppc")
 if platform != "win32": # perhaps make a way to figure out if wibo exists, if not, default to wine
     SDK_CC = f"wine {SDK_CC}"
+    SDK_PACTHED_CC = f"wine {SDK_PACTHED_CC}"
+    CC_1_3_2 = f"wine {CC_1_3_2}"
     CC = f"wine {CC}"
     LD = f"wine {LD}"
 
@@ -369,7 +375,21 @@ MSL_C = [
     "-RTTI off"
 ]
 
+SDK = [
+    "-lang=c",
+    "-O4,p",
+    "-inline auto",
+    "-fp_contract off",
+    "-enum int",
+    "-str reuse",
+    "-fp hard",
+    "-use_lmw_stmw on",
+    "-Cpp_exceptions off",
+    "-RTTI off"
+]
+
 BASE_GAME_CFLAGS = CFLAGS + [ "-O4,s" ]
+
 KANESHIGE = BASE_GAME_CFLAGS + [ "-inline off" ]
 
 LOCAL_CFLAGS = [
@@ -383,7 +403,7 @@ LOCAL_CFLAGS = [
 DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 MSL_C_DEBUG_CFLAGS = ' '.join(MSL_C_DEBUG + LOCAL_CFLAGS)
 MSL_C_CFLAGS = ' '.join(MSL_C + LOCAL_CFLAGS)
-
+SDK_CFLAGS = ' '.join(SDK + LOCAL_CFLAGS)
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
 JAUDIO_RELEASE_CFLAGS = ' '.join(JAUDIO_RELEASE + LOCAL_CFLAGS)

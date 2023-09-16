@@ -36,9 +36,9 @@ public:
     }
     virtual ~KartGamePad() {}
 
-    static void compress(PADStatus const &padStatus, KartPadData *kartPadData);
-    static void compress(LGPosition const &lgPosition, KartPadData *kartPadData);
-    void expand(KartPadData const &);
+    static void compress(const PADStatus &padStatus, KartPadData *kartPadData);
+    static void compress(const LGPosition &lgPosition, KartPadData *kartPadData);
+    void expand(const KartPadData &kartPadData);
 
     PadType getPadType() { return mPadType; }
     PadPort getPadPort() { return mPadPort; }

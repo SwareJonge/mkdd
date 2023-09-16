@@ -9,7 +9,6 @@
 #include <dolphin/gx/GXCull.h>
 #include <dolphin/gx/GXDispList.h>
 #include <dolphin/gx/GXDraw.h>
-#include <dolphin/gx/GXExtra.h>
 #include <dolphin/gx/GXFifo.h>
 #include <dolphin/gx/GXFrameBuffer.h>
 #include <dolphin/gx/GXGeometry.h>

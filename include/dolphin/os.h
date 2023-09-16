@@ -1,291 +1,227 @@
-#ifndef _DOLPHIN_OS_H
-#define _DOLPHIN_OS_H
+#ifndef _DOLPHIN_OS
+#define _DOLPHIN_OS
 
-#include "types.h"
+#include <dolphin/gx.h>
+#include <dolphin/types.h>
 
 #ifdef __cplusplus
 extern "C"
 {
-#endif // ifdef __cplusplus
+#endif
 
-// Defines for cached and uncached memory.
-#define OS_BASE_CACHED (0x80000000)
-#define OS_BASE_UNCACHED (0xC0000000)
+// Upper words of the masks, since UIMM is only 16 bits
+#define OS_CACHED_REGION_PREFIX 0x8000
+#define OS_UNCACHED_REGION_PREFIX 0xC000
+#define OS_PHYSICAL_MASK 0x3FFF
 
-// Address conversions.
+#define OS_BASE_CACHED (OS_CACHED_REGION_PREFIX << 16)
+#define OS_BASE_UNCACHED (OS_UNCACHED_REGION_PREFIX << 16)
+
+#ifdef __MWERKS__
+#define AT_ADDRESS(xyz) : (xyz)
+#else
+#define AT_ADDRESS
+#endif
+volatile int __OSTVMode AT_ADDRESS(OS_BASE_CACHED | 0xCC);
+u32 __OSBusClock AT_ADDRESS(OS_BASE_CACHED | 0x00F8);  // sync with OSLoMem.h
+u32 __OSCoreClock AT_ADDRESS(OS_BASE_CACHED | 0x00FC); // sync with OSLoMem.h
+#define OS_BUS_CLOCK (u32) __OSBusClock
+#define OS_CORE_CLOCK __OSCoreClock
+#define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)
+
+#ifndef _DEBUG
 #define OSPhysicalToCached(paddr) ((void *)((u32)(paddr) + OS_BASE_CACHED))
 #define OSPhysicalToUncached(paddr) ((void *)((u32)(paddr) + OS_BASE_UNCACHED))
 #define OSCachedToPhysical(caddr) ((u32)((u8 *)(caddr)-OS_BASE_CACHED))
 #define OSUncachedToPhysical(ucaddr) ((u32)((u8 *)(ucaddr)-OS_BASE_UNCACHED))
 #define OSCachedToUncached(caddr) ((void *)((u8 *)(caddr) + (OS_BASE_UNCACHED - OS_BASE_CACHED)))
 #define OSUncachedToCached(ucaddr) ((void *)((u8 *)(ucaddr) - (OS_BASE_UNCACHED - OS_BASE_CACHED)))
-
-#define OS_CACHED_REGION_PREFIX 0x8000
-#define OS_UNCACHED_REGION_PREFIX 0xC000
-#define OS_PHYSICAL_MASK 0x3FFF
-
-#ifdef __MWERKS__
-  u32 __OSBusClock : (0x800000F8);
 #else
-  u32 __OSBusClock = *(u32*)0x800000F8;
+u32 OSPhysicalToCached(void *paddr);
+u32 OSPhysicalToUncached(void *paddr);
+u32 OSCachedToPhysical(void *caddr);
+u32 OSUncachedToPhysical(void *ucaddr);
+u32 OSCachedToUncached(void *caddr);
+u32 OSUncachedToCached(void *ucaddr);
 #endif
 
-#define OS_BUS_CLOCK __OSBusClock
-#define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)
-
+#define OSTicksToCycles(ticks) (((ticks) * ((OS_CORE_CLOCK * 2) / OS_TIMER_CLOCK)) / 2)
 #define OSTicksToSeconds(ticks) ((ticks) / OS_TIMER_CLOCK)
 #define OSTicksToMilliseconds(ticks) ((ticks) / (OS_TIMER_CLOCK / 1000))
-#define OSTicksToMicroseconds(ticks) (((ticks) * 8) / (OS_TIMER_CLOCK / 125000))
-#define OSTicksToNanoseconds(ticks) (((ticks) * 8000) / (OS_TIMER_CLOCK / 125000))
-
+#define OSTicksToMicroseconds(ticks) (((ticks)*8) / (OS_TIMER_CLOCK / 125000))
+#define OSTicksToNanoseconds(ticks) (((ticks)*8000) / (OS_TIMER_CLOCK / 125000))
+#define OSSecondsToTicks(sec) ((sec)*OS_TIMER_CLOCK)
 #define OSMillisecondsToTicks(msec) ((msec) * (OS_TIMER_CLOCK / 1000))
 #define OSMicrosecondsToTicks(usec) (((usec) * (OS_TIMER_CLOCK / 125000)) / 8)
 #define OSNanosecondsToTicks(nsec) (((nsec) * (OS_TIMER_CLOCK / 125000)) / 8000)
+
 #define OSDiffTick(tick1, tick0) ((s32)(tick1) - (s32)(tick0))
 
-// __ppc_eabi_init
-extern void __OSPSInit();
-extern void __OSFPRInit();
-extern void __OSCacheInit();
+#define OSRoundUp32B(v) ((((u32)v + 31) & ~31))
+#define OSRoundDown32B(v) (((u32)(v) & ~31))
+
+void *OSGetArenaHi(void);
+void *OSGetArenaLo(void);
+void OSSetArenaHi(void *newHi);
+void OSSetArenaLo(void *newLo);
+
+void *OSAllocFromArenaLo(u32 size, u32 align);
+void *OSAllocFromArenaHi(u32 size, u32 align);
 
 void OSInit();
 
-// OS logging
-void OSReport(const char *message, ...);
-void OSPanic(const char *file, int line, const char *message, ...);
+#define OS_CONSOLE_MASK 0xf0000000
+#define OS_CONSOLE_RETAIL 0x00000000
+#define OS_CONSOLE_DEVELOPMENT 0x10000000
+#define OS_CONSOLE_TDEV 0x20000000
 
-typedef s16 __OSInterrupt;
-typedef u64 OSTime;
-typedef u32 OSTick;
+#define OS_CONSOLE_RETAIL4 0x00000004
+#define OS_CONSOLE_RETAIL3 0x00000003
+#define OS_CONSOLE_RETAIL2 0x00000002
+#define OS_CONSOLE_RETAIL1 0x00000001
+#define OS_CONSOLE_TDEVHW4 0x20000007
+#define OS_CONSOLE_TDEVHW3 0x20000006
+#define OS_CONSOLE_TDEVHW2 0x20000005
+#define OS_CONSOLE_TDEVHW1 0x20000004
+#define OS_CONSOLE_DEVHW4 0x10000007
+#define OS_CONSOLE_DEVHW3 0x10000006
+#define OS_CONSOLE_DEVHW2 0x10000005
+#define OS_CONSOLE_DEVHW1 0x10000004
+#define OS_CONSOLE_MINNOW 0x10000003
+#define OS_CONSOLE_ARTHUR 0x10000002
+#define OS_CONSOLE_PC_EMULATOR 0x10000001
+#define OS_CONSOLE_EMULATOR 0x10000000
 
-#ifdef __MWERKS__
-volatile u16 OS_AI_DMA_ADDR_HI : 0xCC005030;
-volatile u16 OS_AI_DMA_ADDR_LO : 0xCC005032;
+u32 OSGetConsoleType();
 
-volatile u16 OS_ARAM_DMA_BASE : 0xCC005000;
-volatile u16 OS_ARAM_DMA_ADDR_HI : 0xCC005020;
-volatile u16 OS_ARAM_DMA_ADDR_LO : 0xCC005022;
-volatile u16 OS_DI_DMA_ADDR : 0xCC006014;
-#else
-volatile u16 OS_AI_DMA_ADDR_HI = *(volatile u16 *)0xCC005030;
-volatile u16 OS_AI_DMA_ADDR_LO = *(volatile u16 *)0xCC005032;
+#define OS_SOUND_MODE_MONO 0u
+#define OS_SOUND_MODE_STEREO 1u
 
-volatile u16 OS_ARAM_DMA_BASE = *(volatile u16 *)0xCC005000;
-volatile u16 OS_ARAM_DMA_ADDR_HI = *(volatile u16 *)0xCC005020;
-volatile u16 OS_ARAM_DMA_ADDR_LO = *(volatile u16 *)0xCC005022;
-volatile u16 OS_DI_DMA_ADDR = *(volatile u16 *)0xCC006014;
-#endif
+u32 OSGetSoundMode(void);
+void OSSetSoundMode(u32 mode);
 
-#define OSError(...) OSPanic(__FILE__, __LINE__, __VA_ARGS__)
-#define OSErrorLine(...) OSError(__VA_ARGS__)
+#define OS_PROGRESSIVE_MODE_OFF 0u
+#define OS_PROGRESSIVE_MODE_ON 1u
+
+u32 OSGetProgressiveMode(void);
+void OSSetProgressiveMode(u32 on);
+
+#define OS_LANG_ENGLISH 0u
+#define OS_LANG_GERMAN 1u
+#define OS_LANG_FRENCH 2u
+#define OS_LANG_SPANISH 3u
+#define OS_LANG_ITALIAN 4u
+#define OS_LANG_DUTCH 5u
+
+u8 OSGetLanguage(void);
+void OSSetLanguage(u8 language);
+
+#define OS_EURGB60_OFF 0u
+#define OS_EURGB60_ON 1u
+
+u32 OSGetEuRgb60Mode(void);
+void OSSetEuRgb60Mode(u32 on);
+
+void OSRegisterVersion(const char *id);
+
+BOOL OSDisableInterrupts(void);
+BOOL OSEnableInterrupts(void);
+BOOL OSRestoreInterrupts(BOOL level);
+
 #define OSHalt(msg) OSPanic(__FILE__, __LINE__, msg)
 
-  void OSRegisterVersion(const char *);
+#ifdef _DEBUG
 
-  typedef struct DVDDiskID DVDDiskID;
+#ifndef ASSERT
+#define ASSERT(exp) (void)((exp) || (OSPanic(__FILE__, __LINE__, "Failed assertion " #exp), 0))
+#endif
 
-  struct DVDDiskID
-  {
-    char gameName[4];
-    char company[2];
-    u8 diskNumber;
-    u8 gameVersion;
-    u8 streaming;
-    u8 streamingBufSize; // 0 = default
-    u8 padding[22];      // 0's are stored
-  };
+#ifndef ASSERTMSG
+#if defined(__STDC_VERSION__) && (199901L <= __STDC_VERSION__) || defined(__MWERKS__) || \
+    defined(__SN__)
+#define ASSERTMSG(exp, ...) (void)((exp) || (OSPanic(__FILE__, __LINE__, __VA_ARGS__), 0))
+#else
+#define ASSERTMSG(exp, msg) (void)((exp) || (OSPanic(__FILE__, __LINE__, (msg)), 0))
+#endif
+#endif
 
-  typedef struct OSBootInfo_s
-  {
-    DVDDiskID DVDDiskID; // 0x0
-    // u32 DVDmagic;     // 0x18 0xc2339f3d for Nintendo Game Disc
-    u32 magic;         // 0x20
-    u32 version;       // 0x24
-    u32 memorySize;    // 0x28
-    u32 consoleType;   // 0x2C
-    void *arenaLo;     // 0x30
-    void *arenaHi;     // 0x34
-    void *FSTLocation; // 0x38
-    u32 FSTMaxLength;  // 0x3C
-  } OSBootInfo;
-  typedef struct BI2Debug
-  {
-    s32 debugMonSize;  // 0x0
-    s32 simMemSize;    // 0x4
-    u32 argOffset;     // 0x8
-    u32 debugFlag;     // 0xC
-    int trackLocation; // 0x10
-    int trackSize;     // 0x14
-    u32 countryCode;   // 0x18
-    u8 unk[8];         // 0x1C
-    u32 padSpec;       // 0x24
-  } BI2Debug;
+#ifndef ASSERTMSG1
+#define ASSERTMSG1(exp, msg, param1) \
+  (void)((exp) || (OSPanic(__FILE__, __LINE__, (msg), (param1)), 0))
+#endif
 
-  typedef struct OSDummyCommandBlock OSDummyCommandBlock;
-  typedef void OSCommandBlockCallback(int, struct OSDummyCommandBlock *);
+#ifndef ASSERTMSG2
+#define ASSERTMSG2(exp, msg, param1, param2) \
+  (void)((exp) || (OSPanic(__FILE__, __LINE__, (msg), (param1), (param2)), 0))
+#endif
 
-  // TODO: This might be first 0x30 bytes of DVDPlayer?
-  struct OSDummyCommandBlock
-  {
-    u8 _00[8];                   // _00
-    u32 _08;                     // _08
-    int _0C;                     // _0C
-    unknown _10;                 // _10
-    unknown _14;                 // _14
-    DVDDiskID *_18;              // _18
-    unknown _1C;                 // _1C
-    unknown _20;                 // _20
-    DVDDiskID *diskID;           // _24
-    OSCommandBlockCallback *_28; // _28
-    u8 _2C[4];                   // _2C
-  };
+#ifndef ASSERTMSG3
+#define ASSERTMSG3(exp, msg, param1, param2, param3) \
+  (void)((exp) || (OSPanic(__FILE__, __LINE__, (msg), (param1), (param2), (param3)), 0))
+#endif
 
-  // OSArena
-  extern void *__OSArenaHi;
+#ifndef ASSERTMSG4
+#define ASSERTMSG4(exp, msg, param1, param2, param3, param4) \
+  (void)((exp) || (OSPanic(__FILE__, __LINE__, (msg), (param1), (param2), (param3), (param4)), 0))
+#endif
 
-  void *OSGetArenaHi(void);
-  void *OSGetArenaLo(void);
+#else // _DEBUG
 
-  void OSSetArenaHi(void *addr);
-  void OSSetArenaLo(void *addr);
+#ifndef ASSERT
+#define ASSERT(exp) ((void)0)
+#endif
 
-  // OSMemory
-  typedef int OSHeapHandle;
+#ifndef ASSERTMSG
+#if defined(__STDC_VERSION__) && (199901L <= __STDC_VERSION__) || defined(__MWERKS__) || \
+    defined(__SN__)
+#define ASSERTMSG(exp, ...) ((void)0)
+#else
+#define ASSERTMSG(exp, msg) ((void)0)
+#endif
+#endif
 
-  extern volatile OSHeapHandle __OSCurrHeap;
+#ifndef ASSERTMSG1
+#define ASSERTMSG1(exp, msg, param1) ((void)0)
+#endif
+#ifndef ASSERTMSG2
+#define ASSERTMSG2(exp, msg, param1, param2) ((void)0)
+#endif
+#ifndef ASSERTMSG3
+#define ASSERTMSG3(exp, msg, param1, param2, param3) ((void)0)
+#endif
+#ifndef ASSERTMSG4
+#define ASSERTMSG4(exp, msg, param1, param2, param3, param4) ((void)0)
+#endif
 
-  void *OSInitAlloc(void *, void *, int);
-  OSHeapHandle OSCreateHeap(void *, void *);
-  OSHeapHandle OSSetCurrentHeap(OSHeapHandle);
-  void *OSAllocFromHeap(OSHeapHandle, u32);
-  long OSCheckHeap(OSHeapHandle);
-  void OSFreeToHeap(OSHeapHandle heap, void *ptr);
+#endif // _DEBUG
 
-#define OSAlloc(size) OSAllocFromHeap(__OSCurrHeap, (size))
-#define OSFree(ptr) OSFreeToHeap(__OSCurrHeap, (ptr))
-  // OSLink
-  void __OSModuleInit(void);
-
-  // targsupp
-  extern void TRKAccessFile(void);
-  extern void TRKCloseFile(void);
-
-  typedef struct OSFstEntry
-  {
-    int mEntryNum;
-    int mNextEntryNum;
-    char *mFileNameMaybe;
-  } OSFstEntry;
-
-  void DCInvalidateRange(void *addr, u32 nBytes);
-  void DCFlushRange(void *addr, u32 nBytes);
-  void DCStoreRange(void *addr, u32 nBytes);
-  void DCFlushRangeNoSync(void *addr, u32 nBytes);
-  void DCStoreRangeNoSync(void *addr, u32 nBytes);
-  void DCZeroRange(void *addr, u32 nBytes);
-  void DCTouchRange(void *addr, u32 nBytes);
-
-  void ICInvalidateRange(void *addr, u32 nBytes);
-
-#define LC_BASE_PREFIX 0xE000
-#define LC_BASE (LC_BASE_PREFIX << 16)
-
-  void L2Init(void);
-  void L2Disable(void);
-  void L2GlobalInvalidate(void);
-  void LCEnable(void);
-  void LCDisable(void);
-  void LCLoadBlocks(void *destTag, void *srcAddr, u32 numBlocks);
-  void LCStoreBlocks(void *destAddr, void *srcTag, u32 numBlocks);
-  u32 LCLoadData(void *destAddr, void *srcAddr, u32 nBytes);
-  u32 LCStoreData(void *destAddr, void *srcAddr, u32 nBytes);
-  u32 LCQueueLength(void);
-  void LCQueueWait(u32 len);
-  void LCFlushQueue(void);
-
-#define LCGetBase() ((void *)LC_BASE)
-
-  s64 OSGetTime();
-  u32 OSGetTick();
-
-#define OS_SYS_CALL_HANDLER ((void *)0x80000C00)
-#define OS_HANDLER_SLOT_SIZE (0x100)
-
-  void __OSSystemCallVectorStart();
-  void __OSSystemCallVectorEnd();
-
-  void __OSInitSystemCall();
-
-  void __OSUnlockSramEx(int);
-  u8 *__OSLockSramEx(void);
-
-  void __OSUnmaskInterrupts(int);
-  BOOL OSDisableInterrupts(void);
-  BOOL OSRestoreInterrupts(BOOL);
-  BOOL OSEnableInterrupts();
-
-  void OSResetSystem(BOOL reset, u32 resetCode, BOOL forceMenu);
-
-  u32 OSGetSoundMode();
-  void OSSetSoundMode(u32);
-  void OSSetSaveRegion(int, int);
-  int OSGetProgressiveMode();
-
-  typedef struct OSFunctionInfo
-  {
-    void *m_function;
-    u32 _04;
-    u8 _08[8];
-  } OSFunctionInfo;
-
-  void OSRegisterResetFunction(OSFunctionInfo *);
-  BOOL OSGetResetSwitchState();
-
-  void OSProtectRange(u32, u32, u32, u32); /** TODO: Are these params correct? */
-  extern u32 __OSFpscrEnableBits; /** TODO: find a wrapper for this. Symbol is defined in OSError.c. */
-
-#define HW_REG(reg, type) *(volatile type *)(u32)(reg)
-#define OSGetTicksPerSecond() (*(u32 *)0x800000F8 / 4)
-
-// u32 GameCode : 0x80000000;
-// u32 FSTLocationInRam : 0x80000038;
-
-// Rounds to nearest multiple of 20 upwards and downwards
-#define OSRoundUp32B(x) (((u32)(x) + 0x1F) & ~(0x1F))
-#define OSRoundDown32B(x) (((u32)(x)) & ~(0x1F))
-
-  inline void OSInitFastCast()
-  {
-    asm
-    {
-		li r3, 4
-		oris r3, r3, 4
-		mtspr 0x392, r3
-		li r3, 5
-		oris r3, r3, 5
-		mtspr 0x393, r3
-		li r3, 6
-		oris r3, r3, 6
-		mtspr 0x394, r3
-		li r3, 7
-		oris r3, r3, 7
-		mtspr 0x395, r3
-    }
-  }
-
-  u8 OSGetLanguage();
-
-#include <dolphin/os/OSAlarm.h>
-#include <dolphin/os/OSContext.h>
-#include <dolphin/os/OSException.h>
-#include <dolphin/os/OSError.h>
-#include <dolphin/os/OSFont.h>
-#include <dolphin/os/OSMessage.h>
-#include <dolphin/os/OSMutex.h>
-#include <dolphin/os/OSThread.h>
+void OSReport(const char *msg, ...);
+void OSPanic(const char *file, int line, const char *msg, ...);
+void OSFatal(GXColor fg, GXColor bg, const char *msg);
 
 #ifdef __cplusplus
-};
-#endif // ifdef __cplusplus
-
+}
 #endif
+
+#include <dolphin/os/OSAlarm.h>
+#include <dolphin/os/OSAlloc.h>
+#include <dolphin/os/OSArena.h>
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSContext.h>
+#include <dolphin/os/OSError.h>
+#include <dolphin/os/OSException.h>
+#include <dolphin/os/OSExpansion.h>
+#include <dolphin/os/OSFastCast.h>
+#include <dolphin/os/OSFont.h>
+#include <dolphin/os/OSFst.h>
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSMemory.h>
+#include <dolphin/os/OSMessage.h>
+#include <dolphin/os/OSModule.h>
+#include <dolphin/os/OSMutex.h>
+#include <dolphin/os/OSReset.h>
+#include <dolphin/os/OSResetSW.h>
+#include <dolphin/os/OSSerial.h>
+#include <dolphin/os/OSThread.h>
+#include <dolphin/os/OSTime.h>
+#endif // _DOLPHIN_OS

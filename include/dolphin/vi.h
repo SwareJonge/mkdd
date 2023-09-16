@@ -66,6 +66,8 @@ typedef enum
 #define VI_MAX_WIDTH_EURGB60 VI_MAX_WIDTH_NTSC
 #define VI_MAX_HEIGHT_EURGB60 VI_MAX_HEIGHT_NTSC
 
+#define VI_DTV_STAT (55)
+
 typedef void (*VIRetraceCallback)(u32 retraceCount);
 
 #define VIPadFrameBufferWidth(width) ((u16)(((u16)(width) + 15) & ~15))

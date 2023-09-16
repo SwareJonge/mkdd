@@ -69,24 +69,24 @@ namespace System {
     void init() {
 #ifdef REGION_EU
         switch(OSGetLanguage()) {
-            case 0:
-                KartLocale::setCountry(UNITED_KINGDOM);
-                break;
-            case 2:
-                KartLocale::setCountry(FRANCE);
-                break;
-            case 1:
-                KartLocale::setCountry(GERMANY);
-                break;
-            case 4:
-                KartLocale::setCountry(ITALY);
-                break;
-            case 3:
-                KartLocale::setCountry(SPAIN);
-                break;
-            default: // fallback for when gamecube is set to Dutch?
-                KartLocale::setCountry(UNITED_KINGDOM);
-                break;
+        case OS_LANG_ENGLISH:
+            KartLocale::setCountry(UNITED_KINGDOM);
+            break;
+        case OS_LANG_FRENCH:
+            KartLocale::setCountry(FRANCE);
+            break;
+        case OS_LANG_GERMAN:
+            KartLocale::setCountry(GERMANY);
+            break;
+        case OS_LANG_ITALIAN:
+            KartLocale::setCountry(ITALY);
+            break;
+        case OS_LANG_SPANISH:
+            KartLocale::setCountry(SPAIN);
+            break;
+        default: // fallback for when gamecube is set to Dutch?
+            KartLocale::setCountry(UNITED_KINGDOM);
+            break;
         }
 #endif
         KartLocale::localize();

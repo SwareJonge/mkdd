@@ -696,16 +696,36 @@ global:
   0x80026f6c: __dt__14J2DGrafContextFv
   0x80026fbc: __ct__13J2DOrthoGraphFffffff
   0x800270a0: setPort__13J2DOrthoGraphFv
+  0x800270f8: setOrtho__13J2DOrthoGraphFRCQ29JGeometry8TBox2<f>ff
+  0x8002712c: setLookat__13J2DOrthoGraphFv
+  0x80027168: scissorBounds__13J2DOrthoGraphFPQ29JGeometry8TBox2<f>PCQ29JGeometry8TBox2<f>
   0x80027274: J2DDrawLine__FffffQ28JUtility6TColori
   0x800273cc: J2DFillBox__FffffQ28JUtility6TColor
   0x80027414: J2DFillBox__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColor
   0x800274d0: J2DDrawFrame__FffffQ28JUtility6TColorUc
   0x8002751c: J2DDrawFrame__FRCQ29JGeometry8TBox2<f>Q28JUtility6TColorUc
+  0x800275e8: getGrafType__13J2DOrthoGraphCFv
+  0x800275f0: place__14J2DGrafContextFffff
   0x80348510: __vt__13J2DOrthoGraph
+  
   # J2DGrafContext.cpp
+  0x8002790c: __ct__14J2DGrafContextFffff
+  0x800279b8: setPort__14J2DGrafContextFv
+  0x80027a48: setup2D__14J2DGrafContextFv
+  0x80027c1c: setScissor__14J2DGrafContextFv
+  0x80027ebc: scissor__14J2DGrafContextFRCQ29JGeometry8TBox2<f>
+  0x80027ee0: place__14J2DGrafContextFRCQ29JGeometry8TBox2<f>
   0x80027f14: setColor__14J2DGrafContextFQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColorQ28JUtility6TColor
+  0x80028030: setLineWidth__14J2DGrafContextFUc
   0x8002805c: fillBox__14J2DGrafContextFRCQ29JGeometry8TBox2<f>
+  0x80028150: drawFrame__14J2DGrafContextFRCQ29JGeometry8TBox2<f>
+  0x80028258: lineTo__14J2DGrafContextFQ29JGeometry8TVec2<f>
+  0x80028354: getGrafType__14J2DGrafContextCFv
+  0x8002835c: setLookat__14J2DGrafContextFv
   0x80348560: __vt__14J2DGrafContext
+
+  # J2DPane.cpp
+  0x8002a9b0: getTransform__15J2DAnmTransformCFUsP16J3DTransformInfo
 
   # J2DPrint.cpp
   0x8002e484: __ct__8J2DPrintFP7JUTFontf
@@ -713,8 +733,78 @@ global:
   0x8002e950: print__8J2DPrintFffPCce
   0x8002ea60: print__8J2DPrintFffUcPCce
 
+  # J2DScreen.cpp
+  0x803d4ba8: mDataManage__9J2DScreen
+
   # J2DTextBox.cpp
   0x80032b00: getStringPtr__10J2DTextBoxCFv
+
+  # J2DWindowEx.cpp
+  0x80038630: getColor__14J2DAnmVtxColorCFUcUsP8_GXColor
+
+  # J2DAnmLoader.cpp
+  0x80038f90: __dt__14J2DAnmVtxColorFv
+  0x80038ff4: __dt__11J2DAnmColorFv
+  0x80039074: __dt__15J2DAnmTransformFv
+  0x800390d8: __dt__10J2DAnmBaseFv
+
+  0x8003a244: searchUpdateMaterialID__10J2DAnmBaseFP9J2DScreen
+  0x80348b4c: __vt__14J2DAnmVtxColor
+  0x80348b60: __vt__15J2DAnmTransform
+  0x80348b74: __vt__10J2DAnmBase
+
+  # J2DManage.cpp
+  0x8003a794: get__13J2DDataManageFPCc
+  0x8003a7f0: get__13J2DDataManageFP14JSUInputStream
+  0x8003a8a8: getResReference__15J2DResReferenceCFUs  
+  0x8003a8dc: getName__15J2DResReferenceCFUs
+  
+  0x80043778: getColor__11J2DAnmColorCFUsP8_GXColor
+
+  # J2DAnimation.cpp
+  0x8004acc8: getTransform__19J2DAnmTransformFullCFUsP16J3DTransformInfo
+  0x8004b234: calcTransform__18J2DAnmTransformKeyCFfUsP16J3DTransformInfo
+  0x8004b66c: searchUpdateMaterialID__11J2DAnmColorFP9J2DScreen
+  0x8004b718: getColor__15J2DAnmColorFullCFUsP8_GXColor
+  0x8004b954: getColor__14J2DAnmColorKeyCFUsP8_GXColor
+  0x8004bc20: getColor__18J2DAnmVtxColorFullCFUcUsP8_GXColor
+  0x8004be68: getColor__17J2DAnmVtxColorKeyCFUcUsP8_GXColor
+  0x8004c160: calcTransform__19J2DAnmTextureSRTKeyCFfUsP17J3DTextureSRTInfo
+  0x8004c3d0: searchUpdateMaterialID__19J2DAnmTextureSRTKeyFP9J2DScreen
+  0x8004c488: searchUpdateMaterialID__16J2DAnmTexPatternFP9J2DScreen
+  0x8004c678: __ct__Q216J2DAnmTexPattern27J2DAnmTexPatternTIMGPointerFv
+  0x8004c688: __dt__Q216J2DAnmTexPattern27J2DAnmTexPatternTIMGPointerFv
+  0x8004c6dc: getTexNo__16J2DAnmTexPatternCFUsPUs
+  0x8004c794: getResTIMG__16J2DAnmTexPatternCFUs
+  0x8004c860: getPalette__16J2DAnmTexPatternCFUs
+  0x8004c930: getVisibility__20J2DAnmVisibilityFullCFUsPUc
+  0x8004c9dc: getTevColorReg__15J2DAnmTevRegKeyCFUsP11_GXColorS10
+  0x8004cc98: getTevKonstReg__15J2DAnmTevRegKeyCFUsP8_GXColor
+  0x8004cf64: searchUpdateMaterialID__15J2DAnmTevRegKeyFP9J2DScreen
+  0x8004d07c: __dt__15J2DAnmTevRegKeyFv
+  0x8004d114: __dt__16J2DAnmTexPatternFv
+  0x8004d1a8: __dt__19J2DAnmTextureSRTKeyFv
+  0x8004d240: __dt__17J2DAnmVtxColorKeyFv
+  0x8004d2b4: __dt__18J2DAnmVtxColorFullFv
+  0x8004d328: __dt__14J2DAnmColorKeyFv
+  0x8004d3b8: __dt__15J2DAnmColorFullFv
+  0x8004d448: __dt__18J2DAnmTransformKeyFv
+  0x8004d4bc: getTransform__18J2DAnmTransformKeyCFUsP16J3DTransformInfo
+  0x8004d4ec: __dt__19J2DAnmTransformFullFv
+  0x8004d560: J2DGetKeyFrameInterpolation<s>__FfP18J3DAnmKeyTableBasePs
+  0x8004d798: J2DGetKeyFrameInterpolation<f>__FfP18J3DAnmKeyTableBasePf
+
+  0x803492d0: __vt__15J2DAnmTevRegKey
+  0x803492e0: __vt__16J2DAnmTexPattern
+  0x803492f0: __vt__19J2DAnmTextureSRTKey
+  0x80349300: __vt__17J2DAnmVtxColorKey
+  0x80349314: __vt__18J2DAnmVtxColorFull
+  0x80349328: __vt__14J2DAnmColorKey
+  0x8034933c: __vt__15J2DAnmColorFull
+  0x80349350: __vt__11J2DAnmColor
+  0x80349364: __vt__18J2DAnmTransformKey
+  0x8034937c: __vt__19J2DAnmTransformFull
+
   # JFramework
   # JFWSystem.cpp
   0x8007a494: init__9JFWSystemFv
@@ -772,6 +862,10 @@ global:
   0x8008944c: getResource__18JPAResourceManagerCFUs
   0x80089490: registRes__18JPAResourceManagerFP11JPAResource
   0x800894b0: registTex__18JPAResourceManagerFP10JPATexture
+  # JPATexture.cpp
+  0x800894d0: __ct__10JPATextureFPCUc
+  0x80089538: __dt__10JPATextureFv
+  0x8034b4d0: __vt__10JPATexture
   # JAudio
   # JAiAudience
   0x80089780: __dt__18JASMemPool<5JAISe>Fv
@@ -833,6 +927,9 @@ global:
   # JASInstRand.cpp
   0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
   0x8034b8b8: __vt__11JASInstRand
+  # osdsp.c
+  0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
+  0x800a2000: __DSPHandler
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.
@@ -2006,7 +2103,34 @@ global:
   0x8035058c: GXPal528IntDf
   0x803505c8: GXEurgb60Hz480IntDf
 
+  0x80371310: __CARDBlock
+  0x80371530: __CARDDiskNone
+  0x803d3410: __CARDVendorID
+  0x803d3412: __CARDPermMask
+
+  # dvd.a
+  0x803d4e1c: __DVDLongFileNameFlag
+  0x803d4e20: __DVDThreadQueue
+
+  # pad.a
+  0x803d5258: __PADSpec
+  0x803d5268: __PADFixBits
+
+  # os.a
   0x803d34f0: __OSCurrHeap
+  0x803d3500: __OSFpscrEnableBits
+  0x803d516c: __OSIsGcam
+  0x803d5190: __OSInIPL
+  0x803d51c4: __OSLastInterruptSrr0
+  0x803d51c8: __OSLastInterrupt
+  0x803d51d0: __OSLastInterruptTime
+  0x8037f3f0: __OSErrorTable
+
+  # dsp.a
+  0x803d4f78: __DSP_tmp_task
+  0x803d4f7c: __DSP_last_task
+  0x803d4f80: __DSP_first_task
+  0x803d4f84: __DSP_curr_task
 
   0x80352ae8: __files
 

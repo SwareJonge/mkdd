@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <string.h>
 
 #include <dolphin/os.h>
 #include <dolphin/vi.h>
@@ -20,11 +20,11 @@ JUTConsoleManager *JUTConsoleManager::sManager;
 
 JUTConsole *JUTConsole::create(uint param_0, uint maxLines, JKRHeap *pHeap)
 {
-    JUTConsoleManager *pManager = JUTConsoleManager::sManager;
+    JUTConsoleManager *pManager = JUTConsoleManager::getManager();
 #line 33
     JUT_ASSERT(pManager != 0);
 
-    u8 *buffer = (u8 *)JKRHeap::alloc(getObjectSizeFromBufferSize(param_0, maxLines), 0, pHeap);
+    u8 *buffer = (u8*)JKRAllocFromHeap(pHeap, getObjectSizeFromBufferSize(param_0, maxLines), 0);
 
     JUTConsole *newConsole = new (buffer) JUTConsole(param_0, maxLines, true);
     newConsole->mBuf = buffer + sizeof(JUTConsole);
@@ -36,7 +36,7 @@ JUTConsole *JUTConsole::create(uint param_0, uint maxLines, JKRHeap *pHeap)
 
 JUTConsole *JUTConsole::create(uint param_0, void *buffer, u32 bufferSize)
 {
-    JUTConsoleManager *pManager = JUTConsoleManager::sManager;
+    JUTConsoleManager *pManager = JUTConsoleManager::getManager();
 #line 59
     JUT_ASSERT(pManager != 0);
 #line 63
@@ -85,6 +85,8 @@ JUTConsole::JUTConsole(uint p1, uint maxLines, bool p3)
 }
 
 JUTConsole::~JUTConsole() {
+#line 154
+    JUT_ASSERT(JUTConsoleManager::getManager())
     JUTConsoleManager::getManager()->removeConsole(this);
 }
 
@@ -296,8 +298,8 @@ JUTConsoleManager::JUTConsoleManager()
 
 JUTConsoleManager *JUTConsoleManager::createManager(JKRHeap *pHeap)
 {
-#line 563
-    JUT_ASSERT(924, sManager == 0);
+#line 924
+    JUT_ASSERT(sManager == 0);
     if (pHeap == nullptr)
     {
         pHeap = JKRGetCurrentHeap();
@@ -305,7 +307,7 @@ JUTConsoleManager *JUTConsoleManager::createManager(JKRHeap *pHeap)
     return sManager = new (pHeap, 0) JUTConsoleManager();
 }
 
-void JUTConsoleManager::appendConsole(JUTConsole *console)
+/*void JUTConsoleManager::appendConsole(JUTConsole *console)
 {
 #line 961
     JUT_ASSERT(sManager != 0 && console != 0);
@@ -317,7 +319,7 @@ void JUTConsoleManager::appendConsole(JUTConsole *console)
     {
         mActiveConsole = console;
     }
-}
+}*/
 
 void JUTConsoleManager::drawDirect(bool waitRetrace) const {
     if(mDirectConsole != nullptr) {

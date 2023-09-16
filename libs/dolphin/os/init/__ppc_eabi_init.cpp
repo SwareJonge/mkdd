@@ -1,9 +1,14 @@
 #include <dolphin/os.h>
-#include <dolphin/PPCArch.h>
+#include <dolphin/base.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void __OSPSInit();
+void __OSFPRInit();
+void __OSCacheInit();
+
 typedef void (*voidfunctionptr)(void); // pointer to function returning void
 __declspec(section ".ctors") extern voidfunctionptr _ctors[];
 __declspec(section ".dtors") extern voidfunctionptr _dtors[];

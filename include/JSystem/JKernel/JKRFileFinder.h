@@ -61,14 +61,14 @@ class JKRDvdFinder : public JKRFileFinder
     {
         if (mIsDvdOpen)
         {
-            DVDCloseDir(&mFstEntry);
+            DVDCloseDir(&mDir);
         }
     }
     virtual bool findNextFile(); // _0C
 
     // _00     = VTBL
     // _00-_14 = JKRFileFinder
-    OSFstEntry mFstEntry; // _14
+    DVDDir mDir;       // _14
     bool mIsDvdOpen;      // _20
 };
 

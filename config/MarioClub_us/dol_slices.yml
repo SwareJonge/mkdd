@@ -6,10 +6,18 @@ src/kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
+libs/JSystem/JParticle/JPAKeyBlock.cpp:
+    .text: [0x80010760, 0x80010804]
+    .sdata2: [0x80417318, 0x80417320]
+
 libs/JSystem/JParticle/JPAResourceManager.cpp:
     .text: [0x800154b4, 0x800156ec]
     .rodata: [0x80360f38, 0x80360fa0]
     .sdata2: [0x80417388, 0x80417398]
+
+libs/JSystem/JParticle/JPATexture.cpp:
+    .text: [0x800156ec, 0x800157b8]
+    .data: [0x803880a8, 0x803880c0]
 
 libs/JSystem/JFramework/JFWSystem.cpp:
     .text: [0x800157b8, 0x80015b80]
@@ -19,7 +27,7 @@ libs/JSystem/JFramework/JFWSystem.cpp:
     .sdata2: [0x80417398, 0x804173b8]
 
 libs/JSystem/JFramework/JFWDisplay.cpp:
-    .text: [0x80015b80, 0x80017308] # 0x80017308
+    .text: [0x80015b80, 0x80017308]
     .ctors: [0x803160a8, 0x803160ac]
     .rodata: [0x80360fd8, 0x803610f0]
     .data: [0x803880c0, 0x80388158]
@@ -27,6 +35,16 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
     #.bss: [0x803ef5c0, 0x803ef5cc] # common section, doesn't have to be defined
     .sbss: [0x80415718, 0x80415740]
     .sdata2: [0x804173b8, 0x804173e0]
+
+libs/JSystem/J2DGraph/J2DOrthoGraph.cpp:
+    .text: [0x80043bdc, 0x80044300]
+    .data: [0x80389d00, 0x80389d28]
+    .sdata2: [0x80417578, 0x80417580]
+
+libs/JSystem/J2DGraph/J2DAnimation.cpp:
+    .text: [0x8006666c, 0x80069178]
+    .data: [0x8038ab08, 0x8038abc8]
+    .sdata2: [0x80417760, 0x80417788]
 
 libs/JSystem/JMath/JMath.cpp:
     .text: [0x80069178, 0x800693c8]
@@ -38,7 +56,7 @@ libs/JSystem/JMath/random.cpp:
 libs/JSystem/JMath/JMATrigonometric.cpp:
     .text: [0x800693d0, 0x800697f8]
     .ctors: [0x803160c4, 0x803160c8]
-    #.bss: [0x803f2540, 0x803fa5c0] # alligned by 32
+    #.bss: [0x803f2540, 0x803fa5c0] # common bs alligned by 32
     .sdata2: [0x80417798, 0x804177e0]
 
 libs/JSystem/JUtility/JUTAssert.cpp:
@@ -48,6 +66,13 @@ libs/JSystem/JUtility/JUTAssert.cpp:
     .sdata: [0x80414040, 0x80414050]
     .sbss: [0x804157c8, 0x804157d8]
     .sdata2: [0x804177e0, 0x80417810]
+
+#libs/JSystem/JUtility/JUTConsole.cpp:
+    #.text: [0x8006a0dc, 0x8006b8c0]
+    #.rodata: [0x803617c8, 0x80361a00]
+    #.data: [0x8038abc8, 0x8038abd8]
+    #.sbss: [0x804157d8, 0x804157e8]
+    #.sdata2: [0x80417810, 0x80417848]
 
 libs/JSystem/JUtility/JUTDbPrint.cpp:
     .text: [0x8006b8c0, 0x8006be44]
@@ -333,15 +358,299 @@ libs/JSystem/JAudio/System/JASInstRand.cpp:
     .sbss: [0x80415ab0, 0x80415ab8]
     .sdata2: [0x80417fb8, 0x80417fd8]
 
-libs/dolphin/os/__ppc_eabi_init.cpp:
+libs/dolphin/base/PPCArch.c:
+    .text: [0x800af634, 0x800af748]
+
+libs/dolphin/dvd/dvdlow.c:
+    .text: [0x800b06ec, 0x800b1568]
+    .bss: [0x803b1480, 0x803b1560]
+    .sdata: [0x804140d8, 0x804140e0]
+    .sbss: [0x80415b30, 0x80415b78]
+
+libs/dolphin/dvd/dvdfs.c:
+    .text: [0x800b1568, 0x800b1e44]
+    .data: [0x8038f518, 0x8038f680]
+    .sdata: [0x804140e0, 0x804140e8]
+    .sbss: [0x80415b78, 0x80415b98]
+
+libs/dolphin/dvd/dvd.c:
+    .text: [0x800b1e44, 0x800b4578]
+    .data: [0x8038f680, 0x8038f800]
+    .bss: [0x803b1560, 0x803b15f8]
+    .sdata: [0x804140e8, 0x80414100]
+    .sbss: [0x80415b98, 0x80415be0]
+
+libs/dolphin/dvd/dvdqueue.c:
+    .text: [0x800b4578, 0x800b4770]
+    .bss: [0x803b15f8, 0x803b1618]
+
+libs/dolphin/dvd/dvderror.c:
+    .text: [0x800b4770, 0x800b4908]
+    .data: [0x8038f800, 0x8038f848]    
+
+libs/dolphin/dvd/dvdidutils.c:
+    .text: [0x800b4908, 0x800b4a00]
+
+libs/dolphin/dvd/dvdFatal.c:
+    .text: [0x800b4a00, 0x800b4a30]
+    .sbss: [0x80415be0, 0x80415be8]
+
+libs/dolphin/dvd/emu_level2/fstload.c:
+    .text: [0x800b4a30, 0x800b4c70]
+    .data: [0x8038f848, 0x8038f8b8]
+    .bss: [0x803b1618, 0x803b1688]
+    .sdata: [0x80414100, 0x80414110]
+    .sbss: [0x80415be8, 0x80415bf8]
+
+libs/dolphin/ai/ai.c:
+    .text: [0x800b6ad4, 0x800b73b8]
+    .data: [0x8038fc88, 0x8038fcd0]
+    .sdata: [0x80414120, 0x80414128]
+    .sbss: [0x80415c58, 0x80415c98]
+
+libs/dolphin/ar/ar.c:
+    .text: [0x800b73b8, 0x800b8e94]
+    .data: [0x8038fcd0, 0x8038fd18]
+    .sdata: [0x80414128, 0x80414130]
+    .sbss: [0x80415c98, 0x80415cb8]
+
+libs/dolphin/ar/arq.c:
+    .text: [0x800b8e94, 0x800b9230]
+    .data: [0x8038fd18, 0x8038fd60]
+    .sdata: [0x80414130, 0x80414138]
+    .sbss: [0x80415cb8, 0x80415ce0]
+
+libs/dolphin/dsp/dsp.c:
+    .text: [0x800b9230, 0x800b9380]
+    .data: [0x8038fd60, 0x8038fde0]
+    .sdata: [0x80414138, 0x80414140]
+    .sbss: [0x80415ce0, 0x80415ce8]
+
+libs/dolphin/dsp/dsp_debug.c:
+    .text: [0x800b9380, 0x800b93d0]
+
+libs/dolphin/dsp/dsp_task.c:
+    .text: [0x800b93d0, 0x800b9830]
+    .data: [0x8038fde0, 0x8038ff20]
+    .sbss: [0x80415ce8, 0x80415cf8]
+
+libs/dolphin/card/CARDBios.c:
+    .text: [0x800b9830, 0x800baae4]
+    .data: [0x8038ff20, 0x8038ff80]
+    .bss: [0x803b17d0, 0x803b1a10]
+    .sdata: [0x80414140, 0x80414148]
+    .sbss: [0x80415cf8, 0x80415d00]
+
+libs/dolphin/card/CARDUnlock.c:
+    .text: [0x800baae4, 0x800bbd44]
+    .data: [0x8038ff80, 0x803900e0]
+    .sdata: [0x80414148, 0x80414150]
+
+libs/dolphin/card/CARDRdwr.c:
+    .text: [0x800bbd44, 0x800bbfc4]
+
+libs/dolphin/card/CARDBlock.c:
+    .text: [0x800bbfc4, 0x800bc3c8]
+
+libs/dolphin/card/CARDDir.c:
+    .text: [0x800bc3c8, 0x800bc62c]
+
+libs/dolphin/card/CARDCheck.c:
+    .text: [0x800bc62c, 0x800bd594]
+
+libs/dolphin/card/CARDMount.c:
+    .text: [0x800bd594, 0x800be054]
+    .data: [0x803900e0, 0x80390120]
+
+libs/dolphin/card/CARDFormat.c:
+    .text: [0x800be054, 0x800be844]
+
+libs/dolphin/card/CARDOpen.c:
+    .text: [0x800be844, 0x800bef34]
+
+libs/dolphin/card/CARDNet.c:
+    .sdata: [0x80414150, 0x80414158]
+
+libs/dolphin/card/CARDCreate.c:
+    .text: [0x800bef34, 0x800bf2cc]
+
+libs/dolphin/card/CARDRead.c:
+    .text: [0x800bf2cc, 0x800bf740]
+
+libs/dolphin/card/CARDWrite.c:
+    .text: [0x800bf740, 0x800bfabc]
+
+libs/dolphin/card/CARDDelete.c:
+    .text: [0x800bfabc, 0x800bfe2c]
+
+libs/dolphin/card/CARDStat.c:
+    .text: [0x800bfe2c, 0x800c02f4]
+
+libs/dolphin/card/CARDRename.c:
+    .text: [0x800c02f4, 0x800c0538]
+
+#libs/dolphin/exi/EXIBios.c:
+    #.text: [0x800ca238, 0x800cbd2c]
+    #.data: [0x80390b78, 0x80390c88]
+    #.bss: [0x803b22c8, 0x803b2388]
+    #.sdata: [0x804141c8, 0x804141d0]
+    #.sbss: [0x80415d88, 0x80415d90]
+
+libs/dolphin/exi/EXIUart.c:
+    .text: [0x800cbd2c, 0x800cc300]
+    .sbss: [0x80415d90, 0x80415da0]
+
+libs/dolphin/os/OS.c:
+    .text: [0x800ec2cc, 0x800ecdb8]
+    .data: [0x803919d8, 0x80391bd0]
+    .bss: [0x803bf860, 0x803bf8b0]
+    .sdata: [0x80414230, 0x80414240]
+    .sbss: [0x80415ee0, 0x80415f20]
+
+libs/dolphin/os/OSAlarm.c:
+    .text: [0x800ecdb8, 0x800ed590]
+    .data: [0x80391bd0, 0x80391be0]
+    .sbss: [0x80415f20, 0x80415f28]
+
+libs/dolphin/os/OSAlloc.c:
+    .text: [0x800ed590, 0x800ed7a4]
+    .sdata: [0x80414240, 0x80414248]
+    .sbss: [0x80415f28, 0x80415f38]
+
+libs/dolphin/os/OSArena.c:
+    .text: [0x800ed7a4, 0x800ed7c4]
+    .sdata: [0x80414248, 0x80414250]
+    .sbss: [0x80415f38, 0x80415f40]
+
+libs/dolphin/os/OSAudioSystem.c:
+    .text: [0x800ed7c4, 0x800eda58]
+    .data: [0x80391be0, 0x80391c60]
+
+libs/dolphin/os/OSCache.c:
+    .text: [0x800eda58, 0x800ee0d0]
+    .data: [0x80391c60, 0x80391e90]
+
+#libs/dolphin/os/OSContext.c:
+    #.text: [0x800ee0d0, 0x800eea6c]
+    #.data: [0x80391e90, 0x80392068]
+
+libs/dolphin/os/OSError.c:
+    .text: [0x800eea6c, 0x800ef118]
+    .data: [0x80392068, 0x80392388]
+    .bss: [0x803bf8b0, 0x803bf8f8] # actual slice end: 0x803bf900
+    .sdata: [0x80414250, 0x80414258]
+
+libs/dolphin/os/OSFont.c:
+    .text: [0x800ef118, 0x800ef170]
+    .sdata: [0x80414258, 0x80414260]
+
+#libs/dolphin/os/OSInterrupt.c:
+    #.text: [0x800ef170, 0x800ef9dc]
+    #.data: [0x80392388, 0x803923b8]
+    #.sbss: [0x80415f40, 0x80415f58]
+
+libs/dolphin/os/OSLink.c:
+    .text: [0x800ef9dc, 0x800ef9f4]
+
+libs/dolphin/os/OSMessage.c:
+    .text: [0x800ef9f4, 0x800efccc]
+
+libs/dolphin/os/OSMemory.c:
+    .text: [0x800efccc, 0x800f0080]
+    .data: [0x803923b8, 0x803923c8]
+
+libs/dolphin/os/OSMutex.c:
+    .text: [0x800f0080, 0x800f02cc]
+
+#libs/dolphin/os/OSReboot.c:
+    #.text: [0x800f02cc, 0x800f0628]
+    #.bss: [0x803bf900, 0x803bf920]
+    #.sbss: [0x80415f58, 0x80415f68]
+
+libs/dolphin/os/OSReset.c:
+    .text: [0x800f0628, 0x800f0a4c]
+    .sbss: [0x80415f68, 0x80415f78]
+
+libs/dolphin/os/OSResetSW.c:
+    .text: [0x800f0a4c, 0x800f0df8]
+    .sbss: [0x80415f78, 0x80415f98]
+
+libs/dolphin/os/OSRtc.c:
+    .text: [0x800f0df8, 0x800f1988]
+    .bss: [0x803bf920, 0x803bf978]
+
+libs/dolphin/os/OSThread.c:
+    .text: [0x800f1a0c, 0x800f2d3c]
+    .bss: [0x803bf978, 0x803c0370]
+    .sdata: [0x80414260, 0x80414268]
+    .sbss: [0x80415f98, 0x80415fa8]
+
+libs/dolphin/os/OSTime.c:
+    .text: [0x800f2d3c, 0x800f31b8]
+    .data: [0x803923c8, 0x80392428]
+
+libs/dolphin/os/OSSync.c:
+    .text: [0x800f1988, 0x800f1a0c]
+
+#libs/dolphin/os/init/__start.c:
+    #.init: [0x80003100, 0x80003400]
+    #.sbss: [0x80415fa8, 0x80415fb0]
+
+libs/dolphin/os/init/__ppc_eabi_init.cpp:
     .init: [0x80003400, 0x80003458]
     .text: [0x800f31b8, 0x800f324c]
+
+libs/dolphin/pad/Padclamp.c:
+    .text: [0x800f324c, 0x800f3744]
+    .rodata: [0x8036ac50, 0x8036ac60]
+    .sdata2: [0x804183f0, 0x80418410]
+
+libs/dolphin/pad/Pad.c:
+    .text: [0x800f3744, 0x800f5100]
+    .data: [0x80392428, 0x80392480]
+    .bss: [0x803c0370, 0x803c03c0]
+    .sdata: [0x80414268, 0x80414288]
+    .sbss: [0x80415fb0, 0x80415fe0]
+
+libs/dolphin/si/SIBios.c:
+    .text: [0x800f5100, 0x800f6960]
+    .data: [0x80392480, 0x80392598]
+    .bss: [0x803c03c0, 0x803c05c0]
+    .sdata: [0x80414288, 0x80414290]
+    .sbss: [0x80415fe0, 0x80415ff0]
+
+libs/dolphin/si/SISamplingRate.c:
+    .text: [0x800f6960, 0x800f6a68]
+    .data: [0x80392598, 0x80392630]
+    .sbss: [0x80415ff0, 0x80415ff8]
+
+libs/dolphin/db/db.c:
+    .text: [0x800f7114, 0x800f7200]
+    .data: [0x80392630, 0x80392648]
+    .sbss: [0x80416008, 0x80416020]
+
+libs/dolphin/thp/THPDec.c:
+    .text: [0x800f7200, 0x800fe768]
+    .rodata: [0x8036ac60, 0x8036acf0]
+    .data: [0x80392648, 0x80392688]
+    .bss: [0x803c0660, 0x803c0790]
+    .sdata: [0x80414290, 0x80414298]
+    .sbss: [0x80416020, 0x80416138]
+    .sdata2: [0x80418410, 0x80418430]
+
+libs/dolphin/thp/THPAudio.c:
+    .text: [0x800fe768, 0x800fec98]
 
 libs/PowerPC_EABI_Support/src/Runtime/__mem.c:
     .init: [0x80003458, 0x80003590]
 
 libs/PowerPC_EABI_Support/src/Runtime/__va_arg.c:
     .text: [0x801059a0, 0x80105a68]
+
+#libs/PowerPC_EABI_Support/src/Runtime/global_destructor_chain.c:
+    #.text: [0x80105a68, 0x80105ac8]
+    #.dtors: [0x80316668, 0x8031666c]
+    #.sbss: [0x80416190, 0x80416198]
 
 libs/PowerPC_EABI_Support/src/Runtime/CPlusLibPPC.cp:
     .text: [0x80105ac8, 0x80105af8]
@@ -353,6 +662,12 @@ libs/PowerPC_EABI_Support/src/Runtime/ptmf.c:
 libs/PowerPC_EABI_Support/src/Runtime/runtime.c:
     .text: [0x80105f24, 0x80106600]
     .rodata: [0x8036b0b0, 0x8036b0c8]
+
+#libs/PowerPC_EABI_Support/src/Runtime/__init_cpp_exceptions.cpp:
+    #.text: [0x80106600, 0x8010667c]
+    ##.ctors: [0x803160a0, 0x803160a4]
+    ##.dtors: [0x80316660, 0x80316664]
+    #.sdata: [0x80414558, 0x80414560]
 
 #libs/PowerPC_EABI_Support/src/Runtime/GCN_mem_alloc.c:
     #.text: [0x80106600, 0x8010679c]
@@ -828,3 +1143,11 @@ src/Yamamoto/KartApeendix.cpp:
 # use an empty .s as workaround to get the correct en offset
 src/ctorhack.s: 
     .ctors: [0x8031665c, 0x80316660]
+
+# not required yet, but for __start it generates some data in the .init section which can't be added to the start section itself 
+#src/starthack.s:
+    #.init: [0x80005544, 0x80005600]
+
+# for if i ever compile the extab related stuff
+#src/extabhack.s:
+    #.init: [0x8000569c, 0x800056c0]

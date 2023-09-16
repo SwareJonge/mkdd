@@ -6,7 +6,7 @@ void JUTPalette::storeTLUT(_GXTlut name, ResTLUT *tlut)
 {
     if (tlut == NULL) {
 #line 35
-        OSErrorLine("JUTTexture: TLUT is NULL\n");
+        OSHalt("JUTTexture: TLUT is NULL\n");
     }
     mTlutName = name;
     mFormat = tlut->mFormat;

@@ -20,7 +20,7 @@ int JUTDirectFile::fetch32byte()
     else
     {
         interrupts = OSEnableInterrupts();
-        while (DVDGetCommandBlockStatus(&mFileInfo))
+        while (DVDGetCommandBlockStatus(&mFileInfo.cb))
         {
             ;
         }

@@ -44,6 +44,7 @@ import common as c
 # Check CW was added
 assert os.path.exists("tools/2.6/mwcceppc.exe") and \
     os.path.exists("tools/1.3.2/mwcceppc.exe") and \
+    os.path.exists("tools/1.2.5n/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5/mwcceppc.exe") and \
     os.path.exists("tools/2.6/mwldeppc.exe"), \
     "Error: Codewarrior compiler(s) not found!"
@@ -567,7 +568,8 @@ class CSource(Source):
         self.cflags = ctx.cflags
 
         if path.startswith("libs/dolphin/"):
-            self.cc = c.SDK_CC # TODO: build flags for SDK
+            self.cc = c.SDK_PACTHED_CC
+            self.cflags = c.SDK_CFLAGS
         elif path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/"):            
             self.cflags = c.MSL_C_DEBUG_CFLAGS
             if path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math") or path.endswith("math_ppc.c") or path.endswith("extras.c"):
@@ -583,11 +585,9 @@ class CSource(Source):
             elif path.startswith("libs/JSystem/"):
                 self.cflags = c.JSYSTEM_RELEASE_CFLAGS                
                 if path.endswith("JKRSolidHeap.cpp"):
-                    self.cc = c.CC_1_3_2                
+                    self.cc = c.CC_1_3_2
         else:
-            if path.startswith("libs/JSystem/JUtility/"):
-                self.cflags = c.DOL_CFLAGS
-            elif path.startswith("libs/JSystem/JKernel/"):
+            if path.startswith("libs/JSystem/JUtility/") or path.startswith("libs/JSystem/JKernel/") or path.startswith("libs/JSystem/J2DGraph/"):
                 self.cflags = c.DOL_CFLAGS
             elif path.startswith("libs/JSystem/JAudio/"):
                 self.cflags = c.JSYSTEM_SPEED_CFLAGS

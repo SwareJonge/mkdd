@@ -27,10 +27,10 @@ public:
     bool load();
 
     _GXTlut getTlutName() const { return (_GXTlut)mTlutName; }
-    u8 getFormat() const { return mFormat; }
+    GXTlutFmt getFormat() const { return (GXTlutFmt)mFormat; }
     ResTLUT *getColorTable() const { return mColorTable; }
-    u16 getNumColors() const { return mNumColors; }
-    u8 getTransparency() const { return mTransparency; }
+    u64 getNumColors() const { return mNumColors; } // WTF, there's no way this is right, however matches both debug and release
+    JUTTransparency getTransparency() const { return (JUTTransparency)mTransparency; }
 
 private:
     _GXTlutObj mTlutObj;  // 0x0

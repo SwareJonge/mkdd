@@ -7,13 +7,7 @@
 extern "C" {
 #endif
 
-#ifdef TARGET_PC
-#include <stdbool.h>
-
-typedef bool GXBool;
-#else
 typedef u8 GXBool;
-#endif
 
 #define GX_FALSE ((GXBool)0)
 #define GX_TRUE ((GXBool)1)

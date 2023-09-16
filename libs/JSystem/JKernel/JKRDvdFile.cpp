@@ -35,7 +35,7 @@ bool JKRDvdFile::open(const char * fileName) {
         mFileOpen = DVDOpen(fileName, &mDvdFileInfo);
         if(mFileOpen) {
             sDvdList.append(&mLink);
-            DVDGetCommandBlockStatus(&mDvdFileInfo);
+            DVDGetCommandBlockStatus(&mDvdFileInfo.cb);
         }
     }
     return mFileOpen;
@@ -46,7 +46,7 @@ bool JKRDvdFile::open(s32 entryNum) {
         mFileOpen = DVDFastOpen(entryNum, &mDvdFileInfo);
         if(mFileOpen) {
             sDvdList.append(&mLink);
-            DVDGetCommandBlockStatus(&mDvdFileInfo);
+            DVDGetCommandBlockStatus(&mDvdFileInfo.cb);
         }
     }
     return mFileOpen;
@@ -102,8 +102,8 @@ OSMessage JKRDvdFile::sync() {
     return msg;
 }
 
-BOOL JKRDvdFile::doneProcess(s32 msg, DVDFileInfo * fInfo) {
+void JKRDvdFile::doneProcess(s32 msg, DVDFileInfo * fInfo) {
     JKRDvdFile *dvdFile = static_cast<JKRDvdFileInfo *>(fInfo)->mFile;
-    return OSSendMessage(&dvdFile->mDvdMessageQueue, (void *)msg, OS_MESSAGE_NOBLOCK);
+    OSSendMessage(&dvdFile->mDvdMessageQueue, (void *)msg, OS_MESSAGE_NOBLOCK);
 }
 

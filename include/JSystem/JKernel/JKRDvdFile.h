@@ -44,7 +44,7 @@ public:
     DVDFileInfo *getFileInfo() { return &mDvdFileInfo; }
 
     // Callback functions
-    static DVDDoneReadCallback doneProcess;
+    static void doneProcess(s32 msg, DVDFileInfo * fInfo);
 
     // global variables
     static JSUList<JKRDvdFile> sDvdList;

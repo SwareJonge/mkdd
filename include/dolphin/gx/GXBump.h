@@ -9,11 +9,7 @@ extern "C" {
 
 void GXSetTevDirect(GXTevStageID tev_stage);
 void GXSetNumIndStages(u8 nIndStages);
-#ifdef TARGET_PC
-void GXSetIndTexMtx(GXIndTexMtxID mtx_sel, const void* offset, s8 scale_exp);
-#else
 void GXSetIndTexMtx(GXIndTexMtxID mtx_sel, f32 offset[2][3], s8 scale_exp);
-#endif
 void GXSetIndTexOrder(GXIndTexStageID ind_stage, GXTexCoordID tex_coord, GXTexMapID tex_map);
 void GXSetTevIndirect(GXTevStageID tev_stage, GXIndTexStageID ind_stage, GXIndTexFormat format,
                       GXIndTexBiasSel bias_sel, GXIndTexMtxID matrix_sel, GXIndTexWrap wrap_s,

@@ -487,7 +487,7 @@ void THPPlayerStop()
         VISetPostRetraceCallback(OldVIPostCallback);
         if (ActivePlayer.onMemory == 0)
         {
-            DVDCancel(&ActivePlayer.fileInfo);
+            DVDCancel(&ActivePlayer.fileInfo.cb);
             ReadThreadCancel();
         }
 

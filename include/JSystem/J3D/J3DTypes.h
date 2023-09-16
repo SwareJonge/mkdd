@@ -365,11 +365,11 @@ struct J3DTexCoord
 
 struct J3DTextureSRTInfo
 {
-    f32 mScaleX; // _00 - name derived from J3DTexMtx[0x10]
-    f32 mScaleY; // _04 - name derived from J3DTexMtx[0x14]
-    u16 _08;      // _08
-    f32 _0C;      // _0C
-    f32 _10;      // _10
+    f32 mScaleX;       // _00
+    f32 mScaleY;       // _04
+    s16 mRotation;     // _08
+    f32 mTranslationX; // _0C
+    f32 mTranslationY; // _10
 };
 
 struct J3DTransformInfo

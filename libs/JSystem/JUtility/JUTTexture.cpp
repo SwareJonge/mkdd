@@ -134,11 +134,11 @@ void JUTTexture::storeTIMG(const ResTIMG *img, JUTPalette *palette, GXTlut tlut)
         mTlut = (u8)tlut;
         if (tlut != palette->getTlutName())
         {
-            GXTlutFmt fmt = (GXTlutFmt)palette->getFormat();
-            JUTTransparency trans = (JUTTransparency)palette->getTransparency();
-            int colors = palette->getNumColors();
+            GXTlutFmt fmt = palette->getFormat();
+            JUTTransparency trans = palette->getTransparency();
+            u16 colors = palette->getNumColors();
             ResTLUT *table = palette->getColorTable();
-            palette->storeTLUT(tlut, fmt, trans, (u16)colors, table);
+            palette->storeTLUT(tlut, fmt, trans, colors, table);
         }
     }
 

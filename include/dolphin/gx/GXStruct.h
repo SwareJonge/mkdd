@@ -33,19 +33,11 @@ typedef struct _GXColor {
 } GXColor;
 
 typedef struct _GXTexObj {
-#ifdef TARGET_PC
-  u32 dummy[22];
-#else
   u32 dummy[8];
-#endif
 } GXTexObj;
 
 typedef struct _GXTlutObj {
-#ifdef TARGET_PC
-  u32 dummy[4];
-#else
   u32 dummy[3];
-#endif
 } GXTlutObj;
 
 typedef struct _GXLightObj {

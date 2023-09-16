@@ -6,3 +6,6 @@ blocked_pointers:
 forced_types:
   0x80115bb4: FUNCTION # TRKExceptionHandler
   0x80115d14: FUNCTION # TRKInterruptHandlerEnableInterrupts
+
+symbol_aligns:
+  0x803bf900: 0x20

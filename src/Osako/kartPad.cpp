@@ -1,17 +1,18 @@
 #include "Osako/kartPad.h"
 #include "Osako/KartPadData.h"
 
-void KartGamePad::compress(PADStatus const &padStatus, KartPadData *kartPadData) {
+void KartGamePad::compress(const PADStatus &padStatus, KartPadData *kartPadData)
+{
     s8 stickX, stickY;
     u8 buttons = 0;
 
-    if (padStatus.mCurError == -1) {
+    if (padStatus.err == -1) {
         stickX = 0;
         stickY = 0;
     }
     else {
-        stickX = (padStatus.mStickX / 4.0f);
-        stickY = (padStatus.mStickY / 18.0f);
+        stickX = (padStatus.stickX / 4.0f);
+        stickY = (padStatus.stickY / 18.0f);
 
         if (stickX > 15)
             stickX = 15;
@@ -23,21 +24,21 @@ void KartGamePad::compress(PADStatus const &padStatus, KartPadData *kartPadData)
             stickY = -3;
 
         // maybe there's a cleaner way to write this?
-        ConvertBtn(buttons, padStatus.mButton, A, KARTBTN_A);
-        ConvertBtn(buttons, padStatus.mButton, B, KARTBTN_B);
-        ConvertBtn(buttons, padStatus.mButton, X, KARTBTN_X);
-        ConvertBtn(buttons, padStatus.mButton, Y, KARTBTN_Y);
-        ConvertBtn(buttons, padStatus.mButton, L, KARTBTN_L);
-        ConvertBtn(buttons, padStatus.mButton, R, KARTBTN_R);
-        ConvertBtn(buttons, padStatus.mButton, Z, KARTBTN_Z);
-        ConvertBtn(buttons, padStatus.mButton, START, KARTBTN_START);
+        ConvertBtn(buttons, padStatus.button, A, KARTBTN_A);
+        ConvertBtn(buttons, padStatus.button, B, KARTBTN_B);
+        ConvertBtn(buttons, padStatus.button, X, KARTBTN_X);
+        ConvertBtn(buttons, padStatus.button, Y, KARTBTN_Y);
+        ConvertBtn(buttons, padStatus.button, L, KARTBTN_L);
+        ConvertBtn(buttons, padStatus.button, R, KARTBTN_R);
+        ConvertBtn(buttons, padStatus.button, Z, KARTBTN_Z);
+        ConvertBtn(buttons, padStatus.button, START, KARTBTN_START);
     }
     kartPadData->mStickX = stickX;
     kartPadData->mStickY = stickY;
     kartPadData->mButtons = buttons;
 }
 
-void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadData)
+void KartGamePad::compress(const LGPosition &lgPosition, KartPadData *kartPadData)
 {
     s8 stickX, stickY;
     u8 buttons = 0;
@@ -114,7 +115,7 @@ void KartGamePad::compress(LGPosition const &lgPosition, KartPadData *kartPadDat
     kartPadData->mButtons = buttons;
 }
 
-void KartGamePad::expand(KartPadData const &kartPadData) 
+void KartGamePad::expand(const KartPadData &kartPadData)
 {
     PADStatus padStatus;
     u16 btn = 0;
@@ -126,15 +127,15 @@ void KartGamePad::expand(KartPadData const &kartPadData)
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_R, R);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_Z, Z);
     ConvertBtn(btn, kartPadData.mButtons, KARTBTN_START, START);
-    padStatus.mStickX = kartPadData.mStickX * 4.0f;
-    padStatus.mStickY = kartPadData.mStickY * 18.0f;
-    padStatus.mAnalogA = 0;
-    padStatus.mAnalogB = 0;
-    padStatus.mTriggerLeft = 0;
-    padStatus.mTriggerRight = 0;
-    padStatus.mButton = btn;
+    padStatus.stickX = kartPadData.mStickX * 4.0f;
+    padStatus.stickY = kartPadData.mStickY * 18.0f;
+    padStatus.analogA = 0;
+    padStatus.analogB = 0;
+    padStatus.triggerLeft = 0;
+    padStatus.triggerRight = 0;
+    padStatus.button = btn;
 
-    u32 btnret = mControlStick.update(padStatus.mStickX, padStatus.mStickY, sStickMode, WhichStick_ControlStick, mButtons.mInput) << 24;
+    u32 btnret = mControlStick.update(padStatus.stickX, padStatus.stickY, sStickMode, WhichStick_ControlStick, mButtons.mInput) << 24;
     mButtons.update(&padStatus, btnret);
 }
 
