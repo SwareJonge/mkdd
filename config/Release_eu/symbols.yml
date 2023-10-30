@@ -2530,6 +2530,10 @@ global:
   0x803d88e8: cGeoObjLBTable__13TexLODControl
   0x803d88f0: cCharLBTable__13TexLODControl  
 
+  # ShapPktControl.cpp
+  0x80190134: __ct__15ShapePktControlFv
+  0x80190154: ctrlPacket__15ShapePktControlFUl
+
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv
 

@@ -983,6 +983,9 @@ src/Kaneshige/TexLODControl.cpp:
     .sbss: [0x804163e0, 0x804163e8]
     .sdata2: [0x8041a090, 0x8041a0b8]
 
+src/Kaneshige/ShapePktControl.cpp:
+    .text: [0x801ba000, 0x801ba064]
+
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x801ba2a4, 0x801ba2b4]
 
