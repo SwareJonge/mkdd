@@ -2,7 +2,7 @@
 #define _JSYSTEM_J3D_J3DMTXBUFFER_H
 
 #include "Dolphin/mtx.h"
-#include "Matrixf.h"
+//#include "Matrixf.h"
 #include "types.h"
 
 struct J3DJointTree;
@@ -42,7 +42,7 @@ struct J3DMtxBuffer : public J3DMtxBufferParent {
 	void calcNrmMtx();
 	void calcBBoardMtx();
 
-	inline Matrixf* getWorldMatrix(int i) { return (Matrixf*)mWorldMatrices[i]; }
+	//inline Matrixf* getWorldMatrix(int i) { return (Matrixf*)mWorldMatrices[i]; }
 
 	void setAnmMtx(int i, Mtx m) { PSMTXCopy(m, mWorldMatrices[i]); }
 	void setScaleFlag(int idx, u8 flag) { mScaleFlags[idx] = flag; }

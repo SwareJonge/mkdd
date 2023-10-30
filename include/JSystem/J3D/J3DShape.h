@@ -12,7 +12,6 @@ struct J3DJos32Tree;
 struct J3DMaterial;
 struct J3DVertexData;
 struct JUTNameTab;
-struct Vec;
 
 struct J3DShapeDraw;
 struct J3DShapeMtx;

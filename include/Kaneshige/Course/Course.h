@@ -40,19 +40,27 @@ public:
     }; // size: 0x4c
     class Sector {
     public:
+        Sector();                                                                       // 0x8019dcd0
+        void setPointData(const CrsData::SCheckPoint *, const CrsData::SCheckPoint *, bool); // 0x8019ddf4
+        void setPrevSector(Sector *);                                                        // 0x8019e0ac
+        void setNextSector(Sector *);                                                        // 0x8019e18c
+        void calcGeneration(Sector *sector);                                                 // 0x8019e26c
+        float calcUnitDist(const JGeometry::TVec3<float> &);                                 // 0x8019e350
+        bool isLRInside(const JGeometry::TVec3<float> &);                                    // 0x8019e434
         int isMainSector() const;
         int getGeneration() const { return mGeneration; }
-        float calcUnitDist(JGeometry::TVec3<float> const &);
-        void calcGeneration(Sector * sector);
+
 
         // Inline Functions
-        ECourseID getCourseID() const { return (ECourseID)mID; };
         bool isDiv() const { return bDivFlag; }
         bool isRevSearchEnable() { return mCheckPoint->mRevSearchEnable != 0; }
         uint getShortcutID() const { return mCheckPoint->mShortcutID; }
         int getNextNum() const { return mNextNum; }
         int getPrevNum() const { return mPrevNum; }
         Sector *getMainSector() { return mMainSector; }
+        void setDivFlag();                 // 0x80199f94;
+        void setID(s16);                   // 0x80199fa0
+        s16 getID() const { return mID; }; // 0x8019a28c
 
         Sector *getPrevSector(int no) {
 #line 100
@@ -108,7 +116,12 @@ public:
     int getTotalSectorNumber() const { return mTotalSectors;  }
     int getTrackSectorNumber() const { return mTrackSectorNum; }
     CrsData *getCrsData() const { return mCrsData; }
-    
+
+    bool isTevRegAnmEnable(int) const; // 0x80199494
+    bool isTexPatAnmEnable() const;    // 0x80199534
+    bool isTexSRTAnmEnable(int) const; // 0x801995a8
+    bool isShaking() const;            // 0x8019c3c8
+
     // These are in the cpp file itself, whoops
     void getAmbientColor(JUtility::TColor *dst); /*
      {

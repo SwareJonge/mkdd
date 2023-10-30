@@ -3,7 +3,7 @@
 
 #include "JSystem/J3D/J3DTypes.h"
 #include "JSystem/JGeometry.h"
-#include "JSystem/JMath.h"
+#include "JSystem/JMath/JMath.h"
 #include "types.h"
 
 struct J3DMaterial;

@@ -13,7 +13,7 @@
 #include "JSystem/JGeometry.h"
 #include "JSystem/J3D/J3DPacket.h"
 #include "JSystem/JUtility/JUTNameTab.h"
-#include "BitFlag.h"
+//#include "BitFlag.h"
 
 struct J3DDeformData;
 struct J3DMatPacket;

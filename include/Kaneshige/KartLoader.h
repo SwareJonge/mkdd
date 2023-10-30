@@ -2,6 +2,7 @@
 #define KARTLOADER_H
 
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/J3D/J3DModel.h"
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/ExModel.h"
 #include "types.h"
@@ -12,10 +13,10 @@ public:
     KartLoader(int, const KartInfo *, u16, bool, bool);
     void reset(); // 0x801a6f08
     void load();  // 0x801a6f58
-    // void patchTevRegKey(J3DModelData *, J3DAnmTevRegKey *);                    // 0x801a73e0
+    void patchTevRegKey(J3DModelData *, J3DAnmTevRegKey *);                    // 0x801a73e0
     void loadTevAnm(int); // 0x801a747c
-    // void createMaterialAnmInUpdateMaterial(J3DModelData *, J3DAnmTevRegKey *); // 0x801a7774
-    // void createMaterialAnm(J3DMaterial *);                                     // 0x801a78b8
+    void createMaterialAnmInUpdateMaterial(J3DModelData *, J3DAnmTevRegKey *); // 0x801a7774
+    void createMaterialAnm(J3DMaterial *);                                     // 0x801a78b8
     void entryTevRegAnimator(int);         // 0x801a7a10
     void removeTevRegAnimator(int);        // 0x801a83b8
     void createModel(JKRSolidHeap *, u32); // 0x801a8598

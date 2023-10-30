@@ -144,16 +144,16 @@ public:
     class Ground
     {
     public:
-        bool checkPosition(stPlaneParam *, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f *) const;                                                                     // 0x8019fb34
-        void checkWallBySphere(JGeometry::TVec3f *, const SColInfoSphere &, const JGeometry::TVec3f *, float *, JGeometry::TVec3f *, JGeometry::TVec3f *) const;                                 // 0x801a0078
+        bool checkPosition(stPlaneParam *, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f *) const;                                                         // 0x8019fb34
+        void checkWallBySphere(JGeometry::TVec3f *, const SColInfoSphere &, const JGeometry::TVec3f *, float *, JGeometry::TVec3f *, JGeometry::TVec3f *) const;                           // 0x801a0078
         void getNearPoint(const SColInfoSphere &, float, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, JGeometry::TVec3f *) const; // 0x801a02fc
-        void checkPolygonCoverWall(const JGeometry::TVec3f &, const SColInfoSphere &, const Ground *);                                                                                                             // 0x801a0590
-        void checkFront(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                                         // 0x801a0770
-        void checkFaceSide(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                                      // 0x801a083c
-        void getPlaneY(const JGeometry::TVec3f &, Course *) const;                                                                                                                                                 // 0x801a097c
-        void checkPolygonTouchBySphere(const JGeometry::TVec3f *, const JGeometry::TVec3f &, float, Course *) const;                                                                                         // 0x801a0ae4
-        void getTouchState(const SColInfoSphere &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, float *, float) const;                                                   // 0x801a0c5c
-        void getCenter(JGeometry::TVec3f *, const JGeometry::TVec3f *, Course *) const;                                                                                                                      // 0x801a0f64
+        void checkPolygonCoverWall(const JGeometry::TVec3f &, const SColInfoSphere &, const Ground *);                                                                                     // 0x801a0590
+        void checkFront(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                 // 0x801a0770
+        void checkFaceSide(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                              // 0x801a083c
+        void getPlaneY(const JGeometry::TVec3f &, Course *) const;                                                                                                                         // 0x801a097c
+        void checkPolygonTouchBySphere(const JGeometry::TVec3f *, const JGeometry::TVec3f &, float, Course *) const;                                                                       // 0x801a0ae4
+        void getTouchState(const SColInfoSphere &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, float *, float) const;                                       // 0x801a0c5c
+        void getCenter(JGeometry::TVec3f *, const JGeometry::TVec3f *, Course *) const;                                                                                                    // 0x801a0f64
         // Inline
         u8 getZmaxIndex() const;    // 0x801a0034
         u8 getXmaxIndex() const;    // 0x801a0040

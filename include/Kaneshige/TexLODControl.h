@@ -20,7 +20,7 @@ public:
     };
 
     f32 getLODBias(ELODBiasID id);
-    void setGeographyLODBiasOn(bool p1) { mEnable = p1; }
+    void setGeographyLODBiasOn(bool enable) { mEnable = enable; }
 
     static f32 getGeographyLODBias() { return getManager()->getLODBias(cLODBiasID_Geography); }
     static f32 getCharacterLODBias() { return getManager()->getLODBias(cLODBiasID_Character); }

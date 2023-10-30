@@ -25,14 +25,14 @@ struct JUTNameTab;
 
 static inline void J3DFifoWriteCPCmd(u8 cmd, u32 param)
 {
-	GXWGFifo.u8  = GX_CMD_LOAD_CP_REG;
+	GXWGFifo.u8 = GX_LOAD_CP_REG;
 	GXWGFifo.u8  = cmd;
 	GXWGFifo.u32 = param;
 }
 
 static inline void J3DFifoWriteXFCmd(u16 cmd, u16 len)
 {
-	GXWGFifo.u8  = GX_CMD_LOAD_XF_REG;
+	GXWGFifo.u8 = GX_LOAD_XF_REG;
 	GXWGFifo.u16 = (len - 1);
 	GXWGFifo.u16 = cmd;
 }

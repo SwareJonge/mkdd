@@ -13,12 +13,11 @@ struct J3DMtxBuffer;
 struct J3DMtxCalc;
 struct J3DShapeTable;
 struct JUTNameTab;
-struct Vec;
 
 struct J3DJointTree {
 	J3DJointTree();
 
-	virtual void calc(J3DMtxBuffer*, const Vec&, const f32 (&)[3][4]); // _08
+	virtual void calc(J3DMtxBuffer*, const Vec&, const Mtx&); // _08
 	/**
 	 * @reifiedAddress{80083874}
 	 * @reifiedFile{JSystem/J3D/J3DModelData.cpp}

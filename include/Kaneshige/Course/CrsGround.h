@@ -16,14 +16,14 @@ public:
     void search(const JGeometry::TVec3f &);                                                                                                              // 0x801a18f0
     void search(const JGeometry::TVec3f &, const JGeometry::TVec3f &);                                                                                   // 0x801a1920
     void search(GeographyObj *, const JGeometry::TVec3f &, const JGeometry::TVec3f &);                                                                   // 0x801a1950
-    void searchBase(GeographyObj *, const JGeometry::TVec3f &, const JGeometry::TVec3f &, unsigned long);                                                // 0x801a1974
-    void search(const JGeometry::TVec3f &, const JGeometry::TVec3f &, float, bool);                                                                      // 0x801a21e4
+    void searchBase(GeographyObj *, const JGeometry::TVec3f &, const JGeometry::TVec3f &, u32);                                                // 0x801a1974
+    void search(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32, bool);                                                                      // 0x801a21e4
     void roundDepth(const JGeometry::TVec3f &);                                                                                                          // 0x801a262c
-    void checkGridBySphere(float *, const CrsData::SColInfoSphere &, unsigned long, float, float, float);                                                // 0x801a2698
-    void checkPolygonCover(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, float, const CrsData::Ground *, float *);    // 0x801a290c
-    void checkPolygonCoverMain(const JGeometry::TVec3f &, const CrsData::SColInfoSphere &, unsigned long, float, float, float, const CrsData::Ground *); // 0x801a2d20
-    void isInsideGrid(const JGeometry::TVec3f &, float, float, float, float);                                                                            // 0x801a2ec0
-    void searchGridIndex(int *, int *, Course *, const JGeometry::TVec3f &, float, float, float, float, int, int);                                       // 0x801a3004
+    void checkGridBySphere(f32 *, const CrsData::SColInfoSphere &, u32, f32, f32, f32);                                                // 0x801a2698
+    void checkPolygonCover(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32, const CrsData::Ground *, f32 *);    // 0x801a290c
+    void checkPolygonCoverMain(const JGeometry::TVec3f &, const CrsData::SColInfoSphere &, u32, f32, f32, f32, const CrsData::Ground *); // 0x801a2d20
+    void isInsideGrid(const JGeometry::TVec3f &, f32, f32, f32, f32);                                                                            // 0x801a2ec0
+    void searchGridIndex(int *, int *, Course *, const JGeometry::TVec3f &, f32, f32, f32, f32, int, int);                                       // 0x801a3004
     void getHeight() const;                                                                                                                              // 0x801a3168
     void getNormal(JGeometry::TVec3f *) const;                                                                                                           // 0x801a3170
     u8 getCameraCode() const;                                                                                                                            // 0x801a319c

@@ -149,6 +149,9 @@ struct J3DShapePacket : public J3DDrawPacket {
 	int calcDifferedBufferSize(u32);
 	void drawFast();
 
+	void show() { offFlag(0x10); }
+	void hide() { onFlag(0x10); }
+
 	void setShape(J3DShape* pShape) { mShape = pShape; }
 	void setModel(J3DModel* pModel) { mModel = pModel; }
 	void setMtxBuffer(J3DMtxBuffer* pMtxBuffer) { mMtxBuffer = pMtxBuffer; }

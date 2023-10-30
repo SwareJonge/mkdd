@@ -6,13 +6,12 @@
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/TColor.h"
+#include "JSystem/J3D/J3DModel.h"
 
 #include "types.h"
 
 // TODO: JSystem
 class J3DUClipper;
-class J3DModelData;
-class J3DGXColorS10;
 
 class ExModel
 {
@@ -23,10 +22,10 @@ public:
     void setModelData(J3DModelData *);                                                   // 0x801a4598
     void setModelData(s16, J3DModelData *);                                              // 0x801a45c0
     void patchModelData(J3DModelData *);                                                 // 0x801a46ec
-    void setLODBias(float);                                                              // 0x801a4724
-    void setLODBias(J3DModelData *, float);                                              // 0x801a4790
+    void setLODBias(f32);                                                              // 0x801a4724
+    void setLODBias(J3DModelData *, f32);                                              // 0x801a4790
     void disableTexLOD(J3DModelData *);                                                  // 0x801a483c
-    void setFogInfo(J3DModelData *, u8, float, float, float, float, JUtility::TColor *); // 0x801a48ac
+    void setFogInfo(J3DModelData *, u8, f32, f32, f32, f32, JUtility::TColor *); // 0x801a48ac
     void reverseCullMode(J3DModelData *);                                                // 0x801a49f0
     void setLightMask(J3DModelData *, _GXLightID);                                       // 0x801a4abc
     void setTevColor(J3DModelData *, u32, const J3DGXColorS10 &);                        // 0x801a4b88
@@ -41,7 +40,7 @@ public:
     void show();                                                                         // 0x801a5d6c
     void hide();                                                                         // 0x801a5e98
     void clipAll(u32, bool);                                                             // 0x801a5fc8
-    void clipBySphere(u32, J3DUClipper *, const Mtx44, float);                           // 0x801a6040
+    void clipBySphere(u32, J3DUClipper *, const Mtx44, f32);                           // 0x801a6040
     void clipJoint(u32, s16, bool);                                                      // 0x801a6254
     void setBaseTRMtx(Mtx44);                                                            // 0x801a63c8
     void setBaseScale(JGeometry::TVec3f &);                                              // 0x801a6474
@@ -59,7 +58,8 @@ public:
 
     // Inlines    
     Mtx *getBaseTRMtx() { return &mBaseTRMtx; }
-
+    void hide(u32 p1) { clipAll(p1, false); }
+    void show(u32 p1) { clipAll(p1, true); }
     static bool isMtxCombinationOn() { return sMtxCombinationOn; };
     static f32 getInvalidLODBias() { return sExModelInvalidLODBias; }
 

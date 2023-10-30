@@ -5,37 +5,56 @@
 #include "JSystem/JUtility/TColor.h"
 #include "Kaneshige/LightMgr.h"
 
-class RaceSceneLight : public LtObjDiffuse {
+class RaceSceneLight : public LtObjDiffuse
+{
 public:
     RaceSceneLight(const char *, u32, const JUtility::TColor &, const JGeometry::TVec3<float> &);
-    void calc();
+    void getTagName(u32); // UNUSED
+
+    virtual ~RaceSceneLight();   // overide
+    virtual Mtx *getEffectMtx(); // overide
+    virtual void calc();         // overide
 private:
-    u8 _28[0xf4 - 0x38];
+    u8 _90[0xf4 - 0x90];
 };
 
-class RaceBalloonLight : public LtObjDiffuse {
+class RaceBalloonLight : public LtObjDiffuse
+{
 public:
     RaceBalloonLight(u32);
+    virtual ~RaceBalloonLight(); // overide
+    virtual Mtx *getEffectMtx(); // overide
+    virtual void draw();         // overide
+
 private:
-    u8 _28[0xf4 - 0x38];
+    u8 _90[0xf4 - 0x90];
 };
 
-class RaceKartLight : public LtObjDiffuse {
+class RaceKartLight : public LtObjDiffuse
+{
 public:
     RaceKartLight(RaceSceneLight *, int);
-    void calc();
-    void draw();
+   
+    virtual ~RaceKartLight();    // overide
+    virtual Mtx *getEffectMtx(); // overide
+    virtual void draw();         // overide
+    virtual void calc();         // overide
+    
 private:
-    u8 _28[0x128 - 0x38];
+    u8 _90[0x128 - 0x90];
 };
 
-class RaceCupLight : public LtObjDiffuse {
+class RaceCupLight : public LtObjDiffuse
+{
 public:
     RaceCupLight(RaceSceneLight *);
-    void calc();
-    void draw();
+
+    virtual ~RaceCupLight(); // overide
+    virtual void draw();     // overide
+    virtual void calc();     // overide
+
 private:
-    u8 _28[0xd0 - 0x38];
+    u8 _90[0xd0 - 0x90];
 };
 
 #endif

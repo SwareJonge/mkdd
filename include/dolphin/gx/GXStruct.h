@@ -49,6 +49,13 @@ typedef struct _GXVtxDescList {
   GXAttrType type;
 } GXVtxDescList;
 
+typedef struct _GXVtxAttrFmtList {
+	GXAttr attr;
+  GXCompCnt cnt;
+  GXCompType type;
+	u8 frac;
+} GXVtxAttrFmtList;
+
 typedef struct _GXColorS10 {
   s16 r;
   s16 g;

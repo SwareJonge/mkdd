@@ -9,6 +9,11 @@ public:
 
     void setState(u16);
 
+    // Vtable
+    /*virtual ~StateObserver();
+    virtual void MoveExec() = 0;
+    virtual void InitExec() = 0;*/
+
 private:
     u16 _4;
     u16 _6;
