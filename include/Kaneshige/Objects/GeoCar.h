@@ -85,6 +85,7 @@ public:
     virtual void InitExec();                            // 0x801bbdb8
     virtual void setRMtx();                             // 0x801bb960
     virtual u32 getSoundCarType() const;                // 0x801bcf88
+    virtual JGeometry::TVec3f *getTirePosOffset(int);   // 0x0
     virtual bool isBlast() { return false; }            // 0x801ba8c0
     virtual u16 getPathID();                            // 0x801bc0c4
     virtual bool isHitVibrationOn() { return true; }    // 0x801bbad4

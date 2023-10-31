@@ -50,6 +50,11 @@ public:
     int getAttrIndex() const { return mAttrIdx; }
     int getAttribute() const { return mAttribute; }
 
+    enum EAttr
+    {
+        // TODO
+    };
+
     enum EMat
     {
         // TODO

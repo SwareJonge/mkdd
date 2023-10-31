@@ -4,6 +4,8 @@
 #include <JSystem/JKernel/JKRHeap.h>
 #include <JSystem/J3D/J3DModel.h>
 #include "Kaneshige/Course/CrsData.h"
+#include "Kaneshige/Course/CrsGround.h"
+#include "Osako/shadowModel.h"
 #include "Sato/ItemObj.h"
 
 // TODO: Remove Forward declarations

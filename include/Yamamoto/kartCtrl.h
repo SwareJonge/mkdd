@@ -144,7 +144,7 @@ private:
     static KartCtrl *mCtrl;
 
     KartLoader *mKartLoaders[8];
-    KartGamePad *mGamePads[8][2];
+    KartGamePad *mGamePads[8][2]; // might not be a double sided array
     KartPad *mKartPads[8];
     KartAnime *mKartAnimes[8];
     KartBody *mKartBodies[8];
