@@ -3,7 +3,6 @@
 
 #include <JSystem/JGeometry.h>
 
-
 class Spline 
 {
 public:
