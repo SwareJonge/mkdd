@@ -1127,6 +1127,12 @@ src/Yamamoto/kartvec.cpp:
     .bss: [0x803ef020, 0x803ef050]
     .sdata2: [0x8041d7f8, 0x8041d830]
 
+src/Yamamoto/kartLine.cpp:
+    .text: [0x802f1b54, 0x802f1d1c]
+    .ctors: [0x803165f4, 0x803165f8]
+    .bss: [0x803ef0e0, 0x803ef110]
+    .sdata2: [0x8041db50, 0x8041db58]
+
 src/Yamamoto/KartStar.cpp:
     .text: [0x80307c44, 0x80307eb8]
     .ctors: [0x80316628, 0x8031662c]

@@ -3139,6 +3139,8 @@ global:
   0x802a2e38: AddMatrix__7KartMatFPA4_fPA4_f
   0x802a2ecc: NormalizeMatrix__7KartMatFPA4_f
   0x802a30a4: OmegaMatrix__7KartMatFPA4_fP3Vecf
+  # kartLine.cpp
+  0x802b075c: getBezierPoint__6SplineFPQ29JGeometry8TVec3<f>f
   # kartCtrlInfo.cpp
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
