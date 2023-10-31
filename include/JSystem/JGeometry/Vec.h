@@ -169,7 +169,7 @@ namespace JGeometry {
 
         // operators
         TVec3 &operator=(const TVec3 &other) {
-            setTVec3f((const f32*)other, (f32 *)this);
+            setTVec3f((const f32*)&other, (f32 *)this);
             return *this;
         }
 

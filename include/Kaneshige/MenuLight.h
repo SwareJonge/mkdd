@@ -17,10 +17,11 @@ private:
 
 class MenuSceneLight : public LtObjDiffuse // ("前")
 {
-
+    MenuSceneLight(Mtx m);
+    void createAndAppend(JKRHeap *, Mtx m);
+    virtual void calc();
 private:
-    
-
+    static MenuSceneLight *sSceneLight;
     JGeometry::TVec3f _90;
     JGeometry::TVec3f _9c;
     JGeometry::TVec3f _a8;
