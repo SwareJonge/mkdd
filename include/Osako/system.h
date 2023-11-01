@@ -116,6 +116,8 @@ namespace System
     inline JKRHeap *getAppHeap() { return mspAppHeap; }
     inline J2DPrint *getJ2DPrint() { return mspJ2DPrint; }
     inline J2DOrthoGraph *getJ2DOrtho() { return mspJ2DOrtho; }
+    inline JKRTask *getLoTask() { return mspLoTask; }
+    inline JKRTask *getAramTask() { return mspAramTask; }
 };
 
 #endif

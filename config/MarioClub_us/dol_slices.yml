@@ -1051,6 +1051,18 @@ src/Osako/GameApp.cpp:
 src/Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
 
+src/Osako/ResMgr.cpp:
+    .text: [0x801fc5dc, 0x801fe074]
+    .ctors: [0x80316374, 0x80316378]
+    #.BINARY: [0x80316680, 0x80360900]
+    .rodata: [0x8037d0e8, 0x8037d5c0]
+    .data: [0x8039c778, 0x8039ca70]
+    .bss: [0x803d0890, 0x803d08c0]
+    #.bss: [0x803fe2f8, 0x803fef60]
+    .sdata: [0x80414858, 0x80414860]
+    .sbss: [0x80416920, 0x80416960]
+    .sdata2: [0x8041b370, 0x8041b660]
+
 src/Osako/system.cpp:
     .text: [0x801feb10, 0x801fff8c]
     .ctors: [0x8031637c, 0x80316380]

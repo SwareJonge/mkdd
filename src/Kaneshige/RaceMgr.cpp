@@ -199,8 +199,8 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
 
     SYSDBG_SetHeapGroup("COURSE MGR", nullptr);
 
-    CrsData::SColHeader *bco = (CrsData::SColHeader *)ResMgr::getPtr(ResMgr::COURSE_BCO);
-    CrsData::SOblHeader *bol = (CrsData::SOblHeader *)ResMgr::getPtr(ResMgr::COURSE_BOL);
+    CrsData::SColHeader *bco = (CrsData::SColHeader *)ResMgr::getPtr(ResMgr::mcCourseBco);
+    CrsData::SOblHeader *bol = (CrsData::SOblHeader *)ResMgr::getPtr(ResMgr::mcCourseBol);
     CrsData *crsData = new CrsData(bco, bol);
 
     if (isStaffRoll())

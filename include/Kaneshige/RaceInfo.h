@@ -36,7 +36,7 @@ enum ERaceGpCup
     FLOWER_CUP = 1,
     STAR_CUP = 2,
     SPECIAL_CUP = 3,
-    REVERSE2_CUP = 4,
+    ALL_CUP_TOUR = 4
 };
 
 class RaceInfo
@@ -77,6 +77,7 @@ public:
     int getStatusNumber() const { return mStatusNum; }
     ERaceMode getRaceMode() const { return mRaceMode; }
     int getItemSlotType() const { return mItemSlotType; }
+    ERaceLevel getRaceLevel() const { return mRaceLevel; }
 
     bool isLANMode() { return mIsLanMode; }
     bool isTrueEnding() const { return mIsTrueEnding; }

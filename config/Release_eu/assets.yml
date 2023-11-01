@@ -2,7 +2,7 @@ config/Release_eu/dol.yml:
     JSystem/JUtility/FontData/Ascfont_fix12.bfn: # TODO: decide if there's a better folder to drop this in
         addrs: [0x8032db80, 0x80331ce0]
 
-    System.arc.bin:
+    System.arc:
         addrs: [0x802d8aa0, 0x8032cbc0]
     
     BuildtimeDat.bin:

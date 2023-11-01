@@ -65,7 +65,7 @@ private:
     // TODO
 };
 
-class GeoRabbitMarkSupervisor
+class GeoRabbitMarkSupervisor : public GeoObjSupervisor, JKRDisposer
 {
 public:
     void release();
@@ -87,7 +87,6 @@ public:
     void startWinnerEffect();
 
 private:
-    u8 _0[0x3c];
     GeoRabbitMark *mRabbitMark;
     s16 mWinTime;
 };

@@ -332,4 +332,13 @@ inline int JKRConvertAttrToCompressionType(int attr)
     return JKRArchive::convertAttrToCompressionType(attr);
 }
 
+inline JKRArchive *JKRMountArchive(const char *path, JKRArchive::EMountMode mountMode, JKRHeap *heap, JKRArchive::EMountDirection mountDirection) {
+    return JKRArchive::mount(path, mountMode, heap, mountDirection);
+}
+
+inline JKRArchive *JKRMountArchive(void *inBuf, JKRHeap *heap, JKRArchive::EMountDirection mountDirection)
+{
+    return JKRArchive::mount(inBuf, heap, mountDirection);
+}
+
 #endif

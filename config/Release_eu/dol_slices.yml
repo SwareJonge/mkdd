@@ -6,6 +6,12 @@ src/kartLocale.cpp:
     .sbss: [0x803d4980, 0x803d4988]
     .sdata2: [0x803d63e0, 0x803d6408]
 
+#src/SystemArc.s:
+    #.BINARY: [0x802d8aa0, 0x8032cbc0]
+
+#src/buildTimeDat.s:
+    #.BINARY: [0x8032cbc0, 0x8032cbe0]
+
 libs/JSystem/JKernel/JKRAram.cpp:
     .text: [0x8000a540, 0x8000b3b0]
     .ctors: [0x802d84ac, 0x802d84b0]
@@ -1001,6 +1007,17 @@ src/Osako/GameApp.cpp:
 
 src/Osako/main.cpp:
     .text: [0x801cc5bc, 0x801cc5e0]
+
+src/Osako/ResMgr.cpp:
+    .text: [0x801ce300, 0x801cf8c4]
+    .ctors: [0x802d8778, 0x802d877c]
+    .rodata: [0x803408d8, 0x80340c48]
+    .data: [0x8035c2b8, 0x8035c5b0]
+    .bss: [0x8038fbf8, 0x8038fc28]
+    #.bss: [0x803bd5c8, 0x803be230]
+    .sdata: [0x803d3af8, 0x803d3b00] 
+    .sbss: [0x803d5b68, 0x803d5ba8]
+    .sdata2: [0x803d96e0, 0x803d99c8]
 
 src/Osako/system.cpp:
     .text: [0x801d02f8, 0x801d1000]

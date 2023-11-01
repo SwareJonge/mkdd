@@ -1,6 +1,7 @@
 # File For PAL Symbols, this has to be done manually until i make a tool that can port symbols from debug
 global:
   # .init
+  0x802d8aa0: _pSystemArc # TODO: Remove, this is linker generated
   0x80003100: __check_pad3
   0x80003140: __set_debug_bba
   0x8000314c: __get_debug_bba
@@ -2698,6 +2699,7 @@ global:
   # RaceApp
   0x803d5b60: mspRaceApp__7RaceApp
   # ResMgr.cpp
+  0x801ce300: getCrsArcName__6ResMgrF9ECourseID
   0x801ce530: create__6ResMgrFP7JKRHeap
   0x801ce610: loadKeepTask__6ResMgrFPv
   0x801ce7d8: loadCourseTask__6ResMgrFPv
@@ -2721,7 +2723,25 @@ global:
   0x801cf680: readAnmResTask__6ResMgrFPv
   0x801cf73c: findResource__6ResMgrFQ26ResMgr9ArchiveIdPc
   0x801cf77c: isFinishLoadingAram__6ResMgrFv
+  0x803d3af8: msCupID__6ResMgr
+  0x803d3afc: msUsedArgArray__6ResMgr
   0x803bd5c8: mspaLoader__6ResMgr
+  0x803bdc2c: msaAramResArg__6ResMgr
+  0x803d5b68: mspKeepHeap__6ResMgr
+  0x803d5b6c: mspCourseHeap__6ResMgr
+  0x803d5b70: mspAwardHeap__6ResMgr
+  0x803d5b74: mspOpeningHeap__6ResMgr
+  0x803d5b78: msLoadFlag__6ResMgr
+  0x803d5b7c: msLoadingFlag__6ResMgr
+  0x803d5b80: msRequestLoadingKeepData__6ResMgr
+  0x803d5b84: msCourseID__6ResMgr
+  0x803d5b88: msCourseOrder__6ResMgr
+  0x803d5b8c: msMountCourseID__6ResMgr
+  0x803d5b90: msMountCourseOrder__6ResMgr
+  0x803d5b94: mspCourseName__6ResMgr
+  0x803d5b98: mspStaffGhost__6ResMgr
+  0x803d5b98: msFreeArgArray__6ResMgr
+  0x80416958: msAramTaskNum__6ResMgr
   # LogoApp.cpp
   0x801cf8c4: create__7LogoAppFv
   0x801cf914: call__7LogoAppFv
@@ -2981,6 +3001,9 @@ global:
   0x801dc384: resetPort__6PadMgrFv
   # BBAMgr.cpp
   0x801dd058: create__6BBAMgrFP7JKRHeap
+  # Kart2DCommon.cpp
+  0x801de8f4:  __ct__12Kart2DCommonFv
+  0x803d5cb8: mspKart2DCommon__12Kart2DCommon
   # ResetAgent.cpp
   0x801dec78: callbackReset__10ResetAgentFiPv
   0x801deca4: reset__10ResetAgentFb

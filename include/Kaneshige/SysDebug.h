@@ -6,6 +6,8 @@
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JKernel/JKRHeap.h"
 
+#include "JSystem/JUTility/TColor.h"
+
 class SysDbUsrPage : public JKRDisposer
 {
 public:
@@ -83,6 +85,10 @@ private:
 
 #define SYSDBG_SetDefaultHeapGroup(heap) \
     SysDebug::getManager()->setDefaultHeapGroup(heap);
+
+// TODO
+#define SYSDBG_CreateHeapInfo2(heap, name) \
+    SysDebug::getManager()->createHeapInfo(heap, name);
 
 #ifdef DEBUG
 #define SYSDBG_CreateHeapInfo(heap, name) \

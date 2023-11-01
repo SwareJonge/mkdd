@@ -1,4 +1,5 @@
 global:
+    0x80316680: _pSystemArc # TODO: Remove, this is linker generated
     0x80003100: __check_pad3
     0x80003140: __set_debug_bba
     0x8000314c: __get_debug_bba
