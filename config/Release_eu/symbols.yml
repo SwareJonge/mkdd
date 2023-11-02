@@ -573,9 +573,14 @@ global:
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
   0x8001f438: recalibrate__10JUTGamePadFUl
+  0x803aeb8c: mPadStatus__10JUTGamePad
   0x803d3290: sStickMode__10JUTGamePad
+  0x803d4b18: mListInitialized__10JUTGamePad
+  0x803d4b1c: mPadAssign__10JUTGamePad
+  0x803d4b20: mspLGWheels__10JUTGamePad
   0x803d4b38: sCallback__Q210JUTGamePad13C3ButtonReset
   0x803d4b3c: sCallbackArg__Q210JUTGamePad13C3ButtonReset
+  
   # JUTGraphFifo.cpp
   0x8001f70c: __ct__12JUTGraphFifoFUl
   0x8001f7e8: __dt__12JUTGraphFifoFv
@@ -676,6 +681,12 @@ global:
   0x803d4b90: sManager__6JUTXfb
   # JUTFontData_Ascfont_fix12.s
   0x8032db80: JUTResFONT_Ascfont_fix12
+
+  # Logitech
+  0x80024c80: IsConnected__8LGWheelsFl
+  0x80024de0: PlayAutoCalibAndSpringForce__8LGWheelsFl
+  0x80024f1c: PlaySpringForce__8LGWheelsFlScUcs
+
   # JMath
   # JMath.cpp
   0x80026880: JMAEulerToQuat__FsssP10Quaternion
@@ -2183,6 +2194,7 @@ global:
   0x80114790: isActive__Q29GameAudio4MainFv
   0x8011479c: initRaceSound__Q29GameAudio4MainFv
   0x801148a8: frameWork__Q29GameAudio4MainFv
+  0x80114ad8: isWaveLoaded__Q29GameAudio4MainFQ39GameAudio4Main5WS_ID
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
   0x801167b0: setMasterVolume__Q29GameAudio4MainFSc
   0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
@@ -2578,6 +2590,9 @@ global:
 
   # MovieApp.cpp
   0x801af940: create__8MovieAppFv
+  0x801af9f4: call__8MovieAppFv
+  0x801afcf0: loadOpeningData__8MovieAppFv  
+  0x803d5aa8: sMovieApp__8MovieApp
   # MoviePlayer.cpp
   0x801b0084: create__11MoviePlayerFP7JKRHeap
   0x801b00e0: __ct__11MoviePlayerF9VideoMode14VideoFrameModeP7JKRHeap
@@ -2670,6 +2685,14 @@ global:
   0x801cab9c: __ct__11StaffRoll2DFP7JKRHeap8Language9VideoModei
   0x801cb6f0: reset__11StaffRoll2DFv
   0x801cb9a4: calc__11StaffRoll2DFv
+  # PrintPal.cpp
+  0x801c9b18: __ct__8PrintPalFP7JKRHeap
+  0x801ca030: init__8PrintPalFQ28PrintPal9MessageID
+  0x801ca554: draw__8PrintPalFv
+  0x801ca5d4: calc__8PrintPalFi
+  0x801caa2c: isMessage__8PrintPalFv
+  0x801caa60: isChoice__8PrintPalFv
+  0x801caa8c: getCounter__8PrintPalFv
 
   # Osako
   # clock.cpp
@@ -2753,6 +2776,8 @@ global:
   0x801d0024: reset__7LogoAppFv
   0x801d0028: restart__7LogoAppFv
   0x801d00b8: controlLoading__7LogoAppFv
+  0x8035c5e4: __vt__7LogoApp
+  0x803d5ba8: mspLogoApp__7LogoApp
   # system.cpp
   0x801d02f8: startAudioTask__6SystemFPv
   0x801d0388: init__6SystemFv

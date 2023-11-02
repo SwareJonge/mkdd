@@ -235,9 +235,9 @@ void LogoApp::calc()
         if (++mFadeTimer > 100)
         {
             mFadeTimer = 0;
-            if (OSGetProgressiveMode() == FALSE)
+            if (OSGetVideoMode() == 0)
             {
-                OSSetProgressiveMode(1);
+                OSSetVideoMode(1);
                 mState = mcDialogFadeOut;
                 SYSTEM_StartFadeIn(30);
                 mPrintApp->init(PRINTAPP_TYPE::mcSet_Option1);
