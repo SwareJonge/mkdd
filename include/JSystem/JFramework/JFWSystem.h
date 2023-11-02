@@ -23,7 +23,7 @@ struct JFWSystem
         static s32 streamPriority;
         static s32 decompPriority;
         static s32 aPiecePriority;
-        static ResFONT *systemFontRes;
+        static const ResFONT *systemFontRes;
         static const _GXRenderModeObj *renderMode;
         static u32 exConsoleBufferSize;
     };
