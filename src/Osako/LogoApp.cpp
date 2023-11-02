@@ -40,7 +40,7 @@ LogoApp::LogoApp() : GameApp(0x4800, "Logo", nullptr)
     mShowDialog = 0;
 #endif
     mState = mcInitSystem;
-    _34 = 0;
+    mLoadingState = 0;
 #ifndef REGION_EU
     mFadeTimer = 0;
 #endif
@@ -315,7 +315,7 @@ void LogoApp::restart()
 
 void LogoApp::controlLoading()
 {
-    switch (_34)
+    switch (mLoadingState)
     {
     case 0:
         if (!GetGameAudioMain()->isWaveLoaded(GameAudioMain::STREAM1))
@@ -324,7 +324,7 @@ void LogoApp::controlLoading()
         _30 = getFrameTime();
         SEQUENCEAPP_isReady(Scene::SCENE_0);
         SEQUENCEAPP_isReady(Scene::SCENE_1);
-        _34 = 1;
+        mLoadingState = 1;
         break;
     case 1:
         if (mState > mcDialogApplyOption)
@@ -333,7 +333,7 @@ void LogoApp::controlLoading()
             SYSTEM_RequestTask(createMoviePlayer, MOVIE_GetHeap(), nullptr);
             MOVIE_loadOpeningData();
             ResMgr::loadKeepData();
-            _34 = 2;
+            mLoadingState = 2;
         }
         break;
     }

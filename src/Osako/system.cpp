@@ -304,7 +304,7 @@ namespace System {
         JUTException::waitTime(2000);
 
         u16 exceptionInputs[] = {
-            PAD_BUTTON_A, PAD_BUTTON_B, PAD_BUTTON_X, PAD_BUTTON_Y
+            PAD_BUTTON_A, PAD_BUTTON_B, PAD_BUTTON_X, PAD_BUTTON_Y,
             PAD_TRIGGER_L, PAD_TRIGGER_R, PAD_TRIGGER_Z, 0x0
         };
 

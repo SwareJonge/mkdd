@@ -69,7 +69,7 @@ private:
     u8 _28;
     f32 _2c;
     f32 _30;
-    int _34;
+    int mLoadingState;
     bool mIsLoadingMovie;
 }; // class LogoApp
 
