@@ -14,8 +14,8 @@ public:
     bool IsConnected(s32);                          // 0x800769dc
     void IsPlaying(s32, s32);                       // 0x80076a00
     void PlayAutoCalibAndSpringForce(s32);          // 0x80076b3c
-    void PlaySpringForce(s32, char, u8, s16);       // 0x80076c74
-    void SameSpringForceParams(s32, char, u8, s16); // 0x80076e98
+    void PlaySpringForce(s32, s8, u8, s16);         // 0x80076c74
+    void SameSpringForceParams(s32, s8, u8, s16);   // 0x80076e98
     void PlayConstantForce(s32, s16, u16);          // 0x80076ee0
     void SameConstantForceParams(s32, s16, u16);    // 0x800770d8
     void PlayDamperForce(s32, s16);                 // 0x8007710c

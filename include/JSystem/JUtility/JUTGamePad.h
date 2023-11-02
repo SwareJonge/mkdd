@@ -164,11 +164,26 @@ public:
         bool mReset;
     };
 
+    static bool isPadOk() { // fabricated
+        bool ret = false;
+        switch(mPadStatus[0].err) {
+        case -1:
+        case 0:
+            ret = true;
+            break;
+        }
+        return ret;        
+    }
+
+
     static LGWheels* getLGWheels() { return mspLGWheels; }
+    static PADStatus *getPadStatus(int idx) { return &mPadStatus[idx]; }
 
     static LGWheels *mspLGWheels;
 
     static EStickMode sStickMode;
+
+    static PADStatus mPadStatus[4];
 
     CButton mButtons;     // _18
     CStick mControlStick; // _48

@@ -17,6 +17,8 @@ namespace System
     void init();
     void reset();
     void changeProgressive();
+    void changePal50();
+    void changeEuRgb60();
     void changeMovieRenderMode();
     void changeNormalRenderMode();
     inline void stopMotors() {
@@ -119,5 +121,34 @@ namespace System
     inline JKRTask *getLoTask() { return mspLoTask; }
     inline JKRTask *getAramTask() { return mspAramTask; }
 };
+
+
+#ifndef REGION_EU
+    #define SYSTEM_ChangeVideoMode() \
+        System::changeProgressive()
+#else
+#define SYSTEM_ChangeVideoMode() \
+    System::changeEuRgb60()
+#endif
+
+#define SYSTEM_GetFader() \
+    System::getDisplay()->getFader()
+#define SYSTEM_GetFaderStatus() \
+    System::getDisplay()->getFader()->getStatus()
+#define SYSTEM_StartFadeIn(duration) \
+    System::getDisplay()->startFadeIn(duration)
+#define SYSTEM_StartFadeOut(duration) \
+    System::getDisplay()->startFadeOut(duration)
+
+#define SYSTEM_RequestTask(function, arg1, arg2) \
+    System::getLoTask()->request(function, arg1, arg2)
+
+#define SYSTEM_IsFadingIn() \
+    SYSTEM_GetFaderStatus() == JUTFader::Status_In
+#define SYSTEM_IsFadingOut() \
+    SYSTEM_GetFaderStatus() == JUTFader::Status_Out
+
+#define SYSTEM_GetAppHeap() \
+    System::getAppHeap()
 
 #endif

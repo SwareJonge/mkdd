@@ -216,7 +216,7 @@ BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
     ActivePlayer.onMemory = onMemory;
     ActivePlayer.open = TRUE;
 
-    ActivePlayer.curVolume = GameAudio::Main::getAudio()->getTHPOptionVolume() * 127.0f;
+    ActivePlayer.curVolume = GetGameAudioMain()->getTHPOptionVolume() * 127.0f;
     f32 curVol = ActivePlayer.curVolume;
     bool validVolume = false;
     if (curVol >= 0.0f && curVol <= 127.0f)

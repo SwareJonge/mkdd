@@ -5,7 +5,7 @@ class AccessoryMgr {
     public:
     void update();
 
-    static AccessoryMgr *ptr();
+    static AccessoryMgr *ptr() { return mspAccessoryMgr; }
     static AccessoryMgr *mspAccessoryMgr;
 };
 

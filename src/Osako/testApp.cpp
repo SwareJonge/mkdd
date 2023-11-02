@@ -34,8 +34,8 @@ void TestApp::draw() {
 
 void TestApp::calc() {
 #if DEBUG
-    if (gGamePad1P.testTrigger(0x200)) {
-        AppMgr::msRequest |= 1;
+    if (gGamePad1P.testTrigger(PAD_BUTTON_B)) {
+        AppMgr::deleteCurrentApp();
         MainMenuApp::call();
     }
 #endif

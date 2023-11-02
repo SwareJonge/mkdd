@@ -46,22 +46,22 @@ DUMMY_POINTER(lbl_8037d5e8)
 #endif
 
 namespace System {
-    JFWDisplay *System::mspDisplay;
-    JKRExpHeap *System::mspAppHeap;
-    int System::msDvdState;
-    int System::msRenderMode;
-    JKRTask *System::mspSendTask;
-    JKRTask *System::mspRecvTask;
-    JKRTask *System::mspAramTask;
-    JKRTask *System::mspLoTask;
-    J2DPrint *System::mspJ2DPrint;
-    J2DOrthoGraph *System::mspJ2DOrtho;
-    JKRSolidHeap *System::mspAudioHeap;
+    JFWDisplay *mspDisplay;
+    JKRExpHeap *mspAppHeap;
+    int msDvdState;
+    int msRenderMode;
+    JKRTask *mspSendTask;
+    JKRTask *mspRecvTask;
+    JKRTask *mspAramTask;
+    JKRTask *mspLoTask;
+    J2DPrint *mspJ2DPrint;
+    J2DOrthoGraph *mspJ2DOrtho;
+    JKRSolidHeap *mspAudioHeap;
 
     void startAudioTask(void*) {
         void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, Switch_1, 
                             0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
-        GameAudio::Main::getAudio()->init(mspAudioHeap, SystemData::scAudioAramSize, audioFile, 0, 0);
+        GetGameAudioMain()->init(mspAudioHeap, SystemData::scAudioAramSize, audioFile, 0, 0);
         delete audioFile;
         gSystemRecord.applyAudioSetting();
     }
@@ -119,7 +119,7 @@ namespace System {
         mspLoTask = JKRTask::create(64, 18, 0x4000, nullptr);
         mspAudioHeap = JKRCreateSolidHeap(SystemData::scAudioHeapSize, JKRGetRootHeap(), false);
 
-        GameAudio::Main::getAudio()->bootDSP();
+        GetGameAudioMain()->bootDSP();
         mspLoTask->request(startAudioTask, nullptr, nullptr);
 
         SysDebug::createManager();
@@ -304,8 +304,8 @@ namespace System {
         JUTException::waitTime(2000);
 
         u16 exceptionInputs[] = {
-            0x100, 0x200, 0x400, 0x800, // A, B, X, Y
-            0x40, 0x20, 0x10, 0x0,      // L, R, Z
+            PAD_BUTTON_A, PAD_BUTTON_B, PAD_BUTTON_X, PAD_BUTTON_Y
+            PAD_TRIGGER_L, PAD_TRIGGER_R, PAD_TRIGGER_Z, 0x0
         };
 
         u32 pressedButton;
@@ -343,19 +343,19 @@ namespace System {
     {
         msDvdState = DVDGetDriveStatus();
         switch (msDvdState) {
-        case 5:
+        case DVD_STATE_COVER_OPEN:
             ErrorViewApp::call(ErrorViewApp::ERROR1);
             break;
-        case 4:
+        case DVD_STATE_NO_DISK:
             ErrorViewApp::call(ErrorViewApp::ERROR2);
             break;
-        case 6:
+        case DVD_STATE_WRONG_DISK:
             ErrorViewApp::call(ErrorViewApp::ERROR3);
             break;
-        case 11:
+        case DVD_STATE_RETRY:
             ErrorViewApp::call(ErrorViewApp::ERROR4);
             break;
-        case -1:
+        case DVD_STATE_FATAL_ERROR:
             ErrorViewApp::call(ErrorViewApp::ERROR5);
             break;
         }
@@ -364,8 +364,8 @@ namespace System {
     void beginFrame() {
         CardMgr::probe();
         checkDVDState();
-        if (GameAudio::Main::getAudio()->isActive())
-            GameAudio::Main::getAudio()->frameWork();
+        if (GetGameAudioMain()->isActive())
+            GetGameAudioMain()->frameWork();
         mspDisplay->beginRender();
         NetGameMgr::mspNetGameMgr->adjustFrame();
         Clock::move();
@@ -384,7 +384,7 @@ namespace System {
         mspDisplay->endRender();
 #ifdef DEBUG
         if (gGamePad1P.testButton(JUTGamePad::L) && gGamePad1P.testTrigger(JUTGamePad::DPAD_DOWN)) {
-            GameAudio::Main::getAudio()->setBgmVolume(0.0f);
+            GetGameAudioMain()->setBgmVolume(0.0f);
         }        
 #endif
     }

@@ -128,6 +128,14 @@ BOOL OSDisableInterrupts(void);
 BOOL OSEnableInterrupts(void);
 BOOL OSRestoreInterrupts(BOOL level);
 
+#ifndef REGION_EU
+#define OSGetVideoMode() \
+OSGetProgressiveMode()
+#else
+#define OSGetVideoMode() \
+OSGetEuRgb60Mode()
+#endif
+
 #define OSHalt(msg) OSPanic(__FILE__, __LINE__, msg)
 
 #ifdef _DEBUG

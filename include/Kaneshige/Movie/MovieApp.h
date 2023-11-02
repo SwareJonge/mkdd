@@ -21,8 +21,12 @@ public:
     void loadOpeningData();               // 0x801d7e64
     void doRunning();                     // 0x801d7e88
     void doEnding();                      // 0x801d8004
-    static MovieApp *sMovieApp;           // 0x80416840
-    static void *mspHeapBuffer;           // 0x80416844
+
+    static MovieApp *getMovieApp() { return sMovieApp; }
+
+private:
+    static MovieApp *sMovieApp; // 0x80416840
+    static void *mspHeapBuffer; // 0x80416844
 };
 
 class MVActor
@@ -48,5 +52,11 @@ public:
     void endDemo();
     bool isDemoEnd();
 };
+
+#define MOVIE_GetHeap() \
+    MovieApp::getMovieApp()->getHeap()
+
+#define MOVIE_loadOpeningData() \
+    MovieApp::getMovieApp()->loadOpeningData()
 
 #endif // MOVIEAPP_H

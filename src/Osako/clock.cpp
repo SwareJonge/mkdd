@@ -4,7 +4,7 @@
 int Clock::msTime;
 int Clock::msPrevFrameTime;
 OSTick Clock::msPrevTick;
-const u32 Clock::mscTimePerSec = 300;
+const s32 Clock::mscTimePerSec = 300;
 
 void Clock::move() {
     OSTick curTick = OSGetTick();

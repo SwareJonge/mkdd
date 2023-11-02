@@ -10,7 +10,23 @@ class AppMgr
 public:
     enum KartAppEnum
     {
-        KARTAPP_0 = 0
+        mcKartApp0,
+        mcKartApp1,
+        mcKartApp2,
+        mcErrorView,
+        mcLogo,
+        mcMainMenu,
+        mcPlayerSelect,
+        mcMapSelect,
+        mcRace,
+        mcAward,
+        mcSequence,
+        mcNetGate,
+        mcMovie,
+        mcKartApp13,
+        mcScene,
+        mcTest,
+        msTestView
     };
 
     static void draw();
@@ -21,6 +37,10 @@ public:
     static void restartApp();
     static bool isRestartable();
 
+    static KartAppEnum getPrevApp() { return msPrevGameApp; }
+    static void deleteCurrentApp() { msRequest |= 1; }
+
+private:
     static KartAppEnum msGameApp;
     static KartAppEnum msNextGameApp;
     static KartAppEnum msNextNextGameApp;

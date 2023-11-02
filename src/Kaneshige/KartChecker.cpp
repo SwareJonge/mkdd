@@ -1026,14 +1026,14 @@ void KartChecker::calcRabbitTime()
                     if (!(rabbitTime.get() % 1000))
                     {
                         if (ms == 0)
-                            GameAudio::Main::getAudio()->startSystemSe(0x20027);
+                            GetGameAudioMain()->startSystemSe(0x20027);
                         else if (ms <= 10)
                         {
-                            GameAudio::Main::getAudio()->startSystemSe(0x20026);
+                            GetGameAudioMain()->startSystemSe(0x20026);
                         }
                         else if ((ms > 10) && ms <= GeoRabbitMark::getSupervisor()->getWinTime() - 2)
                         {
-                            GameAudio::Main::getAudio()->startSystemSe(0x20025);
+                            GetGameAudioMain()->startSystemSe(0x20025);
                         }
                     }
                 }

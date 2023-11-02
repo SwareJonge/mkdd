@@ -7,12 +7,20 @@
 namespace GameAudio {
     class Main {
     public:
+        enum WS_ID
+        {
+            STREAM0,
+            STREAM1,
+            // TODO
+        };
+
         void init(JKRSolidHeap *, u32, void *, void *, u32);
         void startSystemSe(u32);
         void initRaceSound();
         void bootDSP();
         void setBgmVolume(f32);
         bool isActive();
+        bool isWaveLoaded(WS_ID);
         void frameWork();
         void setMasterVolume(s8);
         void setOutputMode(u32);
@@ -31,6 +39,8 @@ namespace GameAudio {
     }
 }
 
-#define GameAudioMain GameAudio::Main::getAudio()
+#define GetGameAudioMain() GameAudio::Main::getAudio()
+#define GameAudioMain GameAudio::Main
+#define GameAudioParameters GameAudio::Parameters
 
 #endif

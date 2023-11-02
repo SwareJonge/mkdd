@@ -90,7 +90,12 @@ public:
     // void startRecvTask();
     // void checkUSN(const char *, UPnPUuid *);
     // void checkSERVER(const char *);
-//private:
+
+    static NetGameMgr *ptr() { return mspNetGameMgr; }
+
+    int getState() { return mState; }
+
+private:
     u8 _0[0x96c];
     int mState;
     u8 _970[0x1308 - 0x970];

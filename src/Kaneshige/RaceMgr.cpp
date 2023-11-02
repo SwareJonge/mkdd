@@ -659,7 +659,7 @@ void RaceMgr::resetRaceCommon()
     JUT_REPORT_MSG("Begin Reset.............................................\n");
     JUT_REPORT_MSG("Rand Seed:%08X\n", mRaceInfo->mRandomSeed);
 
-    GameAudio::Main::getAudio()->initRaceSound();
+    GetGameAudioMain()->initRaceSound();
     mFrame = 0;
     mRaceDirector->reset();
     setRandomSeed();
@@ -1273,8 +1273,8 @@ void RaceMgr::updateRace()
 
 RaceMgr::~RaceMgr()
 {
-    if (GameAudio::Parameters::getDemoMode())
-        GameAudio::Parameters::setDemoMode(0);
+    if (GameAudioParameters::getDemoMode())
+        GameAudioParameters::setDemoMode(0);
 
     for (JSUTreeIterator<JKRHeap> iterator = mRaceHeap->getHeapTree().getFirstChild(); iterator != mRaceHeap->getHeapTree().getEndChild(); ++iterator)
     {

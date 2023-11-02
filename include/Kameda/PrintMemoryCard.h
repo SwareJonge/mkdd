@@ -54,6 +54,13 @@ public:
         mcMsg39,                // Quit are you sure?
         mcMsg40                 // black screen, no text here, also panic if bmg gets requested
     };
+    
+    // TODO
+    void setStuff(u8 a, u8 b, u8 c) {
+        _c = a ;
+        _d = b;
+        _e = c;
+    }
 
     void reset();           // 0x8016bf24
     void init(MessageID);   // 0x8016bf90
@@ -72,6 +79,13 @@ public:
     // ~PrintMemoryCard();
 private:
     // TODO
-};
+    u8 _0[0x4];
+    void *mpBmg; // 0x4
+    u8 _8[0xc - 0x8];
+    u8 _c;
+    u8 _d;
+    u8 _e;
+    u8 _f[0x30 - 0xf];
+}; // Size: 0x30
 
 #endif // PRINTMEMORYCARD_H

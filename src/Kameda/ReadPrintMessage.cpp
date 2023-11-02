@@ -236,13 +236,13 @@ namespace ReadPrintMessage
         int id;
         switch (msgID)
         {
-        case PrintProgressive::mcShow_Progressive:
+        case PrintProgressive::mcShow_Dialog:
             id = 0x10002;
             break;
-        case PrintProgressive::mcSet_Progressive:
+        case PrintProgressive::mcSet_Option1:
             id = 0x10001;
             break;
-        case PrintProgressive::mcSet_Interlaced:
+        case PrintProgressive::mcSet_Option2:
             id = 0x10000;
             break;
 
@@ -260,13 +260,13 @@ namespace ReadPrintMessage
         int id;
         switch (msgID)
         {
-        case PrintPal::mcShow_PAL:
+        case PrintPal::mcShow_Dialog:
             id = 0x30000;
             break;
-        case PrintPal::mcSet_60Hz:
+        case PrintPal::mcSet_Option1:
             id = 0x30001;
             break;
-        case PrintPal::mcSet_50Hz:
+        case PrintPal::mcSet_Option2:
             id = 0x30002;
             break;
         default:

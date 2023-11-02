@@ -48,28 +48,29 @@ namespace ResetAgent {
                 if(CardAgent::msState != 0 && (CardAgent::msState != 0 && (CardAgent::msState != 0xf))) {
                     CardAgent::msFlags |= 4;
                 }
-                CardAgent::mspPrintMemoryCard->closeWindowNoSe();
-                bool audioReset;
-                if (GameAudioMain->isActive())
+
+                CardAgent::getPrintMemoryCard()->closeWindowNoSe();
+                
+                if (GetGameAudioMain()->isActive())
                 {
-                    GameAudioMain->resetAudio(5);
+                    GetGameAudioMain()->resetAudio(5);
                     msAudioReset = true;
                 }
                 else {
                     msAudioReset = false;
                 }
 
-                NetGameMgr::mspNetGameMgr->end(true);
+                NetGameMgr::ptr()->end(true);
 
-                System::getDisplay()->startFadeOut(30);
-                System::getDisplay()->getFader()->setResetState(true);
-                System::getDisplay()->getFader()->setColor(TCOLOR_BLACK);
+                SYSTEM_StartFadeOut(30);
+                SYSTEM_GetFader()->setResetState(true);
+                SYSTEM_GetFader()->setColor(TCOLOR_BLACK);
                 break;
             }
             
             case 2: {
                 msCount++;
-                if (msCount >= 30 && (CardAgent::msState == 0xf || (CardAgent::msState == 0)) && NetGameMgr::mspNetGameMgr->mState != 0x14)
+                if (msCount >= 30 && (CardAgent::getState() == 0xf || (CardAgent::getState() == 0)) && NetGameMgr::ptr()->getState() != 0x14)
                 {
                     if(DVDCheckDisk() == 0 || msForceMenu) {
                         if(msCount >= 80) {
@@ -83,15 +84,15 @@ namespace ResetAgent {
                         }
                     }
                     else {
-                        System::getDisplay()->getFader()->setResetState(false);
+                        SYSTEM_GetFader()->setResetState(false);
                         JUTGamePad::recalibrate(0xf0000000);
 #ifdef DEBUG
                         System::haltRumble();
 #endif
-                        AppMgr::msRequest |= 2;
+                        AppMgr::msRequest |= 2; // probably an inline
 
                         if(msAudioReset) {
-                            GameAudioMain->resumeAudio();
+                            GetGameAudioMain()->resumeAudio();
                         }
                         gSystemRecord.applyAudioSetting();
 #ifdef DEBUG
@@ -103,8 +104,8 @@ namespace ResetAgent {
                         }
                         CardAgent::reset();
                         System::reset();
-                        ErrorViewApp::msErrorId = ErrorViewApp::ERROR0;
-                        ErrorViewApp::mspErrorViewApp->mErrorState = 0;
+                        ErrorViewApp::msErrorId = ErrorViewApp::ERROR0; // Inline?
+                        ErrorViewApp::mspErrorViewApp->mErrorState = 0; // Inline?
                         msState = 0;
                         msInvalid = true;
                     }

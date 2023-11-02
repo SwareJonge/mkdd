@@ -1019,6 +1019,9 @@ src/Osako/ResMgr.cpp:
     .sbss: [0x803d5b68, 0x803d5ba8]
     .sdata2: [0x803d96e0, 0x803d99c8]
 
+src/Osako/LogoApp.cpp:
+    .text: [0x801cf8c4, 0x801d02f8]
+
 src/Osako/system.cpp:
     .text: [0x801d02f8, 0x801d1000]
     .ctors: [0x802d8780, 0x802d8784]
