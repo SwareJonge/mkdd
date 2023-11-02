@@ -2719,8 +2719,20 @@ global:
   0x801cc630: call__11MainMenuAppFv
   # main.cpp
   0x801cc5bc: main
-  # RaceApp
+  # RaceApp.cpp
+  0x801ccda4: create__7RaceAppFv
+  0x801ccdf4: call__7RaceAppFv
+  0x801cce18: __ct__7RaceAppFv
+  0x801cd748: __dt__7RaceAppFv
+  0x801cd7fc: draw__7RaceAppFv
+  0x801cd840: calc__7RaceAppFv
+  0x801cdaf4: __dt__8AwardAppFv
+  0x801cdb54: ctrlRace__7RaceAppFv
+  0x801cde4c: ctrlRecorder__7RaceAppFv
+  0x801ce168: setAudioRaceMode__7RaceAppFv
+  0x8035c2a0: __vt__7RaceApp
   0x803d5b60: mspRaceApp__7RaceApp
+  0x803d5b64: msStaffGhostFlag__7RaceApp
   # ResMgr.cpp
   0x801ce300: getCrsArcName__6ResMgrF9ECourseID
   0x801ce530: create__6ResMgrFP7JKRHeap
@@ -3026,6 +3038,14 @@ global:
   0x801dc384: resetPort__6PadMgrFv
   # BBAMgr.cpp
   0x801dd058: create__6BBAMgrFP7JKRHeap
+  # AwardApp.cpp
+  0x801ddb68: create__8AwardAppFv
+  0x801ddbb8: call__8AwardAppFv
+  0x801ddbdc: __ct__8AwardAppFv
+  0x801ddc30: calc__8AwardAppFv
+  0x801ddca8: draw__8AwardAppFv
+  0x8035cc88: __vt__8AwardApp
+  0x803d5cb0: mspAwardApp__8AwardApp
   # Kart2DCommon.cpp
   0x801de8f4:  __ct__12Kart2DCommonFv
   0x803d5cb8: mspKart2DCommon__12Kart2DCommon

@@ -78,6 +78,7 @@ public:
     ERaceMode getRaceMode() const { return mRaceMode; }
     int getItemSlotType() const { return mItemSlotType; }
     ERaceLevel getRaceLevel() const { return mRaceLevel; }
+    ERaceGpCup getGpCup() const { return mGpCup; }
 
     bool isLANMode() { return mIsLanMode; }
     bool isTrueEnding() const { return mIsTrueEnding; }

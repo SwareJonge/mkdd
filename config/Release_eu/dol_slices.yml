@@ -1071,6 +1071,14 @@ src/Osako/SaveFile.cpp:
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
 
+src/Osako/AwardApp.cpp:
+    .text: [0x801ddb68, 0x801dddb8]
+    .ctors: [0x802d87b4, 0x802d87b8]
+    .data: [0x8035cc88, 0x8035cca0]
+    .bss: [0x803ac558, 0x803ac588]
+    .sbss: [0x803d5cb0, 0x803d5cb8]
+    .sdata2: [0x803d9b10, 0x803d9b18]
+
 src/Osako/ResetAgent.cpp:
     .text: [0x801dec78, 0x801df038]
     .ctors: [0x802d87bc, 0x802d87c0]
