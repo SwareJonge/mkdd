@@ -27,15 +27,21 @@ namespace CardMgr
         mcClear = mcSetStatus | mcGetStatus | mcClose | mcWrite | mcRead | mcOpen | mcCreate | mcFormat | mcCheck | mcMount
     };
 
+    enum TaskStatus {
+        mcNoTask = 0,
+        mcTaskRequested,
+        mcTaskDone
+    };
+
     struct CardData
     {
-        s32 mProbeStatus;       // 0x0
+        s32 mProbeStatus;       // 0x0, see card.h
         s32 mPrevProbeStatus;   // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
         s32 mMemSize;           // 0x8
         s32 mSectorSize;        // 0xc
         s32 mByteNotUsed;       // 0x10
         s32 mFilesNotUsed;      // 0x14
-        int mTaskStatus;        // 0x18 enum?
+        TaskStatus mTaskStatus; // 0x18
         s32 mProcessFlag;       // 0x1c
         s32 mCardStatus;        // 0x20
         SaveFile *mSaveFile;    // 0x24

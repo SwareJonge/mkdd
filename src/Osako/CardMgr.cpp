@@ -21,7 +21,7 @@ namespace CardMgr
         for (int i = 0; i < CARD_NUM_CHANS; i++)
         {
             msaCardData[i].mProcessFlag = mcNone;
-            msaCardData[i].mTaskStatus = 0;
+            msaCardData[i].mTaskStatus = mcNoTask;
             msaCardData[i].mSaveFile = nullptr;
             msaCardData[i].mWorkArea = aaWorkAreaBuffer[i];
         }
@@ -48,13 +48,13 @@ namespace CardMgr
 #line 76
         JUT_MINMAX_ASSERT(0, chan, 2);
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
             CARD_ASSERT(chan, mcProbe);
 
             if ((msaCardData[chan].mProcessFlag & mcError) == 0)
             {
-                msaCardData[chan].mTaskStatus = 1;
+                msaCardData[chan].mTaskStatus = mcTaskRequested;
                 return SYSTEM_RequestTask(mountTask, (void *)chan, nullptr);
             }
         }
@@ -80,17 +80,17 @@ namespace CardMgr
             break;
         }
 
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool check(s32 chan)
     {
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
 #line 124
             CARD_ASSERT(chan, mcMount);
 
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(checkTask, (void *)chan, nullptr);
         }
         return false;
@@ -108,14 +108,14 @@ namespace CardMgr
             msaCardData[chan].mProcessFlag |= mcError;
 
         msaCardData[chan].mProcessFlag |= mcCheck;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool format(s32 chan)
     {
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(formatTask, (void *)chan, nullptr);
         }
 
@@ -131,7 +131,7 @@ namespace CardMgr
             msaCardData[chan].mProcessFlag |= mcError;
 
         msaCardData[chan].mProcessFlag |= mcFormat;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     s32 openFile(s32 chan, SaveFile *pSaveFile)
@@ -146,7 +146,7 @@ namespace CardMgr
         else
             msaCardData[chan].mCardStatus = CARDFastOpen(chan, pSaveFile->getFileNo(), &msaCardData[chan].mFileInfo);
 
-        if (msaCardData[chan].mCardStatus == 0)
+        if (msaCardData[chan].mCardStatus == CARD_RESULT_READY)
         {
             CARDGetStatus(chan, msaCardData[chan].mFileInfo.fileNo, &msaCardData[chan].mStat);
             msaCardData[chan].mProcessFlag |= mcOpen;
@@ -158,14 +158,14 @@ namespace CardMgr
 
     bool createFile(s32 chan, SaveFile *pSaveFile)
     {
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
 #line 221
             CARD_ASSERT(chan, mcCheck);
 
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             msaCardData[chan].mSaveFile = pSaveFile;
-            return SYSTEM_RequestTask(createTask, (void *)chan, 0);
+            return SYSTEM_RequestTask(createTask, (void *)chan, nullptr);
         }
         return false;
     }
@@ -189,7 +189,7 @@ namespace CardMgr
         }
 
         msaCardData[chan].mProcessFlag |= mcCreate;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool read(s32 chan, SaveFile::FilePart filePart)
@@ -203,9 +203,9 @@ namespace CardMgr
         JUT_ASSERT(!( pSaveFile->getOffset() & ( 512 - 1 ) ));
         // clang-format on
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(readTask, (void *)chan, nullptr);
         }
 
@@ -219,7 +219,7 @@ namespace CardMgr
 
         msaCardData[chan].mCardStatus = CARDRead(&msaCardData[chan].mFileInfo, pSaveFile->getBuf(), pSaveFile->getLength(), pSaveFile->getOffset());
         msaCardData[chan].mProcessFlag |= mcRead;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool write(s32 chan, SaveFile::FilePart filePart)
@@ -237,9 +237,9 @@ namespace CardMgr
         JUT_ASSERT(!( pSaveFile->getOffset() & ( msaCardData[ chan ].mSectorSize - 1 ) ));
         // clang-format on
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(writeTask, (void *)chan, nullptr);
         }
 
@@ -256,7 +256,7 @@ namespace CardMgr
             msaCardData[chan].mProcessFlag |= mcError;
 
         msaCardData[chan].mProcessFlag |= mcWrite;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool setStatus(s32 chan)
@@ -264,9 +264,9 @@ namespace CardMgr
 #line 340
         CARD_ASSERT(chan, mcGetStatus);
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(setStatusTask, (void *)chan, nullptr);
         }
         return false;
@@ -277,31 +277,31 @@ namespace CardMgr
         u8 icon;
         s32 chan = (s32)arg;
         SaveFile *pSaveFile = msaCardData[chan].mSaveFile;
-        CARDStat *stat = &msaCardData[chan].mStat;
+        CARDStat *pStat = &msaCardData[chan].mStat;
 
-        CARDSetBannerFormat(stat, pSaveFile->getBannerFormat());
-        CARDSetCommentAddress(stat, pSaveFile->getCommentOffset());
-        CARDSetIconAddress(stat, pSaveFile->getIconOffset());
-        CARDSetIconAnim(stat, pSaveFile->getIconAnim());
+        CARDSetBannerFormat(pStat, pSaveFile->getBannerFormat());
+        CARDSetCommentAddress(pStat, pSaveFile->getCommentOffset());
+        CARDSetIconAddress(pStat, pSaveFile->getIconOffset());
+        CARDSetIconAnim(pStat, pSaveFile->getIconAnim());
 
         for (icon = 0; icon < pSaveFile->getIconNum(); icon++)
         {
-            CARDSetIconFormat(stat, icon, pSaveFile->getIconFormat(icon));
-            CARDSetIconSpeed(stat, icon, pSaveFile->getIconSpeed(icon));
+            CARDSetIconFormat(pStat, icon, pSaveFile->getIconFormat(icon));
+            CARDSetIconSpeed(pStat, icon, pSaveFile->getIconSpeed(icon));
         }
 
         if (icon < 7)
         {
-            CARDSetIconSpeed(stat, icon, 0);
+            CARDSetIconSpeed(pStat, icon, CARD_STAT_ICON_NONE);
         }
 
-        msaCardData[chan].mCardStatus = CARDSetStatus(chan, msaCardData[chan].mFileInfo.fileNo, stat);
+        msaCardData[chan].mCardStatus = CARDSetStatus(chan, msaCardData[chan].mFileInfo.fileNo, pStat);
 
         if (msaCardData[chan].mCardStatus == CARD_RESULT_IOERROR)
             msaCardData[chan].mProcessFlag |= mcError;
 
         msaCardData[chan].mProcessFlag |= mcSetStatus;
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool renameFile(s32 chan)
@@ -309,9 +309,9 @@ namespace CardMgr
 #line 394
         CARD_ASSERT(chan, mcGetStatus);
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(renameTask, (void *)chan, nullptr);
         }
         return false;
@@ -322,14 +322,14 @@ namespace CardMgr
         s32 chan = (s32)arg;
         SaveFile *pSaveFile = msaCardData[chan].mSaveFile;
 
-        char *newName = pSaveFile->getFileName();
+        char *pNewName = pSaveFile->getFileName();
 
-        msaCardData[chan].mCardStatus = CARDRename(chan, msaCardData[chan].mStat.fileName, newName);
+        msaCardData[chan].mCardStatus = CARDRename(chan, msaCardData[chan].mStat.fileName, pNewName);
 
         if (msaCardData[chan].mCardStatus == CARD_RESULT_IOERROR)
             msaCardData[chan].mProcessFlag |= mcError;
 
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     bool deleteFile(s32 chan)
@@ -337,9 +337,9 @@ namespace CardMgr
 #line 428
         CARD_ASSERT(chan, mcGetStatus);
 
-        if (msaCardData[chan].mTaskStatus == 0)
+        if (msaCardData[chan].mTaskStatus == mcNoTask)
         {
-            msaCardData[chan].mTaskStatus = 1;
+            msaCardData[chan].mTaskStatus = mcTaskRequested;
             return SYSTEM_RequestTask(deleteTask, (void *)chan, nullptr);
         }
         return false;
@@ -355,12 +355,12 @@ namespace CardMgr
         else
             msaCardData[chan].mCardStatus = CARDFastDelete(chan, pSaveFile->getFileNo());
 
-        msaCardData[chan].mTaskStatus = 2;
+        msaCardData[chan].mTaskStatus = mcTaskDone;
     }
 
     s32 closeFile(s32 chan)
     {
-        msaCardData[chan].mCardStatus = 0;
+        msaCardData[chan].mCardStatus = CARD_RESULT_READY;
         if (msaCardData[chan].mProcessFlag & mcOpen)
         {
             msaCardData[chan].mCardStatus = CARDClose(&msaCardData[chan].mFileInfo);
@@ -373,8 +373,8 @@ namespace CardMgr
 
     s32 unmount(s32 chan)
     {
-        msaCardData[chan].mCardStatus = 0;
-        msaCardData[chan].mTaskStatus = 0;
+        msaCardData[chan].mCardStatus = CARD_RESULT_READY;
+        msaCardData[chan].mTaskStatus = mcNoTask;
         if (msaCardData[chan].mProcessFlag & mcMount)
         {
             msaCardData[chan].mCardStatus = CARDUnmount(chan);
