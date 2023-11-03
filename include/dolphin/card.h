@@ -43,6 +43,8 @@ extern "C" {
 #define CARDSetCommentAddress(stat, addr) ((stat)->commentAddr = (u32)(addr))
 #define CARDGetFileNo(fileInfo) ((fileInfo)->fileNo)
 
+#define CARD_NUM_CHANS 2
+
 #define CARD_RESULT_UNLOCKED 1
 #define CARD_RESULT_READY 0
 #define CARD_RESULT_BUSY -1

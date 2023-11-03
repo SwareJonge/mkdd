@@ -2881,6 +2881,29 @@ global:
   # CardMgr.cpp
   0x801d2780: create__7CardMgrFv
   0x801d27fc: probe__7CardMgrFv
+  0x801d28a0: mount__7CardMgrFl
+  0x801d2910: mountTask__7CardMgrFPv
+  0x801d29d4: check__7CardMgrFl
+  0x801d2a34: checkTask__7CardMgrFPv
+  0x801d2ad8: format__7CardMgrFl
+  0x801d2b38: formatTask__7CardMgrFPv
+  0x801d2bb0: openFile__7CardMgrFlP8SaveFile
+  0x801d2ce4: createFile__7CardMgrFlP8SaveFile
+  0x801d2d50: createTask__7CardMgrFPv
+  0x801d2e5c: read__7CardMgrFlQ28SaveFile8FilePart
+  0x801d2ee8: readTask__7CardMgrFPv
+  0x801d2fa8: write__7CardMgrFlQ28SaveFile8FilePart
+  0x801d306c: writeTask__7CardMgrFPv
+  0x801d3150: setStatus__7CardMgrFl
+  0x801d31b0: setStatusTask__7CardMgrFPv
+  0x801d338c: renameFile__7CardMgrFl
+  0x801d33ec: renameTask__7CardMgrFPv
+  0x801d3490: deleteFile__7CardMgrFl
+  0x801d34f0: deleteTask__7CardMgrFPv
+  0x801d35c0: closeFile__7CardMgrFl
+  0x801d3640: unmount__7CardMgrFl
+  0x803bfe38: msaCardData__7CardMgr
+  0x803d5c10: msProbeSlot__7CardMgr
   # CardAgent.cpp
   0x801d36b0: create__9CardAgentFP7JKRHeap
   0x801d3704: ask__9CardAgentFQ29CardAgent7Commandl

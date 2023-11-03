@@ -11,58 +11,64 @@ namespace CardMgr
     // Global
     enum ProcessFlag
     {
-        // Not complete
+        mcNone = 0,
         mcProbe = 1,
         mcMount = 2,
         mcCheck = 4,
+        mcFormat = 8,
+        mcCreate = 0x10,
         mcOpen = 0x20,
+        mcRead = 0x40,
+        mcWrite = 0x80,
         mcClose = 0x100,
         mcGetStatus = 0x200,
-        mcRetry = 0x800
+        mcSetStatus = 0x400,
+        mcError = 0x800,
+        mcClear = mcSetStatus | mcGetStatus | mcClose | mcWrite | mcRead | mcOpen | mcCreate | mcFormat | mcCheck | mcMount
     };
 
     struct CardData
     {
-        s32 mProbeStatus;         // 0x0
-        s32 mPrevProbeStatus;     // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
-        s32 *mMemSize;            // 0x8
-        s32 mSectorSize;          // 0xc
-        s32 *mByteNotUsed;        // 0x10
-        s32 *mFilesNotUsed;       // 0x14
-        int mTaskStatus;          // 0x18 enum?
-        ProcessFlag mProcessFlag; // 0x1c
-        s32 mCardStatus;          // 0x20
-        SaveFile *mSaveFile;      // 0x24
-        void *mWorkArea;          // 0x28
-        CARDFileInfo mFileinfo;   // 0x2c
-        CARDStat mStat;           // 0x40
-    };                            // Size: 0xac
+        s32 mProbeStatus;       // 0x0
+        s32 mPrevProbeStatus;   // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
+        s32 mMemSize;           // 0x8
+        s32 mSectorSize;        // 0xc
+        s32 mByteNotUsed;       // 0x10
+        s32 mFilesNotUsed;      // 0x14
+        int mTaskStatus;        // 0x18 enum?
+        s32 mProcessFlag;       // 0x1c
+        s32 mCardStatus;        // 0x20
+        SaveFile *mSaveFile;    // 0x24
+        void *mWorkArea;        // 0x28
+        CARDFileInfo mFileInfo; // 0x2c
+        CARDStat mStat;         // 0x40
+    };                          // Size: 0xac
 
     void create();                                     // 0x802016e0
     void probe();                                      // 0x8020175c
-    void mount(s32 chan);                              // 0x80201800
+    bool mount(s32 chan);                              // 0x80201800
     void mountTask(void *chan);                        // 0x80201914
-    void check(s32 chan);                              // 0x802019d8
+    bool check(s32 chan);                              // 0x802019d8
     void checkTask(void *chan);                        // 0x80201a90
-    void format(s32 chan);                             // 0x80201b34
+    bool format(s32 chan);                             // 0x80201b34
     void formatTask(void *chan);                       // 0x80201b94
-    void openFile(s32 chan, SaveFile *);               // 0x80201c0c
-    void createFile(s32 chan, SaveFile *pSaveFile);    // 0x80201d88
+    s32 openFile(s32 chan, SaveFile *pSaveFile);       // 0x80201c0c
+    bool createFile(s32 chan, SaveFile *pSaveFile);    // 0x80201d88
     void createTask(void *chan);                       // 0x80201e54
-    void read(s32 chan, SaveFile::FilePart filePart);  // 0x80201f60
+    bool read(s32 chan, SaveFile::FilePart filePart);  // 0x80201f60
     void readTask(void *chan);                         // 0x80202090
-    void write(s32 chan, SaveFile::FilePart filePart); // 0x80202150
+    bool write(s32 chan, SaveFile::FilePart filePart); // 0x80202150
     void writeTask(void *chan);                        // 0x8020231c
-    void setStatus(s32 chan);                          // 0x80202400
+    bool setStatus(s32 chan);                          // 0x80202400
     void setStatusTask(void *chan);                    // 0x802024c0
-    void renameFile(s32 chan);                         // 0x8020269c
+    bool renameFile(s32 chan);                         // 0x8020269c
     void renameTask(void *chan);                       // 0x8020275c
-    void deleteFile(s32 chan);                         // 0x80202800
+    bool deleteFile(s32 chan);                         // 0x80202800
     void deleteTask(void *chan);                       // 0x802028c0
-    void closeFile(s32 chan);                          // 0x80202990
-    void unmount(s32 chan);                            // 0x80202a10
-    static CardData *msaCardData[2];                   // 0x80400b68
-    static u8 msProbeSlot;                             // 0x804169c8
+    s32 closeFile(s32 chan);                           // 0x80202990
+    s32 unmount(s32 chan);                             // 0x80202a10
+    extern CardData msaCardData[CARD_NUM_CHANS];       // 0x80400b68
+    extern u8 msProbeSlot;                             // 0x804169c8
 };                                                     // namespace CardMgr
 
 #endif // CARDMGR_H

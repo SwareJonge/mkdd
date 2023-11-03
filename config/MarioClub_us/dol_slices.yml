@@ -1094,6 +1094,14 @@ src/Osako/FontMgr.cpp:
     .rodata: [0x8037d658, 0x8037d670]
     .sbss: [0x804169b8, 0x804169c0]
 
+src/Osako/CardMgr.cpp:
+    .text: [0x802016e0, 0x80202a80]
+    .rodata: [0x8037d690, 0x8037d880]
+    .bss: [0x803d0a80, 0x803e4a80]
+    #.bss: [0x80400b68, 0x80400cc0]
+    .sbss: [0x804169c8, 0x804169d0]
+    .sdata2: [0x8041b700, 0x8041b710]
+
 src/Osako/systemData.cpp:
     .text: [0x80205c2c, 0x80205db4]
     .ctors: [0x80316394, 0x80316398]
