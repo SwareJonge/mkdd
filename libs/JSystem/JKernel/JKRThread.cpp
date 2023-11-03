@@ -18,9 +18,14 @@ extern "C"
 JSUList<JKRThread> JKRThread::sThreadList(false);
 JSUList<JKRTask> JKRTask::sTaskList;
 
+JKRIdleThread *JKRIdleThread::sThread; // Unused
 JKRThreadSwitch *JKRThreadSwitch::sManager;
-u32 JKRThreadSwitch::sTotalCount;
-// u64 JKRThreadSwitch::sTotalStart; // Unused
+u32 JKRThreadSwitch::sTotalCount;                                // Unused
+u64 JKRThreadSwitch::sTotalStart;                                // Unused
+JKRThreadSwitch_PreCallback JKRThreadSwitch::mUserPreCallback;   // Unused
+JKRThreadSwitch_PostCallback JKRThreadSwitch::mUserPostCallback; // Unused
+OSMessage *JKRTask::sEndMesgBuffer;                              // Unused
+u32 JKRTask::sEndMesgBufSize;                                    // Unused
 
 JKRThread::JKRThread(u32 stack_size, int message_count, int param_3) : mThreadListLink(this)
 {
@@ -48,7 +53,7 @@ JKRThread::JKRThread(JKRHeap *heap, u32 stack_size, int message_count, int param
 
 JKRThread::JKRThread(OSThread *thread, int message_count) : mThreadListLink(this)
 {
-    mHeap = NULL;
+    mHeap = nullptr;
     mThreadRecord = thread;
     mStackSize = (u32)thread->stackEnd - (u32)thread->stackBase;
     mStackMemory = thread->stackBase;
@@ -66,10 +71,10 @@ JKRThread::~JKRThread()
             OSDetachThread(mThreadRecord);
             OSCancelThread(mThreadRecord);
         }
-        JKRHeap::free(mStackMemory, mHeap);
-        JKRHeap::free(mThreadRecord, mHeap);
+        JKRFreeToHeap(mHeap, mStackMemory);
+        JKRFreeToHeap(mHeap, mThreadRecord);
     }
-    JKRHeap::free(mMesgBuffer, nullptr);
+    JKRFree(mMesgBuffer);
 }
 
 void JKRThread::setCommon_mesgQueue(JKRHeap *heap, int msgCount)
@@ -120,19 +125,18 @@ JKRThread *JKRThread::searchThread(OSThread *thread)
 CW_FORCE_STRINGS(JKRThread_1, "JKRThread:%x  OSThread:%x  Load:ID:%d  (%s)\n", "sThread == 0")
 #endif
 
-JKRThreadSwitch::JKRThreadSwitch(JKRHeap *param_0)
+JKRThreadSwitch::JKRThreadSwitch(JKRHeap *heap)
 {
-    /*mHeap = param_0;
+    mHeap = heap;
     OSSetSwitchThreadCallback(JKRThreadSwitch::callback);
-    field_0xC = 0;
-    field_0x10 = 1;
-    field_0x18 = 0;
+    _0C = 0;
+    _10 = 1;
+    _18 = 0;
     sTotalCount = 0;
-    data_804513BC = 0;
     sTotalStart = 0;
-    field_0x20 = 0;
-    field_0x24 = 0;
-    mSetNextHeap = true;*/
+    mConsole = nullptr;
+    mThreadName = nullptr;
+    mSetNextHeap = true;
 }
 
 JKRThreadSwitch *JKRThreadSwitch::createManager(JKRHeap *heap)
@@ -178,7 +182,7 @@ void JKRThreadSwitch::callback(OSThread *current, OSThread *next)
 
     sTotalCount = sTotalCount + 1;
 
-    JKRHeap *next_heap = NULL;
+    JKRHeap *next_heap = nullptr;
     JSUList<JKRThread> &threadList = JKRThread::getList();
     JSUListIterator<JKRThread> iterator;
     for (iterator = threadList.getFirst(); iterator != threadList.getEnd(); ++iterator)
@@ -258,27 +262,25 @@ void JKRThreadSwitch::draw(JKRThreadName_ *thread_name_list, JUTConsole *console
     if (!console)
     {
         /*#if DEBUG
-                OSReport(print_0, getTotalCount(), (int)field_0x18, field_0x10);
+                OSReport(print_0, getTotalCount(), (int)_18, _10);
                 OSReport(print_1);
         #endif*/
     }
     else
     {
         console->clear();
-        console->print_f(print_0, getTotalCount(), (int)field_0x18, field_0x10);
+        console->print_f(print_0, getTotalCount(), (int)_18, _10);
         console->print(print_1);
     }
 
-    JSUList<JKRThread> &threadList = JKRThread::getList();
-    JSUListIterator<JKRThread> iterator;
-    for (iterator = threadList.getFirst(); iterator != threadList.getEnd(); ++iterator)
+    for (JSUListIterator<JKRThread> iterator = JKRThread::getList().getFirst(); iterator != JKRThread::getList().getEnd(); ++iterator)
     {
         JKRThread *thread = iterator.getObject();
         JKRThread::TLoad *loadInfo = thread->getLoadInfo();
 
         if (loadInfo->isValid())
         {
-            char *thread_print_name = NULL;
+            char *thread_print_name = nullptr;
             if (thread_name_list)
             {
                 JKRThreadName_ *thread_name = thread_name_list;
@@ -300,7 +302,7 @@ void JKRThreadSwitch::draw(JKRThreadName_ *thread_name_list, JUTConsole *console
             }
 
             u32 switch_count = loadInfo->getCount();
-            float cost_per_0x18 = loadInfo->getCost() / (float)field_0x18;
+            float cost_per_0x18 = loadInfo->getCost() / (float)_18;
 
             u32 cost_int = (u32)(cost_per_0x18 * 100.0f);
             u32 cost_float = (u32)(cost_per_0x18 * 1000.0f) % 10;
@@ -325,13 +327,13 @@ CW_FORCE_STRINGS(JKRThread_2, "JUTConsole.h", "console != 0", "bufSize > 0", "sE
 #endif
 
 JKRTask::JKRTask(int msgCount, int threadPriority, u32 stackSize)
-    : JKRThread(stackSize, msgCount, threadPriority), mTaskList(this), _94(nullptr)
+    : JKRThread(stackSize, msgCount, threadPriority), mTaskLink(this), mTaskMsgQueue(nullptr)
 {
     // UNUSED FUNCTION
     OSResumeThread(mThreadRecord);
 }
 
-JKRTask::~JKRTask() { sTaskList.remove(&mTaskList); }
+JKRTask::~JKRTask() { sTaskList.remove(&mTaskLink); }
 
 JKRTask *JKRTask::create(int reqCount, int threadPriority, u32 stackSize, JKRHeap *heap)
 {
@@ -355,7 +357,7 @@ JKRTask *JKRTask::create(int reqCount, int threadPriority, u32 stackSize, JKRHea
     {
         task->mRequest[i].mCb = nullptr;
     }
-    sTaskList.append(&task->mTaskList);
+    sTaskList.append(&task->mTaskLink);
     return task;
 }
 
@@ -369,9 +371,9 @@ void *JKRTask::run()
         if (req->mCb != nullptr)
         {
             req->mCb(req->mArg);
-            if (_94 != nullptr)
+            if (mTaskMsgQueue != nullptr)
             {
-                OSSendMessage(_94, req->mMsg, OS_MESSAGE_NOBLOCK);
+                OSSendMessage(mTaskMsgQueue, req->mMsg, OS_MESSAGE_NOBLOCK);
             }
         }
         req->mCb = nullptr;

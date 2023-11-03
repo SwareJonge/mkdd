@@ -8,60 +8,66 @@
 
 namespace JGadget
 {
+
+    namespace
+    {
+        struct TPRIsEqual_pointer_;
+    } // namespace
+
     struct TLinkListNode
     {
         TLinkListNode()
         {
-            m_next = nullptr;
-            m_prev = nullptr;
+            mNext = nullptr;
+            mPrev = nullptr;
         }
 
-        TLinkListNode *m_next;
-        TLinkListNode *m_prev;
+        TLinkListNode *getNext() { return mNext; }
+
+        TLinkListNode *mNext;
+        TLinkListNode *mPrev;
     };
 
     struct TNodeLinkList
     {
         struct iterator : public std::iterator<std::input_iterator_tag, TLinkListNode>
         {
-            iterator(TLinkListNode *pNode) { m_node = pNode; }
+            iterator(TLinkListNode *pNode) { mNode = pNode; }
             iterator(const iterator &iter) { *this = iter; }
 
-            TLinkListNode *m_node;
-        };
+            iterator &operator++()
+            {
+                mNode = mNode->getNext();
+                return *this;
+            }
 
-        struct TPRIsEqual_pointer_
-        {
-            /** @fabricated */
-            bool operator()(TLinkListNode *other) { return other == m_node; }
-
-            TLinkListNode *m_node;
+            TLinkListNode *mNode;
         };
 
         TNodeLinkList()
-            : m_linkListNode()
+            : mLinkListNode()
         {
             Initialize_();
         }
         void Initialize_()
         {
-            m_count = 0;
-            m_linkListNode.m_next = &m_linkListNode;
-            m_linkListNode.m_prev = &m_linkListNode;
+            mCount = 0;
+            mLinkListNode.mNext = &mLinkListNode;
+            mLinkListNode.mPrev = &mLinkListNode;
         }
 
         /** @fabricated */
-        iterator start() { return iterator(&m_linkListNode); }
+        iterator start() { return iterator(&mLinkListNode); }
 
         iterator end()
         {
-            iterator iter(m_linkListNode.m_next);
+            iterator iter(mLinkListNode.mNext);
             return iter;
         }
 
         ~TNodeLinkList();
-        void Insert(TNodeLinkList::iterator, TLinkListNode *);
-        void Erase(TLinkListNode *);
+        TNodeLinkList::iterator Insert(TNodeLinkList::iterator, TLinkListNode *);
+        TNodeLinkList::iterator Erase(TLinkListNode *);
         void Remove(TLinkListNode *);
         void remove_if(TPRIsEqual_pointer_);
 
@@ -76,8 +82,8 @@ namespace JGadget
         void reverse();
         TLinkListNode *Find(const TLinkListNode *);
 
-        int m_count;                  // _00
-        TLinkListNode m_linkListNode; // _04
+        int mCount;                  // _00
+        TLinkListNode mLinkListNode; // _04
     };
 
     template <typename T, int I>
@@ -103,14 +109,14 @@ namespace JGadget
             /** @fabricated */
             iterator &operator++()
             {
-                ++m_node;
+                ++mNode;
                 return *this;
             }
             /** @fabricated */
-            reference operator*() const { return *(const T *)(((u8 *)&m_node) + I); }
+            reference operator*() const { return *(const T *)(((u8 *)&mNode) + I); }
         };
 
-        TLinkListNode *Element_toNode(T *element) const { return &element->m_linkListNode; }
+        TLinkListNode *Element_toNode(T *element) const { return reinterpret_cast<TLinkListNode *>(reinterpret_cast<u8 *>(element) + I); }
 
         void Insert(TLinkList::iterator iter, T *element)
         {
@@ -142,7 +148,7 @@ namespace JGadget
         void Push_back(T *element)
         {
             TLinkList::iterator iter(TLinkList::end());
-            Insert(iter, element);
+            this->Insert(iter, element);
         }
 
         // _00-_08	= TNodeLinkList
@@ -158,6 +164,19 @@ namespace JGadget
         // _00-_08	= TNodeLinkList
         // _0C		= VTABLE
     };
+
+    namespace
+    {
+        struct TPRIsEqual_pointer_
+        {
+            TPRIsEqual_pointer_(TLinkListNode *node) { mNode = node; }
+            /** @fabricated */
+            bool operator()(TLinkListNode *other) { return other == mNode; }
+
+            TLinkListNode *mNode;
+        };
+    } // namespace
+
 }; // namespace JGadget
 
 #endif

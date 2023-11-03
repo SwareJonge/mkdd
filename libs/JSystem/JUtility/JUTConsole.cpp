@@ -59,8 +59,8 @@ void JUTConsole::destroy(JUTConsole *console) {
 
 JUTConsole::JUTConsole(uint p1, uint maxLines, bool p3)
 {
-    field_0x2c = p3;
-    field_0x20 = p1;
+    _2C = p3;
+    _20 = p1;
     mMaxLines = maxLines;
 
     mPositionX = 30;
@@ -74,14 +74,14 @@ JUTConsole::JUTConsole(uint p1, uint maxLines, bool p3)
 
     mFont = NULL;
     mIsVisible = true;
-    field_0x69 = false;
-    field_0x6a = false;
-    field_0x6b = false;
+    _69 = false;
+    _6A = false;
+    _6B = false;
     mOutput = 1;
 
-    field_0x5c.set(0, 0, 0, 100);
-    field_0x60.set(0, 0, 0, 230);
-    field_0x64 = 8;
+    _5C.set(0, 0, 0, 100);
+    _60.set(0, 0, 0, 230);
+    _64 = 8;
 }
 
 JUTConsole::~JUTConsole() {
@@ -102,10 +102,10 @@ size_t JUTConsole::getLineFromObjectSize(u32 bufferSize, unsigned int param_1)
 
 void JUTConsole::clear()
 {
-    field_0x30 = 0;
-    field_0x34 = 0;
-    field_0x38 = 0;
-    field_0x3c = 0;
+    _30 = 0;
+    _34 = 0;
+    _38 = 0;
+    _3C = 0;
 
     for (int i = 0; i < mMaxLines; i++)
     {
@@ -145,26 +145,26 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
                 const JUtility::TColor *color;
                 if (temp_r30)
                 {
-                    color = &field_0x60;
+                    color = &_60;
                 }
                 else
                 {
-                    color = &field_0x5c;
+                    color = &_5C;
                 }
 
                 J2DFillBox(mPositionX - 2, (int)(mPositionY - font_yOffset),
-                           (int)((mFontSizeX * field_0x20) + 4.0f), (int)(font_yOffset * mHeight),
+                           (int)((mFontSizeX * _20) + 4.0f), (int)(font_yOffset * mHeight),
                            *color);
                 mFont->setGX();
 
                 if (temp_r30)
                 {
-                    s32 s = (diffIndex(field_0x30, field_0x38) - mHeight) + 1;
+                    s32 s = (diffIndex(_30, _38) - mHeight) + 1;
                     if (s <= 0)
                     {
                         mFont->setCharColor(JUtility::TColor(255, 255, 255, 255));
                     }
-                    else if (field_0x30 == field_0x34)
+                    else if (_30 == _34)
                     {
                         mFont->setCharColor(JUtility::TColor(255, 230, 230, 255));
                     }
@@ -181,13 +181,13 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
             else
             {
                 JUTDirectPrint::getManager()->erase(mPositionX - 3, mPositionY - 2,
-                                                    (field_0x20 * 6) + 6,
+                                                    (_20 * 6) + 6,
                                                     (int)(font_yOffset * mHeight) + 4);
                 JUTDirectPrint::getManager()->setCharColor(JUtility::TColor(255, 255, 255, 255));
             }
 
             char *linePtr;
-            s32 curLine = field_0x30;
+            s32 curLine = _30;
             s32 yFactor = 0;
 
             do
@@ -216,7 +216,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
                 {
                     break;
                 }
-            } while (yFactor < mHeight && changeLine_2 != field_0x34);
+            } while (yFactor < mHeight && changeLine_2 != _34);
         }
     }
 }
@@ -242,7 +242,7 @@ void JUTConsole::scroll(int scrollAmnt)
 {
     if (scrollAmnt < 0)
     {
-        int diff = diffIndex(field_0x34, field_0x30);
+        int diff = diffIndex(_34, _30);
         if (scrollAmnt < -diff)
         {
             scrollAmnt = -diff;
@@ -252,14 +252,14 @@ void JUTConsole::scroll(int scrollAmnt)
     {
         if (scrollAmnt > 0)
         {
-            int diff = diffIndex(field_0x34, field_0x38);
+            int diff = diffIndex(_34, _38);
             if (diff + 1 <= mHeight)
             {
                 scrollAmnt = 0;
             }
             else
             {
-                diff = diffIndex(field_0x30, field_0x38);
+                diff = diffIndex(_30, _38);
                 if (scrollAmnt > (int)(diff - mHeight) + 1)
                 {
                     scrollAmnt = (int)(diff - mHeight) + 1;
@@ -268,26 +268,26 @@ void JUTConsole::scroll(int scrollAmnt)
         }
     }
 
-    field_0x30 += scrollAmnt;
-    if (field_0x30 < 0)
+    _30 += scrollAmnt;
+    if (_30 < 0)
     {
-        field_0x30 += mMaxLines;
+        _30 += mMaxLines;
     }
 
-    if (field_0x30 >= mMaxLines)
+    if (_30 >= mMaxLines)
     {
-        field_0x30 -= mMaxLines;
+        _30 -= mMaxLines;
     }
 }
 
 int JUTConsole::getUsedLine() const
 {
-    return diffIndex(field_0x34, field_0x38);
+    return diffIndex(_34, _38);
 }
 
 int JUTConsole::getLineOffset() const
 {
-    return diffIndex(field_0x34, field_0x30);
+    return diffIndex(_34, _30);
 }
 
 JUTConsoleManager::JUTConsoleManager()

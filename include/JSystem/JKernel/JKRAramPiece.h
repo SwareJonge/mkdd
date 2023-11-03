@@ -17,25 +17,24 @@ public:
     ~JKRAMCommand();
 
 public:
-    /* 0x00 */ ARQRequest mRequest;
-    /* 0x20 */ JSULink<JKRAMCommand> mPieceLink;
-    /* 0x30 */ JSULink<JKRAMCommand> field_0x30;
-
-    /* 0x40 */ s32 mTransferDirection;
-    /* 0x44 */ u32 mDataLength;
-    /* 0x48 */ u32 mSrc;
-    /* 0x4C */ u32 mDst;
-    /* 0x50 */ JKRAramBlock *mAramBlock;
-    /* 0x54 */ u32 field_0x54;
-    /* 0x58 */ AsyncCallback mCallback;
-    /* 0x5C */ OSMessageQueue *field_0x5C;
-    /* 0x60 */ s32 field_0x60;
-    /* 0x64 */ JKRDecompCommand *mDecompCommand;
-    /* 0x68 */ OSMessageQueue mMessageQueue;
-    /* 0x88 */ OSMessage mMessage;
-    /* 0x8C */ void *field_0x8C;
-    /* 0x90 */ void *field_0x90;
-    /* 0x94 */ void *field_0x94;
+    ARQRequest mRequest;              // _00
+    JSULink<JKRAMCommand> mPieceLink; // _20
+    JSULink<JKRAMCommand> _30;        // _30
+    s32 mTransferDirection;           // _40
+    u32 mDataLength;                  // _44
+    u32 mSrc;                         // _48
+    u32 mDst;                         // _4C
+    JKRAramBlock *mAramBlock;         // _50
+    u32 _54;                          // _54
+    AsyncCallback mCallback;          // _58
+    OSMessageQueue *_5C;              // _5C
+    s32 _60;                          // _60
+    JKRDecompCommand *mDecompCommand; // _64
+    OSMessageQueue mMessageQueue;     // _68
+    OSMessage mMessage;               // _88
+    void *_8C;                        // _8C
+    void *_90;                        // _90
+    void *_94;                        // _94
 };
 
 struct JKRAramCommand

@@ -37,21 +37,20 @@ public:
 private:
     static JKRThreadSwitch *sManager;
     static u32 sTotalCount;
-    static u32 sTotalStart;
+    static u64 sTotalStart;
     static JKRThreadSwitch_PreCallback mUserPreCallback;
     static JKRThreadSwitch_PostCallback mUserPostCallback;
 
 private:
-    /* 0x00 */ // vtable
-    /* 0x04 */ JKRHeap *mHeap;
-    /* 0x08 */ bool mSetNextHeap;
-    /* 0x09 */ u8 field_0x9[3];
-    /* 0x0C */ u32 field_0xC;
-    /* 0x10 */ u32 field_0x10;
-    /* 0x14 */ u8 field_0x14[4];
-    /* 0x18 */ s64 field_0x18;
-    /* 0x20 */ u32 field_0x20;
-    /* 0x24 */ u32 field_0x24;
+    JKRHeap *mHeap;              // _04
+    bool mSetNextHeap;           // _08
+    u8 _09[3];                   // _09, padding?
+    u32 _0C;                     // _0C
+    u32 _10;                     // _10
+    u8 _14[4];                   // _14 - unknown/padding
+    s64 _18;                     // _18
+    JUTConsole *mConsole;        // _20
+    JKRThreadName_ *mThreadName; // _24
 };
 
 struct JKRThread : public JKRDisposer
@@ -198,11 +197,15 @@ struct JKRTask : public JKRThread
 
     static void destroy(JKRTask *);
 
+    // Unused
+    static OSMessage *sEndMesgBuffer;
+    static u32 sEndMesgBufSize;
+
     // u32 _78;			 // _78
-    JSULink<JKRTask> mTaskList; // _7C
-    Request *mRequest;          // _8C - ptr to request array
-    u32 mRequestCnt;            // _90 - amount of requests
-    OSMessageQueue *_94;        // _94
+    JSULink<JKRTask> mTaskLink;    // _7C
+    Request *mRequest;             // _8C - ptr to request array
+    u32 mRequestCnt;               // _90 - amount of requests
+    OSMessageQueue *mTaskMsgQueue; // _94
 
     static JSUList<JKRTask> sTaskList;
     static u8 sEndMesgQueue[32]; // Unused
@@ -211,12 +214,14 @@ struct JKRTask : public JKRThread
 /** @unused */
 struct JKRIdleThread : JKRThread
 {
-    // vtable is optimized out. Was 14 bytes large.
-    virtual ~JKRIdleThread(); // _08
-    virtual void *run();      // _0C
-    virtual void v_10();      // _10
-
-    void destroy() {}
+    virtual ~JKRIdleThread(){}; // _08
+    virtual void *run()         // _0C
+    {
+        while (true)
+        {
+        }
+    }; 
+    virtual void destroy() {} // 0x10
 
     static void create(JKRHeap *, int, u32);
 

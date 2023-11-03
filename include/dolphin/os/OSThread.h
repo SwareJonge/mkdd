@@ -87,6 +87,7 @@ enum OS_THREAD_STATE
 
 //////// THREAD FUNCTIONS ////////
 // Basic thread functions.
+OSSwitchThreadCallback OSSetSwitchThreadCallback(OSSwitchThreadCallback);
 void OSInitThreadQueue(OSThreadQueue *queue);
 OSThread *OSGetCurrentThread();
 BOOL OSIsThreadTerminated(OSThread *thread);

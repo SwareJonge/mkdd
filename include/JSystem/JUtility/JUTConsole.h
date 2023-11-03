@@ -85,8 +85,8 @@ public:
     bool isVisible() const { return mIsVisible; }
     void setVisible(bool visible) { mIsVisible = visible; }
 
-    void setLineAttr(int param_0, u8 param_1) { mBuf[(field_0x20 + 2) * param_0] = param_1; }
-    u8 *getLinePtr(int param_0) const { return &mBuf[(field_0x20 + 2) * param_0] + 1; }
+    void setLineAttr(int param_0, u8 param_1) { mBuf[(_20 + 2) * param_0] = param_1; }
+    u8 *getLinePtr(int param_0) const { return &mBuf[(_20 + 2) * param_0] + 1; }
     int diffIndex(int param_0, int param_1) const
     {
         int diff = param_1 - param_0;
@@ -101,31 +101,31 @@ public:
     void scrollToFirstLine() { scroll(-mMaxLines); }
 
 private:
+    // _00     = VTBL
+    // _00-_18 = JKRDisposer
     JGadget::TLinkListNode mListNode; // _18
-
-private:
-    /* 0x20 */ u32 field_0x20;
-    /* 0x24 */ u32 mMaxLines;
-    /* 0x28 */ u8 *mBuf;
-    /* 0x2C */ bool field_0x2c;
-    /* 0x30 */ int field_0x30;
-    /* 0x34 */ int field_0x34;
-    /* 0x38 */ int field_0x38;
-    /* 0x3C */ int field_0x3c;
-    /* 0x40 */ int mPositionX;
-    /* 0x44 */ int mPositionY;
-    /* 0x48 */ u32 mHeight;
-    /* 0x4C */ JUTFont *mFont;
-    /* 0x50 */ f32 mFontSizeX;
-    /* 0x54 */ f32 mFontSizeY;
-    /* 0x58 */ uint mOutput;
-    /* 0x5C */ JUtility::TColor field_0x5c;
-    /* 0x60 */ JUtility::TColor field_0x60;
-    /* 0x64 */ int field_0x64;
-    /* 0x68 */ bool mIsVisible;
-    /* 0x69 */ bool field_0x69;
-    /* 0x6A */ bool field_0x6a;
-    /* 0x6B */ bool field_0x6b;
+    u32 _20;                          // _20
+    u32 mMaxLines;                    // _24
+    u8 *mBuf;                         // _28
+    bool _2C;                         // _2C
+    int _30;                          // _30
+    int _34;                          // _34
+    int _38;                          // _38
+    int _3C;                          // _3C
+    int mPositionX;                   // _40
+    int mPositionY;                   // _44
+    u32 mHeight;                      // _48
+    JUTFont *mFont;                   // _4C
+    f32 mFontSizeX;                   // _50
+    f32 mFontSizeY;                   // _54
+    int mOutput;                      // _58
+    JUtility::TColor _5C;             // _5C
+    JUtility::TColor _60;             // _60
+    int _64;                          // _64
+    bool mIsVisible;                  // _68
+    bool _69;                         // _69
+    bool _6A;                         // _6A
+    bool _6B;                         // _6B
 }; // Size: 0x6C
 
 class JUTConsoleManager

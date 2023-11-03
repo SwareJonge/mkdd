@@ -108,8 +108,10 @@ void JKRAramPiece::doneDMA(u32 requestAddress) {
         DCInvalidateRange((void*)command->mDst, command->mDataLength);
     }
 
-    if (command->field_0x60 != 0) {
-        if (command->field_0x60 == 2) {
+    if (command->_60 != 0)
+    {
+        if (command->_60 == 2)
+        {
             JKRDecomp::sendCommand(command->mDecompCommand);
         }
         return;
@@ -117,29 +119,34 @@ void JKRAramPiece::doneDMA(u32 requestAddress) {
 
     if (command->mCallback) {
         (*command->mCallback)(requestAddress);
-    } else if (command->field_0x5C) {
-        OSSendMessage(command->field_0x5C, command, OS_MESSAGE_NOBLOCK);
-    } else {
+    }
+    else if (command->_5C)
+    {
+        OSSendMessage(command->_5C, command, OS_MESSAGE_NOBLOCK);
+    }
+    else
+    {
         OSSendMessage(&command->mMessageQueue, command, OS_MESSAGE_NOBLOCK);
     }
 }
 
-JKRAMCommand::JKRAMCommand() : mPieceLink(this), field_0x30(this) {
+JKRAMCommand::JKRAMCommand() : mPieceLink(this), _30(this)
+{
     OSInitMessageQueue(&mMessageQueue, &mMessage, 1);
     mCallback = nullptr;
-    field_0x5C = nullptr;
-    field_0x60 = 0;
-    field_0x8C = nullptr;
-    field_0x90 = nullptr;
-    field_0x94 = nullptr;
+    _5C = nullptr;
+    _60 = 0;
+    _8C = nullptr;
+    _90 = nullptr;
+    _94 = nullptr;
 }
 
 JKRAMCommand::~JKRAMCommand() {
-    if (field_0x8C)
-        delete field_0x8C;
-    if (field_0x90)
-        delete field_0x90;
+    if (_8C)
+        delete _8C;
+    if (_90)
+        delete _90;
 
-    if (field_0x94)
-        JKRHeap::free(field_0x94, nullptr);
+    if (_94)
+        JKRFree(_94);
 }
