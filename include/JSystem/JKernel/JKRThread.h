@@ -10,38 +10,40 @@
 
 struct JKRThread;
 
-struct JKRThreadName_ {
+struct JKRThreadName_
+{
     s32 id;
-    char* name;
+    char *name;
 };
 
-typedef void (*JKRThreadSwitch_PreCallback)(OSThread* current, OSThread* next);
-typedef void (*JKRThreadSwitch_PostCallback)(OSThread* current, OSThread* next);
+typedef void (*JKRThreadSwitch_PreCallback)(OSThread *current, OSThread *next);
+typedef void (*JKRThreadSwitch_PostCallback)(OSThread *current, OSThread *next);
 
-class JKRThreadSwitch {
+class JKRThreadSwitch
+{
 public:
-    JKRThreadSwitch(JKRHeap*);
-    virtual void draw(JKRThreadName_* param_1, JUTConsole* param_2);
-    virtual void draw(JKRThreadName_* param_1);
+    JKRThreadSwitch(JKRHeap *);
+    virtual void draw(JKRThreadName_ *param_1, JUTConsole *param_2);
+    virtual void draw(JKRThreadName_ *param_1);
     virtual ~JKRThreadSwitch();
 
-    static JKRThreadSwitch* createManager(JKRHeap* heap);
+    static JKRThreadSwitch *createManager(JKRHeap *heap);
 
-    JKRThread* enter(JKRThread* param_1, int param_2);
-    static void callback(OSThread* param_1, OSThread* param_2);
+    JKRThread *enter(JKRThread *param_1, int param_2);
+    static void callback(OSThread *param_1, OSThread *param_2);
 
     static u32 getTotalCount() { return sTotalCount; }
 
 private:
-    static JKRThreadSwitch* sManager;
+    static JKRThreadSwitch *sManager;
     static u32 sTotalCount;
     static u32 sTotalStart;
     static JKRThreadSwitch_PreCallback mUserPreCallback;
     static JKRThreadSwitch_PostCallback mUserPostCallback;
 
 private:
-    /* 0x00 */  // vtable
-    /* 0x04 */ JKRHeap* mHeap;
+    /* 0x00 */ // vtable
+    /* 0x04 */ JKRHeap *mHeap;
     /* 0x08 */ bool mSetNextHeap;
     /* 0x09 */ u8 field_0x9[3];
     /* 0x0C */ u32 field_0xC;
@@ -104,7 +106,7 @@ struct JKRThread : public JKRDisposer
     void setCommon_mesgQueue(JKRHeap *, int);
     BOOL setCommon_heapSpecified(JKRHeap *, u32, int);
     static void *start(void *);
-    static JSUList<JKRThread>& getList() { return (JSUList<JKRThread>&)sThreadList; }
+    static JSUList<JKRThread> &getList() { return (JSUList<JKRThread> &)sThreadList; }
 
     // unused/inlined:
     static JKRThread *searchThread(OSThread *);
@@ -131,7 +133,7 @@ struct JKRThread : public JKRDisposer
         mCurrentHeap = curHeap;
         */
 
-        mCurrentHeap = heap ? heap : JKRGetCurrentHeap(); 
+        mCurrentHeap = heap ? heap : JKRGetCurrentHeap();
     }
 
     static JSUList<JKRThread> sThreadList;
@@ -156,18 +158,18 @@ struct JKRThread : public JKRDisposer
  */
 struct JKRTask : public JKRThread
 {
-    typedef void (*RequestCallback)(void*);
+    typedef void (*RequestCallback)(void *);
 
-	/**
-	 * @fabricated
-	 * @size{0xC}
-	 */
-    struct Message {
-		RequestCallback _00;
-		void* _04;
-		void* _08;
-	};
-
+    /**
+     * @fabricated
+     * @size{0xC}
+     */
+    struct Request
+    {
+        RequestCallback mCb;
+        void *mArg;
+        void *mMsg;
+    };
 
     JKRTask(int, int, u32); // unused/inlined
 
@@ -176,10 +178,10 @@ struct JKRTask : public JKRThread
 
     bool request(RequestCallback, void *, void *);
 
-    static JKRTask *create(int, int, unsigned long, JKRHeap *);
+    static JKRTask *create(int, int, u32, JKRHeap *);
 
     // unused/inlined:
-    Message* searchBlank();
+    Request *searchBlank();
     void requestJam(RequestCallback, void *, void *);
     void cancelAll();
     void createTaskEndMessageQueue(int, JKRHeap *);
@@ -187,7 +189,8 @@ struct JKRTask : public JKRThread
     void waitQueueMessageBlock(OSMessageQueue *, int *);
     void waitQueueMessage(OSMessageQueue *, int *);
 
-    OSMessage waitMessageBlock() {
+    OSMessage waitMessageBlock()
+    {
         OSMessage msg;
         OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_BLOCK);
         return msg;
@@ -196,10 +199,10 @@ struct JKRTask : public JKRThread
     static void destroy(JKRTask *);
 
     // u32 _78;			 // _78
-    JSULink<JKRTask> _7C; // _7C
-    Message *_8C;            // _8C - ptr to array with elements of size 0xc
-    u32 _90;              // _90 - element count of _8C
-    OSMessageQueue *_94;  // _94
+    JSULink<JKRTask> mTaskList; // _7C
+    Request *mRequest;          // _8C - ptr to request array
+    u32 mRequestCnt;            // _90 - amount of requests
+    OSMessageQueue *_94;        // _94
 
     static JSUList<JKRTask> sTaskList;
     static u8 sEndMesgQueue[32]; // Unused
