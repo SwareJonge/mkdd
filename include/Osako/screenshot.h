@@ -1,28 +1,32 @@
 #ifndef SCREENSHOT_H
 #define SCREENSHOT_H
 
-#include "types.h"
-
-void HostIOEnumCallback(s32);
-void HostIOCallBack();
-// Function pointers
-// void GrabChunk(unsigned long, void *, void *(*)(unsigned long), void (*)(void *));
-// void CheckMail(void *, void * (*) (unsigned long), void (*) (void *));
-// Inline/Unused
-// void CopyoutEFB(unsigned char *, unsigned long, unsigned long);
-// void CopyoutPortionEFB(unsigned char *, unsigned long, unsigned long, unsigned long);
-// void TakeScreenshotEFB(void * (*) (unsigned long));
-// void TakeScreenshotXFB(void *, void * (*) (unsigned long));
-// void WriteScreenshotPortionEFBtoUSB(unsigned long, void * (*) (unsigned long));
-// void ConnectToUSB();
+#include <dolphin/types.h>
+#include <dolphin/hio.h>
+#include <dolphin/gx.h>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif // ifdef __cplusplus
-void SCREENSHOTService(void *, void *, void *);
+
+typedef void *(*SCREENSHOTAllocFunc)(u32 size);
+typedef void (*SCREENSHOTFreeFunc)(void *p);
+
+void SCREENSHOTSetRenderModeObj(GXRenderModeObj *obj);
+void SCREENSHOTService(void *bufferXFB, SCREENSHOTAllocFunc allocFunc, SCREENSHOTFreeFunc freeFunc);
+
+extern BOOL g_connected;
+extern BOOL g_ping_received;
+extern u32 g_received_signal;
+extern BOOL g_mail_waiting;
+extern BOOL g_minimize_buffer;
+extern u8 *g_data;
+extern s32 g_usb_channel;
+
 #ifdef __cplusplus
 };
 #endif // ifdef __cplusplus
+
 
 #endif

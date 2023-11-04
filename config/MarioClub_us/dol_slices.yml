@@ -1155,6 +1155,12 @@ src/Osako/password.cpp:
     .text: [0x802195f0, 0x802199d4]
     .rodata: [0x8037ed08, 0x8037ed70]
 
+src/Osako/screenshot.c:
+    .text: [0x802199d4, 0x80219fec]
+    .rodata: [0x8037ed70, 0x8037ee60]
+    .sdata: [0x80414890, 0x80414898]
+    .sbss: [0x80416a98, 0x80416ab0]
+
 src/Sato/stMath.cpp:
     .text: [0x8021e070, 0x8021fa40] 
     .rodata: [0x8037eec8, 0x8037eef0]

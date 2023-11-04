@@ -11,6 +11,7 @@ extern "C"
 void GXSetMisc(GXMiscToken token, u32 val);
 void GXFlush();
 void GXResetWriteGatherPipe();
+void GXPeekARGB(u16 x, u16 y, u32 *color);
 
 void GXAbortFrame();
 

@@ -6,7 +6,7 @@
 #include "JSystem/JUtility/JUTProcBar.h"
 #include "JSystem/JFramework/JFWDisplay.h"
 
-#if DEBUG // MKDD Only
+#ifdef DEBUG // MKDD Only
 #include "Osako/screenshot.h"
 #endif
 
@@ -239,14 +239,16 @@ void JFWDisplay::endGX() {
     GXFlush();
 }
 
-#if DEBUG
+#ifdef DEBUG
 // for MKDD's screenshot function it seems, not sure why it was added here in JSystem
-static void MyAlloc(u32 p1) {
-    JKRHeap::getSystemHeap()->alloc(p1, 0);
+static void *MyAlloc(u32 size)
+{
+    return JKRHeap::getSystemHeap()->alloc(size, 0);
 }
 
-static void MyFree(void *p1) {
-    JKRHeap::getSystemHeap()->free(p1);
+static void MyFree(void *p)
+{
+    JKRHeap::getSystemHeap()->free(p);
 }
 #endif
 
@@ -263,17 +265,17 @@ void JFWDisplay::beginRender() {
     u32 tick = OSGetTick();
     _30 = tick - _2C; // duration of frame in ticks?
     _2C = tick;
-    #if DEBUG // TODO: cleaner method
-    _34 = _2C - JUTVideo::getVideoLastTick(); 
-    #else
+#ifdef DEBUG // TODO: cleaner method
+    _34 = _2C - JUTVideo::getVideoLastTick();
+#else
     _34 = _2C;
-    #endif
+#endif
 
     if (_40) {
         JUTProcBar::getManager()->idleEnd();
     }
 
-#if DEBUG
+#ifdef DEBUG
     SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
 #endif
 
