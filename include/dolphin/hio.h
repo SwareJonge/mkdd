@@ -12,7 +12,7 @@ extern "C"
 
 typedef enum
 {
-    HIO_DEVICE_INVALID = 4294967295,
+    HIO_DEVICE_INVALID = -1,
     HIO_DEVICE_EXI2USB_0 = 0,
     HIO_DEVICE_EXI2USB_1 = 1,
     HIO_DEVICE_MrEXI = 2
@@ -22,7 +22,7 @@ typedef enum
 {
     GRAB_NOT_TRANSFERRING = 0,
     GRAB_TRANSFERRING = 1
-} HostIOGrabtatus;
+} HostIOGrabStatus;
 
 typedef BOOL (*HIOEnumCallback)(s32 chan);
 typedef void (*HIOCallback)(void);

@@ -84,6 +84,7 @@ static void CopyoutPortionEFB(u8 *image_buffer, u32 width, u32 startByte, u32 to
     }
 }
 
+// These might've been used in GrabChunk? unfortunately i don't have a debug object to compare against
 void TakeScreenshotEFB(SCREENSHOTAllocFunc);
 void TakeScreenshotXFB(void *, SCREENSHOTAllocFunc);
 
@@ -103,13 +104,9 @@ static void WriteScreenshotPortionEFBtoUSB(u32 mail, SCREENSHOTAllocFunc allocFu
     }
 }
 
-static HostIOGrabtatus GrabChunk(u32 mail, void *bufferXFB, SCREENSHOTAllocFunc allocFunc, SCREENSHOTFreeFunc freeFunc)
+static HostIOGrabStatus GrabChunk(u32 mail, void *bufferXFB, SCREENSHOTAllocFunc allocFunc, SCREENSHOTFreeFunc freeFunc)
 {
-    HostIOGrabtatus status;
-    u32 color;
-    u16 x, y;
-    u32 chunk;
-    u8 *fb;
+    HostIOGrabStatus status;
 
     if ((mail >= 1 && mail < 7))
     {
@@ -124,8 +121,8 @@ static HostIOGrabtatus GrabChunk(u32 mail, void *bufferXFB, SCREENSHOTAllocFunc 
             OSReport("SCREENSHOT: Saved off screenshot to local memory.\n");
         }
 
-        u8 *dst = (g_minimize_buffer) ? ((u8 *)bufferXFB) + (mail - 1) * HIO_BUFFER_SIZE : g_data + (mail - 1) * HIO_BUFFER_SIZE;
-        while (HIOWrite(HIO_CHUNK_SIZE, dst, HIO_BUFFER_SIZE) == FALSE)
+        void *buffer = (g_minimize_buffer) ? ((u8 *)bufferXFB) + (mail - 1) * HIO_BUFFER_SIZE : g_data + (mail - 1) * HIO_BUFFER_SIZE;
+        while (HIOWrite(HIO_CHUNK_SIZE, buffer, HIO_BUFFER_SIZE) == FALSE)
             ;
 
         OSReport("SCREENSHOT: Wrote chunk #%d.\n", mail);
@@ -154,8 +151,8 @@ static HostIOGrabtatus GrabChunk(u32 mail, void *bufferXFB, SCREENSHOTAllocFunc 
         }
         else
         {
-            fb = g_data + (mail - 0xb) * HIO_BUFFER_SIZE;
-            while (HIOWrite(0x500, fb, HIO_BUFFER_SIZE) == FALSE)
+            void *buffer = g_data + (mail - 0xb) * HIO_BUFFER_SIZE;
+            while (HIOWrite(0x500, buffer, HIO_BUFFER_SIZE) == FALSE)
                 ;
         }
         OSReport("SCREENSHOT: Wrote chunk #%d.\n", mail);
@@ -180,7 +177,7 @@ static HostIOGrabtatus GrabChunk(u32 mail, void *bufferXFB, SCREENSHOTAllocFunc 
 static void CheckMail(void *bufferXFB, SCREENSHOTAllocFunc allocFunc, SCREENSHOTFreeFunc freeFunc)
 {
     u32 grabs = 0;
-    HostIOGrabtatus status = GRAB_TRANSFERRING;
+    HostIOGrabStatus status = GRAB_TRANSFERRING;
     u32 mail = 0;
 
     while (status == GRAB_TRANSFERRING)
