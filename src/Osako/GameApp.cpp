@@ -19,12 +19,12 @@ GameApp::GameApp(u32 heapSize, const char *appName, void *otherHeap)
     }
 
     mHeap->becomeCurrentHeap();
-    SysDebug::getManager()->createHeapInfo(mHeap, (char *)appName);
+    SYSDBG_CreateHeapInfo(mHeap, (char *)appName);
 }
 
 GameApp::~GameApp()
 {
-    SysDebug::getManager()->destroyHeapInfo(mHeap);
+    SYSDBG_DestroyHeapInfo(mHeap);
     mHeap->destroy();
     delete mSequenceHeap;
 }

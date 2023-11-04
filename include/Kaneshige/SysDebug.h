@@ -80,28 +80,37 @@ private:
     JKRHeap *mDebugHeap;
 };
 
+// Make macro for every function? or is that too ridiculous
+
+#define GetSysDebug() \
+    SysDebug::getManager()
+
 #define SYSDBG_SetHeapGroup(name, heap) \
-    SysDebug::getManager()->setHeapGroup(name, heap);
-
+    GetSysDebug()->setHeapGroup(name, heap);
 #define SYSDBG_SetDefaultHeapGroup(heap) \
-    SysDebug::getManager()->setDefaultHeapGroup(heap);
-
-// TODO
-#define SYSDBG_CreateHeapInfo2(heap, name) \
-    SysDebug::getManager()->createHeapInfo(heap, name);
+    GetSysDebug()->setDefaultHeapGroup(heap);
+#define SYSDBG_CreateHeapInfo(heap, name) \
+    GetSysDebug()->createHeapInfo(heap, name);
+#define SYSDBG_DestroyHeapInfo(heap) \
+    GetSysDebug()->destroyHeapInfo(heap);
+#define SYSDBG_ClearAllLabels() \
+    GetSysDebug()->clrAllUserTimeLabel();
 
 #ifdef DEBUG
-#define SYSDBG_CreateHeapInfo(heap, name) \
-    SysDebug::getManager()->createHeapInfo(heap, name);
+#define SYSDBG_AppendPage(page) \
+    GetSysDebug()->appendPage(page);
+#define SYSDBG_CreateDebugHeapInfo(heap, name) \
+    GetSysDebug()->createHeapInfo(heap, name);
 #define SYSDBG_SetUserTimeLabel(id, name) \
-    SysDebug::getManager()->setUserTimeLabel(id, name);
+    GetSysDebug()->setUserTimeLabel(id, name);
 #define SYSDBG_BeginUserTime(id) \
-    SysDebug::getManager()->beginUserTime(id);
+    GetSysDebug()->beginUserTime(id);
 #define SYSDBG_EndUserTime(id) \
-    SysDebug::getManager()->endUserTime(id);
+    GetSysDebug()->endUserTime(id);
 
 #else
-#define SYSDBG_CreateHeapInfo(...)
+#define SYSDBG_AppendPage(...)
+#define SYSDBG_CreateDebugHeapInfo(...)
 #define SYSDBG_SetUserTimeLabel(...)
 #define SYSDBG_BeginUserTime(...)
 #define SYSDBG_EndUserTime(...)

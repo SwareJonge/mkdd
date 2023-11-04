@@ -140,8 +140,8 @@ namespace System
 #define SYSTEM_StartFadeOut(duration) \
     System::getDisplay()->startFadeOut(duration)
 
-#define SYSTEM_RequestTask(function, arg1, arg2) \
-    System::getLoTask()->request(function, arg1, arg2)
+#define SYSTEM_RequestTask(function, arg, msg) \
+    System::getLoTask()->request(function, arg, msg)
 
 #define SYSTEM_IsFadingIn() \
     SYSTEM_GetFaderStatus() == JUTFader::Status_In

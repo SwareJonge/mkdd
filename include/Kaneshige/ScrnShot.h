@@ -23,8 +23,8 @@ public:
     static ScrnShot *sScrnShot;
 
 private:
-    int _0;
-    int _4;
+    int mWidth;
+    int mHeight;
     u8 _8[4];
     void* _C;
     u8 _10[0x18 - 0x10];

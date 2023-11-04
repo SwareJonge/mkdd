@@ -442,8 +442,8 @@ namespace ResMgr
         mspaLoader[mcArcSystem] = JKRMountArchive(_pSystemArc, heap, JKRArchive::MOUNT_DIRECTION_HEAD);
         mspKeepHeap = JKRSolidHeap::create(mscKeepHeapSize, heap, false);
         mspCourseHeap = JKRSolidHeap::create(mscCourceHeapSize, heap, false);
-        SYSDBG_CreateHeapInfo2(mspKeepHeap, "MRAM.Arc");
-        SYSDBG_CreateHeapInfo2(mspCourseHeap, "Crs.Arc");
+        SYSDBG_CreateHeapInfo(mspKeepHeap, "MRAM.Arc");
+        SYSDBG_CreateHeapInfo(mspCourseHeap, "Crs.Arc");
     }
 
     void loadKeepTask(void *param)
@@ -562,7 +562,7 @@ namespace ResMgr
     {
         if (msRequestLoadingKeepData)
             return;
-        if (!System::getLoTask()->request(loadKeepTask, nullptr, nullptr))
+        if (!SYSTEM_RequestTask(loadKeepTask, nullptr, nullptr))
         {
 #line 514
             JUT_PANIC("task full");
@@ -583,7 +583,7 @@ namespace ResMgr
         msLoadFlag &= ~8;
         mspaLoader[mcArcCourse] = nullptr;
 
-        if (!System::getLoTask()->request(loadCourseTask, nullptr, nullptr))
+        if (!SYSTEM_RequestTask(loadCourseTask, nullptr, nullptr))
         {
 #line 536
             JUT_PANIC("task full");
@@ -601,7 +601,7 @@ namespace ResMgr
         msCupID = cupId;
         mspAwardHeap = heap;
 
-        if (!System::getLoTask()->request(loadAwardTask, nullptr, nullptr))
+        if (!SYSTEM_RequestTask(loadAwardTask, nullptr, nullptr))
         {
 #line 555
             JUT_PANIC("task full");
@@ -613,7 +613,7 @@ namespace ResMgr
         msLoadFlag &= ~0x100;
         mspaLoader[mcArcOpening] = nullptr;
         mspOpeningHeap = heap;
-        if (!System::getLoTask()->request(loadOpeningTask, nullptr, nullptr))
+        if (!SYSTEM_RequestTask(loadOpeningTask, nullptr, nullptr))
         {
 #line 570
             JUT_PANIC("task full");

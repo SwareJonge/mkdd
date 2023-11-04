@@ -159,9 +159,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     mRaceInfo = raceInfo;
 
     editRaceInfoForDebug();
-#ifdef DEBUG
-    SysDebug::getManager()->appendPage(new RaceUsrPage(mRaceInfo));
-#endif
+    SYSDBG_AppendPage(new RaceUsrPage(mRaceInfo));
 
     _0x30 = 0; // might've been used for debug only, this is the only time it gets used
     mAbleStart = false;
@@ -502,7 +500,7 @@ void RaceMgr::createKartModel()
     ShadowManager::ptr();
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SYSDBG_CreateHeapInfo(solidHeap, "KART MDL");
+    SYSDBG_CreateDebugHeapInfo(solidHeap, "KART MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
 
     for (int i = 0; i < getKartNumber(); i++)
@@ -520,7 +518,7 @@ void RaceMgr::createCourseModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SYSDBG_CreateHeapInfo(solidHeap, "CRS  MDL");
+    SYSDBG_CreateDebugHeapInfo(solidHeap, "CRS  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     mCourse->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -531,7 +529,7 @@ void RaceMgr::createObjectModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SYSDBG_CreateHeapInfo(solidHeap, "OBJ  MDL");
+    SYSDBG_CreateDebugHeapInfo(solidHeap, "OBJ  MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetGeoObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -542,7 +540,7 @@ void RaceMgr::createItemModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SYSDBG_CreateHeapInfo(solidHeap, "ITEM MDL");
+    SYSDBG_CreateDebugHeapInfo(solidHeap, "ITEM MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetItemObjMgr()->createModel(solidHeap, getCameraNumber());
     solidHeap->adjustSize();
@@ -553,7 +551,7 @@ void RaceMgr::createEffectModel()
 {
     size_t freeSize = mRaceHeap->getFreeSize();
     JKRSolidHeap *solidHeap = JKRCreateSolidHeap(freeSize, mRaceHeap, false);
-    SYSDBG_CreateHeapInfo(solidHeap, "EFCT MDL");
+    SYSDBG_CreateDebugHeapInfo(solidHeap, "EFCT MDL");
     JKRHeap *curHeap = solidHeap->becomeCurrentHeap();
     GetStEfctMgr()->createModel(solidHeap, getCameraNumber());
     GetJ3DEfctMgr()->createModel(solidHeap, getCameraNumber());
@@ -1278,9 +1276,9 @@ RaceMgr::~RaceMgr()
 
     for (JSUTreeIterator<JKRHeap> iterator = mRaceHeap->getHeapTree().getFirstChild(); iterator != mRaceHeap->getHeapTree().getEndChild(); ++iterator)
     {
-        SysDebug::getManager()->destroyHeapInfo(iterator.getObject());
+        SYSDBG_DestroyHeapInfo(iterator.getObject());
     }
-    SysDebug::getManager()->clrAllUserTimeLabel();
+    SYSDBG_ClearAllLabels();
     sRaceManager = nullptr;
 }
 

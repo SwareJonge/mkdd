@@ -143,12 +143,11 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
 
     _0xb0.zero();
     _0xbc = 0;
-#if DEBUG
+
     if (mTargetKartNo == 0)
     {
-        SysDebug::getManager()->appendPage(new KartChkUsrPage(this));
+        SYSDBG_AppendPage(new KartChkUsrPage(this));
     }
-#endif
 }
 
 // https://decomp.me/scratch/yvJRl

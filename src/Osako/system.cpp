@@ -124,9 +124,9 @@ namespace System {
 
         SysDebug::createManager();
 
-        SysDebug::getManager()->createHeapInfo(mspAudioHeap, "Audio");
-        SysDebug::getManager()->createHeapInfo(JKRGetRootHeap(), "root");
-        SysDebug::getManager()->createHeapInfo(JKRGetSystemHeap(), "JSystem");
+        SYSDBG_CreateHeapInfo(mspAudioHeap, "Audio");
+        SYSDBG_CreateHeapInfo(JKRGetRootHeap(), "root");
+        SYSDBG_CreateHeapInfo(JKRGetSystemHeap(), "JSystem");
         SYSDBG_SetHeapGroup("Resource", JKRGetRootHeap());
         ResMgr::create(JKRGetRootHeap());
 
@@ -160,7 +160,7 @@ namespace System {
 
         mspAppHeap = JKRCreateExpHeap(0xffffffff, JKRGetRootHeap(), false);
         mspAppHeap->becomeCurrentHeap();
-        SysDebug::getManager()->createHeapInfo(mspAppHeap, "App");
+        SYSDBG_CreateHeapInfo(mspAppHeap, "App");
 
         ErrorViewApp::create();
         LogoApp::create();
