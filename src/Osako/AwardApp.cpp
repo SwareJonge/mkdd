@@ -4,7 +4,7 @@
 #include "Osako/AwardApp.h"
 #include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
-#include "Osako/System.h"
+#include "Osako/system.h"
 
 AwardApp *AwardApp::mspAwardApp;
 

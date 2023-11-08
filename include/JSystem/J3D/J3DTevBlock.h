@@ -1,7 +1,7 @@
 #ifndef _J3DTEVBLOCK_H
 #define _J3DTEVBLOCK_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "JSystem/J3D/J3DGXColor.h"
 #include "JSystem/J3D/J3DTypes.h"
 #include "types.h"

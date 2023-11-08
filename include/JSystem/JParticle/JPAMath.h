@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JPA_JPAMATH_H
 #define _JSYSTEM_JPA_JPAMATH_H
 
-#include "Dolphin/mtx.h"
+#include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 
 void JPAConvertFixToFloat(short);

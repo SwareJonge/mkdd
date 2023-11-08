@@ -6,7 +6,7 @@
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JKernel/JKRHeap.h"
 
-#include "JSystem/JUTility/TColor.h"
+#include "JSystem/JUtility/TColor.h"
 
 class SysDbUsrPage : public JKRDisposer
 {

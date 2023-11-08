@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_J3D_J3DTYPES_H
 #define _JSYSTEM_J3D_J3DTYPES_H
 
-#include "dolphin/gx.h"
-//#include "dolphin/vec.h"
+#include <dolphin/gx.h>
+//#include <dolphin/vec.h>
 //#include "JSystem/J3D/J3DGXColor.h"
 #include "JSystem/JGeometry.h"
 #include "JSystem/JMath/JMath.h"

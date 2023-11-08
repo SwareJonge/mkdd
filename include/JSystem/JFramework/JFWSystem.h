@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JFW_JFWSYSTEM_H
 #define _JSYSTEM_JFW_JFWSYSTEM_H
 
-#include "dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRThread.h"
 #include "JSystem/JUtility/JUTDbg.h"

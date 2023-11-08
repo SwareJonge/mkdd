@@ -7,6 +7,7 @@ from enum import Enum
 from hashlib import sha1
 import json
 import os
+from shutil import which
 from subprocess import PIPE, run
 from sys import executable as PYTHON, platform
 from typing import List, Tuple, Union
@@ -204,25 +205,34 @@ PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 
 # Codewarrior
-SDK_CW = os.path.join(TOOLS, "1.2.5")
-SDK_CC = os.path.join(SDK_CW, "mwcceppc")
 
-# Codewarrior
+WIN32_WRAPPER = ""
+
+if platform != "win32":	
+    if(which("wibo") is not None):
+        WIN32_WRAPPER = "wibo "
+    elif(which("wine") is not None):
+        WIN32_WRAPPER = "wine "
+    assert WIN32_WRAPPER != "" "Wine or Wibo not found!"
+
+SDK_CW = os.path.join(TOOLS, "1.2.5")
+SDK_CC = os.path.join(SDK_CW, "mwcceppc.exe")
+
 SDK_PACTHED_CW = os.path.join(TOOLS, "1.2.5n")
-SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc")
+SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc.exe")
 
 MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
-CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc")
+CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc.exe")
 
 CODEWARRIOR = os.path.join(TOOLS, "2.6")
-CC = os.path.join(CODEWARRIOR, "mwcceppc")
-LD = os.path.join(CODEWARRIOR, "mwldeppc")
-if platform != "win32": # perhaps make a way to figure out if wibo exists, if not, default to wine
-    SDK_CC = f"wine {SDK_CC}"
-    SDK_PACTHED_CC = f"wine {SDK_PACTHED_CC}"
-    CC_1_3_2 = f"wine {CC_1_3_2}"
-    CC = f"wine {CC}"
-    LD = f"wine {LD}"
+CC = os.path.join(CODEWARRIOR, "mwcceppc.exe")
+LD = os.path.join(CODEWARRIOR, "mwldeppc.exe")
+
+SDK_CC = f"{WIN32_WRAPPER}{SDK_CC}"
+SDK_PACTHED_CC = f"{WIN32_WRAPPER}{SDK_PACTHED_CC}"
+CC_1_3_2 = f"{WIN32_WRAPPER}{CC_1_3_2}"
+CC = f"{WIN32_WRAPPER}{CC}"
+LD = f"{WIN32_WRAPPER}{LD}"
 
 # DevkitPPC
 DEVKITPPC = os.environ.get("DEVKITPPC")

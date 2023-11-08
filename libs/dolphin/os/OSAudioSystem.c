@@ -1,5 +1,5 @@
 #include "types.h"
-#include "dolphin/hw_regs.h"
+#include <dolphin/hw_regs.h>
 
 #ifdef __cplusplus
 extern "C" {

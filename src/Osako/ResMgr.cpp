@@ -5,7 +5,7 @@
 #include "Kaneshige/SysDebug.h"
 #include "Osako/Kart2DCommon.h"
 #include "Osako/ResMgr.h"
-#include "Osako/System.h"
+#include "Osako/system.h"
 
 namespace ResMgr
 {

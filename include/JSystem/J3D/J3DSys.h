@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DSYS_H
 #define _JSYSTEM_J3D_J3DSYS_H
 
-#include "dolphin/mtx.h"
+#include <dolphin/mtx.h>
 //#include "JSystem/J3D/J3DPacket.h"
 #include "JSystem/J3D/J3DTypes.h"
 #include "JSystem/JGeometry.h"

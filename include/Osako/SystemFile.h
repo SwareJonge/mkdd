@@ -1,7 +1,7 @@
 #ifndef SYSTEMFILE_H
 #define SYSTEMFILE_H
 #include "Osako/SaveFile.h"
-#include "Osako/systemRecord.h"
+#include "Osako/SystemRecord.h"
 
 class SystemFile : public SaveFile
 {

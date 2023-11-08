@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DANMTEVREGKEY_H
 #define _JSYSTEM_J3D_J3DANMTEVREGKEY_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "JSystem/J3D/J3DAnmBase.h"
 #include "JSystem/J3D/J3DFileBlock.h"
 #include "JSystem/JUtility/JUTNameTab.h"

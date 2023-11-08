@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_JPA_JPAEMITTER_H
 #define _JSYSTEM_JPA_JPAEMITTER_H
 
-#include "Dolphin/gx.h"
-#include "Dolphin/mtx.h"
+#include <dolphin/gx.h>
+#include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JParticle/JPAList.h"

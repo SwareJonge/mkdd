@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JPA_JPAFIELD_H
 #define _JSYSTEM_JPA_JPAFIELD_H
 
-#include "Dolphin/mtx.h"
+#include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 #include "JSystem/JParticle/JPABlock.h"
 #include "JSystem/JParticle/JPAResource.h"

@@ -1,4 +1,4 @@
-#include <dolphin/PAD.h>
+#include <dolphin/pad.h>
 
 #include "std/math.h"
 

@@ -1,5 +1,6 @@
 #include "types.h"
-#include "Dolphin/os.h"
+#include <dolphin/os.h>
+
 typedef struct HeapCell
 {
     struct HeapCell *prev;

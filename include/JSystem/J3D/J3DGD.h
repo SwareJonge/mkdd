@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_J3D_J3DGD_H
 #define _JSYSTEM_J3D_J3DGD_H
 
-#include "Dolphin/gx.h"
-#include "Dolphin/gd.h"
+#include <dolphin/gx.h>
+#include <dolphin/gd.h>
 
 void J3DGDSetGenMode(u8, u8, u8, u8, GXCullMode);
 void J3DGDSetGenMode_3Param(u8, u8, u8);

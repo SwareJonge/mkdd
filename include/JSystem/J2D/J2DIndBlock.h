@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_J2D_J2DINDBLOCK_H
 #define _JSYSTEM_J2D_J2DINDBLOCK_H
 
-#include "JSystem/J3D/J3DTypes.h"
 #include "types.h"
+#include "JSystem/J3D/J3DTypes.h"
 
 struct J2DIndTexCoordScaleInfo
 {

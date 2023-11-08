@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DMTXBUFFER_H
 #define _JSYSTEM_J3D_J3DMTXBUFFER_H
 
-#include "Dolphin/mtx.h"
+#include <dolphin/mtx.h>
 //#include "Matrixf.h"
 #include "types.h"
 

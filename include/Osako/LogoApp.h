@@ -1,7 +1,7 @@
 #ifndef LOGOAPP_H
 #define LOGOAPP_H
 
-#include "Osako/Clock.h"
+#include "Osako/clock.h"
 #include "Osako/GameApp.h"
 #include "Osako/PrintApp.h"
 

@@ -1,13 +1,13 @@
 #ifndef _JSYSTEM_J2D_J2DMATERIAL_H
 #define _JSYSTEM_J2D_J2DMATERIAL_H
 
+#include "types.h"
 #include "JSystem/J2D/J2DAnm.h"
 #include "JSystem/J2D/J2DColorBlock.h"
 #include "JSystem/J2D/J2DIndBlock.h"
 #include "JSystem/J2D/J2DPEBlock.h"
 #include "JSystem/J2D/J2DTevBlock.h"
 #include "JSystem/J2D/J2DTexGenBlock.h"
-#include "types.h"
 
 struct J2DPane;
 

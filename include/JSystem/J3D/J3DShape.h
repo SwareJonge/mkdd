@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_J3D_J3DSHAPE_H
 #define _JSYSTEM_J3D_J3DSHAPE_H
 
-#include "Dolphin/gx.h"
-#include "Dolphin/mtx.h"
+#include <dolphin/gx.h>
+#include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 #include "JSystem/J3D/J3DMaterial.h"
 #include "types.h"

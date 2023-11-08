@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DIND_H
 #define _JSYSTEM_J3D_J3DIND_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "JSystem/J3D/J3DTypes.h"
 #include "types.h"
 

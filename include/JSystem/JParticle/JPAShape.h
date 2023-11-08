@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_JPA_JPASHAPE_H
 #define _JSYSTEM_JPA_JPASHAPE_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 #include "types.h"
 
 struct JKRHeap;

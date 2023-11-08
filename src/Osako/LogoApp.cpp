@@ -10,7 +10,7 @@
 #include "Osako/LogoApp.h"
 #include "Osako/ResMgr.h"
 #include "Osako/SequenceApp.h"
-#include "Osako/System.h"
+#include "Osako/system.h"
 
 // This file is a mess, it seems like it got changed after the PAL Release since the line numbers are different for whatever reason
 

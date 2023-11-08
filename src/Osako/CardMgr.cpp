@@ -1,6 +1,6 @@
 
 #include "Osako/CardMgr.h"
-#include "Osako/System.h"
+#include "Osako/system.h"
 
 static u8 aaWorkAreaBuffer[CARD_NUM_CHANS][CARD_WORKAREA_SIZE] ALIGN(32);
 

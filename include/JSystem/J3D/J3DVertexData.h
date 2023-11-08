@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DVERTEXDATA_H
 #define _JSYSTEM_J3D_J3DVERTEXDATA_H
 
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
 
 /**
  * @size{0x5C} (proven by virtue of being last member of J3DModelData)

@@ -2,8 +2,8 @@
 #define _JSYSTEM_J3D_J3DGXCOLOR_H
 
 #include "types.h"
-#include "Dolphin/gx.h"
-#include "Dolphin/gx.h"
+#include <dolphin/gx.h>
+#include <dolphin/gd.h>
 
 struct J3DGXColor : public GXColor {
 	J3DGXColor() { }

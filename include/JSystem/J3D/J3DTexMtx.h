@@ -1,8 +1,8 @@
 #ifndef _JSYSTEM_J3D_J3DTEXMTX_H
 #define _JSYSTEM_J3D_J3DTEXMTX_H
 
-#include "Dolphin/mtx.h"
-#include "Dolphin/vec.h"
+#include <dolphin/mtx.h>
+#include <dolphin/vec.h>
 #include "JSystem/J3D/J3DPacket.h"
 #include "JSystem/J3D/J3DTexGenBlock.h"
 #include "JSystem/J3D/J3DTypes.h"

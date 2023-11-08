@@ -1,9 +1,9 @@
 #ifndef _JSYSTEM_J3D_J3DMODEL_H
 #define _JSYSTEM_J3D_J3DMODEL_H
 
-#include "Dolphin/mtx.h"
-#include "JSystem/J3D/J3DVertexData.h"
+#include <dolphin/mtx.h>
 #include "types.h"
+#include "JSystem/J3D/J3DVertexData.h"
 #include "JSystem/J3D/J3DShape.h"
 #include "JSystem/J3D/J3DMaterial.h"
 #include "JSystem/J3D/J3DJointTree.h"

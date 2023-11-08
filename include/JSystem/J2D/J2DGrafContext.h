@@ -2,10 +2,12 @@
 #define _JSYSTEM_J2D_J2DGRAFCONTEXT_H
 
 #include "types.h"
+#include <dolphin/mtx.h>
+
 #include "JSystem/JGeometry.h"
 #include "JSystem/J2D/J2DTypes.h"
 #include "JSystem/JUtility/TColor.h"
-#include "dolphin/mtx.h"
+
 
 /**
  * @fabricated

@@ -4,7 +4,7 @@
 #include "Kameda/SceneFactory.h"
 #include "Osako/AppMgr.h"
 #include "Osako/CardAgent.h"
-#include "Osako/KartPad.h"
+#include "Osako/kartPad.h"
 #include "Osako/MainMenuApp.h"
 #include "Osako/MenuBackground.h"
 #include "Osako/MenuTitleLine.h"

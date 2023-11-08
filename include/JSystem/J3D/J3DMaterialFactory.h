@@ -1,8 +1,9 @@
 #ifndef _JSYSTEM_J3D_J3DMATERIALFACTORY_H
 #define _JSYSTEM_J3D_J3DMATERIALFACTORY_H
 
-#include "Dolphin/gx.h"
-#include "Dolphin/mtx.h"
+#include <dolphin/gx.h>
+#include <dolphin/mtx.h>
+
 #include "JSystem/J3D/J3DFileBlock.h"
 #include "JSystem/J3D/J3DGXColor.h"
 #include "JSystem/J3D/J3DInd.h"

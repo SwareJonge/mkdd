@@ -1,7 +1,7 @@
 #ifndef _DOLPHIN_GD_H
 #define _DOLPHIN_GD_H
 
-#include "Dolphin/gx.h"
+#include "dolphin/gx.h"
 #include "types.h"
 
 #ifdef __cplusplus

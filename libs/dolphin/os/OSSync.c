@@ -1,4 +1,4 @@
-#include "string.h"
+#include <string.h>
 #include "dolphin/base/PPCArch.h"
 #include "dolphin/os.h"
 

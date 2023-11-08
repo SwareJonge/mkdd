@@ -3,7 +3,7 @@
 // from Super Mario Eclipse
 #include "types.h"
 #include <dolphin/os.h>
-#include <dolphin/PAD.h>
+#include <dolphin/pad.h>
 #include "JSystem/Logitech/Wheels.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 

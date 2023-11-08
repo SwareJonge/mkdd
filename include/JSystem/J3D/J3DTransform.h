@@ -1,7 +1,7 @@
 #ifndef _JSYSTEM_J3D_J3DTRANSFORM_H
 #define _JSYSTEM_J3D_J3DTRANSFORM_H
 
-#include "Dolphin/mtx.h"
+#include <dolphin/mtx.h>
 #include "JSystem/J3D/J3DTypes.h"
 
 extern Mtx j3dDefaultMtx;
