@@ -619,7 +619,7 @@ libs/dolphin/db/db.c:
     .data: [0x80352460, 0x80352478]
     .sbss: [0x803d5288, 0x803d52a0]
 
-libs/dolphin/THP/THPDec.c:
+libs/dolphin/thp/THPDec.c:
     .text: [0x800f0830, 0x800f7d98]
     .rodata: [0x803335e0, 0x80333670]
     .data: [0x80352478, 0x803524b8]
@@ -925,7 +925,7 @@ src/Kaneshige/CrsArea.cpp:
     .bss: [0x8038a370, 0x8038a3a0]
     .sdata2: [0x803d8850, 0x803d8858]
 
-src/Kaneshige/Centerline.cpp:
+src/Kaneshige/CenterLine.cpp:
     .text: [0x8018b004, 0x8018b298]
 
 src/Kaneshige/RaceInfo.cpp:
