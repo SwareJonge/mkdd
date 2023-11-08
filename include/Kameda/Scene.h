@@ -22,18 +22,19 @@ public:
 
     enum SceneType
     {
-        SCENE_0,
-        SCENE_1,
-        SCENE_2,
-        SCENE_3,
-        SCENE_4,
-        SCENE_5,
-        SCENE_6,
-        SCENE_7,
-        SCENE_8,
-        SCENE_9,
-        SCENE_10,
-        SCENE_11,
+        SCENE_TITLE,
+        SCENE_MENU,
+        SCENE_OPTION,
+        SCENE_COURSE,
+        SCENE_MAP_SELECT,
+        SCENE_RECORD,
+        SCENE_GP_NEXT,
+        SCENE_GHOST_LOAD_SAVE,
+        SCENE_LAN_ENTRY,
+        SCENE_SECRET,
+        SCENE_MAX,
+        SCENE_NONE, // Guess
+        SCENE_12, // unknown
         SCENE_ERROR
     };
 };

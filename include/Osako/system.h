@@ -140,6 +140,7 @@ namespace System
 #define SYSTEM_StartFadeOut(duration) \
     System::getDisplay()->startFadeOut(duration)
 
+// Maybe add the void * case here?
 #define SYSTEM_RequestTask(function, arg, msg) \
     System::getLoTask()->request(function, arg, msg)
 

@@ -1102,6 +1102,16 @@ src/Osako/CardMgr.cpp:
     .sbss: [0x804169c8, 0x804169d0]
     .sdata2: [0x8041b700, 0x8041b710]
 
+src/Osako/SequenceApp.cpp:
+    .text: [0x80208aec, 0x80209424]
+    .ctors: [0x8031639c, 0x803163a0]
+    .rodata: [0x8037db10, 0x8037db68]
+    .data: [0x8039ce40, 0x8039ce58]
+    .bss: [0x803e4ac0, 0x803e4af0]
+    .sdata: [0x80414868, 0x80414870]
+    .sbss: [0x80416a18, 0x80416a20]
+    .sdata2: [0x8041b7a0, 0x8041b7b0]  
+
 src/Osako/systemData.cpp:
     .text: [0x80205c2c, 0x80205db4]
     .ctors: [0x80316394, 0x80316398]

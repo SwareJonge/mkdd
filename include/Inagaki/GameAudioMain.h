@@ -11,7 +11,8 @@ namespace GameAudio {
         {
             STREAM0,
             STREAM1,
-            // TODO
+            STREAM2,
+            STREAM3
         };
 
         void init(JKRSolidHeap *, u32, void *, void *, u32);

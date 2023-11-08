@@ -322,8 +322,8 @@ void LogoApp::controlLoading()
             break;
 
         _30 = getFrameTime();
-        SEQUENCEAPP_isReady(Scene::SCENE_0);
-        SEQUENCEAPP_isReady(Scene::SCENE_1);
+        SEQUENCEAPP_isReady(Scene::SCENE_TITLE);
+        SEQUENCEAPP_isReady(Scene::SCENE_MENU);
         mLoadingState = 1;
         break;
     case 1:
