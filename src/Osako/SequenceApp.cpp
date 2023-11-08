@@ -15,13 +15,18 @@
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
 
+#ifdef DEBUG
+#define HEAP_SIZE 0x680000
 static const float float_slack[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(float_slack)
 #pragma pop
+#else
+#define HEAP_SIZE 0x65f400
+#endif
 
-Scene::SceneType SequenceApp::msScene = Scene::SCENE_TITLE;
+Scene::SceneType SequenceApp::msScene = Scene::SCENE_NONE;
 Scene::SceneType SequenceApp::msNextScene = Scene::SCENE_NONE;
 
 SequenceApp *SequenceApp::mspSequenceApp;
@@ -47,7 +52,7 @@ void SequenceApp::call(Scene::SceneType scene)
     AppMgr::setNextApp(AppMgr::mcSequence);
 }
 
-SequenceApp::SequenceApp() : GameApp(0x680000, "Sequence", nullptr)
+SequenceApp::SequenceApp() : GameApp(HEAP_SIZE, "Sequence", nullptr)
 {
     mNextScene = nullptr;
     SceneFactory::create();
@@ -76,7 +81,7 @@ SequenceApp::~SequenceApp()
     delete SceneFactory::getSceneFactory();
     delete MenuBackground::ptr();
     delete MenuTitleLine::ptr();
-    delete CharacterSelect3D::mCharacterSelect3D;
+    delete CharacterSelect3D::getCharacterSelect3D();
 
     msNextScene = Scene::SCENE_NONE;
     msScene = Scene::SCENE_NONE;
@@ -146,15 +151,19 @@ void SequenceApp::calc()
             }
         }
 
+#ifdef DEBUG
         if (gGamePad1P.testButton(PAD_BUTTON_MENU) && gGamePad1P.testButton(PAD_TRIGGER_Z))
         {
+            
             if ((CardAgent::msState != 0) && (CardAgent::msState != 0xf))
             {
                 CardAgent::msFlags |= 4;
             }
-            mOption = 2;
+            mOption = 2;            
         }
-        else if (mNextScene)
+        else
+#endif
+        if (mNextScene)
         {
             mNextScene->calc();
         }
@@ -222,7 +231,6 @@ int SequenceApp::checkReady(Scene::SceneType scene)
 
     if (!(mActiveScenes & 1 << scene))
     {
-
         if ((mLoadedScenes & (1 << scene)))
             return 1;
         else

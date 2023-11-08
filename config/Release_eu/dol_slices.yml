@@ -1064,6 +1064,15 @@ src/Osako/systemData.cpp:
     .sbss: [0x803d5c48, 0x803d5c58]
     .sdata2: [0x803d9a88, 0x803d9aa8]
 
+src/Osako/SequenceApp.cpp:
+    .text: [0x801d9308, 0x801d9aec]
+    .ctors: [0x802d87a0, 0x802d87a4]
+    .rodata: [0x80340ed8, 0x80340ee8]
+    .data: [0x8035c980, 0x8035c998]
+    .bss: [0x803a3e20, 0x803a3e50]
+    .sdata: [0x803d3b08, 0x803d3b10]
+    .sbss: [0x803d5c60, 0x803d5c68]
+
 src/Osako/TARecord.cpp:
     .text: [0x801db44c, 0x801db504]
 

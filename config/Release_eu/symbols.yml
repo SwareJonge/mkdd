@@ -746,6 +746,7 @@ global:
   0x8002ea60: print__8J2DPrintFffUcPCce
 
   # J2DScreen.cpp
+  0x80030068: __dt__9J2DScreenFv
   0x803d4ba8: mDataManage__9J2DScreen
 
   # J2DTextBox.cpp
@@ -2237,6 +2238,13 @@ global:
   # SceneApp.cpp
   0x8012d314: reset__7GameAppFv
 
+  # SceneFactory.cpp
+  0x8013f014: __ct__12SceneFactoryFv
+  0x8013f044: __dt__12SceneFactoryFv
+  0x8013f0cc: loadData__12SceneFactoryFQ25Scene9SceneTypeP7JKRHeap
+  0x8013f6e8: createScene__12SceneFactoryFQ25Scene9SceneTypeP7JKRHeap
+  0x803d5578: mspSceneFactory__12SceneFactory
+
   # SequenceInfo.cpp
   0x80140958: rndDemo__12SequenceInfoFUl
   0x803bad54: gSequenceInfo
@@ -2265,6 +2273,33 @@ global:
 
   # PrintMemoryCard.cpp
   0x80152d60: closeWindowNoSe__15PrintMemoryCardFv
+
+  # CharacterSelect3D.cpp
+  0x801654d4: __ct__22CharacterSelect3DParamFv
+  0x80165634: __ct__17CharacterSelect3DFP7JKRHeap
+  #0x801664dc: __ct__Q217CharacterSelect3D32@class$2718CharacterSelect3D_cppFv
+  #0x801664e0: __ct__Q217CharacterSelect3D32@class$2717CharacterSelect3D_cppFv
+  0x801664e4: init__17CharacterSelect3DFv
+  0x801665c4: __dt__17CharacterSelect3DFv
+  0x80166618: draw__17CharacterSelect3DFif
+  0x801669e8: getEffectMtx__12MenuSubLightFv
+  0x801669f0: getEffectMtx__14MenuSceneLightFv
+  0x801669f8: draw__17CharacterSelect3DFifQ29JGeometry8TVec3<f>Q29JGeometry8TVec3<f>
+  0x80166d68: calc__17CharacterSelect3DFv
+  0x801676f0: setCharacter__17CharacterSelect3DFii7ECharIDQ29JGeometry8TVec3<f>Q29JGeometry8TVec3<f>f
+  0x80167768: setCharacterStatus__17CharacterSelect3DFiiQ217CharacterSelect3D16CHARACTER_STATUS
+  0x80167820: setKart__17CharacterSelect3DFi7EKartIDQ29JGeometry8TVec3<f>Q29JGeometry8TVec3<f>f
+  0x80167888: isCancel__17CharacterSelect3DFi
+  0x801678dc: isNext__17CharacterSelect3DFi
+  0x80167930: getCameraMatrix__17CharacterSelect3DFv
+  0x80167938: getFovy__17CharacterSelect3DFv
+  0x80167948: calcCharacter__17CharacterSelect3DFii7ECharIDQ29JGeometry8TVec3<f>Q29JGeometry8TVec3<f>f
+  0x80168000: drawKart__17CharacterSelect3DF7EKartID
+  0x801681f8: calcRotTrans__17CharacterSelect3DFPA4_fQ29JGeometry8TVec3<f>Q29JGeometry8TVec3<f>
+  0x801682c4: __dt__22CharacterSelect3DParamFv
+  0x803d55d8: mDiddyDump__17CharacterSelect3D
+  0x803d55dc: mKinopioDump__17CharacterSelect3D
+  0x803d55e0: mCharacterSelect3D__17CharacterSelect3D
 
   # PrintWindow.cpp
   0x801700f8: __ct__11PrintWindowFP7JKRHeap
@@ -3017,6 +3052,9 @@ global:
   0x801d98ac: ready__11SequenceAppFQ25Scene9SceneType
   0x801d9928: checkFinishAllLoading__11SequenceAppFv
   0x801d9990: createScene__11SequenceAppFQ25Scene9SceneType
+  0x8035c980: __vt__11SequenceApp
+  0x803d3b08: msScene__11SequenceApp
+  0x803d3b0c: msNextScene__11SequenceApp
   0x803d5c60: mspSequenceApp__11SequenceApp
   # shadowMgr.cpp
   0x801da460: __ct__13ShadowManagerFv
@@ -3089,6 +3127,16 @@ global:
   # GIRecord.cpp 
   0x801e758c: __ct__8GIRecordFR8TARecord
   0x801e7638: isValid__8GIRecordFv
+  # MenuBackGround.cpp
+  0x801e7124: __ct__14MenuBackgroundFP10JKRArchive
+  0x801e71a8: calc__14MenuBackgroundFv
+  0x803d5cd0: mspMenuBackground__14MenuBackground
+  # MenuTitleLine.cpp
+  0x801e7210: __ct__13MenuTitleLineFP10JKRArchive
+  0x801e73a0: drop__13MenuTitleLineFQ213MenuTitleLine5Title
+  0x801e7480: lift__13MenuTitleLineFv
+  0x801e748c: calc__13MenuTitleLineFv
+  0x803d5cd8: mspMenuTitleLine__13MenuTitleLine
   # password.cpp
   0x801e76a8: make__8PasswordF7EKartID7ECharID7ECharID9ECourseID8RaceTime8RaceTime
 
