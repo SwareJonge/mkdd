@@ -1073,6 +1073,11 @@ src/Osako/SequenceApp.cpp:
     .sdata: [0x803d3b08, 0x803d3b10]
     .sbss: [0x803d5c60, 0x803d5c68]
 
+src/Osako/shadowScr.cpp:
+    .text: [0x801daf04, 0x801db44c]
+    .sdata2: [0x803d9ad0, 0x803d9ad8]
+    .sbss2: [0x803dc0d8, 0x803dc0e0]
+
 src/Osako/TARecord.cpp:
     .text: [0x801db44c, 0x801db504]
 

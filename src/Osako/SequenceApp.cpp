@@ -45,7 +45,7 @@ void SequenceApp::call(Scene::SceneType scene)
     msNextScene = scene;
     if (mspSequenceApp)
     {
-        mspSequenceApp->mOption = 0;
+        mspSequenceApp->mState = 0;
         mspSequenceApp->mDrawFlags = 0;
         msScene = Scene::SCENE_NONE;
     }
@@ -66,7 +66,7 @@ SequenceApp::SequenceApp() : GameApp(HEAP_SIZE, "Sequence", nullptr)
     if (msNextScene != Scene::SCENE_NONE)
         ready(msNextScene);
 
-    mOption = 0;
+    mState = 0;
     mDrawFlags = 0;
     msScene = Scene::SCENE_NONE;
 }
@@ -125,7 +125,7 @@ void SequenceApp::draw()
 
 void SequenceApp::calc()
 {
-    switch (mOption)
+    switch (mState)
     {
     case 0:
         if (msNextScene == Scene::SCENE_NONE)
@@ -133,7 +133,7 @@ void SequenceApp::calc()
         if (!ready(msNextScene))
             return;
 
-        mOption = 1;
+        mState = 1;
     case 1:
         if (msNextScene != Scene::SCENE_NONE)
         {
@@ -159,7 +159,7 @@ void SequenceApp::calc()
             {
                 CardAgent::msFlags |= 4;
             }
-            mOption = 2;            
+            mState = 2;
         }
         else
 #endif
@@ -184,7 +184,7 @@ void SequenceApp::calc()
 
             AppMgr::deleteCurrentApp();
             MainMenuApp::call();
-            mOption = 1;
+            mState = 1;
         }
     }
 }

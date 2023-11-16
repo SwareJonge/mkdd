@@ -1120,6 +1120,11 @@ src/Osako/systemData.cpp:
     .sbss: [0x80416a00, 0x80416a10]
     .sdata2: [0x8041b758, 0x8041b778]
 
+src/Osako/shadowScr.cpp:
+    .text: [0x8020af10, 0x8020b458]
+    .sdata2: [0x8041b818, 0x8041b820]
+    .sbss2: [0x8041e1f8, 0x8041e200] 
+
 src/Osako/TARecord.cpp:
     .text: [0x8020b458, 0x8020b510]
 

@@ -3061,6 +3061,9 @@ global:
   0x801daaa0: viewCalc__13ShadowManagerFUl
   0x803d5c78: mspShadowManager__13ShadowManager
   0x801da988: calc__13ShadowManagerFv
+  # shadowScr.cpp
+  0x801daf04: __ct__12ShadowScreenFv
+  0x801daff0: draw__12ShadowScreenFv
   # TARecord.cpp
   0x801db44c: __ct__8TARecordFUcUcUcUc
   0x801db488: setName__8TARecordFPCc

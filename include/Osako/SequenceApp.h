@@ -37,7 +37,7 @@ private:
     u32 mLoadedScenes;
     u32 mActiveScenes;
     Scene::SceneType mPrevScene;
-    u32 mOption;
+    u32 mState;
     int mDrawFlags;
 }; // class SequenceApp
 

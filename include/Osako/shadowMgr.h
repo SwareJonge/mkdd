@@ -29,16 +29,15 @@ public:
         mShadowColor = color;
     }
     void setShadowDepth(u8 depth) {
-        mShadowDepth = depth;
+        mDepth[1] = depth;
     }
     static ShadowManager* mspShadowManager;
 
-private:
+//private:
     u8 _00[0x58];
     JUtility::TColor mShadowColor;
-    u8 _5c;
-    u8 mShadowDepth;
-    u8 _5e;
+    u8 mDepth[2];
+    u8 mDepthMode;
     u8 _5f;
     bool mIsMirror;
     u8 _61[3]; // i thought operator new always gets aligned by 4?
