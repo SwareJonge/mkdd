@@ -10,14 +10,15 @@ ShadowScreen::ShadowScreen() : mTexture(JUTGetVideoManager()->getFbWidth() / 2, 
     mStartY = 0;
     mEndX = JUTGetVideoManager()->getFbWidth();
     mEndY = JUTGetVideoManager()->getEfbHeight();
-    PSMTXIdentity(mPosMtx);
 
+    PSMTXIdentity(mPosMtx);
     C_MTXOrtho(mProjMtx, System::getOrthoT(), System::getOrthoB(), System::getOrthoL(), System::getOrthoR(), 0.0f, 1.0f);
 }
 
 void ShadowScreen::draw()
 {
     ShadowManager *shadowMgr = ShadowManager::ptr();
+    
     u8 mode = shadowMgr->mDepthMode;
     switch (mode)
     {
@@ -57,7 +58,6 @@ void ShadowScreen::draw()
         GXEnd();
         break;
     case 1:
-
         GXColorS10 color = {0, 0, 0, (shadowMgr->mDepth[1] & 0xfc) - 0xff};
 
         GXSetNumTevStages(1);

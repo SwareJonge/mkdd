@@ -3217,6 +3217,13 @@ global:
   0x801fda20: calc__11JPEffectMgrFv
   0x801fdaa0: calc_forMenu__11JPEffectMgrFv
   0x803d5d40: mThis__11JPEffectMgr
+  # stEmitter.cpp
+  0x80201c58: getTirePos__17stEmitterCallBackFPQ29JGeometry8TVec3<f>
+  0x8020231c: strategy__17stEmitterCallBackFffffbf
+  0x8020242c: getGeneratePos__17stEmitterCallBackFPQ29JGeometry8TVec3<f>PA4_f
+  0x80202434: Init__20stEmitterParamLineIPFUcP9stEmitterP9stEmitter
+  0x802024c8: AddFunc__20stEmitterParamLineIPFQ220stEmitterParamLineIP8cIpParam
+  0x8035f090: __vt__17stEmitterCallBack
   # stEffectMgr.cpp
   0x802030b0: __ct__11stEffectMgrFv
   0x802038f0: createModel__11stEffectMgrFP12JKRSolidHeapUl
@@ -3232,6 +3239,13 @@ global:
   0x8020a540: calc__10ItemObjMgrFv
   0x8020b9d4: getRobberyItemNum__10ItemObjMgrFiUc  
   0x803d5d80: gItemMgr__10ItemObjMgr
+  # stEfctWeed.cpp
+  0x8021d0f4: getGeneratePos__14stEfctWeedBaseFPQ29JGeometry8TVec3<f>PA4_f
+  0x8021d1ec: __ct__10stEfctWeedFv
+  0x8021d2a4: calc__10stEfctWeedFv
+  0x8021d2e8: init__14stEfctWeedBaseFv
+  0x803602f0: __vt__10stEfctWeed
+  0x80360308: __vt__14stEfctWeedBase
   # J3DEffectMgr.cpp
   0x8021e854: __ct__12J3DEffectMgrFv
   0x8021eac8: createModel__12J3DEffectMgrFP12JKRSolidHeapUl
@@ -3309,6 +3323,8 @@ global:
   # kartLine.cpp
   0x802b075c: getBezierPoint__6SplineFPQ29JGeometry8TVec3<f>f
   # kartCtrlInfo.cpp
+  0x802b12ec: GetLeftFTirePos__8KartCtrlFiP3Vec
+  0x802b1314: GetRightFTirePos__8KartCtrlFiP3Vec
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
   0x802b3134: SetTargetNum__7KartCamFUc

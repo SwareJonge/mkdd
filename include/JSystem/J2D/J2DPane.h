@@ -430,6 +430,7 @@ struct J2DScreen : public J2DPane
     bool set(const char *, u32, JKRArchive *);
     bool set(JSURandomInputStream *, u32);
     bool private_set(JSURandomInputStream *stream, u32 flags, JKRArchive *archive);
+    bool setPriority(const char *path, u32 flags, JKRArchive *archive);
 
     inline u32 getMaterialCount() { return mMaterialCount; }
 

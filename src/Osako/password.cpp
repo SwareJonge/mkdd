@@ -35,7 +35,7 @@ u8 Password::calcCheckData()
     u32 sum = 0;
     sum += mPWTable.bits.back;
     sum += mPWTable.bits.region;
-    sum += mPWTable.bits.unk1;
+    sum += mPWTable.bits.hasChecksum;
     sum += mPWTable.bits.totalTime;
     sum += mPWTable.bits.kart;
     sum += mPWTable.bits.driver;
@@ -53,7 +53,7 @@ u8 Password::calcCheckData()
 
 void Password::setCheckData()
 {
-    mPWTable.bits.unk1 = 1;
+    mPWTable.bits.hasChecksum = 1;
     mPWTable.bits.checkData = calcCheckData();
 }
 

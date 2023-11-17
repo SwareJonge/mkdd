@@ -49,4 +49,7 @@ protected:
     u32 mMountCount;                        // 0x34
 };
 
+inline void *JKRGetNameResource(const char *path, JKRFileLoader *loader) { return JKRFileLoader::getGlbResource(path, loader); }
+inline void *JKRGetResource(const char *path) { return JKRFileLoader::getGlbResource(path); }
+
 #endif

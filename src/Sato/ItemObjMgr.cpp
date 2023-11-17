@@ -90,7 +90,8 @@ int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData) {
             break;
         }
     }
-    JUT_ASSERT(4189, ret != -1);
+#line 4189
+    JUT_ASSERT(ret != -1);
 
     if (ret == -1)
         ret = 3;

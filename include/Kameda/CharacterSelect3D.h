@@ -72,36 +72,36 @@ public:
     static f32 mWaluigiArm[36];                   // 0x803738d0
     static f32 mKingTeresaArm[36];                // 0x80373960
     static f32 mBonusArm[36];                     // 0x803739f0
-    static f32 mMarioDump;                        // 0x80373a80
-    static f32 mDkDump;                           // 0x80373b10
-    static f32 mYoshiDump;                        // 0x80373ba0
-    static f32 mNokoDump;                         // 0x80373c30
-    static f32 mPeachDump;                        // 0x80373cc0
-    static f32 mBabyDump;                         // 0x80373d50
-    static f32 mWarioDump;                        // 0x80373de0
-    static f32 mKoopaDump;                        // 0x80373e70
-    static f32 mKoopaJrDump;                      // 0x80373f48
-    static f32 mCatherineDump;                    // 0x80373fd8
-    static f32 mWaluigiDump;                      // 0x80374068
-    static f32 mKingTeresaDump;                   // 0x803740f8
-    static f32 mBonusDump;                        // 0x80374188
-    static f32 mMarioTire;                        // 0x80374218
-    static f32 mDkTire;                           // 0x803742a8
-    static f32 mYoshiTire;                        // 0x80374338
-    static f32 mNokoTire;                         // 0x803743c8
-    static f32 mPeachTire;                        // 0x80374458
-    static f32 mBabyTire;                         // 0x803744e8
-    static f32 mWarioTire;                        // 0x80374578
-    static f32 mKoopaTire;                        // 0x80374608
-    static f32 mDiddyTire;                        // 0x803746e0
-    static f32 mKoopaJrTire;                      // 0x803747b8
-    static f32 mKinopioTire;                      // 0x80374848
-    static f32 mCatherineTire;                    // 0x803748d8
-    static f32 mWaluigiTire;                      // 0x80374968
-    static f32 mKingTeresaTire;                   // 0x803749f8
-    static f32 mBonusTire;                        // 0x80374a88
-    static f32 mDiddyDump;                        // 0x80416358
-    static f32 mKinopioDump;                      // 0x8041635c
+    static f32 mMarioDump[36];                    // 0x80373a80
+    static f32 mDkDump[36];                       // 0x80373b10
+    static f32 mYoshiDump[36];                    // 0x80373ba0
+    static f32 mNokoDump[36];                     // 0x80373c30
+    static f32 mPeachDump[36];                    // 0x80373cc0
+    static f32 mBabyDump[36];                     // 0x80373d50
+    static f32 mWarioDump[36];                    // 0x80373de0
+    static f32 mKoopaDump[36];                    // 0x80373e70
+    static f32 mKoopaJrDump[36];                  // 0x80373f48
+    static f32 mCatherineDump[36];                // 0x80373fd8
+    static f32 mWaluigiDump[36];                  // 0x80374068
+    static f32 mKingTeresaDump[36];               // 0x803740f8
+    static f32 mBonusDump[36];                    // 0x80374188
+    static f32 mMarioTire[36];                    // 0x80374218
+    static f32 mDkTire[36];                       // 0x803742a8
+    static f32 mYoshiTire[36];                    // 0x80374338
+    static f32 mNokoTire[36];                     // 0x803743c8
+    static f32 mPeachTire[36];                    // 0x80374458
+    static f32 mBabyTire[36];                     // 0x803744e8
+    static f32 mWarioTire[36];                    // 0x80374578
+    static f32 mKoopaTire[36];                    // 0x80374608
+    static f32 mDiddyTire[36];                    // 0x803746e0
+    static f32 mKoopaJrTire[36];                  // 0x803747b8
+    static f32 mKinopioTire[36];                  // 0x80374848
+    static f32 mCatherineTire[36];                // 0x803748d8
+    static f32 mWaluigiTire[36];                  // 0x80374968
+    static f32 mKingTeresaTire[36];               // 0x803749f8
+    static f32 mBonusTire[36];                    // 0x80374a88
+    static f32 mDiddyDump[36];                    // 0x80416358
+    static f32 mKinopioDump[36];                  // 0x8041635c
     static CharacterSelect3D *mCharacterSelect3D; // 0x80416360
 private:
     u8 _0[0x1018];

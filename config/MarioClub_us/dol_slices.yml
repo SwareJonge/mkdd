@@ -1190,6 +1190,15 @@ src/Sato/stMath.cpp:
     .sbss: [0x80416ac8, 0x80416ad0]
     .sdata2: [0x8041bb60, 0x8041bbb8]
 
+src/Sato/stEfctWeed.cpp:
+    .text: [0x80254ba8, 0x80254ec4]
+    .ctors: [0x80316418, 0x8031641c] 
+    .data: [0x803a08d0, 0x803a0900]
+    .bss: [0x803ed778, 0x803ed7a8]
+    .sdata: [0x80414bb0, 0x80414bc0]
+    .sbss: [0x80416bc8, 0x80416bd0]
+    .sdata2: [0x8041bf90, 0x8041bf98]
+
 src/Yamamoto/kartvec.cpp:
     .text: [0x802e5210, 0x802e64e8]
     .ctors: [0x803165e4, 0x803165e8]

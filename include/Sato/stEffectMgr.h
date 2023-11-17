@@ -4,7 +4,8 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
-struct stEffectMgr {
+struct stEffectMgr
+{
     stEffectMgr();
     void init();
     void createModel(JKRSolidHeap *, u32);
@@ -13,12 +14,12 @@ struct stEffectMgr {
 
     static void createMgr() { mMgr = new stEffectMgr(); }
     static stEffectMgr *getMgr() { return mMgr; }
-    static stEffectMgr * mMgr;
+    static stEffectMgr *mMgr;
 
     u8 _00[0x1398];
 };
 
-inline void CreateStEfctMgr(){ stEffectMgr::createMgr(); }
-inline stEffectMgr *GetStEfctMgr(){return stEffectMgr::getMgr(); }
+inline void CreateStEfctMgr() { stEffectMgr::createMgr(); }
+inline stEffectMgr *GetStEfctMgr() { return stEffectMgr::getMgr(); }
 
 #endif

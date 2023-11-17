@@ -52,8 +52,8 @@ public:
     void GetRLTireGround(int);
     void GetBodyPos(int idx, JGeometry::TVec3f *ret);
     void GetBodyVel(int, JGeometry::TVec3f *);
-    void GetLeftFTirePos(int, Vec *);
-    void GetRightFTirePos(int, Vec *);
+    bool GetLeftFTirePos(int, Vec *);
+    bool GetRightFTirePos(int, Vec *);
     void GetLeftTirePos(int, Vec *);
     void GetRightTirePos(int, Vec *);
     void GetTirePos(int, int, Vec *);
