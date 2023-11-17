@@ -13,10 +13,10 @@ public:
     };
 
     // Global
-    MenuTitleLine(JKRArchive *); // 0x80219158
-    void drop(Title);            // 0x802192e8
-    void lift();                 // 0x802193c8
-    void calc();                 // 0x802193d4
+    MenuTitleLine(JKRArchive *archive); // 0x80219158
+    void drop(Title);                   // 0x802192e8
+    void lift();                        // 0x802193c8
+    void calc();                        // 0x802193d4
 
     ~MenuTitleLine() { mspMenuTitleLine = nullptr; }
 
@@ -32,7 +32,8 @@ public:
 private:
     static MenuTitleLine *mspMenuTitleLine; // 0x80416a90
 
-    u8 _0[8 - 0];
+    u8 _0[4 - 0];
+    Title mTitle;
     J2DScreen mScreen; // 08 - 120 J2DScreen
     u8 _120[0x160 - 0x120];
 };     // Size: 0x160

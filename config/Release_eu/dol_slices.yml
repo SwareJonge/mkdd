@@ -1110,6 +1110,12 @@ src/Osako/ResetAgent.cpp:
     .bss: [0x803ac598, 0x803ac5c8]
     .sbss: [0x803d5cc0, 0x803d5cd0]
 
+src/Osako/MenuBackground.cpp:
+    .text: [0x801e7124, 0x801e7210]
+    .rodata: [0x80341808, 0x80341828]
+    .sbss: [0x803d5cd0, 0x803d5cd8]
+    .sdata2: [0x803d9d10, 0x803d9d18]
+
 src/Osako/GIRecord.cpp:
     .text: [0x801e758c, 0x801e76a8]
 

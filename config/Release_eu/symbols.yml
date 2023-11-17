@@ -746,7 +746,29 @@ global:
   0x8002ea60: print__8J2DPrintFffUcPCce
 
   # J2DScreen.cpp
+  0x8002ffc0: __ct__9J2DScreenFv
   0x80030068: __dt__9J2DScreenFv
+  0x800300d0: clean__9J2DScreenFv
+  0x80030170: set__9J2DScreenFPCcUlP10JKRArchive
+  0x80030260: set__9J2DScreenFP20JSURandomInputStreamUl
+  0x80030284: setPriority__9J2DScreenFPCcUlP10JKRArchive
+  0x80030388: setPriority__9J2DScreenFP20JSURandomInputStreamUlP10JKRArchive
+  0x800303b8: private_set__9J2DScreenFP20JSURandomInputStreamUlP10JKRArchive
+  0x800304ec: checkSignature__9J2DScreenFP20JSURandomInputStream
+  0x8003054c: getScreenInformation__9J2DScreenFP20JSURandomInputStream
+  0x80030640: makeHierarchyPanes__9J2DScreenFP7J2DPaneP20JSURandomInputStreamUlP10JKRArchive
+  0x80030bac: createPane__9J2DScreenFRC18J2DScrnBlockHeaderP20JSURandomInputStreamP7J2DPaneUl
+  0x80030bdc: createPane__9J2DScreenFRC18J2DScrnBlockHeaderP20JSURandomInputStreamP7J2DPaneUlP10JKRArchive
+  0x80030f4c: draw__9J2DScreenFffPC14J2DGrafContext
+  0x80031110: search__9J2DScreenFUx
+  0x80031154: searchUserInfo__9J2DScreenFUx
+  0x80031198: drawSelf__9J2DScreenFffPA3_A4_f
+  0x800312e4: getResReference__9J2DScreenFP20JSURandomInputStreamUl
+  0x800313dc: createMaterial__9J2DScreenFP20JSURandomInputStreamUlP10JKRArchive
+  0x800316e4: isUsed__9J2DScreenFPC7ResTIMG
+  0x80031704: isUsed__9J2DScreenFPC7ResFONT
+  0x80031724: getNameResource__9J2DScreenFPCc
+  0x80031774: animation__9J2DScreenFv
   0x803d4ba8: mDataManage__9J2DScreen
 
   # J2DTextBox.cpp
@@ -754,6 +776,9 @@ global:
 
   # J2DWindowEx.cpp
   0x80038630: getColor__14J2DAnmVtxColorCFUcUsP8_GXColor
+
+  # J2DAnmLoader.cpp
+  0x8003875c: load__20J2DAnmLoaderDataBaseFPCv
 
   # J2DAnmLoader.cpp
   0x80038f90: __dt__14J2DAnmVtxColorFv

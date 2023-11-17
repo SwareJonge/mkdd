@@ -18,7 +18,8 @@ private:
     static MenuBackground *mspMenuBackground; // 0x80416a88
 
     J2DScreen mScreen; // 00 - 118 J2DScreen
-    u8 _118[0x120 - 0x118];
+    J2DAnmTextureSRTKey *mAnimation;
+    s16 mAnimFrame;
 }; // Size: 0x120
 
 #endif // MENUBACKGROUND_H
