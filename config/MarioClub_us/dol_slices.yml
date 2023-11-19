@@ -1089,6 +1089,13 @@ src/Osako/kartPad.cpp:
     #.bss: [0x803fef60, 0x80400b68] # common bss area
     .sdata2: [0x8041b6e8, 0x8041b700]
 
+src/Osako/AppMgr.cpp:
+    .text: [0x80200a28, 0x80201134]
+    .ctors: [0x80316384, 0x80316388]
+    .data: [0x8039cb48, 0x8039cb80]
+    .bss: [0x803d0a10, 0x803d0a40]
+    .sbss: [0x80416998, 0x804169b8]
+
 src/Osako/FontMgr.cpp:
     .text: [0x80201134, 0x802011cc]
     .rodata: [0x8037d658, 0x8037d670]

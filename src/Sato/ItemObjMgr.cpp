@@ -3,6 +3,8 @@
 #include "Sato/stMath.h"
 #include "Sato/ItemObjMgr.h"
 
+// WIP
+
 void ItemObjMgr::draw() {
     JUTReport(20, 60, "SlotTable");
     // i have a feeling this is inlined / has some sort of macro

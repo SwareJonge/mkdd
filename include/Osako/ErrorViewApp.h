@@ -20,10 +20,10 @@ public:
     static ErrorViewApp *create(); // 0x802011cc
     static void call(ErrorId);     // 0x8020121c
     ErrorViewApp();                // 0x80201310
-    virtual ~ErrorViewApp();       // 0x80201384
-    virtual void draw();           // 0x802013e4
-    virtual void calc();           // 0x80201408
-    virtual void reset();          // 0x802015a8
+    virtual ~ErrorViewApp();       // 0x80201384, override
+    virtual void draw();           // 0x802013e4, override
+    virtual void calc();           // 0x80201408, override
+    virtual void reset();          // 0x802015a8, override
 
     static ErrorViewApp *mspErrorViewApp; // 0x804169c0
     static ErrorId msErrorId;             // 0x804169c4

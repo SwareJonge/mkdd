@@ -4,23 +4,27 @@
 #include "types.h"
 #include "Osako/GameApp.h"
 
-class MainMenuApp {
-    public:
-    static void create();
+class MainMenuApp : public GameApp
+{
+public:
+    static MainMenuApp *create();
     static void call();
 
     MainMenuApp();
-    virtual ~MainMenuApp();
+    virtual ~MainMenuApp(); // override
 
     void up();
     void down();
     void left();
     void decide();
-    void cancel(); // doesn't exist, inline auto?
+    void cancel();       // doesn't exist, inline auto?
     virtual void draw(); // override
     virtual void calc(); // override
 
-    static MainMenuApp * mspMainMenuApp;
+    static MainMenuApp *ptr() { return mspMainMenuApp; }
+
+private:
+    static MainMenuApp *mspMainMenuApp;
     int _C;
     int _10;
     int _14;

@@ -2261,7 +2261,9 @@ global:
   0x803549a0: __vt__5Scene
 
   # SceneApp.cpp
+  0x8012d020: create__8SceneAppFv
   0x8012d314: reset__7GameAppFv
+  0x803d5558:  mspSceneApp__8SceneApp
 
   # SceneFactory.cpp
   0x8013f014: __ct__12SceneFactoryFv
@@ -2776,7 +2778,15 @@ global:
   0x801cc5b8: calc__7GameAppFv
   0x8035c1f0: __vt__7GameApp
   # MainMenuApp.cpp
+  0x801cc5e0: create__11MainMenuAppFv
   0x801cc630: call__11MainMenuAppFv
+  0x803d5b48: mspMainMenuApp__11MainMenuApp
+  # PlayerSelectApp.cpp
+  0x801cc850: create__15PlayerSelectAppFv
+  0x803d5b50: mspPlayerSelectApp__15PlayerSelectApp
+  # MapSelectApp.cpp
+  0x801ccb80: create__12MapSelectAppFv
+  0x803d5b58: mspMapSelectApp__12MapSelectApp
   # main.cpp
   0x801cc5bc: main
   # RaceApp.cpp
@@ -2922,8 +2932,15 @@ global:
   0x801d1d7c: createApp__6AppMgrFQ26AppMgr11KartAppEnum
   0x801d1e28: restartApp__6AppMgrFv
   0x801d2024: isRestartable__6AppMgrFv
+  0x803d5be0: msGameApp__6AppMgr
+  0x803d5be4: msNextGameApp__6AppMgr
+  0x803d5be8: msNextNextGameApp__6AppMgr
+  0x803d5bec: msPrevGameApp__6AppMgr
   0x803d5bf0: mspGameApp__6AppMgr
   0x803d5bf4: msRequest__6AppMgr
+  0x803d5bf8: msDrawStallFrame__6AppMgr
+  0x803d5bf9: msCalcStallFrame__6AppMgr
+  0x803d5bfa: msChangeStallFrame__6AppMgr
   # FontMgr.cpp
   0x801d21a8: create__7FontMgrFP7JKRHeap
   0x803d5c00: mspResFont__7FontMgr
@@ -3081,6 +3098,14 @@ global:
   0x803d3b08: msScene__11SequenceApp
   0x803d3b0c: msNextScene__11SequenceApp
   0x803d5c60: mspSequenceApp__11SequenceApp
+  # NetGateApp.cpp
+  0x801d9aec: create__10NetGateAppFv
+  0x803d5c68: mspNetGateApp__10NetGateApp
+  0x803d5c6c: msSkip__10NetGateApp
+  # TestViewApp.cpp
+  0x801da324: create__11TestViewAppFv
+  0x803d5c70: mspTestViewApp__11TestViewApp
+
   # shadowMgr.cpp
   0x801da460: __ct__13ShadowManagerFv
   0x801daaa0: viewCalc__13ShadowManagerFUl

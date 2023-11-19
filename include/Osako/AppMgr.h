@@ -26,7 +26,7 @@ public:
         mcKartApp13,
         mcScene,
         mcTest,
-        msTestView
+        mcTestView
     };
 
     static void draw();

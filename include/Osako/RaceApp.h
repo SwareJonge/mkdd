@@ -13,20 +13,19 @@ public:
     static RaceApp *create();
     static void call();
     static RaceApp *ptr() { return mspRaceApp; };
-    PadRecorder *getPadRecorder() {
-        return mPadRecorder;
-    }
+    PadRecorder *getPadRecorder() { return mPadRecorder; }
 
     RaceApp();
-    virtual ~RaceApp();
-    virtual void draw();
-    virtual void calc();
+    virtual ~RaceApp();  // override
+    virtual void draw(); // override
+    virtual void calc(); // override
 
-    static RaceApp* mspRaceApp;
+    static RaceApp *mspRaceApp;
+
 private:
     RaceMgr *mRaceMgr;
     u8 _10[0x28 - 0x10];
-    PadRecorder * mPadRecorder;
+    PadRecorder *mPadRecorder;
 }; // Size: 0x54
 
 #endif

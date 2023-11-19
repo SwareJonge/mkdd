@@ -87,14 +87,14 @@ void MenuTitleLine::calc()
 
     switch (mAnmType)
     {
-    case 1:
+    case mcAnimDrop:
         if (++mTransFrame >= 11)
         {
             mAnmType = mcAnim2;
             mTransFrame = 10;
         }
         break;
-    case 3:
+    case mcAnimLift:
         if (--mTransFrame < 0)
         {
             mAnmType = mcAnim0;
@@ -104,8 +104,7 @@ void MenuTitleLine::calc()
     }
 
     if (++mKeyFrame >= 540)
-    {
         mKeyFrame = 0;
-    }
+    
     mScreen.animation();
 }

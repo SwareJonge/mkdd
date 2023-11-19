@@ -20,7 +20,8 @@ namespace ResMgr
         AramAsyncState *parent; // 0x14
 
         // fabricated
-        void setAll(void *p1, u32 p2, char *folder_, char *fileName_, int p5, AramAsyncState *p6) {
+        void setAll(void *p1, u32 p2, char *folder_, char *fileName_, int p5, AramAsyncState *p6)
+        {
             _0 = p1;
             _4 = p2;
             folder = folder_;
@@ -41,7 +42,7 @@ namespace ResMgr
         mcArcAward,
         mcArcAward2D,
         mcArcOpening,
-        mcArcMax // Not sure about this one
+        mcArcMax
     };
 
     enum CourseDataId
@@ -134,7 +135,17 @@ namespace ResMgr
         mcShadowDataBlk
     };
 
-    char *getCrsArcName(ECourseID);                                         // 0x801fc5dc
+    // Inline/Unused
+    char *getAwardArcName(ERaceGpCup);
+    char *getCrsDataName(CourseDataId);
+    char *getKartName(EKartID);
+    char *getKartDataName(KartDataId);
+    char *getDriverName(DriverId);
+    char *getDriverDataName(DriverDataId);
+    char *getShadowDataName(ShadowDataId);
+    char *getMsgDataName(MessageDataId);
+
+    char *getCrsArcName(ECourseID);                                        // 0x801fc5dc
     void create(JKRHeap *);                                                // 0x801fc860
     void loadKeepTask(void *);                                             // 0x801fc940
     void loadCourseTask(void *);                                           // 0x801fcbe8
@@ -158,57 +169,26 @@ namespace ResMgr
     bool findResource(ArchiveId, char *);                                  // 0x801fde70
     bool isFinishLoadingAram();                                            // 0x801fdf2c
 
-    extern JKRArchive *mspaLoader[mcArcMax]; // 0x803fe2f8
-    extern AramAsyncState msaAramResArg[0x40]; // 0x803fe95c
-
-    extern JKRSolidHeap *mspKeepHeap;
-    extern JKRSolidHeap *mspCourseHeap;
-    extern JKRHeap *mspAwardHeap;
-    extern JKRHeap *mspOpeningHeap;
-
-    extern u32 msLoadFlag;
-    extern u32 msLoadingFlag;
-    extern ECourseID msCourseID;
-    extern ECourseID msMountCourseID;
-    extern ERaceGpCup msCupID;
-    extern CourseOrder msCourseOrder;
-    extern CourseOrder msMountCourseOrder;
-    extern bool msRequestLoadingKeepData;
-    extern void *mspCourseName;
-    extern void *mspStaffGhost;
-
-    inline void *getArchive(ArchiveId id) { return mspaLoader[(int)id]; };
+    extern JKRArchive *mspaLoader[mcArcMax];   // 0x803fe2f8
+    extern AramAsyncState msaAramResArg[0x40]; // 0x803fe95c, might be a different data type?
+    extern ERaceGpCup msCupID;                 // 0x80414858
+    extern u8 msUsedArgArray;                  // 0x8041485c
+    extern u32 msLoadFlag;                     // 0x80416930
+    extern u32 msLoadingFlag;                  // 0x80416934
+    extern bool msRequestLoadingKeepData;      // 0x80416938
+    extern ECourseID msCourseID;               // 0x8041693c
+    extern CourseOrder msCourseOrder;          // 0x80416940
+    extern ECourseID msMountCourseID;          // 0x80416944
+    extern CourseOrder msMountCourseOrder;     // 0x80416948
+    extern void *mspCourseName;                // 0x8041694c
+    extern void *mspStaffGhost;                // 0x80416950
+    extern u8 msFreeArgArray;                  // 0x80416954
+    extern int msAramTaskNum;                  // 0x80416958
 
     extern const u32 mscKeepHeapSize;
     extern const u32 mscCourceHeapSize;
-    extern u8 msFreeArgArray;
-    extern u8 msUsedArgArray;
-    extern int msAramTaskNum; // 0x80416958
 
-    /*void mspaLoader; // 0x803fe2f8
-    void msaAramResArg; // 0x803fe95c
-    void msCupID; // 0x80414858
-    void msUsedArgArray; // 0x8041485c
-    void msLoadFlag; // 0x80416930
-    void msLoadingFlag; // 0x80416934
-    void msRequestLoadingKeepData; // 0x80416938
-    void msCourseID; // 0x8041693c
-    void msCourseOrder; // 0x80416940
-    void msMountCourseID; // 0x80416944
-    void msMountCourseOrder; // 0x80416948
-    void mspCourseName; // 0x8041694c
-    void mspStaffGhost; // 0x80416950
-    void msFreeArgArray; // 0x80416954
-    void msAramTaskNum; // 0x80416958*/
-    // Inline/Unused
-    char *getAwardArcName(ERaceGpCup);
-    char *getCrsDataName(CourseDataId);
-    char *getKartName(EKartID);
-    char *getKartDataName(KartDataId);
-    char *getDriverName(DriverId);
-    char *getDriverDataName(DriverDataId);
-    char *getShadowDataName(ShadowDataId);
-    char *getMsgDataName(MessageDataId);
+    inline void *getArchive(ArchiveId id) { return mspaLoader[(int)id]; };
 
 }; // namespace ResMgr
 

@@ -11,9 +11,9 @@ public:
     static void call();        // 0x8020e1ac
 
     // Vtable
-    virtual void calc();                           // 0x8020e224
-    virtual ~AwardApp() { mspAwardApp = nullptr; } // 0x801fbc60
-    virtual void draw() {}                         // 0x8020e29c
+    virtual void calc();                           // 0x8020e224, overide
+    virtual ~AwardApp() { mspAwardApp = nullptr; } // 0x801fbc60, overide
+    virtual void draw() {}                         // 0x8020e29c, overide
 
     // Inline Functions
     static AwardApp *ptr() { return mspAwardApp; }

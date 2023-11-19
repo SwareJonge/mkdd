@@ -7,15 +7,18 @@
 class TestApp : public GameApp
 {
 public:
+    // static void call(); // inline auto behaviour?
     static TestApp *create();
-    static TestApp *mspTestApp;
-
     TestApp();
-    //static void call(); // inline auto behaviour?
+    
     virtual ~TestApp();
     virtual void draw();
     virtual void calc();
-    private:
+
+    static TestApp *ptr() { return mspTestApp; }
+
+private:
+    static TestApp *mspTestApp;
     int _8;
 };
 
