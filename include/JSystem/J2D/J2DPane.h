@@ -160,7 +160,7 @@ struct J2DPane
     J2DPane(J2DPane *parent, JSURandomInputStream *input, u8 version);
 
     virtual ~J2DPane();                                                                           // _08
-    virtual u16 getTypeID() const { return J2DPaneType_Pane; }                                       // _0C (weak)
+    virtual u16 getTypeID() const { return J2DPaneType_Pane; }                                    // _0C (weak)
     virtual void move(f32 x, f32 y);                                                              // _10
     virtual void add(f32 x, f32 y);                                                               // _14
     virtual void resize(f32, f32);                                                                // _18

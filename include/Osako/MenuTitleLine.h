@@ -9,7 +9,26 @@ class MenuTitleLine
 public:
     enum Title
     {
+        mcHowManyPlayers,
+        mcCharacterSelect,
+        mcSelectMode,
+        mcVsCoop,
+        mcCourseSelect,
+        mcBattleSelect,
+        mcCupSelect,
+        mcMapSelect,
+        mcGhostCheck,
+        mcGhostLoad,
+        mcGhostSave,
+        mcTitleMax
+    };
 
+    // Fabricated
+    enum Animation {
+        mcAnim0,
+        mcAnimDrop,
+        mcAnim2,
+        mcAnimLift
     };
 
     // Global
@@ -32,9 +51,16 @@ public:
 private:
     static MenuTitleLine *mspMenuTitleLine; // 0x80416a90
 
-    u8 _0[4 - 0];
+    Animation mAnmType;
     Title mTitle;
     J2DScreen mScreen; // 08 - 120 J2DScreen
-    u8 _120[0x160 - 0x120];
-};     // Size: 0x160
+    J2DPicture *mPicture; // might be J2DPictureEx?
+    J2DPicture *mGhostPicture;
+    J2DAnmTransform *mTransform;
+    J2DAnmTextureSRTKey *mTexSRTKey;
+    s16 mTransFrame;
+    s16 mKeyFrame;
+    ResTIMG *mImages[mcTitleMax];
+}; // Size: 0x160
+
 #endif // MENUTITLELINE_H

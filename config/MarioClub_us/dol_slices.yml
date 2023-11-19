@@ -1169,6 +1169,13 @@ src/Osako/MenuBackground.cpp:
     .sbss: [0x80416a88, 0x80416a90]
     .sdata2: [0x8041bb10, 0x8041bb18]
 
+src/Osako/MenuTitleLine.cpp:
+    .text: [0x80219158, 0x802194d4]
+    .rodata: [0x8037ebf8, 0x8037ed08]
+    .data: [0x8039d578, 0x8039d5a8]
+    .sbss: [0x80416a90, 0x80416a98]
+    .sdata2: [0x8041bb18, 0x8041bb20]
+
 src/Osako/GIRecord.cpp:
     .text: [0x802194d4, 0x802195f0]
 
