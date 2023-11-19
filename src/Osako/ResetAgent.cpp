@@ -89,7 +89,7 @@ namespace ResetAgent {
 #ifdef DEBUG
                         System::haltRumble();
 #endif
-                        AppMgr::msRequest |= 2; // probably an inline
+                        AppMgr::restartCurrentApp();
 
                         if(msAudioReset) {
                             GetGameAudioMain()->resumeAudio();

@@ -31,16 +31,9 @@ u8 AppMgr::msChangeStallFrame;
 void AppMgr::draw()
 {
     if (msDrawStallFrame != 0)
-    {
         msDrawStallFrame--;
-    }
-    else
-    {
-        if (mspGameApp)
-        {
-            mspGameApp->draw();
-        }
-    }
+    else if (mspGameApp)
+        mspGameApp->draw();
 
     CardAgent::draw();
     ResetAgent::draw();
@@ -48,18 +41,22 @@ void AppMgr::draw()
 
 void AppMgr::calc()
 {
-    if (msRequest & 2)
+    if (msRequest & REQUEST_RESTART)
     {
-        if(isRestartable()) {
+        if (isRestartable())
+        {
             restartApp();
-            msRequest &= ~(0x2);
-            msRequest &= ~(0x4);
-            msRequest &= ~(0x8);
+            msRequest &= ~REQUEST_RESTART;
+            msRequest &= ~REQUEST_OPENING;
+            msRequest &= ~REQUEST_TITLE;
         }
     }
-    if(msRequest & 4) {
-        if(msRequest & 8) {
-            if(mspGameApp == SequenceApp::ptr()) {
+    if (msRequest & REQUEST_OPENING)
+    {
+        if (msRequest & REQUEST_TITLE)
+        {
+            if (mspGameApp == SequenceApp::ptr())
+            {
                 SequenceApp::ptr()->freeForMovieApp();
                 MovieApp::create();
                 LogoApp::ptr()->setLoading(true);
@@ -67,53 +64,55 @@ void AppMgr::calc()
                 MovieApp::getMovieApp()->loadOpeningData();
                 SequenceApp::ptr()->ready(Scene::SCENE_TITLE);
                 SequenceApp::ptr()->ready(Scene::SCENE_MENU);
-                msRequest &= ~(0x8);
+                msRequest &= ~REQUEST_TITLE;
             }
         }
 
-        if(ResMgr::isFinishLoadingArc(ResMgr::mcArcOpening)) {
+        if (ResMgr::isFinishLoadingArc(ResMgr::mcArcOpening))
+        {
             setNextApp(mcMovie);
-            msRequest &= ~(0x4);
+            msRequest &= ~REQUEST_OPENING;
         }
     }
 
-    if(msNextGameApp) {
+    if (msNextGameApp)
+    {
         if (msChangeStallFrame)
         {
-            if(ResMgr::isFinishLoadingAram())
+            if (ResMgr::isFinishLoadingAram())
                 msChangeStallFrame--;
             msCalcStallFrame = 1;
         }
-        else {
-            if(msRequest & 1) {
+        else
+        {
+            if (msRequest & REQUEST_DESTROY)
+            {
                 delete mspGameApp;
                 mspGameApp = 0;
-                msRequest &= ~(0x1);
+                msRequest &= ~REQUEST_DESTROY;
             }
+
             mspGameApp = createApp(msNextGameApp);
             msPrevGameApp = msGameApp;
             msGameApp = msNextGameApp;
             msNextGameApp = msNextNextGameApp;
             msNextNextGameApp = mcKartApp0;
 
-            if(mspGameApp) {
+            if (mspGameApp)
                 mspGameApp->getHeap()->becomeCurrentHeap();
-            }
-            if(mspGameApp) {
+
+            if (mspGameApp)
                 mspGameApp->reset();
-            }
         }
     }
 
-    if(msCalcStallFrame) {
+    if (msCalcStallFrame)
+    {
         msCalcStallFrame--;
         msDrawStallFrame = 1;
     }
-    else {
-        if(mspGameApp) {
-            mspGameApp->calc();
-        }
-    }
+    else if (mspGameApp)
+        mspGameApp->calc();
 
     CardAgent::calc();
     ResetAgent::calc();
@@ -136,6 +135,7 @@ void AppMgr::insertErrorViewApp()
 {
     if (msNextGameApp == mcErrorView)
         return;
+    
     if (msGameApp == mcErrorView)
         return;
 
@@ -185,13 +185,13 @@ void AppMgr::restartApp()
     if (msGameApp == mcErrorView)
         activeApp = msPrevGameApp;
 
-    if (FLAG_ON(msRequest, 1) || (mspGameApp != RaceApp::ptr()))
+    if (FLAG_ON(msRequest, REQUEST_DESTROY) || (mspGameApp != RaceApp::ptr()))
         delete RaceApp::ptr();
 
-    if (FLAG_ON(msRequest, 1) || (mspGameApp != AwardApp::ptr()))
+    if (FLAG_ON(msRequest, REQUEST_DESTROY) || (mspGameApp != AwardApp::ptr()))
         delete AwardApp::ptr();
 
-    if (FLAG_ON(msRequest, 1) || (mspGameApp != NetGateApp::ptr()))
+    if (FLAG_ON(msRequest, REQUEST_DESTROY) || (mspGameApp != NetGateApp::ptr()))
         delete NetGateApp::ptr();
 
     delete MainMenuApp::ptr();
@@ -215,13 +215,13 @@ void AppMgr::restartApp()
     ResetAgent::msInvalid = false;
 }
 
-bool AppMgr::isRestartable() {
-    if(LogoApp::ptr()->isLoading())
+bool AppMgr::isRestartable()
+{
+    if (LogoApp::ptr()->isLoading())
         return false;
-    
-    if(ResMgr::isLoadingArc(ResMgr::mcArcOpening)) {
+
+    if (ResMgr::isLoadingArc(ResMgr::mcArcOpening))
         return false;
-    }
 
     if (NetGateApp::ptr() ? NetGateApp::ptr()->hasActiveTask() : false)
         return false;
