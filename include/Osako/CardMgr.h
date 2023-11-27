@@ -35,6 +35,17 @@ namespace CardMgr
 
     struct CardData
     {
+        // fabricated
+        bool canWrite()
+        {
+            return mProbeStatus == CARD_RESULT_READY &&
+                   mCardStatus == CARD_RESULT_READY &&
+                   mSectorSize == CARD_SYSTEM_BLOCK_SIZE &&
+                   mByteNotUsed >= CARD_WORKAREA_SIZE &&
+                   mFilesNotUsed != 0 &&
+                   FLAG_ON(mProcessFlag, 0x800);
+        }
+    
         s32 mProbeStatus;       // 0x0, see card.h
         s32 mPrevProbeStatus;   // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
         s32 mMemSize;           // 0x8

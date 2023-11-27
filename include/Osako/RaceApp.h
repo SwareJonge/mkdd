@@ -5,7 +5,7 @@
 #include "Osako/PadRecorder.h"
 #include "types.h"
 
-class RaceMgr;
+#include "Kaneshige/RaceMgr.h"
 
 class RaceApp : public GameApp
 {

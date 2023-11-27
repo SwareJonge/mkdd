@@ -2,7 +2,7 @@
 #define LIGHTMGR_H
 
 #include "JSystem/JGeometry.h"
-#include "dolphin/gx.h"
+#include "JSystem/JUtility/TColor.h"
 #include "types.h"
 
 // TODO: everything

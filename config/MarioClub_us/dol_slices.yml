@@ -942,10 +942,10 @@ src/Kaneshige/KartChecker.cpp:
 
 #src/Kaneshige/RaceMgr.cpp:
     #.text: [0x801ac5a0, 0x801b0c1c]
-    ##.ctors: [0x8031627c, 0x80316280]
+    #.ctors: [0x8031627c, 0x80316280]
     #.rodata: [0x80377640, 0x803780c0]
     #.data: [0x80395cd8, 0x80395cf8]
-    ##.bss: [0x803ca828, 0x803ca858] 
+    #.bss: [0x803ca828, 0x803ca858] 
     #.sdata: [0x80414628, 0x80414630]
     #.sbss: [0x804163a8, 0x804163b0]
     #.sdata2: [0x80419e18, 0x80419f88]
@@ -1108,6 +1108,15 @@ src/Osako/CardMgr.cpp:
     #.bss: [0x80400b68, 0x80400cc0]
     .sbss: [0x804169c8, 0x804169d0]
     .sdata2: [0x8041b700, 0x8041b710]
+
+#src/Osako/CardAgent.cpp:
+    #.text: [0x80202a80, 0x80204fe8]
+    #.ctors: [0x8031638c, 0x80316390]
+    #.rodata: [0x8037d880, 0x8037d8c0]
+    #.data: [0x8039cb98, 0x8039cc78]
+    ##.bss: [0x80400cc0, 0x80400ce0]
+    #.sbss: [0x804169d0, 0x80416a00]
+    #.sdata2: [0x8041b710, 0x8041b748]    
 
 src/Osako/SequenceApp.cpp:
     .text: [0x80208aec, 0x80209424]

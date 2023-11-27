@@ -85,7 +85,7 @@ public:
     bool isMirror() const { return mIsMirror; }
     bool isWaitDemo() const  {return mDemoType != 0; }
     bool isDriverLODOn() const  { return (mLOD & 2); };
-    bool isHiddingConsole(u32 p1) const { return (mHidingConsoles & 1 << p1) != 0; }
+    bool isHiddingConsole(u32 viewNo) const { return (mHidingConsoles & 1 << viewNo) != 0; }
     void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
     void setGpCup(ERaceGpCup cup) { mGpCup = cup; }
     void setRandomSeed(u32 value) { mRandomSeed = value; }

@@ -120,6 +120,18 @@ public:
         mTickRate = rate;
         mFrameRate = 0;
     }
+    JUtility::TColor getClearColor() const {
+        return mClearColor;
+    }
+
+    void setFBAlpha(bool enable) {
+        mEnableAlpha = enable;
+    }
+
+    bool getFBAlpha()
+    {
+        return mEnableAlpha;
+    }
 
     static JFWDisplay *sManager; // 0x80415718
 

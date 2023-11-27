@@ -35,7 +35,7 @@
     (((u32)ptr[offset] << 24) | ((u32)ptr[offset + 1] << 16) | ((u32)ptr[offset + 2] << 8) | (u32)ptr[offset + 3]);
 
 #define FLAG_ON(V, F) (((V) & (F)) == 0)
-#define FLAG_OFF(V, F) (((V) & (F)) != 0)
+#define FLAG_OFF(V, F) (((V) & (F)))
 
 // Codewarrior tricks for matching decomp
 // (Functions are given prototypes for -requireprotos)

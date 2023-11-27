@@ -2,8 +2,9 @@
 #define CRSDATA_H
 
 #include "JSystem/JUtility/TColor.h"
-#include "JSystem/JGeometry.h"
 #include "Sato/stMath.h"
+//#include "JSystem/JGeometry.h"
+
 #include "kartLocale.h"
 #include "types.h"
 

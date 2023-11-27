@@ -256,14 +256,14 @@ class JKRSolidHeap : public JKRHeap
 public:
     struct State
     {
-        /*State(State * other, u32 cnt) {
+        State(State * other, u32 cnt) {
             mCnt = cnt;
             mSize = other->mSize;
             _08 = other->_08;
             _0C = other->_0C;
             mNext = other;
             other = this;
-        }*/
+        }
         State(u32 cnt, u32 size, u8 *p3, u8 *p4, State *next)
         {
             mCnt = cnt;

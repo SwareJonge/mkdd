@@ -17,16 +17,16 @@ public:
     virtual char *getFileName();     // 20
     virtual int getFileNo();         // 24
     virtual int getBannerFormat();   // 28
-    virtual long getCommentOffset(); // 2C
+    virtual s32 getCommentOffset();  // 2C
     virtual u8 getIconNum();         // 30
     virtual int getIconOffset();     // 34
     virtual u8 getIconFormat(u8);    // 38
     virtual u8 getIconSpeed(u8);     // 3C
     virtual u8 getIconAnim();        // 40
     virtual u8 *getBuf();            // 44
-    virtual long getFileSize();      // 48
-    virtual long getLength();        // 4C
-    virtual long getOffset();        // 50
+    virtual u32 getFileSize();      // 48
+    virtual s32 getLength();        // 4C
+    virtual s32 getOffset();        // 50
     virtual ~SystemFile();           // 54
 
     class FileData

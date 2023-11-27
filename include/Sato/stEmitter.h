@@ -3,7 +3,7 @@
 
 #include "PowerPC_EABI_Support/Runtime/MWCPlusPlusLib.h"
 #include <JSystem/JSupport/JSUList.h>
-#include <JSystem/JGeometry/Vec.h>
+#include <JSystem/JGeometry.h>
 
 struct stEmitter
 {

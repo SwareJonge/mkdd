@@ -1,7 +1,7 @@
 #ifndef KARTSUS_H
 #define KARTSUS_H
 
-#include <JSystem/JGeometry/Vec.h>
+#include <JSystem/JGeometry.h>
 
 class KartBody;
 

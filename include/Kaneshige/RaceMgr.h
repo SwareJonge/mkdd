@@ -134,15 +134,18 @@ public:
         bool robRivalOfBalloon(int, int);                                  // 0x801afa84
         bool robRivalOfRabbitMark(int, int);                               // 0x801afb48
 
+        // Unused
+        int getDrawingConsoleNumber();
+        
         // Inline Functions
         // RaceInfo related
         bool isLANMode() const { return mRaceInfo->isLANMode(); }
         bool isMirror() const { return mRaceInfo->isMirror(); }
         bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); };
-        ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
-        int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
         int getKartNumber() const { return mRaceInfo->getKartNumber(); }
-        int getTotalLapNumber() const { return mTotalLapNumber; }
+        // TODO: figure out why these don't use the getters in RaceInfo
+        ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
+        int getConsoleNumber() const { return mRaceInfo->mConsoleNum; }
 
         KartInfo *getKartInfo(int index)
         {
@@ -166,6 +169,7 @@ public:
         return getRacePhase() == PHASE_CRS_DEMO;
     }
     // RaceMgr get/sets
+    int getTotalLapNumber() const { return mTotalLapNumber; }
     Course *getCourse() const { return mCourse;  }    
     const RaceTime &getBestLapTime() { return mBestLapTime; }
     bool isRaceModeGp() const { return getRaceMode() == GRAND_PRIX; }

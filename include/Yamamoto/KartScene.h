@@ -4,8 +4,8 @@
 struct KartScene {
 public:
     KartScene() {}
-    // TODO
-    int mChapter;
+
+    u8 mChapter;
 };
 
 #endif

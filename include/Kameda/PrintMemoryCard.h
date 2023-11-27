@@ -7,6 +7,7 @@ class PrintMemoryCard
 {
     // Global
 public:
+
     PrintMemoryCard(JKRHeap *heap); // 0x8016be58
 
     enum MessageID
@@ -77,15 +78,25 @@ public:
     // Inline/Unused
     // void initWindow();
     // ~PrintMemoryCard();
+
+    int get_1cThing() {
+        if (_20 == 0 || _20 == 25)
+            return 3;
+        return _1c;
+     }
+
 private:
-    // TODO
+    //  TODO
     u8 _0[0x4];
     void *mpBmg; // 0x4
     u8 _8[0xc - 0x8];
     u8 _c;
     u8 _d;
     u8 _e;
-    u8 _f[0x30 - 0xf];
+    u8 _f[0x1c - 0xf];
+    int _1c;
+    int _20;
+    u8 _24[0x30 - 0x24];
 }; // Size: 0x30
 
 #endif // PRINTMEMORYCARD_H

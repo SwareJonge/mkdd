@@ -145,7 +145,7 @@ struct J3DModelData {
  * @size{0xDC}
  */
 struct J3DModel {
-	J3DModel(J3DModelData* data, u32 p2, u32 modelType)
+	J3DModel(J3DModelData *data, u32 p2, u32 modelType)
 	{
 		mVertexBuffer.init();
 		initialize();
@@ -201,7 +201,7 @@ struct J3DModel {
 	}
 	void setUserArea(u32 area) { mUserArea = area; }
 	u32 getUserArea() const { return mUserArea; }
-	JGeometry::TVec3f* getBaseScale() { return &mModelScale; }
+	Vec* getBaseScale() { return &mModelScale; }
 	void setAnmMtx(int i, Mtx m) { mMtxBuffer->setAnmMtx(i, m); }
 
 	// _00 VTBL
@@ -210,7 +210,7 @@ struct J3DModel {
 	u32 mDiffFlag;                  // _0C
 	J3DCalcCallBack mCalcCallBack;  // _10
 	u32 mUserArea;                  // _14
-	JGeometry::TVec3f mModelScale;  // _18
+	Vec mModelScale;  // _18
 	Mtx mPosMtx;                    // _24
 	Mtx mInternalView;              // _54
 	J3DMtxBuffer* mMtxBuffer;       // _84
