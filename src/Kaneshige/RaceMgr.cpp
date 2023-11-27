@@ -66,10 +66,10 @@ s16 RaceMgr::sDispFrameCounter;
 
 s16 RaceMgr::sMyStartPointID = -1;
 
-static const f32 float_slack[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+static const f32 float_slack_RaceMgr[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
-DUMMY_POINTER(float_slack)
+DUMMY_POINTER(float_slack_RaceMgr)
 #pragma pop
 
 const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
@@ -1405,7 +1405,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
         startPoint->getFrDirection(direction);
         if (tindex >= 0)
         {
-             const Vec startPosTable[18] = {
+            const Vec startPosTable[18] = {
                 {0.0f, 0.0f, 250.0f},
                 {600.0f, 0.0f, 250.0f},
                 {267.0f, 0.0f, 0.0f},
