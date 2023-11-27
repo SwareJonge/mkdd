@@ -6,6 +6,7 @@ text ordering
 I guess the idea here was to not create seperate sections for JSystem? didnt work that well
 Also, make headers for all libraries itself?
 */
+
 #include <dolphin/os.h>
 #include "JSystem/J3D/J3DSys.h"
 #include "JSystem/JGeometry.h"
@@ -13,7 +14,8 @@ Also, make headers for all libraries itself?
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTGamePad.h"
-
+#include <JSystem/JAudio/JASFakeMatch2.h>
+#include "Sato/stMath.h"
 #ifdef DEBUG
 #pragma sym on
 #endif
@@ -30,15 +32,15 @@ Also, make headers for all libraries itself?
 #include "Kaneshige/DemoTimeKeeper.h"
 #include "Kaneshige/GeoRabbitMark.h"
 #include "Kaneshige/ExModel.h"
-#include "Kaneshige/LightMgr.h"
+//#include "Kaneshige/LightMgr.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceLight.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/RaceUsrPage.h"
-#include "Kaneshige/SysDebug.h"
+//#include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kawano/accessory.h"
-#include "Osako/kartPad.h"
+//#include "Osako/kartPad.h"
 #include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
 #include "Osako/shadowMgr.h"
@@ -51,34 +53,24 @@ Also, make headers for all libraries itself?
 #include "Sato/JPEffectMgr.h"
 #include "Sato/NeckCtrl.h"
 #include "Sato/ObjUtility.h"
-#include "Sato/RivalKart.h"
+//#include "Sato/RivalKart.h"
 #include "Sato/stEffectMgr.h"
-#include "Sato/stMath.h"
-#include "Shiraiwa/Balloon.h"
-#include "Shiraiwa/JugemRodSignal.h"
-#include "Yamamoto/kartCamera.h"
 
-#include <JSystem/JAudio/JASFakeMatch2.h>
+//#include "Shiraiwa/Balloon.h"
+//#include "Shiraiwa/JugemRodSignal.h"
+//#include "Yamamoto/kartCamera.h"
 
 RaceMgr *RaceMgr::sRaceManager;
-short RaceMgr::sForceTotalLapNum;
-short RaceMgr::sDispFrameCounter;
+s16 RaceMgr::sForceTotalLapNum;
+s16 RaceMgr::sDispFrameCounter;
 
-short RaceMgr::sMyStartPointID = -1;
+s16 RaceMgr::sMyStartPointID = -1;
 
-#ifdef PAL // not sure if needed
-static const float lbl_8033ce58[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+static const f32 float_slack[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
-DUMMY_POINTER(lbl_8033ce58)
+DUMMY_POINTER(float_slack)
 #pragma pop
-#else
-static const float lbl_80377640[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(lbl_80377640)
-#pragma pop
-#endif
 
 const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0, "空", " SKY"},
@@ -475,7 +467,7 @@ bool RaceMgr::isHiddingConsole(u32 viewNo)
 {
 #line 3969
     JUT_MINMAX_ASSERT(0, viewNo, mRaceInfo->getConsoleNumber());
-    return mRaceInfo->isHiddingConsole(viewNo);
+    return mConsole[viewNo].isDraw();
 }
 
 void RaceMgr::createModel()
@@ -565,23 +557,23 @@ void RaceMgr::createLight()
 
     LightMgr::createManager();
     bool balloonExists = false;
-    TBalloonString *balloonString = TBalloonString::getSupervisor();
-    if (balloonString)
-        balloonExists = 1;
+
+    if (TBalloonString::getSupervisor())
+        balloonExists = true;
 
     JUtility::TColor ambientColor;
     mCourse->getAmbientColor(&ambientColor);
-    LtObjAmbient *lghtObjAmb = new LtObjAmbient("シーンアンビエント", ambientColor); // scene ambient?
+    LtObjAmbient *lightObjAmb = new LtObjAmbient("シーンアンビエント", ambientColor); // scene ambient?
 
-    lghtObjAmb->setTagName('AMBI');
-    LightMgr::getManager()->appendLight(lghtObjAmb);
+    lightObjAmb->setTagName('AMBI');
+    LightMgr::getManager()->appendLight(lightObjAmb);
 
     JUtility::TColor lightColor;
     mCourse->getLightColor(&lightColor);
     JGeometry::TVec3f lightPos;
     mCourse->getLightOffsetPosition(&lightPos);
 
-    for (u32 i = 0; i < getConsoleNumber(); i++)
+    for (u32 i = 0; i < getCameraNumber(); i++)
     {
         RaceSceneLight *sceneLight = new RaceSceneLight("シーンライト", i, lightColor, lightPos);
         LightMgr::getManager()->appendLight(sceneLight);
@@ -593,13 +585,11 @@ void RaceMgr::createLight()
         }
         if (balloonExists)
         {
-            RaceBalloonLight *balloonLight = new RaceBalloonLight(i);
-            LightMgr::getManager()->appendLight(balloonLight);
+            LightMgr::getManager()->appendLight(new RaceBalloonLight(i));
         }
         if (isAwardDemoMode())
         {
-            RaceCupLight *cupLight = new RaceCupLight(sceneLight);
-            LightMgr::getManager()->appendLight(cupLight);
+            LightMgr::getManager()->appendLight(new RaceCupLight(sceneLight));
         }
     }
 }
@@ -704,6 +694,15 @@ void RaceMgr::resetRaceCommon()
 
     SYSDBG_SetDefaultHeapGroup(nullptr);
     JUT_REPORT_MSG("End   Reset.............................................\n");
+}
+
+// Unused, size matches(not bad for a first guess)
+int RaceMgr::getDrawingConsoleNumber() {
+    for(int i = 0; i < getKartNumber(); i++) {
+        if(mConsole[i].isDraw())
+            return i;
+    }
+    return -1;
 }
 
 int RaceMgr::getCurrentConsoleNumber()
@@ -1398,7 +1397,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
     }
     if (getCourse()->getCrsData())
     {
-#line 4437
+#line 4436
         CrsData::StartPoint *startPoint = getCourse()->getCrsData()->getStartPoint(startID);
         JUT_ASSERT_F(startPoint, "NOT FOUND START:%d", startID);
         isRight = startPoint->isRight();
@@ -1406,7 +1405,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
         startPoint->getFrDirection(direction);
         if (tindex >= 0)
         {
-            float startPosTable[][3] = {// might be TVec3, however that didn't work
+             const Vec startPosTable[18] = {
                 {0.0f, 0.0f, 250.0f},
                 {600.0f, 0.0f, 250.0f},
                 {267.0f, 0.0f, 0.0f},
@@ -1428,8 +1427,8 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
             JGeometry::TVec3f startPos;
 #line 4480
             JUT_MINMAX_ASSERT(0, tindex, 18);
-            const f32 startPosX = startPosTable[tindex][0];
-            const f32 startPosZ = startPosTable[tindex][2];
+            const f32 startPosX = startPosTable[tindex].x;
+            const f32 startPosZ = startPosTable[tindex].z;
             startPos.set(startPosX, 0.0f, startPosZ);
 
             if (startPoint->isRight())
@@ -1437,7 +1436,7 @@ bool RaceMgr::getStartPoint(JGeometry::TVec3f *position, JGeometry::TVec3f *dire
                 startPos.x = -startPos.x;
             }
 
-            JGeometry::TVec3f scaledDirection(*direction);
+            JGeometry::TVec3f scaledDirection = (*direction);
             scaledDirection.scale(startPos.z);
             JGeometry::TVec3f yScale(0.0f, 1.0f, 0.0f);
             JGeometry::TVec3f scaledPosition;
@@ -1490,7 +1489,7 @@ bool RaceMgr::isItemBoxValid()
     return valid;
 }
 
-void RaceMgr::beginProcTime(short id)
+void RaceMgr::beginProcTime(s16 id)
 {
 #ifdef DEBUG
     s16 idx = -1; // not sure how to name this, one day i'll open up dolphin and use the debugger
@@ -1520,7 +1519,7 @@ void RaceMgr::beginProcTime(short id)
 #endif
 }
 
-void RaceMgr::endProcTime(short id)
+void RaceMgr::endProcTime(s16 id)
 {
 #ifdef DEBUG
     s16 idx = -1; // not sure how to name this, one day i'll open up dolphin and use the debugger
@@ -1546,7 +1545,7 @@ void RaceMgr::endProcTime(short id)
 #endif
 }
 
-const RaceMgr::EventInfo *RaceMgr::searchEventInfo(short searchId)
+const RaceMgr::EventInfo *RaceMgr::searchEventInfo(s16 searchId)
 {
     const EventInfo *ret = nullptr;
     for (const EventInfo *eventTable = sEventTable; eventTable->id != -1; eventTable++)
@@ -1628,7 +1627,9 @@ void RaceMgr::Console::changeTargetNo(int targetNo, bool p2)
 // these functions are unused so i'm just putting functions in here that need to get generated
 void RaceMgr::Console::clearZBuffer()
 {
-    System::getDisplay();
+    if (!System::getDisplay()->getFBAlpha())
+        System::getDisplay()->setFBAlpha(true);
+    System::getDisplay()->clearEfb(System::getDisplay()->getClearColor());
 }
 
 bool RaceMgr::Console::isZoom()
@@ -1692,10 +1693,10 @@ void RaceUsrPage::draw()
             kind = "NONE ";
             break;
         case 1:
-            kind = "COM  ";
+            kind = "MAN  ";
             break;
         case 2:
-            kind = "MAN  ";
+            kind = "COM  ";
             break;
         case 3:
             kind = "NET  ";
