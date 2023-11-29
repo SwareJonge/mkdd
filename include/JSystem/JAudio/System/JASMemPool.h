@@ -9,7 +9,10 @@ struct JASGenericMemPool
     JASGenericMemPool();
     void free(void *, u32);
 
-    u32 _0[4];
+    u32 *mRunner;
+    u32 _4;
+    u32 _8;
+    u32 _c;
 };
 
 template <typename T>
@@ -49,9 +52,6 @@ struct JASPoolAllocObject_MultiThreaded
         OSRestoreInterrupts(inter);
     }
     static JASMemPool_MultiThreaded<T> memPool_;
-    static bool __init__memPool_;
 };
-
-
 
 #endif
