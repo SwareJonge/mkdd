@@ -918,6 +918,13 @@ src/Kameda/ReadPrintMessage.cpp:
     #.rodata: [0x80375e70, 0x80376048]
     #.sdata2: [0x804199b8, 0x804199f8]
 
+src/Kaneshige/DrawBuffer.cpp:
+    .text: [0x80198810, 0x80198cd4]
+    .ctors: [0x80316260, 0x80316264]
+    .data: [0x80395a60, 0x80395a78]
+    .bss: [0x803ca6f8, 0x803ca708]
+    #.bss: [0x803fbf84, 0x803fbfa8]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x801a6960, 0x801a6c30]
     .data: [0x80395bb8, 0x80395bc8]

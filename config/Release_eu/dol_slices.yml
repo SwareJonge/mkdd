@@ -889,6 +889,13 @@ src/Kameda/ReadPrintMessage.cpp:
     .sbss: [0x803d55d0, 0x803d55d8]
     .sdata2: [0x803d7fb8, 0x803d7fe0]
 
+src/Kaneshige/DrawBuffer.cpp:
+    .text: [0x801775d0, 0x80177968]
+    .ctors: [0x802d8660, 0x802d8664]
+    .data: [0x80355868, 0x80355880]
+    .bss: [0x8038a210, 0x8038a220]
+    #.bss: [0x803bb258, 0x803bb27c]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]

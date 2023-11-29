@@ -38,6 +38,12 @@ global:
   # J3DSys.cpp
   0x8004dbf4: drawInit__6J3DSysFv
   0x803b6db0: j3dSys
+  # J3DDrawBuffer.cpp
+  0x800556e8: initialize__13J3DDrawBufferFv
+  0x80055750: allocBuffer__13J3DDrawBufferFUl
+  0x800557cc: __dt__13J3DDrawBufferFv
+  0x8005582c: frameInit__13J3DDrawBufferFv
+  0x80055d78: draw__13J3DDrawBufferCFv
   # JKernel
   # JKRAram.cpp
   0x8000a540: create__7JKRAramFUlUllll
@@ -2337,6 +2343,21 @@ global:
   0x80170e30: getBaseFontSize__11PrintWindowFv
 
   # Kaneshige
+  # DrawBuffer.cpp
+  0x801775d0: __ct__10DrawBufferFv
+  0x801775f0: __ct__10DrawBufferFUl
+  0x80177648: reset__10DrawBufferFv
+  0x80177690: __dt__10DrawBufferFv
+  0x80177708: create__10DrawBufferFUlUl
+  0x80177794: drawIn__10DrawBufferFUl
+  0x80177798: draw__10DrawBufferFUl
+  0x8017780c: drawOpa__10DrawBufferFUl
+  0x80177870: drawXlu__10DrawBufferFUl
+  0x801778b0: update__10DrawBufferFv
+  0x80177920: viewCalc__10DrawBufferFUl
+  0x80355868: __ct__10DrawBuffer
+  0x803bb258: sDummyBuf__10DrawBuffer
+
   # Course.cpp
   0x80177968: __ct__6CourseFP7CrsDataib
   0x80177dbc: reset__6CourseFv
