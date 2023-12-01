@@ -12,23 +12,18 @@
 #define JUT_PANIC_F(...) \
   JUTException::panic_f(__FILE__, __LINE__, __VA_ARGS__);
 
-#if DEBUG
+#ifdef DEBUG
 // Asserts
 #define JUT_CONFIRM_MESSAGE(COND) \
   JUTAssertion::setConfirmMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, COND, #COND);
 
-// not sure if it's conditional?
-#define JUT_WARNING(COND)                                                                   \
-  if ((COND) == false)                                                                              \
-  {                                                                                         \
-    JUTAssertion::setWarningMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
-  }
+#define JUT_WARNING(COND) \
+  (COND) ? (void)0 : JUTAssertion::setWarningMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND);
 
-#define JUT_WARNING_F(COND, ...)                                                                    \
-  if ((COND) == false)                                                                                      \
-  {                                                                                                 \
-    JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
-  }
+#define JUT_WARNING_F(COND, ...)                                                                           \
+  (COND) ? (void)0 : JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__);
+
+// how about get rid of this and pass true to JUT_WARNING_F instead?
 #define JUT_WARNING_F2(...) \
   JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__);
 
@@ -36,26 +31,15 @@
 #define JUT_CRITICAL_WARNING_F(...) \
   JUTAssertion::setWarningMessage_f(2, __FILE__, __LINE__, __VA_ARGS__);
 
-#define JUT_ASSERT(COND)                                                             \
-  if ((COND) == false)                                                                       \
-  {                                                                                  \
-    JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND); \
-    OSHalt("Halt");                                                                  \
-  }
+#define JUT_ASSERT(COND) \
+  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt"));
 
-#define JUT_ASSERT_F(COND, ...)                                                              \
-  if ((COND) == false)                                                                               \
-  {                                                                                          \
-    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__); \
-    OSHalt("Halt");                                                                          \
-  }
+#define JUT_ASSERT_F(COND, ...) \
+  (COND) ? (void)0 : (JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__), OSHalt("Halt"));
 
-#define JUT_ASSERT_MSG(COND, MSG)                                                  \
-  if ((COND) == false)                                                                     \
-  {                                                                                \
-    JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG); \
-    OSHalt("Halt");                                                                \
-  }
+// could this maybe have used __VA_ARGS__?
+#define JUT_ASSERT_MSG(COND, MSG) \
+  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG), OSHalt("Halt"));
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \
   JUT_ASSERT_F((((cur) >= (min)) && ((cur) < (max))), "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));
