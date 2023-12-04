@@ -19,14 +19,15 @@
 #include "types.h"
 
 class RaceMgr : public JKRDisposer {
-    RaceMgr(RaceInfo *);
-    virtual ~RaceMgr(); // if this is correct, i will hate it in every way
 public:
     struct EventInfo {
         s16 id;
         const char *jpName;
         const char *engName;
     };
+
+    RaceMgr(RaceInfo *);
+    virtual ~RaceMgr();
 
     static const EventInfo sEventTable[];
 

@@ -190,6 +190,9 @@ libs/JSystem/JSupport/JSUFileStream.cpp:
 libs/JSystem/JGadget/hashcode.cpp:
     .text: [0x800180b4, 0x8001811c]
 
+libs/JSystem/JGadget/linklist.cpp:
+    .text: [0x8001811c, 0x800182a0]
+
 libs/JSystem/JUtility/JUTAssert.cpp:
     .text: [0x800182a0, 0x800185a0]
     .bss: [0x8036df80, 0x8036e0c0]

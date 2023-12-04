@@ -21,7 +21,7 @@ LogoApp *LogoApp::mspLogoApp;
 LogoApp *LogoApp::create()
 {
     if (mspLogoApp == nullptr)
-        mspLogoApp = new (SYSTEM_GetAppHeap(), 0) LogoApp();
+        mspLogoApp = NEW_APP LogoApp();
     return mspLogoApp;
 }
 

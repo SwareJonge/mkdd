@@ -67,12 +67,12 @@ libs/JSystem/JUtility/JUTAssert.cpp:
     .sbss: [0x804157c8, 0x804157d8]
     .sdata2: [0x804177e0, 0x80417810]
 
-#libs/JSystem/JUtility/JUTConsole.cpp:
-    #.text: [0x8006a0dc, 0x8006b8c0]
-    #.rodata: [0x803617c8, 0x80361a00]
-    #.data: [0x8038abc8, 0x8038abd8]
-    #.sbss: [0x804157d8, 0x804157e8]
-    #.sdata2: [0x80417810, 0x80417848]
+libs/JSystem/JUtility/JUTConsole.cpp:
+    .text: [0x8006a0dc, 0x8006b8c0]
+    .rodata: [0x803617c8, 0x80361a00]
+    .data: [0x8038abc8, 0x8038abd8]
+    .sbss: [0x804157d8, 0x804157e8]
+    .sdata2: [0x80417810, 0x80417848]
 
 libs/JSystem/JUtility/JUTDbPrint.cpp:
     .text: [0x8006b8c0, 0x8006be44]
@@ -147,6 +147,9 @@ libs/JSystem/JUtility/JUTFontData_Ascfont_fix12.s:
 
 libs/JSystem/JGadget/hashcode.cpp:
     .text: [0x8007853c, 0x800785a4]
+
+libs/JSystem/JGadget/linklist.cpp:
+    .text: [0x800785a4, 0x80078780]
 
 libs/JSystem/JSupport/JSUInputStream.cpp:
     .text: [0x80078780, 0x80078b2c]

@@ -154,7 +154,7 @@ public:
     }
 };
 
-template <typename T> // TODO: most of these inlines are probably wrong: rework
+template <typename T>
 class JSUTree : public JSUList<T>, public JSULink<T>
 {
 public:
@@ -168,10 +168,10 @@ public:
 
     JSUTree<T> *getEndChild() const { return nullptr; }
     JSUTree<T> *getFirstChild() const { return (JSUTree<T> *)getFirstLink(); }
-    JSUTree<T> *getLastChild() const { return (JSUTree<T> *)getLast(); }
+    JSUTree<T> *getLastChild() const { return (JSUTree<T> *)getLastLink(); }
     JSUTree<T> *getNextChild() const { return (JSUTree<T> *)mNext; }
-    JSUTree<T> *getPrevChild() const { return (JSUTree<T> *)getPrev(); }
-    u32 getNumChildren() const { return mLinkCount; }
+    JSUTree<T> *getPrevChild() const { return (JSUTree<T> *)mPrev; }
+    u32 getNumChildren() const { return mLinkCount; } // In TP Debug getNumLinks() gets called here, however that kills something in JKRHeap::find(inline depth?)
     T *getObject() const { return (T *)mData; }
     JSUTree<T> *getParent() const { return (JSUTree<T> *)mPtrList; }
 };

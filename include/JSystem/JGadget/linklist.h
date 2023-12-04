@@ -1,182 +1,283 @@
 #ifndef LINKLIST_H
 #define LINKLIST_H
-
-#include <algorithm>
-#include <iterator>
-
 #include "types.h"
 
-namespace JGadget
-{
+#include "JSystem/JGadget/define.h"
 
-    namespace
-    {
-        struct TPRIsEqual_pointer_;
-    } // namespace
+namespace JGadget {
 
-    struct TLinkListNode
-    {
-        TLinkListNode()
-        {
-            mNext = nullptr;
-            mPrev = nullptr;
-        }
+namespace {
 
-        TLinkListNode *getNext() { return mNext; }
+template <typename T>
+class TPRIsEqual_pointer_ {
+public:
+  TPRIsEqual_pointer_<T>(const T* p) { this->p_ = p; }
 
-        TLinkListNode *mNext;
-        TLinkListNode *mPrev;
-    };
+  bool operator()(const T& rSrc) const {
+    return &rSrc == this->p_;
+  }
 
-    struct TNodeLinkList
-    {
-        struct iterator : public std::iterator<std::input_iterator_tag, TLinkListNode>
-        {
-            iterator(TLinkListNode *pNode) { mNode = pNode; }
-            iterator(const iterator &iter) { *this = iter; }
+private:
+  const T* p_;
+};
 
-            iterator &operator++()
-            {
-                mNode = mNode->getNext();
-                return *this;
-            }
+}
 
-            TLinkListNode *mNode;
-        };
+class TLinkListNode {
+public:
+  TLinkListNode() {
+    this->pNext_ = nullptr;
+    this->pPrev_ = nullptr;
+  }
 
-        TNodeLinkList()
-            : mLinkListNode()
-        {
-            Initialize_();
-        }
-        void Initialize_()
-        {
-            mCount = 0;
-            mLinkListNode.mNext = &mLinkListNode;
-            mLinkListNode.mPrev = &mLinkListNode;
-        }
+  ~TLinkListNode() {
+    // Seemingly not present in earlier versions of JSystem
+    #line 77
+    JGADGET_ASSERT(pNext_==NULL);
+    JGADGET_ASSERT(pPrev_==NULL);
+  }
 
-        /** @fabricated */
-        iterator start() { return iterator(&mLinkListNode); }
+  TLinkListNode* getNext() const {
+    return this->pNext_;
+  }
 
-        iterator end()
-        {
-            iterator iter(mLinkListNode.mNext);
-            return iter;
-        }
+  TLinkListNode* getPrev() const {
+    return this->pPrev_;
+  }
 
-        ~TNodeLinkList();
-        TNodeLinkList::iterator Insert(TNodeLinkList::iterator, TLinkListNode *);
-        TNodeLinkList::iterator Erase(TLinkListNode *);
-        void Remove(TLinkListNode *);
-        void remove_if(TPRIsEqual_pointer_);
+  void clear_() {
+    this->pNext_ = nullptr;
+    this->pPrev_ = nullptr;
+  }
 
-        // unused/inlined:
-        void erase(iterator);
-        void erase(iterator, iterator);
-        void clear();
-        void splice(iterator, TNodeLinkList &);
-        void splice(iterator, TNodeLinkList &, iterator);
-        void splice(iterator, TNodeLinkList &, iterator, iterator);
-        void swap(TNodeLinkList &);
-        void reverse();
-        TLinkListNode *Find(const TLinkListNode *);
+  TLinkListNode* pNext_;
+  TLinkListNode* pPrev_;
+};
 
-        int mCount;                  // _00
-        TLinkListNode mLinkListNode; // _04
-    };
+class TNodeLinkList {
+public:
+  TNodeLinkList() : oNode_() { Initialize_(); }
+  ~TNodeLinkList();
 
-    template <typename T, int I>
-    struct TLinkList : public TNodeLinkList
-    {
-        TLinkList()
-            : TNodeLinkList()
-        {
-        }
+  class iterator {
+  public:
+    iterator() { this->p_ = nullptr; }
+    iterator(TLinkListNode* node) { this->p_ = node; }
 
-        struct iterator : TNodeLinkList::iterator
-        {
-            typedef const T &reference;
-            iterator(TNodeLinkList::iterator iter)
-                : TNodeLinkList::iterator(iter)
-            {
-            }
+    iterator& operator++() {
+      this->p_ = this->p_->getNext();
+      return *this;
+    }
 
-            /** @fabricated */
-            bool operator==(const iterator &other) const { return (&other == this); }
-            /** @fabricated */
-            bool operator!=(const iterator &other) const { return (&other != this); }
-            /** @fabricated */
-            iterator &operator++()
-            {
-                ++mNode;
-                return *this;
-            }
-            /** @fabricated */
-            reference operator*() const { return *(const T *)(((u8 *)&mNode) + I); }
-        };
+    iterator& operator--() {
+      this->p_ = this->p_->getPrev();
+      return *this;
+    }
 
-        TLinkListNode *Element_toNode(T *element) const { return reinterpret_cast<TLinkListNode *>(reinterpret_cast<u8 *>(element) + I); }
+    TLinkListNode& operator*() const {
+      JGADGET_ASSERT(p_!=0);
+      return *this->p_;
+    }
 
-        void Insert(TLinkList::iterator iter, T *element)
-        {
-            TLinkListNode *node = Element_toNode(element);
-            TNodeLinkList::Insert(iter, node);
-        }
+    TLinkListNode* operator->() const { return this->p_; }
+    
+    TLinkListNode* p_;
+  };
 
-        iterator Erase(T *element)
-        {
-            TLinkListNode *node = Element_toNode(element);
-            return ((TNodeLinkList *)this)->Erase(node);
-        }
+  class const_iterator {
+  public:
+    const_iterator(const TLinkListNode* node) { this->p_ = node; }
+    const_iterator(iterator it) { this->p_ = it.p_; }
 
-        /** @fabricated */
-        TLinkList::iterator start()
-        {
-            TNodeLinkList::iterator node_iter = TNodeLinkList::start();
-            TLinkList::iterator iter(node_iter);
-            return iter;
-        }
+    const const_iterator& operator++() {
+      this->p_ = this->p_->getNext();
+      return *this;
+    }
 
-        TLinkList::iterator end()
-        {
-            TNodeLinkList::iterator node_iter = TNodeLinkList::end();
-            TLinkList::iterator iter(node_iter);
-            return iter;
-        }
+    const const_iterator& operator--() {
+      this->p_ = this->p_->getPrev();
+      return *this;
+    }
 
-        void Push_back(T *element)
-        {
-            TLinkList::iterator iter(TLinkList::end());
-            this->Insert(iter, element);
-        }
+    const TLinkListNode* operator->() const { return this->p_; }
+    
+    const TLinkListNode* p_;
+  };
 
-        // _00-_08	= TNodeLinkList
-    };
+  bool Confirm() const;
+  bool Confirm_iterator(const_iterator it) const;
+  iterator Erase(TLinkListNode* node);
+  iterator Find(const TLinkListNode* node);
+  iterator Insert(iterator it, TLinkListNode* node);
+  void Remove(TLinkListNode* node);
+  template <typename Predicate> 
+  inline void Remove_if(Predicate predicate, TNodeLinkList& tList) {
+    iterator it = this->begin();
 
-    template <typename T, int Offset>
-    struct TLinkList_factory : public TLinkList<T, Offset>
-    {
-        virtual ~TLinkList_factory() = 0; // _08
-        virtual T *Do_create() = 0;       // _0C
-        virtual void Do_destroy(T *) = 0; // _10
+    while(!Iterator_isEnd_(it)) {
+      if (predicate(*it)) {
+        iterator itPrev = it;
+        ++it;
+        tList.splice(tList.end(), *this, itPrev);
+      }
+      else {
+        ++it;
+      }
+    }
+  }
 
-        // _00-_08	= TNodeLinkList
-        // _0C		= VTABLE
-    };
+  s32 size() const { return this->size_; }
+  bool empty() const { return this->size() == 0; }
+  void clear();
+  iterator erase(iterator itStart, iterator itEnd);
+  iterator erase(iterator it);
+  template <typename Predicate> 
+  inline void remove_if(Predicate predicate) {
+    TNodeLinkList list;
 
-    namespace
-    {
-        struct TPRIsEqual_pointer_
-        {
-            TPRIsEqual_pointer_(TLinkListNode *node) { mNode = node; }
-            /** @fabricated */
-            bool operator()(TLinkListNode *other) { return other == mNode; }
+    this->Remove_if(predicate, list);
+  }
+  void splice(iterator it, TNodeLinkList& rSrc, iterator itBegin, iterator itEnd);
+  void splice(iterator it, TNodeLinkList& rSrc);
+  void splice(iterator it, TNodeLinkList& rSrc, iterator otherIt);
+  iterator pop_back() { return this->erase(--this->end()); }
+  iterator pop_font() { return this->erase(++this->begin()); }
+  
+  iterator begin() { return this->oNode_.getNext(); }
+  const_iterator begin() const { return this->oNode_.getNext(); }
+  
+  iterator end() { return &this->oNode_; }
+  const_iterator end() const { return &this->oNode_; }
 
-            TLinkListNode *mNode;
-        };
-    } // namespace
+private:
+  void Initialize_() {
+    this->size_ = 0;
+    this->oNode_.pNext_ = &this->oNode_;
+    this->oNode_.pPrev_ = &this->oNode_;
+  }
 
-}; // namespace JGadget
+  bool Iterator_isEnd_(const_iterator it) const { return it.p_ == &this->oNode_; }
+
+  s32 size_;
+  TLinkListNode oNode_;
+};
+
+inline bool operator==(TNodeLinkList::iterator lhs, TNodeLinkList::iterator rhs) { return lhs.p_ == rhs.p_; }
+inline bool operator!=(TNodeLinkList::iterator lhs, TNodeLinkList::iterator rhs) { return !(lhs == rhs); }
+
+inline bool operator==(TNodeLinkList::const_iterator lhs, TNodeLinkList::const_iterator rhs) { return lhs.p_ == rhs.p_; }
+inline bool operator!=(TNodeLinkList::const_iterator lhs, TNodeLinkList::const_iterator rhs) { return !(lhs == rhs); }
+
+/* TODO: TLinkList has not been matched and should be verified */
+
+template <typename T, int O>
+class TLinkList : public TNodeLinkList {
+public:
+  class iterator {
+  public:
+    iterator(TNodeLinkList::iterator it) : mIt(it) {  }
+
+    bool operator==(iterator other) { return (mIt == other.mIt);  }
+    bool operator!=(iterator other) { return !(*this == other); }
+    iterator& operator++() {
+      ++mIt;
+      return *this;
+    }
+    iterator& operator--() {
+      --mIt;
+      return *this;
+    }
+
+    T* operator->() const { return TLinkList::Element_toValue(mIt.operator->()); }
+    T& operator*() const {
+      T* p = this->operator->();
+      #line 541
+      JGADGET_ASSERT(p!=0);
+      return *p;
+    }
+
+
+    TNodeLinkList::iterator mIt;
+  };
+
+  class const_iterator {
+  public:
+    const_iterator(TNodeLinkList::const_iterator it) : mIt(it) {  }
+
+    bool operator==(const_iterator other) { return (mIt == other.mIt);  }
+    bool operator!=(const_iterator other) { return !(*this == other); }
+    const_iterator& operator++() {
+      ++mIt;
+      return *this;
+    }
+    const_iterator& operator--() {
+      --mIt;
+      return *this;
+    }
+
+    const T* operator->() const { return TLinkList::Element_toValue(mIt.operator->()); }
+    const T& operator*() const {
+      T* p = this->operator->();
+      #line 586
+      JGADGET_ASSERT(p!=0);
+      return *p;
+    }
+
+  private:
+    TNodeLinkList::const_iterator mIt;
+  };
+
+  iterator begin() { return TNodeLinkList::begin(); }
+  const_iterator begin() const { return TNodeLinkList::begin(); }
+
+  iterator end() { return TNodeLinkList::end(); }
+  const_iterator end() const { return TNodeLinkList::end(); }
+
+  iterator Find(const T* p) { return TNodeLinkList::Find(TLinkList::Element_toNode(p)); }
+  iterator Erase(T* p) { return TNodeLinkList::Erase(Element_toNode(p)); }
+  iterator Insert(iterator it, T *p) { return TNodeLinkList::Insert(it.mIt, TLinkList::Element_toNode(p)); }
+  void Remove(T* p) { TNodeLinkList::Remove(TLinkList::Element_toNode(p)); }
+  void Push_front(T* p) { Insert(begin(), p); }
+  void Push_back(T* p) { Insert(end(), p); }
+
+  T& front() {
+    #line 642
+    JGADGET_ASSERT(!empty());
+    return *begin();
+  }
+
+  T& back() {
+    #line 652
+    JGADGET_ASSERT(!empty());
+    iterator itEnd = end();
+    --itEnd;
+    return *itEnd;
+  }
+
+  static TLinkListNode* Element_toNode(T* p) {
+    #line 753
+    JGADGET_ASSERT(p!=0);
+    return (TLinkListNode*)((char*)p + O);
+  }
+
+  static const TLinkListNode* Element_toNode(const T* p) {
+    #line 758
+    JGADGET_ASSERT(p!=0);
+    return (const TLinkListNode*)((const char*)p + O);
+  }
+
+  static T* Element_toValue(TLinkListNode* p) {
+    #line 763
+    JGADGET_ASSERT(p!=0);
+    return (T*)((char*)p - O);
+  }
+
+  static const T* Element_toValue(const TLinkListNode* p) {
+    #line 768
+    JGADGET_ASSERT(p!=0);
+    return (const T*)((const char*)p - O);
+  }
+};
+}
 
 #endif

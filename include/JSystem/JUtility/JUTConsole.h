@@ -77,6 +77,11 @@ public:
         setFontSize(p_font->getWidth(), p_font->getHeight());
     }
 
+    int nextIndex(int index) const
+    {
+        return ++index >= (int)mMaxLines ? 0 : index;
+    }
+
     u32 getOutput() const { return mOutput; }
     int getPositionY() const { return mPositionY; }
     int getPositionX() const { return mPositionX; }
@@ -100,12 +105,11 @@ public:
     void scrollToLastLine() { scroll(mMaxLines); }
     void scrollToFirstLine() { scroll(-mMaxLines); }
 
-private:
     // _00     = VTBL
     // _00-_18 = JKRDisposer
     JGadget::TLinkListNode mListNode; // _18
     u32 _20;                          // _20
-    u32 mMaxLines;                    // _24
+    u32 mMaxLines;                    // _24, might be int
     u8 *mBuf;                         // _28
     bool _2C;                         // _2C
     int _30;                          // _30
@@ -144,7 +148,7 @@ public:
     static JUTConsoleManager *sManager;
 
 private:
-    JGadget::TLinkList<JUTConsole, 4> soLink_;   // _00
+    JGadget::TLinkList<JUTConsole, -24> soLink_; // _00
     JUTConsole *mActiveConsole;                  // _0C
     JUTConsole *mDirectConsole;                  // _10
 };                                               // Size: 0x14

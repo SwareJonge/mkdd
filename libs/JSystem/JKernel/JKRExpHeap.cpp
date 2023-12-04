@@ -389,7 +389,8 @@ void *JKRExpHeap::allocFromTail(u32 size)
     return nullptr;
 }
 
-void JKRExpHeap::do_free(void * memblock) {
+void JKRExpHeap::do_free(void *memblock)
+{
     lock();
     if (mStartAddress <= memblock && memblock <= mEndAddress)
     {
@@ -399,7 +400,8 @@ void JKRExpHeap::do_free(void * memblock) {
             block->free(this);
         }
     }
-    else {
+    else
+    {
 #line 894
         JUT_WARNING_F2("free: memblock %x not in heap %x", memblock, this);
     }
@@ -607,9 +609,11 @@ s32 JKRExpHeap::getUsedSize(u8 groupId) const
     return size;
 }
 
-bool JKRExpHeap::isEmpty() {
+bool JKRExpHeap::isEmpty()
+{
     u32 newSize;
-    JUT_ASSERT(1269, newSize > 0);
+#line 1269
+    JUT_ASSERT(newSize > 0);
     return true;
 }
 
@@ -756,9 +760,9 @@ void JKRExpHeap::recycleFreeBlock(JKRExpHeap::CMemBlock *block)
 void JKRExpHeap::joinTwoBlocks(CMemBlock *block)
 {
     // for some reason this gets rid of regswaps for the debug version, however is most likely incorrect
-    //u32 endAddr;
-    //u32 nextAddr;
-    //CMemBlock *next;
+    // u32 endAddr;
+    // u32 nextAddr;
+    // CMemBlock *next;
 
     u32 endAddr = (u32)(block + 1) + block->mAllocatedSpace;
     CMemBlock *next = block->mNext;
@@ -964,7 +968,8 @@ bool JKRExpHeap::dump_sort()
 }
 
 // these didn't get deadstripped, workaround to generate it
-static void genData() {
+static void genData()
+{
     JUTWarningConsole_f("+---------------JKRExpHeap\n");
     JUTWarningConsole_f("|         Align Group  size    ( prev , next )\n");
     JUTWarningConsole_f("| ---- FreeFirst\n");
@@ -999,7 +1004,6 @@ JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::allocFore(u32 size, u8 groupId1, u
         block->mFlags = alignment2;
         block->mAllocatedSpace = mAllocatedSpace - (size + sizeof(CMemBlock));
         mAllocatedSpace = size;
-        
     }
     return block;
 }
@@ -1045,7 +1049,7 @@ JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::getHeapBlock(void *mem)
 void JKRExpHeap::state_register(JKRHeap::TState *p, u32 param_1) const
 {
 #line 2406
-    JUT_ASSERT(p != 0); 
+    JUT_ASSERT(p != 0);
     JUT_ASSERT(p->getHeap() == this);
     getState_(p); // not needed, however TP debug has it
     setState_u32ID_(p, param_1);

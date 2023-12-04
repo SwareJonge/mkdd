@@ -35,7 +35,7 @@ SequenceApp *SequenceApp::create()
 {
     if (mspSequenceApp == nullptr)
     {
-        mspSequenceApp = new (SYSTEM_GetAppHeap(), 0) SequenceApp();
+        mspSequenceApp = NEW_APP SequenceApp();
     }
     return mspSequenceApp;
 }

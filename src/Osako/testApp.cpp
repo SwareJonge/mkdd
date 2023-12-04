@@ -10,7 +10,7 @@ TestApp * TestApp::mspTestApp;
 TestApp * TestApp::create(void)
 {
     if (!mspTestApp)
-        mspTestApp = new(System::getAppHeap(), 0) TestApp();
+        mspTestApp = NEW_APP TestApp();
 
     return mspTestApp;
 }

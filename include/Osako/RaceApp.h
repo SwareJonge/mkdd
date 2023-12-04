@@ -21,11 +21,16 @@ public:
     virtual void calc(); // override
 
     static RaceApp *mspRaceApp;
+    static PadRecorder *mspRecorder;
 
 private:
     RaceMgr *mRaceMgr;
-    u8 _10[0x28 - 0x10];
+    u32 mState;
+    u32 mDrawFlags;
+    u8 _18[0x28 - 0x18];
     PadRecorder *mPadRecorder;
+    KartPadRecord *mPadRecord[4];
+    KartPadRecord *mGhostRecord;
 }; // Size: 0x54
 
 #endif

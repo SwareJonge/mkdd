@@ -60,7 +60,8 @@ namespace ResMgr
         mcCourseSkyBrk,
         mcCourseMapBti,
         mcCourseNameBti,
-        mcCourseDataGhost
+        mcCourseDataGhost,
+        mcCourseMax
     };
 
     enum CourseOrder

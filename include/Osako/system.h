@@ -152,4 +152,7 @@ namespace System
 #define SYSTEM_GetAppHeap() \
     System::getAppHeap()
 
+#define NEW_APP \
+    new (SYSTEM_GetAppHeap(), 0)
+
 #endif

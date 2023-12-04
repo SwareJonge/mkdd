@@ -3,16 +3,39 @@
 
 #include "types.h"
 
-namespace std {
-template <typename InputIterator, typename Predicate>
-InputIterator find_if(InputIterator first, InputIterator last, Predicate p)
-{
-	for (; first != last && !p(*first); ++first) { }
-	return first;
-}
+#include <iterator>
 
-template <typename ForwardIterator, typename Element, typename Predicate>
-ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last, const Element& value, Predicate predicate);
+namespace std
+{
+	template <class InputIterator>
+	inline s32
+	__distance(InputIterator first, InputIterator last, input_iterator_tag)
+	{
+		s32 result = 0;
+		for (; first != last; ++first)
+			++result;
+		return result;
+	}
+
+	template <class InputIterator>
+	inline s32
+	distance(InputIterator first, InputIterator last)
+	{
+		input_iterator_tag tag;
+		return __distance(first, last, tag);
+	}
+
+	template <typename InputIterator, typename Predicate>
+	inline InputIterator find_if(InputIterator first, InputIterator last, Predicate p)
+	{
+		for (; first != last && !p(*first); ++first)
+		{
+		}
+		return first;
+	}
+
+	template <typename ForwardIterator, typename Element, typename Predicate>
+	ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last, const Element &value, Predicate predicate);
 } // namespace std
 
 #endif

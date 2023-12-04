@@ -490,6 +490,10 @@ global:
   # JGadget
   # hashcode.cpp
   0x800180b4: getHashCode__7JGadgetFPCc
+  # linklist.cpp
+  0x8001811c: __dt__Q27JGadget13TNodeLinkListFv
+  0x80018160: Insert__Q27JGadget13TNodeLinkListFQ37JGadget13TNodeLinkList8iteratorPQ27JGadget13TLinkListNode
+  0x8001818c: Remove__Q27JGadget13TNodeLinkListFPQ27JGadget13TLinkListNode
   
   # JUtility
   # JUTAssert.cpp

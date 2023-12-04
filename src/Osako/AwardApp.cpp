@@ -10,7 +10,7 @@ AwardApp *AwardApp::mspAwardApp;
 
 AwardApp *AwardApp::create() {
     if(mspAwardApp == nullptr)
-        mspAwardApp = new(SYSTEM_GetAppHeap(), 0) AwardApp();
+        mspAwardApp = NEW_APP AwardApp();
     return mspAwardApp;
 }
 
