@@ -451,10 +451,10 @@ void JUTConsoleManager::removeConsole(JUTConsole *const console)
     soLink_.Remove(console);
 }
 
-// Scheduling mismatch for release
 void JUTConsoleManager::draw() const
 {
-    JGadget::TLinkList<JUTConsole, -24>::const_iterator it = soLink_.begin();
+    // this cast is needed to match release, luckily doesn't affect tp debug either, so maybe there's another temp or cast somewhere?
+    JGadget::TLinkList<JUTConsole, -24>::const_iterator it = ((const JUTConsoleManager *)this)->soLink_.begin();
     JGadget::TLinkList<JUTConsole, -24>::const_iterator itEnd = soLink_.end();
 
     for (; it != itEnd; ++it)
@@ -466,7 +466,7 @@ void JUTConsoleManager::draw() const
         }
     }
 
-    if (mActiveConsole != nullptr)
+    if (mActiveConsole)
         mActiveConsole->doDraw(JUTConsole::CONSOLE_TYPE_0);
 }
 
