@@ -200,6 +200,12 @@ libs/JSystem/JUtility/JUTAssert.cpp:
     .sbss: [0x803d4ad0, 0x803d4ad8]
     .sdata2: [0x803d6508, 0x803d6520]
 
+#libs/JSystem/JUtility/JUTConsole.cpp:
+    #.text: [0x800185a0, 0x80019910]
+    #.data: [0x80348040, 0x80348050]
+    #.sbss: [0x803d4ad8, 0x803d4ae8]
+    #.sdata2: [0x803d6520, 0x803d6558]
+
 libs/JSystem/JUtility/JUTDbPrint.cpp:
     .text: [0x80019910, 0x80019d88]
     .sbss: [0x803d4ae8, 0x803d4af0]

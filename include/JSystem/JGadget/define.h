@@ -56,7 +56,8 @@ extern "C"
         return false;          \
     }
 
-#define JGADGET_ASSERT(...)
+// this is required, removing this will result in functions not matching
+#define JGADGET_ASSERT(...) (void)0;
 
 #endif
 

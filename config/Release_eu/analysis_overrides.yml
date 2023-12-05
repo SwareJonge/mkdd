@@ -5,6 +5,9 @@ forced_types:
   0x8010f178: FUNCTION # TRKExceptionHandler
   0x8010f2d8: FUNCTION # TRKInterruptHandlerEnableInterrupts
 
+blocked_targets:
+  - 0x80018800
+
 symbol_aligns:
   0x803493a0: 0x20
   0x8037f440: 0x20

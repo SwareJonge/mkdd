@@ -122,7 +122,7 @@ public:
     JUTFont *mFont;                   // _4C
     f32 mFontSizeX;                   // _50
     f32 mFontSizeY;                   // _54
-    int mOutput;                      // _58
+    u32 mOutput;                      // _58
     JUtility::TColor _5C;             // _5C
     JUtility::TColor _60;             // _60
     int _64;                          // _64

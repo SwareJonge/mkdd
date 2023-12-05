@@ -224,6 +224,9 @@ SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc.exe")
 MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
 CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc.exe")
 
+JSYSTEM_O0_MW = os.path.join(TOOLS, "3.0a5.2")
+JSYSTEM_O0_CC = os.path.join(JSYSTEM_O0_MW, "mwcceppc.exe")
+
 CODEWARRIOR = os.path.join(TOOLS, "2.6")
 CC = os.path.join(CODEWARRIOR, "mwcceppc.exe")
 LD = os.path.join(CODEWARRIOR, "mwldeppc.exe")
@@ -350,6 +353,18 @@ CFLAGS = [
     MWCC_DEFINES
 ]
 
+JSYSTEM_O0 = [ # used for when trying to match something from TP Debug
+    "-lang=c++",
+    "-inline off",
+    "-fp hard",
+    "-O0",
+    "-d JGADGET_DEBUG",
+    "-enum int",
+    "-str reuse",
+    "-Cpp_exceptions off",
+    MWCC_DEFINES
+]
+
 JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
 JSYSTEM_RELEASE = CFLAGS + ["-opt level=4, schedule"]
 JAUDIO_RELEASE = CFLAGS + ["-opt level=4, schedule, speed"]
@@ -416,6 +431,7 @@ MSL_C_CFLAGS = ' '.join(MSL_C + LOCAL_CFLAGS)
 SDK_CFLAGS = ' '.join(SDK + LOCAL_CFLAGS)
 JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
+JSYSTEM_O0_CFLAGS = ' '.join(JSYSTEM_O0 + LOCAL_CFLAGS)
 JAUDIO_RELEASE_CFLAGS = ' '.join(JAUDIO_RELEASE + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 if (VERSION == "MarioClub"):

@@ -6,18 +6,17 @@
 #include "JSystem/JUtility/JUTConsole.h"
 #include "JSystem/JUtility/JUTDirectPrint.h"
 #include "JSystem/JUtility/JUTVideo.h"
-// WIP
 
 #define OUTPUT_NONE 0
 #define OUTPUT_CONSOLE 1
 #define OUTPUT_OSREPORT 2
-#define OUTPUT_ALL OUTPUT_OSREPORT | OUTPUT_CONSOLE
+#define OUTPUT_ALL (OUTPUT_OSREPORT | OUTPUT_CONSOLE)
 
 JUTConsoleManager *JUTConsoleManager::sManager;
 
 JUTConsole *JUTConsole::create(uint param_0, uint maxLines, JKRHeap *pHeap)
 {
-    JUTConsoleManager *pManager = JUTConsoleManager::getManager();
+    JUTConsoleManager *const pManager = JUTConsoleManager::getManager();
 #line 33
     JUT_ASSERT(pManager != 0);
 
@@ -33,7 +32,7 @@ JUTConsole *JUTConsole::create(uint param_0, uint maxLines, JKRHeap *pHeap)
 
 JUTConsole *JUTConsole::create(uint param_0, void *buffer, u32 bufferSize)
 {
-    JUTConsoleManager *pManager = JUTConsoleManager::getManager();
+    JUTConsoleManager *const pManager = JUTConsoleManager::getManager();
 #line 59
     JUT_ASSERT(pManager != 0);
 #line 62
@@ -76,8 +75,8 @@ JUTConsole::JUTConsole(uint p1, uint maxLines, bool p3)
     _6B = false;
     mOutput = 1;
 
-    _5C.set(0, 0, 0, 100);
-    _60.set(0, 0, 0, 230);
+    _5C = JUtility::TColor(0, 0, 0, 100);
+    _60 = JUtility::TColor(0, 0, 0, 230);
     _64 = 8;
 }
 
@@ -87,16 +86,21 @@ JUTConsole::~JUTConsole() {
     JUTConsoleManager::getManager()->removeConsole(this);
 }
 
+#ifdef DEBUG
 CW_FORCE_STRINGS(JUtility_JUTConsole1, "S----------E");
+#endif
 
 size_t JUTConsole::getObjectSizeFromBufferSize(unsigned int param_0, unsigned int maxLines)
 {
-    return (param_0 + 2) * maxLines + sizeof(JUTConsole);
+    int objSize = (param_0 + 2) * maxLines + sizeof(JUTConsole);
+    return objSize;
 }
 
 size_t JUTConsole::getLineFromObjectSize(u32 bufferSize, unsigned int param_1)
 {
-    return (bufferSize - sizeof(JUTConsole)) / (param_1 + 2);
+    bufferSize -= sizeof(JUTConsole);
+    int line = (bufferSize) / (param_1 + 2);
+    return line;
 }
 
 void JUTConsole::clear()
@@ -124,7 +128,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
     {
         if (mHeight != 0)
         {
-            bool temp_r30 = consoleType == CONSOLE_TYPE_0;
+            bool temp_r30 = consoleType == CONSOLE_TYPE_0 ? true : false;
             font_yOffset = 2.0f + mFontSizeY;
 
             if (consoleType != CONSOLE_TYPE_2)
@@ -207,8 +211,8 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
                     }
 
                     changeLine_1 = curLine + 1;
+                    changeLine_2 = ((((s32)changeLine_1 )>= (s32)mMaxLines)) ? 0 : changeLine_1;
                     yFactor += 1;
-                    changeLine_2 = changeLine_1 & ~(-((s32)mMaxLines <= (s32)changeLine_1));
                     curLine = changeLine_2;
                 }
                 else
@@ -232,9 +236,7 @@ void JUTConsole::print(char const *param_0)
 {
     if (mOutput & OUTPUT_OSREPORT)
     {
-#ifdef DEBUG
-        OSReport("%s", param_0);
-#endif
+        JUT_REPORT_MSG("%s", param_0);
     }
     if (mOutput & OUTPUT_CONSOLE)
     {
@@ -325,6 +327,7 @@ void JUTConsole_print_f_va_(JUTConsole *console, const char *text, va_list args)
     console->print(buf);
 }
 
+#ifdef DEBUG
 CW_FORCE_STRINGS(JUtility_JUTConsole2,
                  "\n:::dump of console[%x]--------------------------------\n",
                  "[%03d] %s\n",
@@ -332,6 +335,7 @@ CW_FORCE_STRINGS(JUtility_JUTConsole2,
                  "console != this && console != 0",
                  "\n:::dump of console[%x]----------------\n",
                  ":::dump of console[%x] END------------\n");
+#endif
 
 void JUTConsole::scroll(int scrollAmnt)
 {
@@ -347,17 +351,16 @@ void JUTConsole::scroll(int scrollAmnt)
     {
         if (scrollAmnt > 0)
         {
-            int diff = diffIndex(_34, _38);
-            if (diff + 1 <= mHeight)
+            if (diffIndex(_34, _38) + 1 <= mHeight)
             {
                 scrollAmnt = 0;
             }
             else
             {
-                diff = diffIndex(_30, _38);
-                if (scrollAmnt > (int)(diff - mHeight) + 1)
+                int diff = diffIndex(_30, _38) - mHeight + 1;
+                if (scrollAmnt > diff)
                 {
-                    scrollAmnt = (int)(diff - mHeight) + 1;
+                    scrollAmnt = diff;
                 }
             }
         }
@@ -377,12 +380,14 @@ void JUTConsole::scroll(int scrollAmnt)
 
 int JUTConsole::getUsedLine() const
 {
-    return diffIndex(_34, _38);
+    int usedLine = diffIndex(_34, _38);
+    return usedLine;
 }
 
 int JUTConsole::getLineOffset() const
 {
-    return diffIndex(_34, _30);
+    int offset = diffIndex(_34, _30);
+    return offset;
 }
 
 JUTConsoleManager::JUTConsoleManager()
@@ -399,10 +404,15 @@ JUTConsoleManager *JUTConsoleManager::createManager(JKRHeap *pHeap)
     {
         pHeap = JKRGetCurrentHeap();
     }
-    return sManager = new (pHeap, 0) JUTConsoleManager();
+    sManager = new (pHeap, 0) JUTConsoleManager();
+    return sManager;
 }
 
-void JUTConsoleManager::appendConsole(JUTConsole *console)
+#ifdef DEBUG
+CW_FORCE_STRINGS(JUtility_JUTConsole3, "consoleManager != 0 && sManager == consoleManager");
+#endif
+
+void JUTConsoleManager::appendConsole(JUTConsole *const console)
 {
 #line 961
     JUT_ASSERT(sManager != 0 && console != 0);
@@ -416,13 +426,11 @@ void JUTConsoleManager::appendConsole(JUTConsole *console)
     }
 }
 
-CW_FORCE_STRINGS(JUtility_JUTConsole3, "consoleManager != 0 && sManager == consoleManager");
-
-void JUTConsoleManager::removeConsole(JUTConsole *console)
+void JUTConsoleManager::removeConsole(JUTConsole *const console)
 {
 #line 984
     JUT_ASSERT(sManager != 0 && console != 0);
-
+    
     // not sure why this assert was 3 lines later
     JUT_ASSERT(soLink_.Find( console ) != soLink_.end());
     
@@ -432,14 +440,7 @@ void JUTConsoleManager::removeConsole(JUTConsole *console)
             mActiveConsole = nullptr;
         }
         else {
-            JUTConsole *activeConsole;
-            if(console != &soLink_.back()) {
-                activeConsole = soLink_.Element_toValue(console->mListNode.getNext());
-            }
-            else {
-                activeConsole = &soLink_.front();
-            }
-            mActiveConsole = activeConsole;
+            mActiveConsole = console != &soLink_.back() ? soLink_.Element_toValue(console->mListNode.getNext()) : &soLink_.front();
         }
     }
     if (JUTGetWarningConsole() == console)
@@ -450,33 +451,34 @@ void JUTConsoleManager::removeConsole(JUTConsole *console)
     soLink_.Remove(console);
 }
 
-
-void JUTConsoleManager::draw() const {
-
+// Scheduling mismatch for release
+void JUTConsoleManager::draw() const
+{
     JGadget::TLinkList<JUTConsole, -24>::const_iterator it = soLink_.begin();
     JGadget::TLinkList<JUTConsole, -24>::const_iterator itEnd = soLink_.end();
 
-    for (; it != itEnd; ++it) {
-        const JUTConsole *console = it.operator->();
-        if (console != mActiveConsole)
+    for (; it != itEnd; ++it)
+    {
+        const JUTConsole &console = *it;
+        if (&console != mActiveConsole)
         {
-            console->doDraw(JUTConsole::CONSOLE_TYPE_1);
-        }        
+            console.doDraw(JUTConsole::CONSOLE_TYPE_1);
+        }
     }
 
-    if (mActiveConsole)
+    if (mActiveConsole != nullptr)
         mActiveConsole->doDraw(JUTConsole::CONSOLE_TYPE_0);
 }
+
+
 void JUTConsoleManager::drawDirect(bool waitRetrace) const {
-    if(mDirectConsole != nullptr) {
+    if(mDirectConsole) {
         if(waitRetrace) {
             BOOL interrupt = OSEnableInterrupts();
             u32 retrace_count = VIGetRetraceCount();
-            u32 new_count;
             do
             {
-                new_count = VIGetRetraceCount();
-            } while (retrace_count == new_count);
+            } while (retrace_count == VIGetRetraceCount());
             OSRestoreInterrupts(interrupt);
         }
         mDirectConsole->doDraw(JUTConsole::CONSOLE_TYPE_2);
@@ -517,7 +519,7 @@ void JUTReportConsole_f_va(const char *text, va_list args) {
     char buf[256];
     if(JUTGetReportConsole() == NULL) {
         vsnprintf(buf, sizeof(buf), text, args);
-        OSReport("%s", buf);
+        JUT_REPORT_MSG("%s", buf);
     }
     else if (JUTGetReportConsole()->getOutput() & OUTPUT_ALL) {
         vsnprintf(buf, sizeof(buf), text, args);
@@ -556,10 +558,10 @@ void JUTWarningConsole_f(const char *text, ...)
 {
     va_list vl;
     va_start(vl, text);
-    JUTWarningConsole_f_va(text, vl);
+    JUTReportConsole_f_va(text, vl);
     va_end(vl);
 }
 
 void JUTWarningConsole(const char *text) {
-    JUTWarningConsole_f("%s", text);
+    JUTReportConsole_f("%s", text);
 }

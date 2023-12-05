@@ -502,12 +502,26 @@ global:
   0x80018390: flushMessage_dbPrint__12JUTAssertionFv
   # JUTConsole.cpp
   0x800185a0: create__10JUTConsoleFUiUiP7JKRHeap
+  0x8001862c: create__10JUTConsoleFUiPvUl
+  0x800186ac: __ct__10JUTConsoleFUiUib
   0x80018794: __dt__10JUTConsoleFv
-
+  0x80018804: getObjectSizeFromBufferSize__10JUTConsoleFUiUi
+  0x80018814: getLineFromObjectSize__10JUTConsoleFUlUi
+  0x80018824: clear__10JUTConsoleFv
+  0x80018880: doDraw__10JUTConsoleCFQ210JUTConsole12EConsoleType
   0x80018df0: __dt__13J2DOrthoGraphFv
-
+  0x80018e54: print_f__10JUTConsoleFPCce
+  0x80018ed4: print__10JUTConsoleFPCc
+  0x800191b8: JUTConsole_print_f_va_
+  0x80019200: scroll__10JUTConsoleFi
+  0x800192e8: getUsedLine__10JUTConsoleCFv
+  0x80019310: getLineOffset__10JUTConsoleCFv
   0x80019338: createManager__17JUTConsoleManagerFP7JKRHeap
+  0x800193a0: appendConsole__17JUTConsoleManagerFP10JUTConsole
+  0x80019408: removeConsole__17JUTConsoleManagerFP10JUTConsole
   0x800194c8: draw__17JUTConsoleManagerCFv
+  0x80019584: drawDirect__17JUTConsoleManagerCFb
+  0x800195f4: setDirectConsole__17JUTConsoleManagerFP10JUTConsole
   0x80019708: JUTSetReportConsole
   0x80019710: JUTGetReportConsole
   0x80019718: JUTSetWarningConsole

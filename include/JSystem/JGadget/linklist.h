@@ -4,6 +4,10 @@
 
 #include "JSystem/JGadget/define.h"
 
+#define NEGATIVE_OFFSETOF(TYPE, MEMBER) (-static_cast<s32>(offsetof(TYPE, MEMBER)))
+#define TLINKLIST_NODE_OFS(TYPE) (NEGATIVE_OFFSETOF(TYPE, mNode))
+#define TLinkList(TYPE) TLinkList<TYPE, TLINKLIST_NODE_OFS(TYPE)>
+
 namespace JGadget {
 
 namespace {
@@ -126,7 +130,7 @@ public:
     }
   }
 
-  s32 size() const { return this->size_; }
+  u32 size() const { return this->size_; }
   bool empty() const { return this->size() == 0; }
   void clear();
   iterator erase(iterator itStart, iterator itEnd);
@@ -142,11 +146,11 @@ public:
   void splice(iterator it, TNodeLinkList& rSrc, iterator otherIt);
   iterator pop_back() { return this->erase(--this->end()); }
   iterator pop_font() { return this->erase(++this->begin()); }
-  
+
   iterator begin() { return this->oNode_.getNext(); }
   const_iterator begin() const { return this->oNode_.getNext(); }
-  
-  iterator end() { return &this->oNode_; }
+
+  iterator end() {return &this->oNode_; }
   const_iterator end() const { return &this->oNode_; }
 
 private:
@@ -158,7 +162,7 @@ private:
 
   bool Iterator_isEnd_(const_iterator it) const { return it.p_ == &this->oNode_; }
 
-  s32 size_;
+  u32 size_;
   TLinkListNode oNode_;
 };
 
@@ -171,14 +175,27 @@ inline bool operator!=(TNodeLinkList::const_iterator lhs, TNodeLinkList::const_i
 /* TODO: TLinkList has not been matched and should be verified */
 
 template <typename T, int O>
+class TLinkList;
+
+template <typename T, int O>
+bool operator==(typename TLinkList<T, O>::iterator lhs, typename TLinkList<T, O>::iterator rhs);
+template <typename T, int O>
+bool operator!=(typename TLinkList<T, O>::iterator lhs, typename TLinkList<T, O>::iterator rhs);
+
+template <typename T, int O>
+bool operator==(typename TLinkList<T, O>::const_iterator lhs, typename TLinkList<T, O>::const_iterator rhs);
+template <typename T, int O>
+bool operator!=(typename TLinkList<T, O>::const_iterator lhs, typename TLinkList<T, O>::const_iterator rhs);
+
+template <typename T, int O>
 class TLinkList : public TNodeLinkList {
 public:
   class iterator {
   public:
     iterator(TNodeLinkList::iterator it) : mIt(it) {  }
 
-    bool operator==(iterator other) { return (mIt == other.mIt);  }
-    bool operator!=(iterator other) { return !(*this == other); }
+    friend bool operator==(iterator lhs, iterator rhs) { return (lhs.mIt == rhs.mIt); }
+    friend bool operator!=(iterator lhs, iterator rhs) { return !(lhs == rhs); }
     iterator& operator++() {
       ++mIt;
       return *this;
@@ -196,16 +213,17 @@ public:
       return *p;
     }
 
-
     TNodeLinkList::iterator mIt;
   };
 
   class const_iterator {
   public:
     const_iterator(TNodeLinkList::const_iterator it) : mIt(it) {  }
+    const_iterator(iterator it) : mIt(it.mIt) {}
 
-    bool operator==(const_iterator other) { return (mIt == other.mIt);  }
-    bool operator!=(const_iterator other) { return !(*this == other); }
+    friend bool operator==(const_iterator lhs, const_iterator rhs) { return (lhs.mIt == rhs.mIt); }
+    friend bool operator!=(const_iterator lhs, const_iterator rhs) { return !(lhs == rhs); }
+    
     const_iterator& operator++() {
       ++mIt;
       return *this;
@@ -217,21 +235,19 @@ public:
 
     const T* operator->() const { return TLinkList::Element_toValue(mIt.operator->()); }
     const T& operator*() const {
-      T* p = this->operator->();
+      const T* p = this->operator->();
       #line 586
       JGADGET_ASSERT(p!=0);
       return *p;
     }
-
-  private:
     TNodeLinkList::const_iterator mIt;
   };
 
   iterator begin() { return TNodeLinkList::begin(); }
-  const_iterator begin() const { return TNodeLinkList::begin(); }
+  const_iterator begin() const { return const_cast<TLinkList *>(this)->begin(); }
 
   iterator end() { return TNodeLinkList::end(); }
-  const_iterator end() const { return TNodeLinkList::end(); }
+  const_iterator end() const { return const_cast<TLinkList *>(this)->end(); }
 
   iterator Find(const T* p) { return TNodeLinkList::Find(TLinkList::Element_toNode(p)); }
   iterator Erase(T* p) { return TNodeLinkList::Erase(Element_toNode(p)); }
@@ -249,33 +265,31 @@ public:
   T& back() {
     #line 652
     JGADGET_ASSERT(!empty());
-    iterator itEnd = end();
-    --itEnd;
-    return *itEnd;
+    return *--end();
   }
 
   static TLinkListNode* Element_toNode(T* p) {
     #line 753
     JGADGET_ASSERT(p!=0);
-    return (TLinkListNode*)((char*)p + O);
+    return (TLinkListNode*)((char*)p - O);
   }
 
   static const TLinkListNode* Element_toNode(const T* p) {
     #line 758
     JGADGET_ASSERT(p!=0);
-    return (const TLinkListNode*)((const char*)p + O);
+    return (const TLinkListNode*)((const char*)p - O);
   }
 
   static T* Element_toValue(TLinkListNode* p) {
     #line 763
     JGADGET_ASSERT(p!=0);
-    return (T*)((char*)p - O);
+    return (T*)((char*)p + O);
   }
 
   static const T* Element_toValue(const TLinkListNode* p) {
     #line 768
     JGADGET_ASSERT(p!=0);
-    return (const T*)((const char*)p - O);
+    return (const T*)((const char*)p + O);
   }
 };
 }
