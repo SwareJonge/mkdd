@@ -76,6 +76,8 @@ double __kernel_tan(double, double, int);
 
 int __ieee754_rem_pio2(double, double*);
 
+static inline float atan2f(float y, float x) { return atan2(y, x); }
+
 // float sqrtf(float);
 
 #ifdef __cplusplus

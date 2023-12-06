@@ -229,6 +229,16 @@ libs/JSystem/JUtility/JUTFont.cpp:
     .text: [0x8001d7bc, 0x8001dae0]
     .data: [0x803483c8, 0x80348410]
 
+libs/JSystem/JUtility/JUTGamePad.cpp:
+    .text: [0x8001dae0, 0x8001f70c]
+    .ctors: [0x802d84d0, 0x802d84d4]
+    .data: [0x80348410, 0x80348440]
+    .bss: [0x8036e3a8, 0x8036e3c0]
+    #.bss: [0x803ae9f4, 0x803aed20]
+    .sdata: [0x803d3290, 0x803d32a8]
+    .sbss: [0x803d4b18, 0x803d4b50]
+    .sdata2: [0x803d6618, 0x803d6668]
+
 libs/JSystem/JUtility/JUTGraphFifo.cpp:
     .text: [0x8001f70c, 0x8001f8b0]
     .data: [0x80348440, 0x80348450]

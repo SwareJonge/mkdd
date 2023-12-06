@@ -590,20 +590,64 @@ global:
   0x803483c8: __vt__7JUTFont
   # JUTGamePad.cpp
   0x8001dae0: __ct__10JUTGamePadFQ210JUTGamePad8EPadPort
-  0x8001dc98: init__10JUTGamePadFv
   0x8001dbb0: __dt__10JUTGamePadFv
+  0x8001dc5c: initList__10JUTGamePadFv
+  0x8001dc98: init__10JUTGamePadFv
+  0x8001dd04: clear__10JUTGamePadFv
+  0x8001dd10: read__10JUTGamePadFv
+  0x8001e0d8: assign__10JUTGamePadFv
+  0x8001e190: checkResetCallback__10JUTGamePadFx
+  0x8001e20c: update__10JUTGamePadFv
+  0x8001e510: checkResetSwitch__10JUTGamePadFv
+  0x8001e590: clear__Q210JUTGamePad7CButtonFv
   0x8001e5cc: update__Q210JUTGamePad7CButtonFPC9PADStatusUl
+  0x8001e764: update__Q210JUTGamePad7CButtonFPC10LGPositionUl
+  0x8001e9ac: clear__Q210JUTGamePad6CStickFv
   0x8001e9c8: update__Q210JUTGamePad6CStickFScScQ210JUTGamePad10EStickModeQ210JUTGamePad11EWhichStickUl
   0x8001ec90: update__Q210JUTGamePad6CStickFScUl
   0x8001ed14: getButton__Q210JUTGamePad6CStickFUl
+  0x8001edc8: clear__Q210JUTGamePad7CRumbleFP10JUTGamePad
+  0x8001ee3c: startMotor__Q210JUTGamePad7CRumbleFi
+  0x8001eee0: stopMotor__Q210JUTGamePad7CRumbleFib
+  0x8001ef9c: update__Q210JUTGamePad7CRumbleFs
+  0x8001f3d0: setRepeat__Q210JUTGamePad7CButtonFUlUlUl
+  0x8001f3ec: setButtonRepeat__10JUTGamePadFUlUlUl
   0x8001f438: recalibrate__10JUTGamePadFUl
+  0x8001f4a0: checkCallback__19JUTGamePadLongPressFiUl
+  0x8001f60c:  __dt__30JSUList<19JUTGamePadLongPress>Fv
+  0x8001f660: __ct__Q210JUTGamePad6CStickFv
+  0x8001f67c: __ct__Q210JUTGamePad7CButtonFv
+  0x8001f6b8: __dt__21JSUList<10JUTGamePad>Fv
+  0x80348410: sChannelMask__Q210JUTGamePad7CRumble
+  0x80348420: channel_mask
+  0x80348430: __vt__10JUTGamePad
+  0x803ae9f4: mPadList__10JUTGamePad
   0x803aeb8c: mPadStatus__10JUTGamePad
+  0x803aebbc: mPadButton__10JUTGamePad
+  0x803aec7c: mPadMStick__10JUTGamePad
+  0x803aecbc: mPadSStick__10JUTGamePad
+  0x803aecfc: msaSIType__10JUTGamePad
+  0x803aed0c: sPatternList__19JUTGamePadLongPress
   0x803d3290: sStickMode__10JUTGamePad
+  0x803d3294: sClampMode__10JUTGamePad
+  0x803d3298: sPressPoint__Q210JUTGamePad6CStick
+  0x803d329c: sReleasePoint__Q210JUTGamePad6CStick
+  0x803d32a0: sResetPattern__Q210JUTGamePad13C3ButtonReset
+  0x803d32a4: sResetMaskPattern__Q210JUTGamePad13C3ButtonReset
   0x803d4b18: mListInitialized__10JUTGamePad
   0x803d4b1c: mPadAssign__10JUTGamePad
   0x803d4b20: mspLGWheels__10JUTGamePad
+  0x803d4b24: sSuppressPadReset__10JUTGamePad
+  0x803d4b28: sAnalogMode__10JUTGamePad
+  0x803d4b2c: sRumbleSupported__10JUTGamePad
+  0x803d4b30: mStatus__Q210JUTGamePad7CRumble
+  0x803d4b34: mEnabled__Q210JUTGamePad7CRumble
   0x803d4b38: sCallback__Q210JUTGamePad13C3ButtonReset
   0x803d4b3c: sCallbackArg__Q210JUTGamePad13C3ButtonReset
+  0x803d4b40: sThreshold__Q210JUTGamePad13C3ButtonReset
+  0x803d4b48: sResetSwitchPushing__Q210JUTGamePad13C3ButtonReset
+  0x803d4b49: sResetOccurred__Q210JUTGamePad13C3ButtonReset
+  0x803d4b4c: sResetOccurredPort__Q210JUTGamePad13C3ButtonReset
   
   # JUTGraphFifo.cpp
   0x8001f70c: __ct__12JUTGraphFifoFUl
@@ -707,6 +751,8 @@ global:
   0x8032db80: JUTResFONT_Ascfont_fix12
 
   # Logitech
+  0x80024718: __ct__8LGWheelsFv
+  0x8002480c: ReadAll__8LGWheelsFv
   0x80024c80: IsConnected__8LGWheelsFl
   0x80024de0: PlayAutoCalibAndSpringForce__8LGWheelsFl
   0x80024f1c: PlaySpringForce__8LGWheelsFlScUcs

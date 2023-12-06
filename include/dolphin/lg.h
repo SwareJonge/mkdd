@@ -11,7 +11,7 @@ extern "C"
 // This file presumably was for a logitech steering wheel, as it is some sort of controller handler
 
 struct LGPosition { // seems really similar to PADStatus but is slightly different
-    u16 input;
+    u16 button;
     s8 _2;
     s8 steerDirection;
     u8 gasPedal;

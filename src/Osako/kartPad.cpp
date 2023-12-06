@@ -76,7 +76,7 @@ void KartGamePad::compress(const LGPosition &lgPosition, KartPadData *kartPadDat
         if (stickX < -15)
             stickX = -15;
 
-        u16 input = lgPosition.input;
+        u16 input = lgPosition.button;
         ConvertBtn(buttons, input, A, KARTBTN_A);
         ConvertBtn(buttons, input, B, KARTBTN_B);
         ConvertBtn(buttons, input, X, KARTBTN_X);
@@ -135,7 +135,7 @@ void KartGamePad::expand(const KartPadData &kartPadData)
     padStatus.triggerRight = 0;
     padStatus.button = btn;
 
-    u32 btnret = mControlStick.update(padStatus.stickX, padStatus.stickY, sStickMode, WhichStick_ControlStick, mButtons.mInput) << 24;
+    u32 btnret = mMainStick.update(padStatus.stickX, padStatus.stickY, sStickMode, WhichStick_MainStick, mButtons.mButton) << 24;
     mButtons.update(&padStatus, btnret);
 }
 

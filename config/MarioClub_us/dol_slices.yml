@@ -98,6 +98,17 @@ libs/JSystem/JUtility/JUTFont.cpp:
     .rodata: [0x80361f38, 0x80361f50]
     .sdata2: [0x80417908, 0x80417918]
 
+libs/JSystem/JUtility/JUTGamePad.cpp:
+    .text: [0x8006f93c, 0x8007140c]
+    .ctors: [0x803160cc, 0x803160d0]
+    .rodata: [0x80361f50, 0x80361f70]
+    .data: [0x8038af50, 0x8038af80]
+    .bss: [0x803ae8f0, 0x803ae908]
+    #.bss: [0x803fa5cc, 0x803fa8f0]
+    .sdata: [0x80414058, 0x80414070]
+    .sbss: [0x80415818, 0x80415858]
+    .sdata2: [0x80417918, 0x80417968]
+
 libs/JSystem/JUtility/JUTGraphFifo.cpp:
     .text: [0x8007140c, 0x800715a4]
     .data: [0x8038af80, 0x8038af90]

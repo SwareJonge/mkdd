@@ -17446,6 +17446,7 @@ global:
     0x8041580c: sConsole__12JUTException
     0x80415810: msr__12JUTException
     0x80415814: fpscr__12JUTException
+    0x80415818: mListInitialized__10JUTGamePad
     0x8041581c: mPadAssign__10JUTGamePad
     0x80415820: mspLGWheels__10JUTGamePad
     0x80415824: sSuppressPadReset__10JUTGamePad
@@ -17456,6 +17457,8 @@ global:
     0x8041583c: sCallback__Q210JUTGamePad13C3ButtonReset
     0x80415840: sCallbackArg__Q210JUTGamePad13C3ButtonReset
     0x80415848: sThreshold__Q210JUTGamePad13C3ButtonReset
+    0x80415850: sResetSwitchPushing__Q210JUTGamePad13C3ButtonReset
+    0x80415851: sResetOccurred__Q210JUTGamePad13C3ButtonReset
     0x80415854: sResetOccurredPort__Q210JUTGamePad13C3ButtonReset
     0x8041585c: sCurrentFifo__12JUTGraphFifo
     0x80415860: mGpStatus__12JUTGraphFifo

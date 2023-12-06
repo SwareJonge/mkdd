@@ -95,7 +95,7 @@ public:
         return *this;
     }
 
-    T *getObject() { return mLink->getObject(); }
+    T *getObject() const { return mLink->getObject(); }
 
     bool operator==(JSULink<T> const *other) const { return mLink == other; }
     bool operator!=(JSULink<T> const *other) const { return mLink != other; }
@@ -128,9 +128,10 @@ public:
         return *this;
     }
 
-    T &operator*() { return *getObject(); }
+    // Investigate where and if this actually exists
+    //T &operator*() { return *getObject(); }
 
-    T *operator->() { return getObject(); }
+    T *operator->() const { return mLink->getObject(); }
 
     // private:
     JSULink<T> *mLink;
@@ -146,7 +147,7 @@ public:
 
     T *getObject() const { return (T *)mData; }
     JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated, offcial name: getSupervisor
-    JSULink<T> *getNext() const { return (JSULink<T> *)JSUPtrLink::getNext(); }
+    JSULink<T> *getNext() const { return (JSULink<T> *)mNext; }
     JSULink<T> *getPrev() const { return (JSULink<T> *)JSUPtrLink::getPrev(); }
 
     ~JSULink() {

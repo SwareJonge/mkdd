@@ -22,7 +22,7 @@ JKRArchive *JKRArchive::check_mount_already(long entryNum, JKRHeap *pHeap)
     {
         if (iterator->getVolumeType() == 'RARC')
         {
-            JKRArchive *archive = (JKRArchive *)iterator.getObject(); // in TP debug it calls operator-> ?
+            JKRArchive *archive = (JKRArchive *)iterator.operator->();
             if (archive->mEntryNum == entryNum && archive->mHeap == heap)
             {
                 archive->mMountCount++;
