@@ -20,12 +20,14 @@ public:
     void changeFrameBuffer(void *framebuffer, u16 w, u16 h );
 
     // Inline/Unused
-    void printSub(u16, u16, const char *, __va_list_struct *, bool);
+    void printSub(u16, u16, const char *, va_list, bool);
     void print(u16, u16, const char *, ...);
 
     bool isActive() const { return mFramebuffer != nullptr; }
     void *getFrameBuffer() { return mFramebuffer; }
     JUtility::TColor getCharColor() const { return mCharColor; }
+
+    void changeFrameBuffer(void *fb) { changeFrameBuffer(fb, mFbWidth, mFbHeight); }
 
     static JUTDirectPrint *getManager() { return sDirectPrint; }
 

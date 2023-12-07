@@ -562,12 +562,39 @@ global:
   0x803d4af0: sDirectPrint__14JUTDirectPrint
   # JUTException.cpp
   0x8001a830: create__12JUTExceptionFP14JUTDirectPrint
+  0x8001a93c: run__12JUTExceptionFv
+  0x8001aa5c: errorHandler__12JUTExceptionFUsP9OSContextUlUl
   0x8001ab48: panic_f__12JUTExceptionFPCciPCce
+  0x8001acd8: setFPException__12JUTExceptionFUl
+  0x8001ad20: showFloat__12JUTExceptionFP9OSContext
+  0x8001b4f8: showStack__12JUTExceptionFP9OSContext
+  0x8001b5d8: showMainInfo__12JUTExceptionFUsP9OSContextUlUl
+  0x8001b858: showMapInfo_subroutine__12JUTExceptionFUlb
+  0x8001bac0: showGPRMap__12JUTExceptionFP9OSContext
+  0x8001bdcc: printDebugInfo__12JUTExceptionFQ212JUTException9EInfoPageUsP9OSContextUlUl
   0x8001c17c: readPad__12JUTExceptionFPUlPUl
+  0x8001c724: printContext__12JUTExceptionFUsP9OSContextUlUl
   0x8001cc34: waitTime__12JUTExceptionFl
+  0x8001ccbc: createFB__12JUTExceptionFv
   0x8001cda0: setPreUserCallback__12JUTExceptionFPFUsP9OSContextUlUl_v
+  0x8001cdb0: queryMapAddress__12JUTExceptionFPcUllPUlPUlPcUlbb
+  0x8001ce90: queryMapAddress_single__12JUTExceptionFPcUllPUlPUlPcUlbb
   0x8001d214: createConsole__12JUTExceptionFPvUl
+  0x8001d2f0: __ct__13JUTExternalFBFP16_GXRenderModeObj8_GXGammaPvUl
+  0x8001d314: __dt__12JUTExceptionFv
+  0x8001d3bc: __dt__39JSUList<Q212JUTException12JUTExMapFile>Fv
+  0x80348318: sMessageQueue__12JUTException
+  0x80348358: sCpuExpName__12JUTException
+  0x803ae9e8: sMapFileList__12JUTException
+  0x803d3288: sMessageBuffer__12JUTException
   0x803d4af8: sErrorManager__12JUTException
+  0x803d4afc: sPreUserCallback__12JUTException
+  0x803d4b00: sPostUserCallback__12JUTException
+  0x803d4b04: sConsoleBuffer__12JUTException
+  0x803d4b08: sConsoleBufferSize__12JUTException
+  0x803d4b0c: sConsole__12JUTException
+  0x803d4b10: msr__12JUTException
+  0x803d4b14: fpscr__12JUTException
   # JUTFader.cpp
   0x8001d410: __ct__8JUTFaderFiiiiQ28JUtility6TColor
   0x8001d4c0: control__8JUTFaderFv

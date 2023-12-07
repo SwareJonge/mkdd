@@ -100,7 +100,7 @@ struct JKRThread : public JKRDisposer
     JKRThread(OSThread *, int);
 
     virtual ~JKRThread();                   // _08
-    virtual void *run() { return nullptr; } // _0C (weak)
+    virtual void *run() { return nullptr; } // _0C (weak), does this really return void*? might as well be int
 
     void setCommon_mesgQueue(JKRHeap *, int);
     BOOL setCommon_heapSpecified(JKRHeap *, u32, int);

@@ -11,7 +11,7 @@
 struct JUTConsole;
 struct JUTDirectPrint;
 
-typedef void (*JUTExceptionHandler)(OSError error, OSContext *context, u32 p3, u32 p4);
+typedef void (*JUTErrorHandler)(OSError error, OSContext *context, u32 p3, u32 p4);
 
 enum ExPrintFlags
 {
@@ -44,17 +44,17 @@ struct JUTException : public JKRThread
         inline JUTExMapFile(const char *fileName)
             : mLink(this)
         {
-            mFileName = fileName;
+            mFileName = (char *)fileName;
         }
 
-        const char *mFileName;       // _00
+        char *mFileName;       // _00
         JSULink<JUTExMapFile> mLink; // _04
     };
 
     /** @fabricated */
     struct ExCallbackObject
     {
-        OSErrorHandler mErrorHandler; // _00
+        JUTErrorHandler mErrorHandler; // _00
         OSError mError;               // _04
         OSContext *mContext;          // _08
         u32 _0C;                      // _0C
@@ -63,8 +63,8 @@ struct JUTException : public JKRThread
 
     JUTException(JUTDirectPrint *); // unused/inlined
 
-    virtual ~JUTException(); // _08 (weak)
-    virtual void *run();     // _0C
+    virtual ~JUTException(){}; // _08 (weak)
+    virtual void *run();       // _0C
 
     void showFloat(OSContext *);
     void showStack(OSContext *);
@@ -77,20 +77,21 @@ struct JUTException : public JKRThread
     void createFB();
 
     static void waitTime(long);
-    static JUTExceptionHandler setPreUserCallback(JUTExceptionHandler);
+    static JUTErrorHandler setPreUserCallback(JUTErrorHandler);
     static void appendMapFile(const char *);
     static bool queryMapAddress(char *, u32, long, u32 *, u32 *, char *, u32, bool, bool);
     static bool queryMapAddress_single(char *, u32, long, u32 *, u32 *, char *, u32, bool, bool);
 
     static JUTException *create(JUTDirectPrint *);
     static void createConsole(void *buffer, u32 bufferSize);
-    static void panic_f(char const *file, int line, char const *msg, ...);
+    static void panic_f(const char *file, int line, const char *msg, ...);
     static void errorHandler(u16, OSContext *, u32, u32);
     static void setFPException(u32);
+    static bool searchPartialModule(u32, u32 *, u32 *, u32 *, u32 *);
 
     // unused/inlined:
-    static void panic_f_va(const char *, int, const char *, va_list *);
-    static JUTExceptionHandler setPostUserCallback(JUTExceptionHandler);
+    static void panic_f_va(const char *, int, const char *, va_list);
+    static JUTErrorHandler setPostUserCallback(JUTErrorHandler);
 
     // Inline
     static void panic(const char *file, int line, const char *msg) {
@@ -98,7 +99,6 @@ struct JUTException : public JKRThread
     }
 
     void showFloatSub(int, f32);
-    bool searchPartialModule(u32, u32 *, u32 *, u32 *, u32 *);
     void showGPR(OSContext *);
     void showSRR0Map(OSContext *);
     bool isEnablePad() const;
@@ -109,7 +109,7 @@ struct JUTException : public JKRThread
 
     JUTExternalFB *getFrameMemory() const { return mFrameMemory; }
 
-    void setTraceSuppress(u32 param_0) { mTraceSuppress = param_0; }
+    void setTraceSuppress(u32 supress) { mTraceSuppress = supress; }
     void setGamePad(JUTGamePad *gamePad)
     {
         mGamePad = gamePad;
@@ -125,11 +125,11 @@ struct JUTException : public JKRThread
     static JUTException *sErrorManager;
     static OSMessageQueue sMessageQueue;
     static void *sMessageBuffer[1];
-    static JUTExceptionHandler sPreUserCallback;
-    static JUTExceptionHandler sPostUserCallback;
+    static JUTErrorHandler sPreUserCallback;
+    static JUTErrorHandler sPostUserCallback;
     static u32 msr;
     static u32 fpscr;
-    static const char *sCpuExpName[OS_ERROR_MAX + 1];
+    static const char *sCpuExpName[OS_ERROR_MAX];
     static JSUList<JUTExMapFile> sMapFileList;
 
     // _00     = VTBL
@@ -143,7 +143,7 @@ struct JUTException : public JKRThread
     u32 mTraceSuppress;            // _94
     u32 _98;                       // _98
     u32 mPrintFlags;               // _9C, see ExPrintFlags enum
-    void *mStackPointer;           // _A0
+    u32 mStackPointer;                 // _A0
 };
 
 #endif

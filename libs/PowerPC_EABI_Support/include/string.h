@@ -20,6 +20,7 @@ char* strchr(const char*, int);
 char* strstr(const char*, const char*);
 char* strrchr(const char* str, int chr);
 size_t strlen(const char*);
+long strtol(const char *str, char **end, int base);
 
 int __msl_strnicmp(const char *s1, const char *s2, int n);
 

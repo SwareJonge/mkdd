@@ -114,7 +114,7 @@ public:
     void clearForReset();
     static void init();
     void initList();
-    u32 read();
+    static u32 read();
     static bool recalibrate(u32);
     void setButtonRepeat(u32, u32, u32);
     void update();

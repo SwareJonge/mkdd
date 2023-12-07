@@ -220,6 +220,17 @@ libs/JSystem/JUtility/JUTDirectPrint.cpp:
     .sbss: [0x803d4af0, 0x803d4af8]
     .sdata2: [0x803d6568, 0x803d65c8]
 
+libs/JSystem/JUtility/JUTException.cpp:
+    .text: [0x8001a830, 0x8001d410]
+    .ctors: [0x802d84cc, 0x802d84d0]
+    .rodata: [0x8032d500, 0x8032da38]
+    .data: [0x80348318, 0x803483b0]
+    .bss: [0x8036e0c0, 0x8036e3a8]
+    #.bss: [803ae9e8, 0x803ae9f4]
+    .sdata: [0x803d3288, 0x803d3290]
+    .sbss: [0x803d4af8, 0x803d4b18]
+    .sdata2: [0x803d65c8, 0x803d6610]
+
 libs/JSystem/JUtility/JUTFader.cpp:
     .text: [0x8001d410, 0x8001d7bc]
     .data: [0x803483b0, 0x803483c8]
