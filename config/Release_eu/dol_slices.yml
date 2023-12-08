@@ -345,10 +345,9 @@ libs/JSystem/JFramework/JFWDisplay.cpp:
 libs/JSystem/JParticle/JPAResourceManager.cpp:
     .text: [0x800893f4, 0x800894d0]
 
-# no idea where this is yet
-#libs/JSystem/JParticle/JPAKeyBlock.cpp:
-    #.text: [, ]
-    #.sdata2: [, ]
+libs/JSystem/JParticle/JPAKeyBlock.cpp:
+    .text: [0x80084994, 0x80084a38]
+    .sdata2: [0x803d6be8, 0x803d6bf0]
 
 libs/JSystem/JParticle/JPATexture.cpp:
     .text: [0x800894d0, 0x8008959c]

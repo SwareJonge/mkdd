@@ -989,6 +989,17 @@ global:
   0x80388140: __vt__10JFWDisplay
   0x803d4c40: sManager__10JFWDisplay
   # JParticle
+  # JPAKeyBlock.cpp
+  0x80084994: __ct__11JPAKeyBlockFPCUc
+  0x800849a4: calc__11JPAKeyBlockFf
+  # JPAMath.cpp
+  0x80084a38: JPAGetDirMtx__FRCQ29JGeometry8TVec3
+  0x80084b68: JPAGetYZRotateMtx__FssPA4_f
+  0x80084bec: JPAGetXYZRotateMtx__FsssPA4_f
+  0x80084ca0: JPASetRMtxfromMtx__FPA4_CfPA4_f
+  0x80084cc8: JPASetRMtxTVecfromMtx__FPA4_CfPA4_fPQ29JGeometry8TVec3<f>
+  0x80084cf0: JPASetRMtxSTVecfromMtx__FPA4_CfPA4_fPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x80084e64: JPACalcKeyAnmValue__FfUsPCf
   # JPAResourceLoader.cpp
   0x80088fd8: __ct__17JPAResourceLoaderFPCUcP18JPAResourceManager
   0x80089018: load_jpc__17JPAResourceLoaderFPCUcP18JPAResourceManager
