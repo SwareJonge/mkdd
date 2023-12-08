@@ -177,7 +177,6 @@ void JUTException::panic_f(const char *file, int line, const char *fmt, ...) {
     va_end(vl);
 }
 
-
 void JUTException::setFPException(u32 fpscr_enable_bits)
 {
     __OSFpscrEnableBits = fpscr_enable_bits;
@@ -276,7 +275,6 @@ bool JUTException::searchPartialModule(u32 address, u32 *module_id, u32 *section
     return false;
 }
 
-/* 802C5440-802C54B8       .text search_name_part__FPUcPUci */
 void search_name_part(u8 *src, u8 *dst, int dst_length)
 {
     for (u8 *p = src; *p; p++)
@@ -408,7 +406,6 @@ void JUTException::showMainInfo(u16 error, OSContext *context, u32 dsisr, u32 da
     sConsole->print_f("DSISR:  %08XH   DAR: %08XH\n", dsisr, dar);
 }
 
-/* 802C586C-802C592C       .text showGPR__12JUTExceptionFP9OSContext */
 void JUTException::showGPR(OSContext *context)
 {
     if (!sConsole)
@@ -425,9 +422,6 @@ void JUTException::showGPR(OSContext *context)
     sConsole->print_f("R%02d:%08XH  R%02d:%08XH\n", 10, context->gpr[10], 21, context->gpr[21]);
 }
 
-
-
-/* 802C592C-802C5A88       .text showMapInfo_subroutine__12JUTExceptionFUlb */
 bool JUTException::showMapInfo_subroutine(u32 address, bool begin_with_newline)
 {
     if ((address < 0x80000000) || (0x82ffffff < address))
@@ -485,7 +479,6 @@ bool JUTException::showMapInfo_subroutine(u32 address, bool begin_with_newline)
     return false;
 }
 
-/* 802C5A88-802C5B94       .text showGPRMap__12JUTExceptionFP9OSContext */
 void JUTException::showGPRMap(OSContext *context)
 {
     if (!sConsole)
@@ -520,7 +513,6 @@ void JUTException::showGPRMap(OSContext *context)
     }
 }
 
-/* 802C5B94-802C5C58       .text showSRR0Map__12JUTExceptionFP9OSContext */
 void JUTException::showSRR0Map(OSContext *context)
 {
     if (!sConsole)
@@ -541,7 +533,6 @@ void JUTException::showSRR0Map(OSContext *context)
     }
 }
 
-/* 802C5C58-802C5D00       .text printDebugInfo__12JUTExceptionFQ212JUTException9EInfoPageUsP9OSContextUlUl */
 void JUTException::printDebugInfo(JUTException::EInfoPage page, OSError error, OSContext *context, u32 param_3, u32 param_4)
 {
     switch (page)
