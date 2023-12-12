@@ -1,7 +1,9 @@
 #ifndef KARTCAMERA_H
 #define KARTCAMERA_H
 
+#include <JSystem/J3DU/J3DUClipper.h>
 #include "types.h"
+
 
 class KartBody;
 class KartCtrl;
@@ -24,8 +26,12 @@ public:
     void DoCameraMode();
     void DoCamera();
 
+    JGeometry::TVec3f *GetCameraPos();
+
     // this class is divided in 2 files?
-    void SetTargetNum(u8);
+    JGeometry::TVec3f *SetTargetNum(u8);
+
+    J3DUClipper *GetClipper() { return &mClipper; }
 
     // Inlines
     const Mtx &GetMtx() {
@@ -38,7 +44,8 @@ public:
 private:
     KartBody *mBody;
     KartCtrl *mCtrl;
-    u8 _08[0x78];
+    J3DUClipper mClipper;
+    u8 _64[0x80 - 0x64];
     Mtx mMtx;
     u8 _B0[0xEC - 0xB0];
     int mPosV;

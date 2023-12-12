@@ -70,6 +70,7 @@ public:
     void setKart(int, EKartID, ECharID, KartGamePad *, ECharID, KartGamePad *);
 
     // Inline Functions
+    int getAwardKartNo() const { return mAwardKartNo; }
     int getLANLapNumber() const { return mLapNumLAN; }
     int getVSLapNumber() const { return mVsLapNum; }
     int getKartNumber() const { return mKartNum; }

@@ -123,8 +123,8 @@ public:
     u8 getCurrentGroupId();
     u8 changeGroupID(u8 newGroupId);
     u32 getMaxAllocatableSize(int alignment);
-    JKRHeap *find(void *) const;             // 0x80084640
-    JKRHeap *findAllHeap(void *) const;      // 0x8008492c
+    JKRHeap *find(void *const) const;  // 0x80084640
+    JKRHeap *findAllHeap(void *const) const; // 0x8008492c
     void dispose_subroutine(u32 begin, u32 end);
     bool dispose(void *, u32); // 0x80084b9c
     void dispose(void *, void *);        // 0x80084c2c
@@ -185,9 +185,6 @@ public:
     static void state_dumpDifference(const TState &, const TState &);
     static JKRHeap *findFromRoot(void *);
     static JKRHeapErrorHandler *setErrorHandler(JKRHeapErrorHandler *);
-
-    // hack
-    JSUTree<JKRHeap> *getFirstChild() const;
     
     static void * getCodeStart() {
         return mCodeStart;

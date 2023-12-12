@@ -24,6 +24,7 @@ struct J3DTexture : _UnknownJ3DTextureParent {
 		_02  = 0;
 		mRes = res;
 	}
+	void loadGX(u16, GXTexMapID) const;
 
 	virtual ~J3DTexture(); // _08 (weak)
 

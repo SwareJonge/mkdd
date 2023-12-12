@@ -17,6 +17,16 @@ public:
     int getBrosPointNumber();
     CLPoint *getBrosPoint(int);
 
+    void getPosition(JGeometry::TVec3f *pos)
+    {
+        if (mPointData)
+        {
+            pos->set(mPointData->mPos);
+            return;
+        }
+        pos->zero();
+    }
+
     // Inline
     CLPoint *getPrevPoint(int divNo)
     {
@@ -25,6 +35,7 @@ public:
         JUT_MINMAX_ASSERT(0, divNo, 4);
         return mPrevPoints[divNo];
     }
+    
     CLPoint *getNextPoint(int divNo) 
     {
         JUT_ASSERT_F(mNextPoints[divNo], "N:%5.3f,%5.3f,%5.3f:%d", mPointData->mPos.x, mPointData->mPos.y, mPointData->mPos.z, divNo);
@@ -32,11 +43,18 @@ public:
         return mNextPoints[divNo];
     }
     CLPoint *getDivPoint() { return mDivPoint; }
+    const CrsData::SCLPoint *getPointData() { return mPointData; }
+
+    void setKind(u16 kind) { mKind = kind; }
+    u16 getKind() const { return mKind; }
+    void setPointData(const CrsData::SCLPoint *pointData) { mPointData = pointData; }
+
 private:
     u16 mKind;
-    CrsData::SCLPoint *mPointData;
+    const CrsData::SCLPoint *mPointData;
     CLPoint *mPrevPoints[4];
     CLPoint *mNextPoints[4];
+public:
     CLPoint *mDivPoint;
 }; // Size: 0x2c
 

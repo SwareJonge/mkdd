@@ -44,7 +44,7 @@ struct J3DTevBlock {
 	 * @reifiedAddress{8006A358}
 	 * @reifiedFile{JSystem/J3D/J3DMaterialAnm.cpp}
 	 */
-	virtual J3DGXColorS10* getTevColor(u32 index) { return nullptr; } // _68 (weak)
+	virtual J3DGXColorS10 *getTevColor(u32 index) { return nullptr; } // _68 (weak)
 	virtual void setTevKColor(u32 index, const J3DGXColor* color) { } // _6C (weak)
 	virtual void setTevKColor(u32 index, J3DGXColor color) { }        // _70 (weak)
 	/**

@@ -783,7 +783,7 @@ bool KartChecker::isReverse()
 
     if (tstLapChecking())
     {
-        Mtx &m = *RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
+        const Mtx &m = RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
         JGeometry::TVec3<f32> thing;
         thing.set(m[0][2], m[1][2], m[2][2]);
         thing.normalize();

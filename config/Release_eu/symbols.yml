@@ -38,12 +38,23 @@ global:
   # J3DSys.cpp
   0x8004dbf4: drawInit__6J3DSysFv
   0x803b6db0: j3dSys
+  # J3DTransform.cpp
+  0x8004f274: J3DGetTranslateRotateMtx__FRC16J3DTransformInfoPA4_f
+  0x8033256c: j3dDefaultMtx
   # J3DDrawBuffer.cpp
   0x800556e8: initialize__13J3DDrawBufferFv
   0x80055750: allocBuffer__13J3DDrawBufferFUl
   0x800557cc: __dt__13J3DDrawBufferFv
   0x8005582c: frameInit__13J3DDrawBufferFv
   0x80055d78: draw__13J3DDrawBufferCFv
+  # J3DShape.cpp
+  0x80050ed0: loadPreDrawSetting__8J3DShapeCFv
+  0x803d4bd0: sOldVcdVatCmd__8J3DShape
+  # J3DAnimation.cpp
+  0x80057184: init__12J3DFrameCtrlFs
+  0x800571b4: update__12J3DFrameCtrlFv
+  # J3DUClipper.cpp
+  0x8000a3c8: clip__11J3DUClipperCFPA4_Cf3Vecf
   # JKernel
   # JKRAram.cpp
   0x8000a540: create__7JKRAramFUlUllll
@@ -940,6 +951,23 @@ global:
   0x80349364: __vt__18J2DAnmTransformKey
   0x8034937c: __vt__19J2DAnmTransformFull
 
+  # J3DModelLoader.cpp
+  0x80060588: load__22J3DModelLoaderDataBaseFPCvUl
+
+  # J3DModelData.cpp
+  0x80074a58: newSharedDisplayList__12J3DModelDataFUl
+  0x80074bd8: makeSharedDL__12J3DModelDataFv
+  0x80074c4c: simpleCalcMaterial__12J3DModelDataFUsPA4_f
+  0x80074d08: syncJ3DSysPointers__12J3DModelDataCFv
+  0x80074d34: syncJ3DSysFlags__12J3DModelDataCFv
+
+  # J3DTexture.cpp
+  0x8007930c: loadGX__10J3DTextureCFUs11_GXTexMapID
+
+  # J3DTevs.cpp
+  0x80054c4c: calc__9J3DTexMtxFPA4_Cf
+  0x803b9c14: j3dZModeTable
+  
   # JFramework
   # JFWSystem.cpp
   0x8007a494: init__9JFWSystemFv
@@ -989,6 +1017,7 @@ global:
   0x80388140: __vt__10JFWDisplay
   0x803d4c40: sManager__10JFWDisplay
   # JParticle
+  # JPAFieldBlock.cpp
   # JPAKeyBlock.cpp
   0x80084994: __ct__11JPAKeyBlockFPCUc
   0x800849a4: calc__11JPAKeyBlockFf
@@ -1076,6 +1105,8 @@ global:
   # osdsp.c
   0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
   0x800a2000: __DSPHandler
+  # unk JAudio Something(probably JAUClusterSound.cpp)
+  0x800a318c: __ct__Q29JGeometry8TVec3<f>Fv
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.
@@ -2330,6 +2361,7 @@ global:
   0x801148a8: frameWork__Q29GameAudio4MainFv
   0x80114ad8: isWaveLoaded__Q29GameAudio4MainFQ39GameAudio4Main5WS_ID
   0x80115ea4: startSystemSe__Q29GameAudio4MainFUl
+  0x80115f58: startRaceSystemSe__Q29GameAudio4MainFUl
   0x801167b0: setMasterVolume__Q29GameAudio4MainFSc
   0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
   0x80116b40: setOutputMode__Q29GameAudio4MainFUl
@@ -2462,28 +2494,117 @@ global:
 
   # Course.cpp
   0x80177968: __ct__6CourseFP7CrsDataib
+  0x80177c18: __defctor__7ExModelFv
+  0x80177c3c: __dt__13J3DAnmObjBaseFv
+  0x80177c9c: __dt__12J3DFrameCtrlFv
+  0x80177ce4: __dt__17J3DAnmObjMaterialFv
+  0x80177d54: __ct__17J3DAnmObjMaterialFv 
   0x80177dbc: reset__6CourseFv
+  0x80178128: loadCrsData__6CourseFb
+  0x80178290: __ct__7AIPointFv
+  0x8017829c: __dt__6AIPathFv
+  0x801782d8: __ct__6AIPathFv
+  0x801782e8: createSector__6CourseFv
+  0x801786e4: createJugemPoint__6CourseFv  
+  0x80178780: searchJugemPoint__6CourseFUs
   0x801787cc: searchSector__6CourseFs
+  0x8017881c: createCLPoint__6CourseFb
+  0x80178eb4: getFirstCLPoint__6CourseCFi
+  0x80178ed8: createArea__6CourseFv
+  0x80178f80: __ct__Q26Course4AreaFv
+  #0x80178fd4: smpCalcMaterial__FP12J3DModelDataP8J3DJointPA4_f
+  0x80179560: getYounger__8J3DJointFv
+  0x80179568: getChild__8J3DJointFv
+  0x80179570: getJntNo__8J3DJointCFv
+  0x80179578: getTransformInfo__8J3DJointFv
+  0x80179580: setFogInfo__6CourseFP12J3DModelData
+  0x801795c0: setFogInfo__6CourseFP7ExModel
+  0x80179604: loadModelData__6CourseFv
+  0x80179b14: searchMaterial__6CourseFUlPUls
+  0x80179b4c: isHighPriority__6CourseFPCc
   0x80179c2c: createModel__6CourseFP12JKRSolidHeapUl
   0x80179c30: calcShaking__6CourseFv
   0x8017a2e4: calc__6CourseFv
+  0x8017a650: convWorldPosToGridCoord__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x8017a760: convMapCoordToWorldPos__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x8017a810: calcPlaneParam__6CourseFP12stPlaneParamffffRCQ29JGeometry8TVec3<f>
+  0x8017a978: getShakeVelocity__6CourseFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
   0x8017aae4: update__6CourseFv
   0x8017ab14: updateSky__6CourseFv
+  0x8017ab78: drawBase__6CourseFUlPUlsb
+  0x8017afc8: anmFrameProc__17J3DAnmObjMaterialFv
+  0x8017afd8: drawSky__6CourseFUl
+  0x8017b0a0: getStartLine__6CourseFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
   0x8017b214: getLightColor__6CourseFPQ28JUtility6TColor
   0x8017b238: getLightOffsetPosition__6CourseFPQ29JGeometry8TVec3<f>
   0x8017b25c: getAmbientColor__6CourseFPQ28JUtility6TColor
+  0x8017b280: getCourseBGM__6CourseFv
+  0x8017b3e0: getFinalLapBGM__6CourseFv
+  0x8017b494: drawModelForDebug__6CourseFUl
+  0x8017b530: __ct__Q26Course6SectorFv
+  0x8017b638: setPointData__Q26Course6SectorFPCQ27CrsData11SCheckPointPCQ27CrsData11SCheckPointb
+  0x8017b960: setPrevSector__Q26Course6SectorFPQ26Course6Sector
+  0x8017b980: setNextSector__Q26Course6SectorFPQ26Course6Sector
+  0x8017b9a0: calcGeneration__Q26Course6SectorFPQ26Course6Sector
   0x8017b9c4: calcUnitDist__Q26Course6SectorFRCQ29JGeometry8TVec3<f> 
+  0x8017ba8c: isLRInside__Q26Course6SectorFRCQ29JGeometry8TVec3<f>
+  0x8017bb48: reset__Q26Course4AreaFv
   0x8017bd4c: check__Q26Course4AreaFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
   0x8017bea0: getRate__Q26Course4AreaFRCQ29JGeometry8TVec3<f>
-
+  0x8017bfb8: drawDebugModel__Q26Course4AreaFUl
+  0x8017c1f8: searchAppendGround__6CourseFRCQ29JGeometry8TVec3<f>
+  0x8033cb90: cCourseTexSRTAnmTable__6Course
+  0x80355960: __vt__17J3DAnmObjMaterial
+  0x80355970: __vt__12J3DFrameCtrl
+  0x8035597c: __vt__13J3DAnmObjBase
+  0x803d5610: sDrawAreaModel__6Course
+  0x803d5614: sShakeRippleTime__6Course
+  0x803d3890: sAddShakeVel__6Course
+  0x803d3894: sBoundsScale__6Course
+  0x803d3898: sGndThickness__6Course
+  0x803d389c: sShakeMaxAngle__6Course
+  0x803d38a0: sShakeFirstRippleTime__6Course
+  0x803d38a2: sShakeRoughTime__6Course
+  0x803d38a4: sShakeKeepTime__6Course
+  0x803d38a6: sShakeRecoverTime__6Course
+  0x803d38a8: sShakeFirstRippleTimeDemo__6Course
+  0x803d38ac: sShakeMaxAngleMini__6Course
+  0x803d38b0: sShakeFirstRippleTimeMini__6Course
+  0x803d38b2: sShakeRippleTimeMini__6Course
+  0x803d38b4: sShakeRoughTimeMini__6Course
+  0x803d38b6: sShakeKeepTimeMini__6Course
+  0x803d38b8: sShakeRecoverTimeMini__6Course
+  0x803d8520: cGXTexMtxLabel__6Course
+  0x803d8524: cCourseTevRegAnmTable__6Course
   # CrsData.cpp
   0x8017c3a8: __ct__7CrsDataFPQ27CrsData10SColHeaderPQ27CrsData10SOblHeader
+  0x8017c6b0: getLightColor__7CrsDataCFPQ28JUtility6TColor
+  0x8017c6f8: getLightOffsetPosition__7CrsDataCFPQ29JGeometry8TVec3<f>
+  0x8017c7d0: getFogType__7CrsDataCFv
+  0x8017c838: getFogStartZ__7CrsDataCFv
+  0x8017c850: getFogEndZ__7CrsDataCFv
+  0x8017c868: getFogColor__7CrsDataCFPQ28JUtility6TColor
+  0x8017e3b8: getCheckPointOffset__7CrsDataCFi
+  0x8017e39c: getCheckPointTable__7CrsDataCFv
+  0x8017e530: getELinkNum__Q27CrsData9CheckPathCFv
   0x8017c578: patchCamDataForStaffRoll__7CrsDataF8Language9VideoMode
+  0x8017c734: getAmbientColor__7CrsDataCFPQ28JUtility6TColor
   0x8017c780: getShadowColor__7CrsDataCFPQ28JUtility6TColor
+  0x8017e848: getPathData__7CrsDataCFUs
+  0x8017e874: getPointData__7CrsDataCFUsUs
   0x8017c8b4: getStartPoint__7CrsDataCFUc
 
   # ExModel.cpp
+  0x80181008: __ct__7ExModelFUs
+  0x801810dc: __dt__7ExModelFv
   0x80180f38: __ct__12ExMdlDataMgrFb
+  0x80181184: patchModelData__7ExModelFP12J3DModelData
+  0x80181228: setLODBias__7ExModelFf
+  0x80181334: setFogInfo__7ExModelFP12J3DModelDataUcffffPQ28JUtility6TColor
+  0x8018113c: setModelData__7ExModelFP12J3DModelData
+  0x80182194: simpleDraw__7ExModelFUlPA4_fUl
+  0x80182aac: setBaseTRMtx__7ExModelFPA4_f
+  
   0x803d5618: sMtxCombinationOn__7ExModel
   0x803d86d8: sExModelInvalidLODBias__7ExModel
   # KartLoader.cpp
@@ -2731,6 +2852,10 @@ global:
   # ShapPktControl.cpp
   0x80190134: __ct__15ShapePktControlFv
   0x80190154: ctrlPacket__15ShapePktControlFUl
+  # SimpleDrawer.cpp
+  0x80190190: __ct__12SimpleDrawerFv
+  0x801901a8: drawInit__12SimpleDrawerFP7ExModel
+  0x80190238: loadPreDrawSetting__12SimpleDrawerFv
 
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv
@@ -3406,6 +3531,10 @@ global:
   0x802255b8: getPtrCourseArc__10ObjUtilityFPc
   # JPEffectPerformer.cpp
   0x8022c340: setEffect__17JPEffectPerformerFQ217JPEffectPerformer10EffectTypeiRCQ29JGeometry8TVec3<f>Uc
+  0x802307d8: initFrameCtrl__13J3DAnmObjBaseFP10J3DAnmBase
+  0x80230a64: setupTexSRTAnmData__17J3DAnmObjMaterialFPP19J3DAnmTextureSRTKeyP12J3DModelDataPv
+  0x80230c08: setupTexPatternAnmData__17J3DAnmObjMaterialFPP16J3DAnmTexPatternP12J3DModelDataPv
+  0x80230da0: setupTevRegAnmData__17J3DAnmObjMaterialFPP15J3DAnmTevRegKeyP12J3DModelDataPv
   # EffectScreen.cpp
   0x80231cd8: __ct__15EffectScreenMgrFv
   0x80231dc8: reset__15EffectScreenMgrFv
@@ -3476,6 +3605,9 @@ global:
   0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
   0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
   0x802b3134: SetTargetNum__7KartCamFUc
+
+  # kartCamStrat.cpp
+  0x802b34f8: GetCameraPos__7KartCamFv
 
   # KartSound.cpp
   0x802bd74c: DoStarStartSound__9KartSoundFv

@@ -34,6 +34,7 @@ struct J3DSys
 	void setDrawModeOpaTexEdge() { mDrawMode = 3; }
 	void setDrawModeXlu() { mDrawMode = 4; }
 	void setViewMtx(const Mtx mtx) { PSMTXCopy(mtx, mViewMtx); }
+	const Mtx &getViewMtx() { return mViewMtx; }
 
 	Mtx mViewMtx;				   // _000
 	J3DMtxCalc *mMtxCalc;		   // _030

@@ -3,8 +3,8 @@
 
 #include "JSystem/JKernel/JKRArchive.h"
 #include "JSystem/JKernel/JKRHeap.h"
-#include "Kaneshige/Course/Course.h"
 #include "Kaneshige/RaceInfo.h"
+#include "kartEnums.h"
 #include "types.h"
 
 namespace ResMgr

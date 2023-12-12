@@ -3,24 +3,34 @@
 
 #include "types.h"
 
-struct J3DFrameCtrl {
+struct J3DFrameCtrl
+{
 	J3DFrameCtrl() { init(0); }
 
-	virtual ~J3DFrameCtrl() { } // _08 (weak)
+	virtual ~J3DFrameCtrl() {} // _08 (weak)
 
-	void init(short);
+	void init(s16);
 	void update();
 
+	void init(int rate) { init((s16)rate); }
+
+	void reset()
+	{
+		mFrame = mStartFrame;
+		mRate = 1.0f;
+		mState = 0;
+	}
+
+	f32 getFrame() const { return mFrame; }
+
 	// _00 VTBL
-	u8 mAttr; // _04
-	u8 _05;   // _05
-	// TODO: Rename to mStartFrame
-	short _06; // _06
-	// TODO: Rename to mEndFrame
-	short _08;      // _08
-	short _0A;      // _0A
-	f32 mAnimSpeed; // _0C
-	f32 mCurrTime;  // _10
+	u8 mAttr;		 // _04
+	u8 mState;		 // _05
+	s16 mStartFrame; // _06
+	s16 mEndFrame;	 // _08
+	s16 mLoop;		 // _0A
+	f32 mRate;		 // _0C
+	f32 mFrame;		 // _10
 };
 
 #endif

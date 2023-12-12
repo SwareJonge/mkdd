@@ -32,15 +32,15 @@ Also, make headers for all libraries itself?
 #include "Kaneshige/DemoTimeKeeper.h"
 #include "Kaneshige/GeoRabbitMark.h"
 #include "Kaneshige/ExModel.h"
-//#include "Kaneshige/LightMgr.h"
+// #include "Kaneshige/LightMgr.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceLight.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/RaceUsrPage.h"
-//#include "Kaneshige/SysDebug.h"
+// #include "Kaneshige/SysDebug.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kawano/accessory.h"
-//#include "Osako/kartPad.h"
+// #include "Osako/kartPad.h"
 #include "Osako/RaceApp.h"
 #include "Osako/ResMgr.h"
 #include "Osako/shadowMgr.h"
@@ -53,12 +53,12 @@ Also, make headers for all libraries itself?
 #include "Sato/JPEffectMgr.h"
 #include "Sato/NeckCtrl.h"
 #include "Sato/ObjUtility.h"
-//#include "Sato/RivalKart.h"
+// #include "Sato/RivalKart.h"
 #include "Sato/stEffectMgr.h"
 
-//#include "Shiraiwa/Balloon.h"
-//#include "Shiraiwa/JugemRodSignal.h"
-//#include "Yamamoto/kartCamera.h"
+// #include "Shiraiwa/Balloon.h"
+// #include "Shiraiwa/JugemRodSignal.h"
+// #include "Yamamoto/kartCamera.h"
 
 RaceMgr *RaceMgr::sRaceManager;
 s16 RaceMgr::sForceTotalLapNum;
@@ -697,9 +697,11 @@ void RaceMgr::resetRaceCommon()
 }
 
 // Unused, size matches(not bad for a first guess)
-int RaceMgr::getDrawingConsoleNumber() {
-    for(int i = 0; i < getKartNumber(); i++) {
-        if(mConsole[i].isDraw())
+int RaceMgr::getDrawingConsoleNumber()
+{
+    for (int i = 0; i < getKartNumber(); i++)
+    {
+        if (mConsole[i].isDraw())
             return i;
     }
     return -1;

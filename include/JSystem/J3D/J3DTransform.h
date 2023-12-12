@@ -9,7 +9,7 @@ extern Mtx j3dDefaultMtx;
 void J3DCalcBBoardMtx(f32 (*)[4]);
 void J3DCalcYBBoardMtx(f32 (*)[4]);
 void J3DPSCalcInverseTranspose(f32 (*)[4], f32 (*)[3]);
-void J3DGetTranslateRotateMtx(const J3DTransformInfo&, f32 (*)[4]);
+void J3DGetTranslateRotateMtx(const J3DTransformInfo&, Mtx m);
 void J3DGetTranslateRotateMtx(short, short, short, f32, f32, f32, f32 (*)[4]);
 void J3DGetTextureMtx(const J3DTextureSRTInfo&, const Vec&, f32 (*)[4]);
 void J3DGetTextureMtxOld(const J3DTextureSRTInfo&, const Vec&, f32 (*)[4]);
@@ -30,7 +30,7 @@ inline void J3DPSMtx33Copy
     register Mtx33 dst
 )
 {
-	asm {
+	__asm {
 		psq_l       fp4, 0(src),   0, 0
 		psq_l       fp3, 8(src),   0, 0
 		psq_l       fp2, 16(src),  0, 0

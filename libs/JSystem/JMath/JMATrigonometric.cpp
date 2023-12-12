@@ -2,7 +2,7 @@
 #include "types.h"
 
 namespace JMath {
-    const TSinCosTable<2048, f32> sincosTable_;
+    const TSinCosTable<11, f32> sincosTable_;
     const TAtanTable<1024, f32> atanTable_;
     const TAsinAcosTable<1024, f32> asinAcosTable_;
     f32 TAtanTable<1024, f32>::alignmentHack(f32 x) const { // needed to get the right order for the f32s and doubles

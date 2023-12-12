@@ -16,7 +16,8 @@ namespace GameAudio {
         };
 
         void init(JKRSolidHeap *, u32, void *, void *, u32);
-        void startSystemSe(u32);
+        void startSystemSe(u32 id);
+        void startRaceSystemSe(u32 id);
         void initRaceSound();
         void bootDSP();
         void setBgmVolume(f32);

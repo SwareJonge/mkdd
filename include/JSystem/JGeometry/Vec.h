@@ -52,7 +52,10 @@ namespace JGeometry {
         TVec2() {}
         TVec2(T X, T Y) { set(X, Y); }
 
-        void set(T X, T Y)
+        void zero() { x = y = 0; }
+
+        template <typename TY>
+        void set(TY X, TY Y)
         {
             x = X;
             y = Y;
@@ -86,10 +89,27 @@ namespace JGeometry {
             y += other.y;
         }
 
+        void scale(T scalar) {
+            x *= scalar;
+            y *= scalar;
+        }
+
         f32 dot(const TVec2<T> &other) const { return x * other.x + y * other.y; }
         f32 length() const { return TUtilf::sqrt(squared()); }
-        f32 squared() const { return dot(this); }
+        f32 squared() const { return dot(*this); }
 
+        f32 normalize()
+        {
+            f32 this_squared = squared();
+            if (this_squared <= TUtilf::epsilon())
+                return 0.0f;
+            else
+            {
+                f32 invsqrt = TUtilf::inv_sqrt(this_squared);
+                scale(invsqrt);
+                return invsqrt * this_squared;
+            }
+        }
 
         /** @fabricated */
         // TVec2<T> adding(const TVec2<T>& other) { return TVec2<T>(x + other.x, y + other.y); }
@@ -107,6 +127,7 @@ namespace JGeometry {
         // constructors
         TVec3() {}
         TVec3(const TVec3<f32> &other) { setTVec3f((const f32 *)&other, (f32 *)this); }
+        TVec3(const Vec &other) { setTVec3f((const f32 *)&other, (f32 *)this); }
 
         template <typename TY>
         TVec3(TY X, TY Y, TY Z) { set(X, Y, Z); }
@@ -140,7 +161,8 @@ namespace JGeometry {
             z = src.z;
         }
 
-        void setAll(T val)
+        template <typename TY>
+        void setAll(TY val)
         {
             x = val;
             y = val;

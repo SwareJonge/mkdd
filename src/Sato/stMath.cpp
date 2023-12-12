@@ -13,6 +13,8 @@ namespace
     static double sLerpEpsilon = 0.0010000000474974513;
 }
 
+using namespace JGeometry;
+
 int stVecNormalize(TVec3f &vec)
 {
     int ret = 0;
@@ -370,7 +372,7 @@ int stMakePlaneParam(stPlaneParam &planeParam, TVec3f &vec1, const TVec3f &vec2)
     planeParam.x = vec1.x;
     planeParam.y = vec1.y;
     planeParam.z = vec1.z;
-    planeParam.angle = -vec1.dot(vec2);
+    planeParam.direction = -vec1.dot(vec2);
     return 1;
 }
 
@@ -396,7 +398,7 @@ int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3
 int stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam)
 {
     int ret = 0;
-    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle) <= 0.0f)
+    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.direction) <= 0.0f)
     {
         ret = 1;
     }
@@ -407,7 +409,7 @@ int stCollideSurfaceAndSphere(const TVec3f &vec, float radius, const stPlanePara
 {
     int ret = 0;
 
-    f32 length = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.angle);
+    f32 length = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.direction);
     if (length > 0.0f)
     {
         if (length < radius)
@@ -449,7 +451,7 @@ float stCollideLineToPlaneIn(const TVec3f &vec1, const TVec3f &vec2, const stPla
     {
         return -1.0f;
     }
-    return -(f2 + planeparam.angle) / (f - f2);
+    return -(f2 + planeparam.direction) / (f - f2);
 }
 
 TVec3f stGetCollidePosFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)

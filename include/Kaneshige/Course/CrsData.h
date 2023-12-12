@@ -5,10 +5,13 @@
 #include "Sato/stMath.h"
 //#include "JSystem/JGeometry.h"
 
+#include "kartEnums.h"
 #include "kartLocale.h"
 #include "types.h"
 
 class Course; // Forward Declaration
+
+// TODO: refactor some of these structs to not use camelcase naming
 
 class CrsData
 {
@@ -17,13 +20,14 @@ public:
     {
         JGeometry::TVec3f pos;
         JGeometry::TVec3f scale;
-        JGeometry::TVec3<int> rot;
-        u8 shape; 
+        JGeometry::TVec3<s16> zNorm;
+        JGeometry::TVec3<s16> yNorm;
+        u8 shape; // 1 is cylinder?
         u8 kind;
         s16 cameraId;
-        u32 feather1;
-        u32 feather2;
-        s16 _30;
+        int feather1;
+        int feather2;
+        s16 echoScale;
         s16 _32;
         s16 shadowId;
         s16 lightParamId;
@@ -37,7 +41,7 @@ public:
         u8 _0x19;
         bool mRevSearchEnable;
         u8 _0x1b;
-    };
+    }; // Size: 0x1c
 
     struct SColHeader
     {
@@ -58,6 +62,8 @@ public:
 
     struct SColInfoSphere 
     {
+        JGeometry::TVec3f _0;
+        JGeometry::TVec3f _c;
         // TODO
     };
 
@@ -87,7 +93,7 @@ public:
         u8 mShadowDepth;
         u8 mShadowColor[3];
         u8 mStartPointNum;
-        u8 mSkyFollow;
+        u8 mSkyMode;
         u8 mLightParamNum;
         u8 mMGParamNum;
         u32 fileStart;
@@ -105,7 +111,7 @@ public:
         u8 _70[0xc];
     };
 
-    // https://mkdd.miraheze.org/wiki/BOL_(File_Format)#Section_1
+    // https://mkdd.miraheze.org/wiki/mObjectData_(File_Format)#Section_1
     struct SCLPoint
     {
         //SCLPoint() : mPos() { }
@@ -130,16 +136,29 @@ public:
     };
 
     struct SJugemPoint
-    { // mostly copied from https://mkdd.miraheze.org/wiki/BOL_(File_Format) (Section 9: Respawn Points)
+    { // mostly copied from https://mkdd.miraheze.org/wiki/mObjectData_(File_Format) (Section 9: Respawn Points)
         JGeometry::TVec3f mPosition;
-        s16 _c; // called by "getFrDirection" however according to the wiki this is an array of 3 integers?
-        s16 _e;
-        s16 _10;
+        s16 dirX; // TVec3?
+        s16 dirY;
+        s16 dirZ;
         s16 _12[3]; // seems to be padding
         u16 mID;
         u16 mCPointID;
         s16 mCameraID;
         s16 mSectorID;
+    };
+
+
+    struct CheckPath 
+    {
+        int getELinkNum() const;
+
+        bool isMainPath() const { return !(link & 0x8000) ; }
+
+        u16 pointCount;
+        u16 link;
+        s16 prev[4]; // The indices of up to 4 group links that follow to this one. Unneeded slots are set to value -1.
+        s16 next[4]; // The indices of up to 4 group links to follow after this one. Unneeded slots are set to value -1.
     };
 
     class Ground
@@ -164,6 +183,25 @@ public:
     private:
         // TODO
     };
+
+    struct PathData
+    {
+        int getPointNumber() const { return pointCount; }
+        bool isClosed() const { return flags & 1;}
+        u16 pointCount;
+        u16 pointStart;
+        u16 unk;
+        u16 flags;
+        u8 pad[0x8];
+    };
+
+    struct PointData
+    {
+        JGeometry::TVec3f pos;
+        u32 linkPoint;
+        u8 pad[0x10];
+    };
+    
 
     class StartPoint {
     public:
@@ -190,7 +228,8 @@ public:
         JGeometry::TVec3<s16> mRot;
         u8 _1E[0x24 - 0x1E];
         u8 mOrientation;
-        s16 mJugemOffsetY; // could be TVec2/3
+        u8 mPlayerID;
+        s16 mJugemOffsetY;
     };
 
     CrsData(SColHeader *, SOblHeader *);
@@ -198,17 +237,58 @@ public:
     void getLightColor(JUtility::TColor *) const;
     void getShadowColor(JUtility::TColor *) const;
     void getLightOffsetPosition(JGeometry::TVec3f *) const;
+    PathData *getPathData(u16 pathIdx) const;
+    PointData *getPointData(u16, u16) const;
     void patchCamDataForStaffRoll(Language, VideoMode);
+    int getFogType() const;
+    f32 getFogStartZ() const;
+    f32 getFogEndZ() const;
+    void getFogColor(JUtility::TColor *color) const;
     StartPoint* getStartPoint(u8) const;
-    int getCourseID() const;
-    u8 getTotalLapNumber() const { return BOL->mTotalLapNum; };
-    bool isTexLODBiasOn() const { return BOL->mTexLodBiasOn != 0; };
-    u8 getShadowDepth() const { return BOL->mShadowDepth; }
+    ECourseID getCourseID() const { return (ECourseID)mObjectData->mCourseID; }
+    u8 getTotalLapNumber() const { return mObjectData->mTotalLapNum; }
+    bool isTexLODBiasOn() const { return mObjectData->mTexLodBiasOn != 0; }
+    u8 getShadowDepth() const { return mObjectData->mShadowDepth; }
+    u8 getShaking() const { return mObjectData->mShaking; }
+    int getAreaNumber() const { return mObjectData->mAreaNum; }
+    int getCheckPathNumber() const { return mObjectData->mCheckPathNum; }
+    int getCLPointNumber() const { return mObjectData->mCLPointNum; }
+    int getJugemPointNumber() const { return mObjectData->mJugemPointNum; }
+    int getPathNumber() const { return mObjectData->mPathNum; }
+    bool isSkyFollow() const { return mObjectData->mSkyMode != 0; }
+    bool isShaking() const { return mObjectData->mShaking != 0; }
+
+    int getCheckPointOffset(int n) const;
+
+    // These are also not weak you silly
+    SCheckPoint *getCheckPointTable() const; /*
+     {
+         CheckPath *checkPathTbl = getCheckPathTable();
+         return (SCheckPoint *)&checkPathTbl[getCheckPathNumber()]; // CheckPoint Data is after the CheckPath section
+     }*/
+
+    // Read from file offset
+
+    /*Camera *getCameraData(int camIdx) const
+    {
+        Camera *camData = nullptr;
+
+        if (camIdx >= 0 && camIdx < getCameraNumber())
+        {
+            camData = reinterpret_cast<Camera *>(reinterpret_cast<char *>(mObjectData) + mObjectData->mCameraOffset) + camIdx;
+        }
+        return camData;
+    }*/
+
+    SCLPoint *getCLPointTable() const { return (SCLPoint *)(((u8 *)mObjectData) + mObjectData->mCLPointOffset); }
+    SArea *getAreaTable() const { return (SArea *)(((u8 *)mObjectData) + mObjectData->mAreaOffset); }
+    CheckPath *getCheckPathTable() const { return (CheckPath *)(((u8 *)mObjectData) + mObjectData->mCheckPathOffset); }
+    SJugemPoint *getJugemPointTable() const { return (SJugemPoint *)(((u8 *)mObjectData) + mObjectData->mJugemPointOffset); }
 
 private:
-    SColHeader *BCO;
-    SOblHeader *BOL;
-    void *objList;
+    SColHeader *mCollionData;
+    SOblHeader *mObjectData;
+    void *mObjList;
 };
 
 #endif

@@ -12,8 +12,8 @@ struct J3DUClipper
 
     void init();
     void calcViewFrustum();
-    u32 clip(const Mtx, Vec, f32) const;
-    u32 clip(const Mtx, Vec *, Vec *) const;
+    int clip(const Mtx, Vec, f32) const;
+    int clip(const Mtx, Vec *, Vec *) const;
 
     void setFovy(f32 fovy) { mFovY = fovy; }
     void setAspect(f32 aspect) { mAspect = aspect; }

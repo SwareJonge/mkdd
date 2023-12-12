@@ -9,9 +9,11 @@ public:
     SimpleDrawer();                      // 0x801ba064
     void drawInit(ExModel *);            // 0x801ba07c
     void drawInit(J3DModelData *);       // 0x801ba14c
-    void loadPreDrawSetting();           // 0x801ba1b4
+    bool loadPreDrawSetting();           // 0x801ba1b4
     static bool sEnableCheckHidding;     // 0x80414650
     static SimpleDrawer *sDrawingDrawer; // 0x804163e8
+
+    ~SimpleDrawer() {}
 private:
     u32 _0;
     u8 _4;

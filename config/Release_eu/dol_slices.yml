@@ -925,6 +925,16 @@ src/Kaneshige/DrawBuffer.cpp:
     .bss: [0x8038a210, 0x8038a220]
     #.bss: [0x803bb258, 0x803bb27c]
 
+src/Kaneshige/Course/Course.cpp:
+    .text: [0x80177968, 0x8017c3a8]
+    .ctors: [0x802d8664, 0x802d8668]
+    .rodata: [0x8033cb80, 0x8033cbd8]
+    .data: [0x80355880, 0x80355990]
+    .bss: [0x8038a220, 0x8038a250]
+    .sdata: [0x803d3890, 0x803d38c0]
+    .sbss: [0x803d5610, 0x803d5618]
+    .sdata2: [0x803d8520, 0x803d85a0]
+
 src/Kaneshige/HioMgr.cpp:
     .text: [0x80182d00, 0x80182e1c]
     .data: [0x803559c0, 0x803559d0]

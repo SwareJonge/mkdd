@@ -5,10 +5,8 @@
 
 #include "JSystem/JGeometry.h"
 
-using namespace JGeometry;
-
-inline float stAbs(float x) {
-    if(x >= 0.0f) {
+inline f32 stAbs(f32 x) {
+    if(x > 0.0f) {
         return x;
     }
     return -x;
@@ -16,35 +14,35 @@ inline float stAbs(float x) {
 
 struct stPlaneParam
 {
-    float x, y, z; // might be TVec3f
-    float angle; // dot productor
+    f32 x, y, z; // might be JGeometry::TVec3f
+    f32 direction;
 };
 
-int stVecNormalize(TVec3f &);
-int stVecNormalize(TVec3f *);
-void stClampVecMax(TVec3f &, float);
-void stClampVecMin(TVec3f &, float);
-float stspeedy_sqrtf(register float x);
-float stLength2(float, float);
-void stMakeDirectionMtx(TMtx34f *, const TVec3f &, char);
-void stMakeRMtx(Mtx, const TVec3f &, const TVec3f &, const TVec3f &);
+int stVecNormalize(JGeometry::TVec3f &);
+int stVecNormalize(JGeometry::TVec3f *);
+void stClampVecMax(JGeometry::TVec3f &, f32);
+void stClampVecMin(JGeometry::TVec3f &, f32);
+f32 stspeedy_sqrtf(register f32 x);
+f32 stLength2(f32, f32);
+void stMakeDirectionMtx(JGeometry::TMtx34f *, const JGeometry::TVec3f &, char);
+void stMakeRMtx(Mtx, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
 void stQt2Mtx(Mtx, const Quaternion *);
-void stVec2QtUpdate(Quaternion &, Quaternion &, const TVec3f &, const TVec3f &);
+void stVec2QtUpdate(Quaternion &, Quaternion &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
 void stVec2QtUpdate(Quaternion &, const Vec &, const Vec &);
 bool stVec2Qt(Quaternion &, const Vec &, const Vec &);
 void stMtx2Qt(Quaternion *, const Mtx);
-void stQtLerp(Quaternion *, const Quaternion *, const Quaternion *, float);
+void stQtLerp(Quaternion *, const Quaternion *, const Quaternion *, f32);
 f32 stQtNormalize(Quaternion *, const Quaternion *);
-int stMakePlaneParam(stPlaneParam &, TVec3f &, const TVec3f &);
-int stMakePlaneParam(stPlaneParam &, const TVec3f &, const TVec3f &, const TVec3f &);
-int stSearchInSurface(const TVec3f &, const TVec3f &, const TVec3f &);
-int stSearchInSurface(const TVec3f &, const stPlaneParam &);
-int stCollideSurfaceAndSphere(const TVec3f &, float, const stPlaneParam &, float &);
-float stCollideLineToPlaneIn(const TVec3f &, const TVec3f &, const stPlaneParam &);
-TVec3f stGetCollidePosFromT(const TVec3f &, const TVec3f &, float);
-float stGetCollideDepthFromT(const TVec3f &, const TVec3f &, float);
-void stMTXRotDeg(Mtx, char, float);
-void stMTXRotRad(Mtx, char, float);
+int stMakePlaneParam(stPlaneParam &, JGeometry::TVec3f &, const JGeometry::TVec3f &);
+int stMakePlaneParam(stPlaneParam &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
+int stSearchInSurface(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
+int stSearchInSurface(const JGeometry::TVec3f &, const stPlaneParam &);
+int stCollideSurfaceAndSphere(const JGeometry::TVec3f &, f32, const stPlaneParam &, f32 &);
+f32 stCollideLineToPlaneIn(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const stPlaneParam &);
+JGeometry::TVec3f stGetCollidePosFromT(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32);
+f32 stGetCollideDepthFromT(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32);
+void stMTXRotDeg(Mtx, char, f32);
+void stMTXRotRad(Mtx, char, f32);
 
 struct stRandom : public JMath::TRandom_fast_
 {
@@ -59,9 +57,9 @@ struct stRandom : public JMath::TRandom_fast_
     static void deleteAllRandom();
 
     u32 getRandomMax(u32 max);
-    void getArbitUnitVec(TVec3<float> &, float, float);
-    void getArbitUnitVecSimple(TVec3<float> &, float);
-    void getArbitUnitVecXZ(TVec3<float>&, float);
+    void getArbitUnitVec(JGeometry::TVec3f &, f32, f32);
+    void getArbitUnitVecSimple(JGeometry::TVec3f &, f32);
+    void getArbitUnitVecXZ(JGeometry::TVec3f&, f32);
     void setSeed(u32 seed) {
         randomSeed = seed;
         JMath::TRandom_fast_::setSeed(randomSeed);
@@ -72,7 +70,7 @@ struct stRandom : public JMath::TRandom_fast_
 
     s16 _0x4; // sin
     s16 _0x6; // cos
-    float _0x8; // angle?
+    f32 _0x8; // angle?
     u8 _0xC[4]; // unknown
     u32 randomSeed;
     bool permission;

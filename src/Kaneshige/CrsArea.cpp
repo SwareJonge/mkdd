@@ -75,14 +75,13 @@ void CrsArea::getRoofPosition(JGeometry::TVec3f *out)
         stPlaneParam plane;
         JGeometry::TVec3f vec;
 
-        vec.scaleAdd(mArea->_34.y, mArea->_1c, mArea->_4);
-        stMakePlaneParam(plane, mArea->_1c, vec);
+        vec.scaleAdd(mArea->mScale.y, mArea->mYNorm, mArea->mPos);
+        stMakePlaneParam(plane, mArea->mYNorm, vec);
 
         if (plane.y != 0.0f)
         {
             out->x = mPos.x;
-            f32 lenXZ = plane.x * mPos.x + plane.z * mPos.z;
-            out->y = -(plane.angle + lenXZ) / plane.y; // todo: get better understand of planeparam
+            out->y = -(plane.direction + (plane.x * mPos.x + plane.z * mPos.z)) / plane.y; // todo: get better understand of planeparam
             out->z = mPos.z;
         }
         else

@@ -24,31 +24,6 @@ namespace JMath
     template <int length, typename T>
     struct TSinCosTable
     {
-        /**
-         * elements are pairs of {sine, cosine}
-         */
-        std::pair<T, T> mTable[length];
-    };
-
-    template <int length, typename T>
-    struct TAtanTable
-    {
-        T atan2_(T, T) const;
-        T atan_(T) const;
-        T mTable[length];
-    };
-
-    template <int length, typename T>
-    struct TAsinAcosTable
-    {
-        T acos2_(T, T) const;
-        T acos_(T) const;
-        T mTable[length];
-    };
-
-    template <>
-    struct TSinCosTable<2048, f32>
-    {
         TSinCosTable() { init(); }
 
         void init()
@@ -65,6 +40,22 @@ namespace JMath
         f32 sinShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].first; }
         f32 cosShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].second; }
         std::pair<f32, f32> mTable[2048];
+    };
+
+    template <int length, typename T>
+    struct TAtanTable
+    {
+        T atan2_(T, T) const;
+        T atan_(T) const;
+        T mTable[length];
+    };
+
+    template <int length, typename T>
+    struct TAsinAcosTable
+    {
+        T acos2_(T, T) const;
+        T acos_(T) const;
+        T mTable[length];
     };
 
     template <>
@@ -166,7 +157,7 @@ namespace JMath
     };
 
     extern const TAsinAcosTable<1024, f32> asinAcosTable_ __attribute__((aligned(32)));
-    extern const TSinCosTable<2048, f32> sincosTable_ __attribute__((aligned(32)));
+    extern const TSinCosTable<11, f32> sincosTable_ __attribute__((aligned(32)));
     extern const TAtanTable<1024, f32> atanTable_ __attribute__((aligned(32)));
 
     class TRandom_fast_
@@ -207,8 +198,6 @@ namespace JMath
     public:
         TRandom_(u32 num) : TRandom_fast_(num){};
     };
-
-    inline const TSinCosTable<2048, f32> *getSinCosTable() { return &sincosTable_; }
 }
 
 inline f32 JMAAbs(f32 input) { return __fabs(input); }

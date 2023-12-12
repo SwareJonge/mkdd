@@ -123,28 +123,50 @@ struct J3DBlend
 
 struct J3DZModeInfo
 {
-    u8 _00; // _00
-    u8 _01; // _01
-    u8 _02; // _02
-    u8 _03; // _03 - unknown/padding
+    /* 0x0 */ u8 mCompareEnable;
+    /* 0x1 */ u8 mFunc;
+    /* 0x2 */ u8 mUpdateEnable;
 };
+
+extern J3DZModeInfo j3dZModeTable[0x20];
 
 extern const u16 j3dDefaultZModeID;
 
+inline u16 calcZModeID(u8 compareEnable, u8 func, u8 updateEnable)
+{
+    return ((func * 2) & 0x1FE) + (compareEnable * 0x10) + updateEnable;
+}
+
 struct J3DZMode
 {
-    /** @fabricated */
-    J3DZMode()
-        : _00(j3dDefaultZModeID)
+    J3DZMode() { mZModeID = j3dDefaultZModeID; }
+
+    u8 getCompareEnaable() const { return j3dZModeTable[mZModeID].mCompareEnable; }
+    u8 getFunc() const { return j3dZModeTable[mZModeID].mFunc; }
+    u8 getUpdateEnable() const { return j3dZModeTable[mZModeID].mUpdateEnable; }
+
+    void setZModeInfo(const J3DZModeInfo &info)
     {
+        u8 compareEn = info.mCompareEnable;
+        mZModeID = calcZModeID(compareEn, info.mFunc, info.mUpdateEnable);
     }
 
-    /** @fabricated */
-    J3DZMode(const J3DZModeInfo &info)
-        : _00(info._01 * 2 + info._00 * 0x10 + info._02)
+    /*void load()
     {
+        J3DGDSetZMode(getCompareEnaable(), GXCompare(getFunc()), getUpdateEnable());
+    }*/
+
+    void setCompareEnable(u8 i_compare)
+    {
+        mZModeID = calcZModeID(i_compare, j3dZModeTable[mZModeID].mFunc, j3dZModeTable[mZModeID].mUpdateEnable);
     }
-    u16 _00; // _00
+
+    void setUpdateEnable(u8 i_enable)
+    {
+        mZModeID = calcZModeID(j3dZModeTable[mZModeID].mCompareEnable, j3dZModeTable[mZModeID].mFunc, i_enable);
+    }
+
+    u16 mZModeID; // _00
 };
 
 struct J3DColorChan

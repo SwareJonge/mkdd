@@ -8,6 +8,8 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(script_dir, ".."))
 src_dir = os.path.join(root_dir, "src")
 include_dir = os.path.join(root_dir, "include")
+include_dir_std = os.path.join(root_dir, "libs/PowerPC_EABI_Support/include")
+include_dir_ppcdis = os.path.join(root_dir, "tools/ppcdis/include")
 
 include_pattern = re.compile(r'^#include\s*[<"](.+?)[>"]$')
 guard_pattern = re.compile(r'^#ifndef\s+(.*)$')
@@ -17,10 +19,17 @@ defines = set()
 def import_h_file(in_file, r_path) -> str:
     rel_path = os.path.join(root_dir, r_path, in_file)
     inc_path = os.path.join(include_dir, in_file)
+    inc_path_std = os.path.join(include_dir_std, in_file)
+    inc_path_ppcdis = os.path.join(include_dir_ppcdis, in_file)
+
     if os.path.exists(rel_path):
       return import_c_file(rel_path)
     elif os.path.exists(inc_path):
       return import_c_file(inc_path)
+    elif os.path.exists(inc_path_std):
+      return import_c_file(inc_path_std)
+    elif os.path.exists(inc_path_ppcdis):
+      return import_c_file(inc_path_ppcdis)
     else:
       print("Failed to locate", in_file)
       exit(1)
@@ -29,7 +38,7 @@ def import_c_file(in_file) -> str:
     in_file = os.path.relpath(in_file, root_dir)
     out_text = ''
 
-    with open(in_file, encoding="shift-jis") as file:
+    with open(in_file, encoding="utf-8") as file:
       for idx, line in enumerate(file):
         guard_match = guard_pattern.match(line.strip())
         if idx == 0:

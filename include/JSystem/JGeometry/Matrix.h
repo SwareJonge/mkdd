@@ -11,6 +11,7 @@ namespace JGeometry {
     struct SMatrix34C
     {
     public:
+        SMatrix34C() {}
         void set(const MtxPtr);
         void set(const SMatrix34C<T> &rSrc);
         void set(T rxx, T ryx, T rzx, T tx, T rxy, T ryy, T rzy, T ty, T rxz, T ryz, T rzz, T tz);
@@ -107,6 +108,8 @@ namespace JGeometry {
             ;
         }
 
+        T &ref(u32 i, u32 j) { return mMtx[i][j]; }
+
         inline Mtx *toMtx()
         {
             return (Mtx *)mMtx;
@@ -117,10 +120,7 @@ namespace JGeometry {
             return (const Mtx *)mMtx;
         }
 
-        inline MtxPtr toMtxPtr()
-        {
-            return (MtxPtr)mMtx;
-        }
+        operator MtxPtr() const { return (MtxPtr)mMtx; }
 
         T mMtx[3][4];
     };
@@ -131,7 +131,26 @@ namespace JGeometry {
     struct TMatrix34 : public T
     {
     public:
-        void identity();
+        void identity() // TODO: OK?
+        {
+            const T zero = (T)0;
+            ref(2, 3) = zero;
+            ref(1, 3) = zero;
+            ref(0, 3) = zerof;
+
+            ref(1, 2) = zero;
+            ref(0, 2) = zero;
+
+            ref(2, 1) = zero;
+            ref(0, 1) = zero;
+            ref(2, 0) = zero;
+            ref(1, 0) = zero;
+
+            const T one = TUtil<T>::one();
+            ref(2, 2) = one;
+            ref(1, 1) = one;
+            ref(0, 0) = one;
+        }
         void concat(const T &rSrcA, const T &rSrcB);
         void concat(const T &rSrc);
         void invert(const TMatrix34<T> &rDest);
@@ -145,6 +164,7 @@ namespace JGeometry {
     struct TRotation3 : public T
     {
     public:
+        TRotation3() {}
         void identity33();
 
         void getXDir(TVec3f &rDest) const
@@ -169,7 +189,18 @@ namespace JGeometry {
         void setYDir(f32 x, f32 y, f32 z);
         void setZDir(const TVec3f &rSrc);
         void setZDir(f32 x, f32 y, f32 z);
-        void setXYZDir(const TVec3f &rSrcX, const TVec3f &rSrcY, const TVec3f &rSrcZ);
+        void setXYZDir(const TVec3f &rSrcX, const TVec3f &rSrcY, const TVec3f &rSrcZ)
+        {
+            ref(0, 0) = rSrcX.x;
+            ref(1, 0) = rSrcX.y;
+            ref(2, 0) = rSrcX.z;
+            ref(0, 1) = rSrcY.x;
+            ref(1, 1) = rSrcY.y;
+            ref(2, 1) = rSrcY.z;
+            ref(0, 2) = rSrcZ.x;
+            ref(1, 2) = rSrcZ.y;
+            ref(2, 2) = rSrcZ.z;
+        }
 
         void getEuler(TVec3f &rDest) const;
         void getEulerXYZ(TVec3f &rDest) const;
@@ -211,10 +242,16 @@ namespace JGeometry {
     struct TPosition3 : public TRotation3<T>
     {
     public:
+        TPosition3() {}
         void getTrans(TVec3f &rDest) const;
         void setTrans(const TVec3f &rSrc);
         void setTrans(f32 x, f32 y, f32 z);
-        void zeroTrans();
+        void zeroTrans()
+        {
+            ref(0, 3) = 0.0f;
+            ref(1, 3) = 0.0f;
+            ref(2, 3) = 0.0f;
+        }
 
         void makeRotate(const TVec3f &, f32);
         void makeQuat(const TQuat4f &rSrc);

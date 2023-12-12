@@ -31,11 +31,11 @@ public:
 
     static const EventInfo sEventTable[];
 
-    static short sMyStartPointID;
+    static s16 sMyStartPointID;
 
     static RaceMgr *sRaceManager;
-    static short sForceTotalLapNum;
-    static short sDispFrameCounter;
+    static s16 sForceTotalLapNum;
+    static s16 sDispFrameCounter;
 
     static RaceMgr *getManager() { return sRaceManager; }
     static RaceMgr *getCurrentManager() { return getManager(); }
@@ -124,9 +124,9 @@ public:
         f32 getStartJugemOffsetY(int);                                     // 0x801af550
         int getProcLevel();                                                // 0x801af654
         bool isItemBoxValid();                                             // 0x801af6a4
-        void beginProcTime(short);                                         // 0x801af718
-        void endProcTime(short);                                           // 0x801af7cc
-        const EventInfo *searchEventInfo(short);                           // 0x801af864
+        void beginProcTime(s16);                                           // 0x801af718
+        void endProcTime(s16);                                             // 0x801af7cc
+        const EventInfo *searchEventInfo(s16);                             // 0x801af864
         bool isJugemCountStart();                                          // 0x801af8a0
         bool isKartGoal(int);                                              // 0x801af8e0
         int getGoalKartNumber();                                           // 0x801af904
@@ -142,18 +142,19 @@ public:
         // RaceInfo related
         bool isLANMode() const { return mRaceInfo->isLANMode(); }
         bool isMirror() const { return mRaceInfo->isMirror(); }
-        bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); };
+        bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); }
         int getKartNumber() const { return mRaceInfo->getKartNumber(); }
-        // TODO: figure out why these don't use the getters in RaceInfo
+        int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
+        int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
+        // why did this not use a getter?
         ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
-        int getConsoleNumber() const { return mRaceInfo->mConsoleNum; }
-
+        
         KartInfo *getKartInfo(int index)
         {
 #line 170
         JUT_MINMAX_ASSERT(0, index, 8);
-// TODO: in release it needs the other inline to prevent regswaps, debug grabs stuff from raceInfo without getters in some cases so it had access to it?
-#if DEBUG
+// TODO: in release it needs the other inline to prevent regswaps, debug grabs stuff from raceInfo without getters, why?
+#ifdef DEBUG
         return &mRaceInfo->mKartInfo[index];
 #else
         return mRaceInfo->getKartInfo(index);
@@ -166,9 +167,7 @@ public:
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
     int getCameraNumber() const { return getConsoleNumber(); }
 
-    bool isCrsDemoMode() {
-        return getRacePhase() == PHASE_CRS_DEMO;
-    }
+    bool isCrsDemoMode() { return getRacePhase() == PHASE_CRS_DEMO; }
     // RaceMgr get/sets
     int getTotalLapNumber() const { return mTotalLapNumber; }
     Course *getCourse() const { return mCourse;  }    
@@ -179,10 +178,7 @@ public:
     bool isStaffRoll() { return getRaceMode() == STAFF_ROLL; } // pls don't tell me it's stored as local variable
     bool isAwardDemoMode() {return getRaceMode() == AWARD_DEMO;}
     bool isActiveAreaLight() const { return mAreaLight & 1; }
-
-    void activeAreaLight() {
-        mAreaLight |= 1;
-    }
+    void activeAreaLight() { mAreaLight |= 1; }
 
     KartLoader *getKartLoader(int index) const {
 #line 257
@@ -230,35 +226,17 @@ public:
     RaceTime mBestLapTime;
     RaceTime mBestTotalTimes[5];
     s16 mEvents;
-
-    // these values store the amount of time/frames it took to execute a certain set of functions
-    // 0x0 GX Issue
-    // 0x100 Calc
-    // 0x200 update
-    // 0x300 ViewCalc
+    // These are monitor IDs, set to one of the IDs in sEventTable to monitor how long the CPU took to execute that part
     s16 mProctime1;
     s16 mProctime2;
     s16 mProctime3;
     s16 mProctime4;
 };
 
-inline RaceMgr *RCMGetManager() { 
-    return RaceMgr::getManager(); }
-
-inline Course *RCMGetCourse() { // might be inline off, auto?(Kameda)
-    return RaceMgr::getManager()->getCourse();
-}
-
-inline KartCam *RCMGetCamera(int index) {
-    return RaceMgr::getManager()->getCamera(index);
-}
-
-inline KartChecker *RCMGetKartChecker(int index) {
-    return RaceMgr::getManager()->getKartChecker(index);
-}
-
-inline KartLoader *RCMGetKartLoader(int index) {
-    return RaceMgr::getManager()->getKartLoader(index);
-}
+inline RaceMgr *RCMGetManager() { return RaceMgr::getManager(); }
+inline Course *RCMGetCourse() { return RaceMgr::getManager()->getCourse(); }
+inline KartCam *RCMGetCamera(int index) { return RaceMgr::getManager()->getCamera(index); }
+inline KartChecker *RCMGetKartChecker(int index) { return RaceMgr::getManager()->getKartChecker(index); }
+inline KartLoader *RCMGetKartLoader(int index) { return RaceMgr::getManager()->getKartLoader(index); }
 
 #endif // RACEMGR_H
