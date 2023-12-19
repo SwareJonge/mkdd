@@ -1034,6 +1034,13 @@ src/Kaneshige/TexLODControl.cpp:
 src/Kaneshige/ShapePktControl.cpp:
     .text: [0x801ba000, 0x801ba064]
 
+src/Kaneshige/SimpleDrawer.cpp:
+    .text: [0x801ba064, 0x801ba2a4]
+    .rodata: [0x80378988, 0x803789b8]
+    .sdata: [0x80414650, 0x80414658]
+    .sbss: [0x804163e8, 0x804163f0]
+    .sdata2: [0x8041a0b8, 0x8041a0c0]
+
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x801ba2a4, 0x801ba2b4]
 

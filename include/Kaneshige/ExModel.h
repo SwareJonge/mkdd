@@ -65,6 +65,12 @@ public:
     void setSimpleTevReg(u32 id) { mSimpleTevReg |= (1 << id); }
     void simpleDraw(u32 viewNo) { simpleDraw(viewNo, nullptr, 1); }
 
+    J3DModelData *getModelData(u16 level) const {
+#line 188
+        JUT_MINMAX_ASSERT(0, level, mLevelCnt)
+        return mModelData[level];
+    }
+
     static bool sClippingOn;           // 0x80414610
     static bool sMtxCombinationOn;     // 0x80416398
     static bool sDrawingOnlyUpdZMat;   // 0x80416399
@@ -72,7 +78,7 @@ public:
 
 private:
     // Vtable 0x0
-    u8 _4[0x8 - 0x4];
+    u16 mLevelCnt;
     J3DModelData **mModelData;
     J3DModel **mModel;
     u8 _10[0x1c - 0x10];

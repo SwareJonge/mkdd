@@ -64,6 +64,7 @@ namespace JUTAssertion
 #define JUT_MINMAX_ASSERT(min, cur, max) \
   JUT_ASSERT_F((((min) <= (cur)) && ((cur) < (max))), "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));
 
+// TODO: might not exist, unsigned comparisons against 0 get discarded
 #define JUT_MAX_ASSERT(cur, max) \
   JUT_ASSERT_F(((cur) < (max)), "range over: %d <= " #cur "=%d < %d", 0, (cur), (max));
 

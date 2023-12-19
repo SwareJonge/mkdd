@@ -2855,7 +2855,10 @@ global:
   # SimpleDrawer.cpp
   0x80190190: __ct__12SimpleDrawerFv
   0x801901a8: drawInit__12SimpleDrawerFP7ExModel
+  0x801901d0: drawInit__12SimpleDrawerFP12J3DModelData
   0x80190238: loadPreDrawSetting__12SimpleDrawerFv
+  0x803d38f0: sEnableCheckHidding__12SimpleDrawer
+  0x803d5660: sDrawingDrawer__12SimpleDrawer
 
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv
