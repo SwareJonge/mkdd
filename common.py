@@ -205,16 +205,6 @@ PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 
 # Codewarrior
-
-WIN32_WRAPPER = ""
-
-if platform != "win32":	
-    if(which("wibo") is not None):
-        WIN32_WRAPPER = "wibo "
-    elif(which("wine") is not None):
-        WIN32_WRAPPER = "wine "
-    assert WIN32_WRAPPER != "" "Wine or Wibo not found!"
-
 SDK_CW = os.path.join(TOOLS, "1.2.5")
 SDK_CC = os.path.join(SDK_CW, "mwcceppc.exe")
 
@@ -231,17 +221,31 @@ CODEWARRIOR = os.path.join(TOOLS, "2.6")
 CC = os.path.join(CODEWARRIOR, "mwcceppc.exe")
 LD = os.path.join(CODEWARRIOR, "mwldeppc.exe")
 
-SDK_CC = f"{WIN32_WRAPPER}{SDK_CC}"
-SDK_PACTHED_CC = f"{WIN32_WRAPPER}{SDK_PACTHED_CC}"
-CC_1_3_2 = f"{WIN32_WRAPPER}{CC_1_3_2}"
-CC = f"{WIN32_WRAPPER}{CC}"
-LD = f"{WIN32_WRAPPER}{LD}"
+if platform != "win32":
+    if(which("wibo") is not None):
+        WIN32_WRAPPER = "wibo"
+    elif(which("wine") is not None):
+        WIN32_WRAPPER = "wine"
+    assert WIN32_WRAPPER != "" "Wine or Wibo not found!"
+    
+    SDK_CC = f"{WIN32_WRAPPER} {SDK_CC}"
+    SDK_PACTHED_CC = f"{WIN32_WRAPPER} {SDK_PACTHED_CC}"
+    CC_1_3_2 = f"{WIN32_WRAPPER} {CC_1_3_2}"
+    JSYSTEM_O0_CC = f"{WIN32_WRAPPER} {JSYSTEM_O0_CC}"
+    CC = f"{WIN32_WRAPPER} {CC}"
+    LD = f"{WIN32_WRAPPER} {LD}"
 
 # DevkitPPC
 DEVKITPPC = os.environ.get("DEVKITPPC")
+
+# in case you know what you're doing you can get a version of devkitPPC and put it inside the tools folder
 if DEVKITPPC is None:
     DEVKITPPC = os.path.join(TOOLS, "devkitppc")
     assert(os.path.isdir(DEVKITPPC))
+
+# not tested but workaround for incorrect devkitppc path on windows
+if platform == "win32" and DEVKITPPC.startswith("/opt/"):
+    DEVKITPPC = DEVKITPPC.replace("/opt/", "C:/") 
 
 AS = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-as")
 OBJDUMP = os.path.join(DEVKITPPC, "bin", "powerpc-eabi-objdump")
