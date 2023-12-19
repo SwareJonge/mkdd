@@ -950,7 +950,7 @@ bool JUTException::queryMapAddress(char *mapPath, u32 address, s32 section_id, u
 
 bool JUTException::queryMapAddress_single(char *mapPath, u32 address, s32 section_id, u32 *out_addr, u32 *out_size, char *out_line, u32 line_length, bool print, bool begin_with_newline)
 {
-    /* Nonmatching */
+    /* fake match on TP debug? */
     if (!mapPath)
     {
         return false;
@@ -1055,12 +1055,14 @@ bool JUTException::queryMapAddress_single(char *mapPath, u32 address, s32 sectio
                                 i++;
                             }
                         }
+
                         if (i != 0 && dst[-1] == ' ')
                         {
                             dst--;
                             i--;
                         }
                         *dst = 0;
+                        
                         if (print)
                         {
                             if (begin_with_newline)
