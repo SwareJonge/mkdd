@@ -1,5 +1,5 @@
-#ifndef GAMEAUDIOHOSTIO_H
-#define GAMEAUDIOHOSTIO_H
+#ifndef GAMEAUDIOFXCONFIG_H
+#define GAMEAUDIOFXCONFIG_H
 
 #include "types.h"
 #include <JSystem/JKernel/JKRHeap.h>
@@ -14,6 +14,7 @@ namespace GameAudio
 
     class FxLineConfig 
     {
+    public:
         FxLineConfig(JKRHeap *heap);
         void set(u8 lineNum);
 
