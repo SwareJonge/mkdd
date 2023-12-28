@@ -39,13 +39,13 @@ public:
         JGeometry::TVec3f cpEnd;
         u8 mShortcutID;
         u8 _0x19;
-        bool mRevSearchEnable;
+        bool revSearchEnable;
         u8 _0x1b;
     }; // Size: 0x1c
 
     struct SColHeader
     {
-        char signature[4];
+        char version[4];
         u16 xGridNum;
         u16 zGridNum;
         int xStart; // TVec2?
@@ -69,45 +69,45 @@ public:
 
     struct SOblHeader
     {
-        char mMagic[4];
-        u8 mShaking;
-        u8 mAmbientColor[3];
-        JUtility::TColor mLightColor;
-        JGeometry::TVec3f mLightOffsetPos;
-        u8 mTotalLapNum;
-        u8 mCourseID;
-        u16 mCLPointNum;
-        u16 mCheckPathNum;
-        u16 ObjEntries;
-        u16 mAreaNum;
-        u16 mCameraNum;
-        u16 mPathNum;
-        u16 mJugemPointNum;
-        u8 mFogType;
-        u8 mFogColor[3];
-        f32 mFogStartZ;
-        f32 mFogEndZ;
-        u8 mTexLodBiasOn;
-        u8 mDummyStartLineOn;
-        u8 mSnowEnabled;
-        u8 mShadowDepth;
-        u8 mShadowColor[3];
-        u8 mStartPointNum;
-        u8 mSkyMode;
-        u8 mLightParamNum;
-        u8 mMGParamNum;
+        char version[4];
+        u8 shaking;
+        u8 ambientColor[3];
+        JUtility::TColor lightColor;
+        JGeometry::TVec3f lightOffsetPos;
+        u8 totalLapNum;
+        u8 courseID;
+        u16 clPointNum;
+        u16 checkPathNum;
+        u16 objEntries;
+        u16 areaNum;
+        u16 cameraNum;
+        u16 pathNum;
+        u16 jugemPointNum;
+        u8 fogType;
+        u8 fogColor[3];
+        f32 fogStartZ;
+        f32 fogEndZ;
+        u8 texLodBiasOn;
+        u8 dummyStartLineOn;
+        u8 snowEnabled;
+        u8 shadowDepth;
+        u8 shadowColor[3];
+        u8 startPointNum;
+        u8 skyMode;
+        u8 lightParamNum;
+        u8 mgParamNum;
         u32 fileStart;
-        u32 mCLPointOffset;
-        u32 mCheckPathOffset;
-        u32 mPathOffset;
-        u32 mPointOffset;
+        u32 clPointOffset;
+        u32 checkPathOffset;
+        u32 pathOffset;
+        u32 pointOffset;
         u32 objectsOffset;
-        u32 mStartPointOffset;
-        u32 mAreaOffset;
-        u32 mCameraOffset;
-        u32 mJugemPointOffset;
-        u32 mLightParamOffset;
-        u32 mMGParamOffset;
+        u32 startPointOffset;
+        u32 areaOffset;
+        u32 cameraOffset;
+        u32 jugemPointOffset;
+        u32 lightParamOffset;
+        u32 mgParamOffset;
         u8 _70[0xc];
     };
 
@@ -116,17 +116,17 @@ public:
     {
         //SCLPoint() : mPos() { }
 
-        JGeometry::TVec3f mPos;
-        u16 mDriftDir; 
-        s16 mGroupID; 
-        f32 mScale;
-        char mSwerve;
-        u8 mGroupSetting;
-        u8 mUniqueGroupID;
-        u8 mDriftAcuteness;
-        u8 mDriftDuration;
-        u8 mDriftSupplement;
-        u8 mIsNoMushroomZone;
+        JGeometry::TVec3f pos;
+        u16 driftDir; 
+        s16 groupID; 
+        f32 scale;
+        char swerve;
+        u8 groupSetting;
+        u8 uniqueGroupID;
+        u8 driftAcuteness;
+        u8 driftDuration;
+        u8 driftSupplement;
+        u8 isNoMushroomZone;
         u8 pad[5];
     }; // Size: 0x20
 
@@ -137,15 +137,15 @@ public:
 
     struct SJugemPoint
     { // mostly copied from https://mkdd.miraheze.org/wiki/mObjectData_(File_Format) (Section 9: Respawn Points)
-        JGeometry::TVec3f mPosition;
+        JGeometry::TVec3f position;
         s16 dirX; // TVec3?
         s16 dirY;
         s16 dirZ;
         s16 _12[3]; // seems to be padding
-        u16 mID;
-        u16 mCPointID;
-        s16 mCameraID;
-        s16 mSectorID;
+        u16 id;
+        u16 cPointID;
+        s16 cameraID;
+        s16 sectorID;
     };
 
 
@@ -216,9 +216,9 @@ public:
         }
         void getFrDirection(JGeometry::TVec3f *vec) const
         {
-            vec->x = mRot.x * 1.0E-4f;
+            vec->x = mRot.x * 0.0001f;
             vec->y = 0.0f;
-            vec->z = mRot.z * 1.0E-4f;
+            vec->z = mRot.z * 0.0001f;
             vec->normalize();
         }
 
@@ -245,18 +245,18 @@ public:
     f32 getFogEndZ() const;
     void getFogColor(JUtility::TColor *color) const;
     StartPoint* getStartPoint(u8) const;
-    ECourseID getCourseID() const { return (ECourseID)mObjectData->mCourseID; }
-    u8 getTotalLapNumber() const { return mObjectData->mTotalLapNum; }
-    bool isTexLODBiasOn() const { return mObjectData->mTexLodBiasOn != 0; }
-    u8 getShadowDepth() const { return mObjectData->mShadowDepth; }
-    u8 getShaking() const { return mObjectData->mShaking; }
-    int getAreaNumber() const { return mObjectData->mAreaNum; }
-    int getCheckPathNumber() const { return mObjectData->mCheckPathNum; }
-    int getCLPointNumber() const { return mObjectData->mCLPointNum; }
-    int getJugemPointNumber() const { return mObjectData->mJugemPointNum; }
-    int getPathNumber() const { return mObjectData->mPathNum; }
-    bool isSkyFollow() const { return mObjectData->mSkyMode != 0; }
-    bool isShaking() const { return mObjectData->mShaking != 0; }
+    ECourseID getCourseID() const { return (ECourseID)mObjectData->courseID; }
+    u8 getTotalLapNumber() const { return mObjectData->totalLapNum; }
+    bool isTexLODBiasOn() const { return mObjectData->texLodBiasOn != 0; }
+    u8 getShadowDepth() const { return mObjectData->shadowDepth; }
+    u8 getShaking() const { return mObjectData->shaking; }
+    int getAreaNumber() const { return mObjectData->areaNum; }
+    int getCheckPathNumber() const { return mObjectData->checkPathNum; }
+    int getCLPointNumber() const { return mObjectData->clPointNum; }
+    int getJugemPointNumber() const { return mObjectData->jugemPointNum; }
+    int getPathNumber() const { return mObjectData->pathNum; }
+    bool isSkyFollow() const { return mObjectData->skyMode != 0; }
+    bool isShaking() const { return mObjectData->shaking != 0; }
 
     int getCheckPointOffset(int n) const;
 
@@ -280,10 +280,10 @@ public:
         return camData;
     }*/
 
-    SCLPoint *getCLPointTable() const { return (SCLPoint *)(((u8 *)mObjectData) + mObjectData->mCLPointOffset); }
-    SArea *getAreaTable() const { return (SArea *)(((u8 *)mObjectData) + mObjectData->mAreaOffset); }
-    CheckPath *getCheckPathTable() const { return (CheckPath *)(((u8 *)mObjectData) + mObjectData->mCheckPathOffset); }
-    SJugemPoint *getJugemPointTable() const { return (SJugemPoint *)(((u8 *)mObjectData) + mObjectData->mJugemPointOffset); }
+    SCLPoint *getCLPointTable() const { return (SCLPoint *)(((u8 *)mObjectData) + mObjectData->clPointOffset); }
+    SArea *getAreaTable() const { return (SArea *)(((u8 *)mObjectData) + mObjectData->areaOffset); }
+    CheckPath *getCheckPathTable() const { return (CheckPath *)(((u8 *)mObjectData) + mObjectData->checkPathOffset); }
+    SJugemPoint *getJugemPointTable() const { return (SJugemPoint *)(((u8 *)mObjectData) + mObjectData->jugemPointOffset); }
 
 private:
     SColHeader *mCollionData;

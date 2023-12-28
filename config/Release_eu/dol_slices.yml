@@ -902,6 +902,10 @@ src/Inagaki/GameAudioHostIO.cpp:
     .bss: [0x80388ee8, 0x80388f40]
     .sdata2: [0x803d7658, 0x803d7660]
 
+src/Inagaki/GameAudioFxConfig.cpp:
+    .text: [0x80122d7c, 0x80122ec8]
+    .data: [0x80353ed8, 0x803540d8]
+
 src/Kameda/Scene.cpp:
     .text: [0x8012cfbc, 0x8012d020]
     .data: [0x803549a0, 0x803549b8]

@@ -33,9 +33,9 @@ public:
         JKRHeap *mHeap;          // 0x18
         s16 mGroupID;            // 0x1c
         char *mGroups[30];       // 0x20
-        char mGroupName;         // 0x98
+        char mGroupName[12];     // 0x98
         JSULink<HeapInfo> mLink; // 0xa4
-    }; // Size: 0xb4
+    };                           // Size: 0xb4
 
     static void createManager();                          // 0x801b0d08
     SysDebug();                                           // 0x801b0d50

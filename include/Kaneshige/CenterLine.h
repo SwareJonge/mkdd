@@ -21,7 +21,7 @@ public:
     {
         if (mPointData)
         {
-            pos->set(mPointData->mPos);
+            pos->set(mPointData->pos);
             return;
         }
         pos->zero();
@@ -31,14 +31,14 @@ public:
     CLPoint *getPrevPoint(int divNo)
     {
 #line 84
-        JUT_ASSERT_F(mPrevPoints[divNo], "P:%5.3f,%5.3f,%5.3f:%d", mPointData->mPos.x, mPointData->mPos.y, mPointData->mPos.z, divNo);
+        JUT_ASSERT_F(mPrevPoints[divNo], "P:%5.3f,%5.3f,%5.3f:%d", mPointData->pos.x, mPointData->pos.y, mPointData->pos.z, divNo);
         JUT_MINMAX_ASSERT(0, divNo, 4);
         return mPrevPoints[divNo];
     }
     
     CLPoint *getNextPoint(int divNo) 
     {
-        JUT_ASSERT_F(mNextPoints[divNo], "N:%5.3f,%5.3f,%5.3f:%d", mPointData->mPos.x, mPointData->mPos.y, mPointData->mPos.z, divNo);
+        JUT_ASSERT_F(mNextPoints[divNo], "N:%5.3f,%5.3f,%5.3f:%d", mPointData->pos.x, mPointData->pos.y, mPointData->pos.z, divNo);
         JUT_MINMAX_ASSERT(0, divNo, 4);
         return mNextPoints[divNo];
     }

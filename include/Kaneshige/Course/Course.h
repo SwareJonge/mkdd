@@ -107,7 +107,7 @@ public:
         }
 
         bool isDiv() const { return mDivFlag; }
-        bool isRevSearchEnable() { return mBPoint->mRevSearchEnable != 0; }
+        bool isRevSearchEnable() { return mBPoint->revSearchEnable != 0; }
         f32 getTotalPriorDist() const { return mTotalPriorDist; }
         f32 getSectorDist(void) const { return mSectorDist; }
         bool isInvalid() const { return mBPoint->_0x19 != 0; }

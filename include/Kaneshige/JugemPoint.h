@@ -9,18 +9,18 @@ class JugemPoint
 {
 public:
     JugemPoint();
-    short getSectorID() const { return mPointData->mSectorID; }
+    short getSectorID() const { return mPointData->sectorID; }
     void setCLPoint(CLPoint *clPoint) { mCLPoint = clPoint; }
     void setPointData(const CrsData::SJugemPoint *pointData) { mPointData = pointData; }
-    bool isSameCPointID(u16 id) const { return mPointData->mCPointID == id; }
-    bool isSameJPointID(u16 id) const { return mPointData->mID == id; }
+    bool isSameCPointID(u16 id) const { return mPointData->cPointID == id; }
+    bool isSameJPointID(u16 id) const { return mPointData->id == id; }
 
-    u16 getID() const { return mPointData->mID; }
+    u16 getID() const { return mPointData->id; }
 
     void getPosition(JGeometry::TVec3f *pos)
     {
         if(mPointData) {
-            pos->set(mPointData->mPosition);
+            pos->set(mPointData->position);
             return;
         }
         pos->zero();

@@ -1097,6 +1097,8 @@ global:
   0x80092544: registerMixCallback__9JASDriverFPFl_Ps10JASMixMode
   # JASDriverIF.cpp
   0x8009472c: getOutputMode__9JASDriverFv
+  # JASDSPInterface.cpp
+  0x80095384: setFXLine__6JASDspFUcPsPQ26JASDsp13FxlineConfig_
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
   # JASInstRand.cpp
@@ -2372,6 +2374,13 @@ global:
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
 
   0x803d5498: msBasic__Q29GameAudio4Main
+  # GameAudioFxConfig.cpp
+  0x80122d7c: __ct__Q29GameAudio12FxLineConfigFP7JKRHeap
+  0x80122e5c: set__Q29GameAudio12FxLineConfigFUc
+  0x80353ed8: Non__9GameAudio
+  0x80353f58: Hall__9GameAudio
+  0x80353fd8: Room__9GameAudio
+  0x80354058: Canyon__9GameAudio
 
   # Kameda
   # MotorManager.cpp

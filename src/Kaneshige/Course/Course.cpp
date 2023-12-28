@@ -458,7 +458,7 @@ void Course::createCLPoint(bool mirror)
         CLPoint *linkPoint = &clPoints[i];
         CrsData::SCLPoint *pointData = &clPointTable[i];
         linkPoint->setPointData(pointData);
-        if (pointData->mGroupID >= 0)
+        if (pointData->groupID >= 0)
         {
             setDiv = setDiv == false;
             if (setDiv)
@@ -489,14 +489,14 @@ void Course::createCLPoint(bool mirror)
         {
         case 1:
         {
-            if (pointData->mGroupID != 0)
+            if (pointData->groupID != 0)
             {
                 for (int j = 0; j < clPointCnt; j++)
                 {
                     CLPoint *prevPoint = &clPoints[j];
                     const CrsData::SCLPoint *prevPointData = prevPoint->getPointData();
                     if (i != j && prevPoint->getKind() == 2 &&
-                        prevPointData->mGroupID == pointData->mGroupID)
+                        prevPointData->groupID == pointData->groupID)
                     {
                         prevPoint->setNextPoint(clPoint);
                         clPoint->setPrevPoint(prevPoint);
@@ -516,7 +516,7 @@ void Course::createCLPoint(bool mirror)
             prevPoint->setNextPoint(clPoint);
             clPoint->setPrevPoint(prevPoint);
             prevPoint = clPoint;
-            if (pointData->mGroupID == 0)
+            if (pointData->groupID == 0)
             {
                 clPoint->setNextPoint(mCenterPoint);
                 mCenterPoint->setPrevPoint(clPoint);
@@ -552,8 +552,8 @@ void Course::createCLPoint(bool mirror)
 
                 CrsData::SCLPoint *sclPoint = new CrsData::SCLPoint();
                 memset(sclPoint, 0, sizeof(CrsData::SCLPoint));
-                sclPoint->mPos.set(pointData->pos);
-                sclPoint->mScale = 1.0f;
+                sclPoint->pos.set(pointData->pos);
+                sclPoint->scale = 1.0f;
                 linkPoint->setPointData(sclPoint);
 
                 if (pointIdx == 0)
