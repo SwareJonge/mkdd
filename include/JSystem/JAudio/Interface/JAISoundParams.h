@@ -1,5 +1,5 @@
-#ifndef JAISOUNDPARAMS_H
-#define JAISOUNDPARAMS_H
+#ifndef JAUDIO_JAISOUNDPARAMS_H
+#define JAUDIO_JAISOUNDPARAMS_H
 
 #include "JSystem/JAudio/System/JASSoundParams.h"
 
@@ -120,4 +120,4 @@ struct JAISoundParams
     JAISoundParamsMove mMove;
 }; // Size: 0x5C
 
-#endif /* JAISOUNDPARAMS_H */
+#endif /* JAUDIO_JAISOUNDPARAMS_H */

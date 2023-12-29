@@ -1,7 +1,8 @@
 
 #include "Inagaki/GameAudioFxConfig.h"
 
-namespace GameAudio {
+namespace GameAudio
+{
     JASDsp::FxlineConfig_ Non[4] = {
         {1, 0, 0x6000, 1, 0, 0x40,
          0, 0, 0, 0, 0, 0, 0x3fff, 0},
@@ -9,7 +10,7 @@ namespace GameAudio {
          0, 0, 0, 0, 0, 0, 0x3fff, 0},
         {1, 0, 0, 1, 0, 0x40,
          0, 0, 0, 0, 0, 0, 0x3fff, 0},
-        {1, 0, 0x0000, 1, 0, 0x40,
+        {1, 0, 0, 1, 0, 0x40,
          0, 0, 0, 0, 0, 0, 0x3fff, 0},
     };
 
@@ -46,7 +47,7 @@ namespace GameAudio {
          0, 0, 0, 0, 0, 0, 0x3fff, 0},
     };
 
-    FxLineConfig::FxLineConfig(JKRHeap * heap)
+    FxLineConfig::FxLineConfig(JKRHeap *heap)
     {
         mConfig[0] = Non;
         mConfig[1] = Hall;
@@ -56,7 +57,7 @@ namespace GameAudio {
         for (u8 i = 0; i < 4; i++)
         {
             u32 bufCnt = 0;
-            for(u8 j = 0; j < 4; j++)
+            for (u8 j = 0; j < 4; j++)
             {
                 u32 configBufCnt = mConfig[j][i].mBufCount;
                 if (configBufCnt > bufCnt)
@@ -69,12 +70,12 @@ namespace GameAudio {
     }
 
     void FxLineConfig::set(u8 lineNum)
-    {   
-    #line 200
+    {
+#line 200
         JUT_ASSERT_F(lineNum < 4, "%s", "FxLineConfig::set ラインナンバーが不正です。\n") // line number is invalid
         mNum = lineNum;
 
-        for(u8 i = 0; i < 4; i++)
+        for (u8 i = 0; i < 4; i++)
             JASDsp::setFXLine(i, mBuf[i], &mConfig[lineNum][i]);
     }
 }

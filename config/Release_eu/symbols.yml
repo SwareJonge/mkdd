@@ -1107,8 +1107,35 @@ global:
   # osdsp.c
   0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
   0x800a2000: __DSPHandler
+  # JAUAudioArcInterpreter.cpp
+  0x800a23ec: __ct__22JAUAudioArcInterpreterFv
+  0x800a2408: __dt__22JAUAudioArcInterpreterFv
+  0x800a2458: parse__22JAUAudioArcInterpreterFPCv
+  0x800a24c8: readCommandMore__22JAUAudioArcInterpreterFUl
+  0x800a24d0: readCommand___22JAUAudioArcInterpreterFv
+  0x8034f1e0: __vt__22JAUAudioArcInterpreter
+  # JAUAudioArcLoader.cpp
+  0x800a28ac: __ct__17JAUAudioArcLoaderFP10JAUSection
+  0x800a28f8: load__17JAUAudioArcLoaderFPCv
+  0x800a2918: load__17JAUAudioArcLoaderFPCc
+  0x800a2984: readWS__17JAUAudioArcLoaderFUlPCvUl
+  0x800a29e4: readBNK__17JAUAudioArcLoaderFUlPCv
+  0x800a2a14: readBSC__17JAUAudioArcLoaderFPCvUl
+  0x800a2a38: readBST__17JAUAudioArcLoaderFPCvUl
+  0x800a2a60: readBSTN__17JAUAudioArcLoaderFPCvUl
+  0x800a2a88: readBMS__17JAUAudioArcLoaderFUlPCvUl
+  0x800a2ab4: readBMS_fromArchive__17JAUAudioArcLoaderFUl
+  0x800a2ae0: newDynamicSeqBlock__17JAUAudioArcLoaderFUl
+  0x800a2b18: readBSFT__17JAUAudioArcLoaderFPCv
+  0x800a2b40: beginBNKList__17JAUAudioArcLoaderFUlUl
+  0x800a2b64: endBNKList__17JAUAudioArcLoaderFv
+  0x800a2b88: readMaxSeCategory__17JAUAudioArcLoaderFiii
+  0x800a2bac: __dt__17JAUAudioArcLoaderFv
+  0x8034f220: __vt__17JAUAudioArcLoader
   # unk JAudio Something(probably JAUClusterSound.cpp)
   0x800a318c: __ct__Q29JGeometry8TVec3<f>Fv
+  # JAUSectionHeap.cpp
+  0x800a7578: newCopy__10JAUSectionFPCvUll
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.
@@ -2369,11 +2396,11 @@ global:
   0x80116b40: setOutputMode__Q29GameAudio4MainFUl
   0x80116b78: resetAudio__Q29GameAudio4MainFUl
   0x80116c70: resumeAudio__Q29GameAudio4MainFv
+  0x803d5498: msBasic__Q29GameAudio4Main
+  0x803d549c: mLastBaaPointer__9GameAudio
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
-
-  0x803d5498: msBasic__Q29GameAudio4Main
   # GameAudioFxConfig.cpp
   0x80122d7c: __ct__Q29GameAudio12FxLineConfigFP7JKRHeap
   0x80122e5c: set__Q29GameAudio12FxLineConfigFUc
@@ -2381,6 +2408,11 @@ global:
   0x80353f58: Hall__9GameAudio
   0x80353fd8: Room__9GameAudio
   0x80354058: Canyon__9GameAudio
+  # GameAudioArcLoader.cpp
+  0x80122ec8: __ct__Q29GameAudio15CustomArcLoaderFP10JAUSection
+  0x80122f0c: __dt__Q29GameAudio15CustomArcLoaderFv
+  0x80122f74: readCommandMore__Q29GameAudio15CustomArcLoaderFUl
+  0x803540d8: __vt__Q29GameAudio15CustomArcLoader
 
   # Kameda
   # MotorManager.cpp

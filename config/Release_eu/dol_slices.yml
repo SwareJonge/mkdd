@@ -906,6 +906,12 @@ src/Inagaki/GameAudioFxConfig.cpp:
     .text: [0x80122d7c, 0x80122ec8]
     .data: [0x80353ed8, 0x803540d8]
 
+src/Inagaki/GameAudioArcLoader.cpp:
+    .text: [0x80122ec8, 0x801230d0]
+    .ctors: [0x802d85cc, 0x802d85d0]
+    .data: [0x803540d8, 0x80354118]
+    .bss: [0x80389290, 0x803892b8]
+
 src/Kameda/Scene.cpp:
     .text: [0x8012cfbc, 0x8012d020]
     .data: [0x803549a0, 0x803549b8]

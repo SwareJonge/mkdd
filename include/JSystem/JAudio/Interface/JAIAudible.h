@@ -1,5 +1,5 @@
-#ifndef JAIAUDIBLE_H
-#define JAIAUDIBLE_H
+#ifndef JAUDIO_JAIAUDIBLE_H
+#define JAUDIO_JAIAUDIBLE_H
 
 #include "JSystem/JGeometry.h"
 #include "JSystem/JAudio/System/JASSoundParams.h"
@@ -17,4 +17,4 @@ public:
     JGeometry::TVec3f mPos;
 };
 
-#endif /* JAIAUDIBLE_H */
+#endif /* JAUDIO_JAIAUDIBLE_H */

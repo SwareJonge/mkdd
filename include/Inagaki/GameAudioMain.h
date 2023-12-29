@@ -1,18 +1,31 @@
 #ifndef GAMEAUDIOMAIN_H
 #define GAMEAUDIOMAIN_H
 
-#include "JSystem/JKernel/JKRHeap.h"
+#include <JSystem/JKernel/JKRHeap.h>
+#include <JSystem/JAudio/JAUSectionHeap.h>
+
+#include "Inagaki/GameAudioFxConfig.h"
 #include "types.h"
 
-namespace GameAudio {
-    class Main {
+namespace GameAudio
+{
+    class CustomMgr;
+    class CameraMgr;
+
+    class Main
+    {
     public:
-        enum WS_ID
+        enum WS_ID // Data from GCKart.daa, might not be correct
         {
-            STREAM0,
-            STREAM1,
-            STREAM2,
-            STREAM3
+            STREAM0, // NINTENDO_LOGO_MARIO_WS_START?
+            STREAM1, // SE_WS_START?
+            STREAM2, // not used
+            STREAM3  // TANAKA_BGM_WS_START?
+        };
+
+        enum PAUSE_STATUS
+        {
+            // TODO
         };
 
         void init(JKRSolidHeap *, u32, void *, void *, u32);
@@ -31,11 +44,28 @@ namespace GameAudio {
         f32 getMasterVolumeValue();
         f32 getTHPOptionVolume() { return getMasterVolumeValue() / 2; };
 
+        JAUSectionHeap *getSectionHeap() { return mSectionHeap; }
+
         static Main *getAudio() { return msBasic; };
 
-        static Main *msBasic; 
-    };
-    namespace Parameters {
+        static Main *msBasic;
+
+    private:
+        CustomMgr *mMgr;              // 00
+        u8 _04[0x14 - 0x4];           //
+        JAUSectionHeap *mSectionHeap; // 14
+        u8 _18[0x44 - 0x18];          //
+        FxLineConfig *mConfig;        // 44
+        u8 _48[4];                    //
+        PAUSE_STATUS mPauseStatus;    // 4C
+        u8 _50[0x64 - 0x50];          //
+        CameraMgr *mCamera;           // 64
+        u8 _68[0xa8 - 0x68];          //
+
+    }; // Size: 0xa8
+
+    namespace Parameters
+    {
         extern u8 getDemoMode();
         extern void setDemoMode(u8);
     }
