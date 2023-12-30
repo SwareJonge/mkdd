@@ -97,7 +97,7 @@ JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *command)
             fileSize = command->_40;
         }
         fileSize = ALIGN_NEXT(fileSize, 0x20);
-        if (command->mExpandSwitch == Switch_1)
+        if (command->mExpandSwitch == EXPAND_SWITCH_DECOMPRESS)
         {
             u8 buffer[0x40];
             u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 0x20);
@@ -129,10 +129,10 @@ JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *command)
 
         if (compression == JKRCOMPRESSION_NONE)
         {
-            command->mExpandSwitch = Switch_0;
+            command->mExpandSwitch = EXPAND_SWITCH_DEFAULT;
         }
 
-        if (command->mExpandSwitch == Switch_1)
+        if (command->mExpandSwitch == EXPAND_SWITCH_DECOMPRESS)
         {
             if (command->_2C == 0 && command->mBlock == nullptr)
             {

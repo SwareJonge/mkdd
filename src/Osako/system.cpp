@@ -59,8 +59,8 @@ namespace System {
     JKRSolidHeap *mspAudioHeap;
 
     void startAudioTask(void*) {
-        void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, Switch_1, 
-                            0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
+        void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, EXPAND_SWITCH_DECOMPRESS,
+                                                      0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
         GetGameAudioMain()->init(mspAudioHeap, SystemData::scAudioAramSize, audioFile, 0, 0);
         delete audioFile;
         gSystemRecord.applyAudioSetting();

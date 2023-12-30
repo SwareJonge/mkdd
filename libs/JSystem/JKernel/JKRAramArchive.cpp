@@ -84,7 +84,7 @@ bool JKRAramArchive::open(long entryNum) {
         mMountMode = 0;
     }
     else {
-        JKRDvdToMainRam(entryNum, (u8 *)mem, Switch_1, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
+        JKRDvdToMainRam(entryNum, (u8 *)mem, EXPAND_SWITCH_DECOMPRESS, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
         DCInvalidateRange(mem, 32);
         int alignment = mMountDirection == MOUNT_DIRECTION_HEAD ? 32 : -32;
         u32 alignedSize = ALIGN_NEXT(mem->file_data_offset, 32);
@@ -93,7 +93,7 @@ bool JKRAramArchive::open(long entryNum) {
             mMountMode = 0;
         }
         else {
-            JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, Switch_1, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 32, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, EXPAND_SWITCH_DECOMPRESS, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 32, nullptr, nullptr);
             DCInvalidateRange(mArcInfoBlock, alignedSize);
 
             mDirectories = (SDIDirEntry *)((u8 *)mArcInfoBlock + mArcInfoBlock->node_offset);
@@ -138,7 +138,7 @@ bool JKRAramArchive::open(long entryNum) {
                 mMountMode = 0;
             }
             else {
-                JKRDvdToAram(entryNum, mBlock->getAddress(), Switch_1, mem->header_length + mem->file_data_offset, 0, nullptr);
+                JKRDvdToAram(entryNum, mBlock->getAddress(), EXPAND_SWITCH_DECOMPRESS, mem->header_length + mem->file_data_offset, 0, nullptr);
             }
 
         }
@@ -265,11 +265,11 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, u8 *data, u3
         {
             alignedSize = prevAlignedSize;
         }
-        JKRAramToMainRam(srcAram, data, alignedSize, Switch_0, prevAlignedSize, nullptr, -1, &sizeRef);
+        JKRAramToMainRam(srcAram, data, alignedSize, EXPAND_SWITCH_DEFAULT, prevAlignedSize, nullptr, -1, &sizeRef);
         return sizeRef;
     case JKRCOMPRESSION_YAY0:
     case JKRCOMPRESSION_YAZ0:
-        JKRAramToMainRam(srcAram, data, alignedSize, Switch_1, prevAlignedSize, nullptr, -1, &sizeRef);
+        JKRAramToMainRam(srcAram, data, alignedSize, EXPAND_SWITCH_DECOMPRESS, prevAlignedSize, nullptr, -1, &sizeRef);
         return sizeRef;
     default:
 #line 655
@@ -290,21 +290,21 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 size, JKRHeap *hea
 #line 677
         JUT_ASSERT(buffer != 0);
 
-        JKRAramToMainRam(srcAram, buffer, alignedSize, Switch_0, alignedSize, nullptr, -1, nullptr);
+        JKRAramToMainRam(srcAram, buffer, alignedSize, EXPAND_SWITCH_DEFAULT, alignedSize, nullptr, -1, nullptr);
         *pBuf = buffer;
         return size;
     case JKRCOMPRESSION_YAY0:
     case JKRCOMPRESSION_YAZ0:
         u8 decompBuf[64];
         u8 *bufptr = (u8 *)ALIGN_NEXT((u32)decompBuf, 32);
-        JKRAramToMainRam(srcAram, bufptr, sizeof(decompBuf) / 2, Switch_0, 0, nullptr, -1, nullptr);
-        
+        JKRAramToMainRam(srcAram, bufptr, sizeof(decompBuf) / 2, EXPAND_SWITCH_DEFAULT, 0, nullptr, -1, nullptr);
+
         u32 expandSize = ALIGN_NEXT(JKRDecompExpandSize(bufptr), 32);
         buffer = (u8 *)JKRAllocFromHeap(heap, expandSize, 32);
 #line 703
         JUT_ASSERT(buffer);
 
-        JKRAramToMainRam(srcAram, buffer, alignedSize, Switch_1, expandSize, heap, -1, &resSize);
+        JKRAramToMainRam(srcAram, buffer, alignedSize, EXPAND_SWITCH_DECOMPRESS, expandSize, heap, -1, &resSize);
         *pBuf = buffer;
         return resSize;
     default:
@@ -342,7 +342,7 @@ u32 JKRAramArchive::getExpandedResSize(const void *resource) const
     u8 buf[64];
     u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buf, 32);
 
-    JKRAramToMainRam(fileEntry->mDataOffset + mBlock->getAddress(), bufPtr, sizeof(buf) / 2, Switch_0, 0, nullptr, -1, nullptr);
+    JKRAramToMainRam(fileEntry->mDataOffset + mBlock->getAddress(), bufPtr, sizeof(buf) / 2, EXPAND_SWITCH_DEFAULT, 0, nullptr, -1, nullptr);
 
     u32 decompExpandSize = JKRDecompExpandSize(bufPtr);
     const_cast<JKRAramArchive *>(this)->setExpandSize(fileEntry, decompExpandSize);

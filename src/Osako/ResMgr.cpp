@@ -511,10 +511,10 @@ namespace ResMgr
 
         char path[0x40];
         snprintf(path, sizeof(path), "/CourseName/%s/%s_name.bti", KartLocale::getLanguageName(), getCrsArcName(msCourseID));
-        mspCourseName = JKRDvdToMainRam(path, nullptr, Switch_0, 0, mspCourseHeap, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
+        mspCourseName = JKRDvdToMainRam(path, nullptr, EXPAND_SWITCH_DEFAULT, 0, mspCourseHeap, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
 
         snprintf(path, sizeof(path), "/StaffGhosts/%s.ght", getCrsArcName(msCourseID));
-        mspStaffGhost = JKRDvdToMainRam(path, nullptr, Switch_0, 0, mspCourseHeap, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
+        mspStaffGhost = JKRDvdToMainRam(path, nullptr, EXPAND_SWITCH_DEFAULT, 0, mspCourseHeap, JKRDvdRipper::ALLOC_DIR_TOP, 0, nullptr, nullptr);
 
         if (msCourseID == LUIGI_CIRCUIT && gRaceInfo.getRaceLevel() != LVL_50CC)
         {

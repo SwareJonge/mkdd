@@ -74,7 +74,7 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
     {
         u32 loadedSize;
         mArcHeader = (SArcHeader *)JKRDvdRipper::loadToMainRAM(
-            entryNum, nullptr, Switch_1, 0, mHeap, JKRDvdRipper::ALLOC_DIR_TOP,
+            entryNum, nullptr, EXPAND_SWITCH_DECOMPRESS, 0, mHeap, JKRDvdRipper::ALLOC_DIR_TOP,
             0, (int *)&mCompression, &loadedSize);
         if (mArcHeader)
         {
@@ -85,7 +85,7 @@ bool JKRMemArchive::open(s32 entryNum, JKRArchive::EMountDirection mountDirectio
     {
         u32 loadedSize;
         mArcHeader = (SArcHeader *)JKRDvdRipper::loadToMainRAM(
-            entryNum, nullptr, Switch_1, 0, mHeap,
+            entryNum, nullptr, EXPAND_SWITCH_DECOMPRESS, 0, mHeap,
             JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, (int *)&mCompression, &loadedSize);
         if (mArcHeader)
         {

@@ -63,7 +63,7 @@ namespace JKRDvdRipper
         u8 *mem = nullptr;
 
         fileSizeAligned = ALIGN_NEXT(jkrDvdFile->getFileSize(), 32);
-        if (expandSwitch == Switch_1)
+        if (expandSwitch == EXPAND_SWITCH_DECOMPRESS)
         {
             u8 buffer[0x40];
             u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32);
@@ -87,7 +87,7 @@ namespace JKRDvdRipper
         if (pCompression)
             *pCompression = (int)compression;
 
-        if (expandSwitch == Switch_1 && compression != JKRCOMPRESSION_NONE)
+        if (expandSwitch == EXPAND_SWITCH_DECOMPRESS && compression != JKRCOMPRESSION_NONE)
         {
             if (fileSize != 0 && expandSize > fileSize)
             {
@@ -155,7 +155,7 @@ namespace JKRDvdRipper
 
                 compression2 = JKRCheckCompressed_noASR(bufPtr);
             }
-            if ((compression2 == JKRCOMPRESSION_NONE || expandSwitch == Switch_2) || expandSwitch == Switch_0)
+            if ((compression2 == JKRCOMPRESSION_NONE || expandSwitch == EXPAND_SWITCH_NONE) || expandSwitch == EXPAND_SWITCH_DEFAULT)
             {
                 s32 size = fileSizeAligned - startOffset;
                 if (fileSize != 0 && fileSize < size)

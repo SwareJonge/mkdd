@@ -82,7 +82,7 @@ bool JKRDvdArchive::open(long entryNum)
     }
     else
     {
-        JKRDvdToMainRam(entryNum, (u8 *)mem, Switch_1, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
+        JKRDvdToMainRam(entryNum, (u8 *)mem, EXPAND_SWITCH_DECOMPRESS, 32, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 0, &mCompression, nullptr);
         DCInvalidateRange(mem, 32);
         int alignment = mMountDirection == MOUNT_DIRECTION_HEAD ? 32 : -32;
 
@@ -91,7 +91,7 @@ bool JKRDvdArchive::open(long entryNum)
             mMountMode = 0;
         }
         else {
-            JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, Switch_1, mem->mSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 32, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, (u8 *)mArcInfoBlock, EXPAND_SWITCH_DECOMPRESS, mem->mSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, 32, nullptr, nullptr);
             DCInvalidateRange(mArcInfoBlock, mem->mSize);
 
             mDirectories = (SDIDirEntry *)((u8 *)mArcInfoBlock + mArcInfoBlock->node_offset);
@@ -230,7 +230,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
             {
                 alignedSize = prevAlignedSize;
             }
-            JKRDvdRipper::loadToMainRAM(entryNum, data, Switch_0, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, data, EXPAND_SWITCH_DEFAULT, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(data, alignedSize);
             return alignedSize;
 
@@ -238,14 +238,14 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         case JKRCOMPRESSION_YAZ0:
             u8 buf[64];
             u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buf, 32);
-            JKRDvdRipper::loadToMainRAM(entryNum, bufPtr, Switch_2, sizeof(buf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, bufPtr, EXPAND_SWITCH_NONE, sizeof(buf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(bufPtr, sizeof(buf) / 2);
             u32 expandFileSize = JKRDecompExpandSize(bufPtr);
             alignedSize = ALIGN_NEXT(expandFileSize, 32);
             if (alignedSize > prevAlignedSize) {
                 alignedSize = prevAlignedSize;
             }
-            JKRDvdRipper::loadToMainRAM(entryNum, data, Switch_1, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, data, EXPAND_SWITCH_DECOMPRESS, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(data, alignedSize);
             return expandFileSize;
         }
@@ -255,7 +255,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         {
             size = prevAlignedSize;
         }
-        JKRDvdRipper::loadToMainRAM(entryNum, data, Switch_1, size, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+        JKRDvdRipper::loadToMainRAM(entryNum, data, EXPAND_SWITCH_DECOMPRESS, size, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
         DCInvalidateRange(data, size);
         return size;
     }
@@ -288,7 +288,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
 #line 675
             JUT_ASSERT(buffer != 0);
 
-            JKRDvdToMainRam(entryNum, buffer, Switch_0, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, buffer, EXPAND_SWITCH_DEFAULT, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(buffer, alignedSize);
             *pBuf = buffer;
             return alignedSize;
@@ -297,7 +297,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         case JKRCOMPRESSION_YAZ0:
             u8 decompBuf[64];
             u8 *bufptr = (u8*)ALIGN_NEXT((u32)decompBuf, 32);
-            JKRDvdToMainRam(entryNum, bufptr, Switch_2, sizeof(decompBuf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, bufptr, EXPAND_SWITCH_NONE, sizeof(decompBuf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(bufptr, 0x20);
 
             alignedSize = JKRDecompExpandSize(bufptr);
@@ -306,7 +306,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
 #line 715
             JUT_ASSERT(buffer);
 
-            JKRDvdToMainRam(entryNum, buffer, Switch_1, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+            JKRDvdToMainRam(entryNum, buffer, EXPAND_SWITCH_DECOMPRESS, alignedSize, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
             DCInvalidateRange(buffer, alignedSize);
             *pBuf = buffer;
             return alignedSize;
@@ -317,7 +317,7 @@ u32 JKRDvdArchive::fetchResource_subroutine(long entryNum, u32 offset, u32 size,
         buffer = (u8 *)JKRAllocFromHeap(heap, alignedSize, 32);
 #line 735
         JUT_ASSERT(buffer);
-        JKRDvdToMainRam(entryNum, buffer, Switch_1, size, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
+        JKRDvdToMainRam(entryNum, buffer, EXPAND_SWITCH_DECOMPRESS, size, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, offset, nullptr, nullptr);
         DCInvalidateRange(buffer, size);
         *pBuf = buffer;
         return alignedSize;
@@ -365,7 +365,7 @@ u32 JKRDvdArchive::getExpandedResSize(const void *resource) const
     u8 buf[64];
     u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buf, 32);
 
-    JKRDvdToMainRam(mEntryNum, bufPtr, Switch_2, sizeof(buf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, _64 + fileEntry->mDataOffset, nullptr, nullptr);
+    JKRDvdToMainRam(mEntryNum, bufPtr, EXPAND_SWITCH_NONE, sizeof(buf) / 2, nullptr, JKRDvdRipper::ALLOC_DIR_TOP, _64 + fileEntry->mDataOffset, nullptr, nullptr);
     DCInvalidateRange(bufPtr, sizeof(buf) / 2);
 
     u32 decompExpandSize = JKRDecompExpandSize(bufPtr);

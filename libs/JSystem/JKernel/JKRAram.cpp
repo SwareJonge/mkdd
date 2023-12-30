@@ -111,11 +111,11 @@ JKRAramBlock *JKRAram::mainRamToAram(u8 *buf, u32 bufSize, u32 alignedSize, JKRE
 {
     JKRAramBlock *block = nullptr;
     checkOkAddress(buf, bufSize, nullptr, 0);
-    if (expandSwitch == Switch_1)
+    if (expandSwitch == EXPAND_SWITCH_DECOMPRESS)
     {
-        expandSwitch = (JKRCheckCompressed_noASR(buf) == JKRCOMPRESSION_NONE) ? Switch_0 : Switch_1;
+        expandSwitch = (JKRCheckCompressed_noASR(buf) == JKRCOMPRESSION_NONE) ? EXPAND_SWITCH_DEFAULT : EXPAND_SWITCH_DECOMPRESS;
     }
-    if (expandSwitch == Switch_1)
+    if (expandSwitch == EXPAND_SWITCH_DECOMPRESS)
     {
         u32 expandSize = JKRDecompExpandSize(buf);
         if (fileSize == 0 || fileSize > expandSize)
@@ -189,7 +189,7 @@ u8 *JKRAram::aramToMainRam(u32 address, u8 *buf, u32 p3, JKRExpandSwitch expandS
     checkOkAddress(buf, address, nullptr, 0);
 
     u32 expandSize;
-    if (expandSwitch == Switch_1)
+    if (expandSwitch == EXPAND_SWITCH_DECOMPRESS)
     {
         u8 buffer[64];
         u8 *bufPtr = (u8 *)ALIGN_NEXT((u32)buffer, 32);
