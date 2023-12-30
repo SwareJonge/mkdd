@@ -137,6 +137,28 @@ struct JAISoundStatus_ {
     u32 user_data;
 };
 
+class JAISoundActivity
+{
+public:
+    void init() { field_0x0.value = 0; }
+
+    /* 0x0 */ union
+    {
+        u8 value;
+        struct
+        {
+            u8 flag1 : 1;
+            u8 flag2 : 1;
+            u8 flag3 : 1;
+            u8 flag4 : 1;
+            u8 flag5 : 1;
+            u8 flag6 : 1;
+            u8 flag7 : 1;
+            u8 flag8 : 1;
+        } flags;
+    } field_0x0;
+};
+
 struct JAISoundFader
 {
     void forceIn()
@@ -176,13 +198,57 @@ struct JAISoundFader
     JAISoundParamsTransition::TTransition mTransition;
 }; // Size: 0x10
 
+template <typename A0>
+struct JAISoundStrategyMgr__unknown
+{
+    virtual void virtual2();
+    virtual void virtual3(A0 *);
+    virtual void virtual4(A0 *, const JASSoundParams &);
+};
+
+template <typename A0>
+struct JAISoundStrategyMgr
+{
+    virtual void virtual2();
+    virtual JAISoundStrategyMgr__unknown<A0> *virtual3(JAISoundID);
+    virtual void virtual4(JAISoundStrategyMgr__unknown<A0> *);
+};
+/* JAISoundStrategyMgr<JAISe> */
+struct JAISoundStrategyMgr__template0
+{
+};
+/* JAISoundStrategyMgr<JAISeq> */
+struct JAISoundStrategyMgr__template1
+{
+};
+/* JAISoundStrategyMgr<JAIStream> */
+struct JAISoundStrategyMgr__template2
+{
+};
+
+class JAITempoMgr
+{
+public:
+    f32 mTempo;                                        // 00
+    JAISoundParamsTransition::TTransition mTransition; // 04
+
+    JAITempoMgr() { init(); }
+    void init() { setTempo(1.0f); }
+    void setTempo(f32 param_0)
+    {
+        mTempo = param_0;
+        mTransition.zero();
+    }
+    f32 getTempo() { return mTempo; }
+    void calc() { mTempo = mTransition.apply(mTempo); }
+};
+
 class JAIAudible;
 class JAIAudience;
 class JAISe;
 class JAISeq;
 class JAISoundChild;
 class JAIStream;
-class JAITempoMgr;
 
 class JAISound
 {
@@ -288,7 +354,7 @@ public:
 
     JAISoundParamsMove &getAuxiliary() { return params_.mMove; }
 
-private:
+//private:
     JAISoundHandle *handle_;
     JAIAudible *audible_;
     JAIAudience *audience_;

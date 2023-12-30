@@ -60,7 +60,33 @@ public:
     virtual void beginBNKList(u32, u32);
     virtual void endBNKList();    
 
-    bool load(const void *);
+    bool load(const void *data);
+    bool load(const char *path);
+    JAUSection *mSection; // 0C
+};
+
+// Unused class
+class JAUAudioArcLoader_withoutCopy : public JAUAudioArcInterpreter
+{
+public:
+    JAUAudioArcLoader_withoutCopy(JAUSection *);
+    virtual ~JAUAudioArcLoader_withoutCopy() {}
+
+    virtual void readWS(u32, const void *, u32);
+    virtual void readBNK(u32, const void *);
+    virtual void readBSC(const void *, u32);
+    virtual void readBST(const void *, u32);
+    virtual void readBSTN(const void *, u32);
+    virtual void readBMS(u32, const void *, u32);
+    virtual void readBMS_fromArchive(u32);
+    virtual void newDynamicSeqBlock(u32);
+    virtual void readBSFT(const void *);
+    virtual void readMaxSeCategory(int, int, int);
+    virtual void beginBNKList(u32, u32);
+    virtual void endBNKList();
+
+    bool load(const void *data);
+    bool load(const char *path);
     JAUSection *mSection; // 0C
 };
 

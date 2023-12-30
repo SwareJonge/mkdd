@@ -50,7 +50,7 @@ bool JAUAudioArcInterpreter::readCommand_()
     }
     case 'bl_<': // bank list begin
     {
-        u32 startOffset = readU32_();
+        u32 startOffset = readU32_(); // unsure
         u32 cnt = readU32_();
         beginBNKList(startOffset, cnt);
         break;
@@ -81,16 +81,16 @@ bool JAUAudioArcInterpreter::readCommand_()
     }
     case 'bms ': // music sequence?
     {
-        u32 soundId = readU32_();
+        u32 soundID = readU32_();
         u32 startOffset = readU32_();
         u32 endOffset = readU32_();
-        readBMS(soundId, getContent_(startOffset), endOffset - startOffset);
+        readBMS(soundID, getContent_(startOffset), endOffset - startOffset);
         break;
     }
     case 'bmsa': // music sequence archive?
     {
-        u32 var1 = readU32_();
-        readBMS_fromArchive(var1);
+        u32 soundID = readU32_();
+        readBMS_fromArchive(soundID);
         break;
     }
     case 'dsqb': // dynamic sequence block
@@ -107,7 +107,7 @@ bool JAUAudioArcInterpreter::readCommand_()
     }
     case 'sect':
     {
-        readU8_();
+        u8 unk1 = readU8_();
         u8 categoryIndex = readU8_();
         u8 activeSE = readU8_();
         u8 inactiveSE = readU8_();

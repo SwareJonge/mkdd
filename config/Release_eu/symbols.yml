@@ -1066,12 +1066,6 @@ global:
   0x80090da4: alloc__17JASGenericMemPoolFUl
   0x80090df0: free__17JASGenericMemPoolFPvUl
   0x803d4ca8: JASDram
-  # oops we forgor extern
-  #sInstance__33JASGlobalInstance<12JAIStreamMgr>
-  #sInstance__29JASGlobalInstance<9JAISeqMgr>
-  #sInstance__28JASGlobalInstance<8JAISeMgr>
-  #sInstance__36JASGlobalInstance<15JAISoundStarter>
-  #sInstance__40JASGlobalInstance<19JASDefaultBankTable>
   # common bss
   0x803b9d0c: memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
   0x803b9d6c: memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
@@ -1080,6 +1074,12 @@ global:
   0x803b9d9c: memPool___27JASPoolAllocObject<6JAISeq>
   0x803b9dac: memPool___26JASPoolAllocObject<5JAISe>
   0x803b9dbc: memPool___35JASPoolAllocObject<13JAISoundChild>
+  # oops we were stupid
+  0x803d4c68: sInstance__33JASGlobalInstance<12JAIStreamMgr>
+  0x803d4c6c: sInstance__29JASGlobalInstance<9JAISeqMgr>
+  0x803d4c70: sInstance__28JASGlobalInstance<8JAISeMgr>
+  0x803d4c74: sInstance__36JASGlobalInstance<15JAISoundStarter>
+  0x803d4c78: sInstance__40JASGlobalInstance<19JASDefaultBankTable>
   0x803d4c90: __init__memPool___35JASPoolAllocObject<13JAISoundChild>
   0x803d4c7c: __init__memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
   0x803d4c7d: __init__memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
@@ -1135,12 +1135,38 @@ global:
   0x800a2b88: readMaxSeCategory__17JAUAudioArcLoaderFiii
   0x800a2bac: __dt__17JAUAudioArcLoaderFv
   0x8034f220: __vt__17JAUAudioArcLoader
+
+  0x803d4da0: sInstance__35JASGlobalInstance<14JAUSectionHeap>
+  0x803d4da4: sInstance__38JASGlobalInstance<17JAUSoundNameTable>
+  0x803d4da8: sInstance__34JASGlobalInstance<13JAUSoundTable>
   # unk JAudio Something(probably JAUClusterSound.cpp)
   0x800a318c: __ct__Q29JGeometry8TVec3<f>Fv
   # JAUSectionHeap.cpp
+  0x800a6e68: newSoundTable__10JAUSectionFPCvUlb
+  0x800a6f3c: newSoundNameTable__10JAUSectionFPCvUlb
+  0x800a7010: newStreamFileTable__10JAUSectionFPCvb
+  0x800a71b4: newSeSeqCollection__10JAUSectionFPCvUl
+  0x800a73f8: newStaticSeqData__10JAUSectionF10JAISoundID
+  0x800a7390: newStaticSeqData__10JAUSectionF10JAISoundIDPCvUl
+  0x800a74c4: loadDVDFile__10JAUSectionFPCcb15JKRExpandSwitch
   0x800a7578: newCopy__10JAUSectionFPCvUll
+  0x800a75e4: newWaveBank__10JAUSectionFUlPCv
+  0x800a76b4: loadWaveArc__10JAUSectionFUlUl
+  0x800a77d0: loadWaveArc__10JAUSectionFUl
+  0x800a78c4: newBank__10JAUSectionFPCvUl
+  0x800a79dc: beginNewBankTable__10JAUSectionFUlUl
+  0x800a7ac8: endNewBankTable__10JAUSectionFv
+  0x800a7b20: JAUNewSectionHeap__Fb
+  0x800a7bc0: __ct__14JAUSectionHeapFP12JKRSolidHeapbl
+  0x800a7dc8: __dt__10JAUSectionFv
+  0x800a7ee8: pushNewSection__14JAUSectionHeapFv
+  0x800a8120: popSection__14JAUSectionHeapFv
+  0x800a7ee8: getSection__14JAUSectionHeapFi
+  0x800a8534: newDynamicSeqBlock__14JAUSectionHeapFUl
+  
   # JAUSoundInfo.cpp
   0x8034f280: __vt__12JAUSoundInfo
+
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.

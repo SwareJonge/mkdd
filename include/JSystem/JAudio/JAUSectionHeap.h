@@ -6,18 +6,17 @@
 #include "JSystem/JAudio/System/JASGadget.h"
 #include "JSystem/JAudio/JAUBankTable.h"
 #include "JSystem/JAudio/JAUSeqDataBlockMgr.h"
-#include "JSystem/JKernel/JKRDisposer.h"
+#include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JKernel/JKRArchive.h"
+#include "JSystem/JKernel/JKRDvdRipper.h"
 #include "std/bitset.h"
 
-class JAIStreamDataMgr;
 class JASVoiceBank;
-class JAUBankTableLink;
 class JAUDisposer_;
-class JAUSectionHeap;
 class JAUSoundTable;
 class JAUSoundNameTable;
-class JKRArchive;
-class JKRSolidHeap;
+class JAUSectionHeap;
+class JAIStreamDataMgr;
 
 class JAUSection : public JKRDisposer, protected JSULink<JAUSection>
 {
@@ -54,6 +53,7 @@ public:
     u8 *newStaticSeqDataBlock_(JAISoundID, u32);
     bool newStaticSeqData(JAISoundID, void const *, u32);
     bool newStaticSeqData(JAISoundID);
+    const void *loadDVDFile(const char *path, bool, JKRExpandSwitch expSwitch);
     void *newCopy(void const *data, u32 size, s32 alignment);
     JASWaveBank *newWaveBank(u32, void const *);
     bool loadWaveArc(u32, u32);
@@ -62,13 +62,13 @@ public:
     bool beginNewBankTable(u32, u32);
     JAUBankTable *endNewBankTable();
 
-    bool isBuilding() { return _2c; }
+    bool isBuilding() { return mIsBuilding; }
     bool isOpen();
     JAUSectionHeap *asSectionHeap() { return (JAUSection *)sectionHeap_ == this ? sectionHeap_ : NULL; }
     JKRHeap *getHeap_();
 
     u32 _28;                              //
-    bool _2c;                             //
+    bool mIsBuilding;                     //
     JAUSectionHeap *sectionHeap_;         // 30
     JAUBankTableLink *buildingBankTable_; // 34
     TSectionData data_;                   // 38
@@ -110,8 +110,16 @@ public:
 };
 
 inline JKRHeap *JAUSection::getHeap_() { return sectionHeap_->heap_; }
-inline bool JAUSection::isOpen() { return this == sectionHeap_->getOpenSection(); }
+inline bool JAUSection::isOpen() { return sectionHeap_->getOpenSection() == this; }
 
 JAUSectionHeap *JAUNewSectionHeap(bool);
+
+// TODO: probably move this to a different file(JASFakeMatch?)
+#define createJASInstance(TYPE) \
+    DECL_WEAK TYPE *JASGlobalInstance<TYPE>::sInstance
+
+createJASInstance(JAUSectionHeap);
+createJASInstance(JAUSoundNameTable);
+createJASInstance(JAUSoundTable);
 
 #endif /* JAUDIO_JAUSECTIONHEAP_H */

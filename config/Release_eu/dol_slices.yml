@@ -381,6 +381,13 @@ libs/JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp:
     .text: [0x800a23ec, 0x800a28ac]
     .data: [0x8034f1e0, 0x8034f220]
 
+libs/JSystem/JAudio/Utility/JAUAudioArcLoader.cpp:
+    .text: [0x800a28ac, 0x800a2d30]
+    .ctors: [0x802d8564, 0x802d8568]
+    .data: [0x8034f220, 0x8034f260]
+    .bss: [0x80370d30, 0x80370d60]
+    .sbss: [0x803d4da0, 0x803d4db0]
+
 libs/dolphin/base/PPCArch.c:
     .text: [0x800a9600, 0x800a9714]
 
