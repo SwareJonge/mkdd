@@ -919,6 +919,13 @@ src/Bando/EngineSound.cpp:
     .text: [0x80118cac, 0x80118d1c]
     .data: [0x80393760, 0x803937b8]
 
+src/Inagaki/GameAudioCommon.cpp:
+    .text: [0x8011af3c, 0x8011b264]
+    .ctors: [0x80316190, 0x80316194]
+    .bss: [0x803c9368, 0x803c93a8]
+    .sbss: [0x80416210, 0x80416218]
+    .sdata2: [0x80418940, 0x80418960]
+
 src/Inagaki/GameAudioHostIO.cpp:
     .text: [0x8011b264, 0x8011b478] 
     .ctors: [0x80316194, 0x80316198]

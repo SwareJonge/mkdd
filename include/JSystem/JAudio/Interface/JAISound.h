@@ -40,24 +40,35 @@ private:
 class JAISoundID
 {
 public:
+    operator u32() const { return this->mId.mFullId; }
+    void operator=(JAISoundID const &other) { mId.mFullId = other.mId.mFullId; };
+
+    JAISoundID(u32 pId) { mId.mFullId = pId; };
+
+    JAISoundID(JAISoundID const &other) { mId = other.mId; };
+
     JAISoundID() {}
-    JAISoundID(u32 id)
-    {
-        mID = id;
-    }
 
-    void setAnonymous()
-    {
-        mID = 0xffffffff;
-    }
+    bool isAnonymous() { return mId.mFullId == 0xffffffff; }
+    void setAnonymous() { mId.mFullId = -1; }
 
-    bool isAnonymous() const
+    union
     {
-        return mID != 0xffffffff;
-    }
-
-private:
-    u32 mID;
+        u32 mFullId;
+        struct
+        {
+            u8 b0;
+            u8 b1;
+            u8 b2;
+            u8 b3;
+        } mBytes;
+        struct
+        {
+            u16 mSoundType;
+            u16 mShortId;
+        } mAdvancedId; // Debug doesn't have an inline for referencing the short ID so I assume
+                       // it's similar to this
+    } mId;
 };
 
 struct JAISoundStatus_ {

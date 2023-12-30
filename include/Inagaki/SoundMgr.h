@@ -6,6 +6,8 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JMath/JMath.h"
 
+#include "Inagaki/GameAudioCommon.h" // Temporary(so permanent) fix for that one file that actually uses this
+
 namespace GameAudio
 {
     template <typename T>
@@ -17,18 +19,6 @@ namespace GameAudio
         virtual void setSe(u32 id);
         virtual void loop(u32);
     };
-
-
-    namespace Random 
-    {
-        void setSeed(u32);
-        u32 getRandomU32();
-        u32 getSignalEngineRandomU32();
-
-        extern JMath::TRandom_fast_ sRandom;
-        extern JMath::TRandom_fast_ sSignalEngineRandom;
-    }
-
 }
 
 #endif

@@ -1089,6 +1089,9 @@ global:
   0x803d4c81: __init__memPool___26JASPoolAllocObject<5JAISe>
   # JAISeq.cpp
   0x8008c978: __dt__27JASMemPool<13JAISoundChild>Fv
+  # JAIStreamDataMgr.cpp
+  0x8034b6a8: __vt__16JAIStreamAramMgr
+  0x8034b6bc: __vt__16JAIStreamDataMgr
   # JASReport.cpp
   0x80091270: JASReport__FPCce
   # JASTaskThread.cpp
@@ -1136,6 +1139,8 @@ global:
   0x800a318c: __ct__Q29JGeometry8TVec3<f>Fv
   # JAUSectionHeap.cpp
   0x800a7578: newCopy__10JAUSectionFPCvUll
+  # JAUSoundInfo.cpp
+  0x8034f280: __vt__12JAUSoundInfo
   # Dolphin 
   # these have been ported by hand, there might be some errors in here
   # all local symbols are filtered out.
@@ -2378,7 +2383,12 @@ global:
 
   # Inagaki
   # GameAudioCommon.cpp
+  0x80113900: panDeform__Q29GameAudio6CommonFff
+  0x80113944: setMultiPlayModePan__Q29GameAudio6CommonFUc
+  0x80113970: changeRandomId__Q29GameAudio6CommonFUlUl
   0x80113a08: setSeed__Q29GameAudio6RandomFUl
+  0x80113a14: getRandomU32__Q29GameAudio6RandomFv
+  0x80113a70: getSignalEngineRandomU32__Q29GameAudio6RandomFv
   # GameAudioHostIO.cpp
   0x803d7658: GA_MULTI_CAMERA_VOL_DOWN_DISTANCE__9GameAudio
   0x803d765c: GA_MULTI_CAMERA_VOL_DOWN_RATE__9GameAudio
@@ -2401,6 +2411,27 @@ global:
   # GameAudioParam.cpp
   0x80119294: setDemoMode__Q29GameAudio10ParametersFUc
   0x801195c0: getDemoMode__Q29GameAudio10ParametersFv  
+  # GameSoundTable.cpp
+  0x8011fb74: getBgmSeqResourceID__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fbf0: getSoundType__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fc38: getCategory__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fc8c: getAudibleSw__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fd08: getPTrack__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fd80: getSwBit__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fe0c: getLevelFlag__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011fe90: getPriority__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  0x8011ff3c: getSeInfo__Q29GameAudio16CustomSoundTableCF10JAISoundIDP5JAISe
+  0x8011ff74: getSeqInfo__Q29GameAudio16CustomSoundTableCF10JAISoundIDP6JAISeq
+  0x8011ffa0: getStreamInfo__Q29GameAudio16CustomSoundTableCF10JAISoundIDP9JAIStream
+  0x801200a4: getSoundInfo___Q29GameAudio16CustomSoundTableCF10JAISoundIDP8JAISound
+  0x801201c8: getStreamFileEntry__Q29GameAudio16CustomSoundTableF10JAISoundID
+  0x801201fc: initAudibleSw__Q29GameAudio16CustomSoundTableFv
+  0x80120318: __dt__Q29GameAudio16CustomSoundTableFv
+  #0x80120578: @4@getBgmSeqResourceID__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  #0x80120580: @4@getAudibleSw__Q29GameAudio16CustomSoundTableCF10JAISoundID
+  #0x80120588: @8@__dt__Q29GameAudio16CustomSoundTableFv 
+  #0x80120590: @8@getStreamFileEntry__Q29GameAudio16CustomSoundTableF10JAISoundID
+  0x80353c00: __vt__Q29GameAudio16CustomSoundTable
   # GameAudioFxConfig.cpp
   0x80122d7c: __ct__Q29GameAudio12FxLineConfigFP7JKRHeap
   0x80122e5c: set__Q29GameAudio12FxLineConfigFUc

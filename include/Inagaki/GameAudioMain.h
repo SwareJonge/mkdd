@@ -5,6 +5,7 @@
 #include <JSystem/JAudio/JAUSectionHeap.h>
 
 #include "Inagaki/GameAudioFxConfig.h"
+#include "Inagaki/GameSoundTable.h"
 #include "types.h"
 
 namespace GameAudio
@@ -45,6 +46,7 @@ namespace GameAudio
         f32 getTHPOptionVolume() { return getMasterVolumeValue() / 2; };
 
         JAUSectionHeap *getSectionHeap() { return mSectionHeap; }
+        CustomSoundTable *getSoundTable() { return mTable; }
 
         static Main *getAudio() { return msBasic; };
 
@@ -52,7 +54,9 @@ namespace GameAudio
 
     private:
         CustomMgr *mMgr;              // 00
-        u8 _04[0x14 - 0x4];           //
+        u8 _04[0xC - 0x4];            //
+        CustomSoundTable *mTable;     // 0C
+        u8 _10[4];                    //
         JAUSectionHeap *mSectionHeap; // 14
         u8 _18[0x44 - 0x18];          //
         FxLineConfig *mConfig;        // 44
