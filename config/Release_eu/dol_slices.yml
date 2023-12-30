@@ -377,6 +377,10 @@ libs/JSystem/JAudio/System/JASInstRand.cpp:
     .sbss: [0x803d4d40, 0x803d4d48]
     .sdata2: [0x803d6e50, 0x803d6e60]
 
+libs/JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp:
+    .text: [0x800a23ec, 0x800a28ac]
+    .data: [0x8034f1e0, 0x8034f220]
+
 libs/dolphin/base/PPCArch.c:
     .text: [0x800a9600, 0x800a9714]
 

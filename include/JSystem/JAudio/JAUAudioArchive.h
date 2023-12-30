@@ -26,7 +26,7 @@ public:
     bool readCommand_();
     bool parse(const void *);
 
-    u8 readU8_() { return *mReadPtr++; }
+    int readU8_() { return *mReadPtr++; } // does this really return int or u32? mkdd release needs it
 
     u32 readU32_()
     {
