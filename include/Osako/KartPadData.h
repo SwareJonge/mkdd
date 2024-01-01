@@ -16,9 +16,10 @@
 #define ConvertBtn(output, input, inputmask, outputmask) \
     output |= (input & inputmask) ? outputmask : 0;
 
-struct KartPadData {
-    int mStickX : 5;
-    int mStickY : 3;
+struct KartPadData
+{
+    s8 mStickX : 5;
+    s8 mStickY : 3;
     u8 mButtons;
 };
 
