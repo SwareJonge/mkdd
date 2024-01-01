@@ -119,7 +119,7 @@ void THPPlayerQuit()
 
 BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
 {
-    u32 readOffset;
+    s32 offset;
     s32 i;
 
     if (Initialized == FALSE)
@@ -160,16 +160,16 @@ BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
         return FALSE;
     }
 
-    readOffset = ActivePlayer.header.compInfoDataOffsets;
+    offset = ActivePlayer.header.compInfoDataOffsets;
 
-    if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, readOffset, 2) < 0)
+    if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, offset, 2) < 0)
     {
         DVDClose(&ActivePlayer.fileInfo);
         return FALSE;
     }
 
     memcpy(&ActivePlayer.compInfo, WorkBuffer, sizeof(THPFrameCompInfo));
-    readOffset += sizeof(THPFrameCompInfo);
+    offset += sizeof(THPFrameCompInfo);
     ActivePlayer.audioExist = 0;
 
     for (i = 0; i < ActivePlayer.compInfo.numComponents; i++)
@@ -178,7 +178,7 @@ BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
         {
         case 0:
         {
-            if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, readOffset, 2) < 0)
+            if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, offset, 2) < 0)
             {
                 DVDClose(&ActivePlayer.fileInfo);
                 return FALSE;
@@ -189,18 +189,18 @@ BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
             {
                 ActivePlayer.videoInfo.videoType = 2;
             }
-            readOffset += sizeof(THPVideoInfo);
+            offset += sizeof(THPVideoInfo);
             break;
         }
         case 1:
         {
-            if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, readOffset, 2) < 0)
+            if (DVDReadPrio(&ActivePlayer.fileInfo, WorkBuffer, 32, offset, 2) < 0)
             {
                 DVDClose(&ActivePlayer.fileInfo);
                 return FALSE;
             }
             memcpy(&ActivePlayer.audioInfo, WorkBuffer, sizeof(THPAudioInfo));
-            readOffset += sizeof(THPAudioInfo);
+            offset += sizeof(THPAudioInfo);
             ActivePlayer.audioExist = 1;
             break;
         }
@@ -218,13 +218,9 @@ BOOL THPPlayerOpen(const char *fileName, BOOL onMemory)
 
     ActivePlayer.curVolume = GetGameAudioMain()->getTHPOptionVolume() * 127.0f;
     f32 curVol = ActivePlayer.curVolume;
-    bool validVolume = false;
-    if (curVol >= 0.0f && curVol <= 127.0f)
-    {
-        validVolume = true;
-    }
+
 #line 365
-    JUT_ASSERT_F(validVolume, "INVALID VOLUME(%f)", curVol);
+    JUT_ASSERT_F(curVol >= 0.0f && curVol <= 127.0f, "INVALID VOLUME(%f)", curVol);
 
     ActivePlayer.targetVolume = ActivePlayer.curVolume;
     ActivePlayer.rampCount = 0;
@@ -263,60 +259,61 @@ u32 THPPlayerCalcNeedMemory()
     return 0;
 }
 
-BOOL THPPlayerSetBuffer(u8 *data)
+BOOL THPPlayerSetBuffer(u8 *buffer)
 {
-    u8 *workPtr;
-    u32 ySampleSize;
-    u32 uvSampleSize;
-    s32 i;
+    u32 i;
+    u8 *ptr;
+    u32 ysize;
+    u32 uvsize;
+    
     if (ActivePlayer.open && ActivePlayer.state == 0)
     {
-        u8 *workPtr = data;
+        u8 *ptr = buffer;
         if (ActivePlayer.onMemory)
         {
-            ActivePlayer.movieData = data;
-            workPtr += ActivePlayer.header.movieDataSize;
+            ActivePlayer.movieData = buffer;
+            ptr += ActivePlayer.header.movieDataSize;
         }
         else
         {
             for (i = 0; i < ARRAY_SIZE(ActivePlayer.readBuffer); i++)
             {
-                ActivePlayer.readBuffer[i].ptr = workPtr;
-                workPtr += ALIGN_NEXT(ActivePlayer.header.bufsize, 32);
+                ActivePlayer.readBuffer[i].ptr = ptr;
+                ptr += ALIGN_NEXT(ActivePlayer.header.bufsize, 32);
             }
         }
 
-        ySampleSize = ALIGN_NEXT(ActivePlayer.videoInfo.xSize * ActivePlayer.videoInfo.ySize, 32);
-        uvSampleSize = ALIGN_NEXT(ActivePlayer.videoInfo.xSize * ActivePlayer.videoInfo.ySize / 4, 32);
+        ysize = ALIGN_NEXT(ActivePlayer.videoInfo.xSize * ActivePlayer.videoInfo.ySize, 32);
+        uvsize = ALIGN_NEXT(ActivePlayer.videoInfo.xSize * ActivePlayer.videoInfo.ySize / 4, 32);
 
         for (i = 0; i < ARRAY_SIZE(ActivePlayer.textureSet); i++)
         {
-            ActivePlayer.textureSet[i].ytexture = workPtr;
+            ActivePlayer.textureSet[i].ytexture = ptr;
 
-            DCInvalidateRange(workPtr, ySampleSize);
-            workPtr += ySampleSize;
+            DCInvalidateRange(ptr, ysize);
+            ptr += ysize;
 
-            ActivePlayer.textureSet[i].utexture = workPtr;
-            DCInvalidateRange(workPtr, uvSampleSize);
-            workPtr += uvSampleSize;
+            ActivePlayer.textureSet[i].utexture = ptr;
+            DCInvalidateRange(ptr, uvsize);
+            ptr += uvsize;
 
-            ActivePlayer.textureSet[i].vtexture = workPtr;
-            DCInvalidateRange(workPtr, uvSampleSize);
-            workPtr += uvSampleSize;
+            ActivePlayer.textureSet[i].vtexture = ptr;
+            DCInvalidateRange(ptr, uvsize);
+            ptr += uvsize;
         }
 
         if (ActivePlayer.audioExist)
         {
             for (i = 0; i < ARRAY_SIZE(ActivePlayer.audioBuffer); i++)
             {
-                ActivePlayer.audioBuffer[i].buffer = (s16 *)workPtr;
-                ActivePlayer.audioBuffer[i].curPtr = (s16 *)workPtr;
+                ActivePlayer.audioBuffer[i].buffer = (s16 *)ptr;
+                ActivePlayer.audioBuffer[i].curPtr = (s16 *)ptr;
                 ActivePlayer.audioBuffer[i].validSample = 0;
-                workPtr += ALIGN_NEXT(ActivePlayer.header.audioMaxSamples * 4, 32);
+                ptr += ALIGN_NEXT(ActivePlayer.header.audioMaxSamples * 4, 32);
             }
         }
 
-        ActivePlayer.thpWork = workPtr;
+        ActivePlayer.thpWork = ptr;
         return TRUE;
     }
 
@@ -325,7 +322,7 @@ BOOL THPPlayerSetBuffer(u8 *data)
 
 static void InitAllMessageQueue()
 {
-    s32 i;
+    int i;
     if (ActivePlayer.onMemory == FALSE)
     {
         for (i = 0; i < 10; i++)
@@ -652,14 +649,14 @@ static BOOL ProperTimingForGettingNextFrame()
 {
     if (ActivePlayer.videoInfo.videoType == 0)
     {
-        s32 rate = ActivePlayer.header.frameRate * 100.0f;
+        s32 frameRate = ActivePlayer.header.frameRate * 100.0f;
         if (VIGetTvFormat() == VI_PAL)
         {
-            ActivePlayer.curCount = ActivePlayer.retaceCount * rate / 5000;
+            ActivePlayer.curCount = ActivePlayer.retaceCount * frameRate / 5000;
         }
         else
         {
-            ActivePlayer.curCount = ActivePlayer.retaceCount * rate / 5994;
+            ActivePlayer.curCount = ActivePlayer.retaceCount * frameRate / 5994;
         }
 
         if (ActivePlayer.prevCount != ActivePlayer.curCount)
@@ -679,7 +676,7 @@ static BOOL ProperTimingForGettingNextFrame()
     return FALSE;
 }
 
-s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, s32 x, s32 y, s32 z, s32 w)
+s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, u32 x, u32 y, u32 polygonW, u32 polygonH)
 {
     s32 frame = -1;
     if (ActivePlayer.open && ActivePlayer.state != 0 && ActivePlayer.dispTextureSet != NULL)
@@ -688,19 +685,18 @@ s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, s32 x, s32 y, s32 z, s32 w
         THPGXYuv2RgbDraw(ActivePlayer.dispTextureSet->ytexture,
                          ActivePlayer.dispTextureSet->utexture,
                          ActivePlayer.dispTextureSet->vtexture,
-                         x, y, ActivePlayer.videoInfo.xSize, ActivePlayer.videoInfo.ySize, z, w);
+                         x, y, ActivePlayer.videoInfo.xSize, ActivePlayer.videoInfo.ySize, polygonW, polygonH);
         THPGXRestore();
         frame = (ActivePlayer.dispTextureSet->frameNumber + ActivePlayer.initReadFrame) % ActivePlayer.header.numFrames;
     }
     return frame;
 }
 
-// might be THPVideoInfo as parameter
-BOOL THPPlayerGetVideoInfo(void *dst)
+BOOL THPPlayerGetVideoInfo(THPVideoInfo *videoInfo)
 {
     if (ActivePlayer.open)
     {
-        memcpy(dst, &ActivePlayer.videoInfo, sizeof(THPVideoInfo));
+        memcpy(videoInfo, &ActivePlayer.videoInfo, sizeof(THPVideoInfo));
         return TRUE;
     }
 
@@ -715,7 +711,7 @@ u32 THPPlayerGetTotalFrame()
     return 0;
 }
 
-u8 THPPlayerGetState()
+s32 THPPlayerGetState()
 {
     return ActivePlayer.state;
 }
@@ -727,7 +723,7 @@ static void PushUsedTextureSet(OSMessage msg)
 
 static OSMessage PopUsedTextureSet()
 {
-    OSMessage msg; // TODO: correct type
+    OSMessage msg;
     if (OSReceiveMessage(&UsedTextureSetQueue, &msg, OS_MESSAGE_NOBLOCK) == 1)
         return msg;
     
@@ -751,19 +747,19 @@ void THPPlayerPostDrawDone()
     }
 }
 
-static void MixAudio(s16 *buf, u32 n)
+static void MixAudio(s16 *destination, u32 sample)
 {
     if (ActivePlayer.open && ActivePlayer.internalState == 2 && ActivePlayer.audioExist)
     {
-        u32 lastSample;
-        u32 n2;
+        u32 sampleNum;
+        u32 requestSample;
         s32 i;
-        s16 *aBuf;
-        n2 = n;
-        aBuf = buf;
+        s16 *dst;
+        requestSample = sample;
+        dst = destination;
         s16 *curPtr;
-        s32 vol2, vol1;
-        u16 volFromTable;
+        s32 r_mix, l_mix;
+        u16 attenuation;
 
         do
         {
@@ -774,21 +770,21 @@ static void MixAudio(s16 *buf, u32 n)
                     ActivePlayer.playAudioBuffer = (THPAudioBuffer *)PopDecodedAudioBuffer(NULL);
                     if (ActivePlayer.playAudioBuffer == NULL)
                     {
-                        memset(aBuf, 0, n2 * 4);
+                        memset(dst, 0, requestSample * 4);
                         return;
                     }
                     ActivePlayer.curAudioNumber++;
                 }
-            } while ((lastSample = ActivePlayer.playAudioBuffer->validSample) == 0);
+            } while ((sampleNum = ActivePlayer.playAudioBuffer->validSample) == 0);
 
-            if (lastSample >= n2)
+            if (sampleNum >= requestSample)
             {
-                lastSample = n2;
+                sampleNum = requestSample;
             }
 
             curPtr = ActivePlayer.playAudioBuffer->curPtr;
 
-            for (i = 0; i < lastSample; i++)
+            for (i = 0; i < sampleNum; i++)
             {
                 if (ActivePlayer.rampCount != 0)
                 {
@@ -800,36 +796,36 @@ static void MixAudio(s16 *buf, u32 n)
                     ActivePlayer.curVolume = ActivePlayer.targetVolume;
                 }
 
-                volFromTable = VolumeTable[(s32)ActivePlayer.curVolume];
+                attenuation = VolumeTable[(s32)ActivePlayer.curVolume];
 
-                vol1 = volFromTable * curPtr[0] >> 15;
+                l_mix = attenuation * curPtr[0] >> 15;
                 // clamp volume
-                if (vol1 < -32768)
-                    vol1 = -32768;
-                if (vol1 > 32767)
-                    vol1 = 32767;
+                if (l_mix < -32768)
+                    l_mix = -32768;
+                if (l_mix > 32767)
+                    l_mix = 32767;
 
-                vol2 = volFromTable * curPtr[1] >> 15;
-                if (vol2 < -32768)
-                    vol2 = -32768;
-                if (vol2 > 32767)
-                    vol2 = 32767;
+                r_mix = attenuation * curPtr[1] >> 15;
+                if (r_mix < -32768)
+                    r_mix = -32768;
+                if (r_mix > 32767)
+                    r_mix = 32767;
 
                 if (JASDriver::getOutputMode() == 0)
                 {
-                    s16 mixedVol = (vol2 >> 1) + (vol1 >> 1);
+                    s16 mixedVol = (r_mix >> 1) + (l_mix >> 1);
 
-                    vol2 = mixedVol;
-                    vol1 = mixedVol;
+                    r_mix = mixedVol;
+                    l_mix = mixedVol;                    
                 }
 
-                *aBuf++ = vol1;
-                *aBuf++ = vol2;
+                *dst++ = l_mix;
+                *dst++ = r_mix;
                 curPtr += 2;
             }
 
-            n2 -= lastSample;
-            ActivePlayer.playAudioBuffer->validSample -= lastSample;
+            requestSample -= sampleNum;
+            ActivePlayer.playAudioBuffer->validSample -= sampleNum;
             ActivePlayer.playAudioBuffer->curPtr = curPtr;
 
             if ((ActivePlayer.playAudioBuffer)->validSample == 0)
@@ -838,7 +834,7 @@ static void MixAudio(s16 *buf, u32 n)
                 ActivePlayer.playAudioBuffer = NULL;
             }
 
-            if (n2 == 0)
+            if (requestSample == 0)
             {
                 break;
             }
@@ -847,7 +843,7 @@ static void MixAudio(s16 *buf, u32 n)
     }
     else
     {
-        memset(buf, 0, n * 4);
+        memset(destination, 0, sample * 4);
     }
 }
 

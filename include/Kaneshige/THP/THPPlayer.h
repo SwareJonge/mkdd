@@ -78,7 +78,7 @@ BOOL THPPlayerSetVolume(s32 vol, s32 duration);
 
 s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, s32, s32, s32, s32); // TODO, parameter names from dwarf info if it exists
 u32 THPPlayerGetTotalFrame();
-u8 THPPlayerGetState();
+s32 THPPlayerGetState();
 
 void THPPlayerPostDrawDone();
 
