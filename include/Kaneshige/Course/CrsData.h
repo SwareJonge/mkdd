@@ -11,7 +11,7 @@
 
 class Course; // Forward Declaration
 
-// TODO: refactor some of these structs to not use camelcase naming
+// TODO: refactor all of these structs to use mVarName naming
 
 class CrsData
 {

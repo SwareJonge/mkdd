@@ -1182,6 +1182,12 @@ src/Osako/SaveFile.cpp:
     #.bss: [0x803c65f4, 0x803c6a00]
     .sbss: [0x803d5c90, 0x803d5c98]
 
+src/Osako/PadMgr.cpp:
+    .text: [0x801dc0b4, 0x801dc588]
+    .ctors: [0x802d87ac, 0x802d87b0]
+    .bss: [0x803a3eb0, 0x803a3ee0]
+    .sbss: [0x803d5c98, 0x803d5ca0]
+
 src/Osako/AwardApp.cpp:
     .text: [0x801ddb68, 0x801dddb8]
     .ctors: [0x802d87b4, 0x802d87b8]

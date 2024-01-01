@@ -54,7 +54,7 @@ public:
     // void StopDirtRoadEffect(s32);
     // void StopSurfaceEffect(s32);
 
-    LGPosition &getPosition(int idx) {return mPosition[idx]; }
+    LGPosition &getPosition(u8 idx) {return mPosition[idx]; }
 
     LGPosition mPosition[4];
     u8 _28[0x1440]; // TODO

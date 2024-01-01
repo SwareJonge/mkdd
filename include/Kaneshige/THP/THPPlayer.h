@@ -71,12 +71,12 @@ BOOL THPPlayerSetBuffer(u8 *data);
 
 u32 THPPlayerCalcNeedMemory();
 
-BOOL THPPlayerGetVideoInfo(void *dst);
+BOOL THPPlayerGetVideoInfo(THPVideoInfo *videoInfo);
 // BOOL THPPlayerGetAudioInfo(void *dst);
 // f32 THPPlayerGetFrameRate();
 BOOL THPPlayerSetVolume(s32 vol, s32 duration);
 
-s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, s32, s32, s32, s32); // TODO, parameter names from dwarf info if it exists
+s32 THPPlayerDrawCurrentFrame(GXRenderModeObj *rmode, u32 x, u32 y, u32 polygonW, u32 polygonH); // TODO, parameter names from dwarf info if it exists
 u32 THPPlayerGetTotalFrame();
 s32 THPPlayerGetState();
 

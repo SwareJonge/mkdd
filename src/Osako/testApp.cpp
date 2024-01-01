@@ -15,13 +15,9 @@ TestApp * TestApp::create(void)
     return mspTestApp;
 }
 
-TestApp::TestApp() : GameApp(null, "test", nullptr) {
+TestApp::TestApp() : GameApp(0, "test", nullptr) { }
 
-}
-
-TestApp::~TestApp() {
-    mspTestApp = 0;
-}
+TestApp::~TestApp() { mspTestApp = nullptr; }
 
 void TestApp::draw() {
 #if DEBUG

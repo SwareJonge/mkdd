@@ -152,10 +152,32 @@ public:
         return JUTGamePad::sClampMode;
     }
 
+    static LGWheels *getLGWheels() { return mspLGWheels; }
+    static const PADStatus &getPadStatus(u8 port)
+    {
+#line 363
+        JUT_ASSERT(port < 4);
+        return mPadStatus[port];
+    }
+
     static s8 getPortStatus(EPadPort port)
     {
         JUT_ASSERT(0 <= port && port < 4);
         return mPadStatus[port].err;
+    }
+
+    static s32 getSIType(u8 port) {
+#line 528
+        JUT_ASSERT(port < 4);
+        return msaSIType[port];
+    }
+
+    static const LGPosition &getLGPosition(u8 port)
+    {
+#line 535
+        JUT_ASSERT(port < 4);
+        JUT_ASSERT(mspLGWheels);
+        return mspLGWheels->getPosition(port);
     }
 
     bool isPushing3ButtonReset() const
@@ -168,6 +190,15 @@ public:
         }
 
         return pushing;
+    }
+
+    void checkReset() // fabricated
+    {
+        if (C3ButtonReset::sResetOccurred)
+        {
+            if (!isPushing3ButtonReset())
+                clearResetOccurred();
+        }
     }
 
     int getErrorStatus() const
@@ -410,11 +441,8 @@ public:
             ret = true;
             break;
         }
-        return ret;        
+        return ret;
     }
-
-    static LGWheels* getLGWheels() { return mspLGWheels; }
-    static PADStatus *getPadStatus(int idx) { return &mPadStatus[idx]; }
 
     static LGWheels *mspLGWheels;
     static JSUList<JUTGamePad> mPadList;

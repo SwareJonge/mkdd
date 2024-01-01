@@ -32,10 +32,10 @@
 
 // .rodata
 #ifdef DEBUG
-static const float lbl_8037d5e8[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+static const float float_slack_system[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
-DUMMY_POINTER(lbl_8037d5e8)
+DUMMY_POINTER(float_slack_system)
 #pragma pop
 #endif
 
@@ -58,9 +58,10 @@ namespace System {
     J2DOrthoGraph *mspJ2DOrtho;
     JKRSolidHeap *mspAudioHeap;
 
-    void startAudioTask(void*) {
-        void *audioFile = JKRDvdRipper::loadToMainRAM("AudioRes/GCKart.baa", nullptr, EXPAND_SWITCH_DECOMPRESS,
-                                                      0, SequenceApp::mspSequenceApp->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
+    void startAudioTask(void* arg) {
+        // this either doesn't use the inline or it got recasted to u8* for whatever reason
+        u8 *audioFile = (u8 *)JKRDvdToMainRam("AudioRes/GCKart.baa", nullptr, EXPAND_SWITCH_DECOMPRESS,
+                                              0, SequenceApp::ptr()->getHeap(), JKRDvdRipper::ALLOC_DIR_BOTTOM, 0, nullptr, nullptr);
         GetGameAudioMain()->init(mspAudioHeap, SystemData::scAudioAramSize, audioFile, 0, 0);
         delete audioFile;
         gSystemRecord.applyAudioSetting();

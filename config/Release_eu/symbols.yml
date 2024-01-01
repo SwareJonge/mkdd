@@ -3427,7 +3427,10 @@ global:
   0x801d6a28: end__10NetGameMgrFb
   0x801d7c98: framework__10NetGameMgrFv
   0x801d84b4: retraceCallback__10NetGameMgrFUl
+  0x801d8944: getKartPad__10NetGameMgrFUcP11KartPadData
   0x801d8a18: adjustFrame__10NetGameMgrFv
+  0x801d8c10: progressReadData__10NetGameMgrFv
+  0x801d8d70: fetchPadData__10NetGameMgrFv
 
   0x803d5c58: mspNetGameMgr__10NetGameMgr
   # SequenceApp.cpp
@@ -3499,6 +3502,11 @@ global:
   0x801dc290: getPadData__6PadMgrFUcQ26PadMgr12KartPadInputP11KartPadData
   0x801dc354: setKartPadInput__6PadMgrFQ26PadMgr12KartPadInput
   0x801dc384: resetPort__6PadMgrFv
+  0x803d5c98: msKartPadInput__6PadMgr
+  0x803d5c9c: mspRecorder__6PadMgr
+  # PadRecoder.cpp
+  0x801dc900: line__11PadRecorderFUcP11KartPadData
+  0x801dcacc: framework__11PadRecorderFv
   # BBAMgr.cpp
   0x801dd058: create__6BBAMgrFP7JKRHeap
   # AwardApp.cpp
