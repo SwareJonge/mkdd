@@ -1262,6 +1262,11 @@ src/Osako/PadMgr.cpp:
     .sbss: [0x80416a50, 0x80416a58]
     .sdata2: [0x8041b858, 0x8041b868]
 
+src/Osako/PadRecorder.cpp:
+    .text: [0x8020c980, 0x8020d390]
+    .rodata: [0x8037e0c8, 0x8037e0f8]
+    .sdata2: [0x8041b868, 0x8041b870]
+
 src/Osako/AwardApp.cpp:
     .text: [0x8020e15c, 0x8020e3ac]
     .ctors: [0x803163b0, 0x803163b4]

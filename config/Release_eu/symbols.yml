@@ -3505,8 +3505,20 @@ global:
   0x803d5c98: msKartPadInput__6PadMgr
   0x803d5c9c: mspRecorder__6PadMgr
   # PadRecoder.cpp
+  0x801dc588: __ct__11PadRecorderFv
+  0x801dc6cc: __dt__11PadRecorderFv
+  0x801dc758: setRecord__11PadRecorderFiP13KartPadRecord
+  0x801dc768: setGhostPad__11PadRecorderFiP11KartGamePad
+  0x801dc778: setGhostRecord__11PadRecorderFiP13KartPadRecord
+  0x801dc788: play__11PadRecorderFv
+  0x801dc794: standby__11PadRecorderFv
+  0x801dc84c: rec__11PadRecorderFv
+  0x801dc858: stop__11PadRecorderFv
+  0x801dc864: finalizeRecord__11PadRecorderFi8RaceTime
+  0x801dc8d0: initRecord__11PadRecorderFv
   0x801dc900: line__11PadRecorderFUcP11KartPadData
   0x801dcacc: framework__11PadRecorderFv
+  0x801dcc2c: nextFrame__11PadRecorderFv
   # BBAMgr.cpp
   0x801dd058: create__6BBAMgrFP7JKRHeap
   # AwardApp.cpp

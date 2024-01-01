@@ -1188,6 +1188,9 @@ src/Osako/PadMgr.cpp:
     .bss: [0x803a3eb0, 0x803a3ee0]
     .sbss: [0x803d5c98, 0x803d5ca0]
 
+src/Osako/PadRecorder.cpp:
+    .text: [0x801dc588, 0x801dcdf4]
+
 src/Osako/AwardApp.cpp:
     .text: [0x801ddb68, 0x801dddb8]
     .ctors: [0x802d87b4, 0x802d87b8]
