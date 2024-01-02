@@ -29,8 +29,6 @@ DUMMY_POINTER(lbl_80377378)
 #pragma pop
 #endif
 
-
-
 int KartChecker::sPlayerKartColorTable[] = {
     0, 1, 2, 3, 4, 5, 6, 7};
 
@@ -135,7 +133,7 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     mMaxLap = lapNum;
 
     mLapTimes = new RaceTime[mMaxLap];
-    mBestLapTimes = new RaceTime[mMaxLap];
+    mLapSplits = new RaceTime[mMaxLap];
 
     setPlayerKartColor(kartInfo);
     createGamePad(kartInfo);
@@ -165,7 +163,7 @@ void KartChecker::reset()
     for (int i = 0; i < mMaxLap; i++)
     {
         mLapTimes[i].reset();
-        mBestLapTimes[i].reset();
+        mLapSplits[i].reset();
     }
     clrRank();
 
@@ -654,13 +652,15 @@ void KartChecker::setLapTime()
 #line 1687
         JUT_MINMAX_ASSERT(0, mLap, mMaxLap);
 
-        mBestLapTimes[mLap].set(computedTime);
+        mLapSplits[mLap].set(computedTime);
         if (!isMaxTotalTime())
         {
+            // take delta of current lap split with previous lap split, this gives us the lap time
+            // this of course doesn't work for lap 1 so just take the split time
             if (mLap == 0)
-                mLapTimes[mLap].set(mBestLapTimes[mLap]);
+                mLapTimes[mLap].set(mLapSplits[mLap]);
             else
-                mLapTimes[mLap].sub(mBestLapTimes[mLap], mBestLapTimes[mLap - 1]);
+                mLapTimes[mLap].sub(mLapSplits[mLap], mLapSplits[mLap - 1]);
 
             if (mBestLapIdx < 0)
                 mBestLapIdx = mLap;
@@ -684,31 +684,27 @@ void KartChecker::setForceGoal()
     {
         distToGoal = -distToGoal;
     }
-    if (distToGoal < 1E-6f)
+    if (distToGoal < 0.000001f)
     {
-        distToGoal = 3.3333333E-6f;
+        distToGoal = 0.0000033333333f;
     }
 
     RaceTime forcedTime;
     forcedTime.reset();
     for (int i = mLap; i < mMaxLap; i++)
     {
-        if (!mBestLapTimes[i].isAvailable())
+        if (!mLapSplits[i].isAvailable())
         {
             float lapDist = (((i + 1) - mRaceProgression) / distToGoal) + (mTotalTime.get());
             if (lapDist > (float)forcedTime.get())
-            {
                 lapDist = (float)forcedTime.get();
-            }
-            mBestLapTimes[i].set(lapDist + 0.5f);
+
+            mLapSplits[i].set(lapDist + 0.5f);
+
             if (i <= 0)
-            {
-                mLapTimes[i].set(mBestLapTimes[i]);
-            }
+                mLapTimes[i].set(mLapSplits[i]);
             else
-            {
-                mLapTimes[i].sub(mBestLapTimes[i], mBestLapTimes[i - 1]);
-            }
+                mLapTimes[i].sub(mLapSplits[i], mLapSplits[i - 1]);
         }
     }
     mLap = mMaxLap;
@@ -1093,5 +1089,3 @@ bool LapChecker::isUDValid()
 {
     return validUD(mLapUnitDist);
 }
-
-

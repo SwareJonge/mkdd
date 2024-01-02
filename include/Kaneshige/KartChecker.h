@@ -89,7 +89,7 @@ public:
     void setForceGoal();
 
     void setGoalTime() {
-        mTotalTime = mBestLapTimes[mMaxLap - 1];
+        mTotalTime = mLapSplits[mMaxLap - 1];
         mGoalFrame = mCurFrame;
     }
 
@@ -182,8 +182,8 @@ public:
     int mNumBitfields;
     int mMaxLap;
     int mBestLapIdx;
-    RaceTime *mLapTimes;
-    RaceTime *mBestLapTimes;
+    RaceTime *mLapTimes; // Stores actual lap times
+    RaceTime *mLapSplits; // stores the race time when crossing the finish line for each lap
     int mPlayerKartColor;
     KartGamePad *mKartGamePads[2];
     bool mLapRenewal;
