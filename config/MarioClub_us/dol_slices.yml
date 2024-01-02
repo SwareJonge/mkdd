@@ -1275,6 +1275,14 @@ src/Osako/AwardApp.cpp:
     .sbss: [0x80416a68, 0x80416a70]
     .sdata2: [0x8041b8b0, 0x8041b8b8]
 
+src/Osako/Kart2DCommon.cpp:
+    .text: [0x8020edd0, 0x8020f4dc]
+    .rodata: [0x8037e1c8, 0x8037e400]
+    .data: [0x8039d2d8, 0x8039d3e0]
+    .sdata: [0x80414870, 0x80414878]
+    .sbss: [0x80416a70, 0x80416a78]
+    .sdata2: [0x8041b8d0, 0x8041ba38]
+
 src/Osako/ResetAgent.cpp: 
     .text: [0x8020f4dc, 0x8020f884]
     .ctors: [0x803163b8, 0x803163bc]

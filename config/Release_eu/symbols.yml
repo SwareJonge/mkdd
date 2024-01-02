@@ -846,6 +846,7 @@ global:
 
   # J2DPane.cpp
   0x8002a9b0: getTransform__15J2DAnmTransformCFUsP16J3DTransformInfo
+  0x8002a9b4: getTypeID__7J2DPaneCFv
 
   # J2DPrint.cpp
   0x8002e484: __ct__8J2DPrintFP7JUTFontf
@@ -3530,7 +3531,20 @@ global:
   0x8035cc88: __vt__8AwardApp
   0x803d5cb0: mspAwardApp__8AwardApp
   # Kart2DCommon.cpp
-  0x801de8f4:  __ct__12Kart2DCommonFv
+  0x801de664: changeNumberTexture__12Kart2DCommonFiPP10J2DPictureUcbb
+  0x801de75c: getAsciiTexture__12Kart2DCommonFc
+  0x801de834: changeStringTexture__12Kart2DCommonFPCcPP10J2DPictureUc
+  0x801de8f4: __ct__12Kart2DCommonFv
+  0x801dec28: __dt__12Kart2DCommonFv
+  0x8035ccf8: cpaCharName
+  0x8035cd48: cpaKartName
+  0x8035cd9c: cpaPartsName
+  0x8035cdac: cpaCupName
+  0x8035cdc0: cpaCupIcon
+  0x8035cdd4: cpaBattleIcon
+  0x8035cde0: cpaMarkName
+  0x8035cdf4: __vt__12Kart2DCommon
+  0x803d3b10: cpaPartsLocName
   0x803d5cb8: mspKart2DCommon__12Kart2DCommon
   # ResetAgent.cpp
   0x801dec78: callbackReset__10ResetAgentFiPv
