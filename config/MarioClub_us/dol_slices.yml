@@ -407,6 +407,13 @@ libs/JSystem/JAudio/Utility/JAUAudioArcLoader.cpp:
 libs/dolphin/base/PPCArch.c:
     .text: [0x800af634, 0x800af748]
 
+libs/dolphin/mtx/mtx44vec.c:
+    .text: [0x800b03b4, 0x800b042c]
+
+libs/dolphin/mtx/vec.c:
+    .text: [0x800b042c, 0x800b05c8]
+    .sdata2: [0x804182c8, 0x804182d0]
+
 libs/dolphin/dvd/dvdlow.c:
     .text: [0x800b06ec, 0x800b1568]
     .bss: [0x803b1480, 0x803b1560]
