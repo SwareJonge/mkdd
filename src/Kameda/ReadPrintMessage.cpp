@@ -156,13 +156,8 @@ namespace ReadPrintMessage
                 case 1:
                     u16 scalar = (u16)((tagData[0] << 8) + tagData[1]);
                     int fontX = fontSize.x * scalar / 100.0f;
-                    int fonty = fontSize.y * scalar / 100.0f;
-                    snprintf(buf, sizeof(buf), "\x1b"
-                                               "FX[%d]"
-                                               "\x1b"
-                                               "FY[%d]",
-                             fontX,
-                             fonty);
+                    int fontY = fontSize.y * scalar / 100.0f;
+                    snprintf(buf, sizeof(buf), "\eFX[%d]\eFY[%d]", fontX, fontY);
                     break;
                 default:
 #line 240
