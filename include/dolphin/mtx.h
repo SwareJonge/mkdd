@@ -68,6 +68,11 @@ extern "C"
     f32 PSVECSquareDistance(const Vec *a, const Vec *b);
     f32 PSVECDistance(const Vec *a, const Vec *b);
 
+    void PSMTX44MultVec(const Mtx44 m, const Vec *src, Vec *dst);
+    void PSMTX44MultVecArray(const Mtx44 m, const Vec *srcBase, Vec *dstBase, u32 count);
+    void PSMTX44MultVecSR(const Mtx44 m, const Vec *src, Vec *dst);
+    void PSMTX44MultVecArraySR(const Mtx44 m, const Vec *srcBase, Vec *dstBase, u32 count);
+
     // C Versions
 
     void C_MTXIdentity(Mtx m);
