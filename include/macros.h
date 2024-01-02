@@ -56,9 +56,11 @@
     {                                 \
         fake_function(__VA_ARGS__);   \
     }
+#define ASM asm
 #else
 #define CW_FORCE_BSS(module, ...)
 #define CW_FORCE_STRINGS(module, ...)
+#define ASM
 #endif
 
 // For VSCode

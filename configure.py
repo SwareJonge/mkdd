@@ -582,6 +582,8 @@ class CSource(Source):
         if c.VERSION == "Release":       
             if (path.startswith("libs/JSystem/JAudio/")):
                 self.cflags = c.JAUDIO_RELEASE_CFLAGS
+                if(path.startswith("libs/JSystem/JAudio/Interface")):
+                    self.cflags += " -sym on"
             elif path.startswith("libs/JSystem/"):
                 self.cflags = c.JSYSTEM_RELEASE_CFLAGS                
                 if path.endswith("JKRSolidHeap.cpp"):
@@ -591,6 +593,8 @@ class CSource(Source):
                 self.cflags = c.DOL_CFLAGS
             elif path.startswith("libs/JSystem/JAudio/"):
                 self.cflags = c.JSYSTEM_SPEED_CFLAGS
+                if(path.startswith("libs/JSystem/JAudio/Interface")):
+                    self.cflags += " -sym on"
             elif path.startswith("libs/JSystem/"): # once i have a file for every library this can finally be removed
                 self.cflags = c.JSYSTEM_SPEED_CFLAGS
 
