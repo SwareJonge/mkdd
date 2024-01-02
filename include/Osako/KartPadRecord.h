@@ -12,7 +12,8 @@
 class KartPadRecord
 {
 public:
-    // fabricated
+    // fabricated    
+
     void setFrame(int frame)
     {
         // clamp frame
@@ -42,10 +43,21 @@ public:
         }
     }
 
-    TARecord &getTARecord()
-    {
-        return mRecord;
-    };
+    bool isFrameValid() { return mFrame > 0 && mFrame < MAX_INPUT_FRAME_COUNT; }
+
+    TARecord &getTARecord() { return mRecord; }
+
+    const RaceTime &getLapSlit(int lap) {
+#line 102
+        JUT_MINMAX_ASSERT(0, lap, NUM_LAP_SPLITS)
+        return mLapSplits[lap];
+    }
+
+    void calcLapTime(int lap, RaceTime nextSplit) {
+#line 109
+        JUT_MINMAX_ASSERT(0, lap, NUM_LAP_SPLITS)
+        nextSplit.sub(nextSplit, mLapSplits[lap]);
+    }
 
 private:
     TARecord mRecord;
