@@ -82,10 +82,6 @@ void C_VECNormalize(void)
     // UNUSED FUNCTION
 }
 
-/**
- * @note Address: 0x800EAEFC
- * @note Size: 0x44
- */
 void PSVECNormalize(const register Vec *vec1, register Vec *ret)
 {
 #ifdef __MWERKS__ // clang-format off
@@ -114,10 +110,6 @@ void PSVECNormalize(const register Vec *vec1, register Vec *ret)
 #endif // clang-format on
 }
 
-/**
- * @note Address: N/A
- * @note Size: 0x24
- */
 void C_VECSquareMag(void)
 {
     // UNUSED FUNCTION
