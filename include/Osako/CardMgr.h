@@ -27,7 +27,8 @@ namespace CardMgr
         mcClear = mcSetStatus | mcGetStatus | mcClose | mcWrite | mcRead | mcOpen | mcCreate | mcFormat | mcCheck | mcMount
     };
 
-    enum TaskStatus {
+    enum TaskStatus
+    {
         mcNoTask = 0,
         mcTaskRequested,
         mcTaskDone
@@ -45,21 +46,29 @@ namespace CardMgr
                    mFilesNotUsed != 0 &&
                    FLAG_ON(mProcessFlag, 0x800);
         }
-    
-        s32 mProbeStatus;       // 0x0, see card.h
-        s32 mPrevProbeStatus;   // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
-        s32 mMemSize;           // 0x8
-        s32 mSectorSize;        // 0xc
-        s32 mByteNotUsed;       // 0x10
-        s32 mFilesNotUsed;      // 0x14
-        TaskStatus mTaskStatus; // 0x18
-        s32 mProcessFlag;       // 0x1c
-        s32 mCardStatus;        // 0x20
-        SaveFile *mSaveFile;    // 0x24
-        void *mWorkArea;        // 0x28
-        CARDFileInfo mFileInfo; // 0x2c
-        CARDStat mStat;         // 0x40
-    };                          // Size: 0xac
+
+        bool checkTaskDone() const { return mTaskStatus == CardMgr::mcTaskDone; }
+
+        void resetTaskStatus()
+        {
+            if (mTaskStatus == CardMgr::mcTaskDone)
+                mTaskStatus = CardMgr::mcNoTask;
+        }
+
+        s32 mProbeStatus;                // 0x0, see card.h
+        s32 mPrevProbeStatus;            // 0x4, only gets set to mProbeStatus in CardAgent::ask in a specific case, gets loaded and compared against mProbeStatus in CardAgent::waitSelect
+        s32 mMemSize;                    // 0x8
+        s32 mSectorSize;                 // 0xc
+        s32 mByteNotUsed;                // 0x10
+        s32 mFilesNotUsed;               // 0x14
+        volatile TaskStatus mTaskStatus; // 0x18
+        s32 mProcessFlag;                // 0x1c
+        s32 mCardStatus;                 // 0x20
+        SaveFile *mSaveFile;             // 0x24
+        void *mWorkArea;                 // 0x28
+        CARDFileInfo mFileInfo;          // 0x2c
+        CARDStat mStat;                  // 0x40
+    };                                   // Size: 0xac
 
     void create();                                     // 0x802016e0
     void probe();                                      // 0x8020175c
@@ -86,6 +95,15 @@ namespace CardMgr
     s32 unmount(s32 chan);                             // 0x80202a10
     extern CardData msaCardData[CARD_NUM_CHANS];       // 0x80400b68
     extern u8 msProbeSlot;                             // 0x804169c8
-};                                                     // namespace CardMgr
+
+    inline void resetTaskStatus(s32 chan)
+    {
+        if (msaCardData[chan].mTaskStatus == mcTaskDone)
+            msaCardData[chan].mTaskStatus = mcNoTask;
+    }
+
+    inline bool areOffsetsOk(s32 chan) { return msaCardData[chan].mStat.commentAddr == -1 || msaCardData[chan].mStat.iconAddr == -1; }
+    inline bool probeStatusOk(s32 chan) { return msaCardData[chan].mPrevProbeStatus != msaCardData[chan].mProbeStatus; }
+}; // namespace CardMgr
 
 #endif // CARDMGR_H

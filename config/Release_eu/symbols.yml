@@ -2538,6 +2538,12 @@ global:
   0x803d55d4: mDataPtr__16ReadPrintMessage
 
   # PrintMemoryCard.cpp
+  0x80152374: __ct__15PrintMemoryCardFP7JKRHeap
+  0x80152440: reset__15PrintMemoryCardFv  
+  0x801524ac: init__15PrintMemoryCardFQ215PrintMemoryCard9MessageID
+  0x801528c0: draw__15PrintMemoryCardFv
+  0x801528f0: calc__15PrintMemoryCardFv
+  0x80152cd8: closeWindow__15PrintMemoryCardFv
   0x80152d60: closeWindowNoSe__15PrintMemoryCardFv
 
   # CharacterSelect3D.cpp
@@ -3420,8 +3426,11 @@ global:
   0x803d9a90: scSystemHeapSize__10SystemData
   0x803d9a94: scAudioHeapSize__10SystemData
   0x803d9a98: scAudioAramSize__10SystemData
-  # SystemFile.cpp
+  # SystemFile.cpp  
   0x801d59b0: __ct__8TARecordFv
+  0x801d5ecc: init__10SystemFileFv
+  0x801d6284: checkData__10SystemFileFv  
+  0x801d6404: isSavable__10SystemFileFv
   0x803bffa0: gSystemFile
   # NetGameMgr.cpp
   0x801d66a8: create__10NetGameMgrFP7JKRHeap
@@ -3496,6 +3505,12 @@ global:
   0x801dc010: getCRC__8SaveFileFPUcPUc
   0x803c65f4: msaCRCTable__8SaveFile
   0x803d5c90: msCRCTableComputed__8SaveFile
+  # GhostFile.cpp
+  0x801de0f4: isValidGhostOnRace__9GhostFileFv
+  0x801de144: makeFileName__9GhostFileFPcPC8GIRecord
+  0x801de1ac: analysisFileName__9GhostFileFP8GIRecordPCc
+  0x801de214: remakeFileName__9GhostFileFv
+  0x803c6a00: gGhostFile
   # PadMgr.cpp
   0x801dc0b4: init__6PadMgrFv
   0x801dc140: framework__6PadMgrFv

@@ -5,11 +5,10 @@
 
 class PrintMemoryCard
 {
-    // Global
 public:
-
     PrintMemoryCard(JKRHeap *heap); // 0x8016be58
 
+    // TODO: are these actually correct?
     enum MessageID
     {
         mcNoCardContinue,
@@ -85,6 +84,12 @@ public:
         return _1c;
      }
 
+     int get_14Thing() {
+         if (_1c == 2 && (_20 == 0 || _20 == 25))
+             return _14;
+         return 2;
+     }
+
 private:
     //  TODO
     u8 _0[0x4];
@@ -93,7 +98,9 @@ private:
     u8 _c;
     u8 _d;
     u8 _e;
-    u8 _f[0x1c - 0xf];
+    u8 _f[0x14 - 0xf];
+    int _14;
+    u8 _18[4];
     int _1c;
     int _20;
     u8 _24[0x30 - 0x24];

@@ -2,6 +2,7 @@
 #define CARDAGENT_H
 
 #include "Kameda/PrintMemoryCard.h"
+#include "Osako/clock.h"
 #include "Osako/GhostFile.h"
 #include "Osako/SaveFile.h"
 #include "Osako/SystemFile.h"
@@ -23,8 +24,27 @@ namespace CardAgent
 
     struct MessageTimer
     {
+        MessageTimer()
+        {
+            mTime = 0;
+            _4 = 0;
+            _c = 0;
+        }
+        // fabricated, probably is set up in 2 parts
+        void set()
+        {
+            _c = 0;
+            _4 = 0;
+            if (_4 == 1)
+            {
+                return;
+            }
+            mTime = Clock::getTime();
+            _c = 1;
+        }
+
         int mTime;
-        int _4;
+        u32 _4;
         f32 _8;
         u8 _c;
     };

@@ -13,7 +13,10 @@ public:
 
     enum FilePart
     {
-
+        // TODO
+        Part_0,
+        Part_1,
+        Part_2
     };
 
     virtual void setPart(FilePart) = 0; // 08

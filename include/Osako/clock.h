@@ -11,7 +11,9 @@ public:
     static f32 calcFrameTime(u32 other)
     {
         return getTimeDiff(other) / (f32)Clock::mscTimePerSec;
-    }   
+    }
+
+    static int getTime() { return msTime; }
 
     static void move();
 private:
