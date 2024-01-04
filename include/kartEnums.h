@@ -1,6 +1,8 @@
 #ifndef KARTENUM_H
 #define KARTENUM_H
 
+// TODO: consistency.
+
 enum ECourseID
 {
     TEST_1 = 0x1,

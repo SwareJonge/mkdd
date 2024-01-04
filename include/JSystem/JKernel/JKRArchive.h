@@ -10,14 +10,17 @@
 #define JKRARCHIVE_ATTR_COMPRESSION 0x04
 #define JKRARCHIVE_ATTR_YAY0 0x80
 
-inline u32 read_big_endian_u32(void *ptr) {
+inline u32 read_big_endian_u32(void *ptr)
+{
     u8 *uptr = (u8 *)ptr;
     return ((u32)uptr[0] << 0x18) | ((u32)uptr[1] << 0x10) | ((u32)uptr[2] << 8) | (u32)uptr[3];
 }
 
-class JKRArchive : public JKRFileLoader {
+class JKRArchive : public JKRFileLoader
+{
 public:
-    enum EMountMode {
+    enum EMountMode
+    {
         UNKNOWN_MOUNT_MODE = 0,
         MOUNT_MEM = 1,
         MOUNT_ARAM = 2,
@@ -25,13 +28,15 @@ public:
         MOUNT_COMP = 4,
     };
 
-    enum EMountDirection {
+    enum EMountDirection
+    {
         UNKNOWN_MOUNT_DIRECTION = 0,
         MOUNT_DIRECTION_HEAD = 1,
         MOUNT_DIRECTION_TAIL = 2,
     };
 
-    class CArcName {
+    class CArcName
+    {
     public:
         CArcName(const char **p1, char p2) { p1[0] = store(p1[0], p2); }
 
@@ -96,15 +101,15 @@ public:
     // NB: Fabricated name
     struct SArcDataInfo
     {
-        u32 num_nodes;        // _00
-        u32 node_offset;      // _04
-        u32 num_file_entries; // _08
-        u32 file_entry_offset; // _0C
+        u32 num_nodes;           // _00
+        u32 node_offset;         // _04
+        u32 num_file_entries;    // _08
+        u32 file_entry_offset;   // _0C
         u32 string_table_length; // _10
         u32 string_table_offset; // _14
-        u16 nextFreeFileID;  // _18
-        bool isSyncIDs;      // _1A
-        u8 _1B[5];            // _1B, unknown
+        u16 nextFreeFileID;      // _18
+        bool isSyncIDs;          // _1A
+        u8 _1B[5];               // _1B, unknown
     };
 
     // NB: Fabricated name - need to check size
@@ -286,7 +291,7 @@ struct JKRDvdArchive : public JKRArchive
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    int mCompression;  // _5C
+    int mCompression;                // _5C
     EMountDirection mMountDirection; // _60
     int _64;                         // _64
     JKRFile *mDvdFile;               // _68
@@ -320,7 +325,7 @@ struct JKRMemArchive : public JKRArchive
 
     // _00     = VTBL
     // _00-_5C = JKRArchive
-    int mCompression;  // _5C
+    int mCompression;                // _5C
     EMountDirection mMountDirection; // _60
     SArcHeader *mArcHeader;          // _64
     u8 *mArchiveData;                // _68
@@ -332,7 +337,8 @@ inline int JKRConvertAttrToCompressionType(int attr)
     return JKRArchive::convertAttrToCompressionType(attr);
 }
 
-inline JKRArchive *JKRMountArchive(const char *path, JKRArchive::EMountMode mountMode, JKRHeap *heap, JKRArchive::EMountDirection mountDirection) {
+inline JKRArchive *JKRMountArchive(const char *path, JKRArchive::EMountMode mountMode, JKRHeap *heap, JKRArchive::EMountDirection mountDirection)
+{
     return JKRArchive::mount(path, mountMode, heap, mountDirection);
 }
 

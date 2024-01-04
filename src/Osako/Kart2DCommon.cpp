@@ -68,7 +68,7 @@ void Kart2DCommon::changeNumberTexture(int num, J2DPicture **paPicture, u8 place
         if (drawMinus)
             paPicture[place]->changeTexture(mMark[1], 0);
         else
-            paPicture[place]->changeTexture(mNumberFont[tenths], 0);
+            paPicture[place]->changeTexture(mNumberTex[tenths], 0);
 
         if (place != 0 && tenths == 0 && !showZero && num == 0)
             paPicture[place]->hide();
@@ -86,7 +86,7 @@ ResTIMG *Kart2DCommon::getAsciiTexture(char symbol)
         return mFontData[symbol - 'a'];
 
     if (symbol >= '0' && symbol <= '9')
-        return mNumberFont[symbol - '0'];
+        return mNumberTex[symbol - '0'];
 
     if (symbol == '+')
         return mMark[0];
@@ -147,7 +147,7 @@ Kart2DCommon::Kart2DCommon()
     for (i = 0; i < 11; i++)
     {
         snprintf(buf, sizeof(buf), "timg/MarioFont_Number_%d.bti", i);
-        mNumberFont[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
+        mNumberTex[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
     }
 
     for (i = 0, c = 'A'; c <= 'Z'; c++, i++)
@@ -164,16 +164,16 @@ Kart2DCommon::Kart2DCommon()
 
     mAlphaTex = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, "timg/AlphTex.bti");
 
-    for (i = 1; i < 21; i++)
+    for (i = 1; i < cCharIDMax; i++) // ECharID starts at 1 so ig that's why this loop starts at 1
     {
         snprintf(buf, sizeof(buf), "timg/%s.bti", cpaCharName[i - 1]);
-        mIndexCharImg[i - 1] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
+        mCharIconTex[i - 1] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
     }
 
-    for (i = 0; i < 21; i++)
+    for (i = 0; i < cKartIDMax; i++)
     {
         snprintf(buf, sizeof(buf), "timg/IndexKart%s.bti", cpaKartName[i]);
-        mIndexKartImg[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
+        mKartIconTex[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
     }
 
     for (i = 0; i < 4; i++)
@@ -194,18 +194,18 @@ Kart2DCommon::Kart2DCommon()
         mPosImg[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcMRAMLoc, buf);
     }
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < CUP_MAX; i++)
     {
         snprintf(buf, sizeof(buf), "timg/ResultCupName_%s_CUP.bti", cpaCupName[i]);
-        mResCupImg[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcMRAMLoc, buf);
+        mCupNameTex[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcMRAMLoc, buf);
 
         snprintf(buf, sizeof(buf), "timg/Cup_Pict_%s.bti", cpaCupIcon[i]);
-        mCupImg[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
+        mCupIconTex[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
     }
 
     for (i = 0; i < 3; i++)
     {
         snprintf(buf, sizeof(buf), "timg/Cup_Pict_%s.bti", cpaBattleIcon[i]);
-        mBattleIconImg[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
+        mBattleIconTex[i] = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcRace2D, buf);
     }
 }

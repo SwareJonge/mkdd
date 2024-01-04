@@ -2581,6 +2581,12 @@ global:
   0x80170df0: getTextBox__11PrintWindowFv
   0x80170e30: getBaseFontSize__11PrintWindowFv
 
+  # BattleName2D.cpp
+  0x80173d50: __ct__12BattleName2DFP10JKRArchive
+  0x80173de0: __dt__12BattleName2DFv
+  0x80173e34: getBattleNameTexture__12BattleName2DFQ212BattleName2D10BattleName
+  0x803d5600: mBattleName2D__12BattleName2D
+
   # Kaneshige
   # DrawBuffer.cpp
   0x801775d0: __ct__10DrawBufferFv

@@ -990,6 +990,13 @@ src/Kameda/ReadPrintMessage.cpp:
     #.rodata: [0x80375e70, 0x80376048]
     #.sdata2: [0x804199b8, 0x804199f8]
 
+src/Kameda/BattleName2D.cpp:
+    .text: [0x801947ac, 0x801949c4]
+    .ctors: [0x80316244, 0x80316248]
+    .rodata: [0x80376510, 0x80376528]
+    .bss: [0x803ca5a8, 0x803ca5d8]
+    .sbss: [0x80416380, 0x80416388]
+
 src/Kaneshige/DrawBuffer.cpp:
     .text: [0x80198810, 0x80198cd4]
     .ctors: [0x80316260, 0x80316264]
