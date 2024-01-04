@@ -74,6 +74,99 @@ enum ECourseID
     ENDING = 0x45
 };
 
+enum ECharID
+{
+    cCharIDNone = 0,
+    BABY_MARIO = 1,
+    BABY_LUIGI = 2,
+    PARATROOPA = 3,
+    KOOPATROOPA = 4,
+    PEACH = 5,
+    DAISY = 6,
+    MARIO = 7,
+    LUIGI = 8,
+    WARIO = 9,
+    WALUIGI = 10,
+    YOSHI = 11,
+    BIRDO = 12,
+    DONKEYKONG = 13,
+    DONKEYJR = 14,
+    BOWSER = 15,
+    BOWSERJR = 16,
+    TOAD = 17,
+    TOADETTE = 18,
+    KING_BOO = 19,
+    PETEY = 20,
+    cCharIDMax = 21
+};
+
+enum EGhostKind
+{
+    KIND_0,
+    KIND_1,
+    KIND_2,
+};
+
+enum EKartID
+{
+    RED_FIRE = 0,
+    DK_JUMBO = 1,
+    TURBO_YOSHI = 2,
+    KOOPA_DASHER = 3,
+    HEART_COACH = 4,
+    GOO_GOO_BUGGY = 5,
+    WARIO_CAR = 6,
+    KOOPA_KING = 7,
+    GREEN_FIRE = 8,
+    BARREL_TRAIN = 9,
+    TURBO_BIRDO = 10,
+    PARA_WING = 11,
+    BLOOM_COACH = 12,
+    RATTLE_BUGGY = 13,
+    WALUIGI_RACER = 14,
+    BULLET_BLASTER = 15,
+    TOAD_KART = 16,
+    TOADETTE_KART = 17,
+    BOO_PIPES = 18,
+    PIRANHA_PIPES = 19,
+    PARADE_KART = 20,
+    cKartIDMax = 21
+};
+
+enum ERaceGpCup
+{
+    INV_CUP = -1,
+    MUSHROOM_CUP = 0,
+    FLOWER_CUP = 1,
+    STAR_CUP = 2,
+    SPECIAL_CUP = 3,
+    ALL_CUP_TOUR = 4,
+    CUP_MAX
+};
+
+enum ERaceLevel
+{ // unsure of this
+    LVL_INV = -1,
+    LVL_50CC = 0,
+    LVL_100CC = 1,
+    LVL_150CC = 2,
+    LVL_MIRROR = 3
+};
+
+enum ERaceMode
+{
+    INV_MODE = 0,
+    TIME_ATTACK = 0x1,
+    GRAND_PRIX = 0x2,
+    VERSUS_RACE = 0x3,
+    BALLOON_BATTLE = 0x4,
+    ROBBERY_BATTLE = 0x5,
+    BOMB_BATTLE = 0x6,
+    ESCAPE_BATTLE = 0x7,
+    AWARD_DEMO = 0x8,
+    STAFF_ROLL = 0x9,
+};
+
 enum ERacePhase { // idk how many phases there are
     PHASE_CRS_DEMO = 1,
     PHASE_2 = 2,

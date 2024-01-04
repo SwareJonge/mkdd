@@ -6,39 +6,6 @@
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceTime.h"
 
-enum ERaceMode
-{
-    INV_MODE = 0,
-    TIME_ATTACK = 0x1,
-    GRAND_PRIX = 0x2,
-    VERSUS_RACE = 0x3,
-    BALLOON_BATTLE = 0x4,
-    ROBBERY_BATTLE = 0x5,
-    BOMB_BATTLE = 0x6,
-    ESCAPE_BATTLE = 0x7,
-    AWARD_DEMO = 0x8,
-    STAFF_ROLL = 0x9,
-};
-
-enum ERaceLevel
-{ // unsure of this
-    LVL_INV = -1,
-    LVL_50CC = 0,
-    LVL_100CC = 1,
-    LVL_150CC = 2,
-    LVL_MIRROR = 3,
-};
-
-enum ERaceGpCup
-{
-    INV_CUP = -1,
-    MUSHROOM_CUP = 0,
-    FLOWER_CUP = 1,
-    STAR_CUP = 2,
-    SPECIAL_CUP = 3,
-    ALL_CUP_TOUR = 4
-};
-
 class RaceInfo
 {
 public:
