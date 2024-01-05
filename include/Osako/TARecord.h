@@ -8,16 +8,13 @@
 class TARecord
 {
 public:
-    TARecord() { reset(); }
+    TARecord() : mKartID(0xff) { }
     // fabricated
     void reset()
     {
         mKartID = 0xff;
         mTime.reset();
     }
-
-    // i also have trouble believing this is right
-    TARecord(u8 kartID) : mKartID(kartID) {}
 
     TARecord(u8, u8, u8, u8);
     void setName(const char *);

@@ -13,8 +13,7 @@
 class KartPadRecord : public TARecord
 {
 public:
-    // This can't be right, right?
-    KartPadRecord() : TARecord(0xff), mFrame(0) { }
+    KartPadRecord() : mFrame(0) {}
     void reset() { mFrame = 0; }
 
     // fabricated
@@ -50,7 +49,6 @@ public:
     bool isLittle(const KartPadRecord &other) const { return getRaceTime().isLittle(other.getRaceTime()); }
 
     bool isFrameValid() const { return mFrame > 0 && mFrame < MAX_INPUT_FRAME_COUNT; }
-
 
     const RaceTime &getLapSlit(int lap)
     {
