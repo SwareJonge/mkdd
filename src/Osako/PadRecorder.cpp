@@ -84,7 +84,7 @@ void PadRecorder::finalizeRecord(int no, RaceTime time)
     if (mRecord[no])
     {
         mRecord[no]->setFrame(mFrame - 1);
-        mRecord[no]->getTARecord().setRaceTime(time);
+        mRecord[no]->setRaceTime(time);
     }
 }
 

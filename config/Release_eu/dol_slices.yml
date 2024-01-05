@@ -1222,6 +1222,15 @@ src/Osako/AwardApp.cpp:
     .sbss: [0x803d5cb0, 0x803d5cb8]
     .sdata2: [0x803d9b10, 0x803d9b18]
 
+src/Osako/GhostFile.cpp:
+    .text: [0x801dddb8, 0x801de664]
+    .ctors: [0x802d87b8, 0x802d87bc]
+    .rodata: [0x80340ff8, 0x80341018]
+    .data: [0x8035cca0, 0x8035ccf8]
+    .bss: [0x803ac588, 0x803ac598]
+    #.bss: [0x803c6a00, 0x803c6a00 + 0xa060]
+    .sdata2: [0x803d9b18, 0x803d9b20]
+
 src/Osako/Kart2DCommon.cpp:
     .text: [0x801de664, 0x801dec78]
     .rodata: [0x80341018, 0x80341208]

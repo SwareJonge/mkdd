@@ -3437,6 +3437,8 @@ global:
   0x801d5ecc: init__10SystemFileFv
   0x801d6284: checkData__10SystemFileFv  
   0x801d6404: isSavable__10SystemFileFv
+  0x8035c7b8: __vt__10SystemFile
+  0x8035c810: __vt__8SaveFile
   0x803bffa0: gSystemFile
   # NetGameMgr.cpp
   0x801d66a8: create__10NetGameMgrFP7JKRHeap
@@ -3511,12 +3513,6 @@ global:
   0x801dc010: getCRC__8SaveFileFPUcPUc
   0x803c65f4: msaCRCTable__8SaveFile
   0x803d5c90: msCRCTableComputed__8SaveFile
-  # GhostFile.cpp
-  0x801de0f4: isValidGhostOnRace__9GhostFileFv
-  0x801de144: makeFileName__9GhostFileFPcPC8GIRecord
-  0x801de1ac: analysisFileName__9GhostFileFP8GIRecordPCc
-  0x801de214: remakeFileName__9GhostFileFv
-  0x803c6a00: gGhostFile
   # PadMgr.cpp
   0x801dc0b4: init__6PadMgrFv
   0x801dc140: framework__6PadMgrFv
@@ -3551,6 +3547,38 @@ global:
   0x801ddca8: draw__8AwardAppFv
   0x8035cc88: __vt__8AwardApp
   0x803d5cb0: mspAwardApp__8AwardApp
+  # GhostFile.cpp
+  0x801dddb8: __dt__9GhostFileFv
+  0x801dde00: setup__9GhostFileFv
+  0x801ddfd0: updateKartPadRecord__9GhostFileFRC13KartPadRecord
+  0x801de0bc: available__9GhostFileF9ECourseID
+  0x801de0f4: isValidGhostOnRace__9GhostFileFv
+  0x801de144: makeFileName__9GhostFileFPcPC8GIRecord
+  0x801de1ac: analysisFileName__9GhostFileFP8GIRecordPCc
+  0x801de214: remakeFileName__9GhostFileFv
+  0x801de28c: uuencode__9GhostFileFPcUcPCUcUc
+  0x801de378: uudecode__9GhostFileFPUcUcPCcUc
+  0x801de484: getAccessWay__9GhostFileFv
+  0x801de490: getFileName__9GhostFileFv
+  0x801de49c: getFileNo__9GhostFileFv
+  0x801de4a8: getBannerFormat__9GhostFileFv
+  0x801de4b0: getCommentOffset__9GhostFileFv
+  0x801de4c0: getIconNum__9GhostFileFv
+  0x801de4c8: getIconOffset__9GhostFileFv
+  0x801de4d0: getIconAnim__9GhostFileFv
+  0x801de4d8: getIconFormat__9GhostFileFUc
+  0x801de4e0: getIconSpeed__9GhostFileFUc
+  0x801de4e8: getBuf__9GhostFileFv
+  0x801de4f0: getFileSize__9GhostFileFv
+  0x801de4fc: getLength__9GhostFileFv
+  0x801de508: getOffset__9GhostFileFv
+  0x801de510: setCheckData__9GhostFileFx
+  0x801de560: checkData__9GhostFileFv
+  0x801de5bc: setPart__9GhostFileFQ28SaveFile8FilePart
+  0x801de5c0: fetch__9GhostFileFv
+  0x801de5c4: store__9GhostFileFv
+  0x8035cca0: __vt__9GhostFile
+  0x803c6a00: gGhostFile
   # Kart2DCommon.cpp
   0x801de664: changeNumberTexture__12Kart2DCommonFiPP10J2DPictureUcbb
   0x801de75c: getAsciiTexture__12Kart2DCommonFc

@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#include <dolphin/card.h>
+
 class SaveFile
 {
 public:

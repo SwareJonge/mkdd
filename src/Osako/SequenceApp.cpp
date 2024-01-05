@@ -78,10 +78,10 @@ SequenceApp::~SequenceApp()
 
     // TODO: use inline to static instance or just the static instance?
 
-    delete SceneFactory::getSceneFactory();
+    delete SceneFactory::ptr();
     delete MenuBackground::ptr();
     delete MenuTitleLine::ptr();
-    delete CharacterSelect3D::getCharacterSelect3D();
+    delete CharacterSelect3D::ptr();
 
     msNextScene = Scene::SCENE_NONE;
     msScene = Scene::SCENE_NONE;
@@ -102,10 +102,10 @@ void SequenceApp::freeForMovieApp()
 
     // TODO: use inline to static instance or just the static instance?
 
-    delete SceneFactory::getSceneFactory();
+    delete SceneFactory::ptr();
     delete MenuBackground::ptr();
     delete MenuTitleLine::ptr();
-    delete CharacterSelect3D::getCharacterSelect3D();
+    delete CharacterSelect3D::ptr();
 
     mHeap->freeAll();
 
@@ -194,7 +194,7 @@ void SequenceApp::reset() {}
 void SequenceApp::loadTask(void *arg)
 {
     Scene::SceneType scene = (Scene::SceneType)arg;
-    SceneFactory::getSceneFactory()->loadData(scene, ptr()->mHeap);
+    SceneFactory::ptr()->loadData(scene, ptr()->mHeap);
 
     BOOL enable = OSDisableInterrupts();
     ptr()->mLoadedScenes &= ~(1 << scene);
@@ -255,6 +255,6 @@ bool SequenceApp::checkFinishAllLoading()
 Scene *SequenceApp::createScene(Scene::SceneType scene)
 {
     if (mScenes[scene] == nullptr)
-        mScenes[scene] = SceneFactory::getSceneFactory()->createScene(scene, mHeap);
+        mScenes[scene] = SceneFactory::ptr()->createScene(scene, mHeap);
     return mScenes[scene];
 }

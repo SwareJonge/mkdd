@@ -38,7 +38,7 @@ public:
     void drawKart(EKartID);                                                           // 0x80186938
     void calcRotTrans(Mtx, JGeometry::TVec3f, JGeometry::TVec3f);                     // 0x80186b90
 
-    static CharacterSelect3D *getCharacterSelect3D() { return mCharacterSelect3D; }
+    static CharacterSelect3D *ptr() { return mCharacterSelect3D; }
 
     static f32 mCharacterDefScale[20];            // 0x80372ec0
     static f32 mKartDefScale[21];                 // 0x80372f10
