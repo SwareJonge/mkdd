@@ -25,14 +25,14 @@ void GhostFile::setup()
     snprintf(buf, sizeof(buf), "bnr/bn_%s.bti", ResMgr::getCrsArcName(mPadRecord.getCourseID()));
 
     ResTIMG *banner = (ResTIMG *)ghostFileArc->getResource(buf);
-    memcpy(this->mBanner, ((u8 *)banner + banner->mImageDataOffset), sizeof(mBanner));
-    memmove(this->mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), sizeof(mBannerPallete));
+    memcpy(mBanner, ((u8 *)banner + banner->mImageDataOffset), sizeof(mBanner));
+    memmove(mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), sizeof(mBannerPallete));
 
     snprintf(buf, sizeof(buf), "icon/ic_%s.bti", ResMgr::getCrsArcName(mPadRecord.getCourseID()));
 
     ResTIMG *icon = (ResTIMG *)ghostFileArc->getResource(buf);
-    memcpy(this->mIcon, ((u8 *)icon + icon->mImageDataOffset), sizeof(mIcon));
-    memcpy(this->mIconPalette, ((u8 *)icon + icon->mPaletteOffset), sizeof(mIconPalette));
+    memcpy(mIcon, ((u8 *)icon + icon->mImageDataOffset), sizeof(mIcon));
+    memcpy(mIconPalette, ((u8 *)icon + icon->mPaletteOffset), sizeof(mIconPalette));
 
     int min, sec, ms;
     mPadRecord.getRaceTime().get(&min, &sec, &ms);
@@ -190,7 +190,7 @@ int GhostFile::getIconOffset() { return 0; }
 u8 GhostFile::getIconAnim() { return CARD_STAT_ANIM_BOUNCE; }
 u8 GhostFile::getIconFormat(u8) { return CARD_STAT_ICON_C8; }
 u8 GhostFile::getIconSpeed(u8) { return CARD_STAT_SPEED_SLOW; }
-u8 *GhostFile::getBuf() { return (u8 *)&mBanner; }
+void *GhostFile::getBuf() { return &mBanner; }
 u32 GhostFile::getFileSize() { return 0xa000; } // is it possible to use sizeof here?
 s32 GhostFile::getLength() { return 0xa000; }
 s32 GhostFile::getOffset() { return 0; }

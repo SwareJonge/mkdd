@@ -3433,13 +3433,37 @@ global:
   0x803d9a94: scAudioHeapSize__10SystemData
   0x803d9a98: scAudioAramSize__10SystemData
   # SystemFile.cpp  
+  0x801d5930: __ct__Q210SystemFile8FileDataFv
   0x801d59b0: __ct__8TARecordFv
+  0x801d59c8: __dt__10SystemFileFv
+  0x801d5a10: setPart__10SystemFileFQ28SaveFile8FilePart
+  0x801d5a18: fetch__10SystemFileFv
+  0x801d5c74: store__10SystemFileFv
+  0x801d5d88: getAccessWay__10SystemFileFv
+  0x801d5d90: getFileName__10SystemFileFv
+  0x801d5d98: getFileNo__10SystemFileFv
+  0x801d5da0: getBannerFormat__10SystemFileFv
+  0x801d5da8: getCommentOffset__10SystemFileFv
+  0x801d5dc4: getIconNum__10SystemFileFv
+  0x801d5dcc: getIconOffset__10SystemFileFv
+  0x801d5dd4: getIconAnim__10SystemFileFv
+  0x801d5ddc: getIconFormat__10SystemFileFUc
+  0x801d5de4: getIconSpeed__10SystemFileFUc
+  0x801d5dec: getBuf__10SystemFileFv
+  0x801d5e2c: getFileSize__10SystemFileFv
+  0x801d5e34: getLength__10SystemFileFv
+  0x801d5e78: getOffset__10SystemFileFv
   0x801d5ecc: init__10SystemFileFv
+  0x801d5f18: initHeader__10SystemFileFv
+  0x801d5fd0: initData__10SystemFileFUc
+  0x801d604c: setCheckData__10SystemFileFx
+  0x801d6138: setCheckDataSub__10SystemFileFUcR13OSTimeDividerR14OSCalendarTime
   0x801d6284: checkData__10SystemFileFv  
-  0x801d6404: isSavable__10SystemFileFv
+  0x801d6404: isSavable__10SystemFileFv  
   0x8035c7b8: __vt__10SystemFile
   0x8035c810: __vt__8SaveFile
   0x803bffa0: gSystemFile
+  0x803d3b00: mspFileNameString__10SystemFile
   # NetGameMgr.cpp
   0x801d66a8: create__10NetGameMgrFP7JKRHeap
   0x801d6a28: end__10NetGameMgrFb

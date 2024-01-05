@@ -1219,7 +1219,25 @@ src/Osako/CardAgent.cpp:
     .data: [0x8039cb98, 0x8039cc78]
     #.bss: [0x80400cc0, 0x80400ce0]
     .sbss: [0x804169d0, 0x80416a00]
-    .sdata2: [0x8041b710, 0x8041b748]    
+    .sdata2: [0x8041b710, 0x8041b748]     
+
+src/Osako/SystemFile.cpp:
+    .text: [0x80204fe8, 0x80205c2c]
+    .ctors: [0x80316390, 0x80316394]
+    .rodata: [0x8037d8c0, 0x8037d938]
+    .data: [0x8039cc78, 0x8039cd28]
+    .bss: [0x803e4a80, 0x803e4a90]
+    #.bss: [0x80400ce0, 0x80406d20]
+    .sdata: [0x80414860, 0x80414868]
+    .sdata2: [0x8041b748, 0x8041b758]
+
+src/Osako/systemData.cpp:
+    .text: [0x80205c2c, 0x80205db4]
+    .ctors: [0x80316394, 0x80316398]
+    .rodata: [0x8037d938, 0x8037da88]
+    .data: [0x8039cd28, 0x8039cde8]
+    .sbss: [0x80416a00, 0x80416a10]
+    .sdata2: [0x8041b758, 0x8041b778]
 
 src/Osako/SequenceApp.cpp:
     .text: [0x80208aec, 0x80209424]
@@ -1229,15 +1247,7 @@ src/Osako/SequenceApp.cpp:
     .bss: [0x803e4ac0, 0x803e4af0]
     .sdata: [0x80414868, 0x80414870]
     .sbss: [0x80416a18, 0x80416a20]
-    .sdata2: [0x8041b7a0, 0x8041b7b0]  
-
-src/Osako/systemData.cpp:
-    .text: [0x80205c2c, 0x80205db4]
-    .ctors: [0x80316394, 0x80316398]
-    .rodata: [0x8037d938, 0x8037da88]
-    .data: [0x8039cd28, 0x8039cde8]
-    .sbss: [0x80416a00, 0x80416a10]
-    .sdata2: [0x8041b758, 0x8041b778]
+    .sdata2: [0x8041b7a0, 0x8041b7b0] 
 
 src/Osako/shadowScr.cpp:
     .text: [0x8020af10, 0x8020b458]

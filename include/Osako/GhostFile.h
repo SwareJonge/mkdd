@@ -43,7 +43,7 @@ public:
     virtual u8 getIconAnim();                               // 0x8020ec3c, overide
     virtual u8 getIconFormat(u8);                           // 0x8020ec44, overide
     virtual u8 getIconSpeed(u8);                            // 0x8020ec4c, overide
-    virtual u8 *getBuf();                                   // 0x8020ec54, overide
+    virtual void *getBuf();                                 // 0x8020ec54, overide
     virtual u32 getFileSize();                              // 0x8020ec5c, overide
     virtual s32 getLength();                                // 0x8020ec68, overide
     virtual s32 getOffset();                                // 0x8020ec74, overide

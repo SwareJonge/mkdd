@@ -1165,6 +1165,16 @@ src/Osako/CardAgent.cpp:
     .sbss: [0x803d5c18, 0x803d5c48]
     .sdata2: [0x803d9a50, 0x803d9a80]
 
+src/Osako/SystemFile.cpp:
+    .text: [0x801d5930, 0x801d6520]
+    .ctors: [0x802d8794, 0x802d8798]
+    .rodata: [0x80340cf8, 0x80340d38]
+    .data: [0x8035c7b8, 0x8035c868]
+    .bss: [0x803a3de0, 0x803a3df0]
+    #.bss: [0x803bffa0, 0x803bffa0 + 0xa060] # common bss area
+    .sdata: [0x803d3b00, 0x803d3b08]
+    .sdata2: [0x803d9a80, 0x803d9a88]
+
 src/Osako/systemData.cpp:
     .text: [0x801d6520, 0x801d66a8]
     .ctors: [0x802d8798, 0x802d879c]

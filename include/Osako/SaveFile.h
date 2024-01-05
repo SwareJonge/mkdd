@@ -5,6 +5,8 @@
 
 #include <dolphin/card.h>
 
+// TODO: type consistency
+
 class SaveFile
 {
 public:
@@ -15,10 +17,9 @@ public:
 
     enum FilePart
     {
-        // TODO
-        Part_0,
-        Part_1,
-        Part_2
+        mcHeader,
+        mcData,
+        mcDataSub
     };
 
     virtual void setPart(FilePart) = 0; // 08
@@ -36,7 +37,7 @@ public:
     virtual u8 getIconFormat(u8) = 0;   // 38
     virtual u8 getIconSpeed(u8) = 0;    // 3C
     virtual u8 getIconAnim() = 0;       // 40
-    virtual u8 *getBuf() = 0;           // 44
+    virtual void *getBuf() = 0;         // 44
     virtual u32 getFileSize() = 0;      // 48
     virtual s32 getLength() = 0;        // 4C
     virtual s32 getOffset() = 0;        // 50

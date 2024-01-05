@@ -673,7 +673,7 @@ namespace CardAgent
             case mcCommand2:
             case mcCommand3:
             case mcCommand4:
-                CardMgr::read(msChan, SaveFile::Part_0);
+                CardMgr::read(msChan, SaveFile::mcHeader);
                 msState = 10;
                 break;
             case mcCommand6:
@@ -740,7 +740,7 @@ namespace CardAgent
         switch (CardMgr::msaCardData[msChan].mCardStatus)
         {
         case CARD_RESULT_READY:
-            CardMgr::write(msChan, SaveFile::Part_0);
+            CardMgr::write(msChan, SaveFile::mcHeader);
             msState = 9;
             break;
         case CARD_RESULT_NOENT:
@@ -907,11 +907,11 @@ namespace CardAgent
                 if (mspSystemFile->isSavable() || CardMgr::areOffsetsOk(msChan))
                 {
                     if (FLAG_ON(mspSystemFile->_6023, 4))
-                        CardMgr::write(msChan, SaveFile::Part_0);
+                        CardMgr::write(msChan, SaveFile::mcHeader);
                     else if (mspSystemFile->_602c == 0)
-                        CardMgr::write(msChan, SaveFile::Part_1);
+                        CardMgr::write(msChan, SaveFile::mcData);
                     else
-                        CardMgr::write(msChan, SaveFile::Part_2);
+                        CardMgr::write(msChan, SaveFile::mcDataSub);
                     msState = 9;
                     mspPrintMemoryCard->init(PrintMemoryCard::mcGameSavingNoTouch);
                     msMessageTimer.set();
