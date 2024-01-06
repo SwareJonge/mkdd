@@ -7,6 +7,8 @@
 #include "Osako/PadRecorder.h"
 #include "Osako/SaveFile.h"
 
+#define FILENAME_SIZE 32
+
 union UUData
 {
     struct
@@ -56,19 +58,36 @@ public:
     virtual void fetch() {}                     // 0x8020ed2c, overide
     virtual void store() {}                     // 0x8020ed30, overide
 
-    u8 mBanner[3072] ALIGN(32);       // 20
-    u8 mBannerPallete[512] ALIGN(32); // C20
-    u8 mIcon[1024] ALIGN(32);         // E20
-    u8 mIconPalette[512] ALIGN(32);   // 1220
-    char mComment[32];                // 1420
-    char mTagData[32];                // 1440
-    KartPadRecord mPadRecord;         // 1460
-    u8 mGameVersion;                  // A018
-    u32 mChecksum;                    // A01C
-    char mFileName[32];               // A020
-    int mFileNo;                      // A040
-    int mAccessWay;                   // A044
-    int mGhostType;                   // A048
+    // Fabricated
+    struct CheckData
+    {
+        u8 mGameVersion; // Version of the game, always 0?
+        u32 mChecksum;   // CRC32 of the block
+    };                   // Size: 0x8
+
+    // vtable 0x0
+    struct Header
+    {
+        u8 mBanner[BANNER_SIZE];         // 20
+        u8 mBannerPallete[PALETTE_SIZE]; // C20
+        u8 mIcon[ICON_SIZE];             // E20
+        u8 mIconPalette[PALETTE_SIZE];   // 1220
+    } mHeader ALIGN(32);
+
+    // Fabricated but sort of replicates SystemFile
+    struct FileData
+    {
+        char mComment[COMMENT_SIZE]; // 1420
+        char mTagData[TAG_SIZE];     // 1440
+        KartPadRecord mPadRecord;    // 1460
+        CheckData mCheckData;        // A018
+    } mFileData;
+
+    // only used by the class, not part of the file structure
+    char mFileName[32]; // A020
+    int mFileNo;        // A040
+    int mAccessWay;     // A044
+    int mGhostType;     // A048
 };
 
 extern GhostFile gGhostFile; // Size: 0xa060(aligned)

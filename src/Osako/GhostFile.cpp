@@ -9,37 +9,43 @@
 
 GhostFile gGhostFile;
 
+#define setChecksum(part) \
+    part.mCheckData.mChecksum = getChecksum(part)
+
+#define getChecksum(part) \
+    getCRC((u8 *)&mHeader, (u8 *)&part.mCheckData.mChecksum)
+
 GhostFile::GhostFile() { mGhostType = 0; }
 
-GhostFile::~GhostFile()  {}
+GhostFile::~GhostFile() {}
 
 void GhostFile::setup()
 {
-    mPadRecord.setName(gSystemRecord.mDefaultName);
-    GIRecord record = mPadRecord;
+    mFileData.mPadRecord.setName(gSystemRecord.mDefaultName);
+    GIRecord record = mFileData.mPadRecord;
     makeFileName(mFileName, &record);
 
     JKRArchive *ghostFileArc = SceneFactory::ptr()->getArchive(6);
 
     char buf[0x20];
-    snprintf(buf, sizeof(buf), "bnr/bn_%s.bti", ResMgr::getCrsArcName(mPadRecord.getCourseID()));
+    snprintf(buf, sizeof(buf), "bnr/bn_%s.bti", ResMgr::getCrsArcName(mFileData.mPadRecord.getCourseID()));
 
     ResTIMG *banner = (ResTIMG *)ghostFileArc->getResource(buf);
-    memcpy(mBanner, ((u8 *)banner + banner->mImageDataOffset), sizeof(mBanner));
-    memmove(mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), sizeof(mBannerPallete));
+    memcpy(mHeader.mBanner, ((u8 *)banner + banner->mImageDataOffset), BANNER_SIZE);
+    memmove(mHeader.mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), PALETTE_SIZE);
 
-    snprintf(buf, sizeof(buf), "icon/ic_%s.bti", ResMgr::getCrsArcName(mPadRecord.getCourseID()));
+    snprintf(buf, sizeof(buf), "icon/ic_%s.bti", ResMgr::getCrsArcName(mFileData.mPadRecord.getCourseID()));
 
     ResTIMG *icon = (ResTIMG *)ghostFileArc->getResource(buf);
-    memcpy(mIcon, ((u8 *)icon + icon->mImageDataOffset), sizeof(mIcon));
-    memcpy(mIconPalette, ((u8 *)icon + icon->mPaletteOffset), sizeof(mIconPalette));
+    memcpy(mHeader.mIcon, ((u8 *)icon + icon->mImageDataOffset), ICON_SIZE);
+    memcpy(mHeader.mIconPalette, ((u8 *)icon + icon->mPaletteOffset), PALETTE_SIZE);
 
     int min, sec, ms;
-    mPadRecord.getRaceTime().get(&min, &sec, &ms);
+    mFileData.mPadRecord.getRaceTime().get(&min, &sec, &ms);
 
     void *iplBmg = ResMgr::getPtr(ResMgr::mcIpl);
     char *comment = ReadPrintMessage::getMessage(iplBmg, 2);
-    strncpy(mComment, comment, 0x20);
+    strncpy(mFileData.mComment, comment, COMMENT_SIZE);
     char *tag = ReadPrintMessage::getMessage(iplBmg, 1);
 
     ReadPrintMessage::mNum[0] = min;
@@ -49,7 +55,7 @@ void GhostFile::setup()
     J2DTextBox::TFontSize fontSize;
     fontSize.x = 0.0f;
     fontSize.y = 0.0f;
-    ReadPrintMessage::tagCnv(tag, nullptr, fontSize, sizeof(mTagData), mTagData);
+    ReadPrintMessage::tagCnv(tag, nullptr, fontSize, TAG_SIZE, mFileData.mTagData);
 }
 
 bool GhostFile::updateKartPadRecord(const KartPadRecord &rRec)
@@ -58,14 +64,14 @@ bool GhostFile::updateKartPadRecord(const KartPadRecord &rRec)
     {
     case 2:
     case 3:
-        if (mPadRecord.isLittle(rRec))
+        if (mFileData.mPadRecord.isLittle(rRec))
             break;
     case 0:
     case 1:
         if (!rRec.isFrameValid())
             break;
 
-        mPadRecord = rRec;
+        mFileData.mPadRecord = rRec;
         mGhostType = 3;
         return true;
 
@@ -76,7 +82,7 @@ bool GhostFile::updateKartPadRecord(const KartPadRecord &rRec)
 
 bool GhostFile::available(ECourseID courseID)
 {
-    if (mGhostType == 2 && courseID == mPadRecord.getCourseID())
+    if (mGhostType == 2 && courseID == mFileData.mPadRecord.getCourseID())
         return true;
 
     mGhostType = 0;
@@ -86,7 +92,7 @@ bool GhostFile::available(ECourseID courseID)
 bool GhostFile::isValidGhostOnRace()
 {
     bool validGhostType = (mGhostType == 2 || mGhostType == 3 || mGhostType == 4); // probably an inline
-    if (validGhostType && mPadRecord.getCourseID() == ResMgr::getCourseID())
+    if (validGhostType && mFileData.mPadRecord.getCourseID() == ResMgr::getCourseID())
         return true;
 
     return false;
@@ -165,7 +171,7 @@ u8 GhostFile::uudecode(u8 *pRecord, u8 recordBufSize, const char *pFileName, u8 
         for (u8 i = 0; offset < codeBufSize && i < codeSize; offset)
         {
             UUData u;
-            
+
             u.s.bit1 = pFileName[offset++] - 0x21l;
             u.s.bit2 = pFileName[offset++] - 0x21l;
             u.s.bit3 = pFileName[offset++] - 0x21l;
@@ -184,26 +190,26 @@ int GhostFile::getAccessWay() { return mAccessWay; }
 char *GhostFile::getFileName() { return mFileName; }
 int GhostFile::getFileNo() { return mFileNo; }
 int GhostFile::getBannerFormat() { return CARD_STAT_BANNER_C8; }
-s32 GhostFile::getCommentOffset() { return (s32)&mComment - (s32)&mBanner; }
+s32 GhostFile::getCommentOffset() { return (s32)&mFileData - (s32)&mHeader; }
 u8 GhostFile::getIconNum() { return 1; }
 int GhostFile::getIconOffset() { return 0; }
 u8 GhostFile::getIconAnim() { return CARD_STAT_ANIM_BOUNCE; }
 u8 GhostFile::getIconFormat(u8) { return CARD_STAT_ICON_C8; }
 u8 GhostFile::getIconSpeed(u8) { return CARD_STAT_SPEED_SLOW; }
-void *GhostFile::getBuf() { return &mBanner; }
-u32 GhostFile::getFileSize() { return 0xa000; } // is it possible to use sizeof here?
-s32 GhostFile::getLength() { return 0xa000; }
+void *GhostFile::getBuf() { return &mHeader; }
+u32 GhostFile::getFileSize() { return sizeof(Header) + sizeof(FileData); }
+s32 GhostFile::getLength() { return sizeof(Header) + sizeof(FileData); }
 s32 GhostFile::getOffset() { return 0; }
 
 void GhostFile::setCheckData(s64)
 {
-    mGameVersion = DVDGetCurrentDiskID()->gameVersion;
-    mChecksum = getCRC((u8 *)&mBanner, (u8 *)&mChecksum);
+    mFileData.mCheckData.mGameVersion = DVDGetCurrentDiskID()->gameVersion;
+    setChecksum(mFileData);
 }
 
 void GhostFile::checkData()
 {
-    if (mChecksum == getCRC((u8 *)&mBanner, (u8 *)&mChecksum))
+    if (mFileData.mCheckData.mChecksum == getChecksum(mFileData))
         mGhostType = 2;
     else
         mGhostType = 1;

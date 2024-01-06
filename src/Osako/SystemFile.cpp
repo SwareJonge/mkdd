@@ -9,6 +9,17 @@
 
 // TODO: documentation, this really needs it
 
+// The checks for PAL are here because the PAL version is ever so slightly different, i assume this also applies to the demo versions
+
+#define getChecksum(part) \
+    getCRC((u8 *)&part, (u8 *)&part.mCheckData.mChecksum)
+
+#define setChecksum(part) \
+    part.mCheckData.mChecksum = getChecksum(part)
+
+#define isCheckDataValid(part) \
+    part.mCheckData.mChecksum == getChecksum(part) && part.mCheckData._03 == 0xc3
+
 SystemFile gSystemFile;
 
 char *SystemFile::mspFileNameString = "MarioKart Double Dash!!";
@@ -21,8 +32,8 @@ SystemFile::SystemFile()
     _6023 = 0;
     _602c = 2;
     _6024 = 0;
-    mChecksums[0] = 0;
-    mChecksums[1] = 0;
+    mDataChecksums[0] = 0;
+    mDataChecksums[1] = 0;
 }
 
 SystemFile::~SystemFile() {}
@@ -64,7 +75,7 @@ int SystemFile::getAccessWay() { return 1; }
 char *SystemFile::getFileName() { return mspFileNameString; }
 int SystemFile::getFileNo() { return 0; }
 int SystemFile::getBannerFormat() { return CARD_STAT_BANNER_C8; }
-s32 SystemFile::getCommentOffset() { return (s32)&mFileData[_6022] - (s32)&mBanner; }
+s32 SystemFile::getCommentOffset() { return (s32)&mFileData[_6022] - (s32)&mHeader; }
 u8 SystemFile::getIconNum() { return 3; }
 int SystemFile::getIconOffset() { return 0; }
 u8 SystemFile::getIconAnim() { return CARD_STAT_ANIM_LOOP; }
@@ -77,7 +88,7 @@ void *SystemFile::getBuf()
     switch (mPart)
     {
     case 0:
-        ret = &mBanner;
+        ret = &mHeader;
         break;
     case 1:
     case 2:
@@ -89,22 +100,23 @@ void *SystemFile::getBuf()
 
 u32 SystemFile::getFileSize()
 {
-    return 0x6000;
+    return sizeof(Header) + sizeof(FileData) * 2;
 }
 
 s32 SystemFile::getLength()
 {
+    // TODO: i'm not entirely sure if this approach is correct
     s32 ret = 0;
     switch (mPart)
     {
-    case 0:
-        ret = 0x6000;
+    case mcHeader:
+        ret = sizeof(Header) + sizeof(FileData) * 2; // 0x6000
         break;
-    case 1:
-        ret = 0x4000;
+    case mcData:
+        ret = sizeof(FileData) * 2; // 0x4000
         break;
-    case 2:
-        ret = 0x2000;
+    case mcDataSub:
+        ret = sizeof(FileData); // 0x2000
         break;
     }
     return ret;
@@ -118,10 +130,10 @@ s32 SystemFile::getOffset()
     case mcHeader:
         break;
     case mcData:
-        ret = (s32)&mFileData[0] - (s32)&mBanner;
+        ret = (s32)&mFileData[0] - (s32)&mHeader;
         break;
     case mcDataSub:
-        ret = (s32)&mFileData[_6022] - (s32)&mBanner;
+        ret = (s32)&mFileData[_6022] - (s32)&mHeader;
         break;
     }
     return ret;
@@ -134,26 +146,24 @@ void SystemFile::init()
     initData(1);
 
     _602c = 0;
-#ifdef DEBUG // TODO: did this get added in later builds?(JP Release)
+#ifndef VIDEO_PAL
     _6024 = 0;
-    mChecksums[0] = 0;
-    mChecksums[1] = 0;
+    mDataChecksums[0] = 0;
+    mDataChecksums[1] = 0;
 #endif
 }
 
 void SystemFile::initHeader()
 {
     ResTIMG *banner = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcSystem, "IPL/bn_System.bti");
-    memmove(mBanner, ((u8 *)banner + banner->mImageDataOffset), sizeof(mBanner));
-    memmove(mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), sizeof(mBannerPallete));
+    memmove(mHeader.mBanner, ((u8 *)banner + banner->mImageDataOffset), BANNER_SIZE);
+    memmove(mHeader.mBannerPallete, ((u8 *)banner + banner->mPaletteOffset), PALETTE_SIZE);
 
     ResTIMG *icon = (ResTIMG *)ResMgr::getPtr(ResMgr::mcArcSystem, "IPL/ic_System.bti");
-    memmove(mIcon, ((u8 *)icon + icon->mImageDataOffset), sizeof(mIcon));
-    memcpy(mIconPalette, ((u8 *)icon + icon->mPaletteOffset), sizeof(mIconPalette));
+    memmove(mHeader.mIcon, ((u8 *)icon + icon->mImageDataOffset), BANNER_SIZE);
+    memcpy(mHeader.mIconPalette, ((u8 *)icon + icon->mPaletteOffset), PALETTE_SIZE);
 
-    mTick = OSGetTick();
-    _2012 = 0;
-    _2013 = 0xc3;
+    mHeader.mCheckData.init();
 }
 
 void SystemFile::initData(u8 dataNo)
@@ -163,11 +173,9 @@ void SystemFile::initData(u8 dataNo)
 
     void *iplBmg = ResMgr::getPtr(ResMgr::mcIpl);
     char *comment = ReadPrintMessage::getMessage(iplBmg, 2);
-    strncpy(mFileData[dataNo].mComment, comment, sizeof(mFileData[dataNo].mComment));
+    strncpy(mFileData[dataNo].mComment, comment, COMMENT_SIZE);
     mFileData[dataNo].mTag[0] = '\0'; // This makes no sense
-    mFileData[dataNo].mSeed = OSGetTick();
-    mFileData[dataNo]._1ff2 = 0;
-    mFileData[dataNo]._1ff3 = 0xc3;
+    mFileData[dataNo].mCheckData.init();
 }
 
 void SystemFile::setCheckData(OSTime time)
@@ -180,9 +188,9 @@ void SystemFile::setCheckData(OSTime time)
     switch (mPart)
     {
     case mcHeader:
-        _2014 = divider.a[0];
-        _2018 = divider.a[1];
-        mChecksum = getCRC(mBanner, (u8 *)&mChecksum);
+        mHeader.mCheckData._04 = divider.a[0];
+        mHeader.mCheckData._08 = divider.a[1];
+        setChecksum(mHeader);
     case mcData:
         for (u8 i = 0; i < 2; i++)
             setCheckDataSub(i, divider, calendarTime);
@@ -200,8 +208,8 @@ void SystemFile::setCheckData(OSTime time)
 
 void SystemFile::setCheckDataSub(u8 dataNo, OSTimeDivider &divider, OSCalendarTime &calendarTime)
 {
-    mFileData[dataNo]._1ff4 = divider.a[0];
-    mFileData[dataNo]._1ff8 = divider.a[1];
+    mFileData[dataNo].mCheckData._04 = divider.a[0];
+    mFileData[dataNo].mCheckData._08 = divider.a[1];
 
     void *iplBmg = ResMgr::getPtr(ResMgr::mcIpl);
     char *tag = ReadPrintMessage::getMessage(iplBmg, 0);
@@ -213,10 +221,10 @@ void SystemFile::setCheckDataSub(u8 dataNo, OSTimeDivider &divider, OSCalendarTi
     J2DTextBox::TFontSize fontSize;
     fontSize.x = 0.0f;
     fontSize.y = 0.0f;
-    ReadPrintMessage::tagCnv(tag, nullptr, fontSize, sizeof(mFileData[dataNo].mTag), mFileData[dataNo].mTag);
+    ReadPrintMessage::tagCnv(tag, nullptr, fontSize, TAG_SIZE, mFileData[dataNo].mTag);
 
     char *comment = ReadPrintMessage::getMessage(iplBmg, 2);
-    strncpy(mFileData[dataNo].mComment, comment, sizeof(mFileData[dataNo].mComment));
+    strncpy(mFileData[dataNo].mComment, comment, COMMENT_SIZE);
 
     JMath::TRandom_<JMath::TRandom_fast_> rndm(calendarTime.msec);
 
@@ -225,8 +233,8 @@ void SystemFile::setCheckDataSub(u8 dataNo, OSTimeDivider &divider, OSCalendarTi
         mFileData[dataNo].mScrambleData[i] = rndm.get() >> 24;
     }
 
-    mFileData[dataNo].mChecksum = getCRC((u8 *)&mFileData[dataNo], (u8 *)&mFileData[dataNo].mChecksum);
-    mFileData[dataNo].mSystemRecord.crypt(mFileData[dataNo].mSeed);
+    setChecksum(mFileData[dataNo]);
+    mFileData[dataNo].mSystemRecord.crypt(mFileData[dataNo].mCheckData.mKey);
 }
 
 void SystemFile::checkData()
@@ -234,12 +242,12 @@ void SystemFile::checkData()
     _6023 = 0;
     for (u8 i = 0; i < 2; i++)
     {
-        mFileData[i].mSystemRecord.crypt(mFileData[i].mSeed);
-        if (mFileData[i].mChecksum == getCRC((u8 *)&mFileData[i], (u8 *)&mFileData[i].mChecksum) && mFileData[i]._1ff3 == 0xc3)
+        mFileData[i].mSystemRecord.crypt(mFileData[i].mCheckData.mKey);
+        if (isCheckDataValid(mFileData[i]))
             _6023 |= 1 << i;
     }
 
-    if (mChecksum == getCRC(mBanner, (u8 *)&mChecksum) && _2013 == 0xc3)
+    if (isCheckDataValid(mHeader))
         _6023 |= 4;
     else
         _6023 &= ~4;
@@ -281,11 +289,11 @@ bool SystemFile::isSavable()
     for (int i = 0; i < 2; i++)
     {
         // Uhhh don't you want to check if both checksums are identical?
-#ifdef DEBUG // I guess this got changed in later builds? check JP release to be sure
-        if (_6023 & 1 << i && mChecksums[i] == mFileData[i].mChecksum)
+#ifndef VIDEO_PAL
+        if (_6023 & 1 << i && mDataChecksums[i] == mFileData[i].mCheckData.mChecksum)
             return true;
 #else
-        if (mChecksums[i] == 0 || _6023 & 1 << i && mChecksums[i] == mFileData[i].mChecksum)
+        if (mDataChecksums[i] == 0 || _6023 & 1 << i && mDataChecksums[i] == mFileData[i].mCheckData.mChecksum)
             return true;
 #endif
     }

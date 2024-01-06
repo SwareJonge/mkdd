@@ -24,26 +24,43 @@ public:
     bool isSavable();  // 0x80205b18
     void setCheckDataSub(u8, OSTimeDivider &, OSCalendarTime &);
 
-    virtual void setPart(FilePart); // 08
-    virtual void fetch();           // 0C
-    virtual void store();           // 10
-    virtual void setCheckData(s64); // 14
-    virtual void checkData();       // 18
-    virtual int getAccessWay();     // 1C
-    virtual char *getFileName();    // 20
-    virtual int getFileNo();        // 24
-    virtual int getBannerFormat();  // 28
-    virtual s32 getCommentOffset(); // 2C
-    virtual u8 getIconNum();        // 30
-    virtual int getIconOffset();    // 34
-    virtual u8 getIconFormat(u8);   // 38
-    virtual u8 getIconSpeed(u8);    // 3C
-    virtual u8 getIconAnim();       // 40
-    virtual void *getBuf();           // 44
-    virtual u32 getFileSize();      // 48
-    virtual s32 getLength();        // 4C
-    virtual s32 getOffset();        // 50
-    virtual ~SystemFile();          // 54
+    virtual void setPart(FilePart); // 08, 0x802050c8
+    virtual void fetch();           // 0C, 0x802050d0
+    virtual void store();           // 10, 0x8020532c
+    virtual void setCheckData(s64); // 14, 0x80205760
+    virtual void checkData();       // 18, 0x80205998
+    virtual int getAccessWay();     // 1C, 0x80205440
+    virtual char *getFileName();    // 20, 0x80205448
+    virtual int getFileNo();        // 24, 0x80205450
+    virtual int getBannerFormat();  // 28, 0x80205458
+    virtual s32 getCommentOffset(); // 2C, 0x80205460
+    virtual u8 getIconNum();        // 30, 0x8020547c
+    virtual int getIconOffset();    // 34, 0x80205484
+    virtual u8 getIconFormat(u8);   // 38, 0x80205494
+    virtual u8 getIconSpeed(u8);    // 3C, 0x8020549c
+    virtual u8 getIconAnim();       // 40, 0x8020548c
+    virtual void *getBuf();         // 44, 0x802054a4
+    virtual u32 getFileSize();      // 48, 0x802054e4
+    virtual s32 getLength();        // 4C, 0x802054ec
+    virtual s32 getOffset();        // 50, 0x80205530
+    virtual ~SystemFile();          // 54, 0x80205080
+
+    // Fabricated
+    struct CheckData
+    {
+        void init()
+        {
+            mKey = OSGetTick();
+            _02 = 0;
+            _03 = 0xc3;
+        }
+
+        u16 mKey;      // the key/mask to decrypt systemRecord data, unused for the header
+        u8 _02;        // unused, maybe this was game version as well(which would also always be 0?)
+        u8 _03;        // some sort of identifier?
+        u32 _04, _08;  // OSTimeDivider values
+        u32 mChecksum; // CRC32 of the block
+    };                 // Size: 0x10
 
     class FileData
     {
@@ -51,40 +68,34 @@ public:
         // Inline
         FileData() {}
 
-        char mComment[32];
-        char mTag[32];
+        char mComment[COMMENT_SIZE];
+        char mTag[TAG_SIZE];
         SystemRecord mSystemRecord;
         u8 mScrambleData[0x19dc]; // an array of randum numbers
-        u16 mSeed;
-        u8 _1ff2;
-        u8 _1ff3;
-        u32 _1ff4;
-        u32 _1ff8;
-        u32 mChecksum; // _1ffc
-    };                 // size: 0x2000
+        CheckData mCheckData;
+    }; // size: 0x2000
 
-    void checksumThing() { mChecksums[_6022] = mFileData[_6022].mChecksum; }
-    void checksumThing2()
+    void setActiveChecksum() { mDataChecksums[_6022] = mFileData[_6022].mCheckData.mChecksum; }
+
+    void setDataChecksums()
     {
-        mChecksums[0] = mFileData[0].mChecksum;
-        mChecksums[1] = mFileData[1].mChecksum;
+        mDataChecksums[0] = mFileData[0].mCheckData.mChecksum;
+        mDataChecksums[1] = mFileData[1].mCheckData.mChecksum;
     }
 
     static char *mspFileNameString;
 
     // vtable 0x0
-    // aligned buffer?
-    u8 mBanner[3072] ALIGN(32);
-    u8 mBannerPallete[512];
-    u8 mIcon[3072];
-    u8 mIconPalette[512];
-    u8 _1c20[0x2010 - 0x1c20];
-    u16 mTick;
-    u8 _2012;
-    u8 _2013; // some sort of identifier?
-    u32 _2014;
-    u32 _2018;
-    u32 mChecksum;
+    struct Header
+    {
+        u8 mBanner[BANNER_SIZE];
+        u8 mBannerPallete[PALETTE_SIZE];
+        u8 mIcon[BANNER_SIZE]; // TODO: why is the icon size bigger here compared to ghostfile?
+        u8 mIconPalette[PALETTE_SIZE];
+        u8 _1c20[0x3F0]; // unused, padding to get the size up to 0x2000?
+        CheckData mCheckData;
+    } mHeader ALIGN(32);
+
     FileData mFileData[2];
     u8 _6020;
     u8 _6021;
@@ -94,8 +105,7 @@ public:
     u8 _6025[3];
     FilePart mPart;
     int _602c;
-    u32 mChecksums[2];
-    u8 _6038[0x6040 - 0x6038];
+    u32 mDataChecksums[2];
 }; // Size: 0x6040
 
 extern SystemFile gSystemFile;

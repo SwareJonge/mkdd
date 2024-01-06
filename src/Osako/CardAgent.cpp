@@ -816,7 +816,7 @@ namespace CardAgent
             switch (msCommand)
             {
             case mcCommand3:
-                mspSystemFile->checksumThing();
+                mspSystemFile->setActiveChecksum();
             case mcCommand2:
             case mcCommand5:
             case mcCommand6:
@@ -898,7 +898,7 @@ namespace CardAgent
                 }
                 else
                 {
-                    mspSystemFile->checksumThing2();
+                    mspSystemFile->setDataChecksums();
                     mspSystemFile->store();
                     msState = 0xe;
                 }
@@ -1094,7 +1094,7 @@ namespace CardAgent
                 case mcCommand2:
                     msMessageAt = 1;
                     mspPrintMemoryCard->init(PrintMemoryCard::mcMadeFile);
-                    mspSystemFile->checksumThing2();
+                    mspSystemFile->setDataChecksums();
                     msFlags |= 1;
                     break;
                 case mcCommand5:

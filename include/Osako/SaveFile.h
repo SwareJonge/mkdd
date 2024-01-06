@@ -6,6 +6,11 @@
 #include <dolphin/card.h>
 
 // TODO: type consistency
+#define BANNER_SIZE 3072
+#define ICON_SIZE 1024
+#define PALETTE_SIZE 512
+#define COMMENT_SIZE 32
+#define TAG_SIZE 32
 
 class SaveFile
 {
