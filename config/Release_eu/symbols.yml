@@ -2430,6 +2430,7 @@ global:
   0x80115f58: startRaceSystemSe__Q29GameAudio4MainFUl
   0x801167b0: setMasterVolume__Q29GameAudio4MainFSc
   0x8011685c: getMasterVolumeValue__Q29GameAudio4MainFv
+  0x80116900: fadeOutAll__Q29GameAudio4MainFUl
   0x80116b40: setOutputMode__Q29GameAudio4MainFUl
   0x80116b78: resetAudio__Q29GameAudio4MainFUl
   0x80116c70: resumeAudio__Q29GameAudio4MainFv
@@ -3315,6 +3316,7 @@ global:
   0x801d2458: draw__12ErrorViewAppFv
   0x801d247c: calc__12ErrorViewAppFv
   0x801d2648: reset__12ErrorViewAppFv
+  0x8035c6c0: __vt__12ErrorViewApp
   0x803d5c08: mspErrorViewApp__12ErrorViewApp
   0x803d5c0c: msErrorId__12ErrorViewApp
   # CardMgr.cpp
