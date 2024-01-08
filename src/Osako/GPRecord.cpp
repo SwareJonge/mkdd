@@ -2,53 +2,54 @@
 #include "JSystem/JUtility/JUTDbg.h"
 #include "Osako/GPRecord.h"
 
+#define GP_CLEARED 1
+#define GP_COOP 2
+
 GPRecord::GPRecord() {
-    _mCharIDs[0] = 0;
-    _mCharIDs[1] = 0;
-    _4 = 0;
-    _6 = 0;
+    mCharIDs[0] = 0;
+    mCharIDs[1] = 0;
+    mRank = 0;
+    mFlags = 0;
 }
 
 void GPRecord::setName(const char * name) {
     strncpy(mName, name, sizeof(mName));
 }
 
-void GPRecord::set(u8 charId1, u8 charId2, u8 p3, u8 level, u8 p5, u8 p6, bool p7, const char *name, RaceTime raceTime)
+void GPRecord::set(u8 charId1, u8 charId2, u8 kartId, u8 level, u8 rank, u8 pts, bool coop, const char *name, RaceTime raceTime)
 {
-    _mCharIDs[0] = charId1;
-    _mCharIDs[1] = charId2;
-    _2 = p3;
+    mCharIDs[0] = charId1;
+    mCharIDs[1] = charId2;
+    mKartID = kartId;
     mLevel = level;
-    _4 = p5;
-    _5 = p6;
-    if(p7)
-        _6 |= 2;
+    mRank = rank;
+    mPoints = pts;
+
+    if(coop)
+        mFlags |= GP_COOP;
     else
-        _6 &= -3;
+        mFlags &= ~GP_COOP;
 
     setName(name);
-    mTime = raceTime;
-    _6 |= 1;
+    mTotalTime = raceTime;
+    mFlags |= GP_CLEARED;
 }
 
 bool GPRecord::less(const GPRecord &rRec) {
-    bool ret = false;
-    if ((_6 & 1) == 0)
-        ret = true;
-    else {
+    if (FLAG_ON(mFlags, GP_CLEARED))
+        return true;
+
 #line 82
-        JUT_ASSERT(rRec.mLevel == mLevel);
-        if (rRec._4 < _4)
-            ret = true;
-        else { // can this be cleaned up somehow?
-            if (rRec._4 == _4) {
-                if (rRec._5 > _5)
-                    return true;
-                if ((rRec._5 == _5) && (rRec.mTime.isLittle(mTime)))
-                    return true;
-            }
-            ret = false;
-        }
+    JUT_ASSERT(rRec.mLevel == mLevel);
+    if (rRec.mRank < mRank)
+        return true;
+
+    if (rRec.mRank == mRank)
+    {
+        if (rRec.mPoints > mPoints)
+            return true;
+        if ((rRec.mPoints == mPoints) && (rRec.mTotalTime.isLittle(mTotalTime)))
+            return true;
     }
-    return ret;
+    return false;
 }

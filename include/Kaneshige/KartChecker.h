@@ -17,11 +17,13 @@
 #define validUD(UD) \
     (UD >= 0.0f && UD <= 1.0f);
 
-class KartChecker { // TODO: organise this class better
+class KartChecker
+{ // TODO: organise this class better
 public:
     KartChecker(int, KartInfo *, int, int);
 
-    void clrPass(int sectoridx) {
+    void clrPass(int sectoridx)
+    {
         int index = sectoridx / 32;
         int bitIndex = sectoridx % 32;
         mPassedSectors[index] &= ~(1 << bitIndex);
@@ -38,10 +40,11 @@ public:
     bool isFinalLapRenewal() const;
     bool isGoal() const { return mRaceEnd; }
 
-    bool isPass(int sectoridx)  {
+    bool isPass(int sectoridx)
+    {
 #line 129
         int index = sectoridx / 32;
-        int bitIndex = sectoridx % 32;        
+        int bitIndex = sectoridx % 32;
         JUT_MINMAX_ASSERT(0, index, mNumBitfields);
         return (mPassedSectors[index] & (1 << bitIndex)) != false;
     }
@@ -52,26 +55,28 @@ public:
 
     bool isReverse();
 
-    // https://decomp.me/scratch/RWx4a
-    void printPass(int x, int y) {
-        for (int i = 0; i < mNumBitfields; i++) {
+    void printPass(int x, int y)
+    {
+        for (int i = 0; i < mNumBitfields; i++)
             JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, mPassedSectors[i]);
-        }
     }
 
-    const RaceTime &getLapTime(int no) {
+    const RaceTime &getLapTime(int no)
+    {
 #line 206
         JUT_MINMAX_ASSERT(0, no, mMaxLap);
         return mLapTimes[no];
     }
 
-    KartGamePad * getDriverPad(int driverNo) const {
+    KartGamePad *getDriverPad(int driverNo) const
+    {
 #line 220
         JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartGamePads[driverNo];
     }
 
-    void setGoal() {
+    void setGoal()
+    {
         mIsInRace = false;
         mRaceEnd = true;
     }
@@ -88,7 +93,8 @@ public:
 
     void setForceGoal();
 
-    void setGoalTime() {
+    void setGoalTime()
+    {
         mTotalTime = mLapSplits[mMaxLap - 1];
         mGoalFrame = mCurFrame;
     }
@@ -97,7 +103,7 @@ public:
 
     void setLapChecking() { mRaceFlags |= 1; }
     void setBalloonCtrl() { mRaceFlags |= 2; }
-    void setBombCtrl()  { mRaceFlags |= 4; }
+    void setBombCtrl() { mRaceFlags |= 4; }
     void setRabbitCtrl() { mRaceFlags |= 8; }
     void setDemoRank() { mRaceFlags |= 16; }
     void setDead() { mBattleFlags |= 4; }
@@ -116,22 +122,23 @@ public:
     bool isMaxTotalTime() const { return !mTotalTime.isAvailable(); }
     bool isDead() const { return tstDead(); }
     bool isBombPointFull() const { return mBombPoint >= sBombPointFull; }
-    
+
     static bool isInsideSector(f32 unitDist) { return (unitDist >= 0.0f && unitDist < 1.0f); }
-    static int getWinBombPointForMenu(int p1) {
+    static int getWinBombPointForMenu(int p1)
+    {
         if (p1 <= 2)
             return sBombPointFullS;
         return sBombPointFullL;
     }
 
-    void incLap() {
+    void incLap()
+    {
         if (mLap < mMaxLap)
             mLap++;
     }
 
     bool incBalloon();
     bool decBalloon();
-
 
     void incTime();
     bool incMyBombPoint(int, int);
@@ -154,7 +161,8 @@ public:
     bool isRabbit() const;
     void calcRabbitTime();
 
-    enum EBombEvent {
+    enum EBombEvent
+    {
         EVENT_1 = 1,
         EVENT_2 = 2,
         EVENT_3 = 3
@@ -182,7 +190,7 @@ public:
     int mNumBitfields;
     int mMaxLap;
     int mBestLapIdx;
-    RaceTime *mLapTimes; // Stores actual lap times
+    RaceTime *mLapTimes;  // Stores actual lap times
     RaceTime *mLapSplits; // stores the race time when crossing the finish line for each lap
     int mPlayerKartColor;
     KartGamePad *mKartGamePads[2];
@@ -200,7 +208,7 @@ public:
     f32 mPrevLapProgression;
     f32 mLapProgression2; // might be max Lap Progression
     f32 mRaceProgression;
-    u32 *mPassedSectors; // array of what bitfields have been passed(1 = passed, 0 = not passed)
+    u32 *mPassedSectors; // array of bitfields that keep track of what checkpoints have been passed 
     JGeometry::TVec3<f32> mPos;
     JGeometry::TVec3<f32> mPrevPos;
     JugemPoint *mJugemPoint;

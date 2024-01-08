@@ -890,7 +890,7 @@ namespace CardAgent
             {
             case mcCommand2:
                 msFlags |= 1;
-                if (mspSystemFile->_602c == 0 || CardMgr::areOffsetsOk(msChan))
+                if (mspSystemFile->mSectionCount == 0 || CardMgr::areOffsetsOk(msChan))
                 {
                     msState = 3;
                     msButtonAt = 6;
@@ -906,12 +906,13 @@ namespace CardAgent
             case mcCommand3:
                 if (mspSystemFile->isSavable() || CardMgr::areOffsetsOk(msChan))
                 {
-                    if (FLAG_ON(mspSystemFile->_6023, 4))
+                    if (FLAG_ON(mspSystemFile->mValidSections, 4)) // check if header is valid/active
                         CardMgr::write(msChan, SaveFile::mcHeader);
-                    else if (mspSystemFile->_602c == 0)
-                        CardMgr::write(msChan, SaveFile::mcData);
+                    else if (mspSystemFile->mSectionCount == 0)
+                        CardMgr::write(msChan, SaveFile::mcData1);
                     else
-                        CardMgr::write(msChan, SaveFile::mcDataSub);
+                        CardMgr::write(msChan, SaveFile::mcData2);
+                    
                     msState = 9;
                     mspPrintMemoryCard->init(PrintMemoryCard::mcGameSavingNoTouch);
                     msMessageTimer.set();

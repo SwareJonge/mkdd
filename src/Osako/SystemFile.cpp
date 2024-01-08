@@ -26,11 +26,11 @@ char *SystemFile::mspFileNameString = "MarioKart Double Dash!!";
 
 SystemFile::SystemFile()
 {
-    _6020 = 0;
-    _6021 = 1;
-    _6022 = 0;
-    _6023 = 0;
-    _602c = 2;
+    mCurrentIndex = 0;
+    mBackupIndex = 1;
+    mActiveSave = 0;
+    mValidSections = 0;
+    mSectionCount = 2;
     _6024 = 0;
     mDataChecksums[0] = 0;
     mDataChecksums[1] = 0;
@@ -50,24 +50,24 @@ void SystemFile::fetch()
     if (mPart == mcHeader)
         initHeader();
 
-    switch (_602c)
+    switch (mSectionCount)
     {
     case 0:
-        initData(_6020);
-        mFileData[_6020].mSystemRecord = gSystemRecord;
+        initData(mCurrentIndex);
+        mFileData[mCurrentIndex].mSystemRecord = gSystemRecord;
     case 1:
     case 2:
-        initData(_6021);
-        mFileData[_6021].mSystemRecord = gSystemRecord;
-        _6020 = _6021;
-        _6021 ^= 1;
+        initData(mBackupIndex);
+        mFileData[mBackupIndex].mSystemRecord = gSystemRecord;
+        mCurrentIndex = mBackupIndex;
+        mBackupIndex ^= 1;
         break;
     }
 }
 
 void SystemFile::store()
 {
-    gSystemRecord = mFileData[_6020].mSystemRecord;
+    gSystemRecord = mFileData[mCurrentIndex].mSystemRecord;
     gSystemRecord.applyAudioSetting();
 }
 
@@ -75,7 +75,7 @@ int SystemFile::getAccessWay() { return 1; }
 char *SystemFile::getFileName() { return mspFileNameString; }
 int SystemFile::getFileNo() { return 0; }
 int SystemFile::getBannerFormat() { return CARD_STAT_BANNER_C8; }
-s32 SystemFile::getCommentOffset() { return (s32)&mFileData[_6022] - (s32)&mHeader; }
+s32 SystemFile::getCommentOffset() { return (s32)&mFileData[mActiveSave] - (s32)&mHeader; }
 u8 SystemFile::getIconNum() { return 3; }
 int SystemFile::getIconOffset() { return 0; }
 u8 SystemFile::getIconAnim() { return CARD_STAT_ANIM_LOOP; }
@@ -87,12 +87,12 @@ void *SystemFile::getBuf()
     void *ret = nullptr;
     switch (mPart)
     {
-    case 0:
+    case mcHeader:
         ret = &mHeader;
         break;
-    case 1:
-    case 2:
-        ret = &mFileData[_6022];
+    case mcData1:
+    case mcData2:
+        ret = &mFileData[mActiveSave];
         break;
     }
     return ret;
@@ -112,10 +112,10 @@ s32 SystemFile::getLength()
     case mcHeader:
         ret = sizeof(Header) + sizeof(FileData) * 2; // 0x6000
         break;
-    case mcData:
+    case mcData1:
         ret = sizeof(FileData) * 2; // 0x4000
         break;
-    case mcDataSub:
+    case mcData2:
         ret = sizeof(FileData); // 0x2000
         break;
     }
@@ -129,11 +129,11 @@ s32 SystemFile::getOffset()
     {
     case mcHeader:
         break;
-    case mcData:
+    case mcData1:
         ret = (s32)&mFileData[0] - (s32)&mHeader;
         break;
-    case mcDataSub:
-        ret = (s32)&mFileData[_6022] - (s32)&mHeader;
+    case mcData2:
+        ret = (s32)&mFileData[mActiveSave] - (s32)&mHeader;
         break;
     }
     return ret;
@@ -145,7 +145,7 @@ void SystemFile::init()
     initData(0);
     initData(1);
 
-    _602c = 0;
+    mSectionCount = 0;
 #ifndef VIDEO_PAL
     _6024 = 0;
     mDataChecksums[0] = 0;
@@ -191,17 +191,17 @@ void SystemFile::setCheckData(OSTime time)
         mHeader.mCheckData._04 = divider.a[0];
         mHeader.mCheckData._08 = divider.a[1];
         setChecksum(mHeader);
-    case mcData:
+    case mcData1:
         for (u8 i = 0; i < 2; i++)
             setCheckDataSub(i, divider, calendarTime);
 
-        _6020 = 0;
-        _6021 = 1;
-        _6022 = 0;
+        mCurrentIndex = 0;
+        mBackupIndex = 1;
+        mActiveSave = 0;
         break;
-    case mcDataSub:
-        setCheckDataSub(_6020, divider, calendarTime);
-        _6022 = _6020;
+    case mcData2:
+        setCheckDataSub(mCurrentIndex, divider, calendarTime);
+        mActiveSave = mCurrentIndex;
         break;
     }
 }
@@ -239,61 +239,63 @@ void SystemFile::setCheckDataSub(u8 dataNo, OSTimeDivider &divider, OSCalendarTi
 
 void SystemFile::checkData()
 {
-    _6023 = 0;
+    mValidSections = 0;
     for (u8 i = 0; i < 2; i++)
     {
         mFileData[i].mSystemRecord.crypt(mFileData[i].mCheckData.mKey);
         if (isCheckDataValid(mFileData[i]))
-            _6023 |= 1 << i;
+            mValidSections |= 1 << i;
     }
 
     if (isCheckDataValid(mHeader))
-        _6023 |= 4;
+        mValidSections |= 4;
     else
-        _6023 &= ~4;
+        mValidSections &= ~4;
 
-    switch (_6023 & 3)
+    switch (mValidSections & 3)
     {
-    case 0:
-        _602c = 0;
+    case 0: // no sections are valid
+        mSectionCount = 0;
         break;
-    case 1:
-    case 2:
-        _602c = 1;
-        _6020 = (_6023 & 3) - 1;
-        _6021 = 1 - _6020;
+    case 1: // section 1 is valid
+    case 2: // section 2 is valid
+        mSectionCount = 1;
+        mCurrentIndex = (mValidSections & 3) - 1;
+        mBackupIndex = 1 - mCurrentIndex;
         break;
-    case 3:
-        _602c = 2;
+    case 3: // both sections are valid
+        mSectionCount = 2;
+
+        // determine which save is older
         if (mFileData[0].mSystemRecord.mTimesFetched >= mFileData[1].mSystemRecord.mTimesFetched)
         {
-            _6020 = 0;
-            _6021 = 1;
+            mCurrentIndex = 0;
+            mBackupIndex = 1;
         }
         else
         {
-            _6020 = 1;
-            _6021 = 0;
+            mCurrentIndex = 1;
+            mBackupIndex = 0;
         }
         break;
     }
 
-    _6022 = _6020;
+    mActiveSave = mCurrentIndex;
 }
 
 bool SystemFile::isSavable()
 {
-    if (_602c == 0) // isInitialized?
+    if (mSectionCount == 0)
         return true;
 
     for (int i = 0; i < 2; i++)
     {
         // Uhhh don't you want to check if both checksums are identical?
 #ifndef VIDEO_PAL
-        if (_6023 & 1 << i && mDataChecksums[i] == mFileData[i].mCheckData.mChecksum)
+        if ((mValidSections & 1 << i) && (mDataChecksums[i] == mFileData[i].mCheckData.mChecksum))
             return true;
 #else
-        if (mDataChecksums[i] == 0 || _6023 & 1 << i && mDataChecksums[i] == mFileData[i].mCheckData.mChecksum)
+        if ((mDataChecksums[i] == 0) || (mValidSections & 1 << i) && (mDataChecksums[i] == mFileData[i].mCheckData.mChecksum))
             return true;
 #endif
     }

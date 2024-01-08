@@ -8,8 +8,6 @@ public:
     GIRecord(TARecord &record);
     bool isValid();
 
-    //operator const u8*() const { return (const u8 *)&mRecord; }
-
 private:
     TARecord mRecord;
     u32 mTick;

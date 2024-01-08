@@ -33,12 +33,11 @@ public:
     ECourseID getCourseID() const { return (ECourseID)mCourseID; }
 
 private:
-    // perhaps these are signed
-    u8 mCharIDs[2];
-    u8 mKartID;
-    u8 mCourseID;
-    char mName[4];
-    RaceTime mTime;
-}; // size 0xC
+    u8 mCharIDs[2]; // 00
+    u8 mKartID;     // 02
+    u8 mCourseID;   // 03
+    char mName[4];  // 04
+    RaceTime mTime; // 08
+};
 
 #endif

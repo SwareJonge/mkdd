@@ -345,19 +345,19 @@ namespace System {
         msDvdState = DVDGetDriveStatus();
         switch (msDvdState) {
         case DVD_STATE_COVER_OPEN:
-            ErrorViewApp::call(ErrorViewApp::ERROR1);
+            ErrorViewApp::call(ErrorViewApp::ERROR_COVER_OPEN);
             break;
         case DVD_STATE_NO_DISK:
-            ErrorViewApp::call(ErrorViewApp::ERROR2);
+            ErrorViewApp::call(ErrorViewApp::ERROR_NO_DISK);
             break;
         case DVD_STATE_WRONG_DISK:
-            ErrorViewApp::call(ErrorViewApp::ERROR3);
+            ErrorViewApp::call(ErrorViewApp::ERROR_WRONG_DISK);
             break;
         case DVD_STATE_RETRY:
-            ErrorViewApp::call(ErrorViewApp::ERROR4);
+            ErrorViewApp::call(ErrorViewApp::ERROR_RETRY);
             break;
         case DVD_STATE_FATAL_ERROR:
-            ErrorViewApp::call(ErrorViewApp::ERROR5);
+            ErrorViewApp::call(ErrorViewApp::ERROR_FATAL);
             break;
         }
     }

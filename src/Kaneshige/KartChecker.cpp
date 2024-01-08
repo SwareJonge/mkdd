@@ -22,7 +22,7 @@
 #include <JSystem/JAudio/JASFakeMatch2.h>
 
 #ifdef DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
-static const float lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+static const f32 lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push
 #pragma force_active on
 DUMMY_POINTER(lbl_80377378)
@@ -666,19 +666,20 @@ void KartChecker::setLapTime()
                 mBestLapIdx = mLap;
             else if (mLapTimes[mLap].isLittle(mLapTimes[mBestLapIdx]))
                 mBestLapIdx = mLap;
+            return;
         }
-        else
-            mLapTimes[mLap].reset();
+
+        mLapTimes[mLap].reset();
     }
 }
 
 // https://decomp.me/scratch/m3ZyI
 void KartChecker::setForceGoal()
 {
-    float distToGoal = 0.0f;
+    f32 distToGoal = 0.0f;
     if (mTotalTime.get() > 0)
     {
-        distToGoal = mRaceProgression / (float)mTotalTime.get();
+        distToGoal = mRaceProgression / (f32)mTotalTime.get();
     }
     if (distToGoal < 0.0f)
     {
@@ -689,16 +690,17 @@ void KartChecker::setForceGoal()
         distToGoal = 0.0000033333333f;
     }
 
+    // approximate the time it would've taken to get the finish
     RaceTime forcedTime;
     forcedTime.reset();
     for (int i = mLap; i < mMaxLap; i++)
     {
         if (!mLapSplits[i].isAvailable())
         {
-            float lapDist = (((i + 1) - mRaceProgression) / distToGoal) + (mTotalTime.get());
-            if (lapDist > (float)forcedTime.get())
-                lapDist = (float)forcedTime.get();
-
+            f32 lapDist = (((i + 1) - mRaceProgression) / distToGoal) + (mTotalTime.get());
+            if (lapDist > (f32)forcedTime.get())
+                lapDist = (f32)forcedTime.get();
+            
             mLapSplits[i].set(lapDist + 0.5f);
 
             if (i <= 0)
@@ -707,6 +709,7 @@ void KartChecker::setForceGoal()
                 mLapTimes[i].sub(mLapSplits[i], mLapSplits[i - 1]);
         }
     }
+
     mLap = mMaxLap;
     setGoal();
     setGoalTime();
@@ -780,13 +783,13 @@ bool KartChecker::isReverse()
     if (tstLapChecking())
     {
         const Mtx &m = RaceMgr::getManager()->getKartLoader(mTargetKartNo)->getExModelBody()->getBaseTRMtx();
-        JGeometry::TVec3<f32> thing;
-        thing.set(m[0][2], m[1][2], m[2][2]);
-        thing.normalize();
+        JGeometry::TVec3<f32> yaw; // or is this pitch? y = z in math made me confused
+        yaw.set(m[0][2], m[1][2], m[2][2]);
+        yaw.normalize();
 
-        JGeometry::TVec3<f32> courseNormal;
-        mSector2->getBNormal(&courseNormal);
-        if (thing.dot(courseNormal) <= -0.5f)
+        JGeometry::TVec3<f32> cpDir;
+        mSector2->getBNormal(&cpDir);
+        if (yaw.dot(cpDir) <= -0.5f)
             reverse = true;
     }
     return reverse;
@@ -857,25 +860,20 @@ bool KartChecker::decBalloon()
     bool decreased = false;
     if (!tstBalloonCtrl())
         return false;
-    else if (mBalForbiddenTime > 0)
+    if (mBalForbiddenTime > 0)
         return false;
-    else
+    if (tstFixMiniPoint())
+        return false;
+    if (RaceMgr::getManager()->checkRaceEnd())
+        return false;
+    
+    if (mBalloonNum > 0)
     {
-        if (tstFixMiniPoint())
-            return false;
-        else
-        {
-            if (RaceMgr::getManager()->checkRaceEnd())
-                return false;
-            else if (mBalloonNum > 0)
-            {
-                mBalloonNum--;
-                mBalForbiddenTime = sBalForbiddenTime;
-                if (mBalloonNum <= 0)
-                    setDead();
-                decreased = true;
-            }
-        }
+        mBalloonNum--;
+        mBalForbiddenTime = sBalForbiddenTime;
+        if (mBalloonNum <= 0)
+            setDead();
+        decreased = true;
     }
 
     return decreased;
@@ -1007,42 +1005,43 @@ bool KartChecker::isRabbit() const
 void KartChecker::calcRabbitTime()
 {
     GeoRabbitMarkSupervisor *supervisor = GeoRabbitMark::getSupervisor();
-    if (supervisor != nullptr)
+    if (supervisor == nullptr)
+        return;
+    if (mRabbitWinFrame > 0)
     {
-        if (mRabbitWinFrame > 0)
-            if (mTargetKartNo == supervisor->getRabbitKartNo())
+        if (mTargetKartNo == supervisor->getRabbitKartNo())
+        {
+            if (!tstStillRabbitTimer())
             {
-                if (!tstStillRabbitTimer())
+                mRabbitWinFrame--;
+                RaceTime rabbitTime;
+                rabbitTime.setFrame(mRabbitWinFrame);
+                int ms = rabbitTime.getUpwardMSec() / 1000;
+                if (!(rabbitTime.get() % 1000))
                 {
-                    mRabbitWinFrame--;
-                    RaceTime rabbitTime;
-                    rabbitTime.setFrame(mRabbitWinFrame);
-                    int ms = rabbitTime.getUpwardMSec() / 1000;
-                    if (!(rabbitTime.get() % 1000))
+                    if (ms == 0)
+                        GetGameAudioMain()->startSystemSe(0x20027);
+                    else if (ms <= 10)
                     {
-                        if (ms == 0)
-                            GetGameAudioMain()->startSystemSe(0x20027);
-                        else if (ms <= 10)
-                        {
-                            GetGameAudioMain()->startSystemSe(0x20026);
-                        }
-                        else if ((ms > 10) && ms <= GeoRabbitMark::getSupervisor()->getWinTime() - 2)
-                        {
-                            GetGameAudioMain()->startSystemSe(0x20025);
-                        }
+                        GetGameAudioMain()->startSystemSe(0x20026);
+                    }
+                    else if ((ms > 10) && ms <= GeoRabbitMark::getSupervisor()->getWinTime() - 2)
+                    {
+                        GetGameAudioMain()->startSystemSe(0x20025);
                     }
                 }
             }
-            else
-            {
-                mRabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
-                resumeRabbitTimer();
-            }
+        }
         else
         {
-            supervisor->startWinnerEffect();
+            mRabbitWinFrame = GeoRabbitMark::getSupervisor()->getWinFrame();
+            resumeRabbitTimer();
         }
-    }
+    }        
+    else
+    {
+        supervisor->startWinnerEffect();
+    }    
 }
 
 LapChecker::LapChecker()
@@ -1068,13 +1067,13 @@ void LapChecker::calc(const JGeometry::TVec3<f32> &pos)
     if (mSector != nullptr)
     {
         Course::Sector *nextSector = nullptr;
-        float dist = mSector->calcUnitDist(pos);
+        f32 dist = mSector->calcUnitDist(pos);
         if (!KartChecker::isInsideSector(dist))
             nextSector = KartChecker::searchCurrentSector(&dist, pos, mSector, RCMGetCourse()->getTrackSectorNumber());
         if (nextSector != nullptr)
             mSector = nextSector;
 
-        float unitDist = mSector->calcUnitDist(pos);
+        f32 unitDist = mSector->calcUnitDist(pos);
         if (unitDist >= 0.0f && unitDist <= 1.0f)
         {
             mSectorDist = unitDist;

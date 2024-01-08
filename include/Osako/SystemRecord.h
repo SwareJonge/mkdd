@@ -36,8 +36,8 @@ struct SystemRecord
     struct
     {*/
     int mOptions;
-    u16 mUnlock1;
-    u16 mUnlock2;
+    u16 mGameFlag; // unlockable characters, cups and maps
+    u16 mSecretKart; // Unlockable karts
     s8 mVolume;
     u8 mItemSlotType;
     u8 mVsLapNum;

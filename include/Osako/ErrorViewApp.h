@@ -1,6 +1,7 @@
 #ifndef ERRORVIEWAPP_H
 #define ERRORVIEWAPP_H
 
+#include "Kameda/PrintDvdError.h"
 #include "Osako/GameApp.h"
 
 class ErrorViewApp : public GameApp
@@ -9,12 +10,19 @@ class ErrorViewApp : public GameApp
 public:
     enum ErrorId
     {
-        ERROR0,
-        ERROR1,
-        ERROR2,
-        ERROR3,
-        ERROR4,
-        ERROR5
+        ERROR_NONE,
+        ERROR_COVER_OPEN,
+        ERROR_NO_DISK,
+        ERROR_WRONG_DISK,
+        ERROR_RETRY, // game disk could not be read
+        ERROR_FATAL,
+        ERROR_LA_TRANSFER,
+        ERROR_LA_TRANSFER2,
+        ERROR_LA_ROUTER,
+        ERROR_LA_CONNECTED,  // check if only gamecubes are connected to lan link
+        ERROR_LA_CONNECTION, // check lan cable connection and settings
+        ERROR_LA_DISCONNECT,
+        ERROR_LA_DISCONNECT_LINK,
     };
 
     static ErrorViewApp *create(); // 0x802011cc
@@ -29,6 +37,7 @@ public:
     static ErrorId msErrorId;             // 0x804169c4
 
     int mErrorState;
-    u8 _10[0x1c - 0x10];
-}; // Size: 0x1c
+    u8 _10[0x18 - 0x10];
+    PrintDvdError *mDvdError;
+};     // Size: 0x1c
 #endif // ERRORVIEWAPP_H

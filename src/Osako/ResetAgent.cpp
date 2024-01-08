@@ -104,7 +104,7 @@ namespace ResetAgent {
                         }
                         CardAgent::reset();
                         System::reset();
-                        ErrorViewApp::msErrorId = ErrorViewApp::ERROR0; // Inline?
+                        ErrorViewApp::msErrorId = ErrorViewApp::ERROR_NONE; // Inline?
                         ErrorViewApp::mspErrorViewApp->mErrorState = 0; // Inline?
                         msState = 0;
                         msInvalid = true;

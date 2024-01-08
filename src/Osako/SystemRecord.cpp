@@ -19,8 +19,8 @@ void SystemRecord::init()
         mOptions |= 1;
     }
 
-    mUnlock1 = 0;
-    mUnlock2 = 0;
+    mGameFlag = 0;
+    mSecretKart = 0;
     mVolume = 0;
     mVsLapNum = 0;
     mItemSlotType = 0;
@@ -90,7 +90,6 @@ void SystemRecord::crypt(u16 seed)
 
 int SystemRecord::convCourseID(ECourseID crsId)
 {
-
     switch (crsId)
     {
     case BABY_PARK:

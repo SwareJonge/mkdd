@@ -9,11 +9,11 @@
 
 GhostFile gGhostFile;
 
-#define setChecksum(part) \
-    part.mCheckData.mChecksum = getChecksum(part)
-
 #define getChecksum(part) \
     getCRC((u8 *)&mHeader, (u8 *)&part.mCheckData.mChecksum)
+
+#define setChecksum(part) \
+    part.mCheckData.mChecksum = getChecksum(part)
 
 GhostFile::GhostFile() { mGhostType = 0; }
 
@@ -168,7 +168,7 @@ u8 GhostFile::uudecode(u8 *pRecord, u8 recordBufSize, const char *pFileName, u8 
     if (recordBufSize >= codeSize)
     {
         u8 offset = 1;
-        for (u8 i = 0; offset < codeBufSize && i < codeSize; offset)
+        for (u8 i = 0; offset < codeBufSize && i < codeSize;)
         {
             UUData u;
 

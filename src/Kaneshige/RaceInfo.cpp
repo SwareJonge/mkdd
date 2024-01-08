@@ -106,7 +106,7 @@ void RaceInfo::setConsoleTarget(int cnsNo, int target, bool demo)
 void RaceInfo::settingForWaitDemo(bool settingThing)
 {
     bool doDemo = true;
-    int uVar7 = sWaitDemoSelector % 3;
+    int demoNo = sWaitDemoSelector % 3;
 
     if (sWaitDemoSelector & 0x1)
     {
@@ -115,12 +115,12 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
 #if DEBUG
     if (sForceDemoNo != 0xffffffff)
     {
-        uVar7 = sForceDemoNo % 3;
+        demoNo = sForceDemoNo % 3;
     }
 #endif
     sWaitDemoSelector++;
 
-    switch (uVar7)
+    switch (demoNo)
     {
     case 0:
         setRace(GRAND_PRIX, 8, 0, 1, 1);
@@ -176,6 +176,7 @@ void RaceInfo::settingForWaitDemo(bool settingThing)
         setKart(no, kartID, driver, 0, partner, 0);
     }
 
+    // this doesn't seem to have any effect on anything, probably used for testing
     if (settingThing)
     {
         mDemoType = 2;

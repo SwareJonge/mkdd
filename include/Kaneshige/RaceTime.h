@@ -9,42 +9,19 @@
 class RaceTime
 {
 public:
-    RaceTime()
-    {
-        reset();
-    }
-    // this constructor might not be needed
-    /*RaceTime::RaceTime(RaceTime const & racetime) {
-        mTime = racetime.mTime;
-    }*/
+    RaceTime() { reset(); }
 
-    // inline void operator=(const RaceTime &);
     void get(int *, int *, int *) const;
 
-    int get() const
-    {
-        return mTime;
-    }
+    int get() const { return mTime; }
 
-    int getUpwardMSec() const
-    {
-        return mTime + MAX_MS;
-    }
+    int getUpwardMSec() const { return mTime + MAX_MS; }
 
-    bool isAvailable() const
-    {
-        return mTime != MAX_TIME;
-    }
+    bool isAvailable() const { return mTime != MAX_TIME; }
 
-    bool isLittle(RaceTime const &raceTime) const
-    {
-        return mTime < raceTime.mTime;
-    }
+    bool isLittle(const RaceTime &raceTime) const { return mTime < raceTime.mTime; }
 
-    void reset()
-    {
-        mTime = MAX_TIME;
-    }
+    void reset() { mTime = MAX_TIME; }
 
     void set(int frame)
     {
@@ -53,9 +30,7 @@ public:
             mTime = MAX_TIME;
     }
 
-    void set(RaceTime const & raceTime) {
-        *this = raceTime;
-    }
+    void set(const RaceTime &raceTime) { *this = raceTime; } // why a struct copy? it's only one member...
 
     void setFrame(int frame)
     {
@@ -64,20 +39,11 @@ public:
             mTime = MAX_TIME;
     }
 
-    void sub(const RaceTime &split1, const RaceTime &split2)
-    {
-        mTime = split1.mTime - split2.mTime;
-    }
+    void sub(const RaceTime &split1, const RaceTime &split2) { mTime = split1.mTime - split2.mTime; }
 
-    void sub(int p1)
-    {
-        mTime = mTime - p1;
-    }
+    void sub(int ms) { mTime = mTime - ms; }
 
-    void zero()
-    {
-        mTime = 0;
-    }
+    void zero() { mTime = 0; }
 
 private:
     int mTime; // time in miliseconds

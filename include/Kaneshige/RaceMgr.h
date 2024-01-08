@@ -18,9 +18,11 @@
 #include "Yamamoto/kartCtrl.h"
 #include "types.h"
 
-class RaceMgr : public JKRDisposer {
+class RaceMgr : public JKRDisposer
+{
 public:
-    struct EventInfo {
+    struct EventInfo
+    {
         s16 id;
         const char *jpName;
         const char *engName;
@@ -40,7 +42,8 @@ public:
     static RaceMgr *getManager() { return sRaceManager; }
     static RaceMgr *getCurrentManager() { return getManager(); }
 
-    class Console {
+    class Console
+    {
     public:
         Console();
         void changeTargetNo(int, bool);
@@ -48,109 +51,93 @@ public:
         void clearZBuffer();
         bool isZoom();
         // Inline
-        void setDraw() {
-            mFlags |= 1;
-        }
-        void setConsoleNo(int cnsNo) {
-            mCnsNo = cnsNo;
-        }
-        void clrDraw() {
-            mFlags &= ~1;
-        }
-        bool isDraw() const {
-            return mFlags & 1;
-        }
-        void clrJugemZClr() {
-            mFlags &= ~8;
-        }
-        void setJugemZClr() {
-            mFlags |= 8;
-        }
-        bool isNoStat() const {
-            return mFlags & 4;
-        }
-        bool isValid() const {
-            return mCnsNo >= 0;
-        }
+        void setDraw() { mFlags |= 1; }
+        void setConsoleNo(int cnsNo) { mCnsNo = cnsNo; }
+        void clrDraw() { mFlags &= ~1; }
+        bool isDraw() const { return mFlags & 1; }
+        void clrJugemZClr() { mFlags &= ~8; }
+        void setJugemZClr() { mFlags |= 8; }
+        bool isNoStat() const { return mFlags & 4; }
+        bool isValid() const { return mCnsNo >= 0; }
 
-        private:
-            int mCnsNo;
-            bool _04;
-            int mTargetNo;
-            u16 mFlags;
-        };
+    private:
+        int mCnsNo;
+        bool _04;
+        int mTargetNo;
+        u16 mFlags;
+    };
 
-        void updateBestTime();                                             // 0x801ad064
-        void setRandomSeed();                                              // 0x801ad164
-        void editRaceInfoForDebug();                                       // 0x801ad1bc
-        void createConsole();                                              // 0x801ad210
-        void resetConsole();                                               // 0x801ad2e8
-        bool hideConsole(u32);                                             // 0x801ad368
-        bool isHiddingConsole(u32 index);                                  // UNUSED
-        void createModel();                                                // 0x801ad3c0
-        void createKartModel();                                            // 0x801ad4ac
-        void createCourseModel();                                          // 0x801ad578
-        void createObjectModel();                                          // 0x801ad604
-        void createItemModel();                                            // 0x801ad694
-        void createEffectModel();                                          // 0x801ad724
-        void createLight();                                                // 0x801ad7d0
-        void resetRace();                                                  // 0x801ad9c4
-        void resetRaceForResetEvent();                                     // 0x801ada58
-        void resetRaceForRestartEvent();                                   // 0x801ada98
-        void resetRaceForReplayEvent();                                    // 0x801adb04
-        void resetRaceCommon();                                            // 0x801adb48
-        int getCurrentConsoleNumber();                                     // 0x801add38
-        void drawRace();                                                   // 0x801add84
-        void checkKart();                                                  // 0x801ade64
-        void checkRank();                                                  // 0x801ae00c
-        void checkRankForBalloonBattle();                                  // 0x801ae0dc
-        void checkRankForRobberyBattle();                                  // 0x801ae238
-        void checkRankForBombBattle();                                     // 0x801ae324
-        void checkRankForEscapeBattle();                                   // 0x801ae4b8
-        void checkRankForAwardDemo();                                      // 0x801ae5a8
-        void checkRankForRace();                                           // 0x801ae600
-        void setRaceResult();                                              // 0x801ae774
-        void calcRace();                                                   // 0x801ae870
-        void frameWork();                                                  // 0x801ae9d0
-        void updateRace();                                                 // 0x801aeac0
-        bool isRaceModeMiniGame();                                         // 0x801aef9c
-        ERacePhase getRacePhase();                                         // 0x801aefe4
-        const RaceTime &getMiniGameTime();                                 // 0x801af008
-        int searchNRankKart(int);                                          // 0x801af02c
-        bool isAbleStart() const;                                          // 0x801af09c
-        void setJugemZClr(u32, bool);                                      // 0x801af0dc
-        u8 getStartID(int);                                                // 0x801af18c
-        bool getStartPoint(JGeometry::TVec3f *, JGeometry::TVec3f *, int); // 0x801af1d8
-        f32 getStartJugemOffsetY(int);                                     // 0x801af550
-        int getProcLevel();                                                // 0x801af654
-        bool isItemBoxValid();                                             // 0x801af6a4
-        void beginProcTime(s16);                                           // 0x801af718
-        void endProcTime(s16);                                             // 0x801af7cc
-        const EventInfo *searchEventInfo(s16);                             // 0x801af864
-        bool isJugemCountStart();                                          // 0x801af8a0
-        bool isKartGoal(int);                                              // 0x801af8e0
-        int getGoalKartNumber();                                           // 0x801af904
-        u32 getPadRecorderFrame();                                         // 0x801af96c
-        int getTotalLapNumberForDisplay() const;                           // 0x801af9c4
-        bool robRivalOfBalloon(int, int);                                  // 0x801afa84
-        bool robRivalOfRabbitMark(int, int);                               // 0x801afb48
+    void updateBestTime();                                             // 0x801ad064
+    void setRandomSeed();                                              // 0x801ad164
+    void editRaceInfoForDebug();                                       // 0x801ad1bc
+    void createConsole();                                              // 0x801ad210
+    void resetConsole();                                               // 0x801ad2e8
+    bool hideConsole(u32);                                             // 0x801ad368
+    bool isHiddingConsole(u32 index);                                  // UNUSED
+    void createModel();                                                // 0x801ad3c0
+    void createKartModel();                                            // 0x801ad4ac
+    void createCourseModel();                                          // 0x801ad578
+    void createObjectModel();                                          // 0x801ad604
+    void createItemModel();                                            // 0x801ad694
+    void createEffectModel();                                          // 0x801ad724
+    void createLight();                                                // 0x801ad7d0
+    void resetRace();                                                  // 0x801ad9c4
+    void resetRaceForResetEvent();                                     // 0x801ada58
+    void resetRaceForRestartEvent();                                   // 0x801ada98
+    void resetRaceForReplayEvent();                                    // 0x801adb04
+    void resetRaceCommon();                                            // 0x801adb48
+    int getCurrentConsoleNumber();                                     // 0x801add38
+    void drawRace();                                                   // 0x801add84
+    void checkKart();                                                  // 0x801ade64
+    void checkRank();                                                  // 0x801ae00c
+    void checkRankForBalloonBattle();                                  // 0x801ae0dc
+    void checkRankForRobberyBattle();                                  // 0x801ae238
+    void checkRankForBombBattle();                                     // 0x801ae324
+    void checkRankForEscapeBattle();                                   // 0x801ae4b8
+    void checkRankForAwardDemo();                                      // 0x801ae5a8
+    void checkRankForRace();                                           // 0x801ae600
+    void setRaceResult();                                              // 0x801ae774
+    void calcRace();                                                   // 0x801ae870
+    void frameWork();                                                  // 0x801ae9d0
+    void updateRace();                                                 // 0x801aeac0
+    bool isRaceModeMiniGame();                                         // 0x801aef9c
+    ERacePhase getRacePhase();                                         // 0x801aefe4
+    const RaceTime &getMiniGameTime();                                 // 0x801af008
+    int searchNRankKart(int);                                          // 0x801af02c
+    bool isAbleStart() const;                                          // 0x801af09c
+    void setJugemZClr(u32, bool);                                      // 0x801af0dc
+    u8 getStartID(int);                                                // 0x801af18c
+    bool getStartPoint(JGeometry::TVec3f *, JGeometry::TVec3f *, int); // 0x801af1d8
+    f32 getStartJugemOffsetY(int);                                     // 0x801af550
+    int getProcLevel();                                                // 0x801af654
+    bool isItemBoxValid();                                             // 0x801af6a4
+    void beginProcTime(s16);                                           // 0x801af718
+    void endProcTime(s16);                                             // 0x801af7cc
+    const EventInfo *searchEventInfo(s16);                             // 0x801af864
+    bool isJugemCountStart();                                          // 0x801af8a0
+    bool isKartGoal(int);                                              // 0x801af8e0
+    int getGoalKartNumber();                                           // 0x801af904
+    u32 getPadRecorderFrame();                                         // 0x801af96c
+    int getTotalLapNumberForDisplay() const;                           // 0x801af9c4
+    bool robRivalOfBalloon(int, int);                                  // 0x801afa84
+    bool robRivalOfRabbitMark(int, int);                               // 0x801afb48
 
-        // Unused
-        int getDrawingConsoleNumber();
-        
-        // Inline Functions
-        // RaceInfo related
-        bool isLANMode() const { return mRaceInfo->isLANMode(); }
-        bool isMirror() const { return mRaceInfo->isMirror(); }
-        bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); }
-        int getKartNumber() const { return mRaceInfo->getKartNumber(); }
-        int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
-        int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
-        // why did this not use a getter?
-        ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
-        
-        KartInfo *getKartInfo(int index)
-        {
+    // Unused
+    int getDrawingConsoleNumber();
+
+    // Inline Functions
+    // RaceInfo related
+    bool isLANMode() const { return mRaceInfo->isLANMode(); }
+    bool isMirror() const { return mRaceInfo->isMirror(); }
+    bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); }
+    int getKartNumber() const { return mRaceInfo->getKartNumber(); }
+    int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
+    int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
+    // why did this not use a getter?
+    ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
+
+    KartInfo *getKartInfo(int index)
+    {
 #line 170
         JUT_MINMAX_ASSERT(0, index, 8);
 // TODO: in release it needs the other inline to prevent regswaps, debug grabs stuff from raceInfo without getters, why?
@@ -163,46 +150,48 @@ public:
 
     bool isRaceEnd() const { return mRaceDirector->isRaceEnd(); };
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
-    
+
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
     int getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() { return getRacePhase() == PHASE_CRS_DEMO; }
     // RaceMgr get/sets
     int getTotalLapNumber() const { return mTotalLapNumber; }
-    Course *getCourse() const { return mCourse;  }    
+    Course *getCourse() const { return mCourse; }
     const RaceTime &getBestLapTime() { return mBestLapTime; }
     bool isRaceModeGp() const { return getRaceMode() == GRAND_PRIX; }
     bool isRaceModeTA() const { return getRaceMode() == TIME_ATTACK; }
-    bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }    
+    bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }
     bool isStaffRoll() { return getRaceMode() == STAFF_ROLL; } // pls don't tell me it's stored as local variable
-    bool isAwardDemoMode() {return getRaceMode() == AWARD_DEMO;}
+    bool isAwardDemoMode() { return getRaceMode() == AWARD_DEMO; }
     bool isActiveAreaLight() const { return mAreaLight & 1; }
     void activeAreaLight() { mAreaLight |= 1; }
 
-    KartLoader *getKartLoader(int index) const {
+    KartLoader *getKartLoader(int index) const
+    {
 #line 257
         JUT_MINMAX_ASSERT(0, index, 8);
         return mKartLoader[index];
     }
-
-    KartCam *getCamera(int cameraNo) const {
+    KartCam *getCamera(int cameraNo) const
+    {
         JUT_MINMAX_ASSERT(0, cameraNo, 4);
         return KartCtrl::getKartCtrl()->getKartCam(cameraNo);
     }
-
-    KartChecker *getKartChecker(int index) const {
+    KartChecker *getKartChecker(int index) const
+    {
         JUT_MINMAX_ASSERT(0, index, 8);
         return mKartChecker[index];
     }
 
-    const RaceTime &getBestTotalTime(int recID) {
+    const RaceTime &getBestTotalTime(int recID)
+    {
 #line 328
         JUT_MINMAX_ASSERT(0, recID, 5);
         return mBestTotalTimes[recID];
     }
 
-    private: 
+private:
     RaceDirector *mRaceDirector;
     RaceDrawer *mRaceDrawer;
     u16 mAreaLight;
@@ -220,9 +209,9 @@ public:
     Course *mCourse;
     KartChecker *mKartChecker[8];
     KartLoader *mKartLoader[8];
-    Award2D * mAward2D;
+    Award2D *mAward2D;
     StaffRoll2D *mStaffRoll2D;
-    void * mAwardArc;
+    void *mAwardArc;
     RaceTime mBestLapTime;
     RaceTime mBestTotalTimes[5];
     s16 mEvents;

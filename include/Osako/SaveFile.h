@@ -23,8 +23,8 @@ public:
     enum FilePart
     {
         mcHeader,
-        mcData,
-        mcDataSub
+        mcData1,
+        mcData2
     };
 
     virtual void setPart(FilePart) = 0; // 08

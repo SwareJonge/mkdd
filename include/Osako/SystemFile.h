@@ -71,11 +71,11 @@ public:
         char mComment[COMMENT_SIZE];
         char mTag[TAG_SIZE];
         SystemRecord mSystemRecord;
-        u8 mScrambleData[0x19dc]; // an array of randum numbers
+        u8 mScrambleData[0x19dc]; // an array of random numbers
         CheckData mCheckData;
     }; // size: 0x2000
 
-    void setActiveChecksum() { mDataChecksums[_6022] = mFileData[_6022].mCheckData.mChecksum; }
+    void setActiveChecksum() { mDataChecksums[mActiveSave] = mFileData[mActiveSave].mCheckData.mChecksum; }
 
     void setDataChecksums()
     {
@@ -97,16 +97,16 @@ public:
     } mHeader ALIGN(32);
 
     FileData mFileData[2];
-    u8 _6020;
-    u8 _6021;
-    u8 _6022;
-    u8 _6023; // the active FileData section(s)?
-    u8 _6024;
-    u8 _6025[3];
-    FilePart mPart;
-    int _602c;
-    u32 mDataChecksums[2];
-}; // Size: 0x6040
+
+    u8 mCurrentIndex;      // this should be the same as active save? i don't really understand the difference
+    u8 mBackupIndex;       // the index of the backup data, opposite of active save
+    u8 mActiveSave;        // the index of the current active save,
+    u8 mValidSections;     // 1 = mFileData[0] valid, 2 = mFileData[1] valid, 4 = Header valid
+    u8 _6024;              // unused
+    FilePart mPart;        // the requested part
+    int mSectionCount;     // might be another FilePart
+    u32 mDataChecksums[2]; // CRC32 of FileData
+};                         // Size: 0x6040
 
 extern SystemFile gSystemFile;
 

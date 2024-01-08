@@ -4,30 +4,29 @@
 #include "Kaneshige/RaceTime.h"
 #include "types.h"
 
-struct GPRecord {
+struct GPRecord
+{
     GPRecord();
-    void setName(const char *);
-    void set(u8, u8, u8, u8, u8, u8, bool, const char *, RaceTime);
-    bool less(const GPRecord & rRec);
+    void setName(const char *name);
+    void set(u8 charId1, u8 charId2, u8 kartId, u8 level, u8 rank, u8 pts, bool coop, const char *name, RaceTime raceTime);
+    bool less(const GPRecord &rRec);
 
     // fabricated
     void reset()
     {
-        _6 &= ~0x1;
-        mTime.reset();
+        mFlags &= ~0x1;
+        mTotalTime.reset();
     }
 
-    // series of bytes probably consist of IDs
-    u8 _mCharIDs[2]; 
-    u8 _2;
-    u8 mLevel;
-    u8 _4;
-    u8 _5;
-    u8 _6; // some type of flag
-    u8 _7; // probably padding
-    char mName[4];
-    RaceTime mTime;
-}; // Size 0x10
-
+    u8 mCharIDs[2];      // 00
+    u8 mKartID;          // 02
+    u8 mLevel;           // 03
+    u8 mRank;            // 04
+    u8 mPoints;          // 05
+    u8 mFlags;           // 06: binary flags, 1 = cleared, 2 = co-op
+    u8 _7;               // set to 0x9c with debug menu?
+    char mName[4];       // 08
+    RaceTime mTotalTime; // 0C
+};
 
 #endif
