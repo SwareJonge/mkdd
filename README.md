@@ -13,7 +13,7 @@ WIP 1:1 Decompilation of Mario Kart Double Dash!!
 - Add the path where ninja is located to your environment variables under `PATH`
 - Download the GC MW Compilers
 - Clone the repo using `git clone https://github.com/SwareJonge/mkdd --recursive`
-- Install the modules from requirements.txt (`pip install -r requirementstxt`)
+- Install the modules from requirements.txt (`pip install -r requirements.txt`)
 - Dump a copy of the Debug or PAL version and extract `main.dol`
 - For Debug place `main.dol` in `orig/MarioClub_us/`
 - For PAL place `main.dol` in `orig/Release_eu/`
