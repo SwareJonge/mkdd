@@ -130,6 +130,7 @@ public:
     // RaceInfo related
     bool isLANMode() const { return mRaceInfo->isLANMode(); }
     bool isMirror() const { return mRaceInfo->isMirror(); }
+    bool isTinyProcess() const { return mRaceInfo->isTinyProcess(); }
     bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); }
     int getKartNumber() const { return mRaceInfo->getKartNumber(); }
     int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }

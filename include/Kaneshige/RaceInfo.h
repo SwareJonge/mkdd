@@ -50,6 +50,7 @@ public:
     ERaceGpCup getGpCup() const { return mGpCup; }
 
     bool isLANMode() { return mIsLanMode; }
+    bool isTinyProcess() const { return mIsTinyProcess; }
     bool isTrueEnding() const { return mIsTrueEnding; }
     bool isMirror() const { return mIsMirror; }
     bool isWaitDemo() const  {return mDemoType != 0; }

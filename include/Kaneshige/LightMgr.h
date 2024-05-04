@@ -89,6 +89,4 @@ private:
     // void searchRaceKartLight(unsigned long, int);
 }; // class LightMgr
 
-
-
 #endif

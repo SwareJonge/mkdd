@@ -121,7 +121,7 @@ void KartCtrl::DynamicsInit(bool videoFlag)
         body->mKartCannon = new KartCannon();
         body->mKartScene = new KartScene();
         body->mKartDossin = new KartDossin();
-        body->mKartTumble = new KartTumble();        
+        body->mKartTumble = new KartTumble();
         body->mKartCheck = new KartCheck();
         body->mKartDamage = new KartDamage();
         body->mKartStar = new KartStar();
@@ -215,22 +215,23 @@ void KartCtrl::DynamicsReset()
     }
 }
 
-void KartCtrl::DynamicsStage1() { 
+void KartCtrl::DynamicsStage1()
+{
     int i;
     int kartCount = GetKartNumber();
 
     if (mBitfield & 1)
         return;
-    
+
     RivalKart::setRankAry();
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
             getKartBody(i)->getItem()->CheckHitItem();
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -243,16 +244,16 @@ void KartCtrl::DynamicsStage1() {
         getKartBody(i)->getGame()->DoStatus();
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
             DoGForce(i);
             getKartBody(i)->DegubBody(0x28);
-        }            
+        }
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -261,7 +262,7 @@ void KartCtrl::DynamicsStage1() {
         }
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -276,16 +277,16 @@ void KartCtrl::DynamicsStage1() {
         }
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
-        if (getKartBody(i)->getChecker()->CheckIndication()) {
+        if (getKartBody(i)->getChecker()->CheckIndication())
+        {
             CheckVertexReflection(i);
             getKartBody(i)->DegubBody(0x2c);
         }
-           
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -294,7 +295,7 @@ void KartCtrl::DynamicsStage1() {
         }
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -305,7 +306,7 @@ void KartCtrl::DynamicsStage1() {
 
     DoBodyHit();
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -315,7 +316,7 @@ void KartCtrl::DynamicsStage1() {
         }
     }
 
-    for (i = 0; i < kartCount; i = i + 1)
+    for (i = 0; i < kartCount; i++)
     {
         if (getKartBody(i)->getChecker()->CheckIndication())
         {
@@ -324,7 +325,6 @@ void KartCtrl::DynamicsStage1() {
             {
                 getKartEnemy(i)->ActiveCtrl();
                 getKartTarget(i)->DoSearchTarget(i);
-
             }
             else
             {

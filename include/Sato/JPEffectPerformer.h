@@ -11,6 +11,7 @@ public:
     enum EffectType
     {
         // TODO
+        Effect_Burn = 0x13,
         Effect_Star = 0x1c
     };
 

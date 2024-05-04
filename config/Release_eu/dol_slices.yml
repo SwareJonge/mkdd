@@ -994,7 +994,7 @@ src/Kaneshige/HioMgr.cpp:
     .data: [0x803559c0, 0x803559d0]
 
 src/Kaneshige/KartInfo.cpp:
-    .text: [0x80183f00, 0x80184598] # excludes sinit
+    .text: [0x80183f00, 0x80184598]
     .ctors: [0x802d8674, 0x802d8678]
     .rodata: [0x8033cc18, 0x8033ce58]    
     .data: [0x803559f8, 0x80355aa0]
@@ -1483,6 +1483,12 @@ src/Yamamoto/KartTaeget.cpp:
     .ctors: [0x802d8a10, 0x802d8a14]
     .bss: [0x803ae560, 0x803ae590]
     .sdata2: [0x803dbc08, 0x803dbc10]
+
+src/Yamamoto/KartDamage.cpp:
+    .text: [0x802c66cc, 0x802c796c]
+    .ctors: [0x802d8a28, 0x802d8a2c]
+    .bss: [0x803ae680, 0x803ae6b0]
+    .sdata2: [0x803dbd88, 0x803dbd90]
 
 src/Yamamoto/KartStar.cpp:
     .text: [0x802c796c, 0x802c7c68]

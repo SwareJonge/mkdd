@@ -1564,6 +1564,12 @@ src/Yamamoto/KartTaeget.cpp:
     .bss: [0x803ef200, 0x803ef230]
     .sdata2: [0x8041ddc0, 0x8041ddc8]
 
+src/Yamamoto/KartDamage.cpp:
+    .text: [0x80306cb0, 0x80307c44]
+    .ctors: [0x80316624, 0x80316628]
+    .bss: [0x803ef320, 0x803ef350]
+    .sdata2: [0x8041df10, 0x8041df18]
+
 src/Yamamoto/KartStar.cpp:
     .text: [0x80307c44, 0x80307eb8]
     .ctors: [0x80316628, 0x8031662c]
@@ -1574,13 +1580,12 @@ src/Yamamoto/KartTire.cpp:
     .ctors: [0x8031662c, 0x80316630]
     .bss: [0x803ef380, 0x803ef3b0]
 
-# This file causes ninja to go over the 16bit character limit for the linking command
-#src/Yamamoto/KartDisp.cpp:
-    #.text: [0x803101d8, 0x80311ae8]
-    #.ctors: [0x80316640, 0x80316644]
-    #.rodata: [0x80386e58, 0x803879c0]
-    #.bss: [0x803ef470, 0x803ef4a0]
-    #.sdata2: [0x8041e0f0, 0x8041e160]
+src/Yamamoto/KartDisp.cpp:
+    .text: [0x803101d8, 0x80311ae8]
+    .ctors: [0x80316640, 0x80316644]
+    .rodata: [0x80386e58, 0x803879c0]
+    .bss: [0x803ef470, 0x803ef4a0]
+    .sdata2: [0x8041e0f0, 0x8041e160]
 
 src/Yamamoto/KartHandle.cpp:
     .text: [0x80311ae8, 0x80312154]

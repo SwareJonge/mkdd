@@ -4262,6 +4262,7 @@ global:
   0x802a2ecc: NormalizeMatrix__7KartMatFPA4_f
   0x802a30a4: OmegaMatrix__7KartMatFPA4_fP3Vecf
   # kartCtrlStrat.cpp
+  0x802aae28: DoItmCancel__8KartGameFv
   0x802ad274: MakeClear__8KartGameFv
   0x802ae8f0: DoElementForce__8KartGameFv
   0x802afcb0: DoStatus__8KartGameFv
@@ -4363,7 +4364,12 @@ global:
   # KartAnime.cpp
   0x802b862c: IsAppeal__9KartAnimeFi
   0x802b86ec: IsDamage__9KartAnimeFi
+  0x802b872c: IsDamageL__9KartAnimeFi
+  0x802b876c: IsDamageS__9KartAnimeFi
+  0x802b87ac: IsRide__9KartAnimeFi
+  0x802b87ec: IsNormalStart__9KartAnimeFi
   0x802b8ba8: IsBurnAnime__9KartAnimeFi
+  0x802b8be8: IsDrive__9KartAnimeFi
   0x802b8e4c: Init__9KartAnimeFv
 
   # KartItemStrat.cpp
@@ -4443,9 +4449,19 @@ global:
   0x802c65b0: CheckIndication__9KartCheckFv
 
   # KartDamage.cpp
+  0x802c66cc: Init__10KartDamageFi
   0x802c66f8: ClrAllDamage__10KartDamageFv
+  0x802c6708: TstSetDamage__10KartDamageFv
+  0x802c6720: SetDamager__10KartDamageFv
   0x802c6798: SetDriverEndDamageAnime__10KartDamageFv
-
+  0x802c6804: SetDamageAnime__10KartDamageFv
+  0x802c6aa4: SetBurnAnime__10KartDamageFv
+  0x802c6db8: SetBigDamageAnime__10KartDamageFv
+  0x802c71a4: MakeHalfDamage__10KartDamageFv
+  0x802c734c: MakeDamage__10KartDamageFv
+  0x802c739c: MakeBigDamage__10KartDamageFv
+  0x802c7404: MakeBurnDamage__10KartDamageFv
+  0x802c7454: DoDamageCrl__10KartDamageFv
   # KartStar.cpp
   0x802c796c: Init__8KartStarFi
   0x802c7994: MakeStar__8KartStarFv

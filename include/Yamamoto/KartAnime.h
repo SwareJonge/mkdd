@@ -103,8 +103,10 @@ public:
 
     u8 _0[0x10];         //
     u64 mFlags;          // 0x10, 0x14
-    u8 mType;            // 0x17
-    u8 _19[0x48 - 0x19]; //
+    u8 mType;            // 0x18
+    u8 _19[0x30 - 0x19]; //
+    u64 mDamageFlags;             // 30, 34
+    u8 _38[0x48 - 0x38]; //
 
 }; // Size: 0x48
 
