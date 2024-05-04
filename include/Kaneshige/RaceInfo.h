@@ -41,6 +41,7 @@ public:
     int getLANLapNumber() const { return mLapNumLAN; }
     int getVSLapNumber() const { return mVsLapNum; }
     int getKartNumber() const { return mKartNum; }
+    int getPlayerKartNumber() const { return mPlayerNum; }
     int getConsoleNumber() const { return mConsoleNum; }
     int getStatusNumber() const { return mStatusNum; }
     ERaceMode getRaceMode() const { return mRaceMode; }
@@ -79,7 +80,7 @@ public:
     KartInfo *getKartInfo(int kartNo) {
 #line 173
         JUT_MINMAX_ASSERT(0, kartNo, 8);
-        return &mKartInfo[kartNo];
+        return mKartInfo + kartNo;
     }
 
 //private:

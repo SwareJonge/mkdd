@@ -1,5 +1,5 @@
 #include "Sato/stEfctWeed.h"
-#include "YamaMoto/kartCtrl.h"
+#include "Yamamoto/kartCtrl.h"
 
 namespace
 {

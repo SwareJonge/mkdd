@@ -18226,6 +18226,8 @@ global:
     0x80416d24: sCommonFlgs__13RivalBodyCtrl
     0x80416d28: sCheckTopDistRatio__13RivalBodyCtrl
     0x80416d30: sStartRankPtr__14RivalSpeedCtrl
+    0x80416d34: sConfusedFightModeFlg__14RivalSpeedCtrl
+    0x80416d35: sComWeakPointSwapFlg__14RivalSpeedCtrl
     0x80416d38: sTexSRTKey__14J3DEfctIceRock
     0x80416d40: JPTraceHPCB
     0x80416d48: sDossunBckAnmTrans__13TMapObjDossun

@@ -18,7 +18,11 @@ namespace PadMgr
     void getPadData(unsigned char, KartPadInput, KartPadData *); // 0x8020c588
     void setKartPadInput(KartPadInput);                          // 0x8020c74c
     void resetPort();                                            // 0x8020c77c
+
     extern KartPadInput msKartPadInput;                          // 0x80416a50
     extern PadRecorder *mspRecorder;                             // 0x80416a54
+
+    inline void destroy() { mspRecorder = nullptr; }
+
 };                                                               // namespace PadMgr
 #endif                                                           // PADMGR_H

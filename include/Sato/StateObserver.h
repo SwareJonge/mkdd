@@ -9,14 +9,16 @@ public:
 
     void setState(u16);
 
+    u16 getState() const { return mState; }
+
     // Vtable
-    /*virtual ~StateObserver();
+    virtual ~StateObserver();
     virtual void MoveExec() = 0;
-    virtual void InitExec() = 0;*/
+    virtual void InitExec() = 0;
 
 private:
     u16 _4;
-    u16 _6;
+    u16 mState;
     u32 _8;
 };
 

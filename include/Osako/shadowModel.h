@@ -3,6 +3,7 @@
 
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/J3D/J3DAnmCluster.h"
+#include "JSystem/J3D/J3DSkinDeform.h"
 #include "Kaneshige/ViewCtrlModel.h"
 
 class ShadowModel : public ViewCtrlModel
@@ -16,8 +17,14 @@ public:
         cShadowKind_SkyShip // based of TMapObjSkyShip::getShadowKind() const
     };
 
-    ShadowModel(u8, ShadowModel::ShadowKind, u8);       // 0x801a6e6c
-    virtual void createModel(JKRSolidHeap *, u32, u32); // 0x801f7154, override
+    ShadowModel(u8 flags, ShadowKind kind, u8 p3) : ViewCtrlModel(flags)
+    {
+        mKind = kind;
+        _94 = p3;
+        _95 = 0;
+    }
+
+    virtual bool createModel(JKRSolidHeap *, u32, u32); // 0x801f7154, override
 private:
     ShadowKind mKind;
     u8 _94;
@@ -34,12 +41,21 @@ public:
     }
 
     virtual void calc();                                // 0x801f71d0
-    virtual void createModel(JKRSolidHeap *, u32, u32); // 0x801f732c, override
+    virtual bool createModel(JKRSolidHeap *, u32, u32); // 0x801f732c, override
+
+    void setScale(f32 x, f32 y)
+    {
+        mScaleX = x;
+        mScaleY = y;
+    }
+    void setRoll(f32 roll) { mRoll = roll; }
+    void setPosY(f32 y) { mPosY = y; }
 
     // Inline Functions
     void setAnmCluster(J3DAnmCluster *anmCluster) { mAnmCluster = anmCluster; }; // 0x801a738c
     void setDeformData(J3DDeformData *deformData) { mDeformData = deformData; }; // 0x801a7394
-private:
+
+protected:
     J3DDeformData *mDeformData; // 0x98
     J3DAnmCluster *mAnmCluster; // 0x9c
     f32 mRoll;                  // 0xa0

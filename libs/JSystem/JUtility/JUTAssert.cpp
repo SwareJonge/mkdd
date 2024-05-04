@@ -51,10 +51,10 @@ namespace JUTAssertion
 
     void flushMessage_dbPrint()
     {
-        if (flush_subroutine() && sVisible == true && JUTDbPrint::getManager() != NULL)
+        if (flush_subroutine() && sVisible == true && JUTDbPrint::getManager())
         {
             JUTFont *font = JUTDbPrint::getManager()->getFont();
-            if (font != NULL)
+            if (font)
             {
                 u8 tmp = ((VIGetRetraceCount() & 60) << 2) | 0xF;
                 font->setGX();
@@ -97,7 +97,7 @@ namespace JUTAssertion
 
         if(device & 1) {
             JUTDirectPrint *directPrint = JUTDirectPrint::getManager();
-            if (directPrint != nullptr) {
+            if (directPrint) {
                 
                 JUtility::TColor curColor = directPrint->getCharColor();
                 directPrint->setCharColor(TCOLOR_WHITE);

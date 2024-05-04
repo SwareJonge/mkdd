@@ -5,7 +5,6 @@
 #include "Inagaki/KartSoundMgr.h"
 #include "Sato/RivalKart.h"
 
-#include "Yamamoto/kartCamera.h"
 #include "Yamamoto/kartPad.h"
 #include "Yamamoto/kartSus.h"
 #include "Yamamoto/KartAnime.h"
@@ -14,14 +13,18 @@
 #include "Yamamoto/KartSound.h"
 #include "Yamamoto/KartTarget.h"
 
+#include "Yamamoto/KartMat.h"
 #include "Yamamoto/kartBody.h"
 
-class KartCtrl
+class KartCam;
+
+class KartCtrl : public KartMat // WHAT THE HELL ARE YOU DOING
 {
 public:
     KartCtrl() {}
 
-    static void makeKartCtrl();
+    void DoBodyHit();
+    static KartCtrl *makeKartCtrl();
     void Init(KartBody *, KartSus **, KartAppendix **, KartSound *, KartTarget *, KartDisp *, int);
     void DynamicsInit(bool);
     void DynamicsReset();
@@ -58,19 +61,19 @@ public:
     void GetRightTirePos(int, Vec *);
     void GetTirePos(int, int, Vec *);
     void GeTireG(int);
-    void GetCarSpeed(int);
-    void GetCarRpm(int);
-    void GetKartRpm(int);
-    void GetDriveCont(int);
-    void GetCoDriveCont(int);
-    void GetCarStatus(int);
-    void GetGameStatus(int);
+    f32 GetCarSpeed(int);
+    f32 GetCarRpm(int);
+    f32 GetKartRpm(int);
+    KartGamePad *GetDriveCont(int);
+    KartGamePad *GetCoDriveCont(int);
+    u64 GetCarStatus(int);
+    u32 GetGameStatus(int);
     void SetTireDispRound(KartBody *, KartSus *, f32);
     void SetKartRpm(KartBody *, f32, f32);
     void WhichDriver(int);
     void WhichNowDriver(int);
-    void CheckCamera(int);
-    void GetCameraNum(int);
+    bool CheckCamera(int);
+    int GetCameraNum(int);
     void CheckItem(int);
     void GetMaxSpeed(int);
     void GetDownSlopeAcc(int);
@@ -82,8 +85,8 @@ public:
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /*{ return getKartSound(idx)->mKartSoundMgr; }*/
     f32 GetKartBodyOffset(int);
     void MakeChangePossible(int);
-    void CheckTandemItmGet(int);
-    void CheckTandemItmRollingGet(int);
+    bool CheckTandemItmGet(int);
+    bool CheckTandemItmRollingGet(int);
     void SetObjectPos(int, JGeometry::TVec3f);
     void CheckThunderBolt(int);
     void GetTireRadius(int);
@@ -133,28 +136,69 @@ public:
 
     bool HaveRabbit();
 
+    void AnimeInit(int idx) { getKartAnime(idx)->Init(); }
+    void ApeendixInit(int idx)
+    {
+        for (int i = 0; i < 2; i++)
+            getKartAppendix(i + idx * 2)->Init(i);
+    }
+    void BodyInit(int idx) { getKartBody(idx)->Init(idx); }
+    void BodyPoseInit(int idx) { getKartBody(idx)->SetUpRigidBodyStartGridPose(); }
+    void TargetInit(int idx) { getKartTarget(idx)->Init(); }
+    void SusInit(int idx)
+    {
+        for (int i = 0; i < 4; i++)
+            getKartSus(i + idx * 4)->NormalInit(i);
+    }
+
+    void ResetSusInit(int idx)
+    {
+        for (int i = 0; i < 4; i++)
+            getKartSus(i + idx * 4)->ResetInit(i);
+    }
+
+    void DoSusAction(int idx) { getKartSus(idx)->DoSusAction(idx); }
+    void DoTireAction(int idx) { getKartSus(idx)->DoTireAction(); }
+
+    void DoGForce(int idx) { getKartBody(idx)->DoGForce(); }
+    void DoPose(int idx) { getKartBody(idx)->DoPose(); }    
+    void CheckObjectReflection(int idx) { getKartBody(idx)->CheckObjectReflection(); }
+    void CheckRoofReflection(int idx) { getKartBody(idx)->CheckRoofReflection(); }
+    void CheckVertexReflection(int idx) { getKartBody(idx)->CheckVertexReflection(); }
+
     int GetKartNumber() { return mKartCount; }
     KartBody *getKartBody(int idx){return mKartBodies[idx]; } 
     KartCam *getKartCam(int idx) { return mKartCams[idx]; }
     KartSound *getKartSound(int idx) { return mKartSounds[idx]; }
+    KartSus *getKartSus(int idx) { return mKartSus[0][idx]; }
+    KartAppendix *getKartAppendix(int idx) { return mKartAppendix[0][idx]; }
+    KartPad *getKartPad(int idx) { return mKartPads[idx]; }
+    KartAnime *getKartAnime(int idx) { return mKartAnimes[idx]; }
+    KartTarget *getKartTarget(int idx) { return mKartTargets[idx]; }
+    KartDisp *getKartDisp(int idx) { return mKartDisps[idx]; }
+
+    void setKartPad(KartPad *pad, int idx) { mKartPads[idx] = pad; }
+    void setKartCam(KartCam *cam, int idx) { mKartCams[idx] = cam; }
+    void setKartAnime(KartAnime *anime, int idx) { mKartAnimes[idx] = anime; }
 
     static KartCtrl *getKartCtrl() { return mCtrl; }
 
 private:
     static KartCtrl *mCtrl;
+    KartLoader *mKartLoaders[8];  // 0
+    KartGamePad *mGamePads[8][2]; // 20 might not be a double sided array
+    KartPad *mKartPads[8]; // 60
+    KartAnime *mKartAnimes[8]; // 80
+    KartBody *mKartBodies[8]; // a0
+    KartSus *mKartSus[8][4]; // c0
+    KartAppendix *mKartAppendix[8][2]; // 140
+    RivalKart *mRivalKarts[8]; // 180
+    KartSound *mKartSounds[8]; // 1a0    
+    KartTarget *mKartTargets[8]; // 1c0
+    KartDisp *mKartDisps[8]; // 1e0
+    KartCam *mKartCams[8]; // 200
 
-    KartLoader *mKartLoaders[8];
-    KartGamePad *mGamePads[8][2]; // might not be a double sided array
-    KartPad *mKartPads[8];
-    KartAnime *mKartAnimes[8];
-    KartBody *mKartBodies[8];
-    KartSus *mKartSus[8][4];
-    KartAppendix *mKartAppendix[8][2];
-    RivalKart *mRivalKarts[8];
-    KartSound *mKartSounds[8];
-    KartDisp *mKartDisps[8];
-    KartTarget *mKartTargets[8];
-    KartCam *mKartCams[8];
+public:
     u8 _220[4]; // unused
     u32 mBitfield;
     u32 _228;

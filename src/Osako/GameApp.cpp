@@ -12,7 +12,7 @@ GameApp::GameApp(u32 heapSize, const char *appName, void *otherHeap)
         mHeap = JKRExpHeap::create(otherHeap, heapSize, nullptr, false);
     else
     {
-        if (heapSize == null)
+        if (heapSize == 0)
             mHeap = JKRAssertHeap::create(System::getAppHeap());
         else
             mHeap = JKRExpHeap::create(heapSize, System::getAppHeap(), false);

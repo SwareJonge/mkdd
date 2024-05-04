@@ -23,6 +23,9 @@ public:
 
     void reset() { mTime = MAX_TIME; }
 
+    // fabricated
+    void round() { mTime = mTime / 1000 * 1000; }
+
     void set(int frame)
     {
         mTime = frame; // no idea why framecount is used here,

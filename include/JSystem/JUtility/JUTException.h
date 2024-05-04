@@ -11,7 +11,7 @@
 struct JUTConsole;
 struct JUTDirectPrint;
 
-typedef void (*JUTErrorHandler)(OSError error, OSContext *context, u32 p3, u32 p4);
+typedef void (*JUTErrorHandler)(OSError error, OSContext *context, u32 dsisr, u32 dar);
 
 enum ExPrintFlags
 {

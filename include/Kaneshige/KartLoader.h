@@ -20,7 +20,7 @@ public:
     void entryTevRegAnimator(int);         // 0x801a7a10
     void removeTevRegAnimator(int);        // 0x801a83b8
     void createModel(JKRSolidHeap *, u32); // 0x801a8598
-    void isCommonWheelModelData();         // 0x801a8624
+    bool isCommonWheelModelData();         // 0x801a8624
 
     // Inline/Unused
     // void KartShadowModel::~KartShadowModel();
@@ -29,7 +29,7 @@ public:
     // ~KartLoader();
     //  Inline
     void setDemoBodyBmd(void *ptr) { mDemoBmd = ptr; }
-    bool isShockExist() const; /* { return mShockModels[0].getModelData() != 0; } */ // 0x801a7720
+    bool isShockExist() const { return mShockModels[0].getModelData() != 0; } // 0x801a7720
     bool isKartTevAnmEnable(int wheel);                                              // 0x801a8094
     bool isDriverTevAnmEnable(int);                                                  // 0x801a8378
     ExModel *getExModelDriver(int driver)                                            // 0x801a81e8

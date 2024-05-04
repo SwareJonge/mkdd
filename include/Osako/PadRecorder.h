@@ -41,7 +41,9 @@ public:
     void playGhost();
     // Inline
     u32 getFrame() { return mFrame; };
+    void setFrame(u32 frame) { mFrame = frame; }
 
+    static PadRecorder *mspRecorder;
 private:
     u32 mFrame;
     PadState mState;

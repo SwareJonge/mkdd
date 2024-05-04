@@ -4,14 +4,16 @@
 #include "Kaneshige/KartInfo.h"
 #include "types.h"
 
-struct DemoKart { // most likely a placeholder struct
+struct DemoKart
+{ // most likely a placeholder struct
     ECharID char1;
     ECharID char2;
     EKartID kart;
 };
 
-class SequenceInfo {
-    public:
+class SequenceInfo
+{
+public:
     void rndDemo(u32);
     void getDemoKart(int no, ECharID &charID1, ECharID &charID2, EKartID &kartID)
     {
@@ -23,8 +25,12 @@ class SequenceInfo {
         kartID = mDemoKart[no].kart;
     }
 
-    private:
-    u8 _0[0x36c];
+    void setGhostFlag(u8 flags) { mGhostFlags = flags; }
+
+private:
+    u8 _0[0x34];
+    u8 mGhostFlags;
+    u8 _35[0x36c - 0x35];
     DemoKart mDemoKart[8];
     u8 _0x390[0x44c - 0x390];
 };

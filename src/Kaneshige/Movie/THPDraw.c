@@ -101,6 +101,14 @@ void THPGXYuv2RgbSetup(GXRenderModeObj *rmode)
     GXSetTevSwapModeTable(GX_TEV_SWAP0, GX_CH_RED, GX_CH_GREEN, GX_CH_BLUE, GX_CH_ALPHA);
 }
 
+#ifdef DEBUG
+#define StupidWorkaround(x, y, z) \
+    GXPosition3s16(x, y, z)
+#else
+#define StupidWorkaround(x, y, z) \
+    GXPosition3u16(x, y, z)
+#endif
+
 void THPGXYuv2RgbDraw(u8 *y_data, u8 *u_data, u8 *v_data, s16 x, s16 y, s16 textureWidth, s16 textureHeight, s16 polygonWidth, s16 polygonHeight)
 {
     GXTexObj tobj0, tobj1, tobj2;
@@ -116,13 +124,13 @@ void THPGXYuv2RgbDraw(u8 *y_data, u8 *u_data, u8 *v_data, s16 x, s16 y, s16 text
     GXLoadTexObj(&tobj2, GX_TEXMAP2);
 
     GXBegin(GX_QUADS, GX_VTXFMT7, 4);
-    GXPosition3s16((s16)x, (s16)y, 0);
+    GXPosition3s16(x, y, 0);
     GXTexCoord2u16(0, 0);
-    GXPosition3s16((s16)(x + polygonWidth), (s16)y, 0);
+    GXPosition3s16((x + polygonWidth), y, 0);
     GXTexCoord2u16(1, 0);
-    GXPosition3s16((s16)(x + polygonWidth), (s16)(y + polygonHeight), 0);
+    StupidWorkaround((x + polygonWidth), (y + polygonHeight), 0);
     GXTexCoord2u16(1, 1);
-    GXPosition3s16((s16)x, (s16)(y + polygonHeight), 0);
+    GXPosition3s16(x, (y + polygonHeight), 0);
     GXTexCoord2u16(0, 1);
     GXEnd();
 }

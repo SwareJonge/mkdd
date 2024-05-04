@@ -34,8 +34,7 @@ static inline void GXPosition2f32(const f32 x, const f32 y)
   GXWGFifo.f32 = y;
 }
 
-// why is this non const? or better question, is everything else actually non const?
-static inline void GXPosition3s16(s16 x, s16 y, s16 z)
+static inline void GXPosition3s16(const s16 x, const s16 y, const s16 z)
 {
   GXWGFifo.s16 = x;
   GXWGFifo.s16 = y;
@@ -79,7 +78,7 @@ static inline void GXTexCoord2s8(const s8 u, const s8 v)
   GXWGFifo.s8 = v;
 }
 
-static inline void GXTexCoord2u8(u8 s, u8 t)
+static inline void GXTexCoord2u8(const u8 s, const u8 t)
 {
   GXWGFifo.u8 = s;
   GXWGFifo.u8 = t;

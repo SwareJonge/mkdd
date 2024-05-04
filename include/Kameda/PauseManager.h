@@ -6,7 +6,8 @@
 
 class PauseManager {
 public:
-    PauseManager(JKRHeap *);    
+    PauseManager(JKRHeap *);
+    static bool tstPause(); // 0x80135288;
     void setExecFlag(bool flag) {
         mExecFlag = flag;
     }

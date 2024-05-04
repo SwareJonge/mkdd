@@ -17,6 +17,7 @@ public:
 
     // Inline Functions
     static AwardApp *ptr() { return mspAwardApp; }
+    static void destroy() { delete mspAwardApp; }
 
 private:
     static AwardApp *mspAwardApp; // 0x80416a68

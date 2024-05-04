@@ -324,6 +324,7 @@ GCC_INCLUDES = ' '.join(f"-I {d}" for d in INCDIRS)
 #rework
 DEFINES = [
     "DEBUG",
+    "HIO_SCREENSHOT",
     "REGION_US",
     "MATCHING"
 ]

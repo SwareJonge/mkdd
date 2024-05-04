@@ -29,6 +29,7 @@
 #include "Osako/SystemRecord.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
+#include <ppcdis.h>
 
 // .rodata
 #ifdef DEBUG

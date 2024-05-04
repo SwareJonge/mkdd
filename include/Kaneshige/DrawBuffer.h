@@ -45,7 +45,7 @@ private:
     u16 mDrawFlag;          // 0x6
     J3DDrawBuffer *mOpaBuf; // 0x8
     J3DDrawBuffer *mXluBuf; // 0xc
-    
-};                          // Size 0x10
+
+}; // Size 0x10
 
 #endif

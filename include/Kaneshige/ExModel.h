@@ -41,17 +41,17 @@ public:
     void clipAll(u32, bool);                                                            // 0x801a5fc8
     void clipBySphere(u32, J3DUClipper *, const Mtx44, f32);                            // 0x801a6040
     void clipJoint(u32, s16, bool);                                                     // 0x801a6254
-    void setBaseTRMtx(Mtx44);                                                           // 0x801a63c8
+    void setBaseTRMtx(Mtx);                                                             // 0x801a63c8
     void setBaseScale(JGeometry::TVec3f &);                                             // 0x801a6474
     void tstDiffTexMtxMode();                                                           // 0x801a6550
     void setEffectMtx(Mtx44, u32);                                                      // 0x801a65a4
 
     // Vtable
-    virtual void createModel(JKRSolidHeap *, u32, u32);               // 0x801a4c70
+    virtual bool createModel(JKRSolidHeap *, u32, u32);               // 0x801a4c70
     virtual void createDifferedModel(JKRSolidHeap *, u32, u32, bool); // 0x801a4e6c
     virtual void calc();                                              // 0x801a5288
-    virtual void calc(s16);                                           // 0x801a52b8
-    virtual void update(s16);                                         // 0x801a5434
+    virtual void calc(u16);                                           // 0x801a52b8
+    virtual void update(u16);                                         // 0x801a5434
     virtual void viewCalc(u32) {}                                     // 0x801a6824
     virtual void setCurrentViewNo(u32);                               // 0x801a5614
 
@@ -76,7 +76,7 @@ public:
     static bool sDrawingOnlyUpdZMat;   // 0x80416399
     static f32 sExModelInvalidLODBias; // 0x80419d90
 
-private:
+protected:
     // Vtable 0x0
     u16 mLevelCnt;
     J3DModelData **mModelData;

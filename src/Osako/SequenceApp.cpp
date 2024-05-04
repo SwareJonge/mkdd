@@ -14,6 +14,7 @@
 #include "Osako/system.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
+#include <ppcdis.h>
 
 #ifdef DEBUG
 #define HEAP_SIZE 0x680000

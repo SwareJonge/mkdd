@@ -20,9 +20,9 @@ namespace JUtility
 
         TColor(GXColor color) { set(color); }
 
-        TColor &operator=(const TColor &other)
+        TColor &operator=(const TColor &other) // is this actually needed?
         {
-            ((GXColor *)this)->operator=(other);
+            *((GXColor *)&r) = (other);
             return *this;
         }
 
@@ -69,8 +69,17 @@ namespace JUtility
             a = other.a;
         }
 
+        // fabricated. but helped solve regswaps in a function
+        void setRGBA(const TColor &RGB, u8 _a)
+        {
+            setRGB(RGB);
+            a = _a;
+        }
+
         // _00 = GXColor (_00 = r, _01 = g, _02 = b, _03 = a)
     };
 } // namespace JUtility
+
+typedef JUtility::TColor JUTColor;
 
 #endif

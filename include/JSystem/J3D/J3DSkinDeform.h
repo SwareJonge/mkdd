@@ -5,28 +5,42 @@
 #include "JSystem/J3D/J3DCluster.h"
 
 struct J3DAnmCluster;
+class J3DClusterVertex;
 
 enum J3DSkinDeformFlags {
 	J3DSKIN_Unk1 = 0x1,
 	J3DSKIN_Unk2 = 0x2,
 };
 
-struct J3DDeformData {
+class J3DDeformData
+{
+public:
 	J3DDeformData();
+	void offAllFlag(u32);
+	void deform(J3DVertexBuffer *);
+	void deform(J3DModel *);
+	void setAnm(J3DAnmCluster *);
 
-	u16 mClusterNum;              // _00
-	u16 mClusterKeyNum;           // _02
-	u16 _04;                      // _04
-	J3DCluster** mClusters;       // _08
-	J3DClusterKey** mClusterKeys; // _0C
-	int _10;                      // _10
-	u16 _14;                      // _14
-	u16 _16;                      // _16
-	void* mVtxPos;                // _18, check type
-	void* mVtxNorm;               // _1C, check type
-	int _20;                      // _20
-	int _24;                      // _24
-};
+	J3DCluster *getClusterPointer(u16 index) { return &mClusterPointer[index]; }
+	u16 getClusterNum() const { return mClusterNum; }
+	u16 getClusterKeyNum() const { return mClusterKeyNum; }
+	J3DClusterKey *getClusterKeyPointer(u16 i) { return &mClusterKeyPointer[i]; }
+	f32 *getVtxPos() { return mVtxPos; }
+	f32 *getVtxNrm() { return mVtxNrm; }
+
+	u16 mClusterNum;				   // 00
+	u16 mClusterKeyNum;				   // 02
+	u16 mClusterVertexNum;			   // 04
+	J3DCluster *mClusterPointer;	   // 08
+	J3DClusterKey *mClusterKeyPointer; // 0c
+	J3DClusterVertex *mClusterVertex;  // 10
+	u16 mVtxPosNum;					   // 14
+	u16 mVtxNrmNum;					   // 16
+	f32 *mVtxPos;					   // 18
+	f32 *mVtxNrm;					   // 1C
+	JUTNameTab *mClusterName;		   // 20
+	JUTNameTab *mClusterKeyName;	   // 24
+}; // Size: 0x28
 
 struct J3DDeformer {
 	J3DDeformer(J3DDeformData*);
@@ -44,7 +58,7 @@ struct J3DDeformer {
 	u32 mFlags;                 // _10
 };
 
-struct J3DSkinDeform {
+/*struct J3DSkinDeform {
 	J3DSkinDeform();
 
 	virtual void deform(J3DVertexBuffer*, J3DMtxBuffer*); // _08
@@ -58,10 +72,10 @@ struct J3DSkinDeform {
 
 	// _00 VTBL
 	void* mPosData;      // _04
-	BitFlag<u32> _08;    // _08 /* bitfield of some sort */
+	//BitFlag<u32> _08;    // _08 // bitfield of some sort
 	unknown _0C;         // _0C
 	unknown _10;         // _10
 	BitFlag<u32> mFlags; // _14
-};
+};*/
 
 #endif

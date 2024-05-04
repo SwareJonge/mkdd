@@ -18,7 +18,7 @@ union UUData
         u32 bit3 : 6;
         u32 bit4 : 6;
     } s;
-    u8 arr[0x3];
+    u8 arr[4];
 };
 
 class GhostFile : public SaveFile

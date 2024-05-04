@@ -1,7 +1,11 @@
 #ifndef KARTRESCUE_H
 #define KARTRESCUE_H
 
+#include <JSystem/JGeometry/Vec.h>
+
 #include "Sato/GeographyObj.h"
+
+#include "types.h"
 
 class KartBody;
 
@@ -28,6 +32,17 @@ public:
     // Inline/Unused
     // void DoHang();
 private:
-    // TODO
-};
+    u8 _0[0xc];            //
+    CrsGround mGround;     // c
+    u8 _6c[0x8c - 0x6c];   //
+    JGeometry::TVec3f _8c; //
+    JGeometry::TVec3f _98; //
+    JGeometry::TVec3f _a4; //
+    JGeometry::TVec3f _b0; //
+    JGeometry::TVec3f _bc; //
+    JGeometry::TVec3f _c8; //
+    u8 _d4[0x104 - 0xd4];  //
+
+}; // 0x104
+
 #endif // KARTRESCUE_H

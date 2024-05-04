@@ -161,6 +161,40 @@ public:
         s16 next[4]; // The indices of up to 4 group links to follow after this one. Unneeded slots are set to value -1.
     };
 
+    class Camera
+    {
+    public:
+        void getFrontDirection(JGeometry::TVec3f *out) const;
+
+        void getPosition(JGeometry::TVec3f *out) const { out->set(mPos); }
+        void getTargetPos(JGeometry::TVec3f *out) const { out->set(mTargetPos); }
+        void getTargetPos2(JGeometry::TVec3f *out) const { out->set(mTargetPos2); }
+
+        f32 getFovy() const { return mFovY; }
+        f32 getFovy2() const { return mFovY2; }
+        u32 getKind() const { return mKind; }
+        s16 getPathSpeed() const { return mPathSpeed; }
+        s16 getPathID() const { return mPathID; }
+
+
+    private:
+        JGeometry::TVec3f mPos;
+        JGeometry::TVec3f mDir;
+        JGeometry::TVec3f mTargetPos2;
+        JGeometry::TVec3f mTargetPos;
+        u16 mKind;
+        u16 mFovY; // start
+        s16 mTime;
+        s16 mID;
+        s16 mShimmerZ0;
+        s16 mShimmerZ1;
+        s16 mPathID;
+        s16 mPathSpeed;
+        u16 mFovY2; // end
+        s16 mNextID;
+        char mName[4];
+    }; // 48
+
     class Ground
     {
     public:
@@ -251,6 +285,7 @@ public:
     u8 getShadowDepth() const { return mObjectData->shadowDepth; }
     u8 getShaking() const { return mObjectData->shaking; }
     int getAreaNumber() const { return mObjectData->areaNum; }
+    int getCameraNumber() const { return mObjectData->cameraNum; }
     int getCheckPathNumber() const { return mObjectData->checkPathNum; }
     int getCLPointNumber() const { return mObjectData->clPointNum; }
     int getJugemPointNumber() const { return mObjectData->jugemPointNum; }
@@ -269,13 +304,13 @@ public:
 
     // Read from file offset
 
-    /*Camera *getCameraData(int camIdx) const
-    {
+    Camera *getCameraData(int camIdx) const;
+    /*{
         Camera *camData = nullptr;
 
         if (camIdx >= 0 && camIdx < getCameraNumber())
         {
-            camData = reinterpret_cast<Camera *>(reinterpret_cast<char *>(mObjectData) + mObjectData->mCameraOffset) + camIdx;
+            camData = reinterpret_cast<Camera *>(reinterpret_cast<char *>(mObjectData) + mObjectData->cameraOffset) + camIdx;
         }
         return camData;
     }*/

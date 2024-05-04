@@ -15,7 +15,10 @@ public:
     bool isSameCPointID(u16 id) const { return mPointData->cPointID == id; }
     bool isSameJPointID(u16 id) const { return mPointData->id == id; }
 
+    CLPoint *getCLPoint() { return mCLPoint; }
+
     u16 getID() const { return mPointData->id; }
+    int getCameraID() const { return mPointData->cameraID; }
 
     void getPosition(JGeometry::TVec3f *pos)
     {

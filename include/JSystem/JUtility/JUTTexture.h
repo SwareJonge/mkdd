@@ -40,6 +40,13 @@ struct JUTTexture : public GXTexObj
         mFlags &= TEXFLAG_Unk2;
     }
 
+    inline JUTTexture(const ResTIMG *timg, u8 lutid)
+    {
+        mEmbPalette = nullptr;
+        storeTIMG(timg, lutid);
+        setCaptureFlag(false);
+    }
+
     ~JUTTexture();
 
     void attachPalette(JUTPalette *);
@@ -54,21 +61,20 @@ struct JUTTexture : public GXTexObj
     void storeTIMG(const ResTIMG *, JUTPalette *);
     void storeTIMG(const ResTIMG *, JUTPalette *, _GXTlut);
 
-    /** @fabricated */
-    inline int getSizeX() const { return mTexInfo->mSizeX; }
-    /** @fabricated */
-    inline int getSizeY() const { return mTexInfo->mSizeY; }
-
-    const ResTIMG *getTexInfo() const { return mTexInfo; }
-    void setCaptureFlag(bool flag) { mFlags &= TEXFLAG_Unk2 | flag; }
+    ResTIMG *getTexInfo() const { return mTexInfo; }
+    void setCaptureFlag(bool flag) { mFlags = mFlags & TEXFLAG_Unk2 | flag; }
     u8 getCaptureFlag() const { return mFlags & TEXFLAG_Unk1; }
     int getEmbPaletteDelFlag() const { return (mFlags & TEXFLAG_Unk2) != 0; }
     void setEmbPaletteDelFlag(bool del) {
-        mFlags &= 1 | del << 1;
+        mFlags &= TEXFLAG_Unk1 | del << 1;
     }
     u8 getTlutName() const { return mTlut; }
 
     void setTlutName(u8 tlut) { mTlut = tlut; }
+
+    GXTexFmt getFormat() const {return (GXTexFmt)mTexInfo->mTextureFormat; }
+    int getWidth() const { return mTexInfo->mSizeX; }
+    int getHeight() const { return mTexInfo->mSizeY; }
 
     ResTIMG *mTexInfo;          // _20
     void *mTexData;             // _24

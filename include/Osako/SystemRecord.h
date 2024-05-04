@@ -31,6 +31,7 @@ struct SystemRecord
 
     void setDefaultName(const char *name);
 
+    bool isRumble() { return !(mOptions & 4); } 
     /*union
     {
     struct

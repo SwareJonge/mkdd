@@ -111,6 +111,7 @@ enum EGhostKind
 
 enum EKartID
 {
+    cKartIDNone = 0xff,
     RED_FIRE = 0,
     DK_JUMBO = 1,
     TURBO_YOSHI = 2,
@@ -133,6 +134,14 @@ enum EKartID
     PIRANHA_PIPES = 19,
     PARADE_KART = 20,
     cKartIDMax = 21
+};
+
+enum EKartWeight
+{
+    LIGHT = 0,
+    NORMAL = 1,
+    HEAVY = 2,
+    UNK_3 // huh?
 };
 
 enum ERaceGpCup
@@ -169,12 +178,23 @@ enum ERaceMode
     STAFF_ROLL = 0x9,
 };
 
-enum ERacePhase { // idk how many phases there are
+enum ERacePhase
+{ // idk how many phases there are
     PHASE_CRS_DEMO = 1,
     PHASE_2 = 2,
     PHASE_3 = 3,
     PHASE_4 = 4,
-    PHASE_5 = 5
+    PHASE_5 = 5,
+    PHASE_6 = 6,
+    PHASE_7 = 7,
+    PHASE_8 = 8,
+    PHASE_9 = 9,
+    PHASE_10 = 10,
+    PHASE_11 = 11,
+    PHASE_12 = 12,
+    PHASE_13 = 13,
+    PHASE_14 = 14,
+    PHASE_15 = 15,
 };
 
 #endif

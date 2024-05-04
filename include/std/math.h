@@ -58,18 +58,19 @@ extern inline float sqrtf(float x)
 }
 #endif
 
-extern inline f32 inv_sqrtf(f32 x) {
+extern inline float inv_sqrtf(float x) {
     return 1.0f / sqrtf(x);
 }
 
 #ifdef __cplusplus
-extern inline float fabsf(f32 x) { return ::fabs(x); }
-extern inline float fabs(f32 x) { return fabsf(x); }
+extern inline float fabsf(float x) { return ::fabs(x); }
+extern inline float fabs(float x) { return fabsf(x); }
 
-extern inline float atan2f(f32 y, f32 x) { return atan2(y, x); }
+extern inline float atan2f(float y, float x) { return ::atan2(y, x); }
 
-extern inline float tanf(f32 x) { return ::tan(x); }
-extern inline float tan(f32 x) { return tanf(x); }
+extern inline float sinf(float x) { return ::sin(x); }
+extern inline float tanf(float x) { return ::tan(x); }
+extern inline float tan(float x) { return tanf(x); }
 #endif
 #ifdef __cplusplus
 }

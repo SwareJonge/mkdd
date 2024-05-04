@@ -564,6 +564,16 @@ struct J2DPicture : public J2DPane
     u8 getTlutID(const ResTIMG *, unsigned char);
     void operator=(const J2DPicture &);
 
+    void setCornerColor(JUtility::TColor color) {  setCornerColor(color, color, color, color); }
+
+    void setCornerColor(JUtility::TColor color0, JUtility::TColor color1, JUtility::TColor color2, JUtility::TColor color3)
+    {
+        mCornerColors.mColor0 = color0;
+        mCornerColors.mColor1 = color1;
+        mCornerColors.mColor2 = color2;
+        mCornerColors.mColor3 = color3;
+    }
+
     inline void setCornerColor(TCornerColor colors)
     {
         mCornerColors.mColor0.set(colors.mColor0);

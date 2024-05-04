@@ -31,7 +31,7 @@ private:
 
 class LtObjAmbient : public LightObj {
 public:
-    LtObjAmbient(JUtility::TColor color) : LightObj("ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆ", 0xffffffff)
+    LtObjAmbient(JUtility::TColor color) : LightObj("ƒAƒ“ƒrƒGƒ“ƒg", 0xffffffff)
     {
         GXColor gxColor = color;
         mColor.set(gxColor);

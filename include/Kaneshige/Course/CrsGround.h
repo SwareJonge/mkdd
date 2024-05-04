@@ -24,7 +24,7 @@ public:
     void checkPolygonCoverMain(const JGeometry::TVec3f &, const CrsData::SColInfoSphere &, u32, f32, f32, f32, const CrsData::Ground *); // 0x801a2d20
     void isInsideGrid(const JGeometry::TVec3f &, f32, f32, f32, f32);                                                                            // 0x801a2ec0
     void searchGridIndex(int *, int *, Course *, const JGeometry::TVec3f &, f32, f32, f32, f32, int, int);                                       // 0x801a3004
-    void getHeight() const;                                                                                                                              // 0x801a3168
+    f32 getHeight() const;                                                                                                                              // 0x801a3168
     void getNormal(JGeometry::TVec3f *) const;                                                                                                           // 0x801a3170
     u8 getCameraCode() const;                                                                                                                            // 0x801a319c
     void isItemInvalGround() const;                                                                                                                      // 0x801a3204
@@ -36,9 +36,9 @@ public:
     void getSplashID();                                                                                                                                  // 0x801a3520
     void getJugemPoint();                                                                                                                                // 0x801a35ec
     void getCannonPoint();                                                                                                                               // 0x801a36d4
-    void getPipePoint();                                                                                                                                 // 0x801a3728
+    JugemPoint *getPipePoint();                                                                                                                                 // 0x801a3728
     void getGeoCannon();                                                                                                                                 // 0x801a377c
-    void getWaterHeight();                                                                                                                               // 0x801a37e8
+    f32 getWaterHeight();                                                                                                                               // 0x801a37e8
     void isShaking() const;                                                                                                                              // 0x801a3848
     void isAttributeCollision();                                                                                                                         // 0x801a38a8
     void getWallNormal(JGeometry::TVec3f *, JGeometry::TVec3f *);                                                                                        // 0x801a38f4

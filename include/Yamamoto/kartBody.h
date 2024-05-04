@@ -6,7 +6,7 @@
 #include "Kaneshige/KartLoader.h"
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/Course/CrsGround.h"
-#include "Kawano/driver.h"
+#include "Kawano/driverMgr.h"
 #include "Osako/shadowModel.h"
 #include "Sato/GeographyObj.h"
 #include "Yamamoto/kartSus.h"
@@ -62,7 +62,7 @@ public:
     void GroundVertexReflection(int, CrsGround, JGeometry::TVec3f *, u8 *);
     void WallVertexReflection(CrsGround, JGeometry::TVec3f *, u8 *, u8 *);
     void CheckVertexReflection();
-    void CheckBodyHit(KartBody *, KartBody *);
+    bool CheckBodyHit(KartBody *, KartBody *);
     void InitBodySetting();
     void GetMiniGameCamData(int);
     void GetPakkunMiniGameCamData(int);
@@ -73,14 +73,23 @@ public:
     void Init(int);
 
     // Inline
+    KartDossin *getDossin() { return mKartDossin; }
     KartScene *getScene() { return mKartScene; }
+    KartCheck *getChecker() { return mKartCheck; }
+    KartStrat *getStrat() { return mKartStrat; }
+    KartThunder *getThunder() { return mKartThunder; }
+    KartDamage *getDamage() { return mKartDamage; }
+    KartGame *getGame() { return mKartGame; }    
+    KartItem *getItem() { return mKartItem; }
+
+    int getTouchNum() { return mTouchNum; }
 
     KartLoader *mKartLoader;
     KartSus *mKartSus[4];
     void *mBodyModel;
     DriverModel *mDriverModels[2];
     ExModel *mExModels[2];
-    ShadowModel *mShadowModel;
+    KartShadowModel *mShadowModel;
     CrsGround mBodyGround;
     CrsArea mShadowArea;
     CrsArea mRoofArea;
@@ -105,54 +114,10 @@ public:
     u8 *mSettingPtrs[2];
     ECharID CharIDs[2];
     void *mUnkSub10c; 
-    f32 _110;
-    f32 _114;
-    f32 _118;
-    f32 _11c;
-    f32 _120;
-    f32 _124;
-    f32 _128;
-    f32 _12c;
-    f32 _130;
-    f32 _134;
-    f32 _138;
-    f32 _13c;
-    f32 _140;
-    f32 _144;
-    f32 _148;
-    f32 _14c;
-    f32 _150;
-    f32 _154;
-    f32 _158;
-    f32 _15c;
-    f32 _160;
-    f32 _164;
-    f32 _168;
-    f32 _16c;
-    f32 _170;
-    f32 _174;
-    f32 _178;
-    f32 _17c;
-    f32 _180;
-    f32 _184;
-    f32 _188;
-    f32 _18c;
-    f32 _190;
-    f32 _194;
-    f32 _198;
-    f32 _19c;
-    f32 _1a0;
-    f32 _1a4;
-    f32 _1a8;
-    f32 _1ac;
-    f32 _1b0;
-    f32 _1b4;
-    f32 _1b8;
-    f32 _1bc;
-    f32 _1c0;
-    f32 _1c4;
-    f32 _1c8;
-    f32 _1cc;
+    Mtx _110;
+    Mtx mPlayerPosMtx;
+    Mtx _170;
+    Mtx _1a0;
     JGeometry::TVec3f _1d0[8];
     JGeometry::TVec3f _230;
     JGeometry::TVec3f mPos;
@@ -306,22 +271,22 @@ public:
     f32 _564;
     f32 _568;
     u8 _56c[4]; // padding?
-    u64 mCarStatus;
-    u32 mGameStatus;
+    u64 mCarStatus;  // 570, 574
+    u32 mGameStatus; // 578
     u32 _57c;
     u32 _580;
     u32 _584; // 0: default, 4: crushed, 9: oob, 12: dkm cannon, 16: pb cannon
     u32 _588; // crash related, either 1 or 0
     u32 _58c;
-    ushort _590;
-    ushort _592;
-    ushort _594; // Crash timer?
-    ushort mBoostTimer;
-    ushort _598;
-    ushort _59a;
-    ushort _59c;
-    ushort mMTBoost;
-    ushort mMTBoostMax;
+    u16 _590;
+    u16 _592;
+    u16 _594; // Crash timer?
+    u16 mBoostTimer;
+    u16 _598;
+    u16 _59a;
+    u16 _59c;
+    u16 mMTBoost;
+    u16 mMTBoostMax;
     u8 _5a2[2];    // padding
     int mTouchNum; // amount of wheels that touch the ground?
     int mIdx;
@@ -329,19 +294,12 @@ public:
     u8 _5b0;
     u8 _5b1;
     u8 mDriver;
-    u8 mMyNum;
+    u8 mMynum;
     u8 _5b4;
     u8 _5b5; // also some timer
     u8 _5b6; // dash timer?
     u8 mCameraNum;
-    u8 _5b8;
-    u8 _5b9;
-    u8 _5ba;
-    u8 _5bb;
-    u8 _5bc;
-    u8 _5bd;
-    u8 _5be;
-    u8 _5bf;
+    u8 _5b8[8];
     u8 _5c0;
     u8 _5c1;
     u8 _5c2; // gets called in getChapter2, affects some bitfield

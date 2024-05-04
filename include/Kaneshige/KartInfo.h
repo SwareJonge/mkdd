@@ -10,17 +10,6 @@
 
 #include "kartEnums.h"
 
-extern "C" {
-#include <ppcdis.h>
-}
-
-enum EKartWeight 
-{
-    LIGHT = 0,
-    NORMAL = 1,
-    HEAVY = 2
-};
-
 class KartInfo 
 {
 public:
@@ -68,14 +57,10 @@ public:
         }
         ECharID getCharID() const
         {
-            if (mCharDB != nullptr)
-                return (ECharID)mCharDB->id;
-            return cCharIDNone;
+            return (mCharDB) ? (ECharID)mCharDB->id : cCharIDNone;
         }
         ECharID getPartnerID() const {
-            if (mCharDB != nullptr)
-                return (ECharID)mCharDB->defaultPartnerID;
-            return cCharIDNone;
+            return (mCharDB) ? (ECharID)mCharDB->defaultPartnerID : cCharIDNone;
         }
         bool isAvailable() const;
         static int convPlayerKind(KartGamePad *);
@@ -104,7 +89,11 @@ public:
     static EKartID getPartnerKartID(ECharID);
     bool isDefaultCharCombi();
     KartGamePad * getYoungestPad();
+
+    void setGhostKind(EGhostKind kind) { mGhostKind = kind; }
+    EGhostKind getGhostKind() { return mGhostKind; }
     // TODO: not important but move to "correct" location
+    // Comment 05-03-2024(DD-MM-YYYY): did i already do this?
     bool isComDriver(int driverNo) const {
 #line 113
         JUT_MINMAX_ASSERT(0, driverNo, 2);
@@ -117,7 +106,7 @@ public:
         return mKartCharacters[driverNo].getPlayerKind();
     }
 
-    KartGamePad* getPad(int driverNo) {
+    KartGamePad *getPad(int driverNo) {
 #line 126
         JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].getPad();
@@ -127,6 +116,16 @@ public:
 #line 142
         JUT_MINMAX_ASSERT(0, driverNo, 2);
         return mKartCharacters[driverNo].getCharID();
+    }
+
+    EKartID getKartID() const
+    {
+        return (mKartDB) ? mKartDB->id : cKartIDNone;
+    }
+
+    EKartWeight getKartWeight() const
+    {
+        return mKartDB ? mKartDB->weight : UNK_3;
     }
 
     bool isComKart() const {

@@ -30,8 +30,8 @@ extern "C"
         f32 x, y, z, w;
     } Quaternion, *QuaternionPtr;
 
-
-#define MTXDegToRad(a) ((a)*0.01745329252f)
+// (pi/180)
+#define MTXDegToRad(a) ((a) * 0.01745329252f) 
 
     // Paired single versions
 

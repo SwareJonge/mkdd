@@ -71,7 +71,7 @@ namespace System
     u32 get2DScisY();
     u32 get2DScisW();
     u32 get2DScisH();
-    u32 get3DScisX();
+    u32 get3DScisX(); // TODO: return types might be int for get3DScisX and get3DScisY
     u32 get3DScisY();
     u32 get3DScisW();
     u32 get3DScisH();
@@ -121,7 +121,6 @@ namespace System
     inline JKRTask *getLoTask() { return mspLoTask; }
     inline JKRTask *getAramTask() { return mspAramTask; }
 };
-
 
 #ifndef REGION_EU
     #define SYSTEM_ChangeVideoMode() \

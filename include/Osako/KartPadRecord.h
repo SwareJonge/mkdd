@@ -14,6 +14,7 @@ class KartPadRecord : public TARecord
 {
 public:
     KartPadRecord() : mFrame(0) {}
+    KartPadRecord(u8 charId1, u8 charId2, u8 kartId, u8 courseId) : TARecord(charId1, charId2, kartId, courseId), mFrame(0) {}
     void reset() { mFrame = 0; }
 
     // fabricated
@@ -50,11 +51,11 @@ public:
 
     bool isFrameValid() const { return mFrame > 0 && mFrame < MAX_INPUT_FRAME_COUNT; }
 
-    const RaceTime &getLapSlit(int lap)
+    const RaceTime &setLapSlit(int lap, const RaceTime &other)
     {
 #line 102
         JUT_MINMAX_ASSERT(0, lap, NUM_LAP_SPLITS)
-        return mLapSplits[lap];
+        mLapSplits[lap] = other;
     }
 
     void calcLapTime(int lap, RaceTime nextSplit)

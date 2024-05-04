@@ -1,6 +1,10 @@
 #ifndef KARTCANNON_H
 #define KARTCANNON_H
 
+#include <JSystem/JGeometry/Vec.h>
+
+#include "types.h"
+
 class KartCannon
 {
 public:
@@ -25,6 +29,9 @@ public:
     void DoRainbowCannonCrl(); // 0x80303b80
     void DoAfterCannonCrl();   // 0x80303dd4
 private:
-    // TODO
+    u8 _0[0x1c];           //
+    JGeometry::TVec3f _1c; //
+    JGeometry::TVec3f _28; //
+    JGeometry::TVec3f _34; //
 };
 #endif // KARTCANNON_H

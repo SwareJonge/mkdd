@@ -4,8 +4,12 @@
 
 // TODO: rename stuff, general cleanup
 
-#define SCREEN_WIDTH 608
+// This makes no sense? shouldn't it be SCREEN_WIDTH * (720/640) to fill more of the screen and maintaining a 4:3 aspect ratio?
+// even with PAR in mind it's wrong, it should be 684
 #define VI_WIDTH 666
+
+// This isn't even proper 4:3? screen height should be 456 instead
+#define SCREEN_WIDTH 608
 #define SCREEN_HEIGHT 448
 #define VI_X_OFFSET (VI_MAX_WIDTH_NTSC - VI_WIDTH) / 2
 #define VI_Y_OFFSET (VI_MAX_HEIGHT_NTSC - SCREEN_HEIGHT) / 2
@@ -147,6 +151,8 @@ const _GXRenderModeObj SystemData::scNtscProg448 = {
 
     {0, 0, 21, 22, 21, 0, 0}};
 #else
+
+// This also doesn't make sense
 
 #define PAL_VI_WIDTH 670
 #define SCREEN_HEIGHT_PAL 538

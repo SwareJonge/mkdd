@@ -24,6 +24,7 @@ public:
         ERROR_LA_CONNECTION, // check lan cable connection and settings
         ERROR_LA_DISCONNECT,
         ERROR_LA_DISCONNECT_LINK,
+        ERROR_MAX
     };
 
     static ErrorViewApp *create(); // 0x802011cc
@@ -34,9 +35,13 @@ public:
     virtual void calc();           // 0x80201408, override
     virtual void reset();          // 0x802015a8, override
 
+    PrintDvdError *getPrintDvdError() { return mDvdError; }
+
+    static ErrorViewApp *ptr() { return mspErrorViewApp; };
+
     static ErrorViewApp *mspErrorViewApp; // 0x804169c0
     static ErrorId msErrorId;             // 0x804169c4
-
+ 
     int mErrorState;
     JUTFader::EStatus mFadeStatus;
     s16 _14;

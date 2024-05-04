@@ -21,6 +21,11 @@
 
 #include <JSystem/JAudio/JASFakeMatch2.h>
 
+extern "C"
+{
+#include <ppcdis.h>
+}
+
 #ifdef DEBUG // I assume because Kartchecker doesn't put anything in rodata this gets deadstripped?
 static const f32 lbl_80377378[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 #pragma push

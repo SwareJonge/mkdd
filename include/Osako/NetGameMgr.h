@@ -94,8 +94,10 @@ public:
 
     static NetGameMgr *ptr() { return mspNetGameMgr; }
 
+    void setState(int state) { mState = state; }
     int getState() { return mState; }
     int getNetworkNum() { return mNetworkNum; }
+    int getNetworkCubes() { return mNetworkCubes; }
 
     // Fabricated
     u8 getPadConvNum(u8 idx)
@@ -110,12 +112,20 @@ public:
         return (temp % 4);
     }
 
+    u8 get12ee() { return _12EE; }
+
+    void set12ee(int val) { _12EE = val; }
+
 private:
     u8 _0[0x96c];              //
-    int mState;                // 6C
+    int mState;                // 96C
     u8 _970[0xC58 - 0x970];    //
     u8 mNetworkNum;            // C58
-    u8 _C59[0x12f4 - 0xC59];   //
+    u8 _C59[0x12e8 - 0xC59];   //
+    u8 mNetworkCubes;          // 12e8
+    u8 _12e9[0x12ee - 0x12e9]; //
+    u8 _12EE;                  //
+    u8 _12EF[0x12f4 - 0x12EF]; //
     u8 mPadConvData[16];       // this might be a double sided array and a union?
     u8 _1304[0x1308 - 0x1304]; //
 

@@ -4,7 +4,8 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
 
-class ItemObjMgr {
+class ItemObjMgr
+{
 public:
     ItemObjMgr();
     virtual ~ItemObjMgr();
@@ -23,40 +24,47 @@ public:
 
     static ItemObjMgr *getItemObjMgr() { return gItemMgr; }
 
-    static ItemObjMgr * gItemMgr;
+    static ItemObjMgr *gItemMgr;
 
     static bool sTempSlotUseItem[18];
     static int sTempSpecialRatio[9];
+
 private:
     unsigned char _0x4[0x828 - 0x4];
 };
 
-inline ItemObjMgr *GetItemObjMgr() {
+inline ItemObjMgr *GetItemObjMgr()
+{
     return ItemObjMgr::getItemObjMgr();
 }
 
-class ItemShuffleMgr {
+class ItemShuffleMgr
+{
 public:
-    struct SlotTable {
+    struct SlotTable
+    {
         u8 chance[27];
         u8 total; // i don't know wheter or not this is used but 1 byte is not always enough to store this
     };
 
-    class KartSlotList {
+    class KartSlotList
+    {
     public:
         KartSlotList();
-        SlotTable * slotTable[2];
+        SlotTable *slotTable[2];
     };
 
-    struct KartSlotData {
+    struct KartSlotData
+    {
         u8 kartCount;
         u8 useableSlots;
         u8 totalSlots;
-        KartSlotList* mList;
+        KartSlotList *mList;
     };
 
-    struct KartSlotRankDataSet {
-        KartSlotData* data;
+    struct KartSlotRankDataSet
+    {
+        KartSlotData *data;
         u32 specialItemIndex;
         u32 specialItemChance;
         int kart_rank;
@@ -66,16 +74,17 @@ public:
     static KartSlotData mSlotList;
     static KartSlotData mSlotListEnemy;
 
-    static u8 sSlotNormalItemNum; // 9
+    static u8 sSlotNormalItemNum;  // 9
     static u8 sSlotSpecialItemNum; // 9
     static u32 *sSlotKindIndexArray;
 
-    ItemShuffleMgr() {
+    ItemShuffleMgr()
+    {
         _0x4 = 0;
         _0x5 = 0;
     }
 
-    int calcSlot(KartSlotRankDataSet & slotRankData, int p2, int p3, bool p4);
+    int calcSlot(KartSlotRankDataSet &slotRankData, int p2, int p3, bool p4);
 
     virtual ~ItemShuffleMgr();
     virtual void calcRaceUseNormalItem(u32 *, KartSlotRankDataSet *, int);
@@ -90,7 +99,8 @@ private:
     int idx;
 };
 
-class ItemRndSpecialShuffleMgr : public ItemShuffleMgr {
+class ItemRndSpecialShuffleMgr : public ItemShuffleMgr
+{
 public:
     virtual ~ItemRndSpecialShuffleMgr();
     virtual void calcRaceUseNormalItem(u32 *, KartSlotRankDataSet *, int);

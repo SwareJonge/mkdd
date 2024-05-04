@@ -5,6 +5,8 @@
 #include "Yamamoto/kartSus.h"
 #include "types.h"
 
+class KartBody;
+
 class KartGame
 {
 public:
@@ -69,8 +71,13 @@ public:
     // void FrameWorkL(f32, f32, KartSus *);
     // void DoTurboPower();
     // void CheckBalloonPlayer();
-private:
-    // TODO
+    KartBody *mBody;
+    u8 _4[0x12 - 004];
+    u16 mCountDownDuration;
+    u8 _14[0x20 - 0x14];
+    JGeometry::TVec3f _20;
+    JGeometry::TVec3f _2C;
+    JGeometry::TVec3f _34;
 };
 
 #endif KARTGAME_H

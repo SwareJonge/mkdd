@@ -11,14 +11,14 @@ public:
     KartTarget() {}
 
     void Init();
-    void GetBrosTarget(int, f32 *);
-    void GetNextTarget(int, f32 *);
-    void GetBeforeTarget(int, f32 *);
+    CLPoint *GetBrosTarget(int, f32 *);
+    CLPoint *GetNextTarget(int, f32 *);
+    CLPoint *GetBeforeTarget(int, f32 *);
     void DoSearchTarget(int);
     void DoSearchRescueTarget(CLPoint *);
 
 private:
-    CLPoint *mTargetPoint;
+    CLPoint *mCenter;
 };
 
 #endif

@@ -61,6 +61,13 @@ public:
             JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, mPassedSectors[i]);
     }
 
+    const RaceTime &getLapSplit(int lap)
+    {
+#line 199
+        JUT_MINMAX_ASSERT(0, lap, mMaxLap);
+        return mLapSplits[lap];
+    }
+
     const RaceTime &getLapTime(int no)
     {
 #line 206
@@ -108,6 +115,7 @@ public:
     void setDemoRank() { mRaceFlags |= 16; }
     void setDead() { mBattleFlags |= 4; }
     void setRank(int rank) { mRank = rank; }
+    void stillRabbitTimer() { mBattleFlags |= 1; }
     inline bool setPass(int index); // ??? function is weak yet in cpp file itself
     void clrRank() { mRank = 0; }
     void resumeRabbitTimer() { mBattleFlags &= 0xfffe; }
@@ -169,6 +177,23 @@ public:
     };
 
     void setBombEvent(EBombEvent, ItemObj *);
+
+    void beginWarp(JugemPoint *point)
+    {
+        if (mWarpState == 0)
+        {
+            mWarpState = 1;
+            mJugemPoint = point;
+        }
+    }
+
+    void endWarp()
+    {
+        if (mWarpState == 2)
+        {
+            mWarpState = 3;
+        }
+    }
 
     static int sPlayerKartColorTable[];
     static short sBalForbiddenTime;

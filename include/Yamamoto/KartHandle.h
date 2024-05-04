@@ -12,15 +12,15 @@ class KartHandle
 public:
     KartHandle() {}
 
-    void Init(int);                                         // 0x80311ae8
-    void DoMotor(MotorManager::MotorType);                  // 0x80311b34
-    void DoPowerMotor(float, unsigned char, unsigned char); // 0x80311cac
-    void StopMotor();                                       // 0x80311df8
-    void WatchFrontalCollisionForce();                      // 0x80311e64
+    void Init(int);                        // 0x80311ae8
+    bool DoMotor(MotorManager::MotorType); // 0x80311b34
+    bool DoPowerMotor(f32, u8, u8);        // 0x80311cac
+    void StopMotor();                      // 0x80311df8
+    void WatchFrontalCollisionForce();     // 0x80311e64
 private:
     KartBody *mBody;
-    u32 _04;
-    u8 _08;
-    u8 _09;
+    u32 mRumbleTimer;
+    u8 mRumbleStrength;
+    u8 _9;
 };
 #endif // KARTHANDLE_H

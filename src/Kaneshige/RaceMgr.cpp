@@ -58,7 +58,12 @@ Also, make headers for all libraries itself?
 
 // #include "Shiraiwa/Balloon.h"
 // #include "Shiraiwa/JugemRodSignal.h"
-// #include "Yamamoto/kartCamera.h"
+#include "Yamamoto/kartCamera.h"
+
+extern "C"
+{
+#include <ppcdis.h>
+}
 
 RaceMgr *RaceMgr::sRaceManager;
 s16 RaceMgr::sForceTotalLapNum;

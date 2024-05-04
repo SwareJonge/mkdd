@@ -38,6 +38,8 @@ public:
     // Inline/Unused
     // void MakeRollCrash();
 private:
-    // TODO
-};
+    u8 _0[0x14];
+
+}; // 0x14
+
 #endif // KARTCRASH_H

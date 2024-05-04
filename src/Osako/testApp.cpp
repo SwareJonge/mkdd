@@ -5,9 +5,9 @@
 #include "Osako/system.h"
 #include "Osako/testApp.h"
 
-TestApp * TestApp::mspTestApp;
+TestApp *TestApp::mspTestApp;
 
-TestApp * TestApp::create(void)
+TestApp *TestApp::create(void)
 {
     if (!mspTestApp)
         mspTestApp = NEW_APP TestApp();
@@ -15,12 +15,13 @@ TestApp * TestApp::create(void)
     return mspTestApp;
 }
 
-TestApp::TestApp() : GameApp(0, "test", nullptr) { }
+TestApp::TestApp() : GameApp(0, "test", nullptr) {}
 
 TestApp::~TestApp() { mspTestApp = nullptr; }
 
-void TestApp::draw() {
-#if DEBUG
+void TestApp::draw()
+{
+#ifdef DEBUG
     System::getJ2DOrtho()->setPort();
     J2DPrint *j2dPrint = System::getJ2DPrint();
     j2dPrint->initiate();
@@ -28,9 +29,11 @@ void TestApp::draw() {
 #endif
 }
 
-void TestApp::calc() {
-#if DEBUG
-    if (gGamePad1P.testTrigger(PAD_BUTTON_B)) {
+void TestApp::calc()
+{
+#ifdef DEBUG
+    if (gGamePad1P.testTrigger(PAD_BUTTON_B))
+    {
         AppMgr::deleteCurrentApp();
         MainMenuApp::call();
     }

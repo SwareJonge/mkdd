@@ -62,6 +62,8 @@ public:
     void setLoading(bool loading) { mIsLoadingMovie = loading; }
     bool isLoading() { return mIsLoadingMovie; }
 
+    PRINTAPP_TYPE *getPrintApp() { return mPrintApp; }
+
 private:
     static LogoApp *mspLogoApp; // 0x80416960
     PRINTAPP_TYPE *mPrintApp;   // 0xc

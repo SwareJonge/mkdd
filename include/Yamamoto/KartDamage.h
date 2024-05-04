@@ -27,6 +27,7 @@ public:
     // void SetThunderDamageAnime();
     // void DoAfterDamageCrl();
 private:
-    // TODO
-};
+    u8 _0[0xc];
+}; // 0xc
+
 #endif // KARTDAMAGE_H

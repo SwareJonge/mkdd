@@ -17,13 +17,14 @@ public:
     void CheckAllClearKey();
     void CheckAllClearKeyT();
     void CheckPartsClearKey(int);
-    void CheckOnlyTandemPartsClearKey(int);
-    void CheckPlayer();
-    void CheckDraw(u32, int);
-    void CheckIndication();
+    bool CheckOnlyTandemPartsClearKey(int);
+    bool CheckPlayer();
+    bool CheckDraw(u32, int);
+    bool CheckIndication();
 
 private:
-    // TODO
-};
+    u8 _0[0x8];
+
+}; // 0x8
 
 #endif

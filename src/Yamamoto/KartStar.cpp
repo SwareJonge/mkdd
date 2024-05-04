@@ -23,9 +23,9 @@ void KartStar::MakeStar()
     else
         mTimer = 450;
 
-    JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Star, body->mMyNum, body->mPos, 2);
-    GetKartCtrl()->getKartSound(body->mMyNum)->DoStarStartSound();
-    RaceMgr::getManager()->getKartDrawer(body->mMyNum)->playTevAnm(0);
+    JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Star, body->mMynum, body->mPos, 2);
+    GetKartCtrl()->getKartSound(body->mMynum)->DoStarStartSound();
+    RaceMgr::getManager()->getKartDrawer(body->mMynum)->playTevAnm(0);
 }
 
 void KartStar::StopStar()
@@ -33,8 +33,8 @@ void KartStar::StopStar()
     KartBody *body = mBody;
     body->mCarStatus &= ~0x40000;
 
-    GetKartCtrl()->getKartSound(body->mMyNum)->DoStarStopSound();
-    RaceMgr::getManager()->getKartDrawer(body->mMyNum)->stopTevAnm();
+    GetKartCtrl()->getKartSound(body->mMynum)->DoStarStopSound();
+    RaceMgr::getManager()->getKartDrawer(body->mMynum)->stopTevAnm();
 }
 
 void KartStar::DoStarCrl()

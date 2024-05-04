@@ -11,8 +11,8 @@ struct CallbackObject
     JUTErrorHandler callback;
     u16 error;
     OSContext *context;
-    u32 param_3;
-    u32 param_4;
+    u32 dsisr;
+    u32 dar;
 };
 
 void search_name_part(u8 *, u8 *, int);
@@ -95,8 +95,8 @@ void *JUTException::run()
         JUTErrorHandler callback = cb->callback;
         u16 error = cb->error;
         OSContext *context = cb->context;
-        u32 p3 = cb->param_3;
-        u32 p4 = cb->param_4;
+        u32 dsisr = cb->dsisr;
+        u32 dar = cb->dar;
 
         if (error < OS_ERROR_MAX)
             mStackPointer = context->gpr[1];
@@ -107,17 +107,17 @@ void *JUTException::run()
         sErrorManager->mDirectPrint->changeFrameBuffer(mFrameMemory);
 
         if (callback)
-            callback(error, context, p3, p4);
+            callback(error, context, dsisr, dar);
 
         OSDisableInterrupts();
 
         mFrameMemory = (JUTExternalFB *)VIGetCurrentFrameBuffer();
         sErrorManager->mDirectPrint->changeFrameBuffer(mFrameMemory);
-        sErrorManager->printContext(error, context, p3, p4);
+        sErrorManager->printContext(error, context, dsisr, dar);
     }
 }
 
-void JUTException::errorHandler(OSError error, OSContext *context, u32 param_3, u32 param_4)
+void JUTException::errorHandler(OSError error, OSContext *context, u32 dsisr, u32 dar)
 {
     msr = PPCMfmsr();
     fpscr = context->fpscr;
@@ -134,8 +134,8 @@ void JUTException::errorHandler(OSError error, OSContext *context, u32 param_3, 
     exCallbackObject.callback = sPreUserCallback;
     exCallbackObject.error = error;
     exCallbackObject.context = context;
-    exCallbackObject.param_3 = param_3;
-    exCallbackObject.param_4 = param_4;
+    exCallbackObject.dsisr = dsisr;
+    exCallbackObject.dar = dar;
 
     OSSendMessage(&sMessageQueue, &exCallbackObject, OS_MESSAGE_BLOCK);
     OSEnableScheduler();
@@ -155,8 +155,8 @@ void JUTException::panic_f_va(const char *file, int line, const char *fmt, va_li
     exCallbackObject.callback = sPreUserCallback;
     exCallbackObject.error = 0xff;
     exCallbackObject.context = &context;
-    exCallbackObject.param_3 = 0;
-    exCallbackObject.param_4 = 0;
+    exCallbackObject.dsisr = 0;
+    exCallbackObject.dar = 0;
 
     if (sConsole == nullptr || sConsole && FLAG_ON(sConsole->getOutput(), JUTConsole::OUTPUT_CONSOLE))
     {

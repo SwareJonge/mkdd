@@ -77,7 +77,8 @@ public:
     // void JumpClear();
     // void DoJumpCrl();
 private:
-    // TODO
-}; 
+    u8 _0[0x4]; //
+
+}; // 0x4
 
 #endif // KARTSTRAT_H

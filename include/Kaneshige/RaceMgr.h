@@ -4,7 +4,7 @@
 #include "kartEnums.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JUtility/JUTDbg.h"
-#include "Kawano/StaffRoll2D.h"
+#include "Kameda/PauseManager.h"
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/RaceBGMPlayer.h"
 #include "Kaneshige/RaceDirector.h"
@@ -14,6 +14,7 @@
 #include "Kaneshige/KartLoader.h"
 #include "Kaneshige/RaceDrawer.h"
 #include "Kaneshige/SysDebug.h"
+#include "Kawano/StaffRoll2D.h"
 #include "Osako/Award2D.h"
 #include "Yamamoto/kartCtrl.h"
 #include "types.h"
@@ -133,8 +134,16 @@ public:
     int getKartNumber() const { return mRaceInfo->getKartNumber(); }
     int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
     int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
+    int getStatusNumber() const { return mRaceInfo->getStatusNumber(); }
     // why did this not use a getter?
     ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
+
+    bool isDemoCamera(int camNo) const
+    {
+#line 162
+        JUT_MINMAX_ASSERT(0, camNo, 4)
+        return mRaceInfo->mIsDemoKart[camNo];
+    }
 
     KartInfo *getKartInfo(int index)
     {
@@ -164,8 +173,11 @@ public:
     bool isRaceModeVs() const { return getRaceMode() == VERSUS_RACE; }
     bool isStaffRoll() { return getRaceMode() == STAFF_ROLL; } // pls don't tell me it's stored as local variable
     bool isAwardDemoMode() { return getRaceMode() == AWARD_DEMO; }
+    bool isReplayMode() const { return mReplayMode & 1; }
     bool isActiveAreaLight() const { return mAreaLight & 1; }
     void activeAreaLight() { mAreaLight |= 1; }
+
+    bool isSubScrExist() const { return false; }
 
     KartLoader *getKartLoader(int index) const
     {
@@ -182,6 +194,13 @@ public:
     {
         JUT_MINMAX_ASSERT(0, index, 8);
         return mKartChecker[index];
+    }
+
+    int getTargetKartNo(u32 viewNo) const
+    {
+#line 283
+        JUT_MINMAX_ASSERT(0, viewNo, 4);
+        return mRaceInfo->mTargetKarts[viewNo];
     }
 
     const RaceTime &getBestTotalTime(int recID)
@@ -227,5 +246,7 @@ inline Course *RCMGetCourse() { return RaceMgr::getManager()->getCourse(); }
 inline KartCam *RCMGetCamera(int index) { return RaceMgr::getManager()->getCamera(index); }
 inline KartChecker *RCMGetKartChecker(int index) { return RaceMgr::getManager()->getKartChecker(index); }
 inline KartLoader *RCMGetKartLoader(int index) { return RaceMgr::getManager()->getKartLoader(index); }
+
+inline bool RCMIsPause() { return PauseManager::tstPause(); }
 
 #endif // RACEMGR_H

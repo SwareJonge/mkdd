@@ -7,6 +7,7 @@
 struct JASGenericMemPool
 {
     JASGenericMemPool();
+    ~JASGenericMemPool();
     void free(void *, u32);
 
     void *mRunner;
@@ -19,7 +20,7 @@ template <typename T>
 struct JASMemPool : public JASGenericMemPool
 {
     JASMemPool<T>() : JASGenericMemPool() {}
-    ~JASMemPool<T>();
+    ~JASMemPool<T>() {}
 };
 
 template <u32 ChunkSize, typename T>
@@ -164,6 +165,7 @@ public:
 template <typename T>
 struct JASPoolAllocObject
 {
+    ~JASPoolAllocObject();
     static void operator delete(void *mem, u32 n)
     {
         BOOL inter = OSDisableInterrupts();
@@ -177,7 +179,7 @@ template <typename T>
 struct JASMemPool_MultiThreaded : public JASGenericMemPool
 {
     JASMemPool_MultiThreaded<T>() : JASGenericMemPool() { }
-    ~JASMemPool_MultiThreaded<T>();
+    ~JASMemPool_MultiThreaded<T>() {}
 };
 
 

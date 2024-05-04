@@ -5,6 +5,8 @@
 #include "Kameda/SequenceInfo.h"
 #include "Kaneshige/RaceInfo.h"
 
+#include <ppcdis.h>
+
 // i assume this data is from some include related to audio (edit: unlikely since release doesn't seem to have it as often)
 // also thanks seeky
 #ifdef DEBUG
@@ -233,14 +235,14 @@ void RaceInfo::settingForStaffRoll(bool trueEnding)
     }
 }
 
-void RaceInfo::setRace(ERaceMode RaceMode, int kartCount, int playerCount, int consoleCount, int p5)
+void RaceInfo::setRace(ERaceMode raceMode, int kartCount, int playerCount, int consoleCount, int statusCount)
 {
     reset();
-    mRaceMode = RaceMode;
+    mRaceMode = raceMode;
     mKartNum = (s16)kartCount;
     mPlayerNum = playerCount;
     mConsoleNum = (s16)consoleCount;
-    mStatusNum = (s16)p5;
+    mStatusNum = (s16)statusCount;
     mLOD = 0;
 
     if (mConsoleNum >= 3)

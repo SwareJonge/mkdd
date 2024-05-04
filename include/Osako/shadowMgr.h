@@ -31,6 +31,18 @@ public:
     void setShadowDepth(u8 depth) {
         mDepth[1] = depth;
     }
+    void setDepthMode(u8 depth)
+    {
+        mDepthMode = depth;
+    }
+
+    int getDstAlpha() {
+        if (mDepthMode == 1) {
+            return 0xff - (mDepth[1] & 0xfc);
+        }
+        return 0xff;
+    }
+
     static ShadowManager* mspShadowManager;
 
 //private:

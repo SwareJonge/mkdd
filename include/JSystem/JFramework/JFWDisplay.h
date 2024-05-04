@@ -87,11 +87,11 @@ public:
 
     static JFWDisplay *getManager() { return sManager; }
 
-    u32 getEfbHeight() const {
+    int getEfbHeight() const {
         return JUTVideo::getManager()->getEfbHeight();
     }
 
-    u32 getEfbWidth() const {
+    int getEfbWidth() const {
         return JUTVideo::getManager()->getFbWidth();
     }
 
@@ -124,6 +124,15 @@ public:
         return mClearColor;
     }
 
+    void setClearColor(u8 r, u8 g, u8 b, u8 a) {
+        mClearColor.set(r, g, b, a);
+    }
+
+    void setClearColor(JUtility::TColor color)
+    {
+        mClearColor.set(color);
+    }
+
     void setFBAlpha(bool enable) {
         mEnableAlpha = enable;
     }
@@ -132,6 +141,8 @@ public:
     {
         return mEnableAlpha;
     }
+
+    bool isWaiting() { return mIsWaiting; }
 
     static JFWDisplay *sManager; // 0x80415718
 
@@ -152,7 +163,7 @@ private:
     /* 0x34 */ u32 _34;
     /* 0x38 */ int _38;
     /* 0x3C */ int _3C;
-    /* 0x40 */ bool _40;
+    /* 0x40 */ bool mIsWaiting;
     /* 0x44 */ JFWDisplayUnkFunc _44;
     /* 0x48 */ s16 _48;
     /* 0x4A */ u8 _4a;

@@ -11,7 +11,29 @@ public:
     // Global
     enum MotorType
     {
-        // TODO
+        MotorType_0,
+        MotorType_1,
+        MotorType_2,
+        MotorType_3,
+        MotorType_4,
+        MotorType_5,
+        MotorType_6,
+        MotorType_7,
+        MotorType_8,
+        MotorType_9,
+        MotorType_10,
+        MotorType_11,
+        MotorType_12,
+        MotorType_13,
+        MotorType_14,
+        MotorType_15,
+        MotorType_16,
+        MotorType_17,
+        MotorType_18,
+        MotorType_19,
+        MotorType_20,
+        MotorType_21,
+        MotorType_22
     };
 
     MotorManager(JKRHeap *);                // 0x80130e58

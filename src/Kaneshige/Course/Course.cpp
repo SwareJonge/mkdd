@@ -14,6 +14,12 @@
 #include "Kaneshige/SimpleDrawer.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/Course/Course.h"
+#include "Yamamoto/kartCamera.h"
+
+extern "C"
+{
+#include <ppcdis.h>
+}
 
 u16 Course::sDrawAreaModel;
 bool Course::sForceDebugFogSetting;
@@ -111,7 +117,6 @@ Course::Course(CrsData *data, int cameraCount, bool mirror)
     mPathNum = 0;
     mAreaNum = 0;
     mAreas = nullptr;
-    u8 skyFollow = data->isSkyFollow();
     mSkyMode = data->isSkyFollow();
     mIsTextCourse25 = false;
     if (mCrsID == TEST_25)

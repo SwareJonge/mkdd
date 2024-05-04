@@ -966,6 +966,18 @@ src/Inagaki/GameAudioArcLoader.cpp:
     .data: [0x803942a8, 0x803942e8]
     .bss: [0x803c9750, 0x803c9778]
 
+src/Kameda/Task.cpp:
+    .text: [0x801323cc, 0x80132758]
+
+src/Kameda/WipeManager.cpp:
+    .text: [0x80138720, 0x8013b318]
+    .ctors: [0x803161e4, 0x803161e8]
+    .rodata: [0x8036d978, 0x8036da18]
+    .data: [0x80394598, 0x80394b70]
+    .bss: [0x803ca098, 0x803ca0c8]
+    .sbss: [0x804162c0, 0x804162d8]
+    .sdata2: [0x80418e20, 0x80418e48]
+
 src/Kameda/Scene.cpp:
     .text: [0x8013c1e8, 0x8013c2b8]
     .rodata: [0x8036da48, 0x8036da58]
@@ -1092,9 +1104,29 @@ src/Kaneshige/SimpleDrawer.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x801ba2a4, 0x801ba2b4]
 
+src/Kaneshige/RaceBGMPlayer.cpp:
+    .text: [0x801c6da0, 0x801c752c]
+    .ctors: [0x803162e4, 0x803162e8]
+    .bss: [0x803cad18, 0x803cad48]
+    .sdata: [0x804146f0, 0x804146f8]
+
+src/Kaneshige/BlurScreen.cpp:
+    .text: [0x801ccf74, 0x801cd50c]
+    .sdata2: [0x8041a458, 0x8041a468]
+
 src/Kaneshige/KartMtx.cpp:
     .text: [0x801cebdc, 0x801cec88]
     .sdata2: [0x8041a4b0, 0x8041a4b8]
+
+src/Kaneshige/GhostScreen.cpp:
+    .text: [0x801d2b40, 0x801d2ff8]
+
+src/Kaneshige/ShimmerScreen.cpp:
+    .text: [0x801d2ff8, 0x801d39e8]
+    .rodata: [0x80379898, 0x803798d0]
+    .sdata: [0x804147a0, 0x804147a8]
+    .sbss: [0x80416570, 0x80416580]
+    .sdata2: [0x8041a560, 0x8041a588]
 
 src/Kaneshige/Movie/MoviePlayer.cpp:
     .text: [0x801d8178, 0x801d85dc]
@@ -1110,6 +1142,11 @@ src/Kaneshige/Movie/THPDraw.c:
 
 src/Kaneshige/RaceTime.cpp:
     .text: [0x801d9e4c, 0x801d9ea0]
+
+src/Kaneshige/MaskScreen.cpp:
+    .text: [0x801d9ea0, 0x801da760]
+    .rodata: [0x80379b70, 0x80379b90]
+    .sdata2: [0x8041a678, 0x8041a690]
 
 src/Kaneshige/THP/THPPlayer.c:
     .text: [0x801da760, 0x801dbf80]
@@ -1136,6 +1173,11 @@ src/Kaneshige/THP/THPAudioDecode.c:
     .bss: [0x803cea08, 0x803cfd90]
     .sbss: [0x80416878, 0x80416880]
 
+src/Kawano/SceneTitleLine.cpp:
+    .text: [0x801f5788, 0x801f5b40]
+    .rodata: [0x8037b370, 0x8037b3c0]
+    .sdata2: [0x8041a988, 0x8041a9b0]
+
 src/Osako/clock.cpp:
     .text: [0x801f6e04, 0x801f6e9c]
     .sbss: [0x804168c8, 0x804168d8]
@@ -1147,12 +1189,29 @@ src/Osako/testApp.cpp:
     .sbss: [0x804168d8, 0x804168e0]
     .sdata2: [0x8041aee0, 0x8041aef0]
 
+src/Osako/shadowModel.cpp:
+    .text: [0x801f7154, 0x801f74dc]
+    .ctors: [0x80316360, 0x80316364]
+    .rodata: [0x8037cc40, 0x8037cc50]
+    .data: [0x8039c418, 0x8039c460]
+    .bss: [0x803cffe0, 0x803d0010]
+    .sdata2: [0x8041aef0, 0x8041af18]
+
 src/Osako/GameApp.cpp:
     .text: [0x801f74dc, 0x801f75f4]
     .data: [0x8039c460, 0x8039c478]
 
 src/Osako/main.cpp:
     .text: [0x801f75f4, 0x801f7618]
+
+src/Osako/RaceApp.cpp:
+    .text: [0x801fae68, 0x801fc5dc]
+    .ctors: [0x80316370, 0x80316374]
+    .rodata: [0x8037cff8, 0x8037d0e8]
+    .data: [0x8039c710, 0x8039c778]
+    .bss: [0x803d0860, 0x803d0890]
+    .sbss: [0x80416918, 0x80416920]
+    .sdata2: [0x8041b358, 0x8041b370]
 
 src/Osako/ResMgr.cpp:
     .text: [0x801fc5dc, 0x801fe074]
@@ -1257,6 +1316,13 @@ src/Osako/SequenceApp.cpp:
     .sbss: [0x80416a18, 0x80416a20]
     .sdata2: [0x8041b7a0, 0x8041b7b0] 
 
+src/Osako/TestViewApp.cpp:
+    .text: [0x80209c9c, 0x8020a324]
+    .rodata: [0x8037dc18, 0x8037dfb0]
+    .data: [0x8039cea0, 0x8039cfd8]
+    .sbss: [0x80416a28, 0x80416a30]
+    .sdata2: [0x8041b7c0, 0x8041b808]
+
 src/Osako/shadowScr.cpp:
     .text: [0x8020af10, 0x8020b458]
     .sdata2: [0x8041b818, 0x8041b820]
@@ -1298,6 +1364,11 @@ src/Osako/PadRecorder.cpp:
     .text: [0x8020c980, 0x8020d390]
     .rodata: [0x8037e0c8, 0x8037e0f8]
     .sdata2: [0x8041b868, 0x8041b870]
+
+src/Osako/ForceEffectMgr.cpp:
+    .text: [0x8020d390, 0x8020d550]
+    .data: [0x8039d198, 0x8039d1a8]
+    .sbss: [0x80416a58, 0x80416a60]
 
 src/Osako/AwardApp.cpp:
     .text: [0x8020e15c, 0x8020e3ac]
@@ -1364,6 +1435,79 @@ src/Sato/stMath.cpp:
     .sbss: [0x80416ac8, 0x80416ad0]
     .sdata2: [0x8041bb60, 0x8041bbb8]
 
+src/Shiraiwa/WipeSlide.cpp:
+    .text: [0x802b7d5c, 0x802b8760]
+    .ctors: [0x80316544, 0x80316548]
+    .data: [0x803a7a78, 0x803a7aa8]
+    .bss: [0x803ee838, 0x803ee868]
+    .sdata: [0x80415320, 0x80415328]
+    .sdata2: [0x8041ce80, 0x8041cea0]
+    .sbss2: [0x8041e240, 0x8041e248]
+
+src/Shiraiwa/WipeBase.cpp:
+    .text: [0x802b8760, 0x802b91e0]
+    .ctors: [0x80316548, 0x8031654c]
+    .rodata: [0x80384498, 0x80384528]
+    .data: [0x803a7aa8, 0x803a7af0]
+    .bss: [0x803ee868, 0x803ee898]
+    .sdata2: [0x8041cea0, 0x8041cec0]
+
+src/Shiraiwa/WipeCircle.cpp:
+    .text: [0x802b91e0, 0x802b9a40]
+    .ctors: [0x8031654c, 0x80316550]
+    .rodata: [0x80384528, 0x80384558]
+    .data: [0x803a7af0, 0x803a7b20]
+    .bss: [0x803ee898, 0x803ee8c8]
+    .sdata: [0x80415328, 0x80415330]
+    .sbss: [0x80416ff0, 0x80416ff8]
+    .sdata2: [0x8041cec0, 0x8041cee8]
+    .sbss2: [0x8041e248, 0x8041e250]
+
+src/Shiraiwa/WipeCheck.cpp:
+    .text: [0x802d28a4, 0x802d2e9c]
+    .ctors: [0x803165ac, 0x803165b0]
+    .data: [0x803aa9a8, 0x803aa9d8]
+    .bss: [0x803eed88, 0x803eedb8]
+    .sdata: [0x80415500, 0x80415508]
+    .sdata2: [0x8041d470, 0x8041d488]
+
+src/Shiraiwa/WipeShut.cpp:
+    .text: [0x802d2e9c, 0x802d37f4]
+    .ctors: [0x803165b0, 0x803165b4]
+    .data: [0x803aa9d8, 0x803aaa08]
+    .bss: [0x803eedb8, 0x803eede8]
+    .sdata: [0x80415508, 0x80415518]
+    .sbss: [0x80417150, 0x80417158]
+    .sdata2: [0x8041d488, 0x8041d4b0] 
+
+src/Shiraiwa/WipeLine.cpp:
+    .text: [0x802d37f4, 0x802d4100]
+    .ctors: [0x803165b4, 0x803165b8]
+    .data: [0x803aaa08, 0x803aaa68]
+    .bss: [0x803eede8, 0x803eee18]
+    .sdata: [0x80415518, 0x80415528]
+    .sbss: [0x80417158, 0x80417160]
+    .sdata2: [0x8041d4b0, 0x8041d4d0]
+
+src/Shiraiwa/WipeWave.cpp:
+    .text: [0x802d4100, 0x802d48e8]
+    .ctors: [0x803165b8, 0x803165bc]
+    .data: [0x803aaa68, 0x803aaaa0]
+    .bss: [0x803eee18, 0x803eee48]
+    .sdata: [0x80415528, 0x80415538]
+    .sbss: [0x80417160, 0x80417168]
+    .sdata2: [0x8041d4d0, 0x8041d4e8]
+
+src/Shiraiwa/WipeCurtain.cpp:
+    .text: [0x802d81bc, 0x802d8b44]
+    .ctors: [0x803165c8, 0x803165cc]
+    .data: [0x803ab0c8, 0x803ab0f8]
+    .bss: [0x803eeed8, 0x803eef08]
+    .sdata: [0x80415568, 0x80415570]
+    .sbss: [0x80417188, 0x80417190]
+    .sdata2: [0x8041d5a0, 0x8041d5c0]
+    .sbss2: [0x8041e250, 0x8041e254]
+
 src/Sato/stEfctWeed.cpp:
     .text: [0x80254ba8, 0x80254ec4]
     .ctors: [0x80316418, 0x8031641c] 
@@ -1372,6 +1516,28 @@ src/Sato/stEfctWeed.cpp:
     .sdata: [0x80414bb0, 0x80414bc0]
     .sbss: [0x80416bc8, 0x80416bd0]
     .sdata2: [0x8041bf90, 0x8041bf98]
+
+src/Sato/RivalKart.cpp:
+    .text: [0x80270f9c, 0x802714b0]
+    .ctors: [0x80316458, 0x8031645c]
+    .data: [0x803a1ca0, 0x803a1cb8]
+    .bss: [0x803edc40, 0x803edc70]
+
+src/Yamamoto/kartCamera.cpp:
+    .text: [0x802e0248, 0x802e17b8]
+    .ctors: [0x803165d8, 0x803165dc]
+    .rodata: [0x803867d0, 0x80386870]
+    .data: [0x803ab3d0, 0x803ab6e0]
+    .bss: [0x803eef90, 0x803eefc0]
+    .sdata2: [0x8041d740, 0x8041d760]
+
+src/Yamamoto/kartCtrl.cpp:
+    .text: [0x802e17b8, 0x802e39e4]
+    .ctors: [0x803165dc, 0x803165e0]
+    .rodata: [0x80386870, 0x80386908]
+    .bss: [0x803eefc0, 0x803eeff0]
+    .sbss: [0x804171a0, 0x804171c0]
+    .sdata2: [0x8041d760, 0x8041d780]
 
 src/Yamamoto/kartvec.cpp:
     .text: [0x802e5210, 0x802e64e8]
@@ -1385,6 +1551,19 @@ src/Yamamoto/kartLine.cpp:
     .bss: [0x803ef0e0, 0x803ef110]
     .sdata2: [0x8041db50, 0x8041db58]
 
+src/Yamamoto/KartSound.cpp:
+    .text: [0x802fec88, 0x80300308]
+    .ctors: [0x80316608, 0x8031660c]
+    .rodata: [0x80386b18, 0x80386b70]
+    .bss: [0x803ef1d0, 0x803ef200]
+    .sdata2: [0x8041dda0, 0x8041ddc0]
+
+src/Yamamoto/KartTaeget.cpp:
+    .text: [0x80300308, 0x80300878]
+    .ctors: [0x8031660c, 0x80316610]
+    .bss: [0x803ef200, 0x803ef230]
+    .sdata2: [0x8041ddc0, 0x8041ddc8]
+
 src/Yamamoto/KartStar.cpp:
     .text: [0x80307c44, 0x80307eb8]
     .ctors: [0x80316628, 0x8031662c]
@@ -1395,15 +1574,42 @@ src/Yamamoto/KartTire.cpp:
     .ctors: [0x8031662c, 0x80316630]
     .bss: [0x803ef380, 0x803ef3b0]
 
+# This file causes ninja to go over the 16bit character limit for the linking command
+#src/Yamamoto/KartDisp.cpp:
+    #.text: [0x803101d8, 0x80311ae8]
+    #.ctors: [0x80316640, 0x80316644]
+    #.rodata: [0x80386e58, 0x803879c0]
+    #.bss: [0x803ef470, 0x803ef4a0]
+    #.sdata2: [0x8041e0f0, 0x8041e160]
+
+src/Yamamoto/KartHandle.cpp:
+    .text: [0x80311ae8, 0x80312154]
+    .ctors: [0x80316644, 0x80316648]
+    .data: [0x803ae2e8, 0x803ae348]
+    .bss: [0x803ef4a0, 0x803ef4d0]
+    .sdata2: [0x8041e160, 0x8041e168]
+
 src/Yamamoto/KartApeendix.cpp: 
     .text: [0x80312154, 0x8031228c]
     .ctors: [0x80316648, 0x8031664c]
     .bss: [0x803ef4d0, 0x803ef500]
 
-# BUG: mwld aligns .ctors by 8 under certain conditions, ppcdis should take care of this normally but it doesn't use the trimmed length
-# use an empty .s as workaround to get the correct en offset
-src/ctorhack.s: 
-    .ctors: [0x8031665c, 0x80316660]
+src/Yamamoto/KartPipe.cpp:
+    .text: [0x8031228c, 0x80312ca8]
+    .ctors: [0x8031664c, 0x80316650]
+    .bss: [0x803ef500, 0x803ef530]
+
+src/Yamamoto/KartAnt.cpp:
+    .text: [0x80312ca8, 0x80313348]
+    .ctors: [0x80316650, 0x80316654]
+    .bss: [0x803ef530, 0x803ef560]
+    .sdata2: [0x8041e180, 0x8041e190]
+
+src/Yamamoto/KartPerCam.cpp:
+    .text: [0x80315160, 0x803160a0]
+    .ctors: [0x80316658, 0x80316660]
+    .bss: [0x803ef590, 0x803ef5c0]
+    .sdata2: [0x8041e1a0, 0x8041e1e0]
 
 # not required yet, but for __start it generates some data in the .init section which can't be added to the start section itself 
 #src/starthack.s:

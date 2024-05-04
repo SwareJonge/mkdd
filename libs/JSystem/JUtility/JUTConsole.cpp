@@ -68,7 +68,7 @@ JUTConsole::JUTConsole(uint p1, uint maxLines, bool p3)
         mHeight = mMaxLines;
     }
 
-    mFont = NULL;
+    mFont = nullptr;
     mIsVisible = true;
     _69 = false;
     _6A = false;
@@ -124,16 +124,16 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
     s32 changeLine_1;
     s32 changeLine_2;
 
-    if (mIsVisible && (mFont != NULL || consoleType == CONSOLE_TYPE_2))
+    if (mIsVisible && (mFont || consoleType == CONSOLE_TYPE_2))
     {
         if (mHeight != 0)
         {
-            bool temp_r30 = consoleType == CONSOLE_TYPE_0 ? true : false;
+            bool isConsoleType0 = consoleType == CONSOLE_TYPE_0 ? true : false;
             font_yOffset = 2.0f + mFontSizeY;
 
             if (consoleType != CONSOLE_TYPE_2)
             {
-                if (JUTVideo::getManager() == NULL)
+                if (!JUTVideo::getManager())
                 {
                     J2DOrthoGraph ortho(0.0f, 0.0f, 640.0f, 480.0f, -1.0f, 1.0f);
                     ortho.setPort();
@@ -146,7 +146,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
                 }
 
                 const JUtility::TColor *color;
-                if (temp_r30)
+                if (isConsoleType0)
                 {
                     color = &_60;
                 }
@@ -160,7 +160,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
                            *color);
                 mFont->setGX();
 
-                if (temp_r30)
+                if (isConsoleType0)
                 {
                     s32 s = (diffIndex(_30, _38) - mHeight) + 1;
                     if (s <= 0)
@@ -197,7 +197,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const
             {
                 linePtr = (char *)getLinePtr(curLine);
 
-                if ((u8)linePtr[-1] != NULL)
+                if ((u8)linePtr[-1] != 0)
                 {
                     if (consoleType != CONSOLE_TYPE_2)
                     {
@@ -517,7 +517,7 @@ JUTConsole *JUTGetWarningConsole() {
 
 void JUTReportConsole_f_va(const char *text, va_list args) {
     char buf[256];
-    if(JUTGetReportConsole() == NULL) {
+    if(!JUTGetReportConsole()) {
         vsnprintf(buf, sizeof(buf), text, args);
         JUT_REPORT_MSG("%s", buf);
     }
@@ -542,7 +542,7 @@ void JUTReportConsole(const char *text) {
 void JUTWarningConsole_f_va(const char *text, va_list args)
 {
     char buf[256];
-    if (JUTGetWarningConsole() == NULL)
+    if (!JUTGetWarningConsole())
     {
         vsnprintf(buf, sizeof(buf), text, args);
         OSReport("%s", buf);

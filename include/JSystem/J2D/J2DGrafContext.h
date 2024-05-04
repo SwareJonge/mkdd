@@ -53,6 +53,13 @@ struct J2DGrafContext
 	// inlined
 	void line(JGeometry::TVec2f, JGeometry::TVec2f);
 
+	void scissor(f32 x, f32 y, f32 w, f32 h) {
+		 JGeometry::TBox2f box(x, y, x + w, y + h);
+		 scissor(box);
+	}
+
+	JGeometry::TBox2f &getBounds() { return mBounds; }
+
 	// _00 VTBL
 	JGeometry::TBox2f mBounds;		  // _04
 	JGeometry::TBox2f mScissorBounds; // _14
@@ -71,6 +78,8 @@ struct J2DGrafContext
 
 struct J2DPerspGraph : public J2DGrafContext
 {
+	J2DPerspGraph(f32 x, f32 y, f32 w, f32 h, f32 fovY, f32 near, f32 far);
+
 	J2DPerspGraph();
 
 	virtual ~J2DPerspGraph() {}										  // _08 (weak)
@@ -85,15 +94,15 @@ struct J2DPerspGraph : public J2DGrafContext
 	// _00 		= VTBL
 	// _00-_BC	= J2DGrafContext
 	f32 mFovY; // _BC
-	f32 _C0;   // _C0
-	f32 _C4;   // _C4
+	f32 mNear; // _C0
+	f32 mFar;  // _C4
 	f32 _C8;   // _C8
 };
 
 struct J2DOrthoGraph : public J2DGrafContext
 {
 	J2DOrthoGraph();
-	J2DOrthoGraph(f32, f32, f32, f32, f32, f32);
+	J2DOrthoGraph(f32 l, f32 t, f32 r, f32 b, f32 n, f32 f);
 
 	virtual ~J2DOrthoGraph(){};										   // _08 (weak)
 	virtual void setPort();											   // _14
@@ -106,11 +115,13 @@ struct J2DOrthoGraph : public J2DGrafContext
 	f32 getWidthPower() const { return mBounds.getWidth() / mOrtho.getWidth(); }
 	f32 getHeightPower() const { return mBounds.getHeight() / mOrtho.getHeight(); }
 
-	void setOrtho(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5)
+	void setOrtho(f32 l, f32 t, f32 w, f32 h, f32 n, f32 f)
 	{
-		JGeometry::TBox2<f32> ortho(param_0, param_1, param_0 + param_2, param_1 + param_3);
-		setOrtho(ortho, param_4, param_5);
+		JGeometry::TBox2<f32> ortho(l, t, l + w, t + h);
+		setOrtho(ortho, n, f);
 	}
+
+	const JGeometry::TBox2f &getOrtho() const { return mOrtho; }
 
 	// _00 		= VTBL
 	// _00-_BC	= J2DGrafContext

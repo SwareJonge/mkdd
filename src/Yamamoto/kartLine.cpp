@@ -14,9 +14,7 @@ void Spline::getBezierPoint(JGeometry::TVec3f *out, f32 t)
 
     JGeometry::TVec3f *controlPoints[4];
     for (int i = 0; i < 4; i++)
-    {
         controlPoints[i] = &mPoints[i];
-    }
 
     out->x = controlPoints[0]->x * invT3 + controlPoints[1]->x * bezierCoefficient3 + controlPoints[2]->x * bezierCoefficient2 + controlPoints[3]->x * t3;
     out->y = controlPoints[0]->y * invT3 + controlPoints[1]->y * bezierCoefficient3 + controlPoints[2]->y * bezierCoefficient2 + controlPoints[3]->y * t3;

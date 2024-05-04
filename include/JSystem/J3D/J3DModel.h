@@ -195,6 +195,7 @@ struct J3DModel
 	void calcBumpMtx();
 	void calcBBoardMtx();
 	void prepareShapePackets();
+	void setDeformData(J3DDeformData *, u32);
 
 	inline J3DModelData *getModelData() { return mModelData; }
 
@@ -205,7 +206,7 @@ struct J3DModel
 	bool isCpuSkinningOn() const { return (mFlags & J3DMODEL_Unk3) && (mFlags & J3DMODEL_Unk4); }
 
 	Mtx &getBaseTRMtx() { return mPosMtx; }
-	void i_setBaseTRMtx(Mtx m) { PSMTXCopy(m, mPosMtx); }
+	void setBaseTRMtx(Mtx m) { PSMTXCopy(m, mPosMtx); }
 	u32 getMtxCalcMode() const { return mFlags & J3DMODEL_Unk3; }
 	J3DVertexBuffer *getVertexBuffer() const { return (J3DVertexBuffer *)&mVertexBuffer; }
 	J3DMatPacket *getMatPacket(u16 idx) const { return &mMatPackets[idx]; }

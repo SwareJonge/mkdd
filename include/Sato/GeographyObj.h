@@ -1,8 +1,10 @@
 #ifndef GEOGRAPHYOBJ_H
 #define GEOGRAPHYOBJ_H
 
-#include <JSystem/JKernel/JKRHeap.h>
 #include <JSystem/J3D/J3DModel.h>
+#include <JSystem/JKernel/JKRHeap.h>
+#include <JSystem/JGeometry/Vec.h>
+
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
@@ -49,7 +51,7 @@ public:
     bool tstUserFlg1(int kart_index) const;                                                     // 0x8022a0ec
     void clrUserFlg1(int);                                                                      // 0x8022a190
     void setUserFlg1(int);                                                                      // 0x8022a230
-    void getHitSoundDegree();                                                                   // 0x8022a2d0                                                                   
+    void getHitSoundDegree();                                                                   // 0x8022a2d0
     void createMultiBoundsPtrAll(u8);                                                           // 0x8022a314
     void calcBoundsGlPos();                                                                     // 0x8022a420
     void createBoundsSphere(f32, f32);                                                          // 0x8022a57c
@@ -82,6 +84,8 @@ public:
     void setLODBias();
     void getColRadius();
 
+    void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; } 
+
     // Vtable
     virtual ~GeographyObj() {}                                                                // 0x801b48cc, TODO?
     virtual void loadmodel(J3DModelData *modelData);                                          // 0x801b4c28, TODO
@@ -99,8 +103,8 @@ public:
     virtual void setCurrentViewNo(u32);                                                       // 0x80229700
     virtual u32 getMotorType() const { return 1; }                                            // 0x801b4cf0, probably an Enum
     virtual u32 getSoundID() const;                                                           // 0x8022a308, probably a define
-    virtual char *getBmdFileName() { return nullptr; }                                        // 0x801c59a8
-    virtual char *getShadowBmdFileName() { return nullptr; }                                  // 0x801b4cf8
+    virtual const char *getBmdFileName() { return nullptr; }                                  // 0x801c59a8
+    virtual const char *getShadowBmdFileName() { return nullptr; }                            // 0x801b4cf8
     virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                        // 0x801b4d00
     virtual void createColModel(J3DModelData *);                                              // 0x8022ab5c
     virtual void createBoundsSphere(J3DModelData *);                                          // 0x8022a498
@@ -114,7 +118,10 @@ public:
     virtual void initClassCreateNum();                                                        // 0x801b4d5c
     virtual void setModelMatrixAndScale();                                                    // 0x802297e0
 private:
+
+    JGeometry::TVec3f mPos; // 04
+    u8 _10[0x13c];
     // TODO
-}; // class GeographyObj
+}; // Size: 0x14c
 
 #endif

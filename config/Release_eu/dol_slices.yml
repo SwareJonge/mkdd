@@ -937,6 +937,18 @@ src/Inagaki/GameAudioArcLoader.cpp:
     .data: [0x803540d8, 0x80354118]
     .bss: [0x80389290, 0x803892b8]
 
+src/Kameda/Task.cpp:
+    .text: [0x80124a58, 0x80124de4]
+
+src/Kameda/WipeManager.cpp:
+    .text: [0x80129f18, 0x8012c188]
+    .ctors: [0x802d85e8, 0x802d85ec]
+    .rodata: [0x80335188, 0x80335198]
+    .data: [0x803543c8, 0x803549a0]
+    .bss: [0x80389bd8, 0x80389c08]
+    .sbss: [0x803d5540, 0x803d5558]
+    .sdata2: [0x803d7a08, 0x803d7a20]
+
 src/Kameda/Scene.cpp:
     .text: [0x8012cfbc, 0x8012d020]
     .data: [0x803549a0, 0x803549b8]
@@ -1042,9 +1054,28 @@ src/Kaneshige/SimpleDrawer.cpp:
 src/Kaneshige/JugemPoint.cpp:
     .text: [0x80190324, 0x80190334]
 
+src/Kaneshige/RaceBGMPlayer.cpp:
+    .text: [0x8019dd54, 0x8019e3cc]
+    .ctors: [0x802d86e4, 0x802d86e8]
+    .bss: [0x8038a830, 0x8038a860]
+    .sdata: [0x803d3990, 0x803d3998]
+
+src/Kaneshige/BlurScreen.cpp:
+    .text: [0x801a3f84, 0x801a451c]
+    .sdata2: [0x803d8cd8, 0x803d8ce8]
+
 src/Kaneshige/KartMtx.cpp:
     .text: [0x801a6678, 0x801a6728]
     .sdata2: [0x803d8d38, 0x803d8d40]
+
+src/Kaneshige/GhostScreen.cpp:
+    .text: [0x801ab0a0, 0x801ab4ec]
+
+src/Kaneshige/ShimmerScreen.cpp:
+    .text: [0x801ab4ec, 0x801abd70]
+    .sdata: [0x803d3a40, 0x803d3a48]
+    .sbss: [0x803d57d8, 0x803d57e8]
+    .sdata2: [0x803d8da0, 0x803d8dc0]
 
 src/Kaneshige/Movie/MoviePlayer.cpp:
     .text: [0x801b0084, 0x801b0458]
@@ -1059,6 +1090,10 @@ src/Kaneshige/Movie/THPDraw.c:
 
 src/Kaneshige/RaceTime.cpp:
     .text: [0x801b1d9c, 0x801b1df0]
+
+src/Kaneshige/MaskScreen.cpp:
+    .text: [0x801b1df0, 0x801b2558]
+    .sdata2: [0x803d8e90, 0x803d8ea0]
 
 src/Kaneshige/THP/THPPlayer.c:
     .text: [0x801b2558, 0x801b3c88]
@@ -1083,6 +1118,11 @@ src/Kaneshige/THP/THPAudioDecode.c:
     .bss: [0x8038e508, 0x8038F890]
     .sbss: [0x803d5ae0, 0x803d5ae8]
 
+src/Kawano/SceneTitleLine.cpp:
+    .text: [0x801c9760, 0x801c9b18]
+    .rodata: [0x8033ee78, 0x8033eec8]
+    .sdata2: [0x803d9118, 0x803d9140]
+
 src/Osako/clock.cpp:
     .text: [0x801cbe60, 0x801cbef8]
     .sbss: [0x803d5b30, 0x803d5b40]
@@ -1094,12 +1134,29 @@ src/Osako/testApp.cpp:
     .sbss: [0x803d5b40, 0x803d5b48]
     .sdata2: [0x803d9690, 0x803d9698]
 
+src/Osako/shadowModel.cpp:
+    .text: [0x801cc11c, 0x801cc4a4]
+    .ctors: [0x802d8764, 0x802d8768]
+    .rodata: [0x803407b8, 0x803407c8]
+    .data: [0x8035c1a8, 0x8035c1f0]
+    .bss: [0x8038fb08, 0x8038fb38]
+    .sdata2: [0x803d9698, 0x803d96c0]
+
 src/Osako/GameApp.cpp:
     .text: [0x801cc4a4, 0x801cc5bc]
     .data: [0x8035c1f0, 0x8035c208]
 
 src/Osako/main.cpp:
     .text: [0x801cc5bc, 0x801cc5e0]
+
+src/Osako/RaceApp.cpp:
+    .text: [0x801ccda4, 0x801ce300]
+    .ctors: [0x802d8774, 0x802d8778]
+    .data: [0x8035c250, 0x8035c2b8]
+    .rodata: [0x80340880, 0x803408d8]
+    .bss: [0x8038fbc8, 0x8038fbf8]
+    .sbss: [0x803d5b60, 0x803d5b68]
+    .sdata2: [0x803d96d0, 0x803d96e0]
 
 src/Osako/ResMgr.cpp:
     .text: [0x801ce300, 0x801cf8c4]
@@ -1200,6 +1257,12 @@ src/Osako/SequenceApp.cpp:
     .sdata: [0x803d3b08, 0x803d3b10]
     .sbss: [0x803d5c60, 0x803d5c68]
 
+src/Osako/TestViewApp.cpp:
+    .text: [0x801da324, 0x801da460]
+    .rodata: [0x80340f78, 0x80340f88]
+    .data: [0x8035c9e0, 0x8035c9f8]
+    .sbss: [0x803d5c70, 0x803d5c78]
+
 src/Osako/shadowScr.cpp:
     .text: [0x801daf04, 0x801db44c]
     .sdata2: [0x803d9ad0, 0x803d9ad8]
@@ -1231,6 +1294,11 @@ src/Osako/PadMgr.cpp:
 
 src/Osako/PadRecorder.cpp:
     .text: [0x801dc588, 0x801dcdf4]
+
+src/Osako/ForceEffectMgr.cpp:
+    .text: [0x801dcdf4, 0x801dcf90]
+    .data: [0x8035cbb8, 0x8035cbc8]
+    .sbss: [0x803d5ca0, 0x803d5ca8]
 
 src/Osako/AwardApp.cpp:
     .text: [0x801ddb68, 0x801dddb8]
@@ -1283,6 +1351,78 @@ src/Osako/password.cpp:
     .text: [0x801e76a8, 0x801e7a8c]
     .rodata: [0x80341938, 0x803419a0]
 
+src/Shiraiwa/WipeSlide.cpp:
+    .text: [0x80276fa8, 0x802779ac]
+    .ctors: [0x802d8948, 0x802d894c]
+    .data: [0x80367498, 0x803674c8]
+    .bss: [0x803adb98, 0x803adbc8]
+    .sdata: [0x803d45b8, 0x803d45c0]     
+    .sdata2: [0x803dade0, 0x803dae00]
+    .sbss2: [0x803dc120, 0x803dc128]
+
+src/Shiraiwa/WipeBase.cpp:
+    .text: [0x802779ac, 0x8027837c]
+    .ctors: [0x802d894c, 0x802d8950]
+    .rodata: [0x80344518, 0x80344560]
+    .data: [0x803674c8, 0x80367510]
+    .bss: [0x803adbc8, 0x803adbf8]
+    .sdata2: [0x803dae00, 0x803dae18]
+
+src/Shiraiwa/WipeCircle.cpp:
+    .text: [0x8027837c, 0x80278b90]
+    .ctors: [0x802d8950, 0x802d8954]
+    .data: [0x80367510, 0x80367540]
+    .bss: [0x803adbf8, 0x803adc28]
+    .sdata: [0x803d45c0, 0x803d45c8]  
+    .sbss: [0x803d6218, 0x803d6220]   
+    .sdata2: [0x803dae18, 0x803dae38]
+    .sbss2: [0x803dc128, 0x803dc130]
+
+src/Shiraiwa/WipeCheck.cpp:
+    .text: [0x80290320, 0x80290918]
+    .ctors: [0x802d89b0, 0x802d89b4]
+    .data: [0x8036a3c8, 0x8036a3f8]
+    .bss: [0x803ae0e8, 0x803ae118]
+    .sdata: [0x803d4798, 0x803d47a0]
+    .sdata2: [0x803db2f0, 0x803db308]
+    
+src/Shiraiwa/WipeShut.cpp:
+    .text: [0x80290918, 0x80291270]
+    .ctors: [0x802d89b4, 0x802d89b8]
+    .data: [0x8036a3f8, 0x8036a428]
+    .bss: [0x803ae118, 0x803ae148]
+    .sdata: [0x803d47a0, 0x803d47b0]
+    .sbss: [0x803d6378, 0x803d6380]
+    .sdata2: [0x803db308, 0x803db330]
+
+src/Shiraiwa/WipeLine.cpp:
+    .text: [0x80291270, 0x80291b7c]
+    .ctors: [0x802d89b8, 0x802d89bc]
+    .data: [0x8036a428, 0x8036a488]
+    .bss: [0x803ae148, 0x803ae178]
+    .sdata: [0x803d47b0, 0x803d47c0]
+    .sbss: [0x803d6380, 0x803d6388]
+    .sdata2: [0x803db330, 0x803db350]
+
+src/Shiraiwa/WipeWave.cpp:
+    .text: [0x80291b7c, 0x80292364]
+    .ctors: [0x802d89bc, 0x802d89c0]
+    .data: [0x8036a488, 0x8036a4c0]
+    .bss: [0x803ae178, 0x803ae1a8]
+    .sdata: [0x803d47c0, 0x803d47d0]
+    .sbss: [0x803d6388, 0x803d6390]
+    .sdata2: [0x803db350, 0x803db368]
+
+src/Shiraiwa/WipeCurtain.cpp:
+    .text: [0x8029582c, 0x802961b4]
+    .ctors: [0x802d89cc, 0x802d89d0]
+    .data: [0x8036aae8, 0x8036ab18]
+    .bss: [0x803ae238, 0x803ae268]
+    .sdata: [0x803d4800, 0x803d4808]
+    .sbss: [0x803d63b0, 0x803d63b8]
+    .sdata2: [0x803db408, 0x803db428]
+    .sbss2: [0x803dc130, 0x803dc134]
+
 src/Sato/stMath.cpp:
     .text: [0x801ebb10, 0x801ed470] 
     .data: [0x8035d110, 0x8035d128]
@@ -1299,6 +1439,26 @@ src/Sato/stEfctWeed.cpp:
     .sbss: [0x803d5df0, 0x803d5df8]
     .sdata2: [0x803da100, 0x803da108]
 
+src/Sato/RivalKart.cpp:
+    .text: [0x8023586c, 0x80235d80]
+    .ctors: [0x802d885c, 0x802d8860]
+    .data: [0x803616c0, 0x803616d8]
+    .bss: [0x803acfa0, 0x803acfd0]
+
+src/Yamamoto/kartCamera.cpp:    
+    .text: [0x8029dffc, 0x8029f4b8]
+    .ctors: [0x802d89dc, 0x802d89e0]
+    .data: [0x8036adf0, 0x8036b140]
+    .bss: [0x803ae2f0, 0x803ae320]
+    .sdata2: [0x803db590, 0x803db5a8]
+
+src/Yamamoto/kartCtrl.cpp:
+    .text: [0x8029f4b8, 0x802a0a60]
+    .ctors: [0x802d89e0, 0x802d89e4]
+    .bss: [0x803ae320, 0x803ae350]
+    .sbss: [0x803d63c8, 0x803d63e0]
+    .sdata2: [0x803db5a8, 0x803db5c0]    
+
 src/Yamamoto/kartvec.cpp:
     .text: [0x802a20cc, 0x802a320c]
     .ctors: [0x802d89e8, 0x802d89ec]
@@ -1311,6 +1471,19 @@ src/Yamamoto/kartLine.cpp:
     .bss: [0x803ae440, 0x803ae470]
     .sdata2: [0x803db998, 0x803db9a0]
 
+src/Yamamoto/KartSound.cpp:
+    .text: [0x802bcf8c, 0x802be490]
+    .ctors: [0x802d8a0c, 0x802d8a10]
+    .rodata: [0x80345e60, 0x80345eb8]
+    .bss: [0x803ae530, 0x803ae560]
+    .sdata2: [0x803dbbe8, 0x803dbc08]
+
+src/Yamamoto/KartTaeget.cpp:
+    .text: [0x802be490, 0x802be9e4]
+    .ctors: [0x802d8a10, 0x802d8a14]
+    .bss: [0x803ae560, 0x803ae590]
+    .sdata2: [0x803dbc08, 0x803dbc10]
+
 src/Yamamoto/KartStar.cpp:
     .text: [0x802c796c, 0x802c7c68]
     .ctors: [0x802d8a2c, 0x802d8a30]
@@ -1321,7 +1494,38 @@ src/Yamamoto/KartTire.cpp:
     .ctors: [0x802d8a30, 0x802d8a34]
     .bss: [0x803ae6e0, 0x803ae710]
 
+src/Yamamoto/KartDisp.cpp:
+    .text: [0x802d21c0, 0x802d3fb4]
+    .ctors: [0x802d8a44, 0x802d8a48]
+    .rodata: [0x80346170, 0x80346c20]
+    .bss: [0x803ae7d0, 0x803ae800]
+    .sdata2: [0x803dbf88, 0x803dbff8]
+
+src/Yamamoto/KartHandle.cpp:
+    .text: [0x802d3fb4, 0x802d45bc]
+    .ctors: [0x802d8a48, 0x802d8a4c]
+    .data: [0x8036dd48, 0x8036dda8]
+    .bss: [0x803ae800, 0x803ae830]
+    .sdata2: [0x803dbff8, 0x803dc000]
+
 src/Yamamoto/KartApeendix.cpp:
     .text: [0x802d45bc, 0x802d46f0]
     .ctors: [0x802d8a4c, 0x802d8a50]
     .bss: [0x803ae830, 0x803ae860]
+
+src/Yamamoto/KartPipe.cpp:
+    .text: [0x802d46f0, 0x802d5248]
+    .ctors: [0x802d8a50, 0x802d8a54]
+    .bss: [0x803ae860, 0x803ae890]
+
+src/Yamamoto/KartAnt.cpp:
+    .text: [0x802d5248, 0x802d5a44]
+    .ctors: [0x802d8a54, 0x802d8a58]
+    .bss: [0x803ae890, 0x803ae8c0]
+    .sdata2: [0x803dc030, 0x803dc050]
+
+src/Yamamoto/KartPerCam.cpp:
+    .text: [0x802d7670, 0x802d84a0]
+    .ctors: [0x802d8a5c, 0x802d8a80]
+    .bss: [0x803ae8f0, 0x803ae920]
+    .sdata2: [0x803dc068, 0x803dc0c0]

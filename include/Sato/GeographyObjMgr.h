@@ -9,21 +9,26 @@
 class GeographyObjManager : JKRDisposer
 {
 public:
-    GeographyObjManager(const CrsData & );   
-    static void createMgr(const CrsData & crsData) {
-        gMgr = new GeographyObjManager(crsData);
-    }
+    GeographyObjManager(const CrsData &);
+
     void calc();
     void createModel(JKRSolidHeap *, u32);
-    void reset(const CrsData&);
-    static GeographyObjManager *getGeographyObjManager() { return gMgr; }
+    void reset(const CrsData &);
+    
     TJugem *getJugem(int camera_index) const;
-    TBalloonManager* getBalloonMgr(int kart_index) const;
-    static GeographyObjManager * gMgr;
+    TBalloonManager *getBalloonMgr(int kart_index) const;
 
-    u8 _18[0x3FC - 0x18];
-    TJugem * mJugem[4]; // 0x3FC
-    u8 _40C[0x4A4 - 0x40C];
+    f32 getKartHitDepthNormalObj(int kart_index) const { return mHitDepth[kart_index]; }
+    static void createMgr(const CrsData &crsData) { gMgr = new GeographyObjManager(crsData); }
+    static GeographyObjManager *getGeographyObjManager() { return gMgr; }
+
+    static GeographyObjManager *gMgr;
+
+    u8 _18[0x2A8 - 0x18];   //
+    f32 mHitDepth[8];       // 2A8
+    u8 _328[0x3FC - 0x2C8]; //
+    TJugem *mJugem[4];      // 3FC
+    u8 _40C[0x4A4 - 0x40C]; //
 
 }; // size 0x4A4
 

@@ -263,12 +263,13 @@ namespace JGeometry {
         f32 dotZX(const TVec3 &operand) const { return x * operand.x + z * operand.z; }
         f32 length() const { return PSVECMag((Vec *)this); }
 
-        f32 angle(TVec3 vec2)
+        f32 angle(const TVec3 &vec2) const
         {
             TVec3 crossp;
             crossp.cross(*this, vec2);
-
-            f32 ang = TUtilf::atan2(crossp.length(), dot(vec2));
+            f32 len = crossp.length();
+            f32 dp = dot(vec2);
+            f32 ang = TUtilf::atan2(len, dp);
 
             return TUtilf::abs(ang);
         }

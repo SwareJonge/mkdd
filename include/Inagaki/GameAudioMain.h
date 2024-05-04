@@ -4,14 +4,20 @@
 #include <JSystem/JKernel/JKRHeap.h>
 #include <JSystem/JAudio/JAUSectionHeap.h>
 
+#include "kartEnums.h"
 #include "Inagaki/GameAudioFxConfig.h"
 #include "Inagaki/GameSoundTable.h"
 #include "types.h"
 
+class CrsArea;
+
 namespace GameAudio
 {
     class CustomMgr;
-    class CameraMgr;
+    class CameraMgr {
+    public:
+        void setCameraInfo(u32, Vec, Mtx,  CrsArea *);
+    };
 
     class Main
     {
@@ -45,7 +51,7 @@ namespace GameAudio
         void prepareStreamBgm(u32);
         void startStreamBgm(u32);
         void stopStreamBgm(u32);
-        void getPlayingStreamID();
+        u32 getPlayingStreamID();
         void setInvincibleBgm(u8, u8);
         void clearInvincibleBgm(u8, u8);
         void startInvincibleBgm(u8, bool);
@@ -86,6 +92,13 @@ namespace GameAudio
         // void setSeVolume(f32);
         // void checkReset();
 
+
+
+        CameraMgr *getCamera() {
+#line 157
+            JUT_ASSERT_MSG(mCamera, "GameAudioMain : ÉJÉÅÉâÇ™èâä˙âªÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒÅB\n");
+            return mCamera;
+        }
         // static sJAudio; // TODO: type
         static Main *getAudio() { return msBasic; };
 
@@ -109,10 +122,41 @@ namespace GameAudio
 
     namespace Parameters
     {
-        extern u8 getDemoMode();
-        extern void setDemoMode(u8);
+        void setPlayerMode(u8);
+        void setRaceMode(u8);
+        void setDemoMode(u8);
+        void setKillSwAllObject(bool);
+        void setRaceCourse(ECourseID);
+        void setKartType(u8, EKartWeight);
+        void setNetworkMode(u8, u8);
+        void setChrType(u8, EKartID);
+        void setChibiFlag(u8, bool);
+        void setMirrorSwitch(bool);
+        ERaceMode getRaceMode();
+        u8 getPlayerMode();
+        int getEngineType(u8);
+        int getCharacterType(u8);
+        int getRaceCourse();
+        int getChibiPitch(u32);
+        int getNetworkCubes();
+        int getChibiFlag(u8);
+        u8 getDemoMode();
+        int getMirrorSwitch();
+        extern f32 sChibiPitch[4];
+        extern u8 sDemoMode;
+        extern u8 sMirrorSwitch;
+        extern u8 sKartType[8];
+        extern u8 sChrType[8];
+        extern u8 sEngType[8];
+        extern u8 sKartChibiFlag[8];
+        extern u8 sPlayerMode;
+        extern u8 sRaceMode;
+        extern u8 sNetworkCubes;
+        extern u8 sNetworkNumber;
+        extern ECourseID sRaceCourse;
     }
 
+    extern int GoalFanfareDelayFrame;
     extern int ParadeBgmMuteFrame;
     extern f32 ParadeBgmMuteVolume;
 }

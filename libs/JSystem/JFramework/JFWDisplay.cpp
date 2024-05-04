@@ -6,7 +6,7 @@
 #include "JSystem/JUtility/JUTProcBar.h"
 #include "JSystem/JFramework/JFWDisplay.h"
 
-#ifdef DEBUG // MKDD Only
+#ifdef HIO_SCREENSHOT // MKDD Only
 #include "Osako/screenshot.h"
 #endif
 
@@ -40,7 +40,7 @@ void JFWDisplay::ctor_subroutine(bool enableAlpha) {
     JUTProcBar::clear();
     _38 = 1;
     _3C = 0;
-    _40 = 0;
+    mIsWaiting = false;
     _44 = nullptr;
 }
 
@@ -239,7 +239,7 @@ void JFWDisplay::endGX() {
     GXFlush();
 }
 
-#ifdef DEBUG
+#ifdef HIO_SCREENSHOT
 // for MKDD's screenshot function it seems, not sure why it was added here in JSystem
 static void *MyAlloc(u32 size)
 {
@@ -255,7 +255,7 @@ static void MyFree(void *p)
 void JFWDisplay::beginRender() { 
     JUTProcBar::getManager()->wholeLoopEnd();    
     JUTProcBar::getManager()->wholeLoopStart();
-    if (_40) {
+    if (mIsWaiting) {
         JUTProcBar::getManager()->idleStart();
     }
 
@@ -271,15 +271,15 @@ void JFWDisplay::beginRender() {
     _34 = _2C;
 #endif
 
-    if (_40) {
+    if (mIsWaiting) {
         JUTProcBar::getManager()->idleEnd();
     }
 
-#ifdef DEBUG
+#ifdef HIO_SCREENSHOT
     SCREENSHOTService(JUTXfb::getManager()->getDrawnXfb(), &MyAlloc, &MyFree);
 #endif
 
-    if(_40) {
+    if(mIsWaiting) {
         JUTProcBar::getManager()->gpStart();
         JUTXfb * xfbMgr = JUTXfb::getManager();
         switch (xfbMgr->getBufferNum()) {
@@ -306,13 +306,13 @@ void JFWDisplay::beginRender() {
 
     _3C++;
     bool b = (_3C >= _38);
-    _40 = b;
+    mIsWaiting = b;
 
     if (b) {
         _3C = 0;
     }
 
-    if (_40) {
+    if (mIsWaiting) {
         clearEfb();
         preGX();
     }
@@ -321,7 +321,7 @@ void JFWDisplay::beginRender() {
 void JFWDisplay::endRender() {
     endGX();
 
-    if (_40) {
+    if (mIsWaiting) {
         switch (JUTXfb::getManager()->getBufferNum())
         {
         case 1:
@@ -342,7 +342,7 @@ void JFWDisplay::endRender() {
 void JFWDisplay::endFrame() {
     JUTProcBar::getManager()->cpuEnd();
 
-    if (_40) {
+    if (mIsWaiting) {
         JUTProcBar::getManager()->gpWaitStart();
         switch (JUTXfb::getManager()->getBufferNum()) {
         case 1:

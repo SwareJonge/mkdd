@@ -4,6 +4,8 @@
 #include "Kaneshige/Course/CrsGround.h"
 #include "Inagaki/KartSoundMgr.h"
 
+class KartBody;
+
 class KartSound
 {
 public:
@@ -81,10 +83,10 @@ public:
     // void DoCannonSound();
     // void DoJumpVoice();
 private:
-    GameAudio::KartSoundMgr *mKartSoundMgr;
-    KartBody *mKartBody;
-    u8 _8;
-    u8 _9;
+    GameAudio::KartSoundMgr *mSoundMgr;
+    KartBody *mBody;
+    bool mWallSoundActive;
+    bool mIsAlarmActive;
 };
 
 #endif KARTSOUND_H
