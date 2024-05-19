@@ -1,7 +1,7 @@
 # mkdd
 WIP 1:1 Decompilation of Mario Kart Double Dash!!
 ## Building
-NOTE: Currently the debug version is hitting the character limit for PowerShell so for the time being, compile on Linux or use WSL!
+NOTE: Currently fails on Windows, use Linux in the meantime.
 ### Requirements
 - [devkitPro](https://devkitpro.org/wiki/Getting_Started)
 - [Ninja](https://github.com/ninja-build/ninja/releases/tag/v1.11.1)

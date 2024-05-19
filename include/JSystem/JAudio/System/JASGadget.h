@@ -8,16 +8,11 @@ template <class T>
 class JASGlobalInstance
 {
 public:
-    JASGlobalInstance(T *inst)
-    {
-        sInstance = inst;
-    }
-
     JASGlobalInstance(bool param_1)
     {
         if (param_1)
         {
-#line 186
+#line 172
             JUT_ASSERT(sInstance == 0);
             sInstance = (T *)this;
         }

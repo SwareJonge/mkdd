@@ -1,14 +1,21 @@
 #ifndef JAUDIO_JASMEMPOOL_H
 #define JAUDIO_JASMEMPOOL_H
 
-#include "types.h"
+
 #include <dolphin/os.h>
+
+#include "JSystem/JUtility/JUTAssert.h"
+
+#include "JSystem/JAudio/System/JASHeap.h"
+
+#include "types.h"
 
 struct JASGenericMemPool
 {
     JASGenericMemPool();
     ~JASGenericMemPool();
     void free(void *, u32);
+    void *alloc(u32 n);
 
     void *mRunner;
     int mFreeMemCount;
@@ -21,6 +28,22 @@ struct JASMemPool : public JASGenericMemPool
 {
     JASMemPool<T>() : JASGenericMemPool() {}
     ~JASMemPool<T>() {}
+
+    typedef JASMemPool<T> JASMemPoolT;
+
+    void free(void *p, u32 n) {
+#line 187
+        JUT_ASSERT(n == sizeof(T));
+        JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
+        JASGenericMemPool::free(p, n);
+    }
+
+    T *alloc(u32 n)
+    {
+        JUT_ASSERT(n == sizeof(T));
+        JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
+        return (T*)JASGenericMemPool::alloc(n); // evil cast fixes stuff
+    }
 };
 
 template <u32 ChunkSize, typename T>
@@ -165,19 +188,28 @@ public:
 template <typename T>
 struct JASPoolAllocObject
 {
-    ~JASPoolAllocObject();
     static void operator delete(void *mem, u32 n)
     {
-        BOOL inter = OSDisableInterrupts();
         memPool_.free(mem, n);
-        OSRestoreInterrupts(inter);
     }
+
+    static void *operator new(u32 n) {
+        return memPool_.alloc(n);
+    }
+
     static JASMemPool<T> memPool_;
 };
 
 template <typename T>
 struct JASMemPool_MultiThreaded : public JASGenericMemPool
 {
+    typedef JASMemPool_MultiThreaded<T> JASMemPool_MultiThreadedT;
+    void *alloc(u32 n)
+    {
+        JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreadedT>::Lock lock(*this);
+        return JASGenericMemPool::alloc(n);
+    }
+
     JASMemPool_MultiThreaded<T>() : JASGenericMemPool() { }
     ~JASMemPool_MultiThreaded<T>() {}
 };
@@ -186,6 +218,10 @@ struct JASMemPool_MultiThreaded : public JASGenericMemPool
 template <typename T>
 struct JASPoolAllocObject_MultiThreaded
 {
+    static void *operator new(u32 n)
+    {
+        return memPool_.alloc(n);
+    }
     static void operator delete(void *mem, u32 n)
     {
         BOOL inter = OSDisableInterrupts();

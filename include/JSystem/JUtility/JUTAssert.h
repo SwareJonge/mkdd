@@ -33,6 +33,7 @@ namespace JUTAssertion
 }
 
 #ifdef DEBUG
+
 // Asserts
 #define JUT_CONFIRM_MESSAGE(COND) \
   JUTAssertion::setConfirmMessage(JUTAssertion::getSDevice(), __FILE__, __LINE__, COND, #COND);
@@ -80,7 +81,7 @@ namespace JUTAssertion
 #define JUT_WARNING_F(...)
 #define JUT_WARNING_F2(...) // remove condintional?
 #define JUT_CRITICAL_WARNING_F(...)
-#define JUT_ASSERT(...)
+#define JUT_ASSERT(...) (void)0;
 #define JUT_ASSERT_F(...)
 #define JUT_ASSERT_MSG(...)
 #define JUT_MINMAX_ASSERT(...)

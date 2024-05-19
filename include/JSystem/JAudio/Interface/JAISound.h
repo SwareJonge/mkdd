@@ -4,6 +4,7 @@
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JAudio/Interface/JAIAudible.h"
 #include "JSystem/JAudio/Interface/JAISoundParams.h"
+#include "JSystem/JAudio/System/JASGadget.h"
 #include "JSystem/JAudio/System/JASTrack.h"
 
 #include "types.h"
@@ -14,6 +15,8 @@ class JAISoundHandle
 {
 public:
     JAISoundHandle() { sound_ = NULL; }
+
+    void releaseSound();
 
     JAISound *getSound()
     {
@@ -33,7 +36,6 @@ public:
 
     bool isSoundAttached() const { return sound_ != NULL; }
 
-private:
     JAISound *sound_;
 };
 
@@ -71,21 +73,51 @@ public:
     } mId;
 };
 
-struct JAISoundStatus_ {
+class JAISe;
+class JAISeq;
+class JAIStream;
+
+struct JAISoundInfo : public JASGlobalInstance<JAISoundInfo>
+{
+    JAISoundInfo(bool);
+
+    virtual u32 getSoundType(JAISoundID) const = 0;
+    virtual int getCategory(JAISoundID) const = 0;
+    virtual u32 getPriority(JAISoundID) const = 0;
+    virtual void getSeInfo(JAISoundID, JAISe *) const = 0;
+    virtual void getSeqInfo(JAISoundID, JAISeq *) const = 0;
+    virtual void getStreamInfo(JAISoundID, JAIStream *) const = 0;
+    virtual ~JAISoundInfo();
+};
+
+struct JAISoundStarter : public JASGlobalInstance<JAISoundStarter>
+{
+    JAISoundStarter(bool);
+
+    virtual ~JAISoundStarter();
+    virtual bool startSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *) = 0;
+    bool startLevelSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *);
+};
+
+struct JAISoundStatus_
+{
     void init()
     {
         _0.pack = 0;
         _1.pack = 0;
-        state.pack16 = 0;
+        packedState = 0;
         user_data = 0;
     }
 
-    bool isAlive() { return state.pack != 6; }
-    bool isDead() { return state.pack == 6; }
-    bool isPlaying() { return state.pack == 5; }
+    bool isAlive() const { return state.unk != 6; }
+    bool isDead() { return state.unk == 6; }
+    bool isPlaying() { return state.unk == 5; }
     bool isMute() { return _0.flags.mute; }
     bool isPaused() { return _0.flags.paused; }
-    void pauseWhenOut() { _1.flags.flag6 = 1;}
+    void pauseWhenOut() { _1.flags.flag6 = 1; }
+
+    s32 lockWhenPrepared();
+    s32 unlockIfLocked();
 
     union
     {
@@ -119,30 +151,34 @@ struct JAISoundStatus_ {
         u8 pack;
     } _1;
 
-    struct
+    union 
     {
         struct
         {
-            u8 flag1 : 1;
-            u8 flag2 : 1;
-            u8 animationState : 2;
-            u8 flag5 : 1;
-            u8 flag6 : 1;
-            u8 flag7 : 1;
-            u8 flag8 : 1;
-        } flags;
-        u8 pack;
-        u16 pack16; // HUH
-    } state;
-    u32 user_data;
+            u8 unk;
+            struct
+            {
+                u8 flag1 : 1;
+                u8 flag2 : 1;
+                u8 animationState : 2;
+                u8 flag5 : 1;
+                u8 flag6 : 1;
+                u8 flag7 : 1;
+                u8 flag8 : 1;
+            } flags;
+        } state;
+        u16 packedState;
+    };
+    
+    u32 user_data; // 4
 };
 
 class JAISoundActivity
 {
 public:
-    void init() { field_0x0.value = 0; }
+    void init() { _0.value = 0; }
 
-    /* 0x0 */ union
+    union
     {
         u8 value;
         struct
@@ -156,7 +192,7 @@ public:
             u8 flag7 : 1;
             u8 flag8 : 1;
         } flags;
-    } field_0x0;
+    } _0;
 };
 
 struct JAISoundFader
@@ -202,7 +238,7 @@ template <typename A0>
 struct JAISoundStrategyMgr__unknown
 {
     virtual void virtual2();
-    virtual void virtual3(A0 *);
+    virtual void calc(A0 *);
     virtual void virtual4(A0 *, const JASSoundParams &);
 };
 
@@ -210,20 +246,8 @@ template <typename A0>
 struct JAISoundStrategyMgr
 {
     virtual void virtual2();
-    virtual JAISoundStrategyMgr__unknown<A0> *virtual3(JAISoundID);
+    virtual JAISoundStrategyMgr__unknown<A0> *calc(JAISoundID);
     virtual void virtual4(JAISoundStrategyMgr__unknown<A0> *);
-};
-/* JAISoundStrategyMgr<JAISe> */
-struct JAISoundStrategyMgr__template0
-{
-};
-/* JAISoundStrategyMgr<JAISeq> */
-struct JAISoundStrategyMgr__template1
-{
-};
-/* JAISoundStrategyMgr<JAIStream> */
-struct JAISoundStrategyMgr__template2
-{
 };
 
 class JAITempoMgr
@@ -243,11 +267,23 @@ public:
     void calc() { mTempo = mTransition.apply(mTempo); }
 };
 
+class JAISoundChild : JASPoolAllocObject<JAISoundChild>
+{
+public:
+    void init();
+    void mixOut(JASTrack *track);
+    void calc();
+
+    JAISoundChild() { init(); }
+
+    JAISoundParamsMove mMove; // 00
+    JASSoundParams mParams;   // 50
+}; // Size: 0x64
+
 class JAIAudible;
 class JAIAudience;
 class JAISe;
 class JAISeq;
-class JAISoundChild;
 class JAIStream;
 
 class JAISound
@@ -256,10 +292,10 @@ public:
     void releaseHandle();
     void attachHandle(JAISoundHandle *);
     JAISound();
-    void start_JAISound_(JAISoundID, JGeometry::TVec3f const *, JAIAudience *);
+    void start_JAISound_(JAISoundID, const JGeometry::TVec3f *, JAIAudience *);
     bool acceptsNewAudible() const;
-    void newAudible(JGeometry::TVec3f const &, JGeometry::TVec3f const *, u32,
-                                   JAIAudience *);
+    void newAudible(const JGeometry::TVec3f &, const JGeometry::TVec3f *, u32,
+                    JAIAudience *);
     void stop();
     void stop(u32 fadeout);
     void die_JAISound_();
@@ -278,7 +314,7 @@ public:
     virtual JAITempoMgr *getTempoMgr() = 0;
     virtual bool JAISound_tryDie_() = 0;
 
-    JAISoundID getID() const;
+    const JAISoundID &getID() const { return soundID_; }
     u8 getAnimationState() const { return status_.state.flags.animationState; }
     bool isAnimated() const { return getAnimationState() != 0; }
     void setAnimationState(u8 pState)
@@ -298,12 +334,7 @@ public:
     }
     bool isStopping()
     {
-        bool isStopping = false;
-        if (status_.state.flags.flag1)
-        {
-            isStopping = !status_.state.flags.flag5 || fader_.isOut();
-        }
-        return isStopping;
+        return status_.state.flags.flag1 && (!status_.state.flags.flag5 || fader_.isOut());
     }
 
     void pause(bool doPause)
@@ -354,7 +385,7 @@ public:
 
     JAISoundParamsMove &getAuxiliary() { return params_.mMove; }
 
-//private:
+    // private:
     JAISoundHandle *handle_;
     JAIAudible *audible_;
     JAIAudience *audience_;

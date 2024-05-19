@@ -32,6 +32,7 @@ public:
     void getDacRate();
     void getSubFrames();
     void getSubFrameCounter();
+    static void waitSubFrame();
 
     static void setOutputMode(u32);
     static u32 getOutputMode();

@@ -353,6 +353,107 @@ libs/JSystem/JParticle/JPATexture.cpp:
     .text: [0x800894d0, 0x8008959c]
     .data: [0x8034b4c8, 0x8034b4d8]
 
+libs/JSystem/JAudio/Interface/JAIAudience.cpp:
+    .text: [0x8008959c, 0x800899a8]
+    .ctors: [0x802d84f4, 0x802d84f8]
+    .data: [0x8034b4d8, 0x8034b4f8]
+    .bss: [0x8036e508, 0x8036e550]
+    #.bss: [0x803b9d0c, 0x803b9dcc]
+    .sbss: [0x803d4c68, 0x803d4c88]
+
+libs/JSystem/JAudio/Interface/JAISe.cpp:
+    .text: [0x800899a8, 0x8008a3e4]
+    .ctors: [0x802d84f8, 0x802d84fc]
+    .data: [0x8034b4f8, 0x8034b550]
+    .bss: [0x8036e550, 0x8036e580]
+    .sdata2: [0x803d6c40, 0x803d6c50]
+
+libs/JSystem/JAudio/Interface/JAISeMgr.cpp:
+    .text: [0x8008a3e4, 0x8008b99c]
+    .ctors: [0x802d84fc, 0x802d8500]
+    .rodata: [0x803327b8, 0x803327d0]
+    .data: [0x8034b550, 0x8034b578]
+    .bss: [0x8036e580, 0x8036e5b0]
+    .sbss: [0x803d4c88, 0x803d4c90]
+    .sdata2: [0x803d6c50, 0x803d6c60]
+
+libs/JSystem/JAudio/Interface/JAISeq.cpp:
+    .text: [0x8008b99c, 0x8008c9d4]
+    .ctors: [0x802d8500, 0x802d8504]
+    .data: [0x8034b578, 0x8034b5c8]
+    .bss: [0x8036e5b0, 0x8036e5f0]
+    #.bss: [0x803b9dbc, 0x803b9dcc]
+    .sbss: [0x803d4c90, 0x803d4c98]
+    .sdata2: [0x803d6c60, 0x803d6c70]
+
+libs/JSystem/JAudio/Interface/JAISeqDataMgr.cpp:
+    .text: [0x8008c9d4, 0x8008ca74]
+    .data: [0x8034b5c8, 0x8034b5f8]
+
+libs/JSystem/JAudio/Interface/JAISeqMgr.cpp:
+    .text: [0x8008ca74, 0x8008d354]
+    .ctors: [0x802d8504, 0x802d8508]
+    .data: [0x8034b5f8, 0x8034b610]
+    .bss: [0x8036e5f0, 0x8036e620]
+    .sdata2: [0x803d6c70, 0x803d6c80]
+
+libs/JSystem/JAudio/Interface/JAISound.cpp:
+    .text: [0x8008d354, 0x8008dd44]
+    .ctors: [0x802d8508, 0x802d850c]
+    .rodata: [0x803327d0, 0x80332810]
+    .data: [0x8034b610, 0x8034b640]
+    .bss: [0x8036e620, 0x8036e648]
+    .sdata2: [0x803d6c80, 0x803d6ca0]
+
+libs/JSystem/JAudio/Interface/JAISoundChild.cpp:
+    .text: [0x8008dd44, 0x8008e04c]
+    .ctors: [0x802d850c, 0x802d8510]
+    .bss: [0x8036e648, 0x8036e678]
+    .sdata2: [0x803d6ca0, 0x803d6cb0]
+
+libs/JSystem/JAudio/Interface/JAISoundHandles.cpp:
+    .text: [0x8008e04c, 0x8008e2e4]
+    .ctors: [0x802d8510, 0x802d8514]
+    .bss: [0x8036e678, 0x8036e6a0]
+
+libs/JSystem/JAudio/Interface/JAISoundInfo.cpp:
+    .text: [0x8008e2e4, 0x8008e370]
+    .data: [0x8034b640, 0x8034b668]
+
+libs/JSystem/JAudio/Interface/JAISoundParams.cpp:
+    .text: [0x8008e370, 0x8008e4d0]
+    .sdata2: [0x803d6cb0, 0x803d6cb8]
+
+libs/JSystem/JAudio/Interface/JAISoundStarter.cpp:
+    .text: [0x8008e4d0, 0x8008e63c]
+    .ctors: [0x802d8514, 0x802d8518]
+    .data: [0x8034b668, 0x8034b678]
+    .bss: [0x8036e6a0, 0x8036e6c8]
+
+libs/JSystem/JAudio/Interface/JAIStream.cpp:
+    .text: [0x8008e63c, 0x8008f104]
+    .ctors: [0x802d8518, 0x802d851c]
+    .data: [0x8034b678, 0x8034b6a8]
+    .bss: [0x8036e6c8, 0x8036e708]
+    .sbss: [0x803d4c98, 0x803d4ca0]
+    .sdata2: [0x803d6cb8, 0x803d6cc8]
+
+libs/JSystem/JAudio/Interface/JAIStreamDataMgr.cpp:
+    .text: [0x8008f104, 0x8008f1a4]
+    .data: [0x8034b6a8, 0x8034b6d0]
+
+libs/JSystem/JAudio/Interface/JAIStreamMgr.cpp:
+    .text: [0x8008f1a4, 0x8008f808]
+    .ctors: [0x802d851c, 0x802d8520]
+    .bss: [0x8036e708, 0x8036e738]
+    .sdata2: [0x803d6cc8, 0x803d6cd8]
+
+libs/JSystem/JAudio/Interface/JAIAudible.cpp:
+    .text: [0x8008f808, 0x8008f938]
+    .ctors: [0x802d8520, 0x802d8524]
+    .data: [0x8034b6d0, 0x8034b6e8]
+    .bss: [0x8036e738, 0x8036e760]
+
 libs/JSystem/JAudio/System/JASCalc.cpp:
     .text: [0x8008f938, 0x800901c0]
     .rodata: [0x80332810, 0x80332c28]

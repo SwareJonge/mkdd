@@ -1067,13 +1067,188 @@ global:
   0x80089538: __dt__10JPATextureFv
   0x8034b4d0: __vt__10JPATexture
   # JAudio
-  # JAiAudience
+  # JAIAudience.cpp
+  0x8008959c: __dt__11JAIAudienceFv
   0x80089780: __dt__18JASMemPool<5JAISe>Fv
   0x800897dc: __dt__19JASMemPool<6JAISeq>Fv
   0x80089838: __dt__22JASMemPool<9JAIStream>Fv
   0x80089894: __dt__38JASMemPool_MultiThreaded<10JASChannel>Fv
   0x800898f0: __dt__35JASMemPool_MultiThreaded<8JASTrack>Fv
   0x8008994c: __dt__50JASMemPool_MultiThreaded<Q28JASTrack11TChannelMgr>Fv
+  0x8034b4d8: __vt__11JAIAudience
+  # common bss
+  0x803b9d0c: memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
+  0x803b9d6c: memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
+  0x803b9d7c: memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
+  0x803b9d8c: memPool___30JASPoolAllocObject<9JAIStream>
+  0x803b9d9c: memPool___27JASPoolAllocObject<6JAISeq>
+  0x803b9dac: memPool___26JASPoolAllocObject<5JAISe>
+  0x803b9dbc: memPool___35JASPoolAllocObject<13JAISoundChild>  
+  0x803d4c68: sInstance__33JASGlobalInstance<12JAIStreamMgr>
+  0x803d4c6c: sInstance__29JASGlobalInstance<9JAISeqMgr>
+  0x803d4c70: sInstance__28JASGlobalInstance<8JAISeMgr>
+  0x803d4c74: sInstance__36JASGlobalInstance<15JAISoundStarter>
+  0x803d4c78: sInstance__40JASGlobalInstance<19JASDefaultBankTable>
+  0x803d4c7c: __init__memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
+  0x803d4c7d: __init__memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
+  0x803d4c7e: __init__memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
+  0x803d4c7f: __init__memPool___30JASPoolAllocObject<9JAIStream>
+  0x803d4c80: __init__memPool___27JASPoolAllocObject<6JAISeq>
+  0x803d4c81: __init__memPool___26JASPoolAllocObject<5JAISe>
+  # JAISe.cpp
+  0x800899a8: __ct__5JAISeFP8JAISeMgrP27JAISoundStrategyMgr<5JAISe>Ul
+  0x80089a74: JAISeCategoryMgr_mixOut___5JAISeFbRC14JASSoundParams16JAISoundActivity
+  0x80089e84: JAISeCategoryMgr_calc___5JAISeFv
+  0x80089f90: JAISound_tryDie___5JAISeFv
+  0x8008a018: JAISeMgr_startID___5JAISeF10JAISoundIDPCQ29JGeometry8TVec3<f>P11JAIAudience
+  0x8008a0a0: getNumChild__5JAISeCFv
+  0x8008a0a8: getChild__5JAISeFi
+  0x8008a0b0: releaseChild__5JAISeFi
+  0x8008a0b4: prepare___5JAISeFv
+  0x8008a264: getTrack__5JAISeFv
+  0x8008a26c: getChildTrack__5JAISeFi
+  0x8008a27c: asSe__5JAISeFv
+  0x8008a280: getTempoMgr__5JAISeFv
+  0x8034b4f8: __vt__5JAISe
+  # JAISeMgr.cpp
+  0x8008a3e4: isUsingSeqData__16JAISeCategoryMgrFRC16JAISeqDataRegion
+  0x8008a454: releaseSeqData__16JAISeCategoryMgrFRC16JAISeqDataRegion
+  0x8008a510: JAISeMgr_calc___16JAISeCategoryMgrFv
+  0x8008a67c: sortByPriority___16JAISeCategoryMgrFv
+  0x8008a724: __ct__8JAISeMgrFb
+  0x8008a81c: __dt__16JAISeCategoryMgrFv
+  0x8008a89c: __ct__16JAISeCategoryMgrFv
+  0x8008a974: isUsingSeqData__8JAISeMgrFRC16JAISeqDataRegion
+  0x8008aa88: releaseSeqData__8JAISeMgrFRC16JAISeqDataRegion
+  0x8008ab8c: setCategoryArrangement__8JAISeMgrFRC24JAISeCategoryArrangement
+  0x8008ac94: stop__8JAISeMgrFv
+  0x8008ad00: stopAudibleSoundsSync__8JAISeMgrFv
+  0x8008ad64: stopAudibleSounds__8JAISeMgrFv
+  0x8008addc: setAudience__8JAISeMgrFP11JAIAudience
+  0x8008ade4: setSeqDataMgr__8JAISeMgrFP13JAISeqDataMgr
+  0x8008ae38: resetSeqDataMgr__8JAISeMgrFv
+  0x8008ae88: calc__8JAISeMgrFv
+  0x8008b0a0: calcAudibleSounds__8JAISeMgrFv
+  0x8008b230: mixOut__8JAISeMgrFv
+  0x8008b3d0: startSound__8JAISeMgrF10JAISoundIDP14JAISoundHandlePCQ29JGeometry8TVec3<f>
+  0x8008b668: getNumActiveSe__8JAISeMgrCFv
+  0x8008b6f0: getNumAudibleSe__8JAISeMgrCFv
+  0x8008b7e0: __dt__8JAISeMgrFv
+  0x8034b550: __vt__8JAISeMgr
+  0x8034b564: __vt__16JAISeCategoryMgr
+  0x803d4c88: sInstance__33JASGlobalInstance<12JAISoundInfo>
+  # JAISeq.cpp
+  0x8008b99c: __ct__6JAISeqFP9JAISeqMgrP28JAISoundStrategyMgr<6JAISeq>
+  0x8008bafc: JAISeqMgr_startID___6JAISeqF10JAISoundIDPCQ29JGeometry8TVec3<f>P11JAIAudienceii
+  0x8008bbac: reserveChildTracks___6JAISeqFi
+  0x8008bcb4: prepare___6JAISeqFRC14JASSoundParams16JAISoundActivity
+  0x8008bf80: JAISeqMgr_calc___6JAISeqFv
+  0x8008c078: die___6JAISeqFv
+  0x8008c16c: JAISound_tryDie___6JAISeqFv
+  0x8008c2d4: mixOut___6JAISeqFRC14JASSoundParams16JAISoundActivity
+  0x8008c4a0: JAISeqMgr_mixOut___6JAISeqFRC14JASSoundParams16JAISoundActivity
+  0x8008c69c: getNumChild__6JAISeqCFv
+  0x8008c6a4: getChild__6JAISeqFi
+  0x8008c750: releaseChild__6JAISeqFi
+  0x8008c7d4: getTrack__6JAISeqFv
+  0x8008c7dc: getChildTrack__6JAISeqFi
+  0x8008c814: asSeq__6JAISeqFv
+  0x8008c818: getTempoMgr__6JAISeqFv
+  0x8008c978: __dt__27JASMemPool<13JAISoundChild>Fv
+  0x8034b594: __vt__6JAISeq
+  0x803d4c90: __init__memPool___35JASPoolAllocObject<13JAISoundChild>
+  # JAISeqDataMgr.cpp
+  0x8008c9d4: __dt__14JAISeqDataUserFv
+  0x8008ca24: __dt__13JAISeqDataMgrFv
+  0x8034b5c8: __vt__13JAISeqDataMgr
+  0x8034b5e0: __vt__14JAISeqDataUser
+  # JAISeqMgr.cpp
+  0x8008ca74: isUsingSeqData__9JAISeqMgrFRC16JAISeqDataRegion
+  0x8008cae4: releaseSeqData__9JAISeqMgrFRC16JAISeqDataRegion
+  0x8008cb9c: __ct__9JAISeqMgrFb
+  0x8008cc94: startSound__9JAISeqMgrF10JAISoundIDP14JAISoundHandlePCQ29JGeometry8TVec3<f>
+  0x8008cde0: calc__9JAISeqMgrFv
+  0x8008cfcc: stop__9JAISeqMgrFUl
+  0x8008d01c: mixOut__9JAISeqMgrFv
+  0x8008d078: beginStartSeq___9JAISeqMgrFv
+  0x8008d0d0: endStartSeq___9JAISeqMgrFP6JAISeqP14JAISoundHandle
+  0x8008d19c: __dt__9JAISeqMgrFv
+  0x8034b5f8: __vt__9JAISeqMgr
+  # JAISound.cpp
+  0x8008d354: releaseSound__14JAISoundHandleFv
+  0x8008d370: attachHandle__8JAISoundFP14JAISoundHandle
+  0x8008d3dc: lockWhenPrepared__15JAISoundStatus_Fv
+  0x8008d400: unlockIfLocked__15JAISoundStatus_Fv
+  0x8008d43c: mixOutAll__14JAISoundParamsFRC14JASSoundParamsP14JASSoundParamsf
+  0x8008d4ac: __ct__8JAISoundFv
+  0x8008d4dc: start_JAISound___8JAISoundF10JAISoundIDPCQ29JGeometry8TVec3<f>P11JAIAudience
+  0x8008d600: newAudible__8JAISoundFRCQ29JGeometry8TVec3<f>PCQ29JGeometry8TVec3<f>UlP11JAIAudience 
+  0x8008d664: stop__8JAISoundFUl
+  0x8008d720: stop__8JAISoundFv
+  0x8008d758: asSe__8JAISoundFv
+  0x8008d760: asSeq__8JAISoundFv
+  0x8008d768: asStream__8JAISoundFv
+  0x8008d770: die_JAISound___8JAISoundFv
+  0x8008d7f8: increasePrepareCount_JAISound___8JAISoundFv
+  0x8008d848: calc_JAISound___8JAISoundFv
+  0x8008db9c: initTrack_JAISound___8JAISoundFP8JASTrack
+  0x8034b610: __vt__8JAISound
+  # JAISoundChild.cpp
+  0x8008dd44: init__13JAISoundChildFv
+  0x8008ddbc: mixOut__13JAISoundChildFP8JASTrack
+  0x8008de14: calc__13JAISoundChildFv
+  # JAISoundHandles.cpp
+  0x8008e04c: getHandleSoundID__15JAISoundHandlesF10JAISoundID
+  0x8008e0a4: getHandleUserData__15JAISoundHandlesFUl
+  0x8008e0f8: getFreeHandle__15JAISoundHandlesFv
+  0x8008e140: stopAllSounds__15JAISoundHandlesFv
+  0x8008e1ac: setPos__15JAISoundHandlesFRCQ29JGeometry8TVec3<f>
+  # JAISoundInfo.cpp
+  0x8008e2e4: __ct__12JAISoundInfoFb
+  0x8008e304: __dt__12JAISoundInfoFv
+  0x8034b640: __vt__12JAISoundInfo
+  # JAISoundParams.cpp
+  0x8008e370: moveVolume__18JAISoundParamsMoveFfUl
+  0x8008e3c8: movePitch__18JAISoundParamsMoveFfUl
+  0x8008e420: moveFxMix__18JAISoundParamsMoveFfUl
+  0x8008e478: movePan__18JAISoundParamsMoveFfUl
+  # JAISoundStarter.cpp
+  0x8008e4d0: __ct__15JAISoundStarterFb
+  0x8008e4f0: __dt__15JAISoundStarterFv
+  0x8034b668: __vt__15JAISoundStarter
+  # JAIStream.cpp
+  0x8008e63c: JAIStream_JASAramStreamCallback___FUlP13JASAramStreamPv
+  0x8008e66c: __ct__9JAIStreamFP12JAIStreamMgrP31JAISoundStrategyMgr<9JAIStream>
+  0x8008e708: JAIStreamMgr_startID___9JAIStreamF10JAISoundIDlPCQ29JGeometry8TVec3<f>P11JAIAudiencei
+  0x8008e7a0: prepare_prepareStream___9JAIStreamFv
+  0x8008e958: JAIStreamMgr_mixOut___9JAIStreamFRC14JASSoundParams16JAISoundActivity
+  0x8008ec6c: JAISound_tryDie___9JAIStreamFv
+  0x8008edd8: JAIStreamMgr_calc___9JAIStreamFv
+  0x8008ee9c: getNumChild__9JAIStreamCFv
+  0x8008eea4: getChild__9JAIStreamFi
+  0x8008ef40: releaseChild__9JAIStreamFi
+  0x8008ef90: getTrack__9JAIStreamFv
+  0x8008ef98: getChildTrack__9JAIStreamFi
+  0x8008efa0: asStream__9JAIStreamFv
+  0x8008efa4: getTempoMgr__9JAIStreamFv
+  0x8034b678: __vt__9JAIStream
+  0x803d4c98: sInstance__35JASGlobalInstance<14JASAudioThread>
+  # JAIStreamDataMgr.cpp
+  0x8008f104: __dt__16JAIStreamDataMgrFv
+  0x8008f154: __dt__16JAIStreamAramMgrFv
+  0x8034b6a8: __vt__16JAIStreamAramMgr
+  0x8034b6bc: __vt__16JAIStreamDataMgr
+  # JAIStreamMgr.cpp
+  0x8008f1a4: __ct__12JAIStreamMgrFb
+  0x8008f27c: startSound__12JAIStreamMgrF10JAISoundIDP14JAISoundHandlePCQ29JGeometry8TVec3<f> 
+  0x8008f3b0: calc__12JAIStreamMgrFv
+  0x8008f5a8: stop__12JAIStreamMgrFUl
+  0x8008f5f8: mixOut__12JAIStreamMgrFv
+  0x8008f654: newStream___12JAIStreamMgrFv
+  # JAIAudible.cpp
+  0x8008f808: __dt__10JAIAudibleFv
+  0x8034b6d0: __vt__10JAIAudible
+  # JAudio/System
   # JASCalc.cpp
   0x8008f938: imixcopy__7JASCalcFPCsPCsPsUl
   0x8008fa48: bcopy__7JASCalcFPCvPvUl
@@ -1091,40 +1266,15 @@ global:
   0x80090da4: alloc__17JASGenericMemPoolFUl
   0x80090df0: free__17JASGenericMemPoolFPvUl
   0x803d4ca8: JASDram
-  # common bss
-  0x803b9d0c: memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
-  0x803b9d6c: memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
-  0x803b9d7c: memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
-  0x803b9d8c: memPool___30JASPoolAllocObject<9JAIStream>
-  0x803b9d9c: memPool___27JASPoolAllocObject<6JAISeq>
-  0x803b9dac: memPool___26JASPoolAllocObject<5JAISe>
-  0x803b9dbc: memPool___35JASPoolAllocObject<13JAISoundChild>
-  # oops we were stupid
-  0x803d4c68: sInstance__33JASGlobalInstance<12JAIStreamMgr>
-  0x803d4c6c: sInstance__29JASGlobalInstance<9JAISeqMgr>
-  0x803d4c70: sInstance__28JASGlobalInstance<8JAISeMgr>
-  0x803d4c74: sInstance__36JASGlobalInstance<15JAISoundStarter>
-  0x803d4c78: sInstance__40JASGlobalInstance<19JASDefaultBankTable>
-  0x803d4c90: __init__memPool___35JASPoolAllocObject<13JAISoundChild>
-  0x803d4c7c: __init__memPool___58JASPoolAllocObject_MultiThreaded<Q28JASTrack11TChannelMgr>
-  0x803d4c7d: __init__memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack>
-  0x803d4c7e: __init__memPool___46JASPoolAllocObject_MultiThreaded<10JASChannel>
-  0x803d4c7f: __init__memPool___30JASPoolAllocObject<9JAIStream>
-  0x803d4c80: __init__memPool___27JASPoolAllocObject<6JAISeq>
-  0x803d4c81: __init__memPool___26JASPoolAllocObject<5JAISe>
-  # JAISeq.cpp
-  0x8008c978: __dt__27JASMemPool<13JAISoundChild>Fv
-  # JAIStreamDataMgr.cpp
-  0x8034b6a8: __vt__16JAIStreamAramMgr
-  0x8034b6bc: __vt__16JAIStreamDataMgr
   # JASReport.cpp
   0x80091270: JASReport__FPCce
   # JASTaskThread.cpp
   0x80091498: __ct__13JASTaskThreadFiiUl 
   # JASAiCtrl.cpp
   0x80092544: registerMixCallback__9JASDriverFPFl_Ps10JASMixMode
-  # JASDriverIF.cpp
+  # JASDriverIF.cpp 
   0x8009472c: getOutputMode__9JASDriverFv
+  0x80094734: waitSubFrame__9JASDriverFv
   # JASDSPInterface.cpp
   0x80095384: setFXLine__6JASDspFUcPsPQ26JASDsp13FxlineConfig_
   # JASSoundParams.cpp
@@ -1132,6 +1282,36 @@ global:
   # JASInstRand.cpp
   0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
   0x8034b8b8: __vt__11JASInstRand
+  # JASAramStream.cpp
+  0x8009964c: initSystem__13JASAramStreamFUlUl
+  0x800996dc: __ct__13JASAramStreamFv
+  0x80099830: init__13JASAramStreamFUlUlPFUlP13JASAramStreamPv_vPv
+  0x80099924: prepare__13JASAramStreamFli
+  0x800999e4: start__13JASAramStreamFv
+  0x80099a18: stop__13JASAramStreamFUs
+  0x80099a54: pause__13JASAramStreamFb
+  0x80099aa4: cancel__13JASAramStreamFv
+  # JASTrack.cpp
+  0x8009e0f8: __ct__8JASTrackFv
+  0x8009e1dc: __dt__8JASTrackFv
+  0x8009e288: setChannelMgrCount__8JASTrackFUl
+  0x8009e3a8: init__8JASTrackFv
+  0x8009e794: initTimed__8JASTrackFv
+  0x8009e808: assignExtBuffer__8JASTrackFUlP14JASSoundParams
+  0x8009e81c: setSeqData__8JASTrackFPvUl
+  0x8009e83c: startSeq__8JASTrackFv
+  0x8009e88c: stopSeq__8JASTrackFv
+  0x8009e8d0: start__8JASTrackFv
+  0x8009e8dc: close__8JASTrackFv
+  0x8009ebfc: connectChild__8JASTrackFUlP8JASTrack
+  0x800a0018: mute__8JASTrackFb
+  0x800a025c: pause__8JASTrackFb
+  0x800a0350: getTransposeTotal__8JASTrackCFv  
+  0x800a04c0: isMute__8JASTrackCFv
+  0x800a0668: setTempo__8JASTrackFUs 
+  0x800a0680: setTempoRate__8JASTrackFf
+
+  0x800a14f4: __ct__Q28JASTrack10MoveParam_Fv
   # osdsp.c
   0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
   0x800a2000: __DSPHandler

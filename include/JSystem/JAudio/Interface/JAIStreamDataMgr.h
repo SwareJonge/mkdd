@@ -11,8 +11,8 @@ struct JAIStreamDataMgr
 
 struct JAIStreamAramMgr
 {
-    virtual void *newStreamAram(u32 *) = 0;
-    virtual void deleteStreamAram(u32) = 0;
+    virtual u32 newStreamAram(u32 *) = 0;
+    virtual int deleteStreamAram(u32) = 0;
     virtual ~JAIStreamAramMgr();
 };
 

@@ -1,6 +1,8 @@
 #ifndef JAUDIO_JAISOUNDPARAMS_H
 #define JAUDIO_JAISOUNDPARAMS_H
 
+#include "JSystem/JUtility/JUTAssert.h"
+
 #include "JSystem/JAudio/System/JASSoundParams.h"
 
 struct JAISoundParamsProperty
@@ -9,12 +11,12 @@ struct JAISoundParamsProperty
     {
         _0 = 1.0f;
         _4 = 0.0f;
-        field_0x8 = 1.0f;
+        _8 = 0.0f; // 1.0f in TP
     }
 
     f32 _0;
     f32 _4;
-    f32 field_0x8;
+    f32 _8;
 }; // Size: 0xC
 
 struct JAISoundParamsTransition
@@ -95,11 +97,12 @@ struct JAISoundParamsMove
 
     void calc() { mTransition.apply(&mParams); }
 
-    void moveVolume(f32, u32);
-    void movePitch(f32, u32);
-    void moveFxMix(f32, u32);
-    void movePan(f32, u32);
-    void moveDolby(f32, u32);
+    void moveVolume(f32 newValue, u32 fadeCount);
+    void movePitch(f32 newValue, u32 fadeCount);
+    void moveFxMix(f32 newValue, u32 fadeCount);
+    void movePan(f32 newValue, u32 fadeCount);
+    void moveDolby(f32 newValue, u32 fadeCount);
+    void move(const JASSoundParams &params, u32 fadeCount);
 
     JASSoundParams mParams;
     JAISoundParamsTransition mTransition;
@@ -108,7 +111,7 @@ struct JAISoundParamsMove
 struct JAISoundParams
 {
     JAISoundParams() : mMove() {}
-    void mixOutAll(JASSoundParams const &, JASSoundParams *, f32);
+    void mixOutAll(const JASSoundParams &, JASSoundParams *, f32);
 
     void init()
     {

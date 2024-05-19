@@ -1,7 +1,9 @@
 #ifndef JAUDIO_JAISEQDATAMGR_H
 #define JAUDIO_JAISEQDATAMGR_H
 
-#include "JSystem/JAudio/Interface/JAISound.h"
+#include "types.h"
+
+class JAISoundID;
 
 struct JAISeqData
 {
@@ -61,4 +63,4 @@ struct JAISeqDataMgr
     virtual bool setSeqDataUser(JAISeqDataUser *) = 0;
 };
 
-#endif /* JAUDIO_JAISEQDATAMGR_H */
+#endif

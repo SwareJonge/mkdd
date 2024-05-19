@@ -1,7 +1,7 @@
 #ifndef GAMESOUNDTABLE_H
 #define GAMESOUNDTABLE_H
 
-#include <JSystem/JAudio/Interface/JAISoundInfo.h>
+#include <JSystem/JAudio/Interface/JAISound.h>
 #include <JSystem/JAudio/Interface/JAIStreamDataMgr.h>
 #include <JSystem/JAudio/JAUSoundInfo.h>
 

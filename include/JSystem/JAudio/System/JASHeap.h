@@ -45,18 +45,26 @@ namespace JASKernel
     extern void *sCommandHeap;
 };
 
-
 namespace JASThreadingModel
 {
-    template <typename A0>
+    template <typename T>
     struct InterruptsDisable
     {
         struct Lock
         {
-            Lock(const A0 &param_0) { _0 = OSDisableInterrupts(); }
+            Lock(const T &param_0) { _0 = OSDisableInterrupts(); }
             ~Lock() { OSRestoreInterrupts(_0); }
 
             BOOL _0;
+        };
+    };
+
+    template <typename T>
+    struct SingleThreaded
+    {
+        struct Lock
+        {
+            Lock(const T &) { }
         };
     };
 
