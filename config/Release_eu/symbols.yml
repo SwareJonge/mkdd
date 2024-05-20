@@ -1283,13 +1283,38 @@ global:
   0x80094734: waitSubFrame__9JASDriverFv
   # JASDSPInterface.cpp
   0x80095384: setFXLine__6JASDspFUcPsPQ26JASDsp13FxlineConfig_
+  0x803d3378: one__11JASWaveInfo
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
+  # JASWSParser.cpp
+  0x80096190: createWaveBank__11JASWSParserFPCvP7JKRHeap
+  0x800961f4: createBasicWaveBank__11JASWSParserFPCvP7JKRHeap
+  0x80096424: createSimpleWaveBank__11JASWSParserFPCvP7JKRHeap
+  0x80096640: JSUConvertOffsetToPtr<Q211JASWSParser9TCtrlWave>__FPCvUl
+  0x80096658: JSUConvertOffsetToPtr<Q211JASWSParser5TWave>__FPCvUl
+  0x80096670: JSUConvertOffsetToPtr<Q211JASWSParser12TWaveArchive>__FPCvUl
+  0x80096688: JSUConvertOffsetToPtr<Q211JASWSParser16TWaveArchiveBank>__FPCvUl
+  0x800966a0: JSUConvertOffsetToPtr<Q211JASWSParser5TCtrl>__FPCvUl
+  0x800966b8: JSUConvertOffsetToPtr<Q211JASWSParser10TCtrlScene>__FPCvUl
+  0x800966d0: JSUConvertOffsetToPtr<Q211JASWSParser10TCtrlGroup>__FPCvUl
+  0x803d4d28: sUsedHeapSize__11JASWSParser
+  # JASBasicWaveBank.cpp
+  0x80096dcc: __ct__16JASBasicWaveBankFv
+  0x80096f04: getWaveGroup__16JASBasicWaveBankFUl
+  0x80096f28: setGroupCount__16JASBasicWaveBankFUlP7JKRHeap
+  0x8009700c: setWaveTableSize__16JASBasicWaveBankFUlP7JKRHeap
+  0x800971e4: setWaveCount__Q216JASBasicWaveBank10TWaveGroupFUlP7JKRHeap
+  0x8009739c: setWaveInfo__Q216JASBasicWaveBank10TWaveGroupFiUlRC11JASWaveInfo
   # JASInstRand.cpp
   0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
   0x8034b8b8: __vt__11JASInstRand
+  # JASSimpleWaveBank.cpp
+  0x80098844: __ct__17JASSimpleWaveBankFv
+  0x800989a0: setWaveTableSize__17JASSimpleWaveBankFUlP7JKRHeap
+  0x80098a4c: setWaveInfo__17JASSimpleWaveBankFUlRC11JASWaveInfo
   # JASWaveArcLoader.cpp
   0x80098b78: setCurrentDir__16JASWaveArcLoaderFPCc
+  0x80099014: setFileName__10JASWaveArcFPCc
   # JASAramStream.cpp
   0x8009964c: initSystem__13JASAramStreamFUlUl
   0x800996dc: __ct__13JASAramStreamFv

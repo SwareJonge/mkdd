@@ -501,6 +501,10 @@ libs/JSystem/JAudio/System/JASSoundParams.cpp:
     .text: [0x800967d0, 0x8009682c]
     .sdata2: [0x80417f28, 0x80417f30]
 
+libs/JSystem/JAudio/System/JASWSParser.cpp:
+    .text: [0x8009682c, 0x80096d74]
+    .sbss: [0x80415a98, 0x80415aa0]
+
 libs/JSystem/JAudio/System/JASInstRand.cpp:
     .text: [0x800997f8, 0x8009996c]
     .rodata: [0x80369540, 0x80369550]

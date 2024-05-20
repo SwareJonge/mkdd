@@ -7,8 +7,8 @@ struct JASWaveInfo
 {
     JASWaveInfo()
     {
-        _01 = 0x3c;
-        _20 = &one;
+        _01 = 60;
+        _24 = &one;
     }
 
     u8 _00;         // 00
@@ -18,11 +18,12 @@ struct JASWaveInfo
     int _08;        // 08
     int _0c;        // 0c
     u32 _10;        // 10
-    int _14;        // 14
+    u32 _14;        // 14
     int _18;        // 18
-    s16 _1c;        // 1c
-    s16 _1e;        // 1e
-    const u32 *_20; // 20
+    int _1c;        // 1C
+    s16 _20;        // 20
+    s16 _22;        // 22
+    const u32 *_24; // 24
 
     static u32 one;
 };

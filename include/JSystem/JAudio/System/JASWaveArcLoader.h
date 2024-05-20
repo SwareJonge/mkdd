@@ -43,7 +43,6 @@ struct JASWaveArc : JASDisposer
 
     struct loadToAramCallbackParams // not official struct name
     {
-
         JASWaveArc *mWavArc; // 0
         long mEntryNum;      // 4
         u32 mBase;           // 8
