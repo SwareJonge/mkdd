@@ -17,8 +17,8 @@ public:
     virtual ~JASTaskThread();
     virtual void *run();
 
-    /* 0x7C */ OSThreadQueue mpThreadQueue;
-    /* 0x84 */ bool field_0x84;
+    OSThreadQueue mpThreadQueue; // 7C
+    bool _84;                    // 84
 };
 
-#endif /* JASTASKTHREAD_H */
+#endif

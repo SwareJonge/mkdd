@@ -38,4 +38,4 @@ public:
     virtual void *startLevelSound(int soundID);
 };
 
-#endif JAUSOUNDOBJECT_H
+#endif

@@ -1,5 +1,5 @@
-#ifndef JASARAMSTREAM_H
-#define JASARAMSTREAM_H
+#ifndef JAUDIO_JASARAMSTREAM_H
+#define JAUDIO_JASARAMSTREAM_H
 
 #include "JSystem/JAudio/System/JASTaskThread.h"
 #include "JSystem/JUtility/JUTAssert.h"
@@ -19,70 +19,71 @@ public:
     static const u32 CHANNEL_MAX = 6;
     enum CallbackType
     {
-        /* 0 */ CB_START,
-        /* 1 */ CB_STOP,
+        CB_START, // 0
+        CB_STOP, // 1
     };
 
     // Used internally for passing data to task functions
     struct TaskData
     {
-        /* 0x0 */ JASAramStream *stream;
-        /* 0x4 */ u32 _4;
-        /* 0x8 */ int _8;
+        JASAramStream *stream; // 0
+        u32 _4;                // 4
+        int _8;                // 8
     };
 
     struct Header
     {
-        /* 0x00 */ u32 tag;
-        /* 0x04 */ u8 _4[5];
-        /* 0x09 */ u8 format;
-        /* 0x0A */ u8 bits;
-        /* 0x0C */ u16 channels;
-        /* 0x0E */ u16 loop;
-        /* 0x10 */ int _10;
-        /* 0x14 */ u8 _14[4];
-        /* 0x18 */ int loop_start;
-        /* 0x1C */ int loop_end;
-        /* 0x20 */ u32 block_size;
-        /* 0x24 */ u8 _24[4];
-        /* 0x28 */ u8 _28;
-        /* 0x29 */ u8 _29[0x17];
+        u32 tag;        // 00
+        u8 _4[5];       // 04
+        u8 format;      // 09
+        u8 bits;        // 0A
+        u16 channels;   // 0C
+        u16 loop;       // 0E
+        int _10;        // 10
+        u8 _14[4];      // 14
+        int loop_start; // 18
+        int loop_end;   // 1C
+        u32 block_size; // 20
+        u8 _24[4];      // 24
+        u8 _28;         // 28
+        u8 _29[0x17];   // 29
+
     }; // Size: 0x40
 
     struct BlockHeader
     {
-        /* 0x00 */ u32 tag;
-        /* 0x04 */ u32 _4;
-        /* 0x08 */ struct
+        u32 tag; // 00
+        u32 _4;  // 04
+        struct   // 08
         {
             s16 _0;
             s16 _2;
         } _8[6];
     }; // Size: 0x20
 
-    /* 8029631C */ static void initSystem(u32, u32);
-    /* 802963A8 */ JASAramStream();
-    /* 8029649C */ void init(u32, u32, StreamCallback, void *);
-    /* 8029655C */ bool prepare(s32, int);
-    /* 80296618 */ bool start();
-    /* 8029664C */ bool stop(u16);
-    /* 80296684 */ bool pause(bool);
-    /* 802966CC */ bool cancel();
-    /* 80296710 */ u32 getBlockSamples() const;
-    /* 8029673C */ static void headerLoadTask(void *);
-    /* 8029676C */ static void firstLoadTask(void *);
-    /* 80296848 */ static void loadToAramTask(void *);
-    /* 80296868 */ static void finishTask(void *);
-    /* 802968C8 */ static void prepareFinishTask(void *);
-    /* 80296920 */ bool headerLoad(u32, int);
-    /* 80296AE8 */ bool load();
-    /* 80296D74 */ static s32 channelProcCallback(void *);
-    /* 80296D94 */ static s32 dvdErrorCheck(void *);
-    /* 80296DF0 */ static void channelCallback(u32, JASChannel *, JASDsp::TChannel *, void *);
-    /* 80296E2C */ void updateChannel(u32, JASChannel *, JASDsp::TChannel *);
-    /* 802974AC */ s32 channelProc();
-    /* 80297658 */ void channelStart();
-    /* 80297870 */ void channelStop(u16);
+    static void initSystem(u32, u32);
+    JASAramStream();
+    void init(u32, u32, StreamCallback, void *);
+    bool prepare(s32, int);
+    bool start();
+    bool stop(u16);
+    bool pause(bool);
+    bool cancel();
+    u32 getBlockSamples() const;
+    static void headerLoadTask(void *);
+    static void firstLoadTask(void *);
+    static void loadToAramTask(void *);
+    static void finishTask(void *);
+    static void prepareFinishTask(void *);
+    bool headerLoad(u32, int);
+    bool load();
+    static s32 channelProcCallback(void *);
+    static s32 dvdErrorCheck(void *);
+    static void channelCallback(u32, JASChannel *, JASDsp::TChannel *, void *);
+    void updateChannel(u32, JASChannel *, JASDsp::TChannel *);
+    s32 channelProc();
+    void channelStart();
+    void channelStop(u16);
 
     void setPitch(f32 pitch) { mPitch = pitch; }
     void setVolume(f32 volume)
@@ -144,54 +145,54 @@ public:
 
     static u32 getBlockSize() { return sBlockSize; }
 
-    /* 0x000 */ OSMessageQueue _000;
-    /* 0x020 */ OSMessageQueue _020;
-    /* 0x040 */ void *_040[16];
-    /* 0x080 */ void *_080[4];
-    /* 0x090 */ JASChannel *mChannels[CHANNEL_MAX];
-    /* 0x0A8 */ JASChannel *_0a8;
-    /* 0x0AC */ bool _0ac;
-    /* 0x0AD */ bool _0ad;
-    /* 0x0AE */ u8 _0ae;
-    /* 0x0B0 */ int _0b0;
-    /* 0x0B4 */ int _0b4;
-    /* 0x0B8 */ u32 _0b8;
-    /* 0x0BC */ int _0bc;
-    /* 0x0C0 */ bool _0c0;
-    /* 0x0C4 */ u32 _0c4;
-    /* 0x0C8 */ f32 _0c8;
-    /* 0x0CC */ DVDFileInfo mDvdFileInfo;
-    /* 0x108 */ u32 _108;
-    /* 0x10C */ int _10c;
-    /* 0x110 */ u32 mBlock;
-    /* 0x114 */ u8 _114;
-    /* 0x118 */ u32 _118;
-    /* 0x11C */ int _11c;
-    /* 0x120 */ int _120;
-    /* 0x124 */ int _124;
-    /* 0x128 */ u16 _128;
-    /* 0x12C */ int _12c;
-    /* 0x130 */ s16 _130[CHANNEL_MAX];
-    /* 0x13C */ s16 _13c[CHANNEL_MAX];
-    /* 0x148 */ int _148;
-    /* 0x14C */ u32 _14c;
-    /* 0x150 */ StreamCallback mCallback;
-    /* 0x154 */ void *mCallbackData;
-    /* 0x158 */ u16 _158;
-    /* 0x15A */ u16 mChannelNum;
-    /* 0x15C */ u32 mBufCount;
-    /* 0x160 */ u32 _160;
-    /* 0x164 */ u32 _164;
-    /* 0x168 */ bool mLoop;
-    /* 0x16C */ u32 mLoopStart;
-    /* 0x170 */ u32 mLoopEnd;
-    /* 0x174 */ f32 mVolume;
-    /* 0x178 */ f32 mPitch;
-    /* 0x17C */ f32 mChannelVolume[CHANNEL_MAX];
-    /* 0x194 */ f32 mChannelPan[CHANNEL_MAX];
-    /* 0x1AC */ f32 mChannelFxMix[CHANNEL_MAX];
-    /* 0x1C4 */ f32 mChannelDolby[CHANNEL_MAX];
-    /* 0x1DC */ u16 _1dc[CHANNEL_MAX];
+    OSMessageQueue _000;                // 000
+    OSMessageQueue _020;                // 020
+    void *_040[16];                     // 040
+    void *_080[4];                      // 080
+    JASChannel *mChannels[CHANNEL_MAX]; // 090
+    JASChannel *_0a8;                   // 0A8
+    bool _0ac;                          // 0AC
+    bool _0ad;                          // 0AD
+    u8 _0ae;                            // 0AE
+    int _0b0;                           // 0B0
+    int _0b4;                           // 0B4
+    u32 _0b8;                           // 0B8
+    int _0bc;                           // 0BC
+    bool _0c0;                          // 0C0
+    u32 _0c4;                           // 0C4
+    f32 _0c8;                           // 0C8
+    DVDFileInfo mDvdFileInfo;           // 0CC
+    u32 _108;                           // 108
+    int _10c;                           // 10C
+    u32 mBlock;                         // 110
+    u8 _114;                            // 114
+    u32 _118;                           // 118
+    int _11c;                           // 11C
+    int _120;                           // 120
+    int _124;                           // 124
+    u16 _128;                           // 128
+    int _12c;                           // 12C
+    s16 _130[CHANNEL_MAX];              // 130
+    s16 _13c[CHANNEL_MAX];              // 13C
+    int _148;                           // 148
+    u32 _14c;                           // 14C
+    StreamCallback mCallback;           // 150
+    void *mCallbackData;                // 154
+    u16 _158;                           // 158
+    u16 mChannelNum;                    // 15A
+    u32 mBufCount;                      // 15C
+    u32 _160;                           // 160
+    u32 _164;                           // 164
+    bool mLoop;                         // 168
+    u32 mLoopStart;                     // 16C
+    u32 mLoopEnd;                       // 170
+    f32 mVolume;                        // 174
+    f32 mPitch;                         // 178
+    f32 mChannelVolume[CHANNEL_MAX];    // 17C
+    f32 mChannelPan[CHANNEL_MAX];       // 194
+    f32 mChannelFxMix[CHANNEL_MAX];     // 1AC
+    f32 mChannelDolby[CHANNEL_MAX];     // 1C4
+    u16 _1dc[CHANNEL_MAX];              // 1DC
 
     static JASTaskThread *sLoadThread;
     static u8 *sReadBuffer;
@@ -199,4 +200,4 @@ public:
     static u32 sChannelMax;
 };
 
-#endif /* JASARAMSTREAM_H */
+#endif

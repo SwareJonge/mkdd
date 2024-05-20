@@ -123,4 +123,4 @@ struct JAISoundParams
     JAISoundParamsMove mMove;
 }; // Size: 0x5C
 
-#endif /* JAUDIO_JAISOUNDPARAMS_H */
+#endif

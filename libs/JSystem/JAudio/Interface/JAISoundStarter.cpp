@@ -17,12 +17,12 @@ bool JAISoundStarter::startLevelSound(JAISoundID soundID, JAISoundHandle *handle
     JUT_ASSERT(handlePtr)
 
     if (*handlePtr) {
-        if ((u32)soundID == (u32)handlePtr->operator->()->getID())
+        if ((u32)soundID == (u32)(*handlePtr)->getID())
         {
-            handlePtr->operator->()->updateLifeTime(1);
+            (*handlePtr)->updateLifeTime(1);
 
             if(pos) {
-                handlePtr->operator->()->setPos(*pos);
+                (*handlePtr)->setPos(*pos);
             }
         }
 
@@ -31,7 +31,7 @@ bool JAISoundStarter::startLevelSound(JAISoundID soundID, JAISoundHandle *handle
 
     bool ret = startSound(soundID, handlePtr, pos);
     if (ret && (*handlePtr))
-        handlePtr->operator->()->setLifeTime(1, false);
+        (*handlePtr)->setLifeTime(1, false);
     return ret;
 }
 

@@ -10,7 +10,7 @@
 
 // TODO: move this mess to the header(s) they belong in
 
-DECL_WEAK JAIStreamMgr *JASGlobalInstance<JAIStreamMgr>::sInstance(false);
+DECL_WEAK JAIStreamMgr *JASGlobalInstance<JAIStreamMgr>::sInstance;
 DECL_WEAK JAISeqMgr *JASGlobalInstance<JAISeqMgr>::sInstance;
 DECL_WEAK JAISeMgr *JASGlobalInstance<JAISeMgr>::sInstance;
 DECL_WEAK JAISoundStarter *JASGlobalInstance<JAISoundStarter>::sInstance;

@@ -16,4 +16,4 @@ struct JAIStreamAramMgr
     virtual ~JAIStreamAramMgr();
 };
 
-#endif /* JAUDIO_JAISTREAMDATAMGR_H */
+#endif

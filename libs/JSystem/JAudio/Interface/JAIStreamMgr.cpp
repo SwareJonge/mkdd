@@ -30,7 +30,7 @@ bool JAIStreamMgr::startSound(JAISoundID soundID, JAISoundHandle *handle, const 
     JUT_ASSERT(streamDataMgr_)
 
     if (handle && *handle)
-        handle->operator->()->stop();
+        (*handle)->stop();
 
     s32 entryID = streamDataMgr_->getStreamFileEntry(soundID);
     if (entryID < 0)

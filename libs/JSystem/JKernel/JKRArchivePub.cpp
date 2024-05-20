@@ -16,9 +16,7 @@ JKRArchive *JKRArchive::check_mount_already(long entryNum, JKRHeap *pHeap)
         heap = JKRGetCurrentHeap();
     }
 
-    JSUList<JKRFileLoader> &volumeList = JKRArchive::sVolumeList;
-    JSUListIterator<JKRFileLoader> iterator;
-    for (iterator = volumeList.getFirst(); iterator != volumeList.getEnd(); ++iterator)
+    for (JSUListIterator<JKRFileLoader> iterator = JKRArchive::sVolumeList.getFirst(); iterator != JKRArchive::sVolumeList.getEnd(); ++iterator)
     {
         if (iterator->getVolumeType() == 'RARC')
         {

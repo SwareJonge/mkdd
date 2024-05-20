@@ -11,7 +11,7 @@ JAISoundHandle *JAISoundHandles::getHandleSoundID(JAISoundID soundID)
         JAISoundHandle *handle = &handles_[i]; //  there's no temp in TP debug, fakematch
         if (handle->isSoundAttached())
         {
-            if ((u32)handle->operator->()->getID() == (u32)soundID)
+            if ((u32)(*handle)->getID() == (u32)soundID)
             {
                 return &handles_[i];
             }
@@ -28,7 +28,7 @@ JAISoundHandle *JAISoundHandles::getHandleUserData(u32 id)
         JAISoundHandle *handle = &handles_[i]; //  there's no temp in TP debug, fakematch
         if (handle->isSoundAttached())
         {
-            if (handle->operator->()->getUserData() == id)
+            if ((*handle)->getUserData() == id)
             {
                 return &handles_[i];
             }
@@ -58,7 +58,7 @@ void JAISoundHandles::stopAllSounds()
         JAISoundHandle *handle = &handles_[i];
         if (handle->isSoundAttached())
         {
-            handle->operator->()->stop();
+            (*handle)->stop();
         }
     }
 }
@@ -70,7 +70,7 @@ void JAISoundHandles::setPos(const JGeometry::TVec3f &pos)
         JAISoundHandle *handle = &handles_[i];
         if (handle->isSoundAttached())
         {
-            handle->operator->()->setPos(pos);
+            (*handle)->setPos(pos);
         }
     }
 }
