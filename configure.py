@@ -244,7 +244,9 @@ n.rule(
 
 n.rule(
     "ld",
-    command = "$ld $ldflags -map $map -lcf $lcf $in -o $out",
+    command = "$ld $ldflags -map $map -lcf $lcf @$out.rsp -o $out",
+    rspfile  = "$out.rsp",
+    rspfile_content = "$in_newline",
     description = "LD $out",
 )
 
