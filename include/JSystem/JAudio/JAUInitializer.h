@@ -30,8 +30,8 @@ struct JAU_JAIInitializer
 
     u32 mSeCount;     // 0
     u32 mSeqCount;    // 4
-    u32 mStreamCount; // C
-    u32 mChildCount;  // 8
+    u32 mStreamCount; // 8
+    u32 mChildCount;  // C
 };
 
 #endif
