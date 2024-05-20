@@ -34,6 +34,8 @@ public:
 
     static u32 getTotalCount() { return sTotalCount; }
 
+    static JKRThreadSwitch *getManager() { return sManager; }
+
 private:
     static JKRThreadSwitch *sManager;
     static u32 sTotalCount;

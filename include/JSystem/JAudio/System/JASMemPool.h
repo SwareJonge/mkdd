@@ -14,6 +14,7 @@ struct JASGenericMemPool
 {
     JASGenericMemPool();
     ~JASGenericMemPool();
+    void newMemPool(u32 n, int count);
     void free(void *, u32);
     void *alloc(u32 n);
 
@@ -30,6 +31,11 @@ struct JASMemPool : public JASGenericMemPool
     ~JASMemPool<T>() {}
 
     typedef JASMemPool<T> JASMemPoolT;
+
+    void newMemPool(int count) {
+        JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
+        JASGenericMemPool::newMemPool(sizeof(T), count);
+    }
 
     void free(void *p, u32 n) {
 #line 187
@@ -188,6 +194,11 @@ public:
 template <typename T>
 struct JASPoolAllocObject
 {
+    static void newMemPool(int count) 
+    {
+        memPool_.newMemPool(count);
+    }
+
     static void operator delete(void *mem, u32 n)
     {
         memPool_.free(mem, n);
@@ -204,6 +215,13 @@ template <typename T>
 struct JASMemPool_MultiThreaded : public JASGenericMemPool
 {
     typedef JASMemPool_MultiThreaded<T> JASMemPool_MultiThreadedT;
+
+    void newMemPool(int count)
+    {
+        JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreadedT>::Lock lock(*this);
+        JASGenericMemPool::newMemPool(sizeof(T), count);
+    }
+
     void *alloc(u32 n)
     {
         JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreadedT>::Lock lock(*this);
@@ -218,6 +236,11 @@ struct JASMemPool_MultiThreaded : public JASGenericMemPool
 template <typename T>
 struct JASPoolAllocObject_MultiThreaded
 {
+    static void newMemPool(int count)
+    {
+        memPool_.newMemPool(count);
+    }
+
     static void *operator new(u32 n)
     {
         return memPool_.alloc(n);

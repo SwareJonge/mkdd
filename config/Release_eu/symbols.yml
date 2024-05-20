@@ -1266,13 +1266,19 @@ global:
   0x80090da4: alloc__17JASGenericMemPoolFUl
   0x80090df0: free__17JASGenericMemPoolFPvUl
   0x803d4ca8: JASDram
+  # JASKernel.cpp
+  0x80090e14: setupRootHeap__9JASKernelFP12JKRSolidHeapUl
+  0x80090f38: setupAramHeap__9JASKernelFUlUl
   # JASReport.cpp
   0x80091270: JASReport__FPCce
   # JASTaskThread.cpp
   0x80091498: __ct__13JASTaskThreadFiiUl 
   # JASAiCtrl.cpp
   0x80092544: registerMixCallback__9JASDriverFPFl_Ps10JASMixMode
+  # JASAudioThread.cpp
+  0x80092ab8: create__14JASAudioThreadFl
   # JASDriverIF.cpp 
+  0x800946dc: setDSPLevel__9JASDriverFf
   0x8009472c: getOutputMode__9JASDriverFv
   0x80094734: waitSubFrame__9JASDriverFv
   # JASDSPInterface.cpp
@@ -1282,6 +1288,8 @@ global:
   # JASInstRand.cpp
   0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
   0x8034b8b8: __vt__11JASInstRand
+  # JASWaveArcLoader.cpp
+  0x80098b78: setCurrentDir__16JASWaveArcLoaderFPCc
   # JASAramStream.cpp
   0x8009964c: initSystem__13JASAramStreamFUlUl
   0x800996dc: __ct__13JASAramStreamFv
@@ -1315,6 +1323,11 @@ global:
   # osdsp.c
   0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
   0x800a2000: __DSPHandler
+  # JAUInitializer.cpp
+  0x800a32d4: __ct__18JAU_JASInitializerFv
+  0x800a332c: initJASystem__18JAU_JASInitializerFP12JKRSolidHeap
+  0x800a34a0: __ct__18JAU_JAIInitializerFv
+  0x800a34c4: initJAInterface__18JAU_JAIInitializerFv
   # JAUAudioArcInterpreter.cpp
   0x800a23ec: __ct__22JAUAudioArcInterpreterFv
   0x800a2408: __dt__22JAUAudioArcInterpreterFv

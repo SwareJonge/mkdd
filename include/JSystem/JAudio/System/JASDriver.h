@@ -21,6 +21,7 @@ typedef s16 *(*JASMixCallBack)(s32);
 class JASDriver
 {
 public:
+    static void setDSPLevel(f32);
     void startDMA();
     void stopDMA();
     void setOutputRate(JASOutputRate);

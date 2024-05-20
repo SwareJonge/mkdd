@@ -523,6 +523,13 @@ libs/JSystem/JAudio/Utility/JAUAudioArcLoader.cpp:
     .sbss: [0x80415b10, 0x80415b20]
     .sdata2: [0x80418150, 0x80418160]
 
+libs/JSystem/JAudio/Utility/JAUInitializer.cpp:
+    .text: [0x800a6114, 0x800a65b0]
+    .ctors: [0x8031616c, 0x80316170]
+    .rodata: [0x8036a208, 0x8036a350]
+    .bss: [0x803b12a0, 0x803b12f8]
+    .sdata2: [0x80418160, 0x80418168]
+
 libs/dolphin/base/PPCArch.c:
     .text: [0x800af634, 0x800af748]
 
