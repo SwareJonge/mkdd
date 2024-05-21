@@ -88,14 +88,14 @@ public:
     int play();
     int playForce();
     void release(u16);
-    void setOscInit(u32, JASOscillator::Data const *);
+    void setOscInit(u32, const JASOscillator::Data *);
     void setMixConfig(u32, u16);
-    static f32 calcEffect(JASChannel::PanVector const *);
-    static f32 calcPan(JASChannel::PanVector const *);
+    static f32 calcEffect(const JASChannel::PanVector *);
+    static f32 calcPan(const JASChannel::PanVector *);
     void effectOsc(u32, JASOscillator::EffectParams *);
     void setKeySweepTarget(s32, u32);
     void updateEffectorParam(JASDsp::TChannel *, u16 *,
-                             JASOscillator::EffectParams const &);
+                             const JASOscillator::EffectParams &);
     static s32 dspUpdateCallback(u32, JASDsp::TChannel *, void *);
     s32 initialUpdateDSPChannel(JASDsp::TChannel *);
     s32 updateDSPChannel(JASDsp::TChannel *);
@@ -106,32 +106,32 @@ public:
     static void receiveBankDisposeMsg();
     bool checkBankDispose() const;
 
-    void setPauseFlag(bool param_0) { mPauseFlag = param_0; }
-    void setUpdateTimer(u32 param_0) { mUpdateTimer = param_0; }
-    void setBankDisposeID(const void *param_0) { mBankDisposeID = param_0; }
-    void setDirectRelease(u16 param_0) { mOscillators[0].setDirectRelease(param_0); }
-    void setVibrate(f32 param_0, f32 param_1)
+    void setPauseFlag(bool pauseFlag) { mPauseFlag = pauseFlag; }
+    void setUpdateTimer(u32 updateTimer) { mUpdateTimer = updateTimer; }
+    void setBankDisposeID(const void *disposeID) { mBankDisposeID = disposeID; }
+    void setDirectRelease(u16 release) { mOscillators[0].setDirectRelease(release); }
+    void setVibrate(f32 depth, f32 pitch)
     {
-        mVibrate.setDepth(param_0);
-        mVibrate.setPitch(param_1);
+        mVibrate.setDepth(depth);
+        mVibrate.setPitch(pitch);
     }
-    void setVibrateDelay(u16 param_0) { mVibrate.setDelay(param_0); }
-    void setTremolo(f32 param_0, f32 param_1)
+    void setVibrateDelay(u16 delay) { mVibrate.setDelay(delay); }
+    void setTremolo(f32 depth, f32 pitch)
     {
-        mTremolo.setDepth(param_0);
-        mTremolo.setPitch(param_1);
+        mTremolo.setDepth(depth);
+        mTremolo.setPitch(pitch);
     }
-    void setTremoloDelay(u16 param_0) { mTremolo.setDelay(param_0); }
-    void setPriority(u16 param_0) { mPriority = param_0; }
-    void setParams(const JASChannelParams &param_0) { mParams = param_0; }
-    void setInitVolume(f32 param_0) { mSoundParams.mVolume = param_0; }
-    void setInitFxmix(f32 param_0) { mSoundParams.mFxMix = param_0; }
-    void setInitPitch(f32 param_0) { mSoundParams.mPitch = param_0; }
-    void setInitPan(f32 param_0) { mSoundParams.mPan = param_0; }
-    void setInitDolby(f32 param_0) { mSoundParams.mDolby = param_0; }
-    void setKey(s32 param_0) { mKey = param_0; }
-    void setVelocity(u32 param_0) { mVelocity = param_0; }
-    void setSkipSamples(u32 param_0) { mSkipSamples = param_0; }
+    void setTremoloDelay(u16 delay) { mTremolo.setDelay(delay); }
+    void setPriority(u16 prio) { mPriority = prio; }
+    void setParams(const JASChannelParams &params) { mParams = params; }
+    void setInitVolume(f32 volume) { mSoundParams.mVolume = volume; }
+    void setInitFxmix(f32 fxMix) { mSoundParams.mFxMix = fxMix; }
+    void setInitPitch(f32 pitch) { mSoundParams.mPitch = pitch; }
+    void setInitPan(f32 pan) { mSoundParams.mPan = pan; }
+    void setInitDolby(f32 dolby) { mSoundParams.mDolby = dolby; }
+    void setKey(s32 key) { mKey = key; }
+    void setVelocity(u32 vel) { mVelocity = vel; }
+    void setSkipSamples(u32 skips) { mSkipSamples = skips; }
     bool isDolbyMode() { return mMixConfig[0].whole == 0xffff; }
 
     int mStatus;                   // 000

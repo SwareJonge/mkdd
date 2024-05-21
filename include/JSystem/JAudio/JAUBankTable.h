@@ -9,23 +9,23 @@ class JASBank;
 class JAUBankTable : public JASBankList
 {
 public:
-    JAUBankTable(u32 param_0, JASBank **param_1, u32 param_2) : mBankPtrTable(param_1, param_2)
+    JAUBankTable(u32 param_0, JASBank **ppBank, u32 param_2) : mBankPtrTable(ppBank, param_2)
     {
-        field_0xc = param_0;
+        _c = param_0;
     }
     JASBank *getBank(u32) const;
 
-    JASBank *getBank(u32 param_0) { return mBankPtrTable.get(param_0); }
-    void registBank(u32 param_0, JASBank *param_1) { mBankPtrTable.set(param_0, param_1); }
+    JASBank *getBank(u32 offset) { return mBankPtrTable.get(offset); }
+    void registBank(u32 offset, JASBank *pBank) { mBankPtrTable.set(offset, pBank); }
 
     JASPtrTable<JASBank> mBankPtrTable; // 04
-    u32 field_0xc;
+    u32 _c;
 };
 
 class JAUBankTableLink : public JSULink<JAUBankTable>, public JAUBankTable
 {
 public:
-    JAUBankTableLink(u32 param_0, JASBank **param_1, u32 param_2) : JSULink<JAUBankTable>(this), JAUBankTable(param_0, param_1, param_2) {}
+    JAUBankTableLink(u32 param_0, JASBank **ppBank, u32 param_2) : JSULink<JAUBankTable>(this), JAUBankTable(param_0, ppBank, param_2) {}
 };
 
 struct JAUBankTableDictionary : JSUList<JAUBankTable>

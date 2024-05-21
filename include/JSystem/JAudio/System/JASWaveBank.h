@@ -106,7 +106,7 @@ public:
     ~JASSimpleWaveBank();
     void setWaveTableSize(u32, JKRHeap *);
     JASWaveHandle *getWaveHandle(u32) const;
-    void setWaveInfo(u32, JASWaveInfo const &);
+    void setWaveInfo(u32, const JASWaveInfo &);
     JASWaveArc *getWaveArc(u32);
     u32 getArcCount() const;
 

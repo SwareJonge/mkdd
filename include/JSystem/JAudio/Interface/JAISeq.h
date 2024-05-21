@@ -25,7 +25,7 @@ public:
         JAITempoMgr mTempoMgr;                    // 2C8
         JASSoundParams mSoundParams;              // 2D8
         JAISeqData mSeqData;                      // 2EC
-        int _2f4;                                 // 2F4
+        int mCategory;                            // 2F4
         JAISeqMgr *seqMgr;                        // 2F8
         JAISoundStrategyMgr<JAISeq> *strategyMgr; // 2FC
     };
@@ -40,7 +40,7 @@ public:
     virtual bool JAISound_tryDie_();
 
     JAISeq(JAISeqMgr *, JAISoundStrategyMgr<JAISeq> *);
-    void JAISeqMgr_startID_(JAISoundID, const JGeometry::TVec3<f32> *, JAIAudience *, int, int);
+    void JAISeqMgr_startID_(JAISoundID, const JGeometry::TVec3f *, JAIAudience *, int, int);
     void playSeqData_(const JASSoundParams &, JAISoundActivity);
     void reserveChildTracks_(int);
     void releaseChildTracks_();

@@ -39,12 +39,12 @@ public:
     virtual bool JAISound_tryDie_();
 
     JAISe(JAISeMgr *, JAISoundStrategyMgr<JAISe> *, u32);
-    void mixOut_(JASSoundParams const &);
+    void mixOut_(const JASSoundParams &);
     void stopTrack_();
-    void startTrack_(JASSoundParams const &);
+    void startTrack_(const JASSoundParams &);
     void JAISeCategoryMgr_mixOut_(bool, const JASSoundParams &, JAISoundActivity);
     void JAISeCategoryMgr_calc_();
-    void JAISeMgr_startID_(JAISoundID, const JGeometry::TVec3<f32> *, JAIAudience *);
+    void JAISeMgr_startID_(JAISoundID, const JGeometry::TVec3f *, JAIAudience *);
     bool prepare_getSeqData_();
     void prepare_();
 

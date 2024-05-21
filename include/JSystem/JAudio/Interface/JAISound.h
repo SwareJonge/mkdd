@@ -43,11 +43,11 @@ class JAISoundID
 {
 public:
     operator u32() const { return this->mId.mFullId; }
-    void operator=(JAISoundID const &other) { mId.mFullId = other.mId.mFullId; };
+    void operator=(const JAISoundID &other) { mId.mFullId = other.mId.mFullId; };
 
     JAISoundID(u32 pId) { mId.mFullId = pId; };
 
-    JAISoundID(JAISoundID const &other) { mId = other.mId; };
+    JAISoundID(const JAISoundID &other) { mId = other.mId; };
 
     JAISoundID() {}
 
@@ -81,12 +81,12 @@ struct JAISoundInfo : public JASGlobalInstance<JAISoundInfo>
 {
     JAISoundInfo(bool);
 
-    virtual u32 getSoundType(JAISoundID) const = 0;
-    virtual int getCategory(JAISoundID) const = 0;
-    virtual u32 getPriority(JAISoundID) const = 0;
-    virtual void getSeInfo(JAISoundID, JAISe *) const = 0;
-    virtual void getSeqInfo(JAISoundID, JAISeq *) const = 0;
-    virtual void getStreamInfo(JAISoundID, JAIStream *) const = 0;
+    virtual u32 getSoundType(JAISoundID soundID) const = 0;
+    virtual int getCategory(JAISoundID soundID) const = 0;
+    virtual u32 getPriority(JAISoundID soundID) const = 0;
+    virtual void getSeInfo(JAISoundID soundID, JAISe *se) const = 0;
+    virtual void getSeqInfo(JAISoundID soundID, JAISeq *seq) const = 0;
+    virtual void getStreamInfo(JAISoundID soundID, JAIStream *stream) const = 0;
     virtual ~JAISoundInfo();
 };
 
@@ -95,8 +95,8 @@ struct JAISoundStarter : public JASGlobalInstance<JAISoundStarter>
     JAISoundStarter(bool);
 
     virtual ~JAISoundStarter();
-    virtual bool startSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *) = 0;
-    bool startLevelSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *);
+    virtual bool startSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *pos) = 0;
+    bool startLevelSound(JAISoundID soundID, JAISoundHandle *handlePtr, const JGeometry::TVec3f *pos);
 };
 
 struct JAISoundStatus_
@@ -290,21 +290,21 @@ class JAISound
 {
 public:
     void releaseHandle();
-    void attachHandle(JAISoundHandle *);
+    void attachHandle(JAISoundHandle *handle);
     JAISound();
-    void start_JAISound_(JAISoundID, const JGeometry::TVec3f *, JAIAudience *);
+    void start_JAISound_(JAISoundID soundID, const JGeometry::TVec3f *pos, JAIAudience *audience);
     bool acceptsNewAudible() const;
     void newAudible(const JGeometry::TVec3f &, const JGeometry::TVec3f *, u32,
-                    JAIAudience *);
+                    JAIAudience *audience);
     void stop();
     void stop(u32 fadeout);
     void die_JAISound_();
     void increasePrepareCount_JAISound_();
     bool calc_JAISound_();
-    void initTrack_JAISound_(JASTrack *);
+    void initTrack_JAISound_(JASTrack *track);
 
     virtual s32 getNumChild() const = 0;
-    virtual JAISoundChild *getChild(int) = 0;
+    virtual JAISoundChild *getChild(int childNo) = 0;
     virtual void releaseChild(int) = 0;
     virtual JAISe *asSe();
     virtual JAISeq *asSeq();
@@ -317,12 +317,12 @@ public:
     const JAISoundID &getID() const { return soundID_; }
     u8 getAnimationState() const { return status_.state.flags.animationState; }
     bool isAnimated() const { return getAnimationState() != 0; }
-    void setAnimationState(u8 pState)
+    void setAnimationState(u8 state)
     {
-        status_.state.flags.animationState = pState;
+        status_.state.flags.animationState = state;
     }
     u32 getUserData() const { return status_.user_data; }
-    void setUserData(u32 pUserData) { status_.user_data = pUserData; }
+    void setUserData(u32 userData) { status_.user_data = userData; }
     JAIAudible *getAudible() const { return audible_; }
     bool isHandleAttached() const { return handle_ != NULL; }
     bool hasLifeTime() const { return status_._1.flags.flag2; }

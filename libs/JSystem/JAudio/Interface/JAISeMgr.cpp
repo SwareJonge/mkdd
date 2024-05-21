@@ -221,7 +221,7 @@ void JAISeCategoryMgr::JAISeMgr_mixOut_(const JAISoundParamsMove &moveParams,
     }
 }
 
-JAISeMgr::JAISeMgr(bool param_0) : JASGlobalInstance<JAISeMgr>(param_0)
+JAISeMgr::JAISeMgr(bool p1) : JASGlobalInstance<JAISeMgr>(p1)
 {
     mAudience = NULL;
     mSeqDataMgr = NULL;
@@ -230,11 +230,11 @@ JAISeMgr::JAISeMgr(bool param_0) : JASGlobalInstance<JAISeMgr>(param_0)
     mActivity.init();
 }
 
-bool JAISeMgr::isUsingSeqData(JAISeqDataRegion const &param_0)
+bool JAISeMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
 {
     for (int i = 0; i < 16; i++)
     {
-        if (mCategoryMgrs[i].JAISeCategoryMgr::isUsingSeqData(param_0))
+        if (mCategoryMgrs[i].JAISeCategoryMgr::isUsingSeqData(dataRegion))
         {
             return true;
         }
@@ -242,12 +242,12 @@ bool JAISeMgr::isUsingSeqData(JAISeqDataRegion const &param_0)
     return false;
 }
 
-int JAISeMgr::releaseSeqData(JAISeqDataRegion const &param_0)
+int JAISeMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
 {
     u8 r30 = 0;
     for (int i = 0; i < 16; i++)
     {
-        switch (mCategoryMgrs[i].JAISeCategoryMgr::releaseSeqData(param_0))
+        switch (mCategoryMgrs[i].JAISeCategoryMgr::releaseSeqData(dataRegion))
         {
         case 0:
             return 0;
@@ -314,11 +314,11 @@ void JAISeMgr::stopAudibleSounds()
     }
 }
 
-void JAISeMgr::stopSoundID(JAISoundID param_0)
+void JAISeMgr::stopSoundID(JAISoundID soundID)
 {
     for (int i = 0; i < 16; i++)
     {
-        mCategoryMgrs[i].stopSoundID(param_0);
+        mCategoryMgrs[i].stopSoundID(soundID);
     }
 }
 
@@ -415,7 +415,7 @@ void JAISeMgr::mixOut()
 }
 
 bool JAISeMgr::startSound(JAISoundID soundID, JAISoundHandle *handle,
-                          const JGeometry::TVec3f *param_2)
+                          const JGeometry::TVec3f *pos)
 {
     if (handle && *handle)
     {
@@ -443,7 +443,7 @@ bool JAISeMgr::startSound(JAISoundID soundID, JAISoundHandle *handle,
         return false;
     }
     JAIAudience *pAudience = getAudience(categoryIndex);
-    pJAISe->JAISeMgr_startID_(soundID, param_2, pAudience);
+    pJAISe->JAISeMgr_startID_(soundID, pos, pAudience);
     if (pSoundInfo != NULL)
     {
         pSoundInfo->getSeInfo(soundID, pJAISe);

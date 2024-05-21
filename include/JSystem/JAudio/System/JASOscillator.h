@@ -64,7 +64,7 @@ struct JASOscillator
     void update();
     void updateCurrentValue(f32 param_0);
 
-    void setDirectRelease(u16 param_0) { mDirectRelease = param_0; }
+    void setDirectRelease(u16 release) { mDirectRelease = release; }
     void stop() { _1C = 0; }
     bool isValid() { return mData != NULL; }
     bool isStop() { return _1C == 0; }

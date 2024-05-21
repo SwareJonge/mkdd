@@ -57,7 +57,7 @@ namespace JASWSParser
     };
     struct TCtrlScene
     {
-        u8 _00[0xc];                  // _00 - unknown/padding
+        u8 _00[0xc];                // _00 - unknown/padding
         TOffset<TCtrl> mCtrlOffset; // _0C
     };
     struct TCtrlGroup
@@ -77,11 +77,11 @@ namespace JASWSParser
     };
 
     // Global
-    JASWaveBank *createWaveBank(const void *, JKRHeap *);       // 0x8009682c
-    JASBasicWaveBank *createBasicWaveBank(const void *, JKRHeap *); // 0x80096890
-    JASSimpleWaveBank *createSimpleWaveBank(const void *, JKRHeap *); // 0x80096ab8
+    JASWaveBank *createWaveBank(const void *p, JKRHeap *pHeap);             // 0x8009682c
+    JASBasicWaveBank *createBasicWaveBank(const void *p, JKRHeap *pHeap);   // 0x80096890
+    JASSimpleWaveBank *createSimpleWaveBank(const void *p, JKRHeap *pHeap); // 0x80096ab8
     // Inline/Unused
-    u32 getGroupCount(const void *);
+    u32 getGroupCount(const void *p);
     u32 getUsedHeapSize();
 
     extern u32 sUsedHeapSize;

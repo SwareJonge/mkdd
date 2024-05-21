@@ -10,11 +10,11 @@ struct JASLfo
     void incCounter(f32);
     void resetCounter();
 
-    void setDepth(f32 param_0) { mDepth = param_0; }
-    void setPitch(f32 param_0) { mPitch = param_0; }
-    void setDelay(u16 param_0) { mDelay = param_0; }
+    void setDepth(f32 depth) { mDepth = depth; }
+    void setPitch(f32 pitch) { mPitch = pitch; }
+    void setDelay(u16 delay) { mDelay = delay; }
 
-    static void updateFreeRun(f32 param_0) { sFreeRunLfo.incCounter(param_0); }
+    static void updateFreeRun(f32 rate) { sFreeRunLfo.incCounter(rate); }
 
     static JASLfo sFreeRunLfo;
 

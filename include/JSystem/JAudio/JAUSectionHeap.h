@@ -46,18 +46,18 @@ public:
     virtual void dispose();
 
     void finishBuild();
-    JAUSoundTable *newSoundTable(void const *, u32, bool);
-    JAUSoundNameTable *newSoundNameTable(void const *, u32, bool);
-    JAIStreamDataMgr *newStreamFileTable(void const *, bool);
-    JAISeqDataMgr *newSeSeqCollection(void const *, u32);
+    JAUSoundTable *newSoundTable(const void *, u32, bool);
+    JAUSoundNameTable *newSoundNameTable(const void *, u32, bool);
+    JAIStreamDataMgr *newStreamFileTable(const void *, bool);
+    JAISeqDataMgr *newSeSeqCollection(const void *, u32);
     u8 *newStaticSeqDataBlock_(JAISoundID, u32);
-    bool newStaticSeqData(JAISoundID, void const *, u32);
+    bool newStaticSeqData(JAISoundID, const void *, u32);
     bool newStaticSeqData(JAISoundID);
     const void *loadDVDFile(const char *path, bool, JKRExpandSwitch expSwitch);
-    void *newCopy(void const *data, u32 size, s32 alignment);
-    JASWaveBank *newWaveBank(u32, void const *);
+    void *newCopy(const void *data, u32 size, s32 alignment);
+    JASWaveBank *newWaveBank(u32, const void *);
     bool loadWaveArc(u32, u32);
-    JASBank *newBank(void const *, u32);
+    JASBank *newBank(const void *, u32);
     JASVoiceBank *newVoiceBank(u32, u32);
     bool beginNewBankTable(u32, u32);
     JAUBankTable *endNewBankTable();
@@ -67,8 +67,8 @@ public:
     JAUSectionHeap *asSectionHeap() { return (JAUSection *)sectionHeap_ == this ? sectionHeap_ : NULL; }
     JKRHeap *getHeap_();
 
-    u32 _28;                              //
-    bool mIsBuilding;                     //
+    u32 _28;                              // 28
+    bool mIsBuilding;                     // 2C
     JAUSectionHeap *sectionHeap_;         // 30
     JAUBankTableLink *buildingBankTable_; // 34
     TSectionData data_;                   // 38
@@ -104,7 +104,7 @@ public:
     JAUWaveBankTable &getWaveBankTable() { return sectionHeapData_.waveBankTable; }
 
     JKRHeap *heap_;                    // E0
-    int _e4;                           //
+    int _e4;                           // E4
     JSUList<JAUSection> sectionList_;  // E8
     TSectionHeapData sectionHeapData_; // F4
 };

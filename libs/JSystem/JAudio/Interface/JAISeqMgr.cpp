@@ -119,24 +119,24 @@ void JAISeqMgr::stop()
     }
 }
 
-void JAISeqMgr::stop(u32 param_0)
+void JAISeqMgr::stop(u32 fadeCount)
 {
     for (JSULink<JAISeq> *link = mSeqList.getFirst(); link != NULL; link = link->getNext())
     {
-        link->getObject()->stop(param_0);
+        link->getObject()->stop(fadeCount);
     }
 }
 
-void JAISeqMgr::stopSoundID(JAISoundID param_1)
+void JAISeqMgr::stopSoundID(JAISoundID soundID)
 {
-    if (!param_1.isAnonymous())
+    if (soundID.isAnonymous())
+        return;
+
+    for (JSULink<JAISeq> *link = mSeqList.getFirst(); link != NULL; link = link->getNext())
     {
-        for (JSULink<JAISeq> *link = mSeqList.getFirst(); link != NULL; link = link->getNext())
+        if ((u32)link->getObject()->getID() == (u32)soundID)
         {
-            if ((u32)link->getObject()->getID() == (u32)param_1)
-            {
-                link->getObject()->stop();
-            }
+            link->getObject()->stop();
         }
     }
 }

@@ -7,55 +7,55 @@ class JASSeqReader
 {
 public:
     void init();
-    void init(void *);
-    bool call(u32);
+    void init(void *base);
+    bool call(u32 offset);
     bool loopStart(u32);
     bool loopEnd();
     bool ret();
     int readMidiValue();
 
-    void jump(u32 param_1)
+    void jump(u32 offset)
     {
-        _04 = (u8 *)_00 + param_1;
+        mReadPtr = (u8 *)mBase + offset;
     }
 
-    void jump(void *param_1)
+    void jump(void *newAddr)
     {
-        _04 = (u8 *)param_1;
+        mReadPtr = (u8 *)newAddr;
     }
 
     u32 get24(int param_0)
     {
-        return (*(u32 *)((int)_00 + param_0 - 1)) & 0xffffff;
+        return (*(u32 *)((int)mBase + param_0 - 1)) & 0xffffff;
     }
 
-    u32 *getBase() { return _00; }
-    void *getAddr(u32 param_0) { return (u8 *)_00 + param_0; }
-    u8 getByte(u32 param_0) { return *((u8 *)_00 + param_0); }
-    u16 get16(u32 param_0) { return *(u16 *)((u8 *)_00 + param_0); }
-    u32 get32(u32 param_0) { return *(u32 *)((u8 *)_00 + param_0); }
-    u8 *getCur() { return _04; }
-    u32 readByte() { return *_04++; }
+    u32 *getBase() { return mBase; }
+    void *getAddr(u32 offset) { return (u8 *)mBase + offset; }
+    u8 getByte(u32 offset) { return *((u8 *)mBase + offset); }
+    u16 get16(u32 offset) { return *(u16 *)((u8 *)mBase + offset); }
+    u32 get32(u32 offset) { return *(u32 *)((u8 *)mBase + offset); }
+    u8 *getCur() { return mReadPtr; }
+    u32 readByte() { return *mReadPtr++; }
     u32 read16()
     {
-        u16 *tmp = (u16 *)_04;
-        _04 += 2;
+        u16 *tmp = (u16 *)mReadPtr;
+        mReadPtr += 2;
         return *tmp;
     }
     u32 read24()
     {
-        _04--;
-        u32 *tmp = (u32 *)_04;
-        _04 += 4;
+        mReadPtr--;
+        u32 *tmp = (u32 *)mReadPtr;
+        mReadPtr += 4;
         return *tmp & 0x00ffffff;
     }
     u16 getLoopCount() const { return _08 == 0 ? 0 : _2c[_08 - 1]; }
 
-    u32 *_00;    // 00
-    u8 *_04;     // 04
-    u32 _08;     // 08
-    u16 *_0c[8]; // 0c
-    u16 _2c[8];  // 2c
+    u32 *mBase;   // 00
+    u8 *mReadPtr; // 04
+    u32 _08;      // 08
+    u16 *_0c[8];  // 0c
+    u16 _2c[8];   // 2c
 };
 
 #endif

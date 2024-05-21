@@ -42,19 +42,19 @@ public:
     void JAISeMgr_calc_();
     void JAISeMgr_calcAudibleSounds_();
     void JAISeMgr_freeDeadSe_();
-    bool JAISeMgr_acceptsNewSe_(u32) const;
+    bool JAISeMgr_acceptsNewSe_(u32 prio) const;
     void sortByPriority_();
-    void stop(u32);
+    void stop(u32 fadeCount);
     void stop();
     void stopAudibleSounds();
-    void stopSoundID(JAISoundID);
-    void pause(bool);
-    void JAISeMgr_mixOut_(JAISoundParamsMove const &, JAISoundActivity);
+    void stopSoundID(JAISoundID soundID);
+    void pause(bool doPause);
+    void JAISeMgr_mixOut_(const JAISoundParamsMove &moveParams, JAISoundActivity activity);
     int getNumAudibleSe() const;
 
     virtual ~JAISeCategoryMgr() {}
-    virtual bool isUsingSeqData(JAISeqDataRegion const &);
-    virtual int releaseSeqData(JAISeqDataRegion const &);
+    virtual bool isUsingSeqData(const JAISeqDataRegion &region);
+    virtual int releaseSeqData(const JAISeqDataRegion &region);
 
     void JAISeMgr_appendSe_(JAISe *se) { mSeList.append(se); }
 
@@ -83,29 +83,29 @@ class JAISeMgr : public JASGlobalInstance<JAISeMgr>, public JAISeqDataUser
 {
 public:
     JAISeMgr(bool);
-    void setCategoryArrangement(const JAISeCategoryArrangement &);
-    void getCategoryArrangement(JAISeCategoryArrangement *);
+    void setCategoryArrangement(const JAISeCategoryArrangement &catArrangement);
+    void getCategoryArrangement(JAISeCategoryArrangement *catArrangement);
     void stop();
     void stopAudibleSoundsSync();
     void stopAudibleSounds();
-    void stopSoundID(JAISoundID);
+    void stopSoundID(JAISoundID soundID);
     void initParams();
-    void setAudience(JAIAudience *);
-    void setSeqDataMgr(JAISeqDataMgr *);
+    void setAudience(JAIAudience *audience);
+    void setSeqDataMgr(JAISeqDataMgr *seqDataMgr);
     void resetSeqDataMgr();
-    JAISe *newSe_(int, u32);
+    JAISe *newSe_(int category, u32 prio);
     void calc();
     void calcAudibleSounds();
     void mixOut();
-    bool startSound(JAISoundID, JAISoundHandle *, const JGeometry::TVec3<f32> *);
+    bool startSound(JAISoundID soundID, JAISoundHandle *handle, const JGeometry::TVec3f *pos);
     int getNumActiveSe() const;
     int getNumAudibleSe() const;
 
     static const s32 NUM_CATEGORIES = 16;
 
     virtual ~JAISeMgr() {} // weak
-    virtual bool isUsingSeqData(JAISeqDataRegion const &);
-    virtual int releaseSeqData(JAISeqDataRegion const &);
+    virtual bool isUsingSeqData(const JAISeqDataRegion &region);
+    virtual int releaseSeqData(const JAISeqDataRegion &region);
 
     JAISeCategoryMgr *getCategory(int categoryIndex)
     {

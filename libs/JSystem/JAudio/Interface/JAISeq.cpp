@@ -27,10 +27,10 @@ JAISeq::JAISeq(JAISeqMgr *seqMgr, JAISoundStrategyMgr<JAISeq> *strategyMgr) : JS
     }
 }
 
-void JAISeq::JAISeqMgr_startID_(JAISoundID soundID, const JGeometry::TVec3f *pos, JAIAudience *audience, int param_3, int param_4)
+void JAISeq::JAISeqMgr_startID_(JAISoundID soundID, const JGeometry::TVec3f *pos, JAIAudience *audience, int category, int p5)
 {
-    inner_._2f4 = param_3;
-    reserveChildTracks_(param_4);
+    inner_.mCategory = category;
+    reserveChildTracks_(p5);
     start_JAISound_(soundID, pos, audience);
     if (inner_.strategyMgr)
     {
@@ -60,7 +60,7 @@ void JAISeq::playSeqData_(const JASSoundParams &params, JAISoundActivity activit
     inner_.outputTrack.startSeq();
 }
 
-void JAISeq::reserveChildTracks_(int param_0)
+void JAISeq::reserveChildTracks_(int count)
 {
 #line 92
     JUT_ASSERT(inner_.outputTrack.getStatus() == JASTrack::STATUS_FREE)
@@ -72,7 +72,7 @@ void JAISeq::reserveChildTracks_(int param_0)
             inner_.outputTrack.connectChild(i, track);
             for (int j = 0; j < 16; j++)
             {
-                if (i * 16 + j >= param_0)
+                if (i * 16 + j >= count)
                     continue;
                 
                 JASTrack *track2 = new JASTrack();

@@ -13,13 +13,13 @@ class JAIStreamMgr : public JASGlobalInstance<JAIStreamMgr>
 public:
     JAIStreamMgr(bool);
     ~JAIStreamMgr();
-    void startStreamDirect(const char *fileName, JAISoundHandle *handle, int category, const JGeometry::TVec3<float> *pos);
-    bool startSound(JAISoundID, JAISoundHandle *, JGeometry::TVec3<f32> const *);
+    void startStreamDirect(const char *fileName, JAISoundHandle *handle, int category, const JGeometry::TVec3f *pos);
+    bool startSound(JAISoundID soundID, JAISoundHandle *handle, const JGeometry::TVec3<f32> *pos);
     void freeDeadStream_();
     void calc();
     void stop();
-    void stop(u32);
-    void stopSoundID(JAISoundID);
+    void stop(u32 fadeCount);
+    void stopSoundID(JAISoundID soundID);
     void mixOut();
     JAIStream *newStream_();
     bool isActive() const;
@@ -27,19 +27,19 @@ public:
     JAIAudience *getAudience() { return mAudience; }
     JAISoundParamsMove *getParams() { return &mParams; }
     JAIStreamAramMgr *getStreamAramMgr() { return streamAramMgr_; }
-    void setStreamDataMgr(JAIStreamDataMgr *param_0)
+    void setStreamDataMgr(JAIStreamDataMgr *dataMgr)
     {
 #line 138
         JUT_ASSERT(!isActive());
-        streamDataMgr_ = param_0;
+        streamDataMgr_ = dataMgr;
     }
-    void setStreamAramMgr(JAIStreamAramMgr *param_0)
+    void setStreamAramMgr(JAIStreamAramMgr *aramMgr)
     {
 #line 157
         JUT_ASSERT(!isActive());
-        streamAramMgr_ = param_0;
+        streamAramMgr_ = aramMgr;
     }
-    void pause(bool i_pause) { mActivity._0.flags.flag2 = i_pause; }
+    void pause(bool doPause) { mActivity._0.flags.flag2 = doPause; }
 
 private:
     JAISoundActivity mActivity;                   // 00

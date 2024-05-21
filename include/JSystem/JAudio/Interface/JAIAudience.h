@@ -9,11 +9,11 @@ class JAIAudience
 {
 public:
     virtual ~JAIAudience();
-    virtual JAIAudible *newAudible(const JGeometry::TVec3f &, JAISoundID, const JGeometry::TVec3f *, u32) = 0;
+    virtual JAIAudible *newAudible(const JGeometry::TVec3f &, JAISoundID soundID, const JGeometry::TVec3f *, u32 channels) = 0;
     virtual int getMaxChannels() = 0;
-    virtual void deleteAudible(JAIAudible *) = 0;
-    virtual u32 calcPriority(JAIAudible *) = 0;
-    virtual void mixChannelOut(const JASSoundParams &, JAIAudible *, int) = 0;
+    virtual void deleteAudible(JAIAudible *audible) = 0;
+    virtual u32 calcPriority(JAIAudible *audible) = 0;
+    virtual void mixChannelOut(const JASSoundParams &params, JAIAudible *audible, int channel) = 0;
 };
 
 # endif

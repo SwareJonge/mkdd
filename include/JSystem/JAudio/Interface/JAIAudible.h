@@ -8,7 +8,7 @@ class JAIAudible
 {
 public:
     virtual ~JAIAudible();
-    virtual JASSoundParams *getOuterParams(int) = 0;
+    virtual JASSoundParams *getOuterParams(int chan) = 0;
     virtual void calc() = 0;
 
     JGeometry::TVec3f &getPos() { return mPos; }

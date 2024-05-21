@@ -13,11 +13,11 @@ public:
     }
 
     // Global
-    JAISoundHandle *getHandleSoundID(JAISoundID); // 0x8008cff0
-    JAISoundHandle *getHandleUserData(u32);       // 0x8008d0b4
-    JAISoundHandle *getFreeHandle();              // 0x8008d174
-    void stopAllSounds();                         // 0x8008d1bc
-    void setPos(const JGeometry::TVec3f &pos);    // 0x8008d274
+    JAISoundHandle *getHandleSoundID(JAISoundID soundID); // 0x8008cff0
+    JAISoundHandle *getHandleUserData(u32 id);            // 0x8008d0b4
+    JAISoundHandle *getFreeHandle();                      // 0x8008d174
+    void stopAllSounds();                                 // 0x8008d1bc
+    void setPos(const JGeometry::TVec3f &pos);            // 0x8008d274
     // Inline/Unused
     // void getFreeHandleIndex() const;
     // void releaseAllSounds();

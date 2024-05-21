@@ -23,7 +23,7 @@ struct JASAudioThread : public JKRThread, public JASGlobalInstance<JASAudioThrea
 
     static JASAudioThread *getThreadPointer() { return getInstance(); }
     static int getDSPSyncCount() { return snIntCount; }
-    static void setDSPSyncCount(u32 param_0) { snIntCount = param_0; }
+    static void setDSPSyncCount(u32 count) { snIntCount = count; }
 
     OSThreadQueue sThreadQueue; // 7x
     bool sbPauseFlag;           //  b4, type unsure

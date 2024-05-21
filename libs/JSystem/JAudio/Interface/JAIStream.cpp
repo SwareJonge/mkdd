@@ -10,7 +10,7 @@
 // Move this shit to correct header + sym on shit
 DECL_WEAK JASAudioThread* JASGlobalInstance<JASAudioThread>::sInstance;
 
-static void JAIStream_JASAramStreamCallback_(u32 type, JASAramStream *param_2, void *stream)
+static void JAIStream_JASAramStreamCallback_(u32 type, JASAramStream *aramStream, void *stream)
 {
     switch (type)
     {
@@ -37,12 +37,12 @@ JAIStream::JAIStream(JAIStreamMgr *streamMgr, JAISoundStrategyMgr<JAIStream> *st
     }
 }
 
-void JAIStream::JAIStreamMgr_startID_(JAISoundID soundID, s32 param_2,
+void JAIStream::JAIStreamMgr_startID_(JAISoundID soundID, s32 entryID,
                                       const JGeometry::TVec3f *pos, JAIAudience *audience_,
-                                      int param_5)
+                                      int category)
 {
-    _298 = param_5;
-    _294 = param_2;
+    mCategory = category;
+    mEntryID = entryID;
     start_JAISound_(soundID, pos, audience_);
     _290 = 0;
     if (mStrategyMgr != NULL)
@@ -87,7 +87,7 @@ bool JAIStream::prepare_prepareStream_()
             mInner.mAramStream.setDolby(soundParams->mDolby);
         }
         _2c5 = 0;
-        if (mInner.mAramStream.prepare(_294, -1))
+        if (mInner.mAramStream.prepare(mEntryID, -1))
         {
             _290 = 2;
         }
@@ -157,15 +157,15 @@ void JAIStream::prepare_startStream_()
     }
 }
 
-void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &param_1, JAISoundActivity param_2)
+void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &soundParams, JAISoundActivity activity)
 {
-    JASSoundParams local_4c;
-    params_.mixOutAll(param_1, &local_4c, (status_.isMute() || param_2._0.flags.flag1) ? 0.0f : fader_.getIntensity());
+    JASSoundParams mixed;
+    params_.mixOutAll(soundParams, &mixed, (status_.isMute() || activity._0.flags.flag1) ? 0.0f : fader_.getIntensity());
     if (_2bc != NULL)
     {
-        _2bc->virtual4(this, local_4c);
+        _2bc->virtual4(this, mixed);
     }
-    JASSoundParams *mixParams = &local_4c;
+    JASSoundParams *mixParams = &mixed;
     if (audible_ != NULL && audience_ != NULL)
     {
         for (int i = 0; i < audience_->getMaxChannels(); i++)
@@ -173,7 +173,7 @@ void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &param_1, JAISoundActi
             JASSoundParams *outerParams = audible_->getOuterParams(i);
             if (outerParams != NULL)
             {
-                audience_->mixChannelOut(local_4c, audible_, i);
+                audience_->mixChannelOut(mixed, audible_, i);
                 mixParams = outerParams;
                 break;
             }
@@ -204,7 +204,7 @@ void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &param_1, JAISoundActi
     prepare_();
     if (_290 == 4)
     {
-        bool notPlaying = status_.isPaused() || param_2._0.flags.flag2;
+        bool notPlaying = status_.isPaused() || activity._0.flags.flag2;
         if (notPlaying != _2c4)
         {
             mInner.mAramStream.pause(notPlaying);
@@ -300,13 +300,13 @@ JAISoundChild *JAIStream::getChild(int i_idx)
     return mChilds[i_idx];
 }
 
-void JAIStream::releaseChild(int i_idx)
+void JAIStream::releaseChild(int childNo)
 {
-    if (mChilds[i_idx] != NULL)
+    if (mChilds[childNo] != NULL)
     {
-        JAISoundChild *child = mChilds[i_idx];
+        JAISoundChild *child = mChilds[childNo];
         delete child;
-        mChilds[i_idx] = NULL;
+        mChilds[childNo] = NULL;
     }
 }
 
@@ -315,7 +315,7 @@ JASTrack *JAIStream::getTrack()
     return NULL;
 }
 
-JASTrack *JAIStream::getChildTrack(int param_0)
+JASTrack *JAIStream::getChildTrack(int)
 {
     return NULL;
 }

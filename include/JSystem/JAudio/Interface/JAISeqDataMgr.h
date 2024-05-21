@@ -45,8 +45,8 @@ struct JAISeqDataRegion
 struct JAISeqDataUser
 {
     virtual ~JAISeqDataUser();
-    virtual bool isUsingSeqData(JAISeqDataRegion const &) = 0;
-    virtual int releaseSeqData(JAISeqDataRegion const &) = 0;
+    virtual bool isUsingSeqData(const JAISeqDataRegion &) = 0;
+    virtual int releaseSeqData(const JAISeqDataRegion &) = 0;
 };
 
 struct JAISeqDataMgr

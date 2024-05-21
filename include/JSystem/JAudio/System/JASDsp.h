@@ -13,13 +13,13 @@ namespace JASDsp
     /** @fabricated */
     struct Fxline
     {
-        u16 _00;    // _00
-        u16 _02;    // _02
-        s16 *_04;   // _04
-        u16 _08;    // _08
-        u16 _0A;    // _0A
-        u16 _0C;    // _0C
-        u16 _0E;    // _0E
+        u16 _00;             // _00
+        u16 _02;             // _02
+        s16 *_04;            // _04
+        u16 _08;             // _08
+        u16 _0A;             // _0A
+        u16 _0C;             // _0C
+        u16 _0E;             // _0E
         u16 mFilterTable[8]; // _10
 
         // u16 _12;  // _12
@@ -89,10 +89,10 @@ namespace JASDsp
         void updateAMPan(u8, u8);
         void updateAMFX(u8);
 
-        u16 mIsActive;   // _00
-        u16 mIsFinished; // _02
-        s16 mPitch;      // _04
-        s16 _06;
+        u16 mIsActive;           // _00
+        u16 mIsFinished;         // _02
+        s16 mPitch;              // _04
+        s16 _06;                 //
         u16 _08;                 // _08
         u16 _0A;                 // _0A
         u16 mPauseFlag;          // _0C

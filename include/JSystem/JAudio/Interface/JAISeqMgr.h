@@ -19,28 +19,28 @@ public:
     };
     JAISeqMgr(bool);
     void freeDeadSeq_();
-    bool startSound(JAISoundID, JAISoundHandle *, JGeometry::TVec3<f32> const *);
+    bool startSound(JAISoundID soundID, JAISoundHandle *handle, const JGeometry::TVec3<f32> *pos);
     void calc();
     void stop();
-    void stop(u32);
-    void stopSoundID(JAISoundID);
+    void stop(u32 fadeCount);
+    void stopSoundID(JAISoundID soundID);
     void mixOut();
     JAISeq *beginStartSeq_();
-    bool endStartSeq_(JAISeq *, JAISoundHandle *);
+    bool endStartSeq_(JAISeq *seq, JAISoundHandle *handle);
 
     virtual ~JAISeqMgr() {}
-    virtual bool isUsingSeqData(JAISeqDataRegion const &);
-    virtual int releaseSeqData(JAISeqDataRegion const &);
+    virtual bool isUsingSeqData(const JAISeqDataRegion &region);
+    virtual int releaseSeqData(const JAISeqDataRegion &region);
 
-    void setAudience(JAIAudience *param_0) { mAudience = param_0; }
+    void setAudience(JAIAudience *audience) { mAudience = audience; }
     JAIAudience *getAudience() { return mAudience; }
     JAISeqDataMgr *getSeqDataMgr() { return seqDataMgr_; }
-    void setSeqDataMgr(JAISeqDataMgr *param_0)
+    void setSeqDataMgr(JAISeqDataMgr *seqDataMgr)
     {
 #line 124
         JUT_ASSERT(!isActive());
         resetSeqDataMgr();
-        seqDataMgr_ = param_0;
+        seqDataMgr_ = seqDataMgr;
         seqDataMgr_->setSeqDataUser(this);
     }
     void resetSeqDataMgr()
@@ -56,7 +56,7 @@ public:
     JAISoundParamsMove *getParams() { return &mMove; }
     bool isActive() { return mSeqList.getNumLinks() != 0; }
     int getNumActiveSeqs() { return mSeqList.getNumLinks(); }
-    void pause(bool i_pause) { mActivity._0.flags.flag2 = i_pause; }
+    void pause(bool doPause) { mActivity._0.flags.flag2 = doPause; }
 
 private:
     JAISoundActivity mActivity;                // 04

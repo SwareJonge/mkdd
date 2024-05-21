@@ -40,14 +40,14 @@ public:
 
     TInner mInner;                                 // 0A8
     int _290;                                      // 290
-    s32 _294;                                      // 294
-    int _298;                                      // 298
+    s32 mEntryID;                                  // 294
+    int mCategory;                                 // 298
     u32 mAramAddr;                                 // 29C
     JAISoundChild *mChilds[6];                     // 2A0
     JAIStreamMgr *mStreamMgr;                      // 2B8
     JAISoundStrategyMgr__unknown<JAIStream> *_2bc; // 2BC
     JAISoundStrategyMgr<JAIStream> *mStrategyMgr;  // 2C0
-    bool _2c4;                                       // 2C4
+    bool _2c4;                                     // 2C4
     u8 _2c5;                                       // 2C5
     u8 _2c6;                                       // 2C6
 };

@@ -69,9 +69,9 @@ s32 JAISoundStatus_::unlockIfLocked()
     return 0;
 }
 
-void JAISoundParams::mixOutAll(const JASSoundParams &params, JASSoundParams *outParams, f32 param_2)
+void JAISoundParams::mixOutAll(const JASSoundParams &params, JASSoundParams *outParams, f32 intensity)
 {
-    outParams->mVolume = params.mVolume * mProperty._0 * mMove.mParams.mVolume * param_2;
+    outParams->mVolume = params.mVolume * mProperty._0 * mMove.mParams.mVolume * intensity;
     outParams->mFxMix = params.mFxMix + mProperty._4 + mMove.mParams.mFxMix;
     outParams->mPitch = params.mPitch * mMove.mParams.mPitch;
     outParams->mPan = (params.mPan + mMove.mParams.mPan) - 0.5f;
@@ -113,36 +113,33 @@ bool JAISound::acceptsNewAudible() const
 }
 
 void JAISound::newAudible(const JGeometry::TVec3f &param_0,
-                          const JGeometry::TVec3f *param_1, u32 param_2, JAIAudience *param_3)
+                          const JGeometry::TVec3f *param_1, u32 param_2, JAIAudience *audience)
 {
 #line 153
     JUT_ASSERT(acceptsNewAudible())
-    if (param_3 != NULL)
+    if (audience != NULL)
     {
-        audience_ = param_3;
+        audience_ = audience;
     }
 
     JUT_ASSERT(audience_)
-    JAISoundID sound = soundID_;
-    audible_ = audience_->newAudible(param_0, sound, param_1, param_2);
+    audible_ = audience_->newAudible(param_0, soundID_, param_1, param_2);
 }
 
 void JAISound::stop(u32 fadeCount)
 {
+#line 166
     JUT_ASSERT(status_.isAlive());
     if (fadeCount == 0)
     {
         stop();
         return;
     }
-    else
-    {
-        fader_.fadeOut(fadeCount);
-        removeLifeTime_();
-        status_._1.flags.flag2 = 0;
-        status_.state.flags.flag5 = 1;
-        status_.state.flags.flag1 = 1;
-    }
+    fader_.fadeOut(fadeCount);
+    removeLifeTime_();
+    status_._1.flags.flag2 = 0;
+    status_.state.flags.flag5 = 1;
+    status_.state.flags.flag1 = 1;
 }
 
 void JAISound::stop()
@@ -195,6 +192,7 @@ bool JAISound::calc_JAISound_()
     {
         return false;
     }
+#line 232
     JUT_ASSERT(status_.isAlive());
     bool isPlaying = status_.isPlaying();
     if (isPlaying)

@@ -111,7 +111,7 @@ struct JAISoundParamsMove
 struct JAISoundParams
 {
     JAISoundParams() : mMove() {}
-    void mixOutAll(const JASSoundParams &, JASSoundParams *, f32);
+    void mixOutAll(const JASSoundParams &inParams, JASSoundParams *outParams, f32 intensity);
 
     void init()
     {

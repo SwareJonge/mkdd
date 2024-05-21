@@ -9,7 +9,7 @@ class JKRSolidHeap;
 class JASHeap
 {
 public:
-    JASHeap(JASDisposer *param_0 = NULL);
+    JASHeap(JASDisposer *disposer = NULL);
     void initRootHeap(void *, u32);
     bool alloc(JASHeap *, u32);
     bool allocTail(JASHeap *, u32);
@@ -24,11 +24,11 @@ public:
     bool isAllocated() { return mBase; }
 
     JSUTree<JASHeap> mTree; // 00
-    OSMutex mMutex; // 1C
+    OSMutex mMutex;         // 1C
     JASDisposer *mDisposer; // 34
-    u8 *mBase; // 38
-    u32 mSize; // 3C
-    JASHeap *_40; // 40
+    u8 *mBase;              // 38
+    u32 mSize;              // 3C
+    JASHeap *_40;           // 40
 };
 
 namespace JASKernel
@@ -52,10 +52,10 @@ namespace JASThreadingModel
     {
         struct Lock
         {
-            Lock(const T &param_0) { _0 = OSDisableInterrupts(); }
-            ~Lock() { OSRestoreInterrupts(_0); }
+            Lock(const T &param_0) { mInterrupt = OSDisableInterrupts(); }
+            ~Lock() { OSRestoreInterrupts(mInterrupt); }
 
-            BOOL _0;
+            BOOL mInterrupt;
         };
     };
 
@@ -64,7 +64,7 @@ namespace JASThreadingModel
     {
         struct Lock
         {
-            Lock(const T &) { }
+            Lock(const T &) {}
         };
     };
 

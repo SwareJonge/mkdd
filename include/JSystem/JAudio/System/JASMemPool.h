@@ -15,7 +15,7 @@ struct JASGenericMemPool
     JASGenericMemPool();
     ~JASGenericMemPool();
     void newMemPool(u32 n, int count);
-    void free(void *, u32);
+    void free(void *p, u32 n);
     void *alloc(u32 n);
 
     void *mRunner;
@@ -107,10 +107,10 @@ class JASMemChunkPool
             mUsedSize = 0;
         }
 
-        MemoryChunk *mNextChunk;
-        u32 mUsedSize;
-        u32 mChunks;
-        u8 mBuffer[ChunkSize];
+        MemoryChunk *mNextChunk; // 00
+        u32 mUsedSize;           // 04
+        u32 mChunks;             // 08
+        u8 mBuffer[ChunkSize];   // 0c
     };
 
 public:

@@ -5,14 +5,14 @@
 
 struct JAIStreamDataMgr
 {
-    virtual s32 getStreamFileEntry(JAISoundID) = 0;
+    virtual s32 getStreamFileEntry(JAISoundID soundID) = 0;
     virtual ~JAIStreamDataMgr();
 };
 
 struct JAIStreamAramMgr
 {
-    virtual u32 newStreamAram(u32 *) = 0;
-    virtual int deleteStreamAram(u32) = 0;
+    virtual u32 newStreamAram(u32 *pSize) = 0;
+    virtual int deleteStreamAram(u32 addr) = 0;
     virtual ~JAIStreamAramMgr();
 };
 

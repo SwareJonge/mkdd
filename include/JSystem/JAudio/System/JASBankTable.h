@@ -9,8 +9,8 @@ class JASBankTable : public JASBankList
 {
 public:
     // JASBank* getBank(u32 param_0) { return mArray.get(param_0); }
-    virtual JASBank *getBank(u32 param_0) const { return mArray.get(param_0); }
-    void registBank(u32 param_0, JASBank *param_1) { mArray.set(param_0, param_1); }
+    virtual JASBank *getBank(u32 index) const { return mArray.get(index); }
+    void registBank(u32 index, JASBank *bank) { mArray.set(index, bank); }
 
 private:
     JASPtrArray<JASBank, N> mArray;
