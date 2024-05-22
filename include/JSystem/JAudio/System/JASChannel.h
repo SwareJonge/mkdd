@@ -1,19 +1,13 @@
 #ifndef JAUDIO_JASCHANNEL_H
 #define JAUDIO_JASCHANNEL_H
 
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASDsp.h"
 #include "JSystem/JAudio/System/JASLfo.h"
+#include "JSystem/JAudio/System/JASMemPool.h"
 #include "JSystem/JAudio/System/JASOscillator.h"
 #include "JSystem/JAudio/System/JASSoundParams.h"
 #include "JSystem/JAudio/System/JASWaveInfo.h"
 #include "dolphin/os/OSMessage.h"
-
-class JASDSPChannel;
-
-namespace JASDsp
-{
-    struct TChannel;
-}
 
 class JASChannelParams
 {
@@ -48,7 +42,7 @@ public:
 class JASChannel : public JASPoolAllocObject_MultiThreaded<JASChannel>
 {
 public:
-    typedef void (*Callback)(u32, JASChannel *, JASDsp::TChannel *, void *);
+    typedef void (*Callback)(u32, JASChannel *channel, JASDsp::TChannel *dspChannel, void *);
 
     enum CallbackType
     {

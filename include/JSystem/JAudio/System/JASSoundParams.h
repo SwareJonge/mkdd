@@ -65,11 +65,11 @@ struct JASSoundParams
             mDolby = 1.0f;
     }
 
-    f32 mVolume;
-    f32 mFxMix;
-    f32 mPitch;
-    f32 mPan;
-    f32 mDolby;
+    f32 mVolume; // 00
+    f32 mFxMix;  // 04
+    f32 mPitch;  // 08
+    f32 mPan;    // 0C
+    f32 mDolby;  // 10
 };
 
 #endif

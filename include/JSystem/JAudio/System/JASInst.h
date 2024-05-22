@@ -1,27 +1,133 @@
 #ifndef JAUDIO_JASINST_H
 #define JAUDIO_JASINST_H
 
-#include <JSystem/JMath/JMath.h>
-#include <JSystem/JAudio/System/JASSoundParams.h>
+#include "JSystem/JMath/JMath.h"
+#include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JAudio/System/JASSoundParams.h"
+#include "JSystem/JAudio/System/JASOscillator.h"
 
+enum JASInstTarget
+{
+    JASINST_Volume = 0,
+    JASINST_Pitch = 1,
+    JASINST_Pan = 2,
+    JASINST_FxMix = 3,
+    JASINST_Dolby = 4,
+};
+
+// fabricated
+struct JASVelo
+{
+    u32 _0;
+    u32 _4;
+    f32 _8;
+    f32 _c;
+};
+
+class JASInstParam : public JASSoundParams
+{
+public:
+    JASInstParam()
+    {
+        _14 = 0;
+        _18 = 0;
+        _1c = NULL;
+        _20 = 0;
+        _24 = 0;
+        _26 = 0;
+    }
+
+    u32 _14;
+    u32 _18;
+    JASOscillator::Data **_1c;
+    u32 _20;
+    u8 _24;
+    u16 _26;
+};
+
+class JASInst
+{
+public:
+    JASInst() {}
+    virtual ~JASInst() {}
+    virtual bool getParam(int, int, JASInstParam *) const = 0;
+    virtual u32 getType() const = 0;
+};
 
 // NOTE: none of these constructors have been tested
-class JASInstEffect {
+class JASInstEffect
+{
 public:
-    JASInstEffect() { mType = 0; }
+    JASInstEffect()  {}
     virtual void effect(int, int, JASSoundParams *params) const = 0;
+
+    void setType(int type) { mType = type; } // fabricated
 
 protected:
     int mType;
 };
 
+class JASBasicInst : public JASInst
+{
+public:
+    static const int OSC_MAX = 2;
+    static const int EFFECT_MAX = 4;
+
+    class TKeymap
+    {
+    public:
+        TKeymap() {}
+        ~TKeymap();                                        // 0x800975f4
+        void setVeloRegionCount(u32 count, JKRHeap *heap); // 0x80097648
+        JASVelo *getVeloRegion(int index);                 // 0x800976f0
+        void getVeloRegion(int index) const;               // 0x80097784
+
+        void setHighKey(int high) {
+            mHighKey = high;
+        }
+
+        int mHighKey;         // 0
+        u32 mVeloRegionCount; // 4
+        JASVelo *mVelomap;    // 8
+    };
+
+    // Global
+    JASBasicInst();                                             // 0x80096ffc
+    virtual ~JASBasicInst();                                    // 0x800970b8
+    virtual bool getParam(int, int, JASInstParam *param) const; // 0x80097184
+    void setKeyRegionCount(u32, JKRHeap *heap);                 // 0x800972dc
+    void setEffect(int index, JASInstEffect *effect);           // 0x800973c8
+    void setOsc(int index, JASOscillator::Data *oscData);       // 0x80097494
+    TKeymap *getKeyRegion(int index);                           // 0x80097560
+
+    virtual u32 getType() const { return 'BSIC'; }
+
+    void setVolume(f32 vol) { mVolume = vol; }
+    void setPitch(f32 pitch) { mPitch = pitch; }
+
+    // Inline/Unused
+    // void searchKeymap(int) const;
+    // void getEffect(int);
+    // void getOsc(int);
+    // void getKeyRegion(int) const;
+private:
+    f32 mVolume;         // 00
+    f32 mPitch;          // 08
+    u8 _c[0x8];          // 0C
+    u8 _14[0x10];        // 14
+    TKeymap *mKeyMap;    // 24
+    u32 mKeyRegionCount; // 28
+};
+
 class JASInstRand : public JASInstEffect
 {
 public:
-    JASInstRand() : JASInstEffect() {
-        mX = 1.0f;
-        mY = 0.0f;
-     }
+    JASInstRand() : JASInstEffect()
+    {
+        mType = 0;
+        mFloor = 1.0f;
+        mCeiling = 0.0f;
+    }
 
     virtual void effect(int, int, JASSoundParams *params) const;
 
@@ -31,26 +137,40 @@ public:
         return rnd - (mult * in);
     }
 
+    // fabricated
+    void setFloor(f32 floor) { mFloor = floor; }
+    void setCeiling(f32 ceiling) { mCeiling = ceiling; }
+    void set(f32 floor, f32 ceiling)
+    {
+        mFloor = floor;
+        mCeiling = ceiling;
+    }
+
 private:
-    f32 mX;
-    f32 mY;
+    f32 mFloor;
+    f32 mCeiling;
 };
 
-class JASInstSense : public JASInstEffect {
+class JASInstSense : public JASInstEffect
+{
 public:
-    JASInstSense() : JASInstEffect() {
+    JASInstSense() : JASInstEffect()
+    {
+        mType = 0;
         _08 = 0;
         _09 = 60;
         _0C = 1.0f;
         _10 = 1.0f;
     }
+    void setParams(int trigger, int centerkey, f32, f32);
+
+    virtual void effect(int, int, JASSoundParams *params) const;
 
 private:
-    int _08;
+    u8 _08;
     u8 _09;
     f32 _0C;
     f32 _10;
-
 };
 
 #endif

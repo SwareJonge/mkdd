@@ -476,6 +476,14 @@ libs/JSystem/JAudio/System/JASWSParser.cpp:
     .text: [0x80096190, 0x800966e8]
     .sbss: [0x803d4d28, 0x803d4d30]
 
+libs/JSystem/JAudio/System/JASBNKParser.cpp:
+    .text: [0x80097764, 0x800980d4]
+    .ctors: [0x802d8548, 0x802d854c]
+    .data: [0x8034b890, 0x8034b8a0]
+    .bss: [0x8036eb38, 0x8036eb48]
+    .sbss: [0x803d4d30, 0x803d4d38]
+    .sdata2: [0x803d6e20, 0x803d6e40]
+
 libs/JSystem/JAudio/System/JASInstRand.cpp:
     .text: [0x8009853c, 0x8009867c]
     .data: [0x8034b8b8, 0x8034b8c8]

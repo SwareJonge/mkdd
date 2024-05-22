@@ -7,8 +7,8 @@ void JASInstRand::effect(int, int, JASSoundParams *params) const
     static JMath::TRandom_fast_ oRandom(0);
     f32 val = (FLT_EPSILON); // has to be declared here to prevent regswaps
     val = getY(1.0f - val, oRandom.get_ufloat_1() * 2.0f, 1.0f);
-    val *= mY;
-    val += mX;
+    val *= mCeiling;
+    val += mFloor;
 
     switch(mType) {
         case 0:

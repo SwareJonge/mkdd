@@ -1298,6 +1298,27 @@ global:
   0x800966b8: JSUConvertOffsetToPtr<Q211JASWSParser10TCtrlScene>__FPCvUl
   0x800966d0: JSUConvertOffsetToPtr<Q211JASWSParser10TCtrlGroup>__FPCvUl
   0x803d4d28: sUsedHeapSize__11JASWSParser
+  # JASBasicBank.cpp
+  0x800966e8: __ct__12JASBasicBankFv
+  0x80096740: setInst__12JASBasicBankFiP7JASInst
+  0x80096750: getInst__12JASBasicBankCFUl
+  0x80096824: getType__12JASBasicBankCFv
+  # JASBasicInst.cpp
+  0x8009688c: __ct__12JASBasicInstFv
+  0x80096900: __dt__12JASBasicInstFv
+  0x800969d4: getParam__12JASBasicInstCFiiP12JASInstParam
+  0x80096b2c: setKeyRegionCount__12JASBasicInstFUlP7JKRHeap
+  0x80096bb4: setEffect__12JASBasicInstFiP13JASInstEffect
+  0x80096bc4: setOsc__12JASBasicInstFiPQ213JASOscillator4Data
+  0x80096bd4: getKeyRegion__12JASBasicInstFi
+  0x80096bf8: __dt__Q212JASBasicInst7TKeymapFv
+  0x80096c54: setVeloRegionCount__Q212JASBasicInst7TKeymapFUlP7JKRHeap
+  0x80096cb4: getVeloRegion__Q212JASBasicInst7TKeymapFi
+  0x80096cd8: getVeloRegion__Q212JASBasicInst7TKeymapCFi
+  0x80096d4c: __ct__Q212JASBasicInst7TKeymapFv
+  0x80096d64: getType__12JASBasicInstCFv
+  # JASBasicInst
+  0x80096bb4: setEffect__12JASBasicInstFiP13JASInstEffect
   # JASBasicWaveBank.cpp
   0x80096dcc: __ct__16JASBasicWaveBankFv
   0x80096f04: getWaveGroup__16JASBasicWaveBankFUl
@@ -1305,9 +1326,37 @@ global:
   0x8009700c: setWaveTableSize__16JASBasicWaveBankFUlP7JKRHeap
   0x800971e4: setWaveCount__Q216JASBasicWaveBank10TWaveGroupFUlP7JKRHeap
   0x8009739c: setWaveInfo__Q216JASBasicWaveBank10TWaveGroupFiUlRC11JASWaveInfo
+  # JASBNKParser.cpp
+  0x80097764: createBank__12JASBNKParserFPCvP7JKRHeap
+  0x80097784: createBasicBank__12JASBNKParserFPCvP7JKRHeap
+  0x80097e6c: findOscPtr__12JASBNKParserFP12JASBasicBankPCQ212JASBNKParser7THeaderPCQ212JASBNKParser4TOsc
+  0x80097f8c: getOscTableEndPtr__12JASBNKParserFPCQ213JASOscillator5Point
+  0x80097fa0: JSUConvertOffsetToPtr<Q212JASBNKParser5TPmap>__FPCvUl
+  0x80097fb8: JSUConvertOffsetToPtr<Q212JASBNKParser5TPerc>__FPCvUl
+  0x80097fd0: JSUConvertOffsetToPtr<Q212JASBNKParser5TVmap>__FPCvUl
+  0x80097fe8: JSUConvertOffsetToPtr<Q212JASBNKParser7TKeymap>__FPCvUl
+  0x80098000: JSUConvertOffsetToPtr<Q212JASBNKParser6TSense>__FPCvUl
+  0x80098018: JSUConvertOffsetToPtr<Q212JASBNKParser5TRand>__FPCvUl
+  0x80098030: JSUConvertOffsetToPtr<Q213JASOscillator5Point>__FPCvUl
+  0x80098048: JSUConvertOffsetToPtr<Q212JASBNKParser4TOsc>__FPCvUl
+  0x80098060: JSUConvertOffsetToPtr<Q212JASBNKParser5TInst>__FPCvUl
+  0x8034b890: __vt__13JASInstEffect
+  0x803d4d30: sUsedHeapSize__12JASBNKParser
+  # JASDrumSet.cpp
+  0x800980d4: __ct__10JASDrumSetFv
+  0x8009834c: setPerc__10JASDrumSetFiPQ210JASDrumSet5TPerc
+  0x8009835c: __ct__Q210JASDrumSet5TPercFv
+  0x80098448: setVeloRegionCount__Q210JASDrumSet5TPercFUlP7JKRHeap
+  0x800984a8: getVeloRegion__Q210JASDrumSet5TPercFi
+  0x800984c8: setRelease__Q210JASDrumSet5TPercFUl
+  
+  0x800984b8: setEffect__Q210JASDrumSet5TPercFiP13JASInstEffect
   # JASInstRand.cpp
   0x8009853c: effect__11JASInstRandCFiiP14JASSoundParams
   0x8034b8b8: __vt__11JASInstRand
+  # JASInstSense.cpp
+  0x80098828: setParams__12JASInstSenseFiiff
+  0x8034b8c8: __vt__12JASInstSense
   # JASSimpleWaveBank.cpp
   0x80098844: __ct__17JASSimpleWaveBankFv
   0x800989a0: setWaveTableSize__17JASSimpleWaveBankFUlP7JKRHeap

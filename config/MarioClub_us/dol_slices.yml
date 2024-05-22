@@ -505,6 +505,15 @@ libs/JSystem/JAudio/System/JASWSParser.cpp:
     .text: [0x8009682c, 0x80096d74]
     .sbss: [0x80415a98, 0x80415aa0]
 
+libs/JSystem/JAudio/System/JASBNKParser.cpp:
+    .text: [0x8009850c, 0x80099028]
+    .ctors: [0x80316144, 0x80316148]
+    .rodata: [0x80369410, 0x80369470]
+    .data: [0x8038b980, 0x8038b990]
+    .bss: [0x803af008, 0x803af018]
+    .sbss: [0x80415aa0, 0x80415aa8]
+    .sdata2: [0x80417f70, 0x80417fa0]
+
 libs/JSystem/JAudio/System/JASInstRand.cpp:
     .text: [0x800997f8, 0x8009996c]
     .rodata: [0x80369540, 0x80369550]

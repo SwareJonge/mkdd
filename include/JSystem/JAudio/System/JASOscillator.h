@@ -36,12 +36,12 @@ struct JASOscillator
 
     struct Data
     {
-        u32 mTarget;         // 00
-        f32 _04;             // 04
-        const Point *mTable; // 08
-        const Point *_0C;    // 0c
-        f32 mScale;          // 10
-        f32 _14;             // 14
+        u32 mTarget;          // 00
+        f32 _04;              // 04
+        const Point *mTable;  // 08
+        const Point *mTable2; // 0c
+        f32 mScale;           // 10
+        f32 _14;              // 14
     };
 
     enum Target
@@ -52,7 +52,7 @@ struct JASOscillator
         TARGET_FXMIX,  // 3
         TARGET_DOLBY,  // 4
         TARGET_5,      // 5
-        ARGET_6,       // 6
+        TARGET_6,      // 6
     };
 
     JASOscillator();
