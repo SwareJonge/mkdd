@@ -521,6 +521,32 @@ libs/JSystem/JAudio/System/JASInstRand.cpp:
     .sbss: [0x80415ab0, 0x80415ab8]
     .sdata2: [0x80417fb8, 0x80417fd8]
 
+libs/JSystem/JAudio/System/JASSeqReader.cpp:
+    .text: [0x8009fe60, 0x800a018c]
+    .rodata: [0x80369d58, 0x80369df0]
+    .sdata2: [0x804180d0, 0x804180d8]
+
+libs/JSystem/JAudio/Task/dspproc.c:
+    .text: [0x800a46e0, 0x800a4880]
+    .sdata: [0x804140c0, 0x804140c8]
+    .sbss: [0x80415af0, 0x80415af8]
+    .sdata2: [0x80418130, 0x80418138]
+
+libs/JSystem/JAudio/Task/dsptask.c:
+    .text: [0x800a4880, 0x800a4ba0]
+    .data: [0x8038d5c0, 0x8038f2e0]
+    .bss: [0x803af100, 0x803b11e0]
+    .sbss: [0x80415af8, 0x80415b00]
+
+libs/JSystem/JAudio/Task/osdsp.c:
+    .text: [0x800a4ba0, 0x800a4c80]
+    .rodata: [0x8036a0f0, 0x8036a110]
+
+libs/JSystem/JAudio/Task/osdsp_task.c:
+    .text: [0x800a4c80, 0x800a506c]
+    .bss: [0x803b11e0, 0x803b11f0]
+    .sbss: [0x80415b00, 0x80415b10]
+
 libs/JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp:
     .text: [0x800a506c, 0x800a5560]
     .rodata: [0x8036a110, 0x8036a130]
@@ -536,12 +562,21 @@ libs/JSystem/JAudio/Utility/JAUAudioArcLoader.cpp:
     .sbss: [0x80415b10, 0x80415b20]
     .sdata2: [0x80418150, 0x80418160]
 
+libs/JSystem/JAudio/Utility/JAUBankTable.cpp:
+    .text: [0x800a5f9c, 0x800a5fe0]
+
 libs/JSystem/JAudio/Utility/JAUInitializer.cpp:
     .text: [0x800a6114, 0x800a65b0]
     .ctors: [0x8031616c, 0x80316170]
     .rodata: [0x8036a208, 0x8036a350]
     .bss: [0x803b12a0, 0x803b12f8]
     .sdata2: [0x80418160, 0x80418168]
+
+libs/JSystem/JAudio/Utility/JAUStreamFileTable.cpp:
+    .text: [0x800a98b4, 0x800a9b54]
+    .rodata: [0x8036a5b0, 0x8036a5f8]
+    .data: [0x8038f3d0, 0x8038f3e0]
+    .sdata2: [0x804181d0, 0x804181e0]
 
 libs/dolphin/base/PPCArch.c:
     .text: [0x800af634, 0x800af748]

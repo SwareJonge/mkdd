@@ -8,6 +8,7 @@ class JASBank;
 class JASBankList
 {
 public:
+    JASBankList() {}
     virtual JASBank *getBank(u32 param_0) const = 0;
 };
 

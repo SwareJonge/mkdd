@@ -3,8 +3,11 @@
 
 #include "JSystem/JAudio/Interface/JAISound.h"
 
-struct JAIStreamDataMgr
+class JAIStreamDataMgr
 {
+public:
+    JAIStreamDataMgr() {}
+
     virtual s32 getStreamFileEntry(JAISoundID soundID) = 0;
     virtual ~JAIStreamDataMgr();
 };

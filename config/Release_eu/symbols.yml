@@ -1283,6 +1283,7 @@ global:
   0x80094734: waitSubFrame__9JASDriverFv
   # JASDSPInterface.cpp
   0x80095384: setFXLine__6JASDspFUcPsPQ26JASDsp13FxlineConfig_
+  0x800959f0: DSP_CreateMap2__FUl
   0x803d3378: one__11JASWaveInfo
   # JASSoundParams.cpp
   0x80096134: combine__14JASSoundParamsFRC14JASSoundParamsRC14JASSoundParams
@@ -1373,6 +1374,14 @@ global:
   0x80099a18: stop__13JASAramStreamFUs
   0x80099a54: pause__13JASAramStreamFb
   0x80099aa4: cancel__13JASAramStreamFv
+  # JASSeqParser.cpp
+  0x8009deac: init__12JASSeqReaderFv
+  0x8009df00: init__12JASSeqReaderFPv
+  0x8009df58: call__12JASSeqReaderFUl
+  0x8009df98: loopStart__12JASSeqReaderFUl
+  0x8009dfe0: loopEnd__12JASSeqReaderFv
+  0x8009e050: ret__12JASSeqReaderFv
+  0x8009e084: readMidiValue__12JASSeqReaderFv
   # JASTrack.cpp
   0x8009e0f8: __ct__8JASTrackFv
   0x8009e1dc: __dt__8JASTrackFv
@@ -1394,14 +1403,38 @@ global:
   0x800a0680: setTempoRate__8JASTrackFf
 
   0x800a14f4: __ct__Q28JASTrack10MoveParam_Fv
+  # dspproc.c
+  0x800a1a60: DSPReleaseHalt2__FUl
+  0x800a1ac0: setup_callback__FUs
+  0x800a1ae0: DsetupTable__FUlUlUlUlUl
+  0x800a1b60: DsetMixerLevel__Ff
+  0x800a1ba0: DsyncFrame__FUlUlUl
+  # dsptask.c
+  0x800a1c00: DspHandShake__FPv
+  0x800a1c40: DspBoot__FPFPv_v
+  0x800a1d00: DSPSendCommands2__FPUlUlPFUs_v
+  0x800a1e00: DspInitWork__Fv
+  0x800a1e40: DspStartWork__FUlPFUs_v
+  0x800a1ea0: DspFinishWork__FUs
+  0x8034d4c0: jdsp
+  # audio_task
+  # AUDIO_YIELD_BUFFER
+  # taskwork
   # osdsp.c
   0x800a1f20: DSPAddTask # these overrride the ones in dsp.c and dsp_task.c
+  0x800a1f80: DSPAddPriorTask__FP15STRUCT_DSP_TASK
+  #0x803d3380: DSP_MIXERLEVEL
+  # osdsp_task.c
   0x800a2000: __DSPHandler
-  # JAUInitializer.cpp
-  0x800a32d4: __ct__18JAU_JASInitializerFv
-  0x800a332c: initJASystem__18JAU_JASInitializerFP12JKRSolidHeap
-  0x800a34a0: __ct__18JAU_JAIInitializerFv
-  0x800a34c4: initJAInterface__18JAU_JAIInitializerFv
+  0x800a2320: DsyncFrame2__FUlUlUl
+  0x800a2380: Dsp_Update_Request__Fv
+  0x800a23c0: Dsp_Running_Check__Fv
+  0x800a23e0: Dsp_Running_Start__Fv
+  #0x80370d20: sync_stack
+  #0x803d4d90: DSP_prior_yield
+  #0x803d4d94: AUDIO_UPDATE_REQUEST
+  0x803d4d98: DSP_prior_task
+  
   # JAUAudioArcInterpreter.cpp
   0x800a23ec: __ct__22JAUAudioArcInterpreterFv
   0x800a2408: __dt__22JAUAudioArcInterpreterFv
@@ -1431,8 +1464,24 @@ global:
   0x803d4da0: sInstance__35JASGlobalInstance<14JAUSectionHeap>
   0x803d4da4: sInstance__38JASGlobalInstance<17JAUSoundNameTable>
   0x803d4da8: sInstance__34JASGlobalInstance<13JAUSoundTable>
-  # unk JAudio Something(probably JAUClusterSound.cpp)
+  # JAUBankTable.cpp
+  0x800a3148: appendBankTable__22JAUBankTableDictionaryFP23JSULink<12JAUBankTable>
+  0x800a3168: getBank__12JAUBankTableCFUl
+  # JAUClusterSound.cpp
   0x800a318c: __ct__Q29JGeometry8TVec3<f>Fv
+  # JAUInitializer.cpp
+  0x800a32d4: __ct__18JAU_JASInitializerFv
+  0x800a332c: initJASystem__18JAU_JASInitializerFP12JKRSolidHeap
+  0x800a34a0: __ct__18JAU_JAIInitializerFv
+  0x800a34c4: initJAInterface__18JAU_JAIInitializerFv
+  # JAUStreamFileTable.cpp
+  0x800a5698: __ct__18JAUStreamFileTableFv
+  0x800a56a4: init__18JAUStreamFileTableFPCv
+  0x800a56f0: getNumFiles__18JAUStreamFileTableCFv
+  0x800a56fc: getFilePath__18JAUStreamFileTableCFi
+  0x800a5724: getStreamFileEntry__32JAUStreamDataMgr_StreamFileTableF10JAISoundID
+  0x800a577c: __dt__32JAUStreamDataMgr_StreamFileTableFv
+  0x8034f2d0: __vt__32JAUStreamDataMgr_StreamFileTable
   # JAUSectionHeap.cpp
   0x800a6e68: newSoundTable__10JAUSectionFPCvUlb
   0x800a6f3c: newSoundNameTable__10JAUSectionFPCvUlb
@@ -1455,6 +1504,7 @@ global:
   0x800a8120: popSection__14JAUSectionHeapFv
   0x800a7ee8: getSection__14JAUSectionHeapFi
   0x800a8534: newDynamicSeqBlock__14JAUSectionHeapFUl
+  0x8034f3b0: __vt__12JAUBankTable
   
   # JAUSoundInfo.cpp
   0x8034f280: __vt__12JAUSoundInfo

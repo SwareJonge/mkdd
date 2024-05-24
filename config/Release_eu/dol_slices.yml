@@ -490,6 +490,27 @@ libs/JSystem/JAudio/System/JASInstRand.cpp:
     .sbss: [0x803d4d40, 0x803d4d48]
     .sdata2: [0x803d6e50, 0x803d6e60]
 
+libs/JSystem/JAudio/Task/dspproc.c:
+    .text: [0x800a1a60, 0x800a1c00]
+    .sdata: [0x803d3380, 0x803d3388]
+    .sbss: [0x803d4d80, 0x803d4d88]
+    .sdata2: [0x803d6f20, 0x803d6f28]
+
+libs/JSystem/JAudio/Task/dsptask.c:
+    .text: [0x800a1c00, 0x800a1f20]
+    .data: [0x8034d4c0, 0x8034f1d0]
+    .bss: [0x8036ec40, 0x80370d20]
+    .sbss: [0x803d4d88, 0x803d4d90]
+
+libs/JSystem/JAudio/Task/osdsp.c:
+    .text: [0x800a1f20, 0x800a2000]
+    .rodata: [0x803334f8, 0x80333518]
+
+libs/JSystem/JAudio/Task/osdsp_task.c:
+    .text: [0x800a2000, 0x800a23ec]
+    .bss: [0x80370d20, 0x80370d28]
+    .sbss:  [0x803d4d90, 0x803d4da0]
+
 libs/JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp:
     .text: [0x800a23ec, 0x800a28ac]
     .data: [0x8034f1e0, 0x8034f220]
@@ -507,6 +528,15 @@ libs/JSystem/JAudio/Utility/JAUInitializer.cpp:
     .bss: [0x80370de0, 0x80370e38]
     .sdata2: [0x803d6f28, 0x803d6f30]
 
+libs/JSystem/JAudio/Utility/JAUBankTable.cpp:
+    .text: [0x800a3148, 0x800a318c]
+
+libs/JSystem/JAudio/Utility/JAUStreamFileTable.cpp:
+    .text: [0x800a5698, 0x800a57e4]
+    .data: [0x8034f2d0, 0x8034f2e0]
+
+libs/JSystem/JAudio/System/JASSeqReader.cpp:
+    .text: [0x8009deac, 0x8009e0f8]
 
 libs/dolphin/base/PPCArch.c:
     .text: [0x800a9600, 0x800a9714]

@@ -373,6 +373,12 @@ JSYSTEM_O0 = [ # used for when trying to match something from TP Debug
 JSYSTEM_SPEED = CFLAGS + [ "-O4,p" ]
 JSYSTEM_RELEASE = CFLAGS + ["-opt level=4, schedule"]
 JAUDIO_RELEASE = CFLAGS + ["-opt level=4, schedule, speed"]
+JAUDIO_DSP = CFLAGS + [ 
+    "-O4,s", 
+    "-inline noauto",
+    "-use_lmw_stmw off",
+    "-func_align 32"
+]
 
 # confusion
 MSL_C_DEBUG = [ 
@@ -438,6 +444,7 @@ JSYSTEM_SPEED_CFLAGS = ' '.join(JSYSTEM_SPEED + LOCAL_CFLAGS)
 JSYSTEM_RELEASE_CFLAGS = ' '.join(JSYSTEM_RELEASE + LOCAL_CFLAGS)
 JSYSTEM_O0_CFLAGS = ' '.join(JSYSTEM_O0 + LOCAL_CFLAGS)
 JAUDIO_RELEASE_CFLAGS = ' '.join(JAUDIO_RELEASE + LOCAL_CFLAGS)
+JAUDIO_DSP_CFLAGS = ' '.join(JAUDIO_DSP + LOCAL_CFLAGS)
 KANESHIGE_CFLAGS = ' '.join(BASE_GAME_CFLAGS + LOCAL_CFLAGS)
 if (VERSION == "MarioClub"):
     KANESHIGE_CFLAGS = ' '.join(KANESHIGE + LOCAL_CFLAGS)

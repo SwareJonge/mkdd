@@ -228,7 +228,8 @@ namespace JASBNKParser
         return NULL;
     }
 
-    const JASOscillator::Point *getOscTableEndPtr(const JASOscillator::Point *pPoint) {
+    const JASOscillator::Point *getOscTableEndPtr(const JASOscillator::Point *pPoint)
+    {
         int i;
         do
         {
