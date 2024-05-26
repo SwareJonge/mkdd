@@ -1271,12 +1271,21 @@ global:
   0x80090f38: setupAramHeap__9JASKernelFUlUl
   # JASReport.cpp
   0x80091270: JASReport__FPCce
+  # JASResArcLoader.cpp
+  0x8009136c: getResSize__15JASResArcLoaderFPC10JKRArchiveUs
+  0x800913a0: loadResourceCallback__15JASResArcLoaderFPv
+  0x8009143c: loadResourceAsync__15JASResArcLoaderFP10JKRArchiveUsPUcUlPFUlUl_vUl
   # JASTaskThread.cpp
   0x80091498: __ct__13JASTaskThreadFiiUl 
   # JASAiCtrl.cpp
   0x80092544: registerMixCallback__9JASDriverFPFl_Ps10JASMixMode
   # JASAudioThread.cpp
   0x80092ab8: create__14JASAudioThreadFl
+  # JASChannel.cpp
+  0x8009454c: initBankDisposeMsgQueue__10JASChannelFv
+  0x80094588: receiveBankDisposeMsg__10JASChannelFv
+  0x80094600: sendBankDisposeMsg__10JASChannelFPv
+  0x80094630: checkBankDispose__10JASChannelCFv
   # JASDriverIF.cpp 
   0x800946dc: setDSPLevel__9JASDriverFf
   0x8009472c: getOutputMode__9JASDriverFv
@@ -1364,7 +1373,17 @@ global:
   0x80098a4c: setWaveInfo__17JASSimpleWaveBankFUlRC11JASWaveInfo
   # JASWaveArcLoader.cpp
   0x80098b78: setCurrentDir__16JASWaveArcLoaderFPCc
+  0x80098bdc: __ct__10JASWaveArcFv
+  0x80098c54: __dt__10JASWaveArcFv
+  0x80098d00: loadToAramCallback__10JASWaveArcFPv
+  0x80098de8: load__10JASWaveArcFP7JASHeap
+  0x80098f44: erase__10JASWaveArcFv
+  0x80098f68: onDispose__10JASWaveArcFv
   0x80099014: setFileName__10JASWaveArcFPCc
+  0x800990f8: isLoading__10JASWaveArcCFv
+  0x80099110: __dt__11JASDisposerFv
+  # JASWaveBank.cpp
+  0x80099160: isLoading__11JASWaveBankFv
   # JASAramStream.cpp
   0x8009964c: initSystem__13JASAramStreamFUlUl
   0x800996dc: __ct__13JASAramStreamFv
@@ -1403,6 +1422,9 @@ global:
   0x800a0680: setTempoRate__8JASTrackFf
 
   0x800a14f4: __ct__Q28JASTrack10MoveParam_Fv
+  0x8034d498: __vt__19JASDefaultBankTable
+  0x8034d4a4: __vt__17JASBankTable<256>
+  0x8034d4b0: __vt__11JASBankList
   # dspproc.c
   0x800a1a60: DSPReleaseHalt2__FUl
   0x800a1ac0: setup_callback__FUs
@@ -1464,6 +1486,9 @@ global:
   0x803d4da0: sInstance__35JASGlobalInstance<14JAUSectionHeap>
   0x803d4da4: sInstance__38JASGlobalInstance<17JAUSoundNameTable>
   0x803d4da8: sInstance__34JASGlobalInstance<13JAUSoundTable>
+  # JAUAudioMgr.cpp
+  0x803d4db0: sInstance__33JASGlobalInstance<12JAUSoundInfo>
+  0x803d4db4: __init__memPool___35JASPoolAllocObject<13JAUAudible<4>>
   # JAUBankTable.cpp
   0x800a3148: appendBankTable__22JAUBankTableDictionaryFP23JSULink<12JAUBankTable>
   0x800a3168: getBank__12JAUBankTableCFUl
@@ -1474,6 +1499,31 @@ global:
   0x800a332c: initJASystem__18JAU_JASInitializerFP12JKRSolidHeap
   0x800a34a0: __ct__18JAU_JAIInitializerFv
   0x800a34c4: initJAInterface__18JAU_JAIInitializerFv
+  # JAUSeqCollection.cpp
+  0x800a371c: init__16JAUSeqCollectionFPCv
+  0x800a376c: __ct__27JAUSeqDataMgr_SeqCollectionFv
+  0x800a3794: setSeqDataUser__27JAUSeqDataMgr_SeqCollectionFP14JAISeqDataUser
+  0x800a37a0: releaseSeqData__27JAUSeqDataMgr_SeqCollectionFv
+  0x800a3800: getSeqData__27JAUSeqDataMgr_SeqCollectionF10JAISoundIDP10JAISeqData
+  0x800a3888: __dt__27JAUSeqDataMgr_SeqCollectionFv
+  # JAUSeqDataBlockMgr.cpp
+  0x800a38f0: __ct__15JAUSeqDataBlockFv
+  0x800a3924: __ct__23JAUDynamicSeqDataBlocksFv
+  0x800a396c: setSeqDataArchive__23JAUDynamicSeqDataBlocksFP10JKRArchive
+  0x800a3974: getSeqData__23JAUDynamicSeqDataBlocksF10JAISoundIDP14JAISeqDataUserP10JAISeqDatab
+  0x800a3ae0: appendDynamicSeqDataBlock__23JAUDynamicSeqDataBlocksFP15JAUSeqDataBlock
+  0x800a3b48: removeDynamicSeqDataBlock__23JAUDynamicSeqDataBlocksFP15JAUSeqDataBlockP14JAISeqDataUser
+  0x800a3c1c: JAUDynamicSeqDataBlocks_receiveLoaded___FUlUl
+  0x800a3c40: loadDynamicSeq__23JAUDynamicSeqDataBlocksF10JAISoundIDbP14JAISeqDataUser
+  0x800a3da4: releaseIdleDynamicSeqDataBlock___23JAUDynamicSeqDataBlocksFP14JAISeqDataUserUl
+  0x800a3e7c: rearrangeLoadingSeqs___23JAUDynamicSeqDataBlocksFv
+  # JAUSoundTable.cpp
+  0x800a50ac: init__13JAUSoundTableFPCv
+  0x800a50f8: getTypeID__13JAUSoundTableCF10JAISoundID
+  0x800a5224: getData__13JAUSoundTableCF10JAISoundID
+  0x800a536c: getNumGroups_inSection__13JAUSoundTableCFUc
+  0x800a53d4: getNumItems_inGroup__13JAUSoundTableCFUcUc
+  0x800a54b8: init__17JAUSoundNameTableFPCv
   # JAUStreamFileTable.cpp
   0x800a5698: __ct__18JAUStreamFileTableFv
   0x800a56a4: init__18JAUStreamFileTableFPCv
@@ -1483,6 +1533,8 @@ global:
   0x800a577c: __dt__32JAUStreamDataMgr_StreamFileTableFv
   0x8034f2d0: __vt__32JAUStreamDataMgr_StreamFileTable
   # JAUSectionHeap.cpp
+  0x800a6d7c: finishBuild__10JAUSectionFv
+  0x800a6de4: dispose__10JAUSectionFv
   0x800a6e68: newSoundTable__10JAUSectionFPCvUlb
   0x800a6f3c: newSoundNameTable__10JAUSectionFPCvUlb
   0x800a7010: newStreamFileTable__10JAUSectionFPCvb
@@ -1502,10 +1554,22 @@ global:
   0x800a7dc8: __dt__10JAUSectionFv
   0x800a7ee8: pushNewSection__14JAUSectionHeapFv
   0x800a8120: popSection__14JAUSectionHeapFv
-  0x800a7ee8: getSection__14JAUSectionHeapFi
+  0x800a84ec: getSection__14JAUSectionHeapFi
+  0x800a8520: getNumSections__14JAUSectionHeapCFv
+  0x800a8528: setSeqDataUser__14JAUSectionHeapFP14JAISeqDataUser
   0x800a8534: newDynamicSeqBlock__14JAUSectionHeapFUl
+  0x800a8674: getSeqData__14JAUSectionHeapF10JAISoundIDP10JAISeqData
+  0x800a8724: releaseSeqData__14JAUSectionHeapFv
+  0x800a872c: __dt__14JAUSectionHeapFv
+  0x800a89a8: set__Q23std16__bitset_base<8>FUlb
+  0x800a89ec:  reset__Q23std16__bitset_base<8>FUl
+  0x800a8a10: test__Q23std16__bitset_base<8>CFUl
+  0x800a8a3c: __ct__Q23std16__bitset_base<8>Fv
+  0x8034f368: __vt__14JAUSectionHeap
+  0x8034f39c: __vt__16JAUBankTableLink
   0x8034f3b0: __vt__12JAUBankTable
-  
+  0x8034f3cc: __vt__10JAUSection
+
   # JAUSoundInfo.cpp
   0x8034f280: __vt__12JAUSoundInfo
 

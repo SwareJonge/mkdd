@@ -4,6 +4,15 @@
 #include <string.h>
 #include "JSystem/JUtility/JUTDbg.h"
 
+// A hacky workaorund to have the correct string in the assert(only for JAUSectionHeap)
+#ifdef JAUSECTIONHEAP_FIX
+#define NULL_CHECK() \
+    JUT_ASSERT(sInstance == 0L)
+#else
+#define NULL_CHECK() \
+    JUT_ASSERT(sInstance == 0)
+#endif
+
 template <class T>
 class JASGlobalInstance
 {
@@ -13,7 +22,7 @@ public:
         if (param_1)
         {
 #line 172
-            JUT_ASSERT(sInstance == 0L);
+            NULL_CHECK();
             sInstance = (T *)this;
         }
     }

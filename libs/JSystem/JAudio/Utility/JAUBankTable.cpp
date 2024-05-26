@@ -20,8 +20,13 @@ void JAUBankTableDictionary::appendBankTable(JSULink<JAUBankTable> *link)
     append(link);
 }
 
-bool JAUBankTable::isAllRegistered() const
+bool JAUBankTable::isAllRegistered() const // fabricated
 {
-    // UNUSED
-    JAUBankTable *table = new JAUBankTable(0, NULL, 0);
+    for(u32 i = 0; i < _c; i++) 
+    {
+        if (getBank(i) == NULL)
+            return false;
+    }
+
+    return true;
 }

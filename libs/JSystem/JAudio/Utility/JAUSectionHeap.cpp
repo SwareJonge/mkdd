@@ -1,3 +1,5 @@
+#define JAUSECTIONHEAP_FIX
+
 #include "JSystem/JAudio/JAUSectionHeap.h"
 #include "JSystem/JAudio/JAUSeqCollection.h"
 #include "JSystem/JAudio/JAUSoundInfo.h"
@@ -47,6 +49,8 @@ namespace {
                 mEntries[i] = DVDConvertPathToEntrynum(fileTable.getFilePath(i));
             }
         }
+
+        virtual ~TStreamDataMgr() {}
         virtual s32 getStreamFileEntry(JAISoundID soundId)
         {
             u32 shortID = soundId.mId.mAdvancedId.mShortId;
@@ -54,8 +58,7 @@ namespace {
                 return -1;
             return mEntries[shortID];
         }
-        virtual ~TStreamDataMgr() {}
-
+        
         bool isValid() { return mFileCount; }
 
         u32 mFileCount;
@@ -570,10 +573,6 @@ JAUBankTable *JAUSection::endNewBankTable() {
     return ret;
 }
 
-
-// Unused function that's used to fix weak function ordering
-
-
 #ifdef DEBUG
 CW_FORCE_STRINGS(JAUSection_cpp_1, "JAUSectionHeap.h");
 #endif
@@ -603,8 +602,6 @@ JAUSectionHeap::JAUSectionHeap(JKRSolidHeap *heap, bool p2, s32 size) : JAUSecti
     sectionList_.append(this);
 }
 
-JAUSection::~JAUSection() {}
-
 JAUSection *JAUSectionHeap::getOpenSection() { return sectionList_.getLast()->getObject(); }
 
 JAUSection* JAUSectionHeap::pushNewSection() 
@@ -624,7 +621,6 @@ JAUSection* JAUSectionHeap::pushNewSection()
         TPushCurrentHeap push(heap_);
         u32 freeSize = heap_->getFreeSize();
         JAUSection *section = new JAUSection(this, tag, freeSize);
-        //JSULink<JAUSection> *sectionLink = new JSULink<JAUSection>(section);
         if(section) {
             if (sectionList_.append(section))
             {

@@ -535,6 +535,14 @@ libs/JSystem/JAudio/Utility/JAUStreamFileTable.cpp:
     .text: [0x800a5698, 0x800a57e4]
     .data: [0x8034f2d0, 0x8034f2e0]
 
+libs/JSystem/JAudio/Utility/JAUSectionHeap.cpp:
+    .text: [0x800a6d7c, 0x800a8b9c]
+    .ctors: [0x802d8584, 0x802d8588]
+    .rodata: [0x80333518, 0x80333588]
+    .data: [0x8034f368, 0x8034f3e0]
+    .bss: [0x80370f60, 0x80370f90]
+    .sdata: [0x803d3388, 0x803d3390]
+
 libs/JSystem/JAudio/System/JASSeqReader.cpp:
     .text: [0x8009deac, 0x8009e0f8]
 

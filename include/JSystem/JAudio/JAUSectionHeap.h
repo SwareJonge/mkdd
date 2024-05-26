@@ -42,7 +42,7 @@ public:
     };
 
     JAUSection(JAUSectionHeap *, u32, s32);
-    virtual ~JAUSection();
+    ~JAUSection() {}
     virtual void dispose();
 
     void finishBuild();
@@ -130,6 +130,7 @@ public:
 inline JKRSolidHeap *JAUSection::getHeap_() { return sectionHeap_->heap_; }
 inline bool JAUSection::isOpen() const { return sectionHeap_->getOpenSection() == this; }
 
+JAUSectionHeap *JAUNewSectionHeap(JKRSolidHeap *heap, bool p2);
 JAUSectionHeap *JAUNewSectionHeap(bool);
 
 // TODO: probably move this to a different file(JASFakeMatch?)
