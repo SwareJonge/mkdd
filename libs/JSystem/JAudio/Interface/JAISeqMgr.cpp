@@ -80,7 +80,7 @@ bool JAISeqMgr::startSound(JAISoundID soundID, JAISoundHandle *handle,
     JAISeqData aJStack_38(NULL, 0);
 #line 81
     JUT_ASSERT(seqDataMgr_);
-    if (seqDataMgr_->getSeqData(soundID, &aJStack_38) == JAISeqDataMgr::SeqDataReturnValue_0)
+    if (seqDataMgr_->getSeqData(soundID, &aJStack_38) == JAI_ASYNC_RESULT_0)
     {
         return false;
     }

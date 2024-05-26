@@ -578,6 +578,15 @@ libs/JSystem/JAudio/Utility/JAUStreamFileTable.cpp:
     .data: [0x8038f3d0, 0x8038f3e0]
     .sdata2: [0x804181d0, 0x804181e0]
 
+#libs/JSystem/JAudio/Utility/JAUSectionHeap.cpp:
+    #.text: [0x800ab460, 0x800ae50c]
+    #.ctors: [0x80316180, 0x80316184]
+    #.rodata: [0x8036a688, 0x8036ab48]
+    #.data: [0x8038f468, 0x8038f4e0]
+    #.bss: [0x803b1420, 0x803b1450]
+    #.sdata: [0x804140c8, 0x804140d0]
+    #.sdata2: [0x80418238, 0x80418280]
+
 libs/dolphin/base/PPCArch.c:
     .text: [0x800af634, 0x800af748]
 

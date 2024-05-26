@@ -13,7 +13,7 @@ public:
         if (param_1)
         {
 #line 172
-            JUT_ASSERT(sInstance == 0);
+            JUT_ASSERT(sInstance == 0L);
             sInstance = (T *)this;
         }
     }
@@ -56,7 +56,7 @@ public:
     }
     void set(u32 index, T *value)
     {
-#line 229
+#line 215
         JUT_ASSERT(index < mSize);
         mTable[index] = value;
     }

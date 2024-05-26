@@ -329,6 +329,8 @@ inline JKRHeap * JKRGetCurrentHeap() {
     return JKRHeap::getCurrentHeap();
 }
 
+inline JKRHeap *JKRSetCurrentHeap(JKRHeap *heap) { return heap->becomeCurrentHeap(); }
+
 inline JKRHeap *JKRGetSystemHeap(){
     return JKRHeap::getSystemHeap();
 }

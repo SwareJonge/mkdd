@@ -36,6 +36,16 @@ namespace std
 
 	template <typename ForwardIterator, typename Element, typename Predicate>
 	ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last, const Element &value, Predicate predicate);
+
+	template <class ForwardIt, class T>
+	inline void fill(ForwardIt first, ForwardIt last, const T &value)
+	{
+		for (; first != last; ++first)
+		{
+			*first = value;
+		}
+	}
+
 } // namespace std
 
 #endif

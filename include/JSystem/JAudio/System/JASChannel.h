@@ -98,6 +98,7 @@ public:
     void free();
     static void initBankDisposeMsgQueue();
     static void receiveBankDisposeMsg();
+    static void sendBankDisposeMsg(void*);
     bool checkBankDispose() const;
 
     void setPauseFlag(bool pauseFlag) { mPauseFlag = pauseFlag; }

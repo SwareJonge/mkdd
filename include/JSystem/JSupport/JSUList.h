@@ -141,7 +141,7 @@ template <class T>
 class JSULink : public JSUPtrLink
 {
 public:
-    JSULink(void *pData) : JSUPtrLink(pData)
+    JSULink(T *pData) : JSUPtrLink(pData)
     {
     }
 

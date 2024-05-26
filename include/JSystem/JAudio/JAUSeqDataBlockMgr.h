@@ -11,33 +11,36 @@ class JKRArchive;
 struct JAUSeqDataBlock
 {
     JAUSeqDataBlock();
+    ~JAUSeqDataBlock() {}
 
-    JSULink<JAUSeqDataBlock> _0;
-    JAISoundID _10;
-    u8 *_14;
-    u32 _18;
-    int _1c;
+    JSULink<JAUSeqDataBlock> link_; // 0
+    JAISoundID soundID_;            // 10
+    JAISeqDataRegion region_;       // 14
+    int _1c;                        //
 };
 
-class JAUSeqDataBlocks
+class JAUSeqDataBlocks : JSUList<JAUSeqDataBlock>
 {
 public:
+    JAUSeqDataBlocks() {}
+    ~JAUSeqDataBlocks(){}
+
     void getSeqData(JAISoundID);
     void seekFreeBlock(u32);
     void append(JSULink<JAUSeqDataBlock> *);
     void remove(JSULink<JAUSeqDataBlock> *);
     void hasFailedBlock(JAISoundID);
-
-    JSUList<JAUSeqDataBlock> _0;
 };
 
 class JAUDynamicSeqDataBlocks
 {
 public:
     JAUDynamicSeqDataBlocks();
+    ~JAUDynamicSeqDataBlocks() {}
     void setSeqDataArchive(JKRArchive *);
     s32 getSeqData(JAISoundID, JAISeqDataUser *, JAISeqData *, bool);
     bool appendDynamicSeqDataBlock(JAUSeqDataBlock *);
+    bool removeDynamicSeqDataBlock(JAUSeqDataBlock *, JAISeqDataUser *);
     bool loadDynamicSeq(JAISoundID, bool, JAISeqDataUser *);
     void releaseIdleDynamicSeqDataBlock(JAISeqDataUser *);
     void releaseIdleDynamicSeqDataBlock_(JAISeqDataUser *, u32);

@@ -23,7 +23,7 @@ public:
     virtual JASWaveArc *getWaveArc(u32) = 0;
     virtual u32 getArcCount() const = 0;
 
-    void isLoading(); // 0x8009a704
+    bool isLoading(); // 0x8009a704
 };
 
 class JASBasicWaveBank : public JASWaveBank

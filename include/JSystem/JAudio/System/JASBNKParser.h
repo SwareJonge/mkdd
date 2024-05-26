@@ -121,6 +121,12 @@ namespace JASBNKParser
     // Inline/Unused
     u32 getUsedHeapSize();
 
+    inline u32 getBankNumber(const void *pBnk)
+    {
+        const THeader *headerp = (const THeader *)pBnk;
+        return headerp->bankId;
+    }
+
     extern u32 sUsedHeapSize;
 }; // namespace JASBNKParser
 

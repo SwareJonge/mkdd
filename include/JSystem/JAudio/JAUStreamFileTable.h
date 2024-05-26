@@ -21,6 +21,8 @@ public:
     // Inline/Unused
     const char *getFilePath_fromEntry(long entry) const;
 
+    bool isValid() { return mBuf; }
+
 private:
     const BSFT *mBuf;
 };

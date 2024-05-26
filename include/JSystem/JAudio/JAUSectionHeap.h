@@ -6,19 +6,21 @@
 #include "JSystem/JAudio/System/JASGadget.h"
 #include "JSystem/JAudio/JAUBankTable.h"
 #include "JSystem/JAudio/JAUSeqDataBlockMgr.h"
+#include "JSystem/JAudio/JAUSoundTable.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JKernel/JKRArchive.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "std/bitset.h"
 
 class JASVoiceBank;
-class JAUDisposer_;
-class JAUSoundTable;
-class JAUSoundNameTable;
+class JAUDisposer_ {
+    virtual ~JAUDisposer_();
+};
 class JAUSectionHeap;
 class JAIStreamDataMgr;
+class JAISeMgr;
 
-class JAUSection : public JKRDisposer, protected JSULink<JAUSection>
+class JAUSection : public JKRDisposer, public JSULink<JAUSection>
 {
 public:
     struct TSectionData
@@ -27,18 +29,16 @@ public:
         void resetRegisteredBankTables();
         void resetRegisteredWaveBankTables();
 
-        JAUDynamicSeqDataBlocks _00;               //
-        JSUList<JAUSeqDataBlock> _28;              //
+        JAUDynamicSeqDataBlocks seqDataBlocks_;    //
+        JSUList<JAUSeqDataBlock> _28;              // 
         std::bitset<255> registeredWaveBankTables; // 34
         std::bitset<255> registeredBankTables;     // 54
-        JAUBankTableDictionary _74;                //
-        JAISeqDataMgr *_80;                        //
+        JAUBankTableDictionary bankTableDict;      // 74
+        JAISeqDataMgr *sectionalSeqDataMgr;        // 80
         const void *mBstDst;                       // 84
         const void *mBstnDst;                      // 88
         JSUList<JAUDisposer_> _8c;                 //
         s32 _98;                                   //
-        int _9c;                                   //
-        int _a0;                                   //
     };
 
     JAUSection(JAUSectionHeap *, u32, s32);
@@ -46,8 +46,10 @@ public:
     virtual void dispose();
 
     void finishBuild();
+    void releaseAllBank_();
     JAUSoundTable *newSoundTable(const void *, u32, bool);
     JAUSoundNameTable *newSoundNameTable(const void *, u32, bool);
+    JAUSoundNameTable *newSoundNameTable(const char *path, bool p2);
     JAIStreamDataMgr *newStreamFileTable(const void *, bool);
     JAISeqDataMgr *newSeSeqCollection(const void *, u32);
     u8 *newStaticSeqDataBlock_(JAISoundID, u32);
@@ -57,15 +59,20 @@ public:
     void *newCopy(const void *data, u32 size, s32 alignment);
     JASWaveBank *newWaveBank(u32, const void *);
     bool loadWaveArc(u32, u32);
+    bool loadWaveArc(u32);
     JASBank *newBank(const void *, u32);
     JASVoiceBank *newVoiceBank(u32, u32);
     bool beginNewBankTable(u32, u32);
     JAUBankTable *endNewBankTable();
+    void storeSeCategoryArrangement(JAISeMgr *);
+    bool releaseSeqData_();
+    bool isDisposable_() const;
+    void disposeUserDisposers_();
 
     bool isBuilding() { return mIsBuilding; }
-    bool isOpen();
+    bool isOpen() const;
     JAUSectionHeap *asSectionHeap() { return (JAUSection *)sectionHeap_ == this ? sectionHeap_ : NULL; }
-    JKRHeap *getHeap_();
+    JKRSolidHeap *getHeap_();
 
     u32 _28;                              // 28
     bool mIsBuilding;                     // 2C
@@ -79,15 +86,22 @@ class JAUSectionHeap : public JAUSection, JASGlobalInstance<JAUSectionHeap>, JAI
 public:
     struct TSectionHeapData
     {
-        TSectionHeapData();
+        TSectionHeapData()
+        {
+            seSeqDataMgr_ = NULL;
+            streamDataMgr_ = NULL;
+            soundTable = NULL;
+            soundNameTable = NULL;
+            seqDataUser = NULL;
+        }
 
-        JAUWaveBankTable waveBankTable;    // 000
-        JAISeqDataUser *seqDataUser;       // 404 page error
-        JAUDynamicSeqDataBlocks _408;      // 408
-        JAISeqDataMgr *seSeqDataMgr_;      // 430
-        JAIStreamDataMgr *streamDataMgr_;  // 434
-        JAUSoundTable *soundTable;         // 438
-        JAUSoundNameTable *soundNameTable; // 43C
+        JAUWaveBankTable waveBankTable;            // 000
+        JAISeqDataUser *seqDataUser;               // 404 page error
+        JAUDynamicSeqDataBlocks dynamicSeqBlocks_; // 408
+        JAISeqDataMgr *seSeqDataMgr_;              // 430
+        JAIStreamDataMgr *streamDataMgr_;          // 434
+        JAUSoundTable *soundTable;                 // 438
+        JAUSoundNameTable *soundNameTable;         // 43C
     };
 
     void setSeqDataArchive(JKRArchive *);
@@ -95,22 +109,26 @@ public:
     void releaseIdleDynamicSeqDataBlock();
     JAUSectionHeap(JKRSolidHeap *, bool, s32);
     JAUSection *getOpenSection();
+    JAUSection *pushNewSection();
+    bool popSection();
+    JAUSection *getSection(int);
+    int getNumSections() const;
     bool setSeqDataUser(JAISeqDataUser *);
     bool newDynamicSeqBlock(u32);
-    SeqDataReturnValue getSeqData(JAISoundID, JAISeqData *);
+    s32 getSeqData(JAISoundID, JAISeqData *);
     int releaseSeqData();
-    ~JAUSectionHeap();
+    ~JAUSectionHeap() {}
 
     JAUWaveBankTable &getWaveBankTable() { return sectionHeapData_.waveBankTable; }
 
-    JKRHeap *heap_;                    // E0
-    int _e4;                           // E4
-    JSUList<JAUSection> sectionList_;  // E8
-    TSectionHeapData sectionHeapData_; // F4
+    JKRSolidHeap *heap_;               // D8
+    int _dc;                           // DC
+    JSUList<JAUSection> sectionList_;  // E0
+    TSectionHeapData sectionHeapData_; // EC
 };
 
-inline JKRHeap *JAUSection::getHeap_() { return sectionHeap_->heap_; }
-inline bool JAUSection::isOpen() { return sectionHeap_->getOpenSection() == this; }
+inline JKRSolidHeap *JAUSection::getHeap_() { return sectionHeap_->heap_; }
+inline bool JAUSection::isOpen() const { return sectionHeap_->getOpenSection() == this; }
 
 JAUSectionHeap *JAUNewSectionHeap(bool);
 
@@ -122,4 +140,4 @@ createJASInstance(JAUSectionHeap);
 createJASInstance(JAUSoundNameTable);
 createJASInstance(JAUSoundTable);
 
-#endif /* JAUDIO_JAUSECTIONHEAP_H */
+#endif

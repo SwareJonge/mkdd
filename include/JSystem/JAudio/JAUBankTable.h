@@ -16,6 +16,7 @@ public:
     void copyToDefault();
     bool isAllRegistered() const;
 
+    JASBank *getBank(u32 offset) { return mBankPtrTable.get(offset); }
     virtual JASBank *getBank(u32 offset) const { return mBankPtrTable.get(offset); }
     void registBank(u32 offset, JASBank *pBank) { mBankPtrTable.set(offset, pBank); }
 
@@ -37,7 +38,7 @@ struct JAUBankTableDictionary : public JSUList<JAUBankTable> // is this really i
 };
 
 class JASWaveBank;
-class JAUWaveBankTable : private JASPtrArray<JASWaveBank, 255>
+class JAUWaveBankTable : public JASPtrArray<JASWaveBank, 255>
 {
 public:
     JASWaveBank *getWaveBank(u32 index) { return get(index); }

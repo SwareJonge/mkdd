@@ -33,7 +33,18 @@ namespace std
     template <size_t N>
     __bitset_base<N>::__bitset_base()
     {
-        std::fill(data, data + N, 0);
+        std::fill<size_t *, size_t>(data, data + N, 0);
+    }
+
+    template <size_t N>
+    bool __bitset_base<N>::any() const
+    {
+        for (size_t i = 0; i < N; i++)
+        {
+            if (data[i] != 0)
+                return true;
+        }
+        return false;
     }
 
     template <size_t N>
@@ -73,8 +84,8 @@ namespace std
     public:
         typedef __bitset_base<(N - 1) / (sizeof(size_t) * 8) + 1> base;
 
-        bitset(){};
-
+        bitset() {}
+        bool any() const { return base::any(); }
         void set(size_t pos, bool val)
         {
             if (pos >= N)
@@ -99,7 +110,7 @@ namespace std
             }
             return base::test(pos);
         }
-        bool any() const;
+        
     };
 } // namespace std
 
