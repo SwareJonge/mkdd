@@ -256,10 +256,7 @@ JKRHeap *JKRHeap::findAllHeap(void *memory) const
 void JKRHeap::dispose_subroutine(u32 begin, u32 end)
 {
     JSUListIterator<JKRDisposer> last_iterator;
-    JSUListIterator<JKRDisposer> next_iterator;
-    JSUListIterator<JKRDisposer> iterator;
-    for (iterator = mDisposerList.getFirst(); iterator != mDisposerList.getEnd();
-         iterator = next_iterator)
+    for (JSUListIterator<JKRDisposer> iterator(mDisposerList.getFirst()); iterator != mDisposerList.getEnd();)
     {
         JKRDisposer *disposer = iterator.getObject();
 
@@ -268,19 +265,18 @@ void JKRHeap::dispose_subroutine(u32 begin, u32 end)
             disposer->~JKRDisposer();
             if (last_iterator == nullptr)
             {
-                next_iterator = mDisposerList.getFirst();
+                iterator = mDisposerList.getFirst();
             }
             else
             {
-                next_iterator = last_iterator;
-                next_iterator++;
+                iterator = last_iterator;
+                iterator++;
             }
         }
         else
         {
             last_iterator = iterator;
-            next_iterator = iterator;
-            next_iterator++;
+            iterator++;
         }
     }
 }
@@ -329,16 +325,6 @@ void JKRDefaultMemoryErrorRoutine(void *heap, u32 size, int alignment)
     JUT_PANIC("abort\n");
 }
 
-// attempt to reconstruct function but lazy
-void JKRHeap::checkMemoryFilled(u8 *address, u32 size, u8 p3)
-{
-    for (int i = 0; i < size; i++)
-    {
-#line 999
-        JUT_WARNING_F(p3 == address[i], "**** checkMemoryFilled:\n address %08x size %x:\n (%08x = %02x)\n", address, size, address[i], address[i]);
-    }
-}
-
 JKRHeapErrorHandler *JKRHeap::setErrorHandler(JKRHeapErrorHandler *newHandler)
 {
     JKRHeapErrorHandler *oldHandler = mErrorHandler;
@@ -350,6 +336,16 @@ JKRHeapErrorHandler *JKRHeap::setErrorHandler(JKRHeapErrorHandler *newHandler)
     return oldHandler;
 }
 
+// attempt to reconstruct function but lazy
+void JKRHeap::checkMemoryFilled(u8 *address, u32 size, u8 p3)
+{
+    for (int i = 0; i < size; i++)
+    {
+#line 999
+        JUT_WARNING_F(p3 == address[i], "**** checkMemoryFilled:\n address %08x size %x:\n (%08x = %02x)\n", address, size, address[i], address[i]);
+    }
+}
+
 bool JKRHeap::isSubHeap(JKRHeap *heap) const
 {
     if (!heap)
@@ -357,8 +353,8 @@ bool JKRHeap::isSubHeap(JKRHeap *heap) const
 
     if (mHeapTree.getNumChildren() != 0)
     {
-        JSUTreeIterator<JKRHeap> iterator;
-        for (iterator = mHeapTree.getFirstChild(); iterator != mHeapTree.getEndChild(); ++iterator)
+
+        for (JSUTreeIterator<JKRHeap> iterator(mHeapTree.getFirstChild()); iterator != mHeapTree.getEndChild(); ++iterator)
         {
             if (iterator.getObject() == heap)
             {
@@ -404,20 +400,23 @@ void *operator new[](u32 byteCount, JKRHeap *heap, int alignment)
 void operator delete(void *memory) { JKRHeap::free(memory, nullptr); }
 void operator delete[](void *memory) { JKRHeap::free(memory, nullptr); }
 
-/*JKRHeap::TState::TState(const JKRHeap::TState::TArgument &arg, const JKRHeap::TState::TLocation &location)
+JKRHeap::TState::TState(const JKRHeap::TState::TArgument &arg, const JKRHeap::TState::TLocation &location)
+    : mArgument(arg), mLocation(location)
 {
     // UNUSED FUNCTION
 }
 
 JKRHeap::TState::TState(const JKRHeap::TState &other, bool p2)
+    : mArgument(other.getHeap(), 0, p2)
 {
     // UNUSED FUNCTION
 }
 
 JKRHeap::TState::TState(const JKRHeap::TState &other, const JKRHeap::TState::TLocation &location, bool p3)
+    : mArgument(other.getHeap(), 0, p3), mLocation()
 {
     // UNUSED FUNCTION
-}*/
+}
 
 JKRHeap::TState::~TState()
 {

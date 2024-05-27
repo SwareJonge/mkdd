@@ -52,7 +52,7 @@ public:
 
         ~TState();
         void dump() const { mArgument.mHeap->state_dump(*this); }
-        bool isVerbose() { return bVerbose_; };
+        static bool isVerbose() { return bVerbose_; };
         bool isCompareOnDestructed() const { return mArgument.mIsCompareOnDestructed; };
         u32 getUsedSize() const { return mUsedSize; }
         u32 getCheckCode() const { return mCheckCode; }
@@ -123,12 +123,12 @@ public:
     u8 getCurrentGroupId();
     u8 changeGroupID(u8 newGroupId);
     u32 getMaxAllocatableSize(int alignment);
-    JKRHeap *find(void *const) const;  // 0x80084640
+    JKRHeap *find(void *const) const;        // 0x80084640
     JKRHeap *findAllHeap(void *const) const; // 0x8008492c
+    bool dispose(void *, u32);               // 0x80084b9c
+    void dispose(void *, void *);            // 0x80084c2c
+    void dispose();                          // 0x80084cb8
     void dispose_subroutine(u32 begin, u32 end);
-    bool dispose(void *, u32); // 0x80084b9c
-    void dispose(void *, void *);        // 0x80084c2c
-    void dispose();                      // 0x80084cb8
 
     void appendDisposer(JKRDisposer * disposer) {
         mDisposerList.append(&disposer->mPointerLinks);
