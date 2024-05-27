@@ -43,7 +43,6 @@ import common as c
 
 # Check CW was added
 assert os.path.exists("tools/2.6/mwcceppc.exe") and \
-    os.path.exists("tools/1.3.2/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5n/mwcceppc.exe") and \
     os.path.exists("tools/1.2.5/mwcceppc.exe") and \
     os.path.exists("tools/2.6/mwldeppc.exe"), \
@@ -587,9 +586,7 @@ class CSource(Source):
                 if path.startswith("libs/JSystem/JAudio/Task/"):
                     self.cflags = c.JAUDIO_DSP_CFLAGS
             elif path.startswith("libs/JSystem/"):
-                self.cflags = c.JSYSTEM_RELEASE_CFLAGS                
-                if path.endswith("JKRSolidHeap.cpp"):
-                    self.cc = c.CC_1_3_2
+                self.cflags = c.JSYSTEM_RELEASE_CFLAGS
         else:
             if path.startswith("libs/JSystem/JUtility/") or path.startswith("libs/JSystem/JKernel/") or path.startswith("libs/JSystem/J2DGraph/"):
                 self.cflags = c.DOL_CFLAGS

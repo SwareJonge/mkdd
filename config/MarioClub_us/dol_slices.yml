@@ -325,14 +325,13 @@ libs/JSystem/JKernel/JKRFileLoader.cpp:
     .sbss: [0x804159a0, 0x804159a8]
     .sdata2: [0x80417af0, 0x80417af8]
 
-# The hacks in JKRHeap cause issues for RaceMgr(and so will it for other files), disable for now
-#libs/JSystem/JKernel/JKRHeap.cpp:
-    #.text: [0x80083e20, 0x800853bc]
-    #.rodata: [0x803670e8, 0x803673a8]
-    #.data: [0x8038b418, 0x8038b478]
-    #.sdata: [0x80414098, 0x804140a0]
-    #.sbss: [0x804159a8, 0x804159d0]
-    #.sdata2: [0x80417af8, 0x80417b18]
+libs/JSystem/JKernel/JKRHeap.cpp:
+    .text: [0x80083e20, 0x800853bc]
+    .rodata: [0x803670e8, 0x803673a8]
+    .data: [0x8038b418, 0x8038b478]
+    .sdata: [0x80414098, 0x804140a0]
+    .sbss: [0x804159a8, 0x804159d0]
+    .sdata2: [0x80417af8, 0x80417b18]
 
 libs/JSystem/JKernel/JKRMemArchive.cpp:
     .text: [0x800853bc, 0x80085cf4]

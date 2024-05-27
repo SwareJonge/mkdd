@@ -87,7 +87,7 @@ namespace JUTAssertion
 #define JUT_MINMAX_ASSERT(...)
 #define JUT_MAX_ASSERT(...)
 #define JUT_LOG_F(...)
-#define JUT_REPORT_MSG(...)
+#define JUT_REPORT_MSG(...) (void)0
 #endif
 
 #endif

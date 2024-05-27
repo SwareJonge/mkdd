@@ -211,9 +211,6 @@ SDK_CC = os.path.join(SDK_CW, "mwcceppc.exe")
 SDK_PACTHED_CW = os.path.join(TOOLS, "1.2.5n")
 SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc.exe")
 
-MW_1_3_2 = os.path.join(TOOLS, "1.3.2")
-CC_1_3_2 = os.path.join(MW_1_3_2, "mwcceppc.exe")
-
 JSYSTEM_O0_MW = os.path.join(TOOLS, "3.0a5.2")
 JSYSTEM_O0_CC = os.path.join(JSYSTEM_O0_MW, "mwcceppc.exe")
 

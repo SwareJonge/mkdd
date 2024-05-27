@@ -23,7 +23,7 @@ public:
             {
             }
 
-            void *_00; // _00
+            char *_00; // _00
             int _04;   // _04
         };
 
@@ -238,11 +238,11 @@ protected:
     void *mStartAddress;                // _30
     void *mEndAddress;                  // _34
     u32 mHeapSize;                      // _38
-    bool mIsDebugFill;                    // _3C
+    bool mIsDebugFill;                  // _3C
     u8 mFillCheckFlag;                  // _3D
     u8 mAllocMode;                      // _3E, see EAllocMode enum
     u8 mGroupID;                        // _3F
-    JSUTree<JKRHeap> mHeapTree;         // _40
+    mutable JSUTree<JKRHeap> mHeapTree; // _40
     JSUList<JKRDisposer> mDisposerList; // _5C
     bool mErrorFlag;                    // _68
     bool mInitFlag;                     // _69
