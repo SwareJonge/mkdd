@@ -5,7 +5,7 @@
 // should've been declared in a .cpp file
 
 #ifdef MATCHING
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASTrack.h"
 
 JASMemPool_MultiThreaded<JASTrack::TChannelMgr> JASPoolAllocObject_MultiThreaded<JASTrack::TChannelMgr>::memPool_;

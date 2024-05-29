@@ -2,7 +2,7 @@
 #define JAUDIO_JASFAKEMATCH6_H
 
 #ifdef MATCHING
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASTrack.h"
 class JAISoundChild;
 class JAISeq;

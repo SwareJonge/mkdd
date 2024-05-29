@@ -3,7 +3,7 @@
 
 #include "JSystem/JAudio/System/JASDsp.h"
 #include "JSystem/JAudio/System/JASLfo.h"
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASOscillator.h"
 #include "JSystem/JAudio/System/JASSoundParams.h"
 #include "JSystem/JAudio/System/JASWaveInfo.h"

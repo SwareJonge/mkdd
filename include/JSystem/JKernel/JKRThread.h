@@ -137,6 +137,28 @@ struct JKRThread : public JKRDisposer
         mCurrentHeap = heap ? heap : JKRGetCurrentHeap();
     }
 
+    BOOL sendMessage(OSMessage msg)
+    {
+        return OSSendMessage(&mMessageQueue, msg, OS_MESSAGE_NOBLOCK);
+    }
+
+    OSMessage waitMessage(int *recieved)
+    {
+        OSMessage msg;
+        BOOL recievedMsg = OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_NOBLOCK);
+        if (recieved)
+            *recieved = recievedMsg;
+
+        return msg;
+    }
+
+    OSMessage waitMessageBlock()
+    {
+        OSMessage msg;
+        OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_BLOCK);
+        return msg;
+    }
+
     static JSUList<JKRThread> sThreadList;
 
     // _00     = VTBL
@@ -189,13 +211,6 @@ struct JKRTask : public JKRThread
     void destroyTaskEndMessageQueue();
     void waitQueueMessageBlock(OSMessageQueue *, int *);
     void waitQueueMessage(OSMessageQueue *, int *);
-
-    OSMessage waitMessageBlock()
-    {
-        OSMessage msg;
-        OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_BLOCK);
-        return msg;
-    }
 
     static void destroy(JKRTask *);
 

@@ -1,11 +1,9 @@
-#ifndef JAUDIO_JASMEMPOOL_H
-#define JAUDIO_JASMEMPOOL_H
-
+#ifndef JAUDIO_JASHEAPCTRL_H
+#define JAUDIO_JASHEAPCTRL_H
 
 #include <dolphin/os.h>
 
 #include "JSystem/JUtility/JUTAssert.h"
-
 #include "JSystem/JAudio/System/JASHeap.h"
 
 #include "types.h"
@@ -55,6 +53,9 @@ struct JASMemPool : public JASGenericMemPool
 template <u32 ChunkSize, typename T>
 class JASMemChunkPool
 {
+
+    typedef JASMemChunkPool<ChunkSize,T> TJASMemChunkPool;
+
     struct MemoryChunk
     {
         MemoryChunk(MemoryChunk *nextChunk)
@@ -64,7 +65,7 @@ class JASMemChunkPool
             mChunks = 0;
         }
 
-        bool checkArea(void *ptr)
+        bool checkArea(const void *ptr) const
         {
             return (u8 *)this + 0xc <= (u8 *)ptr && (u8 *)ptr < (u8 *)this + (ChunkSize + 0xc);
         }
@@ -82,12 +83,12 @@ class JASMemChunkPool
             return rv;
         }
 
-        void free()
+        void free(void*)
         {
             mChunks--;
         }
 
-        bool isEmpty()
+        bool isEmpty() const
         {
             return mChunks == 0;
         }
@@ -97,7 +98,7 @@ class JASMemChunkPool
             mNextChunk = chunk;
         }
 
-        u32 getFreeSize()
+        u32 getFreeSize() const
         {
             return ChunkSize - mUsedSize;
         }
@@ -116,41 +117,36 @@ class JASMemChunkPool
 public:
     bool createNewChunk()
     {
-        bool uVar2;
-        if (_18 != NULL && _18->isEmpty())
+        if ((mChunk != NULL && mChunk->isEmpty()) != 0)
         {
-            _18->revive();
-            uVar2 = 1;
+            mChunk->revive();
+            return true;
         }
-        else
+
+        MemoryChunk *chunk = mChunk;
+        mChunk = new (JASKernel::getSystemHeap(), 0) MemoryChunk(chunk);
+        if (mChunk != NULL)
         {
-            MemoryChunk *pMVar4 = _18;
-            _18 = new (JASKernel::getSystemHeap(), 0) MemoryChunk(pMVar4);
-            if (_18 != NULL)
-            {
-                uVar2 = 1;
-            }
-            else
-            {
-                _18 = new (JKRHeap::getSystemHeap(), 0) MemoryChunk(pMVar4);
-                if (_18 != NULL)
-                {
-                    uVar2 = 1;
-                }
-                else
-                {
-                    _18 = pMVar4;
-                    uVar2 = 0;
-                }
-            }
+            return true;                
         }
-        return uVar2;
+    #line 428
+        JUT_WARNING_F2("%s", "Not enough JASSystemHeap");
+        mChunk = new (JKRHeap::getSystemHeap(), 0) MemoryChunk(chunk);
+        if (mChunk != NULL)
+        {
+            return true;
+        }
+
+        mChunk = chunk;
+        return false;            
+        
     }
 
     void *alloc(u32 size)
     {
-        T::Lock lock(&mMutex);
-        if (_18->getFreeSize() < size)
+        T::Lock lock(&mMutex); // takes *this
+        u32 freeSize = mChunk->getFreeSize();
+        if (freeSize < size)
         {
             if (ChunkSize < size)
             {
@@ -161,34 +157,38 @@ public:
                 return NULL;
             }
         }
-        return _18->alloc(size);
+        return mChunk->alloc(size);
     }
 
     void free(void *ptr)
     {
-        T::Lock lock(&((JASMemChunkPool<ChunkSize, T> *)ptr)->mMutex);
-        MemoryChunk *chunk = ((JASMemChunkPool<ChunkSize, T> *)ptr)->_18;
+        T::Lock lock(&mMutex); // takes *this
+        MemoryChunk *chunk = mChunk;
         MemoryChunk *prevChunk = NULL;
         while (chunk != NULL)
         {
-            if (chunk->checkArea(this))
+            if (chunk->checkArea(ptr))
             {
-                chunk->free();
-                if (chunk != ((JASMemChunkPool<ChunkSize, T> *)ptr)->_18 && chunk->isEmpty())
+                chunk->free(ptr);
+
+                if ((chunk != mChunk && chunk->isEmpty()) != 0)
                 {
                     MemoryChunk *nextChunk = chunk->getNextChunk();
                     delete chunk;
-                    prevChunk->setNextChunk(nextChunk);
+                    prevChunk->setNextChunk(nextChunk);                   
                 }
                 return;
             }
             prevChunk = chunk;
             chunk = chunk->getNextChunk();
         }
+#line 362
+        JUT_ASSERT_MSG(false, "Cannnot free for JASMemChunkPool");
     }
 
-    OSMutex mMutex;   // 00
-    MemoryChunk *_18; //
+private:
+    OSMutex mMutex;      // 00
+    MemoryChunk *mChunk; // 18
 };
 
 template <typename T>

@@ -103,25 +103,25 @@ void JKRHeap::destroy(JKRHeap *heap)
 
 void JKRHeap::destroy() { do_destroy(); }
 
-void *JKRHeap::alloc(u32 byteCount, int padding, JKRHeap *heap)
+void *JKRHeap::alloc(u32 byteCount, int alignment, JKRHeap *heap)
 {
     void *memory;
     if (heap)
     {
-        return heap->alloc(byteCount, padding);
+        return heap->alloc(byteCount, alignment);
     }
     else if (sCurrentHeap)
     {
-        return sCurrentHeap->alloc(byteCount, padding);
+        return sCurrentHeap->alloc(byteCount, alignment);
     }
     return nullptr;
 }
 
-void *JKRHeap::alloc(u32 byteCount, int padding)
+void *JKRHeap::alloc(u32 byteCount, int alignment)
 {
 #line 317
     JUT_WARNING_F(!mInitFlag, "alloc %x byte in heap %x", byteCount, this);
-    return do_alloc(byteCount, padding);
+    return do_alloc(byteCount, alignment);
 }
 
 void JKRHeap::free(void *memory, JKRHeap *heap)
@@ -252,7 +252,6 @@ JKRHeap *JKRHeap::findAllHeap(void *memory) const
     return nullptr;
 }
 
-// generates __as__25JSUTreeIterator<7JKRHeap>FP17JSUTree<7JKRHeap> and __ct__25JSUTreeIterator<7JKRHeap>Fv, remove this
 void JKRHeap::dispose_subroutine(u32 begin, u32 end)
 {
     JSUListIterator<JKRDisposer> last_iterator;

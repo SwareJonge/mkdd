@@ -112,7 +112,7 @@ public:
     void freeAll();
     void freeTail();
     void fillFreeArea();
-    int resize(void *, u32);
+    int resize(void *memoryBlock, u32 newSize);
 
     // ... more functions
 
@@ -123,11 +123,11 @@ public:
     u8 getCurrentGroupId();
     u8 changeGroupID(u8 newGroupId);
     u32 getMaxAllocatableSize(int alignment);
-    JKRHeap *find(void *const) const;        // 0x80084640
-    JKRHeap *findAllHeap(void *const) const; // 0x8008492c
-    bool dispose(void *, u32);               // 0x80084b9c
-    void dispose(void *, void *);            // 0x80084c2c
-    void dispose();                          // 0x80084cb8
+    JKRHeap *find(void *memory) const;        // 0x80084640
+    JKRHeap *findAllHeap(void *memory) const; // 0x8008492c
+    bool dispose(void *memory, u32 size);     // 0x80084b9c
+    void dispose(void *begin, void *end);     // 0x80084c2c
+    void dispose();                           // 0x80084cb8
     void dispose_subroutine(u32 begin, u32 end);
 
     void appendDisposer(JKRDisposer * disposer) {
@@ -162,8 +162,8 @@ public:
     }
     static void setState_u32CheckCode_(TState * state, u32 checkCode) { state->mCheckCode = checkCode; }
 
-    void lock() const {OSLockMutex(const_cast<OSMutex *>(&mMutex)); }
-    void unlock() const {OSUnlockMutex(const_cast<OSMutex*>(&mMutex)); }
+    void lock() const { OSLockMutex(&mMutex); }
+    void unlock() const { OSUnlockMutex(&mMutex); }
 
     JKRHeap *getParent()
     {
@@ -178,13 +178,13 @@ public:
     void checkMemoryFilled(u8 *, u32 size, u8);
 
     static void destroy(JKRHeap *heap); // fabricated
-    static bool initArena(char **, u32 *, int);
-    static void *alloc(u32, int, JKRHeap *);
+    static bool initArena(char **outUserRamStart, u32 *outUserRamSize, int numHeaps);
+    static void *alloc(u32 byteCount, int alignment, JKRHeap *heap);
     static void copyMemory(void *, void *, u32);
-    static void free(void *, JKRHeap *);
-    static void state_dumpDifference(const TState &, const TState &);
-    static JKRHeap *findFromRoot(void *);
-    static JKRHeapErrorHandler *setErrorHandler(JKRHeapErrorHandler *);
+    static void free(void *memory, JKRHeap *heap);
+    static void state_dumpDifference(const TState &r1, const TState &r2);
+    static JKRHeap *findFromRoot(void *memory);
+    static JKRHeapErrorHandler *setErrorHandler(JKRHeapErrorHandler *errorHandler);
     
     static void * getCodeStart() {
         return mCodeStart;
@@ -359,16 +359,16 @@ inline void JKRFreeToSysHeap(void * buf) {
 
 void JKRDefaultMemoryErrorRoutine(void *, u32, int);
 
-void* operator new(size_t);
+void *operator new(size_t);
 void *operator new(size_t, int);
-void* operator new(size_t, JKRHeap*, int);
+void *operator new(size_t, JKRHeap *, int);
 inline void *operator new(size_t, void *buf) { return buf; }
 
-void* operator new[](size_t);
-void* operator new[](size_t, int);
-void* operator new[](size_t, JKRHeap*, int);
+void *operator new[](size_t);
+void *operator new[](size_t, int);
+void *operator new[](size_t, JKRHeap *, int);
 
-void operator delete(void*);
-void operator delete[](void*);
+void operator delete(void *);
+void operator delete[](void *);
 
 #endif // !JKRHEAP_H

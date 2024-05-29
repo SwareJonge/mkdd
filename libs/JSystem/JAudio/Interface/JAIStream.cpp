@@ -4,7 +4,7 @@
 #include "JSystem/JAudio/Interface/JAIStream.h"
 #include "JSystem/JAudio/Interface/JAIStreamDataMgr.h"
 #include "JSystem/JAudio/Interface/JAISound.h"
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASAudioThread.h"
 
 // Move this shit to correct header + sym on shit

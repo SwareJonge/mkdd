@@ -496,6 +496,12 @@ libs/JSystem/JAudio/System/JASReport.cpp:
     .bss: [0x803aec98, 0x803aecb0]
     .sbss: [0x80415a28, 0x80415a38]
 
+#libs/JSystem/JAudio/System/JASTaskThread.cpp:
+    #.text: [0x80091054, 0x800918c0]
+    #.rodata: [0x803687b8, 0x80368808]
+    #.data: [0x8038b7d8, 0x8038b7e8]
+    #.sdata2: [0x80417da0, 0x80417db0]
+
 libs/JSystem/JAudio/System/JASSoundParams.cpp:
     .text: [0x800967d0, 0x8009682c]
     .sdata2: [0x80417f28, 0x80417f30]

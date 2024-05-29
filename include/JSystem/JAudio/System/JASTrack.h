@@ -5,7 +5,7 @@
 
 #include "JSystem/JAudio/System/JASBankTable.h"
 #include "JSystem/JAudio/System/JASChannel.h"
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASOscillator.h"
 #include "JSystem/JAudio/System/JASRegisterParam.h"
 #include "JSystem/JAudio/System/JASSeqCtrl.h"

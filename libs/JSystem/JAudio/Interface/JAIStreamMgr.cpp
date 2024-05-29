@@ -1,7 +1,7 @@
 #include "JSystem/JAudio/Interface/JAIStreamMgr.h"
 #include "JSystem/JAudio/Interface/JAIStreamDataMgr.h"
 
-#include "JSystem/JAudio/System/JASMemPool.h"
+#include "JSystem/JAudio/System/JASHeapCtrl.h"
 
 #ifdef DEBUG
 #pragma sym on

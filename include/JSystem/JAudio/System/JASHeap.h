@@ -31,20 +31,6 @@ public:
     JASHeap *_40;           // 40
 };
 
-namespace JASKernel
-{
-    void setupRootHeap(JKRSolidHeap *, u32);
-    JKRHeap *getSystemHeap();
-    void *getCommandHeap();
-    void setupAramHeap(u32, u32);
-    JASHeap *getAramHeap();
-
-    extern u8 audioAramHeap[68];
-    extern u32 sAramBase;
-    extern JKRHeap *sSystemHeap;
-    extern void *sCommandHeap;
-};
-
 namespace JASThreadingModel
 {
     template <typename T>
@@ -68,6 +54,7 @@ namespace JASThreadingModel
         };
     };
 
+    //template <typename T>
     struct ObjectLevelLockable
     {
         // Should be templated on the chunk memory but couldn't initialize it inside the class itself
