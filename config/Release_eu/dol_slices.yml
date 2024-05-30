@@ -12,6 +12,12 @@ src/kartLocale.cpp:
 #src/buildTimeDat.s:
     #.BINARY: [0x8032cbc0, 0x8032cbe0]
 
+libs/JSystem/J3DU/J3DUClipper.cpp:
+    .text: [0x8000a24c, 0x8000a540]
+    .rodata: [0x8032cd28, 0x8032cdd0]
+    .data: [0x80347ab8, 0x80347ac8]
+    .sdata2: [0x803d6450, 0x803d6460]
+
 libs/JSystem/JKernel/JKRAram.cpp:
     .text: [0x8000a540, 0x8000b3b0]
     .ctors: [0x802d84ac, 0x802d84b0]

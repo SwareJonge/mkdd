@@ -72,7 +72,7 @@ inline void enter_(int x, int y, int duration, const char *txt, int n)
 
 void JUTDbPrint::flush() { flush(0, 0, JUTVideo::sManager->getFbWidth(), JUTVideo::sManager->getEfbHeight()); }
 
-void JUTDbPrint::flush(int p1, int p2, int p3, int p4)
+void JUTDbPrint::flush(int left, int top, int right, int bottom)
 {
     // eyebrow raise emoji
     JUTDbPrintList *pList = (JUTDbPrintList *)&mList;
@@ -82,7 +82,7 @@ void JUTDbPrint::flush(int p1, int p2, int p3, int p4)
     {
         if (currList)
         {
-            J2DOrthoGraph orthograph(p1, p2, p3, p4, -1.0f, 1.0f);
+            J2DOrthoGraph orthograph(left, top, right, bottom, -1.0f, 1.0f);
             orthograph.setPort();
             mFont->setGX();
             mFont->setCharColor(mColor);

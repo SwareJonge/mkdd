@@ -115,6 +115,32 @@ class JASMemChunkPool
     };
 
 public:
+    void free(void *ptr)
+    {
+        T::Lock lock(&mMutex); // takes *this
+        MemoryChunk *chunk = mChunk;
+        MemoryChunk *prevChunk = NULL;
+        while (chunk != NULL)
+        {
+            if (chunk->checkArea(ptr))
+            {
+                chunk->free(ptr);
+
+                if ((chunk != mChunk && chunk->isEmpty()) != 0)
+                {
+                    MemoryChunk *nextChunk = chunk->getNextChunk();
+                    delete chunk;
+                    prevChunk->setNextChunk(nextChunk);
+                }
+                return;
+            }
+            prevChunk = chunk;
+            chunk = chunk->getNextChunk();
+        }
+#line 362
+        JUT_ASSERT_MSG(false, "Cannnot free for JASMemChunkPool");
+    }
+
     bool createNewChunk()
     {
         if ((mChunk != NULL && mChunk->isEmpty()) != 0)
@@ -158,32 +184,6 @@ public:
             }
         }
         return mChunk->alloc(size);
-    }
-
-    void free(void *ptr)
-    {
-        T::Lock lock(&mMutex); // takes *this
-        MemoryChunk *chunk = mChunk;
-        MemoryChunk *prevChunk = NULL;
-        while (chunk != NULL)
-        {
-            if (chunk->checkArea(ptr))
-            {
-                chunk->free(ptr);
-
-                if ((chunk != mChunk && chunk->isEmpty()) != 0)
-                {
-                    MemoryChunk *nextChunk = chunk->getNextChunk();
-                    delete chunk;
-                    prevChunk->setNextChunk(nextChunk);                   
-                }
-                return;
-            }
-            prevChunk = chunk;
-            chunk = chunk->getNextChunk();
-        }
-#line 362
-        JUT_ASSERT_MSG(false, "Cannnot free for JASMemChunkPool");
     }
 
 private:

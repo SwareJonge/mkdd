@@ -6,6 +6,13 @@ src/kartLocale.cpp:
     .sbss: [0x804156e0, 0x804156f0]
     .sdata2: [0x804171c0, 0x804171e8]
 
+# having alignment issues, not bothered to fix that(so implement JPABaseShape.cpp)
+#libs/JSystem/J3DU/J3DUClipper.cpp:
+    #.text: [0x80007610, 0x800078fc]
+    #.rodata: [0x80360990, 0x80360a38]
+    #.data: [0x80387b88, 0x80387ba0]
+    #.sdata2: [0x80417200, 0x80417210]
+
 #libs/JSystem/JParticle/JPAFieldBlock.cpp:
     #.text: [0x8000e450, 0x80010760]
     #.rodata: [0x80360c58, 0x80360ca0]
