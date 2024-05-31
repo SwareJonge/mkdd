@@ -171,16 +171,13 @@ namespace JGeometry {
 
         f32 setLength(f32 length)
         {
-            if (length <= TUtilf::epsilon())
-            {
+            f32 sq = squared();
+            if (sq <= TUtilf::epsilon())
                 return 0.0f;
-            }
-            else
-            {
-                f32 invsqrt = TUtilf::inv_sqrt(length);
-                scale(invsqrt);
-                return invsqrt * length;
-            }
+
+            f32 invsqrt = TUtilf::inv_sqrt(sq);
+            scale(invsqrt * length);
+            return invsqrt * sq;
         }
         void setLength(const TVec3 &operand, f32 length);
         void setMax(const TVec3 &other);

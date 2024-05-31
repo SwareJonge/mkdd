@@ -4,24 +4,49 @@
 #include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 
+static inline u32 COLOR_MULTI(u32 color1, u32 color2) { return (color1 * (color2 + 1) * 0x10000) >> 24; }
+
 void JPAConvertFixToFloat(short);
-void JPAGetDirMtx(const JGeometry::TVec3<f32>&, Mtx);
+void JPAGetDirMtx(const JGeometry::TVec3f&, Mtx);
 void JPAGetYZRotateMtx(short, short, Mtx);
 void JPAGetXYZRotateMtx(short, short, short, Mtx);
 void JPASetRMtxfromMtx(const Mtx, Mtx);
 void JPASetRMtxTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f*);
 void JPASetRMtxSTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f*, JGeometry::TVec3f*);
-void JPACalcKeyAnmValue(f32, unsigned short, const f32*);
+f32 JPACalcKeyAnmValue(f32, u16, const f32*);
 
-struct JPARandom {
-    JPARandom(u32 seed){mSeed = seed; }
+// there's a good chance this should just be JMath::TRandom_fast_.
+// for now, these seem to match well for JPA stuff - may be worth back-porting them
+// if they work in JMath?
+struct JPARandom
+{
+    JPARandom() { mSeed = 0; }
 
-    u32 set_seed(u32 seed)
+    void setSeed(u32 seed) { mSeed = seed; }
+
+    u32 getRandU32() { return mSeed = mSeed * 0x19660du + 0x3c6ef35fu; }
+
+    f32 getRandF32()
     {
-        mSeed = seed;
+        u32 a = ((getRandU32() >> 9) | 0x3f800000);
+        return *(f32 *)(void *)&a - 1.0f;
     }
 
-    u32 mSeed;
+    f32 getRandZP()
+    {
+        f32 f = getRandF32();
+        return (f + f) - 1.0f;
+    }
+
+    f32 getRandZH()
+    {
+        f32 f = getRandF32();
+        return f - 0.5f;
+    }
+
+    s16 getRandS16() { return (s16)(getRandU32() >> 16); }
+
+    u32 mSeed; // _00
 };
 
 #endif

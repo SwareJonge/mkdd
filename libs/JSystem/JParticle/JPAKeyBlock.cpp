@@ -3,7 +3,7 @@
 #include "JSystem/JParticle/JPAMath.h"
 
 JPAKeyBlock::JPAKeyBlock(const u8 *data)
-    : mDataStart(data), mKeyData(reinterpret_cast<const float *>(&data[0xC]))
+    : mDataStart(reinterpret_cast<const JPAKeyBlockData *>(data)), mKeyFrameData(reinterpret_cast<const f32 *>(&data[0xC]))
 {
 }
 
@@ -12,14 +12,14 @@ void JPAKeyBlock::init_jpa(const u8 *, JKRHeap *)
     // UNUSED FUNCTION
 }
 
-void JPAKeyBlock::calc(f32 p1)
+f32 JPAKeyBlock::calc(f32 currentFrame)
 {
-    if (mDataStart[0xB] != '\0')
+    if (mDataStart->_0B != '\0')
     {
-        int v1 = (int)mKeyData[(mDataStart[9] - 1) * 4] + 1;
-        // p1 -= (v1 * ((int)p1 / v1));
-        int v2 = ((int)p1 / v1);
-        p1 = p1 - (v2 * v1);
+        int lastKeyFrameIndex = (int)mKeyFrameData[(mDataStart->mKeyFrameCount - 1) * 4] + 1;
+        int currentFrameRatio = ((int)currentFrame / lastKeyFrameIndex);
+        currentFrame = currentFrame - (currentFrameRatio * lastKeyFrameIndex);
     }
-    JPACalcKeyAnmValue(p1, mDataStart[9], mKeyData);
+
+    return JPACalcKeyAnmValue(currentFrame, mDataStart->mKeyFrameCount, mKeyFrameData);
 }

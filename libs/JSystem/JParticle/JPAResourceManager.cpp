@@ -47,7 +47,7 @@ bool JPAResourceManager::checkUserIndexDuplication(u16) const
     // UNUSED, but exists in TP
 }
 
-ResTIMG *JPAResourceManager::swapTexture(const ResTIMG *, const char *)
+const ResTIMG *JPAResourceManager::swapTexture(const ResTIMG *, const char *)
 {
     // UNUSED
 }
@@ -73,7 +73,7 @@ void JPAResourceManager::registTexDupCheck(const unsigned char *, JKRHeap *)
     // UNUSED
 }
 
-void *JPAResourceManager::getResUserWork(u16) const
+u32 JPAResourceManager::getResUserWork(u16) const
 {
     // UNUSED
 }

@@ -13,6 +13,13 @@ src/kartLocale.cpp:
     #.data: [0x80387b88, 0x80387ba0]
     #.sdata2: [0x80417200, 0x80417210]
 
+#libs/JSystem/JParticle/JPABaseShape.cpp:
+    #.text: [0x800078fc, 0x8000b868]
+    #.rodata: [0x80360a38, 0x80360ac0]
+    #.data: [0x80387ba0, 0x80387d48]
+    #.sdata: [0x80413f90, 0x80413f98]
+    #.sdata2: [0x80417210, 0x80417258]
+
 #libs/JSystem/JParticle/JPAFieldBlock.cpp:
     #.text: [0x8000e450, 0x80010760]
     #.rodata: [0x80360c58, 0x80360ca0]
