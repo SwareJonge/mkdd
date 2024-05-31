@@ -7,13 +7,13 @@
 static inline u32 COLOR_MULTI(u32 color1, u32 color2) { return (color1 * (color2 + 1) * 0x10000) >> 24; }
 
 void JPAConvertFixToFloat(short);
-void JPAGetDirMtx(const JGeometry::TVec3f&, Mtx);
+void JPAGetDirMtx(const JGeometry::TVec3f &, Mtx);
 void JPAGetYZRotateMtx(short, short, Mtx);
 void JPAGetXYZRotateMtx(short, short, short, Mtx);
 void JPASetRMtxfromMtx(const Mtx, Mtx);
-void JPASetRMtxTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f*);
-void JPASetRMtxSTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f*, JGeometry::TVec3f*);
-f32 JPACalcKeyAnmValue(f32, u16, const f32*);
+void JPASetRMtxTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f *);
+void JPASetRMtxSTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f *, JGeometry::TVec3f *);
+f32 JPACalcKeyAnmValue(f32, u16, const f32 *);
 
 // there's a good chance this should just be JMath::TRandom_fast_.
 // for now, these seem to match well for JPA stuff - may be worth back-porting them

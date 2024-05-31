@@ -21,57 +21,57 @@ struct JPAKeyBlock;
  */
 struct JPAResource
 {
-	JPAResource();
+    JPAResource();
 
-	void init(JKRHeap *);
-	bool calc(JPAEmitterWorkData *, struct JPABaseEmitter *);
-	void draw(JPAEmitterWorkData *, JPABaseEmitter *);
-	void drawP(JPAEmitterWorkData *); // Draw parent
-	void drawC(JPAEmitterWorkData *); // Draw child
-	void setPTev();
-	void setCTev(JPAEmitterWorkData *);
-	void calc_p(JPAEmitterWorkData *, JPABaseParticle *);
-	void calc_c(JPAEmitterWorkData *, JPABaseParticle *);
-	void calcField(JPAEmitterWorkData *, JPABaseParticle *);
-	void calcKey(JPAEmitterWorkData *);
-	void calcWorkData_c(JPAEmitterWorkData *);
-	void calcWorkData_d(JPAEmitterWorkData *);
+    void init(JKRHeap *);
+    bool calc(JPAEmitterWorkData *, struct JPABaseEmitter *);
+    void draw(JPAEmitterWorkData *, JPABaseEmitter *);
+    void drawP(JPAEmitterWorkData *); // Draw parent
+    void drawC(JPAEmitterWorkData *); // Draw child
+    void setPTev();
+    void setCTev(JPAEmitterWorkData *);
+    void calc_p(JPAEmitterWorkData *, JPABaseParticle *);
+    void calc_c(JPAEmitterWorkData *, JPABaseParticle *);
+    void calcField(JPAEmitterWorkData *, JPABaseParticle *);
+    void calcKey(JPAEmitterWorkData *);
+    void calcWorkData_c(JPAEmitterWorkData *);
+    void calcWorkData_d(JPAEmitterWorkData *);
 
-	JPABaseShape *const getBsp() const { return mBaseShape; }
-	JPAExtraShape *getEsp() const { return mExtraShape; }
-	JPAChildShape *getCsp() const { return mChildShape; }
-	JPAExTexShape *getEts() const { return mExTexShape; }
-	JPADynamicsBlock *getDyn() const { return mDynamicsBlock; }
+    JPABaseShape *const getBsp() const { return mBaseShape; }
+    JPAExtraShape *getEsp() const { return mExtraShape; }
+    JPAChildShape *getCsp() const { return mChildShape; }
+    JPAExTexShape *getEts() const { return mExTexShape; }
+    JPADynamicsBlock *getDyn() const { return mDynamicsBlock; }
 
-	u16 getTexIdx(u8 idx) { return mTextureIDList[idx]; }
-	u16 getUsrIdx() const { return mUsrIdx; }
+    u16 getTexIdx(u8 idx) { return mTextureIDList[idx]; }
+    u16 getUsrIdx() const { return mUsrIdx; }
 
-	JPAFunctionA **mCalcEmitterFuncList;	   // _00
-	JPAFunctionA **mDrawEmitterFuncList;	   // _04
-	JPAFunctionA **mDrawEmitterChildFuncList;  // _08
-	JPAFunctionB **mCalcParticleFuncList;	   // _0C
-	JPAFunctionB **mDrawParticleFuncList;	   // _10
-	JPAFunctionB **mCalcParticleChildFuncList; // _14
-	JPAFunctionB **mDrawParticleChildFuncList; // _18
-	JPABaseShape *mBaseShape;				   // _1C
-	JPAExtraShape *mExtraShape;				   // _20
-	JPAChildShape *mChildShape;				   // _24
-	JPAExTexShape *mExTexShape;				   // _28
-	JPADynamicsBlock *mDynamicsBlock;		   // _2C
-	JPAFieldBlock **mFieldBlocks;			   // _30
-	JPAKeyBlock **mKeyBlocks;				   // _34
-	u16 *mTextureIDList;					   // _38
-	u16 mUsrIdx;							   // _3C
-	u8 mFieldBlockNum;						   // _3E
-	u8 mKeyBlockNum;						   // _3F
-	u8 mTDB1Num;							   // _40
-	u8 mCalcEmitterFuncListNum;				   // _41
-	u8 mDrawEmitterFuncListNum;				   // _42
-	u8 mDrawEmitterChildFuncListNum;		   // _43
-	u8 mCalcParticleFuncListNum;			   // _44
-	u8 mDrawParticleFuncListNum;			   // _45
-	u8 mCalcParticleChildFuncListNum;		   // _46
-	u8 mDrawParticleChildFuncListNum;		   // _47
+    JPAFunctionA **mCalcEmitterFuncList;       // _00
+    JPAFunctionA **mDrawEmitterFuncList;       // _04
+    JPAFunctionA **mDrawEmitterChildFuncList;  // _08
+    JPAFunctionB **mCalcParticleFuncList;      // _0C
+    JPAFunctionB **mDrawParticleFuncList;      // _10
+    JPAFunctionB **mCalcParticleChildFuncList; // _14
+    JPAFunctionB **mDrawParticleChildFuncList; // _18
+    JPABaseShape *mBaseShape;                  // _1C
+    JPAExtraShape *mExtraShape;                // _20
+    JPAChildShape *mChildShape;                // _24
+    JPAExTexShape *mExTexShape;                // _28
+    JPADynamicsBlock *mDynamicsBlock;          // _2C
+    JPAFieldBlock **mFieldBlocks;              // _30
+    JPAKeyBlock **mKeyBlocks;                  // _34
+    u16 *mTextureIDList;                       // _38
+    u16 mUsrIdx;                               // _3C
+    u8 mFieldBlockNum;                         // _3E
+    u8 mKeyBlockNum;                           // _3F
+    u8 mTDB1Num;                               // _40
+    u8 mCalcEmitterFuncListNum;                // _41
+    u8 mDrawEmitterFuncListNum;                // _42
+    u8 mDrawEmitterChildFuncListNum;           // _43
+    u8 mCalcParticleFuncListNum;               // _44
+    u8 mDrawParticleFuncListNum;               // _45
+    u8 mCalcParticleChildFuncListNum;          // _46
+    u8 mDrawParticleChildFuncListNum;          // _47
 };
 
 /**
@@ -79,42 +79,42 @@ struct JPAResource
  */
 struct JPAResourceManager
 {
-	JPAResourceManager(u16, u16, JKRHeap *); // unused/inlined
-	JPAResourceManager(const void *, JKRHeap *);
+    JPAResourceManager(u16, u16, JKRHeap *); // unused/inlined
+    JPAResourceManager(const void *, JKRHeap *);
 
-	JPAResource *getResource(u16) const;
-	const ResTIMG *swapTexture(const ResTIMG *, const char *);
-	void registRes(JPAResource *);
-	void registTex(JPATexture *);
-	u32 getResUserWork(u16) const;
+    JPAResource *getResource(u16) const;
+    const ResTIMG *swapTexture(const ResTIMG *, const char *);
+    void registRes(JPAResource *);
+    void registTex(JPATexture *);
+    u32 getResUserWork(u16) const;
 
-	// unused/inlined:
-	void load(const char *, u16);
-	void load(const void *, u16);
-	bool checkUserIndexDuplication(u16) const;
-	void registTexDupCheck(const u8 *, JKRHeap *);
+    // unused/inlined:
+    void load(const char *, u16);
+    void load(const void *, u16);
+    bool checkUserIndexDuplication(u16) const;
+    void registTexDupCheck(const u8 *, JKRHeap *);
 
-	void load(u16 idx, GXTexMapID texMapID) { pTexAry[idx]->load(texMapID); }
+    void load(u16 idx, GXTexMapID texMapID) { pTexAry[idx]->load(texMapID); }
 
-	JKRHeap *pHeap;				 // _00
-	JPAResource **pResAry;		 // _04
-	struct JPATexture **pTexAry; // _08
-	u16 resMaxNum;				 // _0C
-	u16 resRegNum;				 // _0E
-	u16 texMaxNum;				 // _10
-	u16 texRegNum;				 // _12
+    JKRHeap *pHeap;              // _00
+    JPAResource **pResAry;       // _04
+    struct JPATexture **pTexAry; // _08
+    u16 resMaxNum;               // _0C
+    u16 resRegNum;               // _0E
+    u16 texMaxNum;               // _10
+    u16 texRegNum;               // _12
 };
 
 struct JPAResourceLoader
 {
-	JPAResourceLoader(const u8 *, JPAResourceManager *, u16); // unused/inlined
-	JPAResourceLoader(const u8 *, JPAResourceManager *);
+    JPAResourceLoader(const u8 *, JPAResourceManager *, u16); // unused/inlined
+    JPAResourceLoader(const u8 *, JPAResourceManager *);
 
-	void load_jpc(const u8 *, JPAResourceManager *);
+    void load_jpc(const u8 *, JPAResourceManager *);
 
-	// unused/inlined:
-	// ~JPAResourceLoader();
-	void load_jpa(const u8 *, JPAResourceManager *, u16);
+    // unused/inlined:
+    // ~JPAResourceLoader();
+    void load_jpa(const u8 *, JPAResourceManager *, u16);
 };
 
 #endif
