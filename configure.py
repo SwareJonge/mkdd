@@ -21,16 +21,28 @@ from ninja_syntax import Writer
 
 parser = ArgumentParser()
 parser.add_argument("-r", "--region", type=str, action='store', help="Specify target region\nus targets the debug version, eu targets eu Release")
+parser.add_argument("-j", "--jsys", action='store_true')
+parser.add_argument("-m", "--map", action='store_true')
+
 args = parser.parse_args()
 ymlBuf = ""
-if not any(vars(args).values()):
-    print("No Arguments specified, targetting Debug")
+jsystem_debug = False
+make_map = False    
+
+if args.region == "eu":
+    print("Targetting EU Release")
+    ymlBuf = "region: \"eu\"\nversion: \"Release\""
+#elif(args.region == "us"):
+    #ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
+else:
+    print("Targetting Debug")
     ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
-else: # Future issue: don't hardcode stuff
-    if(args.region == "us"):
-        ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
-    elif (args.region == "eu"):
-        ymlBuf = "region: \"eu\"\nversion: \"Release\""
+if args.jsys is True:
+    print("Targetting JSystem Debug, Only use this with TP Debug objects!")
+    jsystem_debug = True
+if args.map is True:
+    print("Linker map generation is on")
+    make_map = True
 
 with open("config/build_opts.yml", 'w') as f:
     f.write(ymlBuf)
@@ -241,13 +253,22 @@ n.rule(
     depfile = "$out.d"
 )
 
-n.rule(
-    "ld",
-    command = "$ld $ldflags -map $map -lcf $lcf @$out.rsp -o $out",
-    rspfile  = "$out.rsp",
-    rspfile_content = "$in_newline",
-    description = "LD $out",
-)
+if make_map is True:
+    n.rule(
+        "ld",
+        command = "$ld $ldflags -map $map -lcf $lcf @$out.rsp -o $out",
+        rspfile  = "$out.rsp",
+        rspfile_content = "$in_newline",
+        description = "LD $out",
+    )
+else:
+    n.rule(
+        "ld",
+        command = "$ld $ldflags -lcf $lcf @$out.rsp -o $out",
+        rspfile  = "$out.rsp",
+        rspfile_content = "$in_newline",
+        description = "LD $out",
+    )
 
 n.rule(
     "iconv",
@@ -581,10 +602,8 @@ class CSource(Source):
         elif path.startswith("src/Kaneshige/") or path.startswith("src/Yamamoto/"):
             self.cflags = c.KANESHIGE_CFLAGS # TODO: Rename
         if c.VERSION == "Release":       
-            if (path.startswith("libs/JSystem/JAudio/")):
+            if path.startswith("libs/JSystem/JAudio/"):
                 self.cflags = c.JAUDIO_RELEASE_CFLAGS
-                if path.startswith("libs/JSystem/JAudio/Task/"):
-                    self.cflags = c.JAUDIO_DSP_CFLAGS
             elif path.startswith("libs/JSystem/"):
                 self.cflags = c.JSYSTEM_RELEASE_CFLAGS
         else:
@@ -592,11 +611,15 @@ class CSource(Source):
                 self.cflags = c.DOL_CFLAGS
             elif path.startswith("libs/JSystem/"): # once i have a file for every library this can finally be removed
                 self.cflags = c.JSYSTEM_SPEED_CFLAGS
-                if path.startswith("libs/JSystem/JAudio/Task/"):
-                    self.cflags = c.JAUDIO_DSP_CFLAGS
                 #if(path.startswith("libs/JSystem/JAudio/Interface")):
                     #self.cflags += " -sym on"
-            
+        if path.startswith("libs/JSystem/JAudio/Task/"):
+            self.cflags = c.JAUDIO_DSP_CFLAGS
+        
+        if jsystem_debug and path.startswith("libs/JSystem/"):
+            self.cc = c.JSYSTEM_O0_CC
+            self.cflags = c.JSYSTEM_O0_CFLAGS
+
         self.iconv_path = f"$builddir/iconv/{path}"
 
         # Find generated includes
