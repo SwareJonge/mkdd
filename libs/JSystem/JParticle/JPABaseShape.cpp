@@ -367,7 +367,7 @@ void JPAGenCalcTexCrdMtxAnm(JPAEmitterWorkData *workData)
     f32 scaleY = (tickCount * baseShape->getIncScaleY()) + baseShape->getInitScaleY();
 
     // Calculate the rotation
-    s32 rotation = (tickCount * baseShape->getIncRot()) + baseShape->getInitRot();
+    s16 rotation = (tickCount * baseShape->getIncRot()) + baseShape->getInitRot();
 
     // Calculate the sine and cosine of the rotation
     f32 sinRotation = JMASSin(rotation);
@@ -419,7 +419,7 @@ void JPALoadCalcTexCrdMtxAnm(JPAEmitterWorkData *workData, JPABaseParticle *part
     f32 scaleY = (particleAge * baseShape->getIncScaleY()) + baseShape->getInitScaleY();
 
     // Calculate the rotation
-    s32 rotation = (particleAge * baseShape->getIncRot()) + baseShape->getInitRot();
+    s16 rotation = (particleAge * baseShape->getIncRot()) + baseShape->getInitRot();
 
     // Calculate the sine and cosine of the rotation
     f32 sinRotation = JMASSin(rotation);
@@ -448,7 +448,7 @@ void JPALoadCalcTexCrdMtxAnm(JPAEmitterWorkData *workData, JPABaseParticle *part
 
 void JPALoadTex(JPAEmitterWorkData *work)
 {
-    work->mResourceMgr->load(work->mResource->getTexIdx((u8)work->mResource->getBsp()->getTexIdx()), GX_TEXMAP0);
+    work->mResourceMgr->load(work->mResource->getTexIdx(work->mResource->getBsp()->getTexIdx()), GX_TEXMAP0);
 }
 
 void JPALoadTexAnm(JPAEmitterWorkData *work)
@@ -523,15 +523,17 @@ void JPACalcTexIdxReverse(JPAEmitterWorkData *workData, JPABaseParticle *particl
     particle->mTexAnmIdx = baseShape->getTexIdx(remainder + (quotient ) * (totalKeys - remainder * 2));
 }
 
-void JPACalcTexIdxMerge(JPAEmitterWorkData *workData) { workData->mEmitter->mTexAnmIdx = workData->mResource->getBsp()->getTexIdx(); }
+void JPACalcTexIdxMerge(JPAEmitterWorkData *workData) { 
+    workData->mEmitter->mTexAnmIdx = workData->mResource->getBsp()->getTexIdx(); 
+}
 
 void JPACalcTexIdxMerge(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
 {
     JPABaseShape * shape = work->mResource->getBsp();
-    int maxFrm = shape->pBsd->texAnmKeyNum;
-    int tick = (int)(maxFrm * ptcl->mTime) + shape->getTexLoopOfst(ptcl->mAnmRandom);
-    ptcl->mTexAnmIdx = shape->getTexIdx(tick % maxFrm);
-    //ptcl->mTexAnmIdx = shape->getTexIdx(((s32)(maxFrm * ptcl->mTime) + (s32)shape->getTexLoopOfst(ptcl->mAnmRandom)) % maxFrm);
+    s32 maxFrm = shape->getTexAnmKeyNum();
+    //int tick = (int)(maxFrm * ptcl->mTime) + shape->getTexLoopOfst(ptcl->mAnmRandom);
+    //ptcl->mTexAnmIdx = shape->getTexIdx(tick % maxFrm);
+    ptcl->mTexAnmIdx = shape->getTexIdx(((int)(maxFrm * ptcl->mTime) + (int)shape->getTexLoopOfst(ptcl->mAnmRandom)) % maxFrm);
 }
 
 void JPACalcTexIdxRandom(JPAEmitterWorkData *work) { work->mEmitter->mTexAnmIdx = work->mResource->getBsp()->getTexIdx(); }
@@ -542,7 +544,10 @@ void JPACalcTexIdxRandom(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
     ptcl->mTexAnmIdx = shape->getTexIdx(((int)shape->getTexLoopOfst(ptcl->mAnmRandom)) % shape->getTexAnmKeyNum());
 }
 
-void JPALoadPosMtxCam(JPAEmitterWorkData *work) { GXLoadPosMtxImm(work->mPosCamMtx, GX_PNMTX0); }
+void JPALoadPosMtxCam(JPAEmitterWorkData *work)
+{
+    GXLoadPosMtxImm(work->mPosCamMtx, GX_PNMTX0);
+}
 
 void noLoadPrj(const JPAEmitterWorkData *workData, const Mtx mtx) {}
 
@@ -575,7 +580,7 @@ void loadPrjAnm(const JPAEmitterWorkData *workData, const Mtx transformationMatr
     f32 scaleY = (emitterAge * baseShape->getIncScaleY()) + baseShape->getInitScaleY();
 
     // Calculate the rotation
-    s32 rotation = (emitterAge * baseShape->getIncRot()) + baseShape->getInitRot();
+    s16 rotation = (emitterAge * baseShape->getIncRot()) + baseShape->getInitRot();
 
     // Calculate the sine and cosine of the rotation
     f32 sinRotation = JMASSin(rotation);
@@ -1339,21 +1344,21 @@ void JPADrawParticleCallBack(JPAEmitterWorkData *workData, JPABaseParticle *part
 // incorrect scheduling?
 void makeColorTable(GXColor **colorTable, const JPAClrAnmKeyData *data, u8 a2, s16 size, JKRHeap *heap)
 {
-    GXColor *p_clr_tbl = (GXColor *)JKRAllocFromHeap(heap, (size + 1) * 4, 4);
+    GXColor *p_clr_tbl = (GXColor *)JKRAllocFromHeap(heap, (size + 1) * sizeof(GXColor), 4);
 #line 1523
     JUT_ASSERT(p_clr_tbl);
 
-    f32 base_step, r_step, g_step, b_step, a_step;
+    f32 r_step, g_step, b_step, a_step;
     r_step = g_step = b_step = a_step = 0.0f;
 
     f32 diff_r, diff_g, diff_b, diff_a;
+    
     f32 r, g, b, a;
-
     diff_r = r = data[0].color.r;
     diff_g = g = data[0].color.g;
     diff_b = b = data[0].color.b;
     diff_a = a = data[0].color.a;
-    base_step = 0.0f;
+    f32 base_step = 0.0f;
     int j = 0;
 
     for (s16 i = 0; i < size + 1; i++)
@@ -1373,7 +1378,7 @@ void makeColorTable(GXColor **colorTable, const JPAClrAnmKeyData *data, u8 a2, s
                 diff_b = (data[j].color.b);
                 diff_a = (data[j].color.a);
                 base_step = (1.0f / (data[j].index - (data + j - 1)->index));
-                
+
                 r_step = base_step * (diff_r - r);
                 g_step = base_step * (diff_g - g);
                 b_step = base_step * (diff_b - b);

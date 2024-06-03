@@ -103,7 +103,7 @@ struct JPABaseShape
 
     bool isTexAnm() const { return !!(pBsd->mTexFlg & 0x01); }
     u8 getTexAnmType() const { return (pBsd->mTexFlg >> 2) & 0x07; }
-    s64 getTexIdx() const { return (u8)pBsd->mTexIdx; } // wtf
+    s64 getTexIdx() const { return (u8)pBsd->mTexIdx; }
     u8 getTexIdx(u8 idx) const { return mTexIdxAnimTbl[idx]; }
 
     f32 getBaseSizeX() const { return pBsd->mBaseSizeX; }
@@ -124,7 +124,7 @@ struct JPABaseShape
     f32 getInitScaleY() const { return ((f32 *)mTexCrdMtxAnmTbl)[3]; }
     f32 getIncRot() const { return ((f32 *)mTexCrdMtxAnmTbl)[9]; }
     f32 getInitRot() const { return ((f32 *)mTexCrdMtxAnmTbl)[4]; }
-    u8 getTexAnmKeyNum() const { return (u8)pBsd->texAnmKeyNum; }
+    int getTexAnmKeyNum() const { return pBsd->texAnmKeyNum; }
 
     // Unused/inlined:
     void init_jpa(const u8 *, JKRHeap *);
