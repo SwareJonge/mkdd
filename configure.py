@@ -256,7 +256,7 @@ n.rule(
 if make_map is True:
     n.rule(
         "ld",
-        command = "$ld $ldflags -map $map -lcf $lcf @$out.rsp -o $out",
+        command = "$ld $ldflags -mapunused -map $map -lcf $lcf @$out.rsp -o $out",
         rspfile  = "$out.rsp",
         rspfile_content = "$in_newline",
         description = "LD $out",
@@ -616,7 +616,7 @@ class CSource(Source):
         if path.startswith("libs/JSystem/JAudio/Task/"):
             self.cflags = c.JAUDIO_DSP_CFLAGS
         
-        if jsystem_debug and path.startswith("libs/JSystem/"):
+        if jsystem_debug is True and path.startswith("libs/JSystem/"):
             self.cc = c.JSYSTEM_O0_CC
             self.cflags = c.JSYSTEM_O0_CFLAGS
 

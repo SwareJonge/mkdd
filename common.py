@@ -450,8 +450,7 @@ EXTERNAL_DOL_CFLAGS = ' '.join(BASE_GAME_CFLAGS)
 LDFLAGS = ' '.join([
     "-fp hard",
     "-w off",
-    "-maxerrors 1",
-    "-mapunused"
+    "-maxerrors 1"
 ])
 
 PPCDIS_ANALYSIS_FLAGS = ' '.join([
