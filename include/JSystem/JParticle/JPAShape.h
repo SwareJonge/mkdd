@@ -137,7 +137,7 @@ struct JPABaseShape
     static GXTevColorArg st_ca[6][4];
     static GXTevAlphaArg st_aa[2][4];
 
-    const JPABaseShapeData *pBsd; // _00
+    JPABaseShapeData *pBsd;       // _00
     const void *mTexCrdMtxAnmTbl; // _04
     const u8 *mTexIdxAnimTbl;     // _08
     GXColor *mPrmClrAnmTbl;       // _0C

@@ -558,7 +558,6 @@ void loadPrj(const JPAEmitterWorkData *workData, const Mtx p2)
     GXLoadTexMtxImm(v1, 0x1E, GX_MTX3x4);
 }
 
-// regswaps
 void loadPrjAnm(const JPAEmitterWorkData *workData, const Mtx transformationMatrix)
 {
     // Get the base shape from the resource
@@ -1341,10 +1340,10 @@ void JPADrawParticleCallBack(JPAEmitterWorkData *workData, JPABaseParticle *part
     emt->mParticleCallback->draw(emt, particle);
 }
 
-// incorrect scheduling?
+// this function is a mess, clean this up someday?
 void makeColorTable(GXColor **colorTable, const JPAClrAnmKeyData *data, u8 a2, s16 size, JKRHeap *heap)
 {
-    GXColor *p_clr_tbl = (GXColor *)JKRAllocFromHeap(heap, (size + 1) * sizeof(GXColor), 4);
+    void *p_clr_tbl = JKRAllocFromHeap(heap, (size + 1) * sizeof(GXColor), 4);
 #line 1523
     JUT_ASSERT(p_clr_tbl);
 
@@ -1365,7 +1364,7 @@ void makeColorTable(GXColor **colorTable, const JPAClrAnmKeyData *data, u8 a2, s
     {
         if (i == data[j].index)
         {
-            p_clr_tbl[i] = data[j].color;
+            ((GXColor *)p_clr_tbl)[i] = data[j].color;
             r = data[j].color.r;
             g = data[j].color.g;
             b = data[j].color.b;
@@ -1392,16 +1391,16 @@ void makeColorTable(GXColor **colorTable, const JPAClrAnmKeyData *data, u8 a2, s
         else
         {
             r += r_step;
-            p_clr_tbl[i].r = r;
+            ((GXColor *)p_clr_tbl)[i].r = r;
             g += g_step;
-            p_clr_tbl[i].g = g;
+            ((GXColor *)p_clr_tbl)[i].g = g;
             b += b_step;
-            p_clr_tbl[i].b = b;
+            ((GXColor *)p_clr_tbl)[i].b = b;
             a += a_step;
-            p_clr_tbl[i].a = a;
+            ((GXColor *)p_clr_tbl)[i].a = a;
         }
     }
-    *colorTable = p_clr_tbl;
+    *colorTable = ((GXColor *)p_clr_tbl);
 }
 
 GXBlendMode JPABaseShape::st_bm[3] = {GX_BM_NONE, GX_BM_BLEND, GX_BM_LOGIC};
@@ -1432,7 +1431,7 @@ GXTevAlphaArg JPABaseShape::st_aa[2][4] = {
 
 JPABaseShape::JPABaseShape(const u8 *data, JKRHeap *heap)
 {
-    pBsd = (const JPABaseShapeData *)data;
+    pBsd = (JPABaseShapeData *)data;
 
     if (isTexCrdAnm())
     {
@@ -1480,7 +1479,6 @@ void JPABaseShape::init_jpa(const u8 *, JKRHeap *)
     // UNUSED FUNCTION
 }
 
-// instruction + regswap
 void JPABaseShape::setGX(JPAEmitterWorkData *work) const
 {
     JPAExtraShape *esp = work->mResource->getEsp();
