@@ -12,13 +12,18 @@ namespace JGeometry {
     {
     public:
         SMatrix34C() {}
-        void set(const MtxPtr);
         void set(const SMatrix34C<T> &rSrc);
         void set(T rxx, T ryx, T rzx, T tx, T rxy, T ryy, T rzy, T ty, T rxz, T ryz, T rzz, T tz);
 
         void scale(T);
 
-        inline void setInline(const SMatrix34C<T> &rSrc)
+        inline void set(const Mtx pSrc)
+        {
+            JMath::gekko_ps_copy12(this, pSrc);
+        }
+        
+        // I guess these could be removed
+        /*inline void setInline(const SMatrix34C<T> &rSrc)
         {
             register const SMatrix34C<T> *pSrc = &rSrc;
             register SMatrix34C<T> *pDest = this;
@@ -106,7 +111,7 @@ namespace JGeometry {
                 // clang-format on
             }
             ;
-        }
+        }*/
 
         T &ref(u32 i, u32 j) { return mMtx[i][j]; }
 

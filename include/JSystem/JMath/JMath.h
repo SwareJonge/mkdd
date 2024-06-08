@@ -12,6 +12,33 @@
 
 namespace JMath
 {
+    inline void gekko_ps_copy12(register void *pDest, register const void *pSrc)
+    {
+        register f32 rxxyx;
+        register f32 rzxtx;
+        register f32 rxyyy;
+        register f32 rzyty;
+        register f32 rxzyz;
+        register f32 rzztz;
+        
+        __asm {
+            // clang-format off
+            psq_l     rxxyx, 0(pSrc), 0, 0
+            psq_l     rzxtx, 8(pSrc), 0, 0
+            psq_l     rxyyy, 0x10(pSrc), 0, 0
+            psq_l     rzyty, 0x18(pSrc), 0, 0
+            psq_l     rxzyz, 0x20(pSrc), 0, 0
+            psq_l     rzztz, 0x28(pSrc), 0, 0
+            psq_st    rxxyx, 0(pDest), 0, 0
+            psq_st    rzxtx, 8(pDest), 0, 0
+            psq_st    rxyyy, 0x10(pDest), 0, 0
+            psq_st    rzyty, 0x18(pDest), 0, 0
+            psq_st    rxzyz, 0x20(pDest), 0, 0
+            psq_st    rzztz, 0x28(pDest), 0, 0
+            // clang-format on
+        }
+    }
+
     template <typename T>
     struct TAngleConstant_
     {

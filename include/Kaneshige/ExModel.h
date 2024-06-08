@@ -62,6 +62,7 @@ public:
     static bool isMtxCombinationOn() { return sMtxCombinationOn; };
     static f32 getInvalidLODBias() { return sExModelInvalidLODBias; }
     J3DModelData *getModelData() const { return mModelData[0]; }
+    J3DModel *getModel() const { return mModel[0]; }
     void setSimpleTevReg(u32 id) { mSimpleTevReg |= (1 << id); }
     void simpleDraw(u32 viewNo) { simpleDraw(viewNo, nullptr, 1); }
 

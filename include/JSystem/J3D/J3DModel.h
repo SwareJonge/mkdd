@@ -113,7 +113,7 @@ struct J3DModelData
 		mat->mTevBlock->setTevColor(0, J3DGXColorS10(r, g, b, a));
 	}
 
-	void simpleCalcMaterial( Mtx m) {simpleCalcMaterial(0, m); }
+	void simpleCalcMaterial(Mtx m) { simpleCalcMaterial(0, m); }
 
 	J3DVertexData *getVertexData() { return &mVertexData; }
 	J3DJoint *getJointNodePointer(u16 idx) const { return mJointTree.getJointNodePointer(idx); }

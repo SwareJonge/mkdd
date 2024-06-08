@@ -71,7 +71,7 @@ public:
     void SetTireDispRound(KartBody *, KartSus *, f32);
     void SetKartRpm(KartBody *, f32, f32);
     void WhichDriver(int);
-    void WhichNowDriver(int);
+    u8 WhichNowDriver(int);
     bool CheckCamera(int);
     int GetCameraNum(int);
     void CheckItem(int);

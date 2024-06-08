@@ -7,7 +7,7 @@
 
 namespace ObjUtility
 {
-    void getPtrMainArc(char *);                                                             // 0x8025dc08
+    void *getPtrMainArc(char *);                                                             // 0x8025dc08
     void *getPtrCourseArc(char *);                                                          // 0x8025dc30
     void getPtrMainLocaleArc(char *);                                                       // 0x8025dc58
     void setRMtx(Mtx, const JGeometry::TVec3f &, const JGeometry::TVec3f &);                // 0x8025dc80

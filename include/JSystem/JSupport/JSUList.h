@@ -5,9 +5,11 @@
 
 class JSUPtrLink;
 
-class JSUPtrList {
+class JSUPtrList
+{
 public:
-    JSUPtrList() {
+    JSUPtrList()
+    {
         initiate();
     }
 
@@ -26,12 +28,13 @@ public:
     JSUPtrLink *getLastLink() const { return mTail; }
     u32 getNumLinks() const { return mLinkCount; }
 
-    JSUPtrLink *mHead;  // _0
-    JSUPtrLink *mTail;  // _4
-    u32 mLinkCount;     // _8
+    JSUPtrLink *mHead; // _0
+    JSUPtrLink *mTail; // _4
+    u32 mLinkCount;    // _8
 };
 
-class JSUPtrLink {
+class JSUPtrLink
+{
 public:
     JSUPtrLink(void *);
     ~JSUPtrLink();
@@ -41,23 +44,24 @@ public:
     JSUPtrLink *getNext() const { return mNext; }
     JSUPtrLink *getPrev() const { return mPrev; }
 
-    void *mData;            // _0
-    JSUPtrList *mPtrList;   // _4
-    JSUPtrLink *mPrev;      // _8
-    JSUPtrLink *mNext;      // _C
+    void *mData;          // _0
+    JSUPtrList *mPtrList; // _4
+    JSUPtrLink *mPrev;    // _8
+    JSUPtrLink *mNext;    // _C
 };
 
 template <class T>
 class JSULink; // friend class? i'm C++ noob
 
-template<class T>
-class JSUList : public JSUPtrList {
+template <class T>
+class JSUList : public JSUPtrList
+{
 public:
-    JSUList(bool thing) : JSUPtrList(thing)  {
-        
+    JSUList(bool thing) : JSUPtrList(thing)
+    {
     }
-    JSUList() : JSUPtrList() {
-
+    JSUList() : JSUPtrList()
+    {
     }
 
     bool append(JSULink<T> *link) { return JSUPtrList::append((JSUPtrLink *)link); }
@@ -97,10 +101,11 @@ public:
 
     T *getObject() const { return mLink->getObject(); }
 
-    bool operator==(JSULink<T> const *other) const { return mLink == other; }
-    bool operator!=(JSULink<T> const *other) const { return mLink != other; }
-    bool operator==(JSUListIterator<T> const &other) const { return mLink == other.mLink; }
-    bool operator!=(JSUListIterator<T> const &other) const { return mLink != other.mLink; }
+    bool isAvailable() { return mLink != nullptr; }
+    bool operator==(const JSULink<T> *other) const { return mLink == other; }
+    bool operator!=(const JSULink<T> *other) const { return mLink != other; }
+    bool operator==(const JSUListIterator<T> &other) const { return mLink == other.mLink; }
+    bool operator!=(const JSUListIterator<T> &other) const { return mLink != other.mLink; }
 
     JSUListIterator<T> operator++(int)
     {
@@ -129,7 +134,7 @@ public:
     }
 
     // Investigate where and if this actually exists
-    //T &operator*() { return *getObject(); }
+    // T &operator*() { return *getObject(); }
 
     T *operator->() const { return mLink->getObject(); }
 
@@ -141,18 +146,14 @@ template <class T>
 class JSULink : public JSUPtrLink
 {
 public:
-    JSULink(T *pData) : JSUPtrLink(pData)
-    {
-    }
+    JSULink(T *pData) : JSUPtrLink(pData) {}
 
     T *getObject() const { return (T *)mData; }
-    JSUList<T> *getList() const { return (JSUList<T> *)JSUPtrLink::getList(); } // fabricated, offcial name: getSupervisor
+    JSUList<T> *getSupervisor() const { return (JSUList<T> *)mPtrList; }
     JSULink<T> *getNext() const { return (JSULink<T> *)mNext; }
-    JSULink<T> *getPrev() const { return (JSULink<T> *)JSUPtrLink::getPrev(); }
+    JSULink<T> *getPrev() const { return (JSULink<T> *)mPrev; }
 
-    ~JSULink() {
-        
-    }
+    ~JSULink() {}
 };
 
 template <typename T>

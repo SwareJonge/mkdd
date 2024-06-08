@@ -85,39 +85,37 @@ public:
     }
 
 //private:
-    bool mIsTinyProcess;
-    bool mIsLanMode;
-    bool mIsTrueEnding;
-    u32 mRandomSeed;
-    ERaceMode mRaceMode;
-    ERaceGpCup mGpCup;
-    ERaceLevel mRaceLevel;
-    int mItemSlotType; // perhaps this is an enum too
-    s16 mVsLapNum;
-    s16 mLapNumLAN;
-    s16 mKartNum;
-    s16 mPlayerNum;
-    s16 mConsoleNum;
-    s16 mStatusNum;
-    u16 mLOD;
-    s16 mGpStageNo;
-    int mDemoType;
-    bool mIsMirror;
-    // padding bytes
-    KartInfo mKartInfo[8];
-    s16 mStartPosIndex[8];
-    s16 mPointTable[8];
-    s16 mRivalKarts[2];
-    s16 mTargetKarts[4];
-    bool mIsDemoKart[4];
-    s16 mAwardKartNo;
-    // padding bytes
-    int mDemoNextPhase;
-    s16 mRank[8]; // stores what rank you finished at previous race, basically the same as startPosIndex
-    RaceTime mFinishTime[8];
-    RaceTime mLapTimes[8][10];
-    int mWaitDemoResult; 
-    u16 mHidingConsoles;
+    bool mIsTinyProcess;       // 000
+    bool mIsLanMode;           // 001
+    bool mIsTrueEnding;        // 002
+    u32 mRandomSeed;           // 004
+    ERaceMode mRaceMode;       // 008
+    ERaceGpCup mGpCup;         // 00C
+    ERaceLevel mRaceLevel;     // 010
+    int mItemSlotType;         // 014 perhaps this is an enum too
+    s16 mVsLapNum;             // 018
+    s16 mLapNumLAN;            // 01A
+    s16 mKartNum;              // 01C
+    s16 mPlayerNum;            // 01E
+    s16 mConsoleNum;           // 020
+    s16 mStatusNum;            // 022
+    u16 mLOD;                  // 024
+    s16 mGpStageNo;            // 026
+    int mDemoType;             // 028
+    bool mIsMirror;            // 02C
+    KartInfo mKartInfo[8];     // 030
+    s16 mStartPosIndex[8];     // 0F0
+    s16 mPointTable[8];        // 100
+    s16 mRivalKarts[2];        // 110
+    s16 mTargetKarts[4];       // 114
+    bool mIsDemoKart[4];       // 11C
+    s16 mAwardKartNo;          // 120
+    int mDemoNextPhase;        // 124
+    s16 mRank[8];              // 128, stores what rank you finished at previous race, basically the same as startPosIndex
+    RaceTime mFinishTime[8];   // 138
+    RaceTime mLapTimes[8][10]; // 158
+    int mWaitDemoResult;       // 298
+    u16 mHidingConsoles;       // 29c
 };
 
 extern RaceInfo gRaceInfo;

@@ -76,8 +76,10 @@ private:
     static JUtility::TColor cUserBarColorTable[4]; // 0x803780c0
     static SysDebug *sManager;
 
-    u8 _0[0xb8];
-    JKRHeap *mDebugHeap;
+    u8 _0[0xb4];
+    JKRHeap *mDebugHeap;    // b4
+    JKRHeap *mBackupHeap;   // b8, a backup of the previous current heap
+    JKRHeap *mSelectedHeap; // bc, the heap the user is currently looking at
 };
 
 // Make macro for every function? or is that too ridiculous

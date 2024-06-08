@@ -22,13 +22,24 @@ public:
     static void createMgr(const CrsData &crsData) { gMgr = new GeographyObjManager(crsData); }
     static GeographyObjManager *getGeographyObjManager() { return gMgr; }
 
+    bool isMiniGame() const { return mIsBalloonBattle || mIsBombBattle || mIsRobberyBattle || mIsEscapeBattle; }
+    bool isRobberBattle() const { return mIsRobberyBattle; }
+    bool isBalloonBattle() const { return mIsBalloonBattle; }
+    bool isEscapeBattle() const { return mIsEscapeBattle; }
+    bool isBombBattle() const { return mIsBombBattle; }
+
     static GeographyObjManager *gMgr;
 
     u8 _18[0x2A8 - 0x18];   //
     f32 mHitDepth[8];       // 2A8
     u8 _328[0x3FC - 0x2C8]; //
     TJugem *mJugem[4];      // 3FC
-    u8 _40C[0x4A4 - 0x40C]; //
+    u8 _40C[0x491 - 0x40C]; //
+    bool mIsBalloonBattle;  // 491
+    bool mIsBombBattle;     // 492
+    bool mIsRobberyBattle;  // 493
+    bool mIsEscapeBattle;   // 494
+    u8 _495[0x4A4 - 0x495]; //
 
 }; // size 0x4A4
 

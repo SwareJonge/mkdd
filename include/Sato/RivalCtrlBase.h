@@ -22,7 +22,7 @@ public:
     void getRandom();
     void getRankParamID();
     void tstEndRace();
-    void isRival() const;
+    bool isRival() const;
     void getMyRank();
     // Inline/Unused
     // void getSpeedCtrl();

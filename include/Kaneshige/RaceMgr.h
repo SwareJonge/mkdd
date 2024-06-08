@@ -135,7 +135,9 @@ public:
     int getKartNumber() const { return mRaceInfo->getKartNumber(); }
     int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
     int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
+    int getItemSlotType() const { return mRaceInfo->getItemSlotType(); }
     int getStatusNumber() const { return mRaceInfo->getStatusNumber(); }
+    ERaceLevel getRaceLevel() const { return mRaceInfo->getRaceLevel(); }
     // why did this not use a getter?
     ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
 
@@ -166,6 +168,7 @@ public:
 
     bool isCrsDemoMode() { return getRacePhase() == PHASE_CRS_DEMO; }
     // RaceMgr get/sets
+    u32 getRaceFrame() const { return mFrame; }
     int getTotalLapNumber() const { return mTotalLapNumber; }
     Course *getCourse() const { return mCourse; }
     const RaceTime &getBestLapTime() { return mBestLapTime; }
