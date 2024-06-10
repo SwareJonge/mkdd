@@ -144,6 +144,7 @@ def build_flow(code) -> list[Flow]:
         elif tokens[0].startswith("b"):
             opcode = tokens[0].replace("-", "").replace("+", "")
             if opcode in BRANCH_OPCODE_TO_ENUM:
+                tokens[1] = tokens[1].replace(".L_", "lbl_")
                 branches.append(
                     Branch(BRANCH_OPCODE_TO_ENUM[opcode], tokens[1]))
             else:
