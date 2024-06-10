@@ -25,8 +25,8 @@ RivalKart::RivalKart(KartBody *body)
     }
     else if (RCMGetManager()->isAwardDemoMode())
     {
-        mBodyCtrl = ((mNo == 0) ? (RivalBodyCtrl *)new RivalAwardBodyCtrl(this) : (RivalBodyCtrl *)new RivalAward2ndBodyCtrl(this));
-        mSpeedCtrl = ((mNo == 0) ? (RivalSpeedCtrl *)new RivalAwardDemoSpeedCtrl(this) : (RivalSpeedCtrl *)new RivalAwardDemo2ndSpeedCtrl(this));
+        mBodyCtrl = ((mNo == 0) ? new RivalAwardBodyCtrl(this) : new RivalAward2ndBodyCtrl(this));
+        mSpeedCtrl = ((mNo == 0) ? new RivalAwardDemoSpeedCtrl(this) : new RivalAwardDemo2ndSpeedCtrl(this));
     }
     else
     {

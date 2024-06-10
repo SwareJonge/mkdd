@@ -12,7 +12,7 @@ namespace ObjUtility
     void getPtrMainLocaleArc(char *);                                                       // 0x8025dc58
     void setRMtx(Mtx, const JGeometry::TVec3f &, const JGeometry::TVec3f &);                // 0x8025dc80
     void executeShakeCamera(const JGeometry::TVec3f &, f32, f32, f32);                      // 0x8025dcf4
-    void getKartBodyMtx(int);                                                               // 0x8025de7c
+    Mtx &getKartBodyMtx(int);                                                               // 0x8025de7c
     void getKartPos(int, JGeometry::TVec3f *);                                              // 0x8025df6c
     void getKartXdir(int, JGeometry::TVec3f *);                                             // 0x8025e0cc
     void getKartYdir(int, JGeometry::TVec3f *);                                             // 0x8025e234

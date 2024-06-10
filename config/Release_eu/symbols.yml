@@ -4319,10 +4319,89 @@ global:
   0x80207c54: __ct__10ItemObjMgrFv
   0x80208238: reset__10ItemObjMgrFv
   0x80208528: clrKartItemUseTriggerList__10ItemObjMgrFv
+  0x802090bc: stockItemToKart__10ItemObjMgrFiiUcbUc
+  0x802099e8: getKartEquipItem__10ItemObjMgrFiUc
+  0x80209aa4: getModelDataAppendLoadFlg__7ItemObjFv
   0x80209e40: createModel__10ItemObjMgrFP12JKRSolidHeapUl
   0x8020a540: calc__10ItemObjMgrFv
-  0x8020b9d4: getRobberyItemNum__10ItemObjMgrFiUc  
+  0x8020b354: setHeartItem__10ItemObjMgrFiP9ItemHeart
+  0x8020b364: deleteHeartItem__10ItemObjMgrFi
+  0x8020b4d8: getNowTandemDriverNum__10ItemObjMgrFi
+  0x8020b9d4: getRobberyItemNum__10ItemObjMgrFiUc
+  
   0x803d5d80: gItemMgr__10ItemObjMgr
+  0x8035f640: __vt__10ItemObjMgr
+  # ItemGTurtle.cpp
+  0x8020d8e4: __dt__7ItemObjFv
+  0x8020ec38: initEnd__7ItemObjFv
+  0x80212f5c: getLockOnKartNo__7ItemObjCFv
+  0x80212f64: getForceEfctOffsetScale__7ItemObjCFv
+  0x80212f6c: initRelease__7ItemObjFv
+  0x80212f70: initSpRelease__7ItemObjFv
+  0x80212f74: doRelease__7ItemObjFv
+  0x80212f78: doSpRelease__7ItemObjFv
+  0x80212f7c: doDisappear__7ItemObjFv
+  0x80212f80: moveNormal__7ItemObjFR9CrsGround
+  0x80212f84: executeEquipHandFunc__7ItemObjFv
+  0x802130b4: initDivested__7ItemObjFv
+  0x802131ec: initDisappear__7ItemObjFv
+  0x802131f0: deleteEffect__7ItemObjFv
+  # ItemObj.cpp
+  0x802135c0: __ct__7ItemObjFUl
+  0x802136cc: reset__7ItemObjFv
+  0x802136ec: update__7ItemObjFv
+  0x8021371c: viewCalc__7ItemObjFUl
+  0x80213748: setCurrentViewNo__7ItemObjFUl
+  0x80213774: getBmdFileName__7ItemObjFv
+  0x8021377c: IsJuggleItem__7ItemObjCFv
+  0x80213784: createModel__7ItemObjFP12JKRSolidHeapUlUl
+  0x802137b4: loadmodel__7ItemObjFP12J3DModelData
+  0x80213800: createColModel__7ItemObjFP12J3DModelData
+  0x80213820: getItemBoundRatio__7ItemObjCFv
+  0x80213828: doUniv__7ItemObjFv
+  0x80213850: doFall__7ItemObjFv
+  0x80213870: initForceDisappear__7ItemObjFv
+  0x80213984: doForceDisappear__7ItemObjFv
+  0x80213a80: initHeartDisappear__7ItemObjFv
+  0x80213b0c: checkKartColDisappear__7ItemObjFi
+  0x80213b14: selectSucChild__7ItemObjFv
+  0x80213ebc: setStateRelease__7ItemObjFb
+  0x802145f4: setStateDisappear__7ItemObjFb
+  0x802146e0: setStateForceDisappear__7ItemObjFv
+  0x802147a4: tstAnyObjectHitting__7ItemObjFv
+  0x8021516c: doSucReleaseFunc__7ItemObjFP7ItemObj
+  0x80215170: doSucSpReleaseFunc__7ItemObjFP7ItemObj
+  0x80215220: calc__7ItemObjFv
+  0x80215674: initFall__7ItemObjFv
+  0x8021569c: initOccur__7ItemObjFRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x80215bac: setScaleCol__7ItemObjFf
+  0x80215bcc: resetObject__7ItemObjFv
+  0x80215f88: rotationRad__7ItemObjFRff
+  0x802162a8: IsHitKart__7ItemObjFiRCQ29JGeometry8TVec3<f>f
+  0x8021638c: IsHitObject__7ItemObjFP10ObjColBaseRCQ29JGeometry8TVec3<f>P10ObjColBase
+  0x80216484: doHandOneEquip__7ItemObjFbf
+  0x80216828: doEquipScaleUp__7ItemObjFf
+  0x80216978: doForceDisappearScaleDown__7ItemObjFv
+  0x802169d8: calcEquipAnmScaleUp__7ItemObjFRQ29JGeometry8TVec3
+  0x80217054: executeGeoObjHitCallBack__7ItemObjFP12GeographyObj
+  0x80217058: setCollideAddVel__7ItemObjFRCQ29JGeometry8TVec3<f>RCf
+  0x802170a4: initmoveDivested__7ItemObjFv
+  0x80217148: moveDivested__7ItemObjFv
+  0x80217330: initmoveFall__7ItemObjFv
+  0x802174cc: initCommonMoveFall__7ItemObjFRCQ29JGeometry8TVec3<f>
+  0x80217564: initCommonMoveFallMtx__7ItemObjFv
+  0x802178a0: doFallScaling__7ItemObjFv
+  0x802178c8: calcColReaction__7ItemObjFP7ItemObj
+  0x802183bc: getHandAnmMtx__7ItemObjFv
+  0x802188b0: moveCommonAttr__7ItemObjFR9CrsGroundb
+  0x80218a6c: moveColWall__7ItemObjFR9CrsGround
+  0x80218d98: moveRescue__7ItemObjFR9CrsGround
+  0x80218ec0: moveCannon__7ItemObjFR9CrsGround
+  0x80219f88: callHitItemSound__7ItemObjFP7ItemObj
+  0x8021a0b4: drawSimpleModel__7ItemObjFUlPA4_fP11J3DUClipperPA4_f
+  0x8021a2fc: doEquip__7ItemObjFv
+  0x8021a324: doDivested__7ItemObjFv
+  0x8035ff04: __vt__7ItemObj
   # stEfctWeed.cpp
   0x8021d0f4: getGeneratePos__14stEfctWeedBaseFPQ29JGeometry8TVec3<f>PA4_f
   0x8021d1ec: __ct__10stEfctWeedFv
@@ -4334,6 +4413,7 @@ global:
   0x8021e854: __ct__12J3DEffectMgrFv
   0x8021eac8: createModel__12J3DEffectMgrFP12JKRSolidHeapUl
   0x8021eb64: reset__12J3DEffectMgrFv
+  0x8021ed68: setEffectKart__12J3DEffectMgrFiiPA4_f
   0x8021efcc: calc__12J3DEffectMgrFv
   0x8021f170: __ct__17J3DEfctKartAnmMgrFv
   0x803d5e18: sJ3DMgr__12J3DEffectMgr
@@ -4341,6 +4421,7 @@ global:
   # ObjUtility.cpp
   0x802255b8: getPtrCourseArc__10ObjUtilityFPc
   0x8022581c: getKartPos__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x80225804: getKartBodyMtx__10ObjUtilityFi
   # JPEffectPerformer.cpp
   0x8022c340: setEffect__17JPEffectPerformerFQ217JPEffectPerformer10EffectTypeiRCQ29JGeometry8TVec3<f>Uc
   0x802307d8: initFrameCtrl__13J3DAnmObjBaseFP10J3DAnmBase
@@ -4403,6 +4484,30 @@ global:
   0x803d5f58: sStartRankPtr__14RivalSpeedCtrl
   0x803d5f5c: sConfusedFightModeFlg__14RivalSpeedCtrl
   0x803d5f5d: sComWeakPointSwapFlg__14RivalSpeedCtrl
+
+  # ItemHeart.cpp
+  0x80248e0c: __ct__9ItemHeartFUl
+  0x80248e5c: reset__9ItemHeartFv
+  0x80248f18: getBmdFileName__9ItemHeartFv
+  0x80248f24: createModel__9ItemHeartFP12JKRSolidHeapUlUl
+  0x80248f28: doUniv__9ItemHeartFv
+  0x80248fd4: setHitItem__9ItemHeartFRC7ItemObj
+  0x80249118: initMoveEffect__9ItemHeartFP7ItemObj
+  0x80249188: initEquip__9ItemHeartFv
+  0x8024920c: doEquip__9ItemHeartFv
+  0x802492d8: initRelease__9ItemHeartFv
+  0x80249390: initSpRelease__9ItemHeartFv
+  0x802493b4: doRelease__9ItemHeartFv
+  0x802493e4: initDisappear__9ItemHeartFv
+  0x8024947c: doDisappear__9ItemHeartFv
+  0x80249480: initFall__9ItemHeartFv
+  0x802494a0: __dt__9ItemHeartFv
+  0x803624f8: __vt__9ItemHeart
+
+  # J3DEfctHeart.cpp
+  0x8024a1dc: setHitStartPos__12J3DEfctHeartFRC7ItemObj
+  0x8024a2e0: initItemHit__12J3DEfctHeartFRC7ItemObj
+  0x8024a414: setMoveEfct__12J3DEfctHeartFP7ItemObjP9ItemHeart
 
   # Shiraiwa
   # JugemMain.cpp

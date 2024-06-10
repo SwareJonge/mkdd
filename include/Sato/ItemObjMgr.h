@@ -2,6 +2,7 @@
 #define ITEMOBJMGR_H
 
 #include "Kaneshige/SysDebug.h"
+#include "Kaneshige/LightMgr.h"
 #include "Sato/GeographyObjMgr.h"
 #include "Sato/ItemSuccession.h"
 #include "Sato/ItemHeart.h"

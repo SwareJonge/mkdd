@@ -103,7 +103,7 @@ public:
     virtual void doChangeDriverCtrl(); // 0x8028443c
 };
 
-class RivalAward2ndBodyCtrl : public RivalBodyCtrl
+class RivalAward2ndBodyCtrl : public RivalAwardBodyCtrl
 {
 public:
     RivalAward2ndBodyCtrl(RivalKart *);

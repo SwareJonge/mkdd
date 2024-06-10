@@ -1663,6 +1663,16 @@ src/Sato/RivalKart.cpp:
     .data: [0x803a1ca0, 0x803a1cb8]
     .bss: [0x803edc40, 0x803edc70]
 
+src/Sato/ItemHeart.cpp:
+    .text: [0x8028717c, 0x80287ad8]
+    .ctors: [0x8031648c, 0x80316490]
+    .rodata: [0x80382708, 0x80382768]
+    .data: [0x803a2ad8, 0x803a2ba8]
+    .bss: [0x803edf08, 0x803edf38]
+    .sdata: [0x804150d8, 0x804150e8]
+    .sdata2: [0x8041c5b8, 0x8041c5d0]
+    .sbss2: [0x8041e238, 0x8041e240]
+
 src/Shiraiwa/WipeSlide.cpp:
     .text: [0x802b7d5c, 0x802b8760]
     .ctors: [0x80316544, 0x80316548]

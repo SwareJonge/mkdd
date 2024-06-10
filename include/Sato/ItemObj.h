@@ -4,6 +4,7 @@
 #include <JSystem/JGeometry.h>
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
+#include "Sato/ObjCollision.h"
 
 #include "types.h"
 
@@ -44,7 +45,7 @@ public:
         u16 _c[0x4];
     };
 
-    ItemObj(u32); // 0x8024a2b0
+    ItemObj(u32 kind); // 0x8024a2b0
 
     // Vtable 0x0
     virtual ~ItemObj() {}                                                            // 08
@@ -112,7 +113,7 @@ public:
     void setStateDivested(bool);                                              // 0x8024af94
     void setStateDisappear(bool);                                             // 0x8024b33c
     void setStateForceDisappear();                                            // 0x8024b428
-    void tstAnyObjectHitting();                                               // 0x8024b4ec
+    bool tstAnyObjectHitting();                                               // 0x8024b4ec
     void doSucStateFunc(ItemState);                                           // 0x8024b52c
     void disappearAllChild(bool);                                             // 0x8024bd50
     int getSuccessionItemNum();                                               // 0x8024bebc
@@ -172,7 +173,7 @@ public:
     void doColMoveJumpDown(JGeometry::TVec3f, f32);                           // 0x8024ef28
     void doColMoveReflectJumpDownAndDisappear(JGeometry::TVec3f, f32);        // 0x8024ef64
     void doColMoveCommonJumpAndReflect(JGeometry::TVec3f, f32, bool);         // 0x8024f0d4
-    void getHandAnmMtx();                                                     // 0x8024f3f8
+    MtxPtr getHandAnmMtx();                                                     // 0x8024f3f8
     void getJuggleHandAnmMtx();                                               // 0x8024f4fc
     void IsAlwaysColItemToKart();                                             // 0x8024f600
     void initMoveColGround();                                                 // 0x8024f628
@@ -215,6 +216,7 @@ public:
     void setDriverNum(u8 newDriverNum) { mDriverNum = newDriverNum; }
     void setOrigDriverNum(u8 newDriverNum) { mOrigDriverNum = newDriverNum; }
     u32 getKind() const { return mItemKind; }
+    const u8 getColorID() const { return mColorID; } // is extra const needed? fixes instruction swaps in ItemHeart.cpp
     u32 getItemID() const
     {
         if (mItemKind == 21)
@@ -249,6 +251,8 @@ public:
 
     // private:
 
+    typedef void (ItemObj::*StateFunc)();
+
     JGeometry::TVec3f mPos;               // 04
     JGeometry::TVec3f _10;                //
     JGeometry::TVec3f _1c;                //
@@ -265,18 +269,20 @@ public:
     u32 mItemKind;                        // 7c
     ExModel mModel;                       // 80
     ShadowModel *mShadow;                 // 10c
-    int mBounds;                          // 110, unsure of type
+    ObjColBase *mBounds;                  // 110
     u8 _114[0x118 - 0x114];               //
     int mState;                           // 118
     u8 _11c[0x120 - 0x11c];               //
     int mOwnerNum;                        // 120
     u8 mDriverNum;                        // 124
-    u8 _125[0x12c - 0x125];               //
+    MtxPtr mpHandAnmMtx;                  // 128
     u32 _12c;                             //
-    u16 mTransferFlags;                   // 130
-    u8 _132[0x140 - 0x132];               //
+    u16 mTransferFlags;                   // 130   
+    u8 _132[0x138 - 0x132];               //
+    u32 mEquipFlags;                      // 138
+    u8 _13c[0x140 - 0x13c];               //
     int mKartReaction;                    // 140 probably an enum
-    u8 _144[0x150 - 0x144];               //
+    StateFunc mStateFunc;                 // 144
     JSULink<ItemObj> _150;                // 150
     JSULink<ItemObj> _160;                // 160
     JSULink<ItemObj> _170;                // 170
@@ -290,12 +296,15 @@ public:
     u8 mOrigDriverNum;                    // 1c8
     u8 _1c9[0x1fc - 0x1c9];               //
     u8 _1fc;                              //
-    u8 _1fd[0x24c - 0x1fd];               //
+    u8 _1fd[0x210 - 0x1fd];               //
+    Mtx _210;                             //
+    u8 _240[0x24c - 0x240];               //
     u8 _24c;                              //
     u8 _24d[0x28c - 0x24d];               //
     int mDirectHitKartNo;                 // 28c
-    u8 _290[0x2b0 - 0x290];               //
-
+    u8 _290[0x298 - 0x290];               //
+    u8 mColorID;                          // 298
+    u8 _299[0x2b0 - 0x299];               //
 }; // 2b0
 
 #endif
