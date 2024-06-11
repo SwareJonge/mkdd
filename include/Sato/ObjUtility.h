@@ -7,7 +7,7 @@
 
 namespace ObjUtility
 {
-    void *getPtrMainArc(char *);                                                             // 0x8025dc08
+    void *getPtrMainArc(char *);                                                            // 0x8025dc08
     void *getPtrCourseArc(char *);                                                          // 0x8025dc30
     void getPtrMainLocaleArc(char *);                                                       // 0x8025dc58
     void setRMtx(Mtx, const JGeometry::TVec3f &, const JGeometry::TVec3f &);                // 0x8025dc80
@@ -26,6 +26,56 @@ namespace ObjUtility
     void getReflectVec(JGeometry::TVec3f, JGeometry::TVec3f, JGeometry::TVec3f *, bool);    // 0x8025eeb4
     void chkAvailableEnemyByDistande(bool *, f32);                                          // 0x8025f118
     void concatSimpleFileName(char *, u8);                                                  // 0x8025f514
+
+    // Inline/Unused
+    void getKartDistance(int, const JGeometry::TVec3f &);
+    void getKartDegAngle(int, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
+    void findRankKartIndex(int);
 }
+
+// Move to different header(s)?
+
+class MtxRotateCtrl
+{
+    ~MtxRotateCtrl();
+
+    void init(JGeometry::TPos3f *);
+    void doRotate();
+    void moveTheta();
+    void moveThetaOne(short *, short);
+    void setMaxSpd(short);
+};
+
+class MtxRotateCtrlSpvar
+{
+    ~MtxRotateCtrlSpvar();
+
+    void moveThetaOne(short *, short);
+    void setMaxSpd(short);
+};
+
+class BombEffectObj
+{
+public:
+    BombEffectObj();
+    void reset();
+    void setInitialize(JGeometry::TPos3f &, const JGeometry::TPos3f &, u8, f32);
+    void setJPAEfct(const JGeometry::TVec3f &, const JGeometry::TVec3f &, u8);
+    void startEfct(const JGeometry::TPos3f &, u8);
+    void calc(f32, f32, u8, u8);
+
+    virtual ~BombEffectObj();
+    virtual void init(const JGeometry::TMtx34f &, u8, f32);
+    virtual void execute();
+};
+
+class FlareEffectObj
+{
+public:
+    FlareEffectObj();
+    void reset();
+    void init(ObjColBase *&, const JGeometry::TVec3f &);
+    void execute(ObjColBase *&, const JGeometry::TVec3f &);
+};
 
 #endif

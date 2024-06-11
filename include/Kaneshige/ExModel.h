@@ -34,17 +34,17 @@ public:
     void setShapePktControl(s16);                                                       // 0x801a4fec
     void isAllShapePacketHidding(s16, u32);                                             // 0x801a5110
     void setCurMtx();                                                                   // 0x801a523c
-    void calcBBoardMtx(Mtx44, Mtx44);                                                   // 0x801a56f8
-    void simpleDraw(u32, Mtx44, u32);                                                   // 0x801a58ac
+    void calcBBoardMtx(Mtx, Mtx);                                                       // 0x801a56f8
+    void simpleDraw(u32, Mtx, u32);                                                     // 0x801a58ac
     void show();                                                                        // 0x801a5d6c
     void hide();                                                                        // 0x801a5e98
     void clipAll(u32, bool);                                                            // 0x801a5fc8
-    void clipBySphere(u32, J3DUClipper *, const Mtx44, f32);                            // 0x801a6040
+    void clipBySphere(u32, J3DUClipper *, const Mtx, f32);                              // 0x801a6040
     void clipJoint(u32, s16, bool);                                                     // 0x801a6254
     void setBaseTRMtx(Mtx);                                                             // 0x801a63c8
     void setBaseScale(JGeometry::TVec3f &);                                             // 0x801a6474
     void tstDiffTexMtxMode();                                                           // 0x801a6550
-    void setEffectMtx(Mtx44, u32);                                                      // 0x801a65a4
+    void setEffectMtx(Mtx, u32);                                                      // 0x801a65a4
 
     // Vtable
     virtual bool createModel(JKRSolidHeap *, u32, u32);               // 0x801a4c70

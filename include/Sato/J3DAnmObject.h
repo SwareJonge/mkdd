@@ -51,7 +51,9 @@ public:
 
 class J3DAnmObjTrans : public J3DAnmObjBase
 {
+public:
     // TODO
+    static void setupTransAnmData(J3DAnmTransform **, J3DMtxCalc **, J3DModelData *, void *);
 };
 
 #endif
