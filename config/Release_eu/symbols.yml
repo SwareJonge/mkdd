@@ -4346,6 +4346,7 @@ global:
   0x802130b4: initDivested__7ItemObjFv
   0x802131ec: initDisappear__7ItemObjFv
   0x802131f0: deleteEffect__7ItemObjFv
+  0x8035fd78: __vt__13ItemMultiBase
   # ItemObj.cpp
   0x802135c0: __ct__7ItemObjFUl
   0x802136cc: reset__7ItemObjFv
@@ -4381,6 +4382,7 @@ global:
   0x8021638c: IsHitObject__7ItemObjFP10ObjColBaseRCQ29JGeometry8TVec3<f>P10ObjColBase
   0x80216484: doHandOneEquip__7ItemObjFbf
   0x80216828: doEquipScaleUp__7ItemObjFf
+  0x802168f4: executeEquipScaleUp__7ItemObjFUlf
   0x80216978: doForceDisappearScaleDown__7ItemObjFv
   0x802169d8: calcEquipAnmScaleUp__7ItemObjFRQ29JGeometry8TVec3
   0x80217054: executeGeoObjHitCallBack__7ItemObjFP12GeographyObj
@@ -4399,6 +4401,8 @@ global:
   0x80218ec0: moveCannon__7ItemObjFR9CrsGround
   0x80219f88: callHitItemSound__7ItemObjFP7ItemObj
   0x8021a0b4: drawSimpleModel__7ItemObjFUlPA4_fP11J3DUClipperPA4_f
+  0x8021a0b8: getItemRnd__7ItemObjFv
+  0x8021a230: getThunderScale__7ItemObjFv
   0x8021a2fc: doEquip__7ItemObjFv
   0x8021a324: doDivested__7ItemObjFv
   0x8035ff04: __vt__7ItemObj
@@ -4409,6 +4413,40 @@ global:
   0x8021d2e8: init__14stEfctWeedBaseFv
   0x803602f0: __vt__10stEfctWeed
   0x80360308: __vt__14stEfctWeedBase
+  # ItemKinoko.cpp
+  0x8021d410: __ct__10ItemKinokoFUl
+  0x8021d4c0: reset__10ItemKinokoFv
+  0x8021d524: getBmdFileName__10ItemKinokoFv
+  0x8021d54c: createModel__10ItemKinokoFP12JKRSolidHeapUlUl
+  0x8021d550: doUniv__10ItemKinokoFv
+  0x8021d5fc: initEquip__10ItemKinokoFv
+  0x8021d6f8: doEquip__10ItemKinokoFv
+  0x8021d724: initRelease__10ItemKinokoFv
+  0x8021d748: doRelease__10ItemKinokoFv
+  0x8021d74c: initDisappear__10ItemKinokoFv
+  0x8021d764: doDisappear__10ItemKinokoFv
+  0x8021d768: initFall__10ItemKinokoFv
+  0x8021d7a4: executeEquipHandFunc__10ItemKinokoFv
+  0x8021d7d4: __ct__16ItemGoldenKinokoFUl
+  0x8021d8d8: __dt__10ItemKinokoFv
+  0x8021d9d0: reset__16ItemGoldenKinokoFv
+  0x8021da48: getBmdFileName__16ItemGoldenKinokoFv
+  0x8021da70: loadAnmData__16ItemGoldenKinokoFP12J3DModelData
+  0x8021da78: createModel__16ItemGoldenKinokoFP12JKRSolidHeapUlUl
+  0x8021daac: doUniv__16ItemGoldenKinokoFv
+  0x8021db64: initRelease__16ItemGoldenKinokoFv
+  0x8021db7c: doRelease__16ItemGoldenKinokoFv
+  0x8021dba8: initDisappear__16ItemGoldenKinokoFv
+  0x8021dbc0: update__16ItemGoldenKinokoFv
+  0x8021dbf0: __ct__13ItemKinokoSucFUl
+  0x8021dc44: reset__13ItemKinokoSucFv
+  0x8021dc90: __dt__13ItemKinokoSucFv
+  0x8021dd98: __dt__16ItemGoldenKinokoFv
+  0x8021dea0: executeEquipHandFunc__16ItemGoldenKinokoFv
+  0x80360340: __vt__13ItemKinokoSuc
+  0x8036040c: __vt__16ItemGoldenKinoko
+  0x803604d8: __vt__10ItemKinoko
+
   # J3DEffectMgr.cpp
   0x8021e854: __ct__12J3DEffectMgrFv
   0x8021eac8: createModel__12J3DEffectMgrFP12JKRSolidHeapUl
@@ -4428,6 +4466,20 @@ global:
   0x80230a64: setupTexSRTAnmData__17J3DAnmObjMaterialFPP19J3DAnmTextureSRTKeyP12J3DModelDataPv
   0x80230c08: setupTexPatternAnmData__17J3DAnmObjMaterialFPP16J3DAnmTexPatternP12J3DModelDataPv
   0x80230da0: setupTevRegAnmData__17J3DAnmObjMaterialFPP15J3DAnmTevRegKeyP12J3DModelDataPv
+  # ItemSuccession.cpp
+  0x8022f424: reset__10ItemObjSucFv
+  0x8022f484: initEquip__10ItemObjSucFv
+  0x8022f4ac: doEquip__10ItemObjSucFv
+  0x8022f788: doBuildEquip__10ItemObjSucFv
+  0x8022f858: selectSucChild__10ItemObjSucFv
+  0x8022f9a0: initDivested__10ItemObjSucFv
+  0x8022fb48: doDivested__10ItemObjSucFv
+  0x8022fd60: setSucMultiType__10ItemObjSucFQ27ItemObj10cMultiType
+  0x8022fe28: initForceDisappear__10ItemObjSucFv
+  0x8022fe2c: doForceDisappear__10ItemObjSucFv
+  0x80361100: __vt__10ItemObjSuc
+  0x803611cc: __vt__9ItemBuild
+  0x803611e8: __vt__10ItemJuggle
   # EffectScreen.cpp
   0x80231cd8: __ct__15EffectScreenMgrFv
   0x80231dc8: reset__15EffectScreenMgrFv

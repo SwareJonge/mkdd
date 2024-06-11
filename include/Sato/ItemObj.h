@@ -5,12 +5,16 @@
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
 #include "Sato/ObjCollision.h"
+#include "Sato/stMath.h"
 
 #include "types.h"
 
 // TODO: inlines getters, setters
 
 class ObjColBase;
+class ItemMultiBase;
+class ItemJuggle;
+class ItemBuild;
 
 class ItemObj
 {
@@ -23,7 +27,6 @@ public:
         State3,
         State4,
         StateDivested, // 5
-
     };
 
     enum ItemColFlag
@@ -173,7 +176,7 @@ public:
     void doColMoveJumpDown(JGeometry::TVec3f, f32);                           // 0x8024ef28
     void doColMoveReflectJumpDownAndDisappear(JGeometry::TVec3f, f32);        // 0x8024ef64
     void doColMoveCommonJumpAndReflect(JGeometry::TVec3f, f32, bool);         // 0x8024f0d4
-    MtxPtr getHandAnmMtx();                                                     // 0x8024f3f8
+    MtxPtr getHandAnmMtx();                                                   // 0x8024f3f8
     void getJuggleHandAnmMtx();                                               // 0x8024f4fc
     void IsAlwaysColItemToKart();                                             // 0x8024f600
     void initMoveColGround();                                                 // 0x8024f628
@@ -194,11 +197,11 @@ public:
     void calcAllUseInitVel(u8, f32);                                          // 0x8025117c
     void callHitKartSound(int);                                               // 0x80251260
     void getSpecialKind(const int &, const u8 &);                             // 0x802512dc
-    void getItemRnd();                                                        // 0x8025146c
+    stRandom *getItemRnd();                                                   // 0x8025146c
     void setHandOffsetData();                                                 // 0x80251490
     void setHandOffsetPos(ItemHandOffsetData *);                              // 0x80251588
     void getHandOffsetPos();                                                  // 0x802515ac
-    void getThunderScale();                                                   // 0x802515e4
+    f32 getThunderScale();                                                    // 0x802515e4
     void initMaxDivestedFrame();                                              // 0x802516bc
 
     static f32 sDivestedGravity;      // 0x80414af8
@@ -264,7 +267,8 @@ public:
     f32 _54;                              //
     JGeometry::TVec3f mDisScaleAnm;       // 58
     f32 mEquipScale;                      // 64
-    u8 _68[0x70 - 0x68];                  //
+    f32 mHeightOffset;                    // 68
+    u8 _6c[0x70 - 0x6c];                  //
     JGeometry::TVec3f mVel;               // 70
     u32 mItemKind;                        // 7c
     ExModel mModel;                       // 80
@@ -276,8 +280,8 @@ public:
     int mOwnerNum;                        // 120
     u8 mDriverNum;                        // 124
     MtxPtr mpHandAnmMtx;                  // 128
-    u32 _12c;                             //
-    u16 mTransferFlags;                   // 130   
+    u32 _12c;                             // some flags
+    u16 mTransferFlags;                   // 130
     u8 _132[0x138 - 0x132];               //
     u32 mEquipFlags;                      // 138
     u8 _13c[0x140 - 0x13c];               //
@@ -294,7 +298,10 @@ public:
     ItemObj *_1c0;                        // 1c0, probably ItemObjSuc
     int mOrigOwnerNum;                    // 1c4
     u8 mOrigDriverNum;                    // 1c8
-    u8 _1c9[0x1fc - 0x1c9];               //
+    u8 _1c9[0x1f0 - 0x1c9];               //
+    ItemJuggle *mJuggle;                  // 1f0
+    ItemBuild *mBuild;                    // 1f4
+    ItemMultiBase *mMulti;                // 1f8
     u8 _1fc;                              //
     u8 _1fd[0x210 - 0x1fd];               //
     Mtx _210;                             //
@@ -304,7 +311,9 @@ public:
     int mDirectHitKartNo;                 // 28c
     u8 _290[0x298 - 0x290];               //
     u8 mColorID;                          // 298
-    u8 _299[0x2b0 - 0x299];               //
+    u8 _299[0x2a8 - 0x299];               //
+    u32 _2a8;                             //
+    u8 _2ac[0x2b0 - 0x2ac];               //
 }; // 2b0
 
 #endif

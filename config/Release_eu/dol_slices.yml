@@ -1531,6 +1531,16 @@ src/Sato/stEfctWeed.cpp:
     .sbss: [0x803d5df0, 0x803d5df8]
     .sdata2: [0x803da100, 0x803da108]
 
+src/Sato/ItemKinoko.cpp:
+    .text: [0x8021d410, 0x8021dfec]
+    .ctors: [0x802d8820, 0x802d8824]
+    .rodata: [0x80342750, 0x80342798]
+    .data: [ 0x80360320, 0x803605a8]    
+    .bss: [0x803acb08, 0x803acb38]
+    .sdata: [0x803d3e58, 0x803d3e68]
+    .sbss: [0x803d5df8, 0x803d5e10]
+    .sdata2: [0x803da108, 0x803da128]
+
 src/Sato/RivalKart.cpp:
     .text: [0x8023586c, 0x80235d80]
     .ctors: [0x802d885c, 0x802d8860]
