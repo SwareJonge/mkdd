@@ -4843,14 +4843,30 @@ global:
   # Yamamoto
   # kartBody.cpp
   0x80298648: DegubBody__8KartBodyFUl
-  0x802987ec: SetUpRigidBodyStartGridPose__8KartBodyFv
+  0x8029864c: SetUpRigidBodyPose__8KartBodyFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x802987ec: SetUpRigidBodyStartGridPose__8KartBodyFv 
+  0x80298b1c: DoForce__8KartBodyFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x80298bc8: DoTq__8KartBodyFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x80298c54: DoForceOnly__8KartBodyFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
   0x80298ce0: DoGForce__8KartBodyFv
+  0x80298f0c: DoCalcWgVel__8KartBodyFv
   0x8029918c: DoPose__8KartBodyFv
+  0x8029938c: WallFriction__8KartBodyFPQ29JGeometry8TVec3<f>fPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>f
+  0x80299570: GroundReflection__8KartBodyFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>fff
+  0x8029991c: RigidReflectionPower__8KartBodyFP8KartBodyP8KartBodyPfPf
+  0x80299e18: RigidReflection__8KartBodyFP8KartBodyP8KartBodyPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>fff 
+  0x8029a908: ObjectReflection__8KartBodyFPQ29JGeometry8TVec3<f>
+  0x8029ab44: ObjectWallReflection__8KartBodyFP12GeographyObj
+  0x8029b100: StarReact__8KartBodyFP12GeographyObj
   0x8029b1dc: CheckObjectReflection__8KartBodyFv
   0x8029bbf0: CheckRoofReflection__8KartBodyFv
-  0x8029bcbc: WallReflection__8KartBodyFPQ29JGeometry8TVec3<f>fff
+  0x8029bcbc: WallReflection__8KartBodyFPQ29JGeometry8TVec3<f>fff 
   0x8029be8c: CheckVertexReflection__8KartBodyFv
   0x8029c528: CheckBodyHit__8KartBodyFP8KartBodyP8KartBody
+  0x8029ca34: GetMiniGameCamData__8KartBodyFi
+  0x8029cbec: GetPakkunMiniGameCamData__8KartBodyFi
+  0x8029ccf8: InitCamSetting__8KartBodyFv
+  0x8029cfb4: InitBodyParam__8KartBodyFv
   0x8029d6b0: Init__8KartBodyFi
   # kartCamera.cpp
   0x8029dffc: __ct__7KartCamFP8KartBodyP8KartCtrlUcUc
@@ -4884,6 +4900,8 @@ global:
   0x802a0668: DrwaParts__8KartCtrlFiUlPA4_f
   0x803d63c8: mCtrl__8KartCtrl
   # Kartsus.cpp
+  0x802a0a60: InitTirePose__7KartSusFi
+  0x802a0cf4: InitParam__7KartSusFi
   0x802a10f0: Init__7KartSusFi
   0x802a1270: NormalInit__7KartSusFi
   0x802a12d4: ResetInit__7KartSusFi
@@ -4922,47 +4940,6 @@ global:
   0x802a2e38: AddMatrix__7KartMatFPA4_fPA4_f
   0x802a2ecc: NormalizeMatrix__7KartMatFPA4_f
   0x802a30a4: OmegaMatrix__7KartMatFPA4_fP3Vecf
-  # kartCtrlStrat.cpp
-  0x802aae28: DoItmCancel__8KartGameFv
-  0x802ad274: MakeClear__8KartGameFv
-  0x802ae8f0: DoElementForce__8KartGameFv
-  0x802afcb0: DoStatus__8KartGameFv
-  # kartLine.cpp
-  0x802b075c: getBezierPoint__6SplineFPQ29JGeometry8TVec3<f>f
-  # kartCtrlInfo.cpp
-  0x802b09ac: PadAllClear__8KartCtrlFi
-  0x802b0a18: DoContCtl__8KartCtrlFi
-  0x802b0c20: DoContCopy__8KartCtrlFi
-  0x802b0cdc: DoContPaste__8KartCtrlFi
-  0x802b0d98: GetItemStickY__8KartCtrlFi
-  0x802b0dac: GetItemStickX__8KartCtrlFi
-  0x802b0dd4: GetItemButton__8KartCtrlFi
-  0x802b0e04: DoLod__8KartCtrlFv
-  0x802b12ec: GetLeftFTirePos__8KartCtrlFiP3Vec
-  0x802b1314: GetRightFTirePos__8KartCtrlFiP3Vec
-  0x802b1430: GetCarSpeed__8KartCtrlFi
-  0x802b1460: GetCarRpm__8KartCtrlFi
-  0x802b148c: GetKartRpm__8KartCtrlFi
-  0x802b14a0: GetDriveCont__8KartCtrlFi
-  0x802b1520: GetCoDriveCont__8KartCtrlFi
-  0x802b15a0: GetCarStatus__8KartCtrlFi
-  0x802b1cd8: CheckTandemItmGet__8KartCtrlFi
-  0x802b1d58: CheckTandemItmRollingGet__8KartCtrlFi
-  0x802b15b8: GetGameStatus__8KartCtrlFi
-  0x802b16b0: CheckCamera__8KartCtrlFi
-  0x802b16d0: GetCameraNum__8KartCtrlFi
-  0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
-  0x802b1ae8: GetKartBodyOffset__8KartCtrlFi
-  0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
-  0x802b214c: EnemyInit__8KartCtrlFi
-  0x802b2178: EnemyResetInit__8KartCtrlFi
-  0x802b1f24: IsMiniGame__8KartCtrlFv
-  0x802b2128: getKartEnemy__8KartCtrlFi
-  0x802b3134: SetTargetNum__7KartCamFUc
-  0x802b2534: DoSterr__9KartStratFv
-  0x802b2a2c: DoAccel__9KartStratFv
-  0x802b2f3c: HaveRabbit__8KartCtrlFv
-
   # kartParams.cpp
   0x8036b98c: BodyFullHeightData
   0x8036b9e0: BodyFullBumpData
@@ -4973,16 +4950,159 @@ global:
   0x8036bb90: SusParamsData
   0x8036bbe4: TireParamsData
   0x8036bc38: BodyParamsData
-
   # kartBodyStrat.cpp
   0x802a3318: Init__9KartStratFi
   0x802a3330: GetBodySpeed__9KartStratFv
   0x802a3368: GetBodyRoll__9KartStratFv
   0x802a3538: GetRoadBodyRoll__9KartStratFv
   0x802a38ec: GetBodyNorm__9KartStratFv
-
+  0x802a3af4: DoVelCrl__9KartStratFf
+  0x802a3b78: DoWgCrl__9KartStratFf
+  0x802a3bfc: DoRotPose__9KartStratFQ29JGeometry8TVec3<f>f
+  0x802a40ac: DoPoseCrl__9KartStratFv
+  0x802a4c58: MovingSpinClear__9KartStratFv
+  0x802a4ccc: MovingHalfSpinClear__9KartStratFv
+  0x802a4d40: MovingTornadeClear__9KartStratFv
+  0x802a4dac: FreezeClear__9KartStratFv
+  0x802a4e1c: RollCrashClear__9KartStratFv
+  0x802a4ee0: AllGravyClear__9KartStratFv
+  0x802a4f10: GravyClear__9KartStratFv
+  0x802a4f38: LiftClear__9KartStratFv
+  0x802a4f64: PitchClear__9KartStratFv
+  0x802a4f8c: DashClear__9KartStratFv
+  0x802a5000: OtherClear__9KartStratFv
+  0x802a5118: ShakeGround__9KartStratFv
+  0x802a5430: DoAdjustment__9KartStratFv
+  0x802a5978: DoWheelSpinCrl__9KartStratFv
+  0x802a5b0c: DoYawLimit__9KartStratFv
+  0x802a5ca8: DoLiftYawCrl__9KartStratFv
+  0x802a6388: DoRollLim__9KartStratFff
+  0x802a675c: DoPitchLim__9KartStratFv
+  0x802a6e00: DoRollCrash__9KartStratFv
+  0x802a6fa0: DoDashCrl__9KartStratFf
+  0x802a7154: DoAirCrl__9KartStratFv
+  0x802a77d0: DoSpeedCrl__9KartStratFv
+  0x802a81d8: DoComSpeedCrl__9KartStratFv
   0x802a8aac: DoMotor__9KartStratFQ212MotorManager9MotorType
-
+  0x802a8b14: DoPowerMotor__9KartStratFfUcUc
+  0x802a8b9c: DashSpeedCtrl__9KartStratFf
+  0x802a8bbc: DashSpSpeedCtrl__9KartStratFf
+  0x802a8e30: CompulsionDash__9KartStratFPQ29JGeometry8TVec3<f>
+  0x802a9330: DoDash__9KartStratFv
+  0x802a9d68: DoStatusCrl__9KartStratFv
+  # kartCtrlStrat.cpp
+  0x802aad88: Init__8KartGameFi
+  0x802aae28: DoItmCancel__8KartGameFv
+  0x802aae68: DoStopItm__8KartGameFv
+  0x802aaf34: DoChange__8KartGameFv
+  0x802ab200: DoSlide__8KartGameFv
+  0x802ab514: CheckDriftTurbo__8KartGameFv
+  0x802ab880: DoWarmUpRoll__8KartGameFv
+  0x802abd98: DoRollAnim__8KartGameFv
+  0x802abf9c: DoDriftClear__8KartGameFv
+  0x802abff8: DoRoll__8KartGameFv
+  0x802ac338: DoLiftTurbo__8KartGameFv
+  0x802ac63c: DoTurbo__8KartGameFv
+  0x802acad4: DoRollThrow__8KartGameFv
+  0x802acbf4: DoWanWan__8KartGameFv
+  0x802ad21c: DoPushStart__8KartGameFv
+  0x802ad274: MakeClear__8KartGameFv
+  0x802ad2cc: MakeMashDash__8KartGameFv
+  0x802ad454: MakeGoldenMashDash__8KartGameFv
+  0x802ad5ec: MakeStartDash__8KartGameFv
+  0x802ad790: MakeCrashDash__8KartGameFv
+  0x802ad8d4: MakeWheelSpin__8KartGameFv
+  0x802ad9ac: MakeJump__8KartGameFv
+  0x802adb80: DoAirCheck__8KartGameFv
+  0x802adec0: DoRearSlideBody__8KartGameFv
+  0x802ae45c: DoCorner__8KartGameFv
+  0x802ae678: DoBodyAction__8KartGameFv
+  0x802ae8f0: DoElementForce__8KartGameFv
+  0x802ae984: CheckBalloon__8KartGameFv
+  0x802aea20: SetRank__8KartGameFv
+  0x802aea4c: RankWatchMan__8KartGameFv
+  0x802aebf0: ItemWatchMan__8KartGameFP7ItemObj
+  0x802aec7c: KeepWatch__8KartGameFv
+  0x802af090: DoActionMgr__8KartGameFv
+  0x802afcb0: DoStatus__8KartGameFv
+  # kartLine.cpp
+  0x802b075c: getBezierPoint__6SplineFPQ29JGeometry8TVec3<f>f 
+  # kartCtrlInfo.cpp
+  0x802b0944: SetPadClear__8KartCtrlFP11KartGamePad
+  0x802b096c: SetGhostPadClear__8KartCtrlFP11KartGamePad
+  0x802b09ac: PadAllClear__8KartCtrlFi
+  0x802b0a18: DoContCtl__8KartCtrlFi
+  0x802b0c20: DoContCopy__8KartCtrlFi
+  0x802b0cdc: DoContPaste__8KartCtrlFi
+  0x802b0d98: GetItemStickY__8KartCtrlFi
+  0x802b0dac: GetItemStickX__8KartCtrlFi
+  0x802b0dd4: GetItemButton__8KartCtrlFi
+  0x802b0e04: DoLod__8KartCtrlFv
+  0x802b1154: GetPortPtr__8KartCtrlFi
+  0x802b1218: GetCamFovy__8KartCtrlFi
+  0x802b122c: GetCamAspect__8KartCtrlFi
+  0x802b1240: GetBodyGround__8KartCtrlFi
+  0x802b1254: GetRRTireGround__8KartCtrlFi
+  0x802b126c: GetRLTireGround__8KartCtrlFi
+  0x802b1284: GetBodyPos__8KartCtrlFiPQ29JGeometry8TVec3<f>
+  0x802b12ac: GetBodyVel__8KartCtrlFiPQ29JGeometry8TVec3<f> 
+  0x802b12ec: GetLeftFTirePos__8KartCtrlFiP3Vec
+  0x802b1314: GetRightFTirePos__8KartCtrlFiP3Vec
+  0x802b133c: GetLeftTirePos__8KartCtrlFiP3Vec
+  0x802b1364: GetRightTirePos__8KartCtrlFiP3Vec
+  0x802b138c: GetTirePos__8KartCtrlFiiP3Vec
+  0x802b141c: GeTireG__8KartCtrlFi
+  0x802b1430: GetCarSpeed__8KartCtrlFi
+  0x802b1460: GetCarRpm__8KartCtrlFi
+  0x802b148c: GetKartRpm__8KartCtrlFi
+  0x802b14a0: GetDriveCont__8KartCtrlFi
+  0x802b1520: GetCoDriveCont__8KartCtrlFi
+  0x802b15a0: GetCarStatus__8KartCtrlFi
+  0x802b15b8: GetGameStatus__8KartCtrlFi
+  0x802b15cc: SetTireDispRound__8KartCtrlFP8KartBodyP7KartSusf
+  0x802b1680: WhichDriver__8KartCtrlFi
+  0x802b169c: WhichNowDriver__8KartCtrlFi
+  0x802b16b0: CheckCamera__8KartCtrlFi
+  0x802b16d0: GetCameraNum__8KartCtrlFi
+  0x802b16e4: CheckItem__8KartCtrlFi
+  0x802b1724: GetMaxSpeed__8KartCtrlFi
+  0x802b191c: GetDownSlopeAcc__8KartCtrlFi
+  0x802b1990: GetDownSlopeSpeed__8KartCtrlFi
+  0x802b1a00: GetTireAngle__8KartCtrlFi
+  0x802b1a14: GetTandemDir__8KartCtrlFi
+  0x802b1a50: GetWaterHeight__8KartCtrlFi
+  0x802b1ac8: CheckJugemuSignal__8KartCtrlFv
+  0x802b1ad4: GetKartSoundMgr__8KartCtrlFi
+  0x802b1ae8: GetKartBodyOffset__8KartCtrlFi
+  0x802b1af0: MakeChangePossible__8KartCtrlFi
+  0x802b1cd8: CheckTandemItmGet__8KartCtrlFi
+  0x802b1d58: CheckTandemItmRollingGet__8KartCtrlFi
+  0x802b1dd8: SetObjectPos__8KartCtrlFiQ29JGeometry8TVec3<f> 
+  0x802b1e04: CheckThunderBolt__8KartCtrlFi
+  0x802b1e20: GetTireRadius__8KartCtrlFi
+  0x802b1e38: IsBurn__8KartCtrlFi
+  0x802b1e60: IsWallReact__8KartCtrlFi
+  0x802b1eb8: HaveBalloon__8KartCtrlFi
+  0x802b1ed8: GetDriftCnt__8KartCtrlFi
+  0x802b1f24: IsMiniGame__8KartCtrlFv
+  0x802b1f60: IsMiniGameEnd__8KartCtrlFv
+  0x802b1fc0: CheckWinner__8KartCtrlFv
+  0x802b2010: GetKartEffctVel__8KartCtrlFiPQ29JGeometry8TVec3<f>
+  0x802b2058: CheckChange__8KartCtrlFi
+  0x802b20b4: CheckMatchless__8KartCtrlFi
+  0x802b20e4: CheckReverse__8KartCtrlFi
+  0x802b20fc: GetKartScale__8KartCtrlFi
+  0x802b2128: getKartEnemy__8KartCtrlFi
+  0x802b2138: GetKartCenterPtr__8KartCtrlFi
+  0x802b214c: EnemyInit__8KartCtrlFi
+  0x802b2178: EnemyResetInit__8KartCtrlFi
+  0x802b21a4: CheckZoomWinConsole__8KartCtrlFv
+  0x802b21b0: SetUpMiniTurbo__8KartCtrlFiUc
+  0x802b21c4: DoStepAccel__9KartStratFv
+  0x802b23c8: DoStepSterr__9KartStratFv
+  0x802b2534: DoSterr__9KartStratFv
+  0x802b2a2c: DoAccel__9KartStratFv
+  0x802b2f3c: HaveRabbit__8KartCtrlFv
   # kartCamStrat.cpp
   0x802b3134: SetTargetNum__7KartCamFUc
   0x802b3154: SetClipper__7KartCamFv
@@ -5019,24 +5139,66 @@ global:
   0x802b8064: LandView__7KartCamFv
   0x802b8234: InitPipeView__7KartCamFv
   0x802b83c4: PipeView__7KartCamFv
-
   0x8036be10: __vt__8GrafPort
-
   # KartAnime.cpp
   0x802b862c: IsAppeal__9KartAnimeFi
+  0x802b866c: IsThrow__9KartAnimeFi
+  0x802b86ac: IsMove__9KartAnimeFi
   0x802b86ec: IsDamage__9KartAnimeFi
   0x802b872c: IsDamageL__9KartAnimeFi
   0x802b876c: IsDamageS__9KartAnimeFi
   0x802b87ac: IsRide__9KartAnimeFi
   0x802b87ec: IsNormalStart__9KartAnimeFi
+  0x802b882c: IsBackStart__9KartAnimeFi
+  0x802b886c: IsRun__9KartAnimeFi
+  0x802b88ac: IsDrift__9KartAnimeFi
+  0x802b88ec: IsDriftStart__9KartAnimeFi
+  0x802b892c: IsDriftLeft__9KartAnimeFi
+  0x802b896c: IsDriftRight__9KartAnimeFi
+  0x802b89ac: IsRocket__9KartAnimeFi
+  0x802b89ec: IsJump__9KartAnimeFi
+  0x802b8a2c: IsSit__9KartAnimeFi
+  0x802b8a6c: IsBackAnime__9KartAnimeFi
+  0x802b8aac: IsFloatAnime__9KartAnimeFi
+  0x802b8aec: IsDangerAnime__9KartAnimeFi
+  0x802b8b2c: IsDangerPlusAnime__9KartAnimeFi
+  0x802b8b6c: IsGetItemAnime__9KartAnimeFi
   0x802b8ba8: IsBurnAnime__9KartAnimeFi
   0x802b8be8: IsDrive__9KartAnimeFi
+  0x802b8c28: IsBack__9KartAnimeFi
+  0x802b8c88: IsGaol__9KartAnimeFi
+  0x802b8cc8: IsAttack__9KartAnimeFi
+  0x802b8d08: IsProhibition__9KartAnimeFi
+  0x802b8d80: MakeThrowAnime__9KartAnimeFiii
+  0x802b8d9c: MakeBackAnime__9KartAnimeFi
+  0x802b8df4: MakeFrontAnime__9KartAnimeFi
   0x802b8e4c: Init__9KartAnimeFv
-
+  0x802b8ea8: DoGetAnime__9KartAnimeFi
+  0x802b90dc: DoDriveAnime__9KartAnimeFi
+  0x802b915c: DoStartRunStartAnime__9KartAnimeFi
+  0x802b9190: DoStartRunEndAnime__9KartAnimeFi
+  0x802b91c8: DoSurpriseEndAnime__9KartAnimeFi
+  0x802b9278: DoStopAnime__9KartAnimeFi
+  0x802b92a0: DoReStopAnime__9KartAnimeFi
+  0x802b92c8: DoCheck__9KartAnimeFi
+  0x802b98e0: DoAnime__9KartAnimeFi
   # KartItemStrat.cpp
+  0x802badc4: Init__8KartItemFi
+  0x802badf0: DoRabbit__8KartItemFv
+  0x802bae94: SetSucMashItem__8KartItemFv
   0x802baf94: CheckHitItem__8KartItemFv
+  0x802bb010: FallStealItem__8KartItemFii
+  0x802bb368: FallItem__8KartItemFv
+  0x802bb6d4: FallAllItem__8KartItemFv
   0x802bb880: ReleseWanWan__8KartItemFv
-
+  0x802bb960: CompulsionReleseWanWan__8KartItemFv
+  0x802bba0c: KillWanWan__8KartItemFv
+  0x802bbaa0: IsMyItem__8KartItemFv
+  0x802bbaf4: CheckOtherAnime__8KartItemFv
+  0x802bbc6c: DoOtherAnime__8KartItemFv
+  0x802bc378: DoTandemItemAnime__8KartItemFv
+  0x802bc998: DoTandemItemRelease__8KartItemFv
+  0x802bcd2c: DoItem__8KartItemFv
   # KartSound.cpp
   0x802bcf8c: Init__9KartSoundFi
   0x802bd088: DoInfo__9KartSoundFi
@@ -5096,19 +5258,63 @@ global:
   0x802be2b4: DoHeartVoice__9KartSoundFv
   0x802be2e4: DoTandemVoice__9KartSoundFUc
   0x802be310: DoDriverVoice__9KartSoundFUc
-  0x802be33c: DoAllVoice__9KartSoundFUc
-  
-  # KartTarget.cpp
+  0x802be33c: DoAllVoice__9KartSoundFUc  
+  # KartTarget.cpp, i mean KartTaeget.cpp
   0x802be490: Init__10KartTargetFv
   0x802be4dc: DoSearchTarget__10KartTargetFi
   0x802be898: DoSearchRescueTarget__10KartTargetFP7CLPoint
-
+  # KartRescue.cpp
+  0x802be9e4: Init__10KartRescueFi
+  0x802bea6c: SetPose__10KartRescueFUc
+  0x802bf0c0: DoTop__10KartRescueFv
+  0x802bf2ac: DoDrop__10KartRescueFv
+  0x802bf550: DoCheckEnd__10KartRescueFv
+  0x802bf754: MakeRescue__10KartRescueFP12GeographyObjUc
+  0x802bfb60: DoRescueCrl__10KartRescueFv
+  0x802c071c: DoAfterRescueCrl__10KartRescueFv
+  # KartCannon.cpp
+  0x802c0c10: Init__10KartCannonFi
+  0x802c0c38: MakeCannon__10KartCannonFv
+  0x802c0f88: DoKeep__10KartCannonFv
+  0x802c0ff0: SetPose__10KartCannonFv
+  0x802c1690: DoCannonCrl__10KartCannonFv
+  0x802c16c4: DoDonkyCannonCrl__10KartCannonFv
+  0x802c2154: DoRainbowCannonCrl__10KartCannonFv
+  0x802c2aa8: DoAfterCannonCrl__10KartCannonFv
+  # KartDossin.cpp
+  0x802c2c64: Init__10KartDossinFi
+  0x802c2cac: DoDossinTimer__10KartDossinFv
+  0x802c2cc4: DoDossin__10KartDossinFv
+  0x802c3078: DoKeep__10KartDossinFv
+  0x802c3128: DoDossinCrl__10KartDossinFv
+  0x802c3624: DoAfterDossinCrl__10KartDossinFv
+  # KartTumble.cpp
+  0x802c38b4: Init__10KartTumbleFi
+  0x802c38ec: MakeWanWanTumble__10KartTumbleFP7ItemObj
+  0x802c3cfc: MakeKameTumble__10KartTumbleFP7ItemObj
+  0x802c4104: MakeStarTumble__10KartTumbleFv
+  0x802c44b0: MakeDashTumble__10KartTumbleFv
+  0x802c46a0: DoTumble__10KartTumbleFv
+  0x802c4aac: DoPakunTumble__10KartTumbleFv
+  0x802c4e08: DoHanaTumble__10KartTumbleFv
+  0x802c5228: MakePoiHanaTumble__10KartTumbleFv
+  0x802c55c4: DoShootCrashCrl__10KartTumbleFv
+  0x802c5750: DoTumbleCrl__10KartTumbleFv
+  0x802c5778: DoAfterTumbleCrl__10KartTumbleFv
   # KartChecker.cpp
+  0x802c59f4: Init__9KartCheckFi
+  0x802c5a14: CheckCrash__9KartCheckFv
+  0x802c5a68: CheckCheange__9KartCheckFi
+  0x802c5ce8: CheckSpecialDyn__9KartCheckFv
+  0x802c5d80: CheckSpecialDyn2__9KartCheckFv
+  0x802c5e14: CheckBodyHit__9KartCheckFii
+  0x802c60a4: CheckAllClearKey__9KartCheckFv
+  0x802c60cc: CheckAllClearKeyT__9KartCheckFv
+  0x802c61a4: CheckPartsClearKey__9KartCheckFi
   0x802c6368: CheckOnlyTandemPartsClearKey__9KartCheckFi
-  0x802c6504: CheckPlayer__9KartCheckFv  
+  0x802c6504: CheckPlayer__9KartCheckFv
   0x802c6564: CheckDraw__9KartCheckFUli
-  0x802c65b0: CheckIndication__9KartCheckFv
-
+  0x802c65b0: CheckIndication__9KartCheckFv 
   # KartDamage.cpp
   0x802c66cc: Init__10KartDamageFi
   0x802c66f8: ClrAllDamage__10KartDamageFv
@@ -5128,10 +5334,39 @@ global:
   0x802c7994: MakeStar__8KartStarFv
   0x802c7a44: StopStar__8KartStarFv
   0x802c7ac4: DoStarCrl__8KartStarFv
-
   # KartTire.cpp
   0x802c7c68: Init__8KartTireFi
-
+  # KartThunder.cpp
+  0x802c7da0: Init__11KartThunderFi
+  0x802c7de0: ClearThunder__11KartThunderFv
+  0x802c7e6c: MakeThunder__11KartThunderFv
+  0x802c7fc4: DoThunderCrl__11KartThunderFv
+  # KartCrash.cpp
+  0x802c82d0: Init__9KartCrashFi
+  0x802c82fc: DoRabbitMark__9KartCrashFv
+  0x802c8360: DoMatchlessTimer__9KartCrashFv
+  0x802c8514: CheckMatchlessTimer__9KartCrashFv
+  0x802c8528: SetMatchlessTimer__9KartCrashFv
+  0x802c8550: ClearMatchlessTimer__9KartCrashFv
+  0x802c857c: DoDecBalloon__9KartCrashFv
+  0x802c861c: DoDecPointBomb__9KartCrashFv
+  0x802c866c: SaveDir__9KartCrashFv
+  0x802c8920: NonRescue__9KartCrashFv
+  0x802c897c: DoRollCrashCrl__9KartCrashFv
+  0x802c8af0: DoPitchCrashCrl__9KartCrashFv
+  0x802c8c04: MakeBombCrash__9KartCrashFP7ItemObj
+  0x802c8e00: DoBombCrashCrl__9KartCrashFv
+  0x802c8ebc: MakeKameCrash__9KartCrashFP7ItemObj
+  0x802c9040: MakeTornado__9KartCrashFv
+  0x802c9200: DotornadeCrashCrl__9KartCrashFv
+  0x802c96d4: MakeSpin__9KartCrashFP7ItemObj
+  0x802c98a0: DoSpinCrashCrl__9KartCrashFv
+  0x802c99f8: MakeHalfSpin__9KartCrashFP7ItemObj
+  0x802c9b84: DoHalfSpinCrashCrl__9KartCrashFv
+  0x802c9ce4: MakeThunderSpin__9KartCrashFv
+  0x802c9d48: MakeBurn__9KartCrashFP7ItemObj
+  0x802c9e34: MakeFreezeCrash__9KartCrashFv
+  0x802c9f9c: DoFreezeCrashCrl__9KartCrashFv
   # KartDemoCam.cpp
   0x802ca1c4: Init__11KartDemoCamFP7KartCam
   0x802ca204: DoCol__11KartDemoCamFv
@@ -5179,13 +5414,11 @@ global:
   0x802d1d74: StaffView__11KartDemoCamFv
   0x802d1f00: SetStaffNextID__11KartDemoCamFv
   0x802d1f60: SetUpStaffID__11KartDemoCamFv
-
   # KartFitParam.cpp
   0x8036cb50: TireOpData
   0x8036cf24: ArmOpData
   0x8036d388: DumpOpData
   0x8036d514: BodyOpData
-
   # KartDisp.cpp
   0x802d21c0: Init__8KartDispFi
   0x802d21d8: DoShake__8KartDispFv
@@ -5195,30 +5428,35 @@ global:
   0x802d31d0: MakeTireDispMatrix__8KartDispFv
   0x802d3624: MakeScaleMatrix__8KartDispFv
   0x802d3c24: MakeKartDisp__8KartDispFv
-
   # KartHandle.cpp
   0x802d3fb4: Init__10KartHandleFi
   0x802d3fdc: DoMotor__10KartHandleFQ212MotorManager9MotorType
   0x802d410c: DoPowerMotor__10KartHandleFfUcUc
   0x802d4250: StopMotor__10KartHandleFv
   0x802d42bc: WatchFrontalCollisionForce__10KartHandleFv
-
   # KartApeendix.cpp
   0x802d45bc: Init__12KartAppendixFi
-
   # KartPipe.cpp
   0x802d46f0: Init__8KartPipeFi
   0x802d4714: MakePipe__8KartPipeFv
   0x802d4894: SetPose__8KartPipeFv
   0x802d4d44: DoPipeCrl__8KartPipeFv
   0x802d50c4: DoAfterPipeCrl__8KartPipeFv
-
   # KartAnt.cpp
   0x802d5248: Init__7KartAntFi
   0x802d526c: SetPose__7KartAntFv
   0x802d5600: DoAntCrl__7KartAntFv
   0x802d5828: DoAfterAntCrl__7KartAntFv
-
+  # KartGame.cpp
+  0x802d5a44: DoChapterOne__8KartGameFv
+  0x802d5c00: DoChapterTwo__8KartGameFv
+  0x802d5da8: DoChapterThree__8KartGameFv
+  0x802d60ac: DoChapterFive__8KartGameFv
+  0x802d6668: DoChapterSix__8KartGameFv
+  0x802d6944: DoChapterBalloon__8KartGameFv
+  0x802d6e70: DoChapterBomEsc__8KartGameFv
+  0x802d7144: DoStaffRoll__8KartGameFv
+  0x802d72fc: DoStartGoalCtl__8KartGameFv
   # KartPerCam.cpp
   0x802d7670: Init__10KartPerCamFi
   0x802d76e8: InitFixPalaCam__10KartPerCamFv
