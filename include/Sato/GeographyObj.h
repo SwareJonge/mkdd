@@ -8,10 +8,25 @@
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
+#include "Sato/AnmController.h"
 #include "Sato/ItemObj.h"
 
 // TODO: Remove Forward declarations
 class ObjColBase; // ObjCollision.h
+
+class ItemColReaction
+{
+public:
+    ItemColReaction() {}
+    ~ItemColReaction() {}
+
+    void init();
+    void setFlg(u32, u8);
+    bool tstFlg(u32);
+
+private:
+    u8 mFlags[16];
+};
 
 class GeoObjSupervisor
 {
@@ -84,44 +99,61 @@ public:
     void setLODBias();
     void getColRadius();
 
-    void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; } 
+    void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; }
+    void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
+    void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
+    void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
 
     // Vtable
-    virtual ~GeographyObj() {}                                                                // 0x801b48cc, TODO?
-    virtual void loadmodel(J3DModelData *modelData);                                          // 0x801b4c28, TODO
-    virtual void loadAnimation() {}                                                           // 0x801b4c74                                                     // 0x801b4c74
-    virtual ShadowModel::ShadowKind getShadowKind() { return ShadowModel::cShadowKind_Geo; }; // 0x801b4c78
-    virtual void createModel(JKRSolidHeap *heap, u32) {}                                      // 0x801b4c80, TODO
-    virtual void configAnimationMode() {}                                                     // 0x801b4ce8
-    virtual void createShadowModel(JKRSolidHeap *heap, u32);                                  // 0x8022ab60
-    virtual void initByKind() {}                                                              // 0x801b4cec
-    virtual void reset() { resetObject(); }                                                   // 0x801d76ac
-    virtual void calc() = 0;                                                                  // 0x0
-    virtual void update();                                                                    // 0x80229684
-    virtual void viewCalc(u32);                                                               // 0x802296d4
-    virtual void simpleDraw(u32);                                                             // 0x8022addc
-    virtual void setCurrentViewNo(u32);                                                       // 0x80229700
-    virtual u32 getMotorType() const { return 1; }                                            // 0x801b4cf0, probably an Enum
-    virtual u32 getSoundID() const;                                                           // 0x8022a308, probably a define
-    virtual const char *getBmdFileName() { return nullptr; }                                  // 0x801c59a8
-    virtual const char *getShadowBmdFileName() { return nullptr; }                            // 0x801b4cf8
-    virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                        // 0x801b4d00
-    virtual void createColModel(J3DModelData *);                                              // 0x8022ab5c
-    virtual void createBoundsSphere(J3DModelData *);                                          // 0x8022a498
-    virtual void *getAnmTbl() { return nullptr; }                                             // 0x801b4d08
-    virtual u32 getSizeAnmTbl() { return 0; }                                                 // 0x801b4d10
-    virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                             // 0x801b4d18
-    virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);             // 0x8022af8c
-    virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                         // 0x8022af90
-    virtual void makeSharedDL() {}                                                            // 0x801b4d20, TODO
-    virtual void doKartColCallBack(int);                                                      // 0x8022ace8
-    virtual void initClassCreateNum();                                                        // 0x801b4d5c
-    virtual void setModelMatrixAndScale();                                                    // 0x802297e0
-private:
-
-    JGeometry::TVec3f mPos; // 04
-    u8 _10[0x13c];
-    // TODO
+    virtual ~GeographyObj() {}                                                                      // 0x801b48cc, TODO?
+    virtual void loadmodel(J3DModelData *modelData);                                                // 0x801b4c28, TODO
+    virtual void loadAnimation() {}                                                                 // 0x801b4c74                                                     // 0x801b4c74
+    virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }; // 0x801b4c78
+    virtual void createModel(JKRSolidHeap *heap, u32) {}                                            // 0x801b4c80, TODO
+    virtual void configAnimationMode() {}                                                           // 0x801b4ce8
+    virtual void createShadowModel(JKRSolidHeap *heap, u32);                                        // 0x8022ab60
+    virtual void initByKind() {}                                                                    // 0x801b4cec
+    virtual void reset() { resetObject(); }                                                         // 0x801d76ac
+    virtual void calc() = 0;                                                                        // 0x0
+    virtual void update();                                                                          // 0x80229684
+    virtual void viewCalc(u32);                                                                     // 0x802296d4
+    virtual void simpleDraw(u32);                                                                   // 0x8022addc
+    virtual void setCurrentViewNo(u32);                                                             // 0x80229700
+    virtual u32 getMotorType() const { return 1; }                                                  // 0x801b4cf0, probably an Enum
+    virtual u32 getSoundID() const;                                                                 // 0x8022a308, probably a define
+    virtual const char *getBmdFileName() { return nullptr; }                                        // 0x801c59a8
+    virtual const char *getShadowBmdFileName() { return nullptr; }                                  // 0x801b4cf8
+    virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                              // 0x801b4d00
+    virtual void createColModel(J3DModelData *);                                                    // 0x8022ab5c
+    virtual void createBoundsSphere(J3DModelData *);                                                // 0x8022a498
+    virtual void *getAnmTbl() { return nullptr; }                                                   // 0x801b4d08
+    virtual u32 getSizeAnmTbl() { return 0; }                                                       // 0x801b4d10
+    virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                                   // 0x801b4d18
+    virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);                   // 0x8022af8c
+    virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                               // 0x8022af90
+    virtual void makeSharedDL() {}                                                                  // 0x801b4d20, TODO
+    virtual void doKartColCallBack(int);                                                            // 0x8022ace8
+    virtual void initClassCreateNum();                                                              // 0x801b4d5c
+    virtual void setModelMatrixAndScale();                                                          // 0x802297e0
+protected:
+    JGeometry::TVec3f mPos;      // 04
+    JGeometry::TPos3f mRotMtx;   // 10
+    JGeometry::TVec3f mScale;    // 40
+    JGeometry::TVec3f mVel;      // 4C
+    int _58;                     // 58, some sort of ID
+    ExModel mModel;              // 5C
+    CrsData::SObject *mObjData;  // E8
+    u32 mGeoObjFlag;             // EC
+    u32 mKartHitFlags;           // F0
+    u8 _f4[0xfc - 0xf4];                 //
+    JSULink<GeographyObj> mLink; // FC
+    int mKind;                   // 10c
+    u8 _110[0x114 - 0x110];      //
+    ItemObj *mColItemObj;        // 114
+    u8 _118[0x120 - 0x118];      //
+    AnmController *mAnmCtrl;     // 120
+    ItemColReaction mReaction;   // 124
+    u8 _134[0x14c - 0x134];      //
 }; // Size: 0x14c
 
 #endif

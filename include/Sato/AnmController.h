@@ -37,7 +37,7 @@ template <typename T>
 class TAnmControlBase : public AnmControlBase
 {
 public:
-    TAnmControlBase() { mObjBase = nullptr; }
+    TAnmControlBase() { mObj = nullptr; }
 
     virtual void initAnm(u8 anm_no, ExModel *model) // 08
     {

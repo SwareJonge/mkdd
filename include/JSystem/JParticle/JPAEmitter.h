@@ -268,7 +268,7 @@ struct JPABaseEmitter
     void setGlobalRTMatrix(const Mtx m) { JPASetRMtxTVecfromMtx(m, mGlobalRot, &mGlobalTrs); }
     void setGlobalRMatrix(const Mtx m) { JPASetRMtxfromMtx(m, mGlobalRot); }
     void setGlobalTranslation(f32 x, f32 y, f32 z) { mGlobalTrs.set(x, y, z); }
-    void setGlobalTranslation(JGeometry::TVec3f &vec) { mGlobalTrs.set(vec); }
+    void setGlobalTranslation(const JGeometry::TVec3f &vec) { mGlobalTrs.set(vec); }
     void getLocalTranslation(JGeometry::TVec3f &vec) { vec.set(mLocalTrs); }
     void setGlobalRotation(const JGeometry::TVec3<s16> &rot) { JPAGetXYZRotateMtx(rot.x, rot.y, rot.z, mGlobalRot); }
     void setGlobalAlpha(u8 alpha) { mGlobalPrmClr.a = alpha; }

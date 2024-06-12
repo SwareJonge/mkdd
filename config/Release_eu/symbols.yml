@@ -3431,7 +3431,21 @@ global:
   0x80355b1c: __vt__12LtObjDiffuse
   0x80355b3c: __vt__8LightObj
   0x803d5638: sLightManager__8LightMgr
-
+  # GeoStartLine.cpp
+  0x8018adf8: loadmodel__12GeographyObjFP12J3DModelData
+  0x8018ae44: loadAnimation__12GeographyObjFv
+  0x8018ae48: getShadowKind__12GeographyObjCFv
+  0x8018ae50: createModel__12GeographyObjFP12JKRSolidHeapUl
+  0x8018ae8c: configAnimationMode__12GeographyObjFv
+  0x8018ae90: initByKind__12GeographyObjFv
+  0x8018ae94: getMotorType__12GeographyObjCFv
+  0x8018ae9c: getShadowBmdFileName__12GeographyObjFv
+  0x8018aea4: getJ3DModelDataTevStageNum__12GeographyObjCFv
+  0x8018aeac: getAnmTbl__12GeographyObjFv
+  0x8018aeb4: getSizeAnmTbl__12GeographyObjFv
+  0x8018aebc: getSupervisor__12GeographyObjFv
+  0x8018aec4: makeSharedDL__12GeographyObjFv
+  0x8018aef4: initClassCreateNum__12GeographyObjFv
   # CenterLine.cpp
   0x8018b004: __ct__7CLPointFv
   0x8018b038: setPrevPoint__7CLPointFP7CLPoint
@@ -3495,6 +3509,9 @@ global:
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv
 
+  # GeoItemGen.cpp
+  0x8019c850: getBmdFileName__12GeographyObjFv
+
   # RaceBGMPlayer.cpp
   0x8019dd54: __ct__13RaceBGMPlayerFv
   0x8019dd84: reset__13RaceBGMPlayerFv
@@ -3526,7 +3543,18 @@ global:
 
   0x803d5720: sSupervisorCreateNum__13GeoRabbitMark
   0x803d5724: sSupervisor__13GeoRabbitMark
-
+  # GeoAirJet.cpp
+  0x801a3940: __ct__9GeoAirJetFRCQ27CrsData7SObject
+  0x801a39a0: reset__9GeoAirJetFv
+  0x801a3ba8: createColModel__9GeoAirJetFP12J3DModelData
+  0x801a3be4: calc__9GeoAirJetFv
+  0x801a3cac: InitExec__9GeoAirJetFv
+  0x801a3d18: MoveExec__9GeoAirJetFv
+  0x801a3d84: initFuncWait__9GeoAirJetFv
+  0x801a3d88: doFuncWait__9GeoAirJetFv
+  0x801a3d8c: __dt__9GeoAirJetFv
+  0x80357688: sTable__9GeoAirJet
+  0x803576a4: __vt__9GeoAirJet
   # Blurscreen.cpp
   0x801a3f84: __ct__10BlurScreenFv
   0x801a402c: draw__10BlurScreenFRCQ28JUtility6TColorUcUcff
@@ -3576,6 +3604,7 @@ global:
   0x801af940: create__8MovieAppFv
   0x801af9f4: call__8MovieAppFv
   0x801afcf0: loadOpeningData__8MovieAppFv  
+  0x801af718: reset__12GeographyObjFv
   0x803d5aa8: sMovieApp__8MovieApp
   # MoviePlayer.cpp
   0x801b0084: create__11MoviePlayerFP7JKRHeap
@@ -4295,11 +4324,99 @@ global:
   0x801f572c: getJugem__19GeographyObjManagerCFi
   0x801f573c: getBalloonMgr__19GeographyObjManagerCFi   
   0x803d5d00: gMgr__19GeographyObjManager
+  # GeographyObj.cpp
+  0x801f6794: __ct__12GeographyObjFRCQ27CrsData7SObject
+  0x801f6868: __ct__12GeographyObjFUl
+  0x801f6920: setDefaultItemReaction__12GeographyObjFv
+  0x801f6a08: calc_norm__12GeographyObjFv
+  0x801f6a48: update_norm__12GeographyObjFv
+  0x801f6a9c: update__12GeographyObjFv
+  0x801f6aec: viewCalc__12GeographyObjFUl
+  0x801f6b18: setCurrentViewNo__12GeographyObjFUl
+  0x801f6b44: loadShadowModel__12GeographyObjFP12J3DModelDataUl
+  0x801f6bf8: setModelMatrixAndScale__12GeographyObjFv
+  0x801f6c50: getAssignedModelXYZdir__12GeographyObjFPQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>PQ29JGeometry8TVec3<f>
+  0x801f6d80: getAssignedModelMatrix__12GeographyObjFPA4_f
+  0x801f6fe4: resetObject__12GeographyObjFv
+  0x801f720c: IsHitKart__12GeographyObjFRCQ29JGeometry8TVec3<f>P10ObjColBase
+  0x801f7364: IsHitObject__12GeographyObjFRCQ29JGeometry8TVec3<f>P10ObjColBase
+  0x801f7440: setIsHitKartFlg__12GeographyObjFi
+  0x801f7490: clrIsHitKartSoundFlg__12GeographyObjFi
+  0x801f74b8: tstUserFlg1__12GeographyObjCFi
+  0x801f74d4: clrUserFlg1__12GeographyObjFi
+  0x801f74ec: setUserFlg1__12GeographyObjFi
+  0x801f7504: getHitSoundDegree__12GeographyObjFv
+  0x801f753c: getSoundID__12GeographyObjCFv
+  0x801f7548: createMultiBoundsPtrAll__12GeographyObjFUc
+  0x801f7654: calcBoundsGlPos__12GeographyObjFv
+  0x801f76cc: createBoundsSphere__12GeographyObjFP12J3DModelData
+  0x801f77b0: createBoundsSphere__12GeographyObjFff
+  0x801f78a0: createMultiBoundsSphere__12GeographyObjFUcff
+  0x801f7930: createBoundsCylinder__12GeographyObjFP12J3DModelDataff
+  0x801f7a50: createBoundsCylinder__12GeographyObjFfff
+  0x801f7b68: createMultiBoundsCylinder__12GeographyObjFUcP12J3DModelDataff
+  0x801f7c38: createBoundsCube__12GeographyObjFP12J3DModelData
+  0x801f7d54: setColObjPos__12GeographyObjFRCQ29JGeometry8TVec3<f>Uc 
+  0x801f7d90: createColModel__12GeographyObjFP12J3DModelData
+  0x801f7d94: createShadowModel__12GeographyObjFP12JKRSolidHeapUl
+  0x801f7e48: getGeoRnd__12GeographyObjFv
+  0x801f7e6c: moveShadowModel__12GeographyObjFv
+  0x801f7f1c: doKartColCallBack__12GeographyObjFi
+  0x801f7f20: createSoundMgr__12GeographyObjFv
+  0x801f7f78: getColScaleRadius__12GeographyObjFv
+  0x801f7fe8: getAxisMaxScale__12GeographyObjFv
+  0x801f8010: simpleDraw__12GeographyObjFUl
+  0x801f808c: lockMdl__12GeographyObjFv
+  0x801f80bc: getSRTMtx__12GeographyObjFPA4_f
+  0x801f8124: setBoundScaleAll__12GeographyObjFv
+  0x801f8188: getAllBoundDepth__12GeographyObjFv
+  0x801f81c0: getItemThrowDirPow__12GeographyObjFPQ29JGeometry8TVec3<f>PfRC7ItemObj
+  0x801f81c4: getKartThrowDirPow__12GeographyObjFPQ29JGeometry8TVec3<f>Pfi
+  0x801f81c8: setObjData__12GeographyObjFRCQ27CrsData7SObjectb
+  0x801f8200: init__15ItemColReactionFv
+  0x801f8228: setFlg__15ItemColReactionFUlUc
+  0x801f8260: tstFlg__15ItemColReactionFUl
+  0x801f8280: createModel__16GeoObjSupervisorFP12JKRSolidHeapUl
+  0x8035e780: __vt__16GeoObjSupervisor
+  0x8035e7a0: __vt__12GeographyObj
+
   # JPEffectMgr.cpp
+  0x801fcd40: execute__21JPSnowEmitterCallBackFP14JPABaseEmitter
+  0x801fcee0: draw__21JPSnowEmitterCallBackFP14JPABaseEmitter
   0x801fcee4: __ct__11JPEffectMgrFP7JKRHeapbUc
   0x801fcf9c: reset__11JPEffectMgrFv
+  0x801fd304: reset_forMenu__11JPEffectMgrFv
+  0x801fd368: getHashValue__11JPEffectMgrFPCc
+  0x801fd38c: create2DEmtMgr__11JPEffectMgrFP18JPAResourceManagerUsUs
+  0x801fd4d0: create_forMenu__11JPEffectMgrFv
+  0x801fd650: createEmt__11JPEffectMgrFUsRCQ29JGeometry8TVec3<f>
+  0x801fd688: createEmt__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>
+  0x801fd6d4: createEmtCameraClip__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>
+  0x801fd744: createEmt2D__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>
+  0x801fd790: createEmt__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>PA4_f
+  0x801fd804: createEmtThunder__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>
+  0x801fd850: createEmtCam__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>Uc
+  0x801fd8a8: createEmtBefore2DMulti__11JPEffectMgrFPCcRCQ29JGeometry8TVec3<f>Uc
+  0x801fd900: deleteEmt__11JPEffectMgrFP14JPABaseEmitter
+  0x801fd924: deleteEmtThunder__11JPEffectMgrFP14JPABaseEmitter
+  0x801fd948: deleteEmt2D__11JPEffectMgrFP14JPABaseEmitter
+  0x801fd96c: deleteEmtCam__11JPEffectMgrFP14JPABaseEmitterUc
+  0x801fd998: deleteEmtBefore2DMulti__11JPEffectMgrFP14JPABaseEmitterUc
+  0x801fd9c4: clipEmitterCameraNumFlg__11JPEffectMgrFP14JPABaseEmitter
   0x801fda20: calc__11JPEffectMgrFv
   0x801fdaa0: calc_forMenu__11JPEffectMgrFv
+  0x801fdb04: draw__11JPEffectMgrFi
+  0x801fdbc4: draw_thunder__11JPEffectMgrFi
+  0x801fdc74: draw_for2D__11JPEffectMgrFv
+  0x801fdd44: draw_forBefore2D__11JPEffectMgrFv
+  0x801fde14: draw_forBefore2D__11JPEffectMgrFUc
+  0x801fdfb4: createSnowEmt__11JPEffectMgrFv
+  0x801fe108: createAwardDemoEmt__11JPEffectMgrFb
+  0x801fe1b4: createRainbowEmt__11JPEffectMgrFv
+  0x801fe214: createCupStartDemoEmt__11JPEffectMgrFv
+  0x801fe2d8: resetSnowCamVel__11JPEffectMgrFv
+  0x801fe334: calcSnowCamVel__11JPEffectMgrFv
+  0x801fe41c: __dt__21JPSnowEmitterCallBackFv
   0x803d5d40: mThis__11JPEffectMgr
   # stEmitter.cpp
   0x80201c58: getTirePos__17stEmitterCallBackFPQ29JGeometry8TVec3<f>
@@ -4500,7 +4617,13 @@ global:
   0x80235c68: ActiveCtrl__9RivalKartFv
   0x803616c0: __vt__9RivalKart
   # StateObserver.cpp
+  0x80235d80: __ct__13StateObserverFv
+  0x80235da0: __dt__13StateObserverFv
+  0x80235de8: ExecuteState__13StateObserverFv
+  0x80235e40: ResetState__13StateObserverFv
   0x80235e54: setState__13StateObserverFUs
+  0x80235e5c: changeState__13StateObserverFv
+  0x803616d8: __vt__13StateObserver
   # NeckCtrl.cpp
   0x8023a3a0: __ct__14CharIKParamMgrFv
   0x803d5ee8: mMgr__14CharIKParamMgr

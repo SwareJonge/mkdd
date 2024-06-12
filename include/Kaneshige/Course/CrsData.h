@@ -130,9 +130,27 @@ public:
         u8 pad[5];
     }; // Size: 0x20
 
-    struct SObject 
+    struct SObject
     {
-        // TODO
+        JGeometry::TVec3f position;  // 0
+        JGeometry::TVec3f scale;     // C
+        JGeometry::TVec3<s16> zNorm; // 18
+        JGeometry::TVec3<s16> yNorm; // 1e
+        s16 pathID;                  // 26
+        s16 _28;                     //
+        s16 pointIdx;                // 2a
+        u8 filter;                   // 2c
+        u8 flag;                     // 2d
+        u8 colFlag;                  // 2e
+        u8 _2f;                      //
+        s16 _30;                     //
+        s16 _32;                     //
+        s16 _34;                     //
+        s16 _36;                     //
+        s16 _38;                     //
+        s16 _3a;                     //
+        s16 _3c;                     //
+        s16 _3e;                     //
     };
 
     struct SJugemPoint

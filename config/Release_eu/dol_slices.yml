@@ -1224,6 +1224,14 @@ src/Kaneshige/RaceBGMPlayer.cpp:
     .bss: [0x8038a830, 0x8038a860]
     .sdata: [0x803d3990, 0x803d3998]
 
+src/Kaneshige/GeoAirJet.cpp:
+    .text: [0x801a3940, 0x801a3f84]
+    .ctors: [0x802d86f8, 0x802d86fc]
+    .rodata: [0x8033dcc0, 0x8033dcd0]
+    .data: [0x80357670, 0x80357740]
+    .bss: [0x8038a920, 0x8038a950]
+    .sdata2: [0x803d8ca8, 0x803d8cd8]
+
 src/Kaneshige/BlurScreen.cpp:
     .text: [0x801a3f84, 0x801a451c]
     .sdata2: [0x803d8cd8, 0x803d8ce8]

@@ -3,10 +3,22 @@
 
 #include "types.h"
 
+// TODO: check if this matches in every instance
+
+#define Observer_FindAndInit(cname, max)                                                                                                 \
+    const StateFuncSet<cname> *func = FindStateFunc<cname>(getState(), cname::sTable, max); \
+    (this->*func->mInitFunc)();
+
+#define Observer_FindAndExec(cname, max)                                                                                                 \
+    const StateFuncSet<cname> *func = FindStateFunc<cname>(getState(), cname::sTable, max); \
+    (this->*func->mExecFunc)();
+
 class StateObserver
 {
 public:
-    StateObserver();
+    StateObserver();     // 0x802714b0
+    void ExecuteState(); // 0x80271518
+    void ResetState();   // 0x80271570
 
     void setState(u16);
     u16 getState() const { return mState; }
@@ -16,18 +28,19 @@ public:
     virtual void MoveExec() = 0;
     virtual void InitExec() = 0;
 
-    typedef void (StateObserver::*StateFunc)();
     template <typename T>
     struct StateFuncSet
     {
+        typedef void (T::*StateFunc)();
         u16 mId;
         StateFunc mInitFunc;
         StateFunc mExecFunc;
     };
 
     template <typename T>
-    static StateFuncSet<T> *FindStateFunc(u16 id, const StateFuncSet<T> *funcTable, u16 max) // OK?
+    static const StateFuncSet<T> *FindStateFunc(u16 id, const StateFuncSet<T> *funcTable, u16 max)
     {
+#line 55
         JUT_MINMAX_ASSERT(0, max, 32);
         for (u16 i = 0; i < max; i++)
         {
