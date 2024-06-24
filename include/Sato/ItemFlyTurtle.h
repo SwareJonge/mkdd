@@ -8,7 +8,7 @@
 #include "Sato/ObjUtility.h"
 
 // TODO: virtual and static functions
-
+class CLPointControllerFlyTurtle;
 class ItemFlyTurtle : public ItemObj
 {
 public:

@@ -2,6 +2,7 @@
 #define LIGHTMGR_H
 
 #include "JSystem/JGeometry.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JUtility/TColor.h"
 #include "types.h"
 

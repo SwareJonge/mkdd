@@ -25,7 +25,7 @@ public:
     // Maybe swap these names
     int getState() { return _74; }
     int getOption() { return _78; }
-    int setOption(int val) { _78 = val; }
+    void setOption(int val) { _78 = val; }
 
 private:
     // TODO

@@ -19,8 +19,6 @@
 #include "Sato/stMath.h"
 #include "Yamamoto/kartCamera.h"
 
-#include <ppcdis.h>
-
 #include "mathHelper.h"
 
 // WIP
