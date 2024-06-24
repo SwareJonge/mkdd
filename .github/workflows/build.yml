@@ -1,80 +1,49 @@
 name: Build
+
 on:
   push:
   pull_request:
 
-# workflow that builds/verify a commit, this file is based of mkw-decomp's workflow 
 jobs:
-  build_windows:
-    runs-on: windows-2022
+  build:
+    container: ghcr.io/swarejonge/mkdd-build:main
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [MarioClub_us]
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
+    # Checkout the repository (shallow clone)
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          architecture: 'x64'
+    # Set Git config
+    - name: Git config
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
-        with:
-          requirement_files: requirements.txt
+    # Copy the original files to the workspace
+    - name: Prepare
+      run: cp -R /orig .
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+    # Build the project
+    - name: Build
+      run: |
+        python configure.py --version ${{ matrix.version }} \
+            --binutils /binutils --compilers /compilers
+        ninja all_source build/${{ matrix.version }}/progress.json
 
-      - run: pip install -r requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-      - name: Get Dependencies
-        env:        
-          SECRET_LINK: ${{ secrets.MKDD_DEPS_LINK }}
-        run: |
-          # Download Dependencies
-          Invoke-WebRequest "$Env:SECRET_LINK" -OutFile .\build-dependencies.zip
-          # Extract Dependencies
-          Expand-Archive -Path build-dependencies.zip .\ -Force
-          # Clean up
-          Remove-Item '.\build-dependencies.zip'
-          
-      - name: Build Debug
-        run: |
-          python configure.py -r us
-          ninja
-
-      - name: Print progress(Debug)
-        run: |
-          .\tools\ProgressCalculator.exe
-
-      - name: Clean Debug
-        run: |
-          ninja -t clean
-
-      - name: Build Release
-        run: |
-          python configure.py -r eu
-          ninja
-      
-      - name: Print progress(Release)
-        run: |
-          .\tools\ProgressCalculator.exe
-
-      - name: Clean
-        run: |          
-          ninja -t clean
-          # Remove files stored in build-dependencies
-          Remove-Item '.\tools\1.2.5\' -Recurse
-          Remove-Item '.\tools\1.2.5n\' -Recurse
-          Remove-Item '.\tools\1.3.2\' -Recurse
-          Remove-Item '.\tools\2.6\' -Recurse
-          Remove-Item '.\orig\MarioClub_us\main.dol'
-          Remove-Item '.\orig\Release_eu\main.dol'
-          Remove-Item '.\out\' -Recurse
-          Remove-Item '.\tools\devkitppc\' -Recurse
-          # Remove Items from build
-          Remove-Item '.\include\BuildtimeDat.bin'
-          Remove-Item '.\include\System.arc.bin'
-          Remove-Item '.\include\JSystem\JUtility\FontData\Ascfont_fix12.bfn'
+    # Upload progress if we're on the main branch
+    - name: Upload progress
+      if: github.ref == 'refs/heads/main'
+      continue-on-error: true
+      env:
+        PROGRESS_API_KEY: ${{ secrets.PROGRESS_API_KEY }}
+      run: |
+        python tools/upload_progress.py -b https://progress.decomp.club/ \
+          -p mkdd -v ${{ matrix.version }} \
+          build/${{ matrix.version }}/progress.json
