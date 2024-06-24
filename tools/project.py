@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-import ninja_syntax
-from ninja_syntax import serialize_path
+from . import ninja_syntax
+from .ninja_syntax import serialize_path
 
 if sys.platform == "cygwin":
     sys.exit(
