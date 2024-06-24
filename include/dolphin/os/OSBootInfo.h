@@ -1,6 +1,8 @@
 #ifndef _DOLPHIN_OSBOOTINFO
 #define _DOLPHIN_OSBOOTINFO
 
+#define OS_BOOTROM_ADDR 0x81300000
+
 typedef struct OSBootInfo {
   DVDDiskID DVDDiskID;
   u32 magic;

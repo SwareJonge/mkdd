@@ -227,7 +227,7 @@ BOOL EXISync(s32 chan)
             if (exi->state & STATE_SELECTED)
             {
                 CompleteTransfer(chan);
-                if (__OSGetDIConfig() != 0xff || ((OSGetConsoleType() & 0xF0000000) == OS_CONSOLE_TDEV)  || exi->immLen != 4 ||
+                if (__OSGetDIConfig() != 0xff || ((OSGetConsoleType() & OS_CONSOLE_MASK) == OS_CONSOLE_TDEV)  || exi->immLen != 4 ||
                     (REG(chan, 0) & 0x00000070) != (EXI_FREQ_1M << 4) ||
                     (REG(chan, 4) != EXI_USB_ADAPTER && REG(chan, 4) != EXI_IS_VIEWER &&
                      REG(chan, 4) != 0x04220001) ||
@@ -816,7 +816,6 @@ s32 EXIGetType(s32 chan, u32 dev, u32 *type) {
     }
     *type = _type;
     return probe;
-
 }
 
 char* EXIGetTypeString(u32 type)

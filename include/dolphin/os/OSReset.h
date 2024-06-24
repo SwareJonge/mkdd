@@ -26,6 +26,8 @@ extern "C" {
 #define OS_RESET_PRIO_GX 127
 #define OS_RESET_PRIO_ALARM 4294967295
 
+extern BOOL __OSIsGcam;
+
 typedef BOOL (*OSResetFunction)(BOOL final);
 typedef struct OSResetFunctionInfo OSResetFunctionInfo;
 
