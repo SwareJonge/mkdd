@@ -44,7 +44,7 @@ typedef struct EXIControl
 } EXIControl;
 
 static EXIControl Ecb[MAX_CHAN];
-
+static u32 IDSerialPort1;
 s32 __EXIProbeStartTime[2] : (OS_BASE_CACHED | 0x30C0);
 
 #pragma scheduling off
@@ -227,7 +227,7 @@ BOOL EXISync(s32 chan)
             if (exi->state & STATE_SELECTED)
             {
                 CompleteTransfer(chan);
-                if (__OSGetDIConfig() != 0xff || exi->immLen != 4 ||
+                if (__OSGetDIConfig() != 0xff || ((OSGetConsoleType() & 0xF0000000) == OS_CONSOLE_TDEV)  || exi->immLen != 4 ||
                     (REG(chan, 0) & 0x00000070) != (EXI_FREQ_1M << 4) ||
                     (REG(chan, 4) != EXI_USB_ADAPTER && REG(chan, 4) != EXI_IS_VIEWER &&
                      REG(chan, 4) != 0x04220001) ||
@@ -593,12 +593,13 @@ static void EXTIntrruptHandler(__OSInterrupt interrupt, OSContext *context)
 
 void EXIInit(void)
 {
-    OSRegisterVersion(__EXIVersion);
+    u32 id;
+    while (((REG(0, 3) & 0x1) == 1) || ((REG(1, 3) & 0x1) == 1) || ((REG(2, 3) & 0x1) == 1)) {
+        continue;
+    }
 
-    __OSMaskInterrupts(OS_INTERRUPTMASK_EXI_0_EXI | OS_INTERRUPTMASK_EXI_0_TC |
-                       OS_INTERRUPTMASK_EXI_0_EXT | OS_INTERRUPTMASK_EXI_1_EXI |
-                       OS_INTERRUPTMASK_EXI_1_TC | OS_INTERRUPTMASK_EXI_1_EXT |
-                       OS_INTERRUPTMASK_EXI_2_EXI | OS_INTERRUPTMASK_EXI_2_TC);
+    __OSMaskInterrupts(OS_INTERRUPTMASK_EXI_0_EXI | OS_INTERRUPTMASK_EXI_0_TC | OS_INTERRUPTMASK_EXI_0_EXT | OS_INTERRUPTMASK_EXI_1_EXI
+                       | OS_INTERRUPTMASK_EXI_1_TC | OS_INTERRUPTMASK_EXI_1_EXT | OS_INTERRUPTMASK_EXI_2_EXI | OS_INTERRUPTMASK_EXI_2_TC);
 
     REG(0, 0) = 0;
     REG(1, 0) = 0;
@@ -615,13 +616,20 @@ void EXIInit(void)
     __OSSetInterruptHandler(__OS_INTERRUPT_EXI_2_EXI, EXIIntrruptHandler);
     __OSSetInterruptHandler(__OS_INTERRUPT_EXI_2_TC, TCIntrruptHandler);
 
-    if ((OSGetConsoleType() & 0x10000000) != 0)
-    {
+    EXIGetID(0, 2, &IDSerialPort1);
+
+    if (__OSInIPL) {
         __EXIProbeStartTime[0] = __EXIProbeStartTime[1] = 0;
         Ecb[0].idTime = Ecb[1].idTime = 0;
         __EXIProbe(0);
         __EXIProbe(1);
+    } else if (EXIGetID(0, 0, &id) && id == 0x07010000) {
+        __OSEnableBarnacle(1, 0);
+    } else if (EXIGetID(1, 0, &id) && id == 0x07010000) {
+        __OSEnableBarnacle(0, 2);
     }
+
+    OSRegisterVersion(__EXIVersion);
 }
 
 BOOL EXILock(s32 chan, u32 dev, EXICallback unlockedCallback)
@@ -702,41 +710,41 @@ static void UnlockedHandler(s32 chan, OSContext *context)
     EXIGetID(chan, 0, &id);
 }
 
-s32 EXIGetID(s32 chan, u32 dev, u32 *id)
+s32 EXIGetID(s32 chan, u32 dev, u32* id)
 {
-    EXIControl *exi = &Ecb[chan];
+    EXIControl* exi = &Ecb[chan];
     BOOL err;
     u32 cmd;
     s32 startTime;
     BOOL enabled;
+    BOOL interrupt;
 
-    if (chan < 2 && dev == 0)
-    {
-        if (!__EXIProbe(chan))
-        {
+    if (chan == 0 && dev == 2 && IDSerialPort1) {
+        *id = IDSerialPort1;
+        return 1;
+    }
+
+    if (chan < 2 && dev == 0) {
+        if (!__EXIProbe(chan)) {
             return 0;
         }
 
-        if (exi->idTime == __EXIProbeStartTime[chan])
-        {
+        if (exi->idTime == __EXIProbeStartTime[chan]) {
             *id = exi->id;
             return exi->idTime;
         }
 
-        if (!__EXIAttach(chan, NULL))
-        {
+        if (!__EXIAttach(chan, NULL)) {
             return 0;
         }
-
         startTime = __EXIProbeStartTime[chan];
     }
 
-    err = !EXILock(chan, dev, (chan < 2 && dev == 0) ? UnlockedHandler : NULL);
-    if (!err)
-    {
+    interrupt = OSDisableInterrupts();
+    err       = !EXILock(chan, dev, (chan < 2 && dev == 0) ? UnlockedHandler : NULL);
+    if (!err) {
         err = !EXISelect(chan, dev, EXI_FREQ_1M);
-        if (!err)
-        {
+        if (!err) {
             cmd = 0;
             err |= !EXIImm(chan, &cmd, 2, EXI_WRITE, NULL);
             err |= !EXISync(chan);
@@ -746,15 +754,14 @@ s32 EXIGetID(s32 chan, u32 dev, u32 *id)
         }
         EXIUnlock(chan);
     }
+    OSRestoreInterrupts(interrupt);
 
-    if (chan < 2 && dev == 0)
-    {
+    if (chan < 2 && dev == 0) {
         EXIDetach(chan);
         enabled = OSDisableInterrupts();
         err |= (startTime != __EXIProbeStartTime[chan]);
-        if (!err)
-        {
-            exi->id = *id;
+        if (!err) {
+            exi->id     = *id;
             exi->idTime = startTime;
         }
         OSRestoreInterrupts(enabled);
@@ -766,13 +773,55 @@ s32 EXIGetID(s32 chan, u32 dev, u32 *id)
 }
 
 s32 EXIGetType(s32 chan, u32 dev, u32 *type) {
-    // TODO
+    u32 _type; 
+    s32 probe;
+
+    probe = EXIGetID(chan, dev, &_type);
+    if(probe == 0)
+        return probe;
+    
+    switch(_type & 0xffffff00)
+    {
+    case 0x4020100:
+    case 0x4020200:
+    case 0x4020300:
+    case 0x4060000:
+        *type = _type & 0xffffff00;
+        return probe;
+    }
+
+    switch(_type & 0xffff0000)
+    {
+    case 0:
+    {
+        if ((_type & 0x3803))
+            break;
+        
+        switch (_type & 0xfc)
+        {
+        case 4:
+        case 8:
+        case 16:
+        case 32:
+        case 64:
+        case 128:
+            *type = _type  & 0xfc;
+            return probe;
+        }
+        break;
+    }
+    case 0x5070000:
+        *type = 0x5070000;
+        return probe;
+    }
+    *type = _type;
+    return probe;
+
 }
 
-char *EXIGetTypeString(u32 type)
+char* EXIGetTypeString(u32 type)
 {
-    switch (type)
-    {
+    switch (type) {
     case EXI_MEMORY_CARD_59:
         return "Memory Card 59";
     case EXI_MEMORY_CARD_123:
@@ -781,6 +830,10 @@ char *EXIGetTypeString(u32 type)
         return "Memory Card 251";
     case EXI_MEMORY_CARD_507:
         return "Memory Card 507";
+    case EXI_MEMORY_CARD_1019:
+        return "Memory Card 1019";
+    case EXI_MEMORY_CARD_2043:
+        return "Memory Card 2043";
     case EXI_USB_ADAPTER:
         return "USB Adapter";
     case 0x80000000 | EXI_MEMORY_CARD_59:
@@ -790,10 +843,12 @@ char *EXIGetTypeString(u32 type)
         return "Net Card";
     case EXI_ETHER_VIEWER:
         return "Artist Ether";
+    case EXI_MODEM:
+        return "Broadband Adapter";
     case EXI_STREAM_HANGER:
         return "Stream Hanger";
     case EXI_IS_VIEWER:
-        return "IS Viewer";
+        return "IS-DOL-VIEWER";
     }
 }
 

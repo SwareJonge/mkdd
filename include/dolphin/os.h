@@ -211,6 +211,9 @@ void OSFatal(GXColor fg, GXColor bg, const char *msg);
 }
 #endif
 
+// TODO: put this somewhere else
+extern BOOL __OSInIPL;
+
 #include <dolphin/os/OSAlarm.h>
 #include <dolphin/os/OSAlloc.h>
 #include <dolphin/os/OSArena.h>

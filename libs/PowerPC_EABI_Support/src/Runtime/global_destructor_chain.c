@@ -28,5 +28,4 @@ int __register_atexit(void (*func)(void))
 {
 }
 
-#pragma section ".dtors"
-__declspec(section ".dtors") __declspec(weak) extern void *const __destroy_global_chain_reference = __destroy_global_chain;
+__declspec(section ".dtors") static void *const __destroy_global_chain_reference = __destroy_global_chain;

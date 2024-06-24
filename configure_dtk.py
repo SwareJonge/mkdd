@@ -204,7 +204,7 @@ if config.non_matching == False:
 # Metrowerks library flags
 cflags_runtime = [
     *cflags_base,    
-    "-str pool,readonly",
+    "-str readonly",
     "-gccinc",
     "-common off",
     "-inline auto, deferred",
@@ -322,19 +322,19 @@ config.libs = [
         [
             Object(Matching, "Runtime/__mem.c"),
             Object(Matching, "Runtime/__va_arg.c"),
-            Object(NonMatching, "Runtime/global_destructor_chain.c"),
+            Object(Matching, "Runtime/global_destructor_chain.c"),
             Object(NonMatching, "Runtime/NMWException.cp"),
             Object(Matching, "Runtime/CPlusLibPPC.cp"),
             Object(Matching, "Runtime/ptmf.c"),
             Object(Matching, "Runtime/runtime.c"),
-            Object(NonMatching, "Runtime/__init_cpp_exceptions.cpp"),
+            Object(Matching, "Runtime/__init_cpp_exceptions.cpp"),
             Object(NonMatching, "Runtime/Gecko_ExceptionPPC.cp"),
-            Object(NonMatching, "Runtime/GCN_mem_alloc.c"),
+            Object(Matching, "Runtime/GCN_mem_alloc.c"),
         ]
     ),
     mslLib(
         "MSL_C.PPCEABI.H",
-        "-opt level=0, peephole, schedule, nospace -inline off -sym on",
+        "-str pool -opt level=0, peephole, schedule, nospace -inline off -sym on",
         [
             Object(Matching, "MSL_C/PPC_EABI/abort_exit.c"),
             Object(Matching, "MSL_C/MSL_Common/alloc.c"),
@@ -527,7 +527,7 @@ config.libs = [
     DolphinLib(
         "exi",
         [
-            Object(NonMatching, "dolphin/exi/EXIBios.c"),
+            Object(Matching, "dolphin/exi/EXIBios.c"),
             Object(Matching, "dolphin/exi/EXIUart.c")
         ]
     ),

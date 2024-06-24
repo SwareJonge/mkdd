@@ -33,13 +33,13 @@ namespace std
 	}
 }
 
-extern "C" asm void __throw_catch_compare() {
-#include "asm/802b1f94.s"
+extern "C" void __throw_catch_compare() {
+
 }
 
-extern "C" asm void __construct_new_array()
+extern "C" void __construct_new_array()
 {
-#include "asm/802b21c8.s"
+
 }
 
 class __partial_array_destructor
@@ -77,12 +77,13 @@ public:
 	}
 };
 
-extern "C" asm void __construct_array(void *ptr, void *ctor, void *dtor, size_t size, size_t n)
+
+extern "C" void __construct_array(void *ptr, void *ctor, void *dtor, size_t size, size_t n)
 {
 
 }
 
-extern "C" asm void __destroy_arr(void *block, void *dtor, size_t size, size_t n)
+extern "C" void __destroy_arr(void *block, void *dtor, size_t size, size_t n)
 {
 
 }
