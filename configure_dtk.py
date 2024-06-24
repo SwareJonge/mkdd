@@ -835,10 +835,10 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio/System/JASTrack.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASTrackPort.cpp"),
 
-            Object(NonMatching, "JSystem/JAudio/Task/dspproc.c"),
-            Object(NonMatching, "JSystem/JAudio/Task/dsptask.c"),
-            Object(NonMatching, "JSystem/JAudio/Task/osdsp.c"),
-            Object(NonMatching, "JSystem/JAudio/Task/osdsp_task.c"),
+            Object(Matching, "JSystem/JAudio/Task/dspproc.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/dsptask.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/osdsp.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/osdsp_task.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
 
             Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp"),
             Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcLoader.cpp"),
