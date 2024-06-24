@@ -31,5 +31,6 @@ namespace SiUtil
     // void initGX(JUtility::TColor);
     // void getWaterHeight(JGeometry::TVec3f &);
     // void searchNearKartCylinder(const JGeometry::TVec3f &, f32, f32);
-};     // namespace SiUtil
+}; // namespace SiUtil
+
 #endif // SIUTIL_H

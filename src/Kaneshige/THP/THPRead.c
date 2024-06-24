@@ -1,8 +1,6 @@
 #include "Kaneshige/THP/THPRead.h"
 #include "Kaneshige/THP/THPPlayer.h"
 
-#include "ppcdis.h"
-
 #define STACK_SIZE 4096
 #define BUFFER_COUNT 10
 

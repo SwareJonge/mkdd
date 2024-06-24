@@ -14,6 +14,7 @@
 
 class JASVoiceBank;
 class JAUDisposer_ {
+public:
     virtual ~JAUDisposer_();
 };
 class JAUSectionHeap;

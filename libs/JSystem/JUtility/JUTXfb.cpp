@@ -1,6 +1,6 @@
 #include <dolphin/gx.h>
 #include <dolphin/vi.h>
-#include "JSystem/JUtility/JUTDbg.h"
+#include "JSystem/JUtility/JUTAssert.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JUtility/JUTVideo.h"
 #include "JSystem/JUtility/JUTXfb.h"

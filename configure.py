@@ -54,10 +54,10 @@ import common as c
 ####################
 
 # Check CW was added
-assert os.path.exists("tools/2.6/mwcceppc.exe") and \
-    os.path.exists("tools/1.2.5n/mwcceppc.exe") and \
-    os.path.exists("tools/1.2.5/mwcceppc.exe") and \
-    os.path.exists("tools/2.6/mwldeppc.exe"), \
+assert os.path.exists("tools/GC/2.6/mwcceppc.exe") and \
+    os.path.exists("tools/GC/1.2.5n/mwcceppc.exe") and \
+    os.path.exists("tools/GC/1.2.5/mwcceppc.exe") and \
+    os.path.exists("tools/GC/2.6/mwldeppc.exe"), \
     "Error: Codewarrior compiler(s) not found!"
 
 # Check binaries were added
@@ -623,8 +623,12 @@ class CSource(Source):
         self.iconv_path = f"$builddir/iconv/{path}"
 
         # Find generated includes
-        with open(path, encoding="utf-8") as f:
-            gen_includes = GeneratedInclude.find(ctx, path, f.read())
+        try:
+            with open(path, encoding="utf-8") as f:
+                gen_includes = GeneratedInclude.find(ctx, path, f.read())
+        except:
+            with open(path, encoding="shift-jis") as f:
+                gen_includes = GeneratedInclude.find(ctx, path, f.read())
 
         self.s_path = f"$builddir/{path}.s"
         super().__init__(True, path, f"$builddir/{path}.o", gen_includes)

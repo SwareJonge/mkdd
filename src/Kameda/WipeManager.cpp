@@ -3,7 +3,6 @@
 #include "Kaneshige/RaceMgr.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
-#include <ppcdis.h>
 
 WipeManager *WipeManager::mThis;
 Task *WipeManager::mTask;
@@ -11,11 +10,7 @@ bool WipeManager::mMoveFlag[8];
 bool WipeManager::mKillFlag[8];
 
 #ifdef DEBUG
-static const f32 float_slack_WipeManager[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_WipeManager)
-#pragma pop
+#include "mathHelper.h"
 #endif
 
 WipeParam::WipeParam()

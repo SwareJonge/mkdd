@@ -3,34 +3,31 @@
 
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
-#include "Shiraiwa/JugemRodSignal.h"
-// perhaps this could go in it's own file
-// Inherited from GeographyObj, StateObserver and TAnmPlayer?
-// Todo: GeographyObj -> TMapObjHioNode
-class TJugem : GeographyObj, StateObserver
+#include "Shiraiwa/JugemRodItem.h"
+#include "Shiraiwa/AnmPlayer.h"
+
+class TJugem : public TMapObjHioNode, public StateObserver
 {
 public:
     TJugem();
 
     void signalGo()
     {
-        _0x250 = true;
+        mIsAbleStart = true;
         setState(0);
     };
-    bool isAbleStart(); /* {
-         return true;
-     }*/
-    bool isCallThree()
-    {
-        return !mJugemRod ? false : mJugemRod->isCallThree();
-    }
+    bool isAbleStart(); /* { return mIsAbleStart; }*/
+    bool isCallThree() { return !mJugemRod ? false : mJugemRod->isCallThree(); }
+
+    const JGeometry::TVec3f &getPosition() const { return mPos; }
 
     int getSignalState();
 
-    u8 _0x158[0x250 - 0x158];
-    bool _0x250;
-    u8 _0x251[0x26c - 0x251];
-    TJugemRodSignal *mJugemRod;
-};
+    u8 _0x158[0x250 - 0x158];   //
+    bool mIsAbleStart;          // 250
+    u8 _0x251[0x26c - 0x251];   //
+    TJugemRodSignal *mJugemRod; // 270
+    u8 _274[0x27c - 0x274];     //
+}; // Size: 0x27c
 
 #endif

@@ -5,7 +5,7 @@
 
 namespace ReadPrintMessage
 {
-    int mNum[15];
+    int mNum[10];
     char *mStr[5];
     Inf *mInfoPtr;
     Block *mDataPtr;

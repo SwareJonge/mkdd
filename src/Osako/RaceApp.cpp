@@ -25,16 +25,7 @@ RaceApp *RaceApp::mspRaceApp;
 
 volatile u16 RaceApp::msStaffGhostFlag;
 
-extern "C"
-{
-#include <ppcdis.h>
-}
-
-static const f32 FLOAT_SLACK_RACEAPP[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(FLOAT_SLACK_RACEAPP)
-#pragma pop
+#include "mathHelper.h"
 
 RaceApp *RaceApp::create()
 {

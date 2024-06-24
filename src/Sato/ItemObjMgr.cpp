@@ -21,11 +21,7 @@
 
 #include <ppcdis.h>
 
-static const float float_slack_ItemObjMgr[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_ItemObjMgr)
-#pragma pop
+#include "mathHelper.h"
 
 // WIP
 int ItemObjMgr::sTopBalloonNum;

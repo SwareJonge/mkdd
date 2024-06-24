@@ -100,7 +100,7 @@ namespace ReadPrintMessage
 
     void readBmg(void *bmgPtr);
 
-    extern int mNum[0xF];   // 0x803fbf34, TODO: make this a struct ig
+    extern int mNum[10];   // 0x803fbf34, TODO: make this a struct ig
     extern char *mStr[5];   // 0x803fbf70
     extern Inf *mInfoPtr;   // 0x80416350
     extern Block *mDataPtr; // 0x80416354

@@ -2,6 +2,7 @@ __pycache__
 .vs
 .vscode
 build
+devkitppc
 expected
 out
 *.bin
@@ -17,4 +18,6 @@ out
 build.ninja
 build_opts.yml
 .ninja_log
+.ninja_deps
+objdiff.json
 ctx.c

@@ -10,13 +10,7 @@
 
 #include "types.h"
 
-class TMapObjHioNode : public GeographyObj
-{
-public:
-    virtual ~TMapObjHioNode();
-};
-
-class TMapObjAntLion : public TMapObjHioNode, StateObserver
+class TMapObjAntLion : public TMapObjHioNode, public StateObserver
 {
 public:
     // Global

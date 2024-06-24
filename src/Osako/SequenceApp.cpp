@@ -14,15 +14,10 @@
 #include "Osako/system.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
-#include <ppcdis.h>
 
 #ifdef DEBUG
 #define HEAP_SIZE 0x680000
-static const float float_slack_SequenceApp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_SequenceApp)
-#pragma pop
+#include "mathHelper.h"
 #else
 #define HEAP_SIZE 0x65f400
 #endif

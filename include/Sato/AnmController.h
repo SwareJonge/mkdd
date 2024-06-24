@@ -25,7 +25,7 @@ public:
     virtual void setAnmProc() = 0;
     virtual void frameProc() = 0;
 
-    bool tstFlgAnmStop() const { mFlags & 1; }
+    bool tstFlgAnmStop() const { return mFlags & 1; }
 
     u8 mFlags;                     // 4
     u8 mMaxAnmNo;                  // 5

@@ -2,8 +2,6 @@
 #include "Sato/ItemKinoko.h"
 #include "Sato/ItemSuccession.h"
 
-#include <ppcdis.h>
-
 namespace // NOTE: this probably belongs in a header, this is likely the cause of all float slack stuff
 {
     inline void QuaternionReset(Quaternion *pDest)

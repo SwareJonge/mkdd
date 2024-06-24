@@ -105,36 +105,36 @@ public:
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
 
     // Vtable
-    virtual ~GeographyObj() {}                                                                      // 0x801b48cc, TODO?
-    virtual void loadmodel(J3DModelData *modelData);                                                // 0x801b4c28, TODO
-    virtual void loadAnimation() {}                                                                 // 0x801b4c74                                                     // 0x801b4c74
-    virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }; // 0x801b4c78
-    virtual void createModel(JKRSolidHeap *heap, u32) {}                                            // 0x801b4c80, TODO
-    virtual void configAnimationMode() {}                                                           // 0x801b4ce8
-    virtual void createShadowModel(JKRSolidHeap *heap, u32);                                        // 0x8022ab60
-    virtual void initByKind() {}                                                                    // 0x801b4cec
-    virtual void reset() { resetObject(); }                                                         // 0x801d76ac
-    virtual void calc() = 0;                                                                        // 0x0
-    virtual void update();                                                                          // 0x80229684
-    virtual void viewCalc(u32);                                                                     // 0x802296d4
-    virtual void simpleDraw(u32);                                                                   // 0x8022addc
-    virtual void setCurrentViewNo(u32);                                                             // 0x80229700
-    virtual u32 getMotorType() const { return 1; }                                                  // 0x801b4cf0, probably an Enum
-    virtual u32 getSoundID() const;                                                                 // 0x8022a308, probably a define
-    virtual const char *getBmdFileName() { return nullptr; }                                        // 0x801c59a8
-    virtual const char *getShadowBmdFileName() { return nullptr; }                                  // 0x801b4cf8
-    virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                              // 0x801b4d00
-    virtual void createColModel(J3DModelData *);                                                    // 0x8022ab5c
-    virtual void createBoundsSphere(J3DModelData *);                                                // 0x8022a498
-    virtual void *getAnmTbl() { return nullptr; }                                                   // 0x801b4d08
-    virtual u32 getSizeAnmTbl() { return 0; }                                                       // 0x801b4d10
-    virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                                   // 0x801b4d18
-    virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);                   // 0x8022af8c
-    virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                               // 0x8022af90
-    virtual void makeSharedDL() {}                                                                  // 0x801b4d20, TODO
-    virtual void doKartColCallBack(int);                                                            // 0x8022ace8
-    virtual void initClassCreateNum();                                                              // 0x801b4d5c
-    virtual void setModelMatrixAndScale();                                                          // 0x802297e0
+    virtual ~GeographyObj() {}                                                                      // 8, TODO?
+    virtual void loadmodel(J3DModelData *modelData);                                                // C, TODO
+    virtual void loadAnimation() {}                                                                 // 10                                                     // 0x801b4c74
+    virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }; // 14
+    virtual void createModel(JKRSolidHeap *heap, u32) {}                                            // 18, TODO
+    virtual void configAnimationMode() {}                                                           // 1C
+    virtual void createShadowModel(JKRSolidHeap *heap, u32);                                        // 20
+    virtual void initByKind() {}                                                                    // 24
+    virtual void reset() { resetObject(); }                                                         // 28
+    virtual void calc() = 0;                                                                        // 2C
+    virtual void update();                                                                          // 30
+    virtual void viewCalc(u32);                                                                     // 34
+    virtual void simpleDraw(u32);                                                                   // 38
+    virtual void setCurrentViewNo(u32);                                                             // 3C
+    virtual u32 getMotorType() const { return 1; }                                                  // 40, probably an Enum
+    virtual u32 getSoundID() const;                                                                 // 44, probably a define
+    virtual const char *getBmdFileName() { return nullptr; }                                        // 48
+    virtual const char *getShadowBmdFileName() { return nullptr; }                                  // 4C
+    virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                              // 50
+    virtual void createColModel(J3DModelData *);                                                    // 54
+    virtual void createBoundsSphere(J3DModelData *);                                                // 58
+    virtual void *getAnmTbl() { return nullptr; }                                                   // 5C
+    virtual u32 getSizeAnmTbl() { return 0; }                                                       // 60
+    virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                                   // 64
+    virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);                   // 68
+    virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                               // 6C
+    virtual void makeSharedDL() {}                                                                  // 70, TODO
+    virtual void doKartColCallBack(int);                                                            // 74
+    virtual void initClassCreateNum();                                                              // 78
+    virtual void setModelMatrixAndScale();                                                          // 7C
 protected:
     JGeometry::TVec3f mPos;      // 04
     JGeometry::TPos3f mRotMtx;   // 10
@@ -155,5 +155,13 @@ protected:
     ItemColReaction mReaction;   // 124
     u8 _134[0x14c - 0x134];      //
 }; // Size: 0x14c
+
+class TMapObjHioNode : public GeographyObj
+{
+public:
+    TMapObjHioNode(u32 id) :  GeographyObj(id) {}
+    TMapObjHioNode(const CrsData::SObject &rObj) : GeographyObj(rObj) {}
+    virtual ~TMapObjHioNode();
+};
 
 #endif

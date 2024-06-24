@@ -5,16 +5,9 @@
 #include "Kameda/SequenceInfo.h"
 #include "Kaneshige/RaceInfo.h"
 
-#include <ppcdis.h>
-
 // i assume this data is from some include related to audio (edit: unlikely since release doesn't seem to have it as often)
-// also thanks seeky
 #ifdef DEBUG
-static const float lbl_80378500[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(lbl_80378500)
-#pragma pop
+#include "mathHelper.h"
 #endif
 
 RaceInfo gRaceInfo;

@@ -3,15 +3,10 @@
 #include "Osako/PadMgr.h"
 #include "Osako/NetGameMgr.h"
 
-#include <ppcdis.h>
 #include <JSystem/JAudio/JASFakeMatch2.h>
 
 #ifdef DEBUG
-static const float float_slack_PadMgr[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_PadMgr)
-#pragma pop
+#include "mathHelper.h"
 #endif
 
 namespace PadMgr

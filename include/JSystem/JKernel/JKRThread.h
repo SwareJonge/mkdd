@@ -225,7 +225,7 @@ struct JKRTask : public JKRThread
     OSMessageQueue *mTaskMsgQueue; // _94
 
     static JSUList<JKRTask> sTaskList;
-    static u8 sEndMesgQueue[32]; // Unused
+    static OSMessageQueue sEndMesgQueue; // Unused
 };
 
 /** @unused */

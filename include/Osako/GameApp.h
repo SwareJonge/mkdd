@@ -7,17 +7,17 @@
 class GameApp
 {
 public:
-    GameApp(u32, const char *, void *);
+    GameApp(u32 heapSize, const char *appName, void *heapMem);
     virtual ~GameApp();
-    virtual void draw() { return; };
-    virtual void calc() { return; };
-    virtual void reset() { return; };
+    virtual void draw() {};
+    virtual void calc() {};
+    virtual void reset() {};
 
     JKRHeap *getHeap() { return mHeap; }
 
 protected:
-    JKRHeap *mHeap;
-    void *mSequenceHeap; // this is null for next to every App, except for MovieApp
+    JKRHeap *mHeap; // 4
+    void *mHeapMem; // 8
 };
 
 #endif

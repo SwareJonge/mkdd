@@ -8,12 +8,7 @@
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
 
-#include <ppcdis.h>
-static const f32 float_slack_KartDisp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_KartDisp)
-#pragma pop
+#include "mathHelper.h"
 
 // TODO: major cleanup
 

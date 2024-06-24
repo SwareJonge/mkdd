@@ -163,6 +163,9 @@ INCDIR = "include"
 # Tools directory
 TOOLS = "tools"
 
+# Compiler directory
+COMPILERS = os.path.join(TOOLS, "GC")
+
 # Main config directory
 MAIN_CONFIG = "config"
 
@@ -205,16 +208,16 @@ PROGRESS = f"{PYTHON} {PPCDIS}/progress.py"
 SYMBOLSCRIPT = f"{PYTHON} {PPCDIS}/symbols.py"
 
 # Codewarrior
-SDK_CW = os.path.join(TOOLS, "1.2.5")
+SDK_CW = os.path.join(COMPILERS, "1.2.5")
 SDK_CC = os.path.join(SDK_CW, "mwcceppc.exe")
 
-SDK_PACTHED_CW = os.path.join(TOOLS, "1.2.5n")
+SDK_PACTHED_CW = os.path.join(COMPILERS, "1.2.5n")
 SDK_PACTHED_CC = os.path.join(SDK_PACTHED_CW, "mwcceppc.exe")
 
-JSYSTEM_O0_MW = os.path.join(TOOLS, "3.0a5.2")
+JSYSTEM_O0_MW = os.path.join(COMPILERS, "3.0a5.2")
 JSYSTEM_O0_CC = os.path.join(JSYSTEM_O0_MW, "mwcceppc.exe")
 
-CODEWARRIOR = os.path.join(TOOLS, "2.6")
+CODEWARRIOR = os.path.join(COMPILERS, "2.6")
 CC = os.path.join(CODEWARRIOR, "mwcceppc.exe")
 LD = os.path.join(CODEWARRIOR, "mwldeppc.exe")
 
@@ -352,6 +355,7 @@ CFLAGS = [
     "-use_lmw_stmw on",
     "-common on",
     "-inline auto", 
+    "-multibyte",
     MWCC_DEFINES
 ]
 
@@ -396,7 +400,6 @@ MSL_C_DEBUG = [
 MSL_C = [
     "-O4,p",
     "-inline auto, deferred",
-    "-common off",
     "-enum int",
     "-rostr",
     "-str pool",

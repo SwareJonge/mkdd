@@ -16,11 +16,6 @@
 #include "Kaneshige/Course/Course.h"
 #include "Yamamoto/kartCamera.h"
 
-extern "C"
-{
-#include <ppcdis.h>
-}
-
 u16 Course::sDrawAreaModel;
 bool Course::sForceDebugFogSetting;
 bool Course::sConfigFog;
@@ -43,11 +38,7 @@ s16 Course::sShakeRoughTimeMini = 300;
 s16 Course::sShakeKeepTimeMini = 500;
 s16 Course::sShakeRecoverTimeMini = 300;
 
-static const f32 float_slack_Course[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_Course)
-#pragma pop
+#include "mathHelper.h"
 
 const u8 Course::cGXTexMtxLabel[2] = {
     GX_TEXMTX0, GX_TEXMTX1};

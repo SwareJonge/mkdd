@@ -60,22 +60,13 @@ Also, make headers for all libraries itself?
 // #include "Shiraiwa/JugemRodSignal.h"
 #include "Yamamoto/kartCamera.h"
 
-extern "C"
-{
-#include <ppcdis.h>
-}
-
 RaceMgr *RaceMgr::sRaceManager;
 s16 RaceMgr::sForceTotalLapNum;
 s16 RaceMgr::sDispFrameCounter;
 
 s16 RaceMgr::sMyStartPointID = -1;
 
-static const f32 float_slack_RaceMgr[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_RaceMgr)
-#pragma pop
+#include "mathHelper.h"
 
 const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0, "空", " SKY"},

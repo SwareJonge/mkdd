@@ -29,15 +29,9 @@
 #include "Osako/SystemRecord.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
-#include <ppcdis.h>
-
 // .rodata
 #ifdef DEBUG
-static const float float_slack_system[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-#pragma push
-#pragma force_active on
-DUMMY_POINTER(float_slack_system)
-#pragma pop
+#include "mathHelper.h"
 #endif
 
 #ifdef VIDEO_PAL

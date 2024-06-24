@@ -72,7 +72,7 @@ namespace GameAudio
     void FxLineConfig::set(u8 lineNum)
     {
 #line 200
-        JUT_ASSERT_F(lineNum < 4, "%s", "FxLineConfig::set 繝ｩ繧､繝ｳ繝翫Φ繝舌�ｼ縺御ｸ肴ｭ｣縺ｧ縺吶�\n") // line number is invalid
+        JUT_ASSERT_F(lineNum < 4, "%s", "FxLineConfig::set ラインナンバーが不正です。\n") // line number is invalid
         mNum = lineNum;
 
         for (u8 i = 0; i < 4; i++)

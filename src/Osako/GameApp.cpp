@@ -7,7 +7,7 @@
 
 GameApp::GameApp(u32 heapSize, const char *appName, void *otherHeap)
 {
-    mSequenceHeap = otherHeap;
+    mHeapMem = otherHeap;
     if (otherHeap != nullptr)
         mHeap = JKRExpHeap::create(otherHeap, heapSize, nullptr, false);
     else
@@ -26,5 +26,5 @@ GameApp::~GameApp()
 {
     SYSDBG_DestroyHeapInfo(mHeap);
     mHeap->destroy();
-    delete mSequenceHeap;
+    delete mHeapMem;
 }
