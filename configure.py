@@ -1,775 +1,1418 @@
-"""
-Creates a build script for ninja
-"""
-from argparse import ArgumentParser
-from abc import ABC, abstractmethod
-from collections import defaultdict
-from dataclasses import dataclass
-from io import StringIO
-import json
-import pickle
-import os
-import re
-from sys import executable as PYTHON, platform
-from typing import List, Tuple
+###
+# Generates build files for the project.
+# This file also includes the project configuration,
+# such as compiler flags and the object matching status.
+#
+# Usage:
+#   python3 configure.py
+#   ninja
+#
+# Append --help to see available options.
+###
 
-from ninja_syntax import Writer
+import argparse
+import sys
+from pathlib import Path
+from typing import Any, Dict, List
 
-#############################
-# Create build options file #
-#############################
+from tools.project import (
+    Object,
+    ProjectConfig,
+    calculate_progress,
+    generate_build,
+    is_windows,
+)
 
-parser = ArgumentParser()
-parser.add_argument("-r", "--region", type=str, action='store', help="Specify target region\nus targets the debug version, eu targets eu Release")
-parser.add_argument("-j", "--jsys", action='store_true')
-parser.add_argument("-m", "--map", action='store_true')
+# Game versions
+DEFAULT_VERSION = 0
+VERSIONS = [
+    "MarioClub_us",  # 0
+    "Release_eu"
+]
 
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "mode",
+    choices=["configure", "progress"],
+    default="configure",
+    help="script mode (default: configure)",
+    nargs="?",
+)
+parser.add_argument(
+    "-v",
+    "--version",
+    choices=VERSIONS,
+    type=str,
+    default=VERSIONS[DEFAULT_VERSION],
+    help="version to build",
+)
+parser.add_argument(
+    "--build-dir",
+    metavar="DIR",
+    type=Path,
+    default=Path("build"),
+    help="base build directory (default: build)",
+)
+parser.add_argument(
+    "--binutils",
+    metavar="BINARY",
+    type=Path,
+    help="path to binutils (optional)",
+)
+parser.add_argument(
+    "--compilers",
+    metavar="DIR",
+    type=Path,
+    help="path to compilers (optional)",
+)
+parser.add_argument(
+    "--map",
+    action="store_true",
+    help="generate map file(s)",
+)
+parser.add_argument(
+    "--no-asm",
+    action="store_true",
+    help="don't incorporate .s files from asm directory",
+)
+parser.add_argument(
+    "--debug",
+    action="store_true",
+    help="build with debug info (non-matching)",
+)
+if not is_windows():
+    parser.add_argument(
+        "--wrapper",
+        metavar="BINARY",
+        type=Path,
+        help="path to wibo or wine (optional)",
+    )
+parser.add_argument(
+    "--dtk",
+    metavar="BINARY | DIR",
+    type=Path,
+    help="path to decomp-toolkit binary or source (optional)",
+)
+parser.add_argument(
+    "--sjiswrap",
+    metavar="EXE",
+    type=Path,
+    help="path to sjiswrap.exe (optional)",
+)
+parser.add_argument(
+    "--verbose",
+    action="store_true",
+    help="print verbose output",
+)
+parser.add_argument(
+    "--non-matching",
+    dest="non_matching",
+    action="store_true",
+    help="builds equivalent (but non-matching) or modded objects",
+)
 args = parser.parse_args()
-ymlBuf = ""
-jsystem_debug = False
-make_map = False    
 
-if args.region == "eu":
-    print("Targetting EU Release")
-    ymlBuf = "region: \"eu\"\nversion: \"Release\""
-#elif(args.region == "us"):
-    #ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
+config = ProjectConfig()
+config.version = str(args.version)
+version_num = VERSIONS.index(config.version)
+
+# Apply arguments
+config.build_dir = args.build_dir
+config.dtk_path = args.dtk
+config.binutils_path = args.binutils
+config.compilers_path = args.compilers
+config.debug = args.debug
+config.generate_map = args.map
+config.non_matching = args.non_matching
+config.sjiswrap_path = args.sjiswrap
+if not is_windows():
+    config.wrapper = args.wrapper
+if args.no_asm:
+    config.asm_dir = None
+
+config.shift_jis = False
+
+# Tool versions
+config.binutils_tag = "2.42-1"
+config.compilers_tag = "20231018"
+config.dtk_tag = "v0.9.0"
+config.sjiswrap_tag = "v1.1.1"
+config.wibo_tag = "0.6.11"
+
+# Project
+config.config_path = Path("config") / config.version / "config_dtk.yml"
+config.check_sha_path = Path("config") / config.version / "build.sha1"
+config.asflags = [
+    "-mgekko",
+    "--strip-local-absolute",
+    "-I include",
+    f"-I build/{config.version}/include",
+    f"--defsym version={version_num}",
+]
+config.ldflags = [
+    "-fp hardware",
+    "-nodefaults",
+    "-warn off",
+    # "-listclosure", # Uncomment for Wii linkers
+]
+# Use for any additional files that should cause a re-configure when modified
+config.reconfig_deps = []
+
+cflags_base = [
+    "-nodefaults",
+    "-proc gekko",
+    "-align powerpc",
+    "-enum int",
+    "-fp hardware",
+    "-Cpp_exceptions off",
+    #"-W all",
+    "-inline auto",
+    '-pragma "cats off"',
+    '-pragma "warn_notinlined off"',
+    "-use_lmw_stmw on",
+    "-common on",
+    "-maxerrors 1",
+    "-nosyspath",
+    "-RTTI off",
+    "-fp_contract on",
+    "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
+    "-i include",
+    "-i libs/PowerPC_EABI_Support/include",
+    f"-i build/{config.version}/include"
+]
+
+if config.version == "MarioClub_us":
+    config.debug = True
+    
+
+# Debug flags
+if config.debug:
+    cflags_base.extend(["-DDEBUG=1", "-DHIO_SCREENSHOT=1"])
 else:
-    print("Targetting Debug")
-    ymlBuf = "region: \"us\"\nversion: \"MarioClub\""
-if args.jsys is True:
-    print("Targetting JSystem Debug, Only use this with TP Debug objects!")
-    jsystem_debug = True
-if args.map is True:
-    print("Linker map generation is on")
-    make_map = True
+    cflags_base.append("-DNDEBUG=1")
 
-with open("config/build_opts.yml", 'w') as f:
-    f.write(ymlBuf)
+if "_eu" in config.version:
+    cflags_base.extend(["-DVIDEO_PAL=1", "-DREGION_EU=1",])
+elif "_us" in config.version:
+    cflags_base.extend(["-DREGION_US=1",])
+elif "_jp" in config.version:
+    cflags_base.extend(["-DREGION_JP=1",])
 
-import common as c
+if config.non_matching == False:
+    cflags_base.extend(["-DMATCHING=1"])
 
-####################
-# Setup Validation #
-####################
+# Metrowerks library flags
+cflags_runtime = [
+    *cflags_base,    
+    "-str readonly",
+    "-gccinc",
+    "-common off",
+    "-inline auto, deferred",
+    "-O4,p"
+]
 
-# Check CW was added
-assert os.path.exists("tools/GC/2.6/mwcceppc.exe") and \
-    os.path.exists("tools/GC/1.2.5n/mwcceppc.exe") and \
-    os.path.exists("tools/GC/1.2.5/mwcceppc.exe") and \
-    os.path.exists("tools/GC/2.6/mwldeppc.exe"), \
-    "Error: Codewarrior compiler(s) not found!"
+# dolphin library flags
+cflags_dolphin = [
+    *cflags_base,
+    "-lang=c", 
+    "-fp fmadd",
+    "-fp_contract off",
+    "-char signed",
+    "-str reuse", 
+    "-common off",
+    "-O4,p"
+]
 
-# Check binaries were added
-assert os.path.exists(c.DOL), \
-       "Error: Base binary not found"
+# JSystem flags
+cflags_jsystem = [
+    *cflags_base,
+    "-lang=c++",
+    "-fp fmadd",
+    "-char signed",
+    "-rostr",
+]
 
-# Check binaries are correct
-dol_hash = c.get_file_sha1(c.DOL)
-assert dol_hash == bytes.fromhex(c.DOL_SHA1_HASH), \
-       "Error: Base dol hash isn't correct."
+# Game flags
+cflags_game = [
+    *cflags_base,
+    "-lang=c++",
+    "-fp fmadd",
+    "-char signed",
+    "-rostr",
+    "-O4,s"
+]
 
-# Check submodules added
-assert os.path.exists(c.PPCDIS), \
-       "Error: Git submodules not initialised"
+config.linker_version = "GC/2.6"
 
-##########
-# Assets #
-##########
 
-@dataclass
-class Asset:
-    binary: str
-    path: str
-    start: int
-    end: int
+# Helper function for Dolphin libraries
+def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "src_dir": "libs",
+        "mw_version": "GC/1.2.5n",
+        "cflags": cflags_dolphin,
+        "host": True,
+        "objects": objects,
+    }
 
-    def load(yml_path: str):
-        return {
-            asset: Asset(binary, asset, *adat["addrs"])
-            for binary, bdat in c.load_from_yaml(yml_path).items()
-            for asset, adat in bdat.items()
-        }
+# Helper function for MSL libraries
+def mslLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "src_dir": "libs/PowerPC_EABI_Support/src",
+        "mw_version": "GC/2.6",
+        "cflags": cflags_runtime + [ f"{extra_cflags}" ],
+        "host": True,
+        "objects": objects,
+    }
 
-    def dump(self):
-        # Needs fix: since multi version is now a thing it doesn't overwrite the files
-        #if os.path.exists(f"{c.INCDIR}/{self.path}") == False:
-        print(f"Ripping {self.path} from main.dol")
-        os.system(
-            f"{PYTHON} {c.PPCDIS}/assetrip.py {c.DOL_YML} 0x{self.start:x} {self.end:x} {c.INCDIR}/{self.path}")
+def trkLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "src_dir": "libs/runtime_libs",
+        "mw_version": "GC/2.6",
+        "cflags": cflags_runtime,
+        "host": True,
+        "objects": objects,
+    }
 
-assets = Asset.load(c.ASSETS_YML)
+# Helper function for JSystem libraries
+def JSystemLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "src_dir": "libs",
+        "mw_version": "GC/2.6",
+        "cflags": cflags_jsystem + [ f"{extra_cflags}" ],
+        "host": True,
+        "objects": objects,
+    }
 
-##############
-# Rip Assets #
-##############
+# Helper function for Game libraries
+def GameLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/2.6",
+        "cflags": cflags_game + [ f"{extra_cflags}" ],
+        "host": True,
+        "objects": objects,
+    }
 
-for asset in assets.values():
-    Asset.dump(asset)
 
-###############
-# Ninja Setup #
-###############
+Matching = True                   # Object matches and should be linked
+NonMatching = False               # Object does not match and should not be linked
+Equivalent = config.non_matching  # Object should be linked when configured with --non-matching
 
-outbuf = StringIO()
-n = Writer(outbuf)
-n.variable("ninja_required_version", "1.3")
-n.newline()
+config.warn_missing_config = True
+config.warn_missing_source = True
+config.progress_all = False
 
-################
-# Project Dirs #
-################
+#Object(Matching, "kartLocale.cpp")
 
-n.variable("builddir", c.BUILDDIR)
-n.variable("outdir", c.OUTDIR)
-n.variable("orig", c.ORIG)
-n.variable("tools", c.TOOLS)
-n.variable("config", c.CONFIG)
-n.newline()
-
-# This script requires the build folder
-os.makedirs(c.BUILDDIR, exist_ok=True)
-
-#########
-# Tools #
-#########
-
-n.variable("python", c.PYTHON)
-n.variable("ppcdis", c.PPCDIS)
-n.variable("analyser", c.ANALYSER)
-n.variable("disassembler", c.DISASSEMBLER)
-n.variable("orderstrings", c.ORDERSTRINGS)
-n.variable("orderfloats", c.ORDERFLOATS)
-n.variable("forcefilesgen", c.FORCEFILESGEN)
-n.variable("elf2dol", c.ELF2DOL)
-n.variable("codewarrior", c.CODEWARRIOR)
-n.variable("cc", c.CC)
-n.variable("ld", c.LD)
-n.variable("devkitppc", c.DEVKITPPC)
-n.variable("as", c.AS)
-n.variable("cpp", c.CPP)
-n.variable("iconv", c.ICONV)
-n.newline()
-
-##############
-# Tool flags #
-##############
-
-n.variable("asflags", c.ASFLAGS)
-n.variable("cppflags", c.CPPFLAGS)
-n.variable("ldflags", c.LDFLAGS)
-n.variable("ppcdis_analysis_flags", c.PPCDIS_ANALYSIS_FLAGS)
-n.variable("ppcdis_disasm_flags", c.PPCDIS_DISASM_FLAGS)
-n.newline()
-
-#########
-# Rules #
-#########
-
-# Windows can't use && without this
-ALLOW_CHAIN = "cmd /c " if os.name == "nt" else ""
-
-n.rule(
-    "analyse",
-    command = "$analyser $in $out $analysisflags",
-    description = "ppcdis analysis $in",
-    pool="console"
-)
-
-n.rule(
-    "disasm",
-    command = "$disassembler $in $out -q $disasmflags",
-    description = "ppcdis full disassembly $out"
-)
-
-n.rule(
-    "disasm_slice",
-    command = "$disassembler $in $out -q $disasmflags -s $slice",
-    description = "ppcdis disassembly $out"
-)
-
-n.rule(
-    "disasm_single",
-    command = "$disassembler $in $out -f $addr -i -q $disasmflags",
-    description = "ppcdis function disassembly $addr"
-)
-
-n.rule(
-    "jumptable",
-    command = "$disassembler $in $out -j $addr -q $disasmflags",
-    description = "Jumptable $addr"
-)
-
-n.rule(
-    "orderstrings",
-    command = "$orderstrings $in $addrs $out $flags --enc shift-jis",
-    description = "Order strings $in $addrs"
-)
-
-n.rule(
-    "orderfloats",
-    command = "$orderfloats $in $addrs $out $flags",
-    description = "Order floats $in $addrs"
-)
-
-n.rule(
-    "forcefiles",
-    command = "$forcefilesgen $in $out $forcefiles",
-    description = "LCF FORCEFILES generation $in"
-)
-
-n.rule(
-    "elf2dol",
-    command = "$elf2dol $in -o $out",
-    description = "elf2dol $in"
-)
-
-n.rule(
-    "sha1sum",
-    command = ALLOW_CHAIN + "sha1sum -c $in && touch $out",
-    description = "Verify $in",
-    pool="console"
-)
-
-n.rule(
-    "as",
-    command = f"$as $asflags -c $in -o $out",
-    description = "AS $in"
-)
-
-n.rule(
-    "cc",
-    command = ALLOW_CHAIN + f"$cpp -M $in -MF $out.d $cppflags && $cc $cflags -c $in -o $out",
-    description = "CC $in",
-    deps = "gcc",
-    depfile = "$out.d"
-)
-
-n.rule(
-    "ccs",
-    command = ALLOW_CHAIN + f"$cpp -M $in -MF $out.d $cppflags && $cc $cflags -S $in -o $out",
-    description = "CC -S $in",
-    deps = "gcc",
-    depfile = "$out.d"
-)
-
-if make_map is True:
-    n.rule(
-        "ld",
-        command = "$ld $ldflags -mapunused -map $map -lcf $lcf @$out.rsp -o $out",
-        rspfile  = "$out.rsp",
-        rspfile_content = "$in_newline",
-        description = "LD $out",
-    )
-else:
-    n.rule(
-        "ld",
-        command = "$ld $ldflags -lcf $lcf @$out.rsp -o $out",
-        rspfile  = "$out.rsp",
-        rspfile_content = "$in_newline",
-        description = "LD $out",
-    )
-
-n.rule(
-    "iconv",
-    command = "$iconv $in $out",
-    description = "iconv $in",
-)
-
-###########
-# Sources #
-###########
-
-class GeneratedInclude(ABC):
-    def __init__(self, ctx: c.SourceContext, source_name: str, path: str):
-        self.ctx = ctx
-        self.source_name = source_name
-        self.path = path
-
-    @abstractmethod
-    def build(self):
-        raise NotImplementedError
-
-    def find(ctx: c.SourceContext, source_name: str, txt: str) -> List["GeneratedInclude"]:
-        return [
-            cl(ctx, source_name, match)
-            for cl in (
-                AsmInclude,
-                JumptableInclude,
-                StringInclude,
-                FloatInclude,
-                DoubleInclude
-            )
-            for match in re.findall(cl.REGEX, txt)
+config.libs = [
+    GameLib(
+        "Localize",
+        "",
+        [
+            Object(Matching, "kartLocale.cpp")   
         ]
-
-class AsmInclude(GeneratedInclude):
-    REGEX = r'#include "asm\/([0-9a-f]{8})\.s"'
-
-    def __init__(self, ctx: c.SourceContext, source_name: str, match: str):
-        self.addr = match
-        super().__init__(ctx, source_name, f"{c.BUILD_INCDIR}/asm/{self.addr}.s")
-
-    def build(includes: List["AsmInclude"]):
-        # Skip empty list
-        if len(includes) == 0:
-            return
-
-        # Get ctx from first include (all should be equal)
-        ctx = includes[0].ctx
-
-        # Sort by source name
-        batches = defaultdict(list)
-        for inc in includes:
-            batches[inc.source_name].append(inc)
-        
-        # Compile by source name
-        # TODO: subdivide large batches
-        for source_name, incs in batches.items():
-            n.build(
-                [inc.path for inc in incs],
-                rule="disasm_single",
-                inputs=[ctx.binary, ctx.labels, ctx.relocs],
-                implicit=[c.SYMBOLS, c.DISASM_OVERRIDES],
-                variables={
-                    "disasmflags" : f"$ppcdis_disasm_flags -n {source_name}",
-                    "addr" : ' '.join(inc.addr for inc in incs)
-                }
-            )
-    
-    def __repr__(self):
-        return f"AsmInclude({self.addr})"
-
-class JumptableInclude(GeneratedInclude):
-    REGEX = r'#include "jumptable\/([0-9a-f]{8})\.inc"'
-
-    def __init__(self, ctx: c.SourceContext, source_name: str, match: str):
-        self.addr = match
-        super().__init__(ctx, source_name, f"{c.BUILD_INCDIR}/jumptable/{self.addr}.inc")
-    
-    def build(includes: List["JumptableInclude"]):
-        # Skip empty list
-        if len(includes) == 0:
-            return
-
-        # Get context from first include (all should be equal)
-        ctx = includes[0].ctx
-
-        # Sort by source name
-        batches = defaultdict(list)
-        for inc in includes:
-            batches[inc.source_name].append(inc)
-        
-        # Compile by source name
-        # TODO: subdivide large batches
-        for source_name, incs in batches.items():
-            n.build(
-                [inc.path for inc in incs],
-                rule="jumptable",
-                inputs=[ctx.binary, ctx.labels, ctx.relocs],
-                implicit=[c.SYMBOLS, c.DISASM_OVERRIDES],
-                variables={
-                    "disasmflags" : f"$ppcdis_disasm_flags -n {source_name}",
-                    "addr" : ' '.join(inc.addr for inc in incs)
-                }
-            )
-
-    def __repr__(self):
-        return f"JumptableInclude({self.addr})"
-
-class StringInclude(GeneratedInclude):
-    REGEX = r'#include "(orderstrings(m?))\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
-
-    def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
-        folder, manual, self.start, self.end = match
-        self.manual = folder == "orderstrings"
-        print(folder)
-        super().__init__(ctx, source_name,
-                         f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
-
-    def build(includes: List["StringInclude"]):
-        # Skip empty list
-        if len(includes) == 0:
-            return
-
-        # Get context from first include (all should be equal)
-        ctx = includes[0].ctx
-
-        # Build
-        for inc in includes:
-            flags = ""
-            if (inc.manual == False):
-                if (ctx.sdata2_threshold >= 4):
-                    flags = "--sda"        
-            print(f"{inc.start} {flags}")
-            n.build(
-                inc.path,
-                rule="orderstrings",
-                inputs=ctx.binary,
-                variables={
-                    "addrs" : f"{inc.start} {inc.end}",
-                    "flags": f"{flags}"
-                }
-            )
-
-    def __repr__(self):
-        return f"StringInclude({self.start}, {self.end})"
-
-class FloatInclude(GeneratedInclude):
-    REGEX = r'#include "(orderfloats(m?))\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
-
-    def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
-        folder, manual, self.start, self.end = match
-        self.manual = manual != ''
-        super().__init__(ctx, source_name,
-                         f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
-
-    def build(includes: List["FloatInclude"]):
-        # Skip empty list
-        if len(includes) == 0:
-            return
-
-        # Get context from first include (all should be equal)
-        ctx = includes[0].ctx
-
-        # Build
-        for inc in includes:
-            sda = "--sda " if ctx.sdata2_threshold >= 4 else ""
-            asm = "" if inc.manual else "--asm"
-            n.build(
-                inc.path,
-                rule="orderfloats",
-                inputs=inc.ctx.binary,
-                variables={
-                    "addrs" : f"{inc.start} {inc.end}",
-                    "flags" : f"{sda} {asm}"
-                }
-            )
-
-    def __repr__(self):
-        return f"FloatInclude({self.start}, {self.end})"
-
-class DoubleInclude(GeneratedInclude):
-    REGEX = r'#include "(orderdoubles(m?))\/([0-9a-f]{8})_([0-9a-f]{8})\.inc"'
-
-    def __init__(self, ctx: c.SourceContext, source_name: str, match: Tuple[str]):
-        folder, manual, self.start, self.end = match
-        self.manual = manual != ''
-        super().__init__(ctx, source_name,
-                         f"{c.BUILD_INCDIR}/{folder}/{self.start}_{self.end}.inc")
-
-    def build(includes: List["DoubleInclude"]):
-        # Skip empty list
-        if len(includes) == 0:
-            return
-
-        # Get context from first include (all should be equal)
-        ctx = includes[0].ctx
-
-        # Build
-        for inc in includes:
-            sda = "--sda " if ctx.sdata2_threshold >= 4 else ""
-            asm = "" if inc.manual else "--asm"
-            n.build(
-                inc.path,
-                rule="orderfloats",
-                inputs=ctx.binary,
-                variables={
-                    "addrs" : f"{inc.start} {inc.end}",
-                    "flags": f"--double {sda} {asm}"
-                }
-            )
-
-    def __repr__(self):
-        return f"DoubleInclude({self.start}, {self.end})"
-
-
-class Source(ABC):
-    def __init__(self, decompiled: bool, src_path: str, o_path: str,
-                 gen_includes: List[GeneratedInclude] = []):
-        self.decompiled = decompiled
-        self.src_path = src_path
-        self.o_path = o_path
-        filename = src_path.split('/')[-1]
-        self.dep = filename.rpartition('.')[0] + '.d'
-        self.gen_includes = gen_includes
-
-    def build(self):
-        raise NotImplementedError
-    
-    def make(ctx: c.SourceContext, source: c.SourceDesc):
-        if isinstance(source, str):
-            ext = source.split('.')[-1].lower()
-            if ext in ("c", "cpp", "cp", "cxx", "cc"):
-                return CSource(ctx, source)
-            elif ext == "s":
-                return AsmSource(ctx, source)
-            else:
-                assert 0, f"Unknown source type .{ext}"
-        else:
-            return GenAsmSource(ctx, *source)
-
-class GenAsmSource(Source):
-    def __init__(self, ctx: c.SourceContext, section: str, start: int, end: int):
-        self.start = start
-        self.end = end
-        self.ctx = ctx
-        name = f"{section}_{start:x}_{end:x}.s"
-        src_path = f"$builddir/asm/{section}_{start:x}_{end:x}.s"
-        super().__init__(False, src_path, src_path + ".o")
-
-        # Add ctors to forcefiles
-        if section == ".ctors":
-            forcefiles.append(name + ".o")
-
-    def build(self):
-        n.build(
-            self.src_path,
-            rule = "disasm_slice",
-            inputs = [self.ctx.binary, self.ctx.labels, self.ctx.relocs],
-            implicit = [c.SYMBOLS, c.DISASM_OVERRIDES],
-            variables = {
-                "slice" : f"{self.start:x} {self.end:x}",
-                "disasmflags" : f"$ppcdis_disasm_flags"
-            }
-        )
-        n.build(
-            self.o_path,
-            rule="as",
-            inputs=self.src_path
-        )
-    
-    def batch_build(sources: List["GenAsmSource"], batch_size=20):
-        # TODO: configure batch size based on cpu core count
-
-        # Skip empty list
-        if len(sources) == 0:
-            return
-
-        # Get context from first include (all should be equal)
-        ctx = sources[0].ctx
-
-        for src in sources:
-            n.build(
-                src.o_path,
-                rule="as",
-                inputs=src.src_path
-            )
-
-        while len(sources) > 0:
-            batch, sources = sources[:batch_size], sources[batch_size:]
-            n.build(
-                [src.src_path for src in batch],
-                rule = "disasm_slice",
-                inputs = [ctx.binary, ctx.labels, ctx.relocs],
-                implicit = [c.SYMBOLS, c.DISASM_OVERRIDES],
-                variables = {
-                    "slice" : ' '.join(
-                        f"{src.start:x} {src.end:x}"
-                        for src in batch
-                    ),
-                    "disasmflags" : f"$ppcdis_disasm_flags"
-                }
-            )
-
-class AsmSource(Source):
-    def __init__(self, ctx: c.SourceContext, path: str):
-        super().__init__(True, path, f"$builddir/{path}.o")
-
-    def build(self):
-        n.build(
-            self.o_path,
-            rule = "as",
-            inputs = self.src_path
-        )
-
-
-class CSource(Source):
-    def __init__(self, ctx: c.SourceContext, path: str):
-        self.cc = c.CC
-        self.cflags = ctx.cflags
-
-        if path.startswith("libs/dolphin/"):
-            self.cc = c.SDK_PACTHED_CC
-            self.cflags = c.SDK_CFLAGS
-        elif path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/"):            
-            self.cflags = c.MSL_C_DEBUG_CFLAGS
-            if path.startswith("libs/PowerPC_EABI_Support/src/MSL_C/MSL_Common_Embedded/Math") or path.endswith("math_ppc.c") or path.endswith("extras.c"):
-                self.cflags = c.MSL_C_CFLAGS
-        elif path.startswith("libs/PowerPC_EABI_Support/src/Runtime/"):
-            self.cflags = c.MSL_C_CFLAGS
-
-        elif path.startswith("src/Kaneshige/") or path.startswith("src/Yamamoto/"):
-            self.cflags = c.KANESHIGE_CFLAGS # TODO: Rename
-        if c.VERSION == "Release":       
-            if path.startswith("libs/JSystem/JAudio/"):
-                self.cflags = c.JAUDIO_RELEASE_CFLAGS
-            elif path.startswith("libs/JSystem/"):
-                self.cflags = c.JSYSTEM_RELEASE_CFLAGS
-        else:
-            if path.startswith("libs/JSystem/JUtility/") or path.startswith("libs/JSystem/JKernel/") or path.startswith("libs/JSystem/J2DGraph/"):
-                self.cflags = c.DOL_CFLAGS
-            elif path.startswith("libs/JSystem/"): # once i have a file for every library this can finally be removed
-                self.cflags = c.JSYSTEM_SPEED_CFLAGS
-                #if(path.startswith("libs/JSystem/JAudio/Interface")):
-                    #self.cflags += " -sym on"
-        if path.startswith("libs/JSystem/JAudio/Task/"):
-            self.cflags = c.JAUDIO_DSP_CFLAGS
-        
-        if jsystem_debug is True and path.startswith("libs/JSystem/"):
-            self.cc = c.JSYSTEM_O0_CC
-            self.cflags = c.JSYSTEM_O0_CFLAGS
-
-        self.iconv_path = f"$builddir/iconv/{path}"
-
-        # Find generated includes
-        try:
-            with open(path, encoding="utf-8") as f:
-                gen_includes = GeneratedInclude.find(ctx, path, f.read())
-        except:
-            with open(path, encoding="shift-jis") as f:
-                gen_includes = GeneratedInclude.find(ctx, path, f.read())
-
-        self.s_path = f"$builddir/{path}.s"
-        super().__init__(True, path, f"$builddir/{path}.o", gen_includes)
-
-    def build(self):
-        n.build(
-            self.iconv_path,
-            rule="iconv",
-            inputs=self.src_path
-        )
-        n.build(
-            self.o_path,
-            rule = "cc",
-            inputs = self.iconv_path,
-            implicit = [inc.path for inc in self.gen_includes],
-            variables = {
-                "cc": self.cc,
-                "cflags" : self.cflags,
-                "dep" : self.dep
-            }
-        )
-        # Optional manual debug target
-        n.build(
-            self.s_path,
-            rule = "ccs",
-            inputs = self.iconv_path,
-            implicit = [inc.path for inc in self.gen_includes],
-            variables = {
-                "cflags" : self.cflags,
-                "dep" : self.dep
-            }
-        )
-
-def load_sources(ctx: c.SourceContext):
-    raw = c.get_cmd_stdout(
-        f"{c.SLICES} {ctx.binary} {ctx.slices} -o"
-    )
-    return [Source.make(ctx, s) for s in json.loads(raw)]
-
-def find_gen_includes(sources: List[Source]):
-    ret = defaultdict(list)
-    for source in sources:
-        if not isinstance(source, CSource):
-            continue
-        
-        for inc in source.gen_includes:
-            ret[type(inc)].append(inc)
-
-    return ret
-
-def make_asm_list(path: str, asm_includes: List[AsmInclude]):
-    with open(path, 'wb') as f:
-        pickle.dump(
-            [
-                int(inc.addr, 16)
-                for inc in asm_includes
-            ],
-            f
-        )
-
-forcefiles = []
-
-dol_sources = load_sources(c.DOL_CTX)
-dol_gen_includes = find_gen_includes(dol_sources)
-make_asm_list(c.DOL_ASM_LIST, dol_gen_includes[AsmInclude])
-
-##########
-# Builds #
-##########
-
-n.build(
-    [c.DOL_LABELS, c.DOL_RELOCS],
-    rule = "analyse",
-    inputs = c.DOL_YML,
-    implicit = [c.ANALYSIS_OVERRIDES],
-    variables = {
-        "analysisflags" : f"$ppcdis_analysis_flags"
-    }
-)
-
-for cl, includes in dol_gen_includes.items():
-    cl.build(includes)
-
-dol_gen_asm = []
-for source in dol_sources:
-    if isinstance(source, GenAsmSource):
-        dol_gen_asm.append(source)
-    else:
-        source.build()
-GenAsmSource.batch_build(dol_gen_asm)
-
-n.build(
-    c.DOL_LCF,
-    rule="forcefiles",
-    inputs=c.DOL_LCF_TEMPLATE,
-    variables={
-        "forcefiles" : ' '.join(forcefiles)
-    }
-)
-
-n.build(
-    c.DOL_ELF,
-    rule="ld",
-    inputs=[s.o_path for s in dol_sources],
-    implicit=c.DOL_LCF,
-    implicit_outputs=c.DOL_MAP,
-    variables={
-        "map" : c.DOL_MAP,
-        "lcf" : c.DOL_LCF
-    }
-)
-
-n.build(
-    c.DOL_OUT,
-    rule="elf2dol",
-    inputs=c.DOL_ELF,
-)
-
-n.build(
-    c.DOL_OK,
-    rule = "sha1sum",
-    inputs = c.DOL_SHA,
-    implicit = [c.DOL_OUT]
-)
-n.default(c.DOL_OK)
-
-# Optional full binary disassembly
-n.build(
-    c.DOL_FULL,
-    rule = "disasm",
-    inputs=[c.DOL_YML, c.DOL_LABELS, c.DOL_RELOCS],
-    implicit=[c.SYMBOLS, c.DISASM_OVERRIDES],
-    variables={
-        "disasmflags" : "$ppcdis_disasm_flags"
-    }
-)
-
-##########
-# Output #
-##########
-
-with open("build.ninja", 'w') as f:
-    f.write(outbuf.getvalue())
-n.close()
+    ),
+    mslLib(
+        "Runtime.PPCEABI.H",
+        "",
+        [
+            Object(Matching, "Runtime/__mem.c"),
+            Object(Matching, "Runtime/__va_arg.c"),
+            Object(Matching, "Runtime/global_destructor_chain.c"),
+            Object(NonMatching, "Runtime/NMWException.cp"),
+            Object(Matching, "Runtime/CPlusLibPPC.cp"),
+            Object(Matching, "Runtime/ptmf.c"),
+            Object(Matching, "Runtime/runtime.c"),
+            Object(Matching, "Runtime/__init_cpp_exceptions.cpp"),
+            Object(NonMatching, "Runtime/Gecko_ExceptionPPC.cp"),
+            Object(Matching, "Runtime/GCN_mem_alloc.c"),
+        ]
+    ),
+    mslLib(
+        "MSL_C.PPCEABI.H",
+        "-str pool -opt level=0, peephole, schedule, nospace -inline off -sym on",
+        [
+            Object(Matching, "MSL_C/PPC_EABI/abort_exit.c"),
+            Object(Matching, "MSL_C/MSL_Common/alloc.c"),
+            Object(Matching, "MSL_C/MSL_Common/ansi_files.c"),
+            Object(NonMatching, "MSL_C/MSL_Common_Embedded/ansi_fp.c"),
+            Object(Matching, "MSL_C/MSL_Common/arith.c"),
+            Object(Matching, "MSL_C/MSL_Common/bsearch.c"),
+            Object(Matching, "MSL_C/MSL_Common/buffer_io.c"),
+            Object(Matching, "MSL_C/PPC_EABI/critical_regions.gamecube.c"),
+            Object(Matching, "MSL_C/MSL_Common/ctype.c"),
+            Object(Matching, "MSL_C/MSL_Common/direct_io.c"),
+            Object(Matching, "MSL_C/MSL_Common/errno.c"),
+            Object(Matching, "MSL_C/MSL_Common/file_io.c"),
+            Object(Matching, "MSL_C/MSL_Common/FILE_POS.C"),
+            Object(Matching, "MSL_C/MSL_Common/locale.c"),
+            Object(Matching, "MSL_C/MSL_Common/mbstring.c"),
+            Object(Matching, "MSL_C/MSL_Common/mem.c"),
+            Object(Matching, "MSL_C/MSL_Common/mem_funcs.c"),
+            Object(Matching, "MSL_C/MSL_Common/misc_io.c"),
+            Object(Matching, "MSL_C/MSL_Common/printf.c"),
+            Object(Matching, "MSL_C/MSL_Common/scanf.c"),
+            Object(Matching, "MSL_C/MSL_Common/signal.c"),
+            Object(Matching, "MSL_C/MSL_Common/string.c"),
+            Object(Matching, "MSL_C/MSL_Common/strtold.c"),
+            Object(Matching, "MSL_C/MSL_Common/strtoul.c"),
+            Object(Matching, "MSL_C/MSL_Common/float.c"),
+            Object(Matching, "MSL_C/MSL_Common/wchar_io.c"),  
+            Object(Matching, "MSL_C/MSL_Common_Embedded/uart_console_io_gcn.c")
+        ]
+    ),
+    mslLib(
+        "fdlibm.PPCEABI.H",
+        "",          
+        [
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_asin.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_atan2.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_exp.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_pow.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_rem_pio2.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/k_cos.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/k_rem_pio2.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/k_sin.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/k_tan.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_atan.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ceil.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_copysign.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_cos.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_floor.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_frexp.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ldexp.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_modf.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_sin.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/s_tan.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_asin.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_atan2.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_exp.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_pow.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_sqrt.c"),
+            Object(NonMatching, "MSL_C/PPC_EABI/math_ppc.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_sqrt.c")
+        ]
+    ),
+    mslLib(
+        "MSL_C.PPCEABI.bare.H",
+        "",
+        [
+            Object(Matching, "MSL_C/MSL_Common/extras.c")
+        ]
+    ),
+    trkLib(
+        "TRK_MINNOW_DOLPHIN",
+        [
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/mainloop.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/nubevent.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/nubassrt.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/nubinit.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/msg.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/msgbuf.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/serpoll.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/dispatch.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/msghndlr.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/support.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/mutex_TRK.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/notify.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/main_TRK.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/mem_TRK.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Portable/string_TRK.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Processor/ppc/Generic/flush_cache.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Processor/ppc/Generic/__exception.s"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Processor/ppc/Generic/targimpl.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Processor/ppc/Export/targsupp.s"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Processor/ppc/Generic/mpc_7xx_603e.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/dolphin_trk.c"),   
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/usr_put.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/dolphin_trk_glue.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/targcont.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/target_options.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Os/dolphin/UDP_Stubs.c"),
+            Object(NonMatching, "debugger/embedded/MetroTRK/Export/mslsupp.c"),
+
+            Object(NonMatching, "gamedev/cust_connection/cc/exi2/GCN/EXI2_DDH_GCN/main.c"),
+            Object(NonMatching, "gamedev/cust_connection/utils/common/CircleBuffer.c"),
+            Object(NonMatching, "gamedev/cust_connection/cc/exi2/GCN/EXI2_GDEV_GCN/main.c"),
+            Object(NonMatching, "gamedev/cust_connection/utils/common/MWTrace.c"),
+            Object(NonMatching, "gamedev/cust_connection/utils/gc/MWCriticalSection_gc.cpp"),
+        ]
+    ),
+    DolphinLib(
+        "ai",
+        [
+            Object(Matching, "dolphin/ai/ai.c")
+        ]        
+    ),
+    DolphinLib(
+        "amcstubs",
+        [
+            Object(NonMatching, "dolphin/amcstubs/AmcExi2Stubs.c")
+        ]        
+    ),
+    DolphinLib(
+        "ar",
+        [
+            Object(Matching, "dolphin/ar/ar.c"),
+            Object(Matching, "dolphin/ar/arq.c")
+        ]        
+    ),
+    DolphinLib(
+        "base",
+        [
+            Object(Matching, "dolphin/base/PPCArch.c")
+        ]        
+    ),
+    DolphinLib(
+        "card",
+        [
+            Object(Matching, "dolphin/card/CARDBios.c"),
+            Object(Matching, "dolphin/card/CARDUnlock.c"),
+            Object(Matching, "dolphin/card/CARDRdwr.c"),
+            Object(Matching, "dolphin/card/CARDBlock.c"),
+            Object(Matching, "dolphin/card/CARDDir.c"),
+            Object(Matching, "dolphin/card/CARDCheck.c"),
+            Object(Matching, "dolphin/card/CARDMount.c"),
+            Object(Matching, "dolphin/card/CARDFormat.c"),
+            Object(Matching, "dolphin/card/CARDOpen.c"),
+            Object(Matching, "dolphin/card/CARDNet.c"),
+            Object(Matching, "dolphin/card/CARDCreate.c"),
+            Object(Matching, "dolphin/card/CARDRead.c"),
+            Object(Matching, "dolphin/card/CARDWrite.c"),
+            Object(Matching, "dolphin/card/CARDDelete.c"),
+            Object(Matching, "dolphin/card/CARDStat.c"),
+            Object(Matching, "dolphin/card/CARDRename.c")
+        ]
+    ),
+    DolphinLib(
+        "db",
+        [
+            Object(Matching, "dolphin/db/db.c"),
+        ]
+    ),
+    DolphinLib(
+        "dsp",
+        [
+            Object(Matching, "dolphin/dsp/dsp.c"),
+            Object(Matching, "dolphin/dsp/dsp_debug.c"),
+            Object(Matching, "dolphin/dsp/dsp_task.c")
+        ]        
+    ),
+    DolphinLib(
+        "dvd",
+        [
+            Object(Matching, "dolphin/dvd/dvdlow.c"),
+            Object(Matching, "dolphin/dvd/dvdfs.c"),
+            Object(Matching, "dolphin/dvd/dvd.c"),
+            Object(Matching, "dolphin/dvd/dvdqueue.c"),
+            Object(Matching, "dolphin/dvd/dvderror.c"),
+            Object(Matching, "dolphin/dvd/dvdidutils.c"),
+            Object(Matching, "dolphin/dvd/dvdFatal.c"),
+            Object(Matching, "dolphin/dvd/emu_level2/fstload.c")
+        ]
+    ),
+    DolphinLib(
+        "eth",
+        [
+            Object(NonMatching, "dolphin/eth/eth.c"),
+            Object(NonMatching, "dolphin/eth/ethsec.c"),
+            Object(NonMatching, "dolphin/eth/md5.c"),
+            Object(NonMatching, "dolphin/eth/base64.c")
+        ]
+    ),
+    DolphinLib(
+        "exi",
+        [
+            Object(Matching, "dolphin/exi/EXIBios.c"),
+            Object(Matching, "dolphin/exi/EXIUart.c")
+        ]
+    ),
+    DolphinLib(
+        "gd",
+        [
+            Object(NonMatching, "dolphin/gd/GDBase.c"),
+            Object(NonMatching, "dolphin/gd/GDGeometry.c")
+        ]
+    ),
+    DolphinLib(
+        "gx",
+        [
+            Object(NonMatching, "dolphin/gx/GXInit.c"),
+            Object(NonMatching, "dolphin/gx/GXFifo.c"),
+            Object(NonMatching, "dolphin/gx/GXAttr.c"),
+            Object(NonMatching, "dolphin/gx/GXMisc.c"),
+            Object(NonMatching, "dolphin/gx/GXGeometry.c"),
+            Object(NonMatching, "dolphin/gx/GXFrameBuf.c"),
+            Object(NonMatching, "dolphin/gx/GXLight.c"),
+            Object(NonMatching, "dolphin/gx/GXTexture.c"),
+            Object(NonMatching, "dolphin/gx/GXBump.c"),
+            Object(NonMatching, "dolphin/gx/GXTev.c"),
+            Object(NonMatching, "dolphin/gx/GXPixel.c"),
+            Object(NonMatching, "dolphin/gx/GXDraw.c"),
+            Object(NonMatching, "dolphin/gx/GXDisplayList.c"),
+            Object(NonMatching, "dolphin/gx/GXTransform.c"),
+            Object(NonMatching, "dolphin/gx/GXPerf.c")
+        ]
+    ),
+    DolphinLib(
+        "hio",
+        [
+            Object(NonMatching, "dolphin/hio/hio.c")
+        ]
+    ),
+    DolphinLib(
+        "ip",
+        [
+            Object(NonMatching, "dolphin/ip/IP.c"),
+            Object(NonMatching, "dolphin/ip/IPArp.c"),
+            Object(NonMatching, "dolphin/ip/IPIcmp.c"),
+            Object(NonMatching, "dolphin/ip/IPRoute.c"),
+            Object(NonMatching, "dolphin/ip/IPUdp.c"),
+            Object(NonMatching, "dolphin/ip/IPFrag.c"),
+            Object(NonMatching, "dolphin/ip/IPEther.c"),
+            Object(NonMatching, "dolphin/ip/IFFifo.c"),
+            Object(NonMatching, "dolphin/ip/IFRing.c"),
+            Object(NonMatching, "dolphin/ip/IPTcp.c"),
+            Object(NonMatching, "dolphin/ip/IPTcpOutput.c"),
+            Object(NonMatching, "dolphin/ip/IPTcpTimer.c"),
+            Object(NonMatching, "dolphin/ip/IPTcpUser.c"),
+            Object(NonMatching, "dolphin/ip/IPTcpTimeWait.c"),
+            Object(NonMatching, "dolphin/ip/IPDns.c"),
+            Object(NonMatching, "dolphin/ip/IPDhcp.c"),
+            Object(NonMatching, "dolphin/ip/IPZero.c"),
+            Object(NonMatching, "dolphin/ip/IPOpt.c"),
+            Object(NonMatching, "dolphin/ip/IPSocket.c"),
+            Object(NonMatching, "dolphin/ip/IPPPP.c"),
+            Object(NonMatching, "dolphin/ip/IPPPPoE.c"),
+            Object(NonMatching, "dolphin/ip/IPLcp.c"),
+            Object(NonMatching, "dolphin/ip/IPIpcp.c"),
+            Object(NonMatching, "dolphin/ip/IPPap.c"),
+            Object(NonMatching, "dolphin/ip/IPChap.c"),
+            Object(NonMatching, "dolphin/ip/IPIgmp.c"),
+            Object(NonMatching, "dolphin/ip/IPUuid.c")
+        ]
+    ),
+    DolphinLib(
+        "lg", # unofficial name
+        [
+            Object(NonMatching, "dolphin/lg/allsrc.c")
+        ]
+    ),
+    DolphinLib(
+        "mtx",
+        [
+            Object(NonMatching, "dolphin/mtx/mtx.c"),
+            Object(NonMatching, "dolphin/mtx/mtxvec.c"),
+            Object(NonMatching, "dolphin/mtx/mtx44.c"),
+            Object(Matching, "dolphin/mtx/mtx44vec.c"),
+            Object(Matching, "dolphin/mtx/vec.c"),
+            Object(NonMatching, "dolphin/mtx/quat.c"),
+        ]
+    ),
+    DolphinLib(
+        "OdemuExi2",
+        [
+            Object(NonMatching, "dolphin/OdemuExi2/DebuggerDriver.c")
+        ]
+    ),
+    DolphinLib(
+        "odenotstub",
+        [
+            Object(NonMatching, "dolphin/odenotstub/odenotstub.c")
+        ]
+    ),
+    DolphinLib(
+        "os",
+        [
+            Object(Matching, "dolphin/os/OS.c"),
+            Object(Matching, "dolphin/os/OSAlarm.c"),
+            Object(Matching, "dolphin/os/OSAlloc.c"),
+            Object(Matching, "dolphin/os/OSArena.c"),
+            Object(Matching, "dolphin/os/OSAudioSystem.c"),
+            Object(Matching, "dolphin/os/OSCache.c"),
+            Object(Matching, "dolphin/os/OSContext.c"),
+            Object(Matching, "dolphin/os/OSError.c"),
+            Object(Matching, "dolphin/os/OSFont.c"),
+            Object(Matching, "dolphin/os/OSInterrupt.c"),
+            Object(Matching, "dolphin/os/OSLink.c"),
+            Object(Matching, "dolphin/os/OSMessage.c"),
+            Object(Matching, "dolphin/os/OSMemory.c"),
+            Object(Matching, "dolphin/os/OSMutex.c"),
+            Object(Matching, "dolphin/os/OSReboot.c"),
+            Object(Matching, "dolphin/os/OSReset.c"),
+            Object(Matching, "dolphin/os/OSResetSW.c"),
+            Object(Matching, "dolphin/os/OSRtc.c"),
+            Object(Matching, "dolphin/os/OSThread.c"),
+            Object(Matching, "dolphin/os/OSTime.c"),
+            Object(Matching, "dolphin/os/OSSync.c"),
+            Object(Matching, "dolphin/os/init/__start.c"),
+            Object(Matching, "dolphin/os/init/__ppc_eabi_init.cpp")
+        ]
+    ),
+    DolphinLib(
+        "pad",
+        [
+            Object(Matching, "dolphin/pad/Padclamp.c"),
+            Object(Matching, "dolphin/pad/Pad.c")
+        ]
+    ),
+    DolphinLib(
+        "si",
+        [
+            Object(Matching, "dolphin/si/SIBios.c"),
+            Object(Matching, "dolphin/si/SISamplingRate.c"),
+            Object(NonMatching, "dolphin/si/SISteering.c"),
+            Object(NonMatching, "dolphin/si/SISteeringXfer.c"),
+            Object(NonMatching, "dolphin/si/SISteeringAuto.c")
+        ]
+    ),
+    DolphinLib(
+        "upnp",
+        [
+            Object(NonMatching, "dolphin/upnp/UPnP.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPHttp.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPSsdp.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPUuid.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPUri.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPHttpd.c"),
+            Object(NonMatching, "dolphin/upnp/UPnPHttpdResponse.c")
+        ]
+    ),
+    DolphinLib(
+        "vi",
+        [
+            Object(NonMatching, "dolphin/vi/vi.c")
+        ]
+    ),
+    DolphinLib(
+        "thp",
+        [
+            Object(Matching, "dolphin/thp/THPDec.c"),
+            Object(Matching, "dolphin/thp/THPAudio.c")
+        ]
+    ),
+    JSystemLib(
+        "J2DGraph",
+        "-O4,s",
+        [
+            Object(Matching, "JSystem/J2DGraph/J2DAnimation.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DAnmLoader.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DBloSaver.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DGrafContext.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DManage.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DMatBlock.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DMaterial.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DMaterialFactory.cpp"),
+            Object(Matching, "JSystem/J2DGraph/J2DOrthoGraph.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DPane.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DPerspGraph.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DPicture.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DPictureEx.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DPrint.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DScreen.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DTevs.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DTextBox.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DTextBoxEx.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DWindow.cpp"),
+            Object(NonMatching, "JSystem/J2DGraph/J2DWindowEx.cpp")
+        ]
+    ),
+    JSystemLib(
+        "J3D",
+        "-O4,p",
+        [
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DAnimation.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DCluster.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DJoint.cpp"), 
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DJointTree.cpp"), 
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DMaterialAnm.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DMaterialAttach.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DModel.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DModelData.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DMtxBuffer.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DShapeTable.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DSkinDeform.cpp"),                    
+            
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DDrawBuffer.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DGD.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DMatBlock.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DMaterial.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DPacket.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DShape.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DShapeDraw.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DShapeMtx.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DStruct.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DSys.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DTevs.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DTexture.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DTransform.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphBase/J3DVertex.cpp"),                     
+
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DAnmLoader.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DBinaryFormat.cpp"), # might not be in GraphLoader
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DClusterLoader.cpp"),            
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DJointFactory.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DMaterialFactory.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DMaterialFactory_v21.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelLoader.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelLoaderCalcSize.cpp"),
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelSaver.cpp"), # might not be in GraphLoader
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DShapeFactory.cpp")
+        ]
+    ),
+    JSystemLib(
+        "J3DU",
+        "-O4,p",
+        [
+            Object(NonMatching, "JSystem/J3DU/J3DUPerf.cpp"),
+            Object(NonMatching, "JSystem/J3DU/J3DUDL.cpp"),
+            Object(NonMatching, "JSystem/J3DU/J3DUMotion.cpp"),
+            Object(Matching, "JSystem/J3DU/J3DUClipper.cpp"),
+        ]
+    ),
+    JSystemLib(
+        "JAudio",
+        "-O4,p",
+        [
+            Object(Matching, "JSystem/JAudio/Interface/JAIAudience.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISe.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Interface/JAISeMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISeq.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISeqDataMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISeqMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISound.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISoundChild.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISoundHandles.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISoundInfo.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISoundParams.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAISoundStarter.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAIStream.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAIStreamDataMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAIStreamMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Interface/JAIAudible.cpp"),
+
+            Object(Matching, "JSystem/JAudio/System/JASCalc.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASDvdThread.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASReport.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASTaskThread.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASSoundParams.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASWSParser.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASBNKParser.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASInstRand.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASSeqReader.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASCallback.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASCmdStack.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASHeapCtrl.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASProbe.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASResArcLoader.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASAiCtrl.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASAudioReseter.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASAudioThread.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASChannel.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASDriverIF.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASDSPChannel.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASDSPInterface.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASLfo.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASOscillator.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASBasicBank.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASBasicInst.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASBasicWaveBank.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASDrumSet.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASInstSense.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASSimpleWaveBank.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASWaveArcLoader.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASWaveBank.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASBank.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASAramStream.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASRegisterParam.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASSeqCtrl.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASSeqParser.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASTrack.cpp"),
+            Object(NonMatching, "JSystem/JAudio/System/JASTrackPort.cpp"),
+
+            Object(Matching, "JSystem/JAudio/Task/dspproc.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/dsptask.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/osdsp.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/osdsp_task.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+
+            Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcLoader.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUBankTable.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUInitializer.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUStreamFileTable.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUSectionHeap.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUAudioMgr.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUClusterSound.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSeqCollection.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSeqDataBlockMgr.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundAnimator.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundMgr.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundTable.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUAudience.cpp"),
+            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundObject.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JFramework",
+        "-O4,p",
+        [
+            Object(Matching, "JSystem/JFramework/JFWSystem.cpp"),
+            Object(Matching, "JSystem/JFramework/JFWDisplay.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JGadget",
+        "-O4,p",
+        [
+            Object(Matching, "JSystem/JGadget/hashcode.cpp"),
+            Object(Matching, "JSystem/JGadget/linklist.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JKernel",
+        "-O4,s",
+        [
+            Object(Matching, "JSystem/JKernel/JKRAram.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramBlock.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramPiece.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramStream.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRArchivePri.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRArchivePub.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRCompArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDecomp.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDisposer.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDvdFile.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDvdAramRipper.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDvdArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDvdRipper.cpp"),
+            Object(NonMatching, "JSystem/JKernel/JKRExpHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRFileCache.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRFileFinder.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRFileLoader.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRMemArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRSolidHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRThread.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAssertHeap.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JMath",
+        "-O4,p",
+        [
+            Object(Matching, "JSystem/JMath/JMath.cpp"),
+            Object(Matching, "JSystem/JMath/random.cpp"),
+            Object(Matching, "JSystem/JMath/JMATrigonometric.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JParticle",
+        "-O4,p",
+        [
+            Object(Equivalent, "JSystem/JParticle/JPABaseShape.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAChildShape.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPADynamicsBlock.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAEmitter.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAEmitterManager.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAExTexShape.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAExtraShape.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAFieldBlock.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAKeyBlock.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAMath.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAParticle.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAResource.cpp"),
+            Object(NonMatching, "JSystem/JParticle/JPAResourceLoader.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAResourceManager.cpp"),
+            Object(Matching, "JSystem/JParticle/JPATexture.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JSupport",
+        "-O4,p",
+        [
+            Object(Matching, "JSystem/JSupport/JSUInputStream.cpp"),
+            Object(Matching, "JSystem/JSupport/JSUList.cpp"),
+            Object(Matching, "JSystem/JSupport/JSUMemoryStream.cpp"),
+            Object(Matching, "JSystem/JSupport/JSUFileStream.cpp")
+        ]
+    ),
+    JSystemLib(
+        "JUtility",
+        "-O4,s",
+        [
+            Object(Matching, "JSystem/JUtility/JUTAssert.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTConsole.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTDbPrint.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTDirectFile.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTDirectPrint.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTException.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTFader.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTFont.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTGamePad.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTGraphFifo.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTNameTab.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTPalette.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTProcBar.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTResFont.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTResource.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTTexture.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
+            Object(NonMatching, "JSystem/JUtility/JUTFontData_Ascfont_fix12.s") # TODO: reimplement
+        ]
+    ),
+    JSystemLib(
+        "Logitech",
+        "-O4,p",
+        [
+            Object(NonMatching, "JSystem/Logitech/Conditon.cpp"),
+            Object(NonMatching, "JSystem/Logitech/Constant.cpp"),
+            Object(NonMatching, "JSystem/Logitech/Force.cpp"),
+            Object(NonMatching, "JSystem/Logitech/LGWheels.cpp"),
+            Object(NonMatching, "JSystem/Logitech/Periodic.cpp"),
+            Object(NonMatching, "JSystem/Logitech/Ramp.cpp"),
+            Object(NonMatching, "JSystem/Logitech/Wheels.cpp")
+        ]
+    ),
+    GameLib(
+        "Bando",
+        "",
+        [
+            Object(Matching, "Bando/EngineSound.cpp")
+        ]
+    ),
+    GameLib(
+        "Inagaki",
+        "",
+        [
+            Object(NonMatching, "Inagaki/CharacterSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/GameAudioCamera.cpp"),
+            Object(Matching, "Inagaki/GameAudioCommon.cpp"),
+            Object(Matching, "Inagaki/GameAudioHostIO.cpp"),
+            Object(NonMatching, "Inagaki/GameAudioMain.cpp"),
+            Object(NonMatching, "Inagaki/GameAudioMgr.cpp"),
+            Object(NonMatching, "Inagaki/GameAudioParam.cpp"),
+            Object(NonMatching, "Inagaki/KartSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/NpcCarSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/ObjectSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/RockSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/GameSoundTable.cpp"),
+            Object(NonMatching, "Inagaki/ShoreSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/CircleSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/CoasterSoundMgr.cpp"),
+            Object(NonMatching, "Inagaki/MapSoundObjectMgr.cpp"),
+            Object(Matching, "Inagaki/GameAudioFxConfig.cpp"),
+            Object(Matching, "Inagaki/GameAudioArcLoader.cpp")
+        ]
+    ),
+    GameLib(
+        "Kameda",
+        "",
+        [
+            Object(NonMatching, "Kameda/Motor.cpp"),
+            Object(NonMatching, "Kameda/MotorManager.cpp"),
+            Object(NonMatching, "Kameda/J2DManager.cpp"),
+            Object(Matching, "Kameda/Task.cpp"),
+            Object(NonMatching, "Kameda/Goal2D.cpp"),
+            Object(NonMatching, "Kameda/PauseManager.cpp"),
+            Object(NonMatching, "Kameda/Pause2D.cpp"),
+            Object(Matching, "Kameda/WipeManager.cpp"),
+            Object(NonMatching, "Kameda/Fade.cpp"),
+            Object(NonMatching, "Kameda/K2DPicture.cpp"),
+            Object(Matching, "Kameda/Scene.cpp"),
+            Object(NonMatching, "Kameda/SceneApp.cpp"),
+            Object(NonMatching, "Kameda/SceneTitle.cpp"),
+            Object(NonMatching, "Kameda/SceneOption.cpp"),
+            Object(NonMatching, "Kameda/SceneRecord.cpp"),
+            Object(NonMatching, "Kameda/SceneMap.cpp"),
+            Object(NonMatching, "Kameda/Result2D.cpp"),
+            Object(NonMatching, "Kameda/SceneFactory.cpp"),
+            Object(NonMatching, "Kameda/SequenceInfo.cpp"),
+            Object(Matching, "Kameda/PrintDvdError.cpp"),
+            Object(NonMatching, "Kameda/Race2D.cpp"),
+            Object(Matching, "Kameda/ReadPrintMessage.cpp"),
+            Object(NonMatching, "Kameda/PrintProgressive.cpp"),
+            Object(NonMatching, "Kameda/PrintMemoryCard.cpp"),
+            Object(NonMatching, "Kameda/PreRace2D.cpp"),
+            Object(NonMatching, "Kameda/Go2D.cpp"),
+            Object(NonMatching, "Kameda/Mario.cpp"),
+            Object(NonMatching, "Kameda/SceneMenu.cpp"),
+            Object(NonMatching, "Kameda/Demo2D.cpp"),
+            Object(NonMatching, "Kameda/Go3212D.cpp"),
+            Object(NonMatching, "Kameda/CharacterSelect3D.cpp"),
+            Object(NonMatching, "Kameda/SceneCourseSelect.cpp"),
+            Object(NonMatching, "Kameda/SceneGhostLoadSave.cpp"),
+            Object(NonMatching, "Kameda/PrintWindow.cpp"),
+            Object(NonMatching, "Kameda/CourseName2D.cpp"),
+            Object(NonMatching, "Kameda/SceneLanEntry.cpp"),
+            Object(NonMatching, "Kameda/SceneMapSelect.cpp"),
+            Object(Matching, "Kameda/BattleName2D.cpp"),
+            Object(NonMatching, "Kameda/LapGhost2D.cpp"),
+            Object(NonMatching, "Kameda/CanNotSaveG2D.cpp"),
+            Object(NonMatching, "Kameda/LANResult2D.cpp"),
+            Object(NonMatching, "Kameda/LANNum2D.cpp"),
+            Object(NonMatching, "Kameda/Cup2D.cpp"),
+            Object(NonMatching, "Kameda/BombStart2D.cpp")
+        ]
+    ),
+    GameLib(
+        "Kaneshige",
+        "-inline off",
+        [
+            Object(Matching, "Kaneshige/DrawBuffer.cpp"),
+            Object(Equivalent, "Kaneshige/Course/Course.cpp"),
+            Object(NonMatching, "Kaneshige/Course/CrsData.cpp"),
+            Object(NonMatching, "Kaneshige/Course/CrsGround.cpp"),
+            Object(NonMatching, "Kaneshige/ExModel.cpp"),
+            Object(Matching, "Kaneshige/HioMgr.cpp"),
+            Object(NonMatching, "Kaneshige/KartLoader.cpp"),
+            Object(Matching, "Kaneshige/KartInfo.cpp"),
+            Object(Matching, "Kaneshige/KartChecker.cpp"),
+            Object(Equivalent, "Kaneshige/RaceMgr.cpp"),
+            Object(NonMatching, "Kaneshige/SysDebug.cpp"),
+            Object(Matching, "Kaneshige/CrsArea.cpp"),
+            Object(NonMatching, "Kaneshige/LightMgr.cpp"),
+            Object(Matching, "Kaneshige/ScrnShot.cpp"),
+            Object(NonMatching, "Kaneshige/GeoStartLine.cpp"),
+            Object(Matching, "Kaneshige/CenterLine.cpp"),
+            Object(Matching, "Kaneshige/RaceInfo.cpp"),
+            Object(NonMatching, "Kaneshige/RaceLight.cpp"),
+            Object(NonMatching, "Kaneshige/RaceDrawBuffer.cpp"),
+            Object(NonMatching, "Kaneshige/KartDrawer.cpp"),
+            Object(Matching, "Kaneshige/TexLODControl.cpp"),
+            Object(Matching, "Kaneshige/ShapePktControl.cpp"),
+            Object(Matching, "Kaneshige/SimpleDrawer.cpp"),
+            Object(Matching, "Kaneshige/JugemPoint.cpp"),
+            Object(NonMatching, "Kaneshige/GeoCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoBus.cpp"),
+            Object(NonMatching, "Kaneshige/GeoTruck.cpp"),
+            Object(NonMatching, "Kaneshige/GeoSignal.cpp"),
+            Object(NonMatching, "Kaneshige/GeoNormCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoCannon.cpp"),
+            Object(NonMatching, "Kaneshige/GeoBombCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoKinoCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoKuriCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoItemCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoHanaCar.cpp"),
+            Object(NonMatching, "Kaneshige/GeoHanaBody.cpp"),
+            Object(NonMatching, "Kaneshige/GeoCarShadow.cpp"),
+            Object(NonMatching, "Kaneshige/GeoWater.cpp"),
+            Object(NonMatching, "Kaneshige/GeoItemGen.cpp"),
+            Object(NonMatching, "Kaneshige/GeoVision.cpp"),
+            Object(NonMatching, "Kaneshige/GeoSubWater.cpp"),
+            Object(Matching, "Kaneshige/RaceBGMPlayer.cpp"),
+            Object(NonMatching, "Kaneshige/RaceDirector.cpp"),
+            Object(NonMatching, "Kaneshige/RaceDrawer.cpp"),
+            Object(NonMatching, "Kaneshige/GeoDkCloud.cpp"),
+            Object(NonMatching, "Kaneshige/KartMotion.cpp"),
+            Object(NonMatching, "Kaneshige/GeoKuribo.cpp"),
+            Object(Matching, "Kaneshige/GeoAirJet.cpp"),
+            Object(Matching, "Kaneshige/BlurScreen.cpp"),
+            Object(NonMatching, "Kaneshige/GeoRabbitMark.cpp"),
+            Object(Matching, "Kaneshige/KartMtx.cpp"),
+            Object(NonMatching, "Kaneshige/DemoTimeKeeper.cpp"),
+            Object(NonMatching, "Kaneshige/GeoKinojii.cpp"),
+            Object(NonMatching, "Kaneshige/GeoSplash.cpp"),
+            Object(NonMatching, "Kaneshige/GeoTideSensor.cpp"),
+            Object(Matching, "Kaneshige/GhostScreen.cpp"),
+            Object(Matching, "Kaneshige/ShimmerScreen.cpp"),
+            Object(NonMatching, "Kaneshige/GeoPuller.cpp"),
+            Object(NonMatching, "Kaneshige/GeoShimmer.cpp"),
+            Object(NonMatching, "Kaneshige/GeoSoundGen.cpp"),
+            Object(NonMatching, "Kaneshige/GeoShine.cpp"),
+            Object(NonMatching, "Kaneshige/DarkAnmMgr.cpp"),
+            Object(NonMatching, "Kaneshige/Movie/MovieApp.cpp"),
+            Object(Matching, "Kaneshige/Movie/MoviePlayer.cpp"),
+            Object(Matching, "Kaneshige/Movie/THPDraw.c"),
+            Object(NonMatching, "Kaneshige/MdlViewer.cpp"),
+            Object(Matching, "Kaneshige/RaceTime.cpp"),
+            Object(Matching, "Kaneshige/MaskScreen.cpp"),
+            Object(Matching, "Kaneshige/THP/THPPlayer.c"),
+            Object(Matching, "Kaneshige/THP/THPVideoDecode.c"),
+            Object(Matching, "Kaneshige/THP/THPRead.c"),
+            Object(Matching, "Kaneshige/THP/THPAudioDecode.c")
+        ]
+    ),
+    GameLib(
+        "Kawano",
+        "",
+        [
+            Object(NonMatching, "Kawano/driverData.cpp"),
+            Object(NonMatching, "Kawano/driver.cpp"),
+            Object(NonMatching, "Kawano/driverMgr.cpp"),
+            Object(NonMatching, "Kawano/animation.cpp"),
+            Object(NonMatching, "Kawano/driverAnim.cpp"),
+            Object(NonMatching, "Kawano/driverAnimBuf.cpp"),
+            Object(NonMatching, "Kawano/driver_ik.cpp"),
+            Object(NonMatching, "Kawano/driverTPAnim.cpp"),
+            Object(NonMatching, "Kawano/driverState.cpp"),
+            Object(NonMatching, "Kawano/driverOffset.cpp"),
+            Object(NonMatching, "Kawano/feeling.cpp"),
+            Object(NonMatching, "Kawano/osage.cpp"),
+            Object(NonMatching, "Kawano/accessory.cpp"),
+            Object(NonMatching, "Kawano/laurel.cpp"),
+            Object(NonMatching, "Kawano/driverObj.cpp"),
+            Object(Matching, "Kawano/SceneTitleLine.cpp"),
+            Object(NonMatching, "Kawano/StaffRoll2D.cpp")
+        ]
+    ),
+    GameLib(
+        "Osako",
+        "",
+        [
+            Object(Matching, "Osako/clock.cpp"),
+            Object(NonMatching, "Osako/animator.cpp"),
+            Object(Matching, "Osako/testApp.cpp"),
+            Object(Matching, "Osako/shadowModel.cpp"),
+            Object(Matching, "Osako/GameApp.cpp"),
+            Object(Matching, "Osako/main.cpp"),
+            Object(NonMatching, "Osako/MainMenuApp.cpp"),
+            Object(NonMatching, "Osako/PlayerSelectApp.cpp"),
+            Object(NonMatching, "Osako/MapSelectApp.cpp"),
+            Object(Matching, "Osako/RaceApp.cpp"),
+            Object(NonMatching, "Osako/ResMgr.cpp"), # pSystemArc missing
+            Object(NonMatching, "Osako/LogoApp.cpp"), # pBuildtimeDat missing
+            Object(Matching, "Osako/system.cpp"),
+            Object(Matching, "Osako/kartPad.cpp"),
+            Object(Matching, "Osako/AppMgr.cpp"),
+            Object(Matching, "Osako/FontMgr.cpp"),
+            Object(Matching, "Osako/ErrorViewApp.cpp"),
+            Object(Matching, "Osako/CardMgr.cpp"),
+            Object(Matching, "Osako/CardAgent.cpp"),
+            Object(Matching, "Osako/SystemFile.cpp"),
+            Object(Matching, "Osako/systemData.cpp"),
+            Object(NonMatching, "Osako/NetGameMgr.cpp"),
+            Object(Matching, "Osako/SequenceApp.cpp"),
+            Object(NonMatching, "Osako/NetGateApp.cpp"),
+            Object(Matching, "Osako/TestViewApp.cpp"),
+            Object(NonMatching, "Osako/shadowMgr.cpp"),
+            Object(Matching, "Osako/shadowScr.cpp"),
+            Object(Matching, "Osako/TARecord.cpp"),
+            Object(Matching, "Osako/SystemRecord.cpp"),
+            Object(Matching, "Osako/GPRecord.cpp"),
+            Object(Matching, "Osako/SaveFile.cpp"),
+            Object(Matching, "Osako/PadMgr.cpp"),
+            Object(Matching, "Osako/PadRecorder.cpp"),
+            Object(Matching, "Osako/ForceEffectMgr.cpp"),
+            Object(NonMatching, "Osako/BBAMgr.cpp"),
+            Object(Matching, "Osako/AwardApp.cpp"),
+            Object(Matching, "Osako/GhostFile.cpp"),
+            Object(Matching, "Osako/Kart2DCommon.cpp"),
+            Object(Matching, "Osako/ResetAgent.cpp"),
+            Object(NonMatching, "Osako/Award2D.cpp"),
+            Object(NonMatching, "Osako/NameEntryHelper.cpp"),
+            Object(NonMatching, "Osako/LANBackground.cpp"),
+            Object(NonMatching, "Osako/LANSelectMode.cpp"),
+            Object(NonMatching, "Osako/LANTitle.cpp"),
+            Object(NonMatching, "Osako/LANEntry.cpp"),
+            Object(NonMatching, "Osako/LANPlayInfo.cpp"),
+            Object(Matching, "Osako/MenuBackground.cpp"),
+            Object(Matching, "Osako/MenuTitleLine.cpp"),
+            Object(Matching, "Osako/GIRecord.cpp"),
+            Object(Matching, "Osako/password.cpp"),
+            Object(Matching, "Osako/screenshot.c")
+        ]
+    ),
+    GameLib(
+        "Sato",
+        "",
+        [
+            Object(NonMatching, "Sato/logbridge.cpp"),
+            Object(Matching, "Sato/stMath.cpp"),
+            Object(NonMatching, "Sato/GeographyObjMgr.cpp"),
+            Object(NonMatching, "Sato/GeographyObj.cpp"),
+            Object(NonMatching, "Sato/GeoTree.cpp"),
+            Object(NonMatching, "Sato/ObjCollision.cpp"),
+            Object(NonMatching, "Sato/GeoRFlower.cpp"),
+            Object(NonMatching, "Sato/GeoJumpNarrow.cpp"),
+            Object(NonMatching, "Sato/GeoItemBox.cpp"),
+            Object(NonMatching, "Sato/JPEffectMgr.cpp"),
+            Object(NonMatching, "Sato/stParticle.cpp"),
+            Object(NonMatching, "Sato/stEmitter.cpp"),
+            Object(NonMatching, "Sato/stEffectMgr.cpp"),
+            Object(NonMatching, "Sato/stEfctExhaust.cpp"),
+            Object(NonMatching, "Sato/ItemObjMgr.cpp"),
+            Object(NonMatching, "Sato/ItemGTurtle.cpp"),
+            Object(NonMatching, "Sato/ItemObj.cpp"),
+            Object(NonMatching, "Sato/ItemBanana.cpp"),
+            Object(Matching, "Sato/stEfctWeed.cpp"),
+            Object(Matching, "Sato/ItemKinoko.cpp"),
+            Object(NonMatching, "Sato/ItemStar.cpp"),
+            Object(NonMatching, "Sato/J3DEffectMgr.cpp"),
+            Object(NonMatching, "Sato/StringObj.cpp"),
+            Object(NonMatching, "Sato/ItemWanWan.cpp"),
+            Object(NonMatching, "Sato/ItemBomb.cpp"),
+            Object(NonMatching, "Sato/ObjUtility.cpp"),
+            Object(NonMatching, "Sato/JPEffectPerformer.cpp"),
+            Object(NonMatching, "Sato/ItemSuccession.cpp"),
+            Object(NonMatching, "Sato/J3DEfctBomb.cpp"),
+            Object(NonMatching, "Sato/J3DAnmObject.cpp"),
+            Object(NonMatching, "Sato/GeoObjPathMove.cpp"),
+            Object(NonMatching, "Sato/EffectScreen.cpp"),
+            Object(NonMatching, "Sato/stEfctRoad.cpp"),
+            Object(NonMatching, "Sato/AnmController.cpp"),
+            Object(Matching, "Sato/RivalKart.cpp"),
+            Object(NonMatching, "Sato/StateObserver.cpp"),
+            Object(NonMatching, "Sato/NeckCtrl.cpp"),
+            Object(NonMatching, "Sato/LumbarCtrl.cpp"),
+            Object(NonMatching, "Sato/ArmCtrl.cpp"),
+            Object(NonMatching, "Sato/ItemThunder.cpp"),
+            Object(NonMatching, "Sato/ItemFlyTurtle.cpp"),
+            Object(NonMatching, "Sato/stEfctWater.cpp"),
+            Object(NonMatching, "Sato/J3DEfctSplashDown.cpp"),
+            Object(NonMatching, "Sato/ItemYoshiEgg.cpp"),
+            Object(NonMatching, "Sato/RivalItemCtrl.cpp"),
+            Object(NonMatching, "Sato/RivalBodyCtrl.cpp"),
+            Object(NonMatching, "Sato/RivalSpeedCtrl.cpp"),
+            Object(NonMatching, "Sato/J3DEfctIceRock.cpp"),
+            Object(Matching, "Sato/ItemHeart.cpp"),
+            Object(NonMatching, "Sato/J3DEfctHeart.cpp")
+        ]
+    ),
+    GameLib(
+        "Shiraiwa",
+        "",
+        [
+            Object(NonMatching, "Shiraiwa/Coord3D.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDossun.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemMain.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemLap.cpp"),
+            Object(NonMatching, "Shiraiwa/Interp.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemReverse.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemRescue.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemVoidRod.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemStart.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemRodBoard.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemRodSignal.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemGoal.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemFlag.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjWanwan.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjWanwanChain.cpp"),
+            Object(NonMatching, "Shiraiwa/AnmPlayer.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSkyShip.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDonkyRockGen.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDonkyRock.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjNoMove.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjPeachTree.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjFireBar.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjHioNode.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjFireObj.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjPoihana.cpp"),
+            Object(NonMatching, "Shiraiwa/Coord3DUtil.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjWall.cpp"),
+            Object(NonMatching, "Shiraiwa/SmallAnimalGen.cpp"),
+            Object(NonMatching, "Shiraiwa/SMAButterfly.cpp"),
+            Object(NonMatching, "Shiraiwa/SiUtil.cpp"),
+            Object(NonMatching, "Shiraiwa/SMABirdGroup.cpp"),
+            Object(NonMatching, "Shiraiwa/SMABird2.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjGeyser.cpp"),
+            Object(NonMatching, "Shiraiwa/TestString.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDonkyTree.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSnowRock.cpp"),
+            Object(NonMatching, "Shiraiwa/LensFlare.cpp"),
+            Object(NonMatching, "Shiraiwa/TestRollObj.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjFountain.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjHeyho.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSanbo.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjWluArrow.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSnowMan.cpp"),
+            Object(NonMatching, "Shiraiwa/DistSnow.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjIceBlock.cpp"),
+            Object(Matching, "Shiraiwa/WipeSlide.cpp"),
+            Object(Matching, "Shiraiwa/WipeBase.cpp"),
+            Object(Matching, "Shiraiwa/WipeCircle.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSun.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjBubble.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemHeadLamp.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDesun.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjSandPillar.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjFerriswheel.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjMoveItemBox.cpp"),
+            Object(NonMatching, "Shiraiwa/Balloon.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjJetCoaster.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjPool.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjKpFire.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjRollTable.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjNossie.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjMare.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjMonte.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjMeteor.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjDemoObj.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjAwardItemBox.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjHanabi.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjAntLion.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjPakkun.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjKpGear.cpp"),
+            Object(NonMatching, "Shiraiwa/SMABoidBird.cpp"),
+            Object(NonMatching, "Shiraiwa/BoidsManager.cpp"),
+            Object(Matching, "Shiraiwa/WipeCheck.cpp"),
+            Object(Matching, "Shiraiwa/WipeShut.cpp"),
+            Object(Matching, "Shiraiwa/WipeLine.cpp"),
+            Object(Matching, "Shiraiwa/WipeWave.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjVentilator.cpp"),
+            Object(NonMatching, "Shiraiwa/MapObjYoshiHeli.cpp"),
+            Object(NonMatching, "Shiraiwa/ShineArrow.cpp"),
+            Object(NonMatching, "Shiraiwa/ZCaptureMgr.cpp"),
+            Object(Matching, "Shiraiwa/WipeCurtain.cpp"),
+            Object(NonMatching, "Shiraiwa/JugemDemo.cpp"),
+            Object(NonMatching, "Shiraiwa/SecretScene.cpp")
+        ]
+    ),
+    GameLib(
+        "Yamamoto",
+        "-inline off",
+        [
+            Object(NonMatching, "Yamamoto/kartBody.cpp"),
+            Object(Matching, "Yamamoto/kartCamera.cpp"),
+            Object(Matching, "Yamamoto/kartCtrl.cpp"),
+            Object(NonMatching, "Yamamoto/kartSus.cpp"),
+            Object(Matching, "Yamamoto/kartvec.cpp"),
+            Object(NonMatching, "Yamamoto/kartParams.cpp"),
+            Object(NonMatching, "Yamamoto/kartBodyStrat.cpp"),
+            Object(NonMatching, "Yamamoto/kartCtrlStrat.cpp"),
+            Object(Matching, "Yamamoto/kartLine.cpp"),
+            Object(NonMatching, "Yamamoto/kartCtrlInfo.cpp"),
+            Object(NonMatching, "Yamamoto/kartCamStrat.cpp"),
+            Object(NonMatching, "Yamamoto/KartAnime.cpp"),
+            Object(NonMatching, "Yamamoto/KartItemStrat.cpp"),
+            Object(Matching, "Yamamoto/KartSound.cpp"),
+            Object(Matching, "Yamamoto/KartTaeget.cpp"),
+            Object(NonMatching, "Yamamoto/KartRescue.cpp"),
+            Object(NonMatching, "Yamamoto/KartCannon.cpp"),
+            Object(NonMatching, "Yamamoto/KartDossin.cpp"),
+            Object(NonMatching, "Yamamoto/KartTumble.cpp"),
+            Object(NonMatching, "Yamamoto/KartChecker.cpp"),
+            Object(Matching, "Yamamoto/KartDamage.cpp"),
+            Object(Matching, "Yamamoto/KartStar.cpp"),
+            Object(Matching, "Yamamoto/KartTire.cpp"),
+            Object(NonMatching, "Yamamoto/KartThunder.cpp"),
+            Object(NonMatching, "Yamamoto/KartCrash.cpp"),
+            Object(NonMatching, "Yamamoto/KartDemoCam.cpp"),
+            Object(NonMatching, "Yamamoto/KartFitParam.cpp"),
+            Object(Matching, "Yamamoto/KartDisp.cpp"),
+            Object(Matching, "Yamamoto/KartHandle.cpp"),
+            Object(Matching, "Yamamoto/KartApeendix.cpp"),
+            Object(Matching, "Yamamoto/KartPipe.cpp"),
+            Object(Matching, "Yamamoto/KartAnt.cpp"),
+            Object(NonMatching, "Yamamoto/kartChapter.cpp"),
+            Object(Matching, "Yamamoto/KartPerCam.cpp")
+        ]
+    ),
+]
+
+if args.mode == "configure":
+    # Write build.ninja and objdiff.json
+    generate_build(config)
+elif args.mode == "progress":
+    # Print progress and write progress.json
+    config.progress_each_module = args.verbose
+    calculate_progress(config)
+else:
+    sys.exit("Unknown mode: " + args.mode)
