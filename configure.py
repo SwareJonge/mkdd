@@ -965,7 +965,7 @@ config.libs = [
             Object(Matching, "JSystem/JUtility/JUTTexture.cpp"),
             Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
             Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
-            Object(NonMatching, "JSystem/JUtility/JUTFontData_Ascfont_fix12.s") # TODO: reimplement
+            Object(Matching, "JSystem/JUtility/JUTFontData_Ascfont_fix12.s", extra_asflags=f"-I build/{config.version}/bin",)
         ]
     ),
     JSystemLib(
