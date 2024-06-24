@@ -305,6 +305,7 @@ Equivalent = config.non_matching  # Object should be linked when configured with
 
 config.warn_missing_config = True
 config.warn_missing_source = True
+config.progress_all = False
 
 #Object(Matching, "kartLocale.cpp")
 
