@@ -8,4 +8,5 @@ ansiwrap
 colorama
 cxxfilt
 python-Levenshtein
+setuptools
 watchdog
