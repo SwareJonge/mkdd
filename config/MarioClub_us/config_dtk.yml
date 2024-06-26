@@ -4,7 +4,14 @@ hash: db87a9ec1a34275efc45d965dcdcb1a9eb131885
 symbols: config/MarioClub_us/symbols.txt
 splits: config/MarioClub_us/splits.txt
 mw_comment_version: 8
+ldscript_template: config/ld.tpl
 
 extract:
 - symbol: JUTResFONT_Ascfont_fix12
   binary: JSystem/JUtility/FontData/Ascfont_fix12.bfn
+
+- symbol: lbl_80316680
+  binary: system.arc.bin
+
+- symbol: lbl_803608E0
+  binary: buildTimeDat.bin

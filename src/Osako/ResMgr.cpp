@@ -1,4 +1,3 @@
-#include <JSystem/JAudio/JASFakeMatch2.h>
 #include <JSystem/JKernel/JKRDvdRipper.h>
 
 #include "kartLocale.h"
@@ -785,3 +784,5 @@ namespace ResMgr
         return true;
     }
 }
+
+#include <JSystem/JAudio/JASFakeMatch2.h>

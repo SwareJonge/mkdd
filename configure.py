@@ -1177,8 +1177,8 @@ config.libs = [
             Object(NonMatching, "Osako/PlayerSelectApp.cpp"),
             Object(NonMatching, "Osako/MapSelectApp.cpp"),
             Object(Matching, "Osako/RaceApp.cpp"),
-            Object(NonMatching, "Osako/ResMgr.cpp"), # pSystemArc missing
-            Object(NonMatching, "Osako/LogoApp.cpp"), # pBuildtimeDat missing
+            Object(Matching, "Osako/ResMgr.cpp"),
+            Object(Matching, "Osako/LogoApp.cpp"),
             Object(Matching, "Osako/system.cpp"),
             Object(Matching, "Osako/kartPad.cpp"),
             Object(Matching, "Osako/AppMgr.cpp"),
