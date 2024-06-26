@@ -31,9 +31,12 @@ public:
     ObjColBase(J3DModelData *, f32, CKind);
     void IsHitBoundPos(JGeometry::TVec3f, JGeometry::TVec3f);
 
+    void setRadius(f32 rad) { mRadius = rad; }
+    void setScale(f32 scale) { mScale = scale; }
+
     f32 mRadius;
     CKind mKind;
-    f32 _c;
+    f32 mScale;
     f32 _10;
     f32 _14;
     f32 _18;

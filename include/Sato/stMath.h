@@ -24,7 +24,7 @@ void stClampVecMax(JGeometry::TVec3f &, f32);
 void stClampVecMin(JGeometry::TVec3f &, f32);
 f32 stspeedy_sqrtf(register f32 x);
 f32 stLength2(f32, f32);
-void stMakeDirectionMtx(JGeometry::TMtx34f *, const JGeometry::TVec3f &, char);
+void stMakeDirectionMtx(JGeometry::TPos3f *, const JGeometry::TVec3f &, char);
 void stMakeRMtx(Mtx, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
 void stQt2Mtx(Mtx, const Quaternion *);
 void stVec2QtUpdate(Quaternion &, Quaternion &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);

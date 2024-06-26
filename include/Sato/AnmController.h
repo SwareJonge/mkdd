@@ -26,6 +26,7 @@ public:
     virtual void frameProc() = 0;
 
     bool tstFlgAnmStop() const { return mFlags & 1; }
+    void resetFlag() { mFlags &= ~1; }
 
     u8 mFlags;                     // 4
     u8 mMaxAnmNo;                  // 5
@@ -64,7 +65,7 @@ public:
         changeAnm(0, true);
         mFlags = 0;
     }
-    virtual void setAnmProc() { mObj[mNowAnmNo].resetAnm(); } // 14
+    virtual void setAnmProc() { mObj[mNowAnmNo].anmFrameProc(); } // 14
     virtual void frameProc() { doframe(mNowAnmNo); }          // 18
     virtual ~TAnmControlBase() {}                             // 1C
 
@@ -74,6 +75,13 @@ public:
         JUT_MINMAX_ASSERT(0, anmNo, mMaxAnmNo);
         if (!tstFlgAnmStop())
             mObj[anmNo].frameProc();
+    }
+
+    T *getObj(u8 anm_no) // fabricated
+    {
+#line 122
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        return &mObj[anm_no];
     }
 
     J3DFrameCtrl *getFrameCtrl(u8 anm_no)
@@ -91,11 +99,17 @@ class AnmControlTrans : public TAnmControlBase<J3DAnmObjTrans>
 {
 public:
     AnmControlTrans() {}
+    //virtual ~AnmControlTrans() {}
 
     void registration(u8, J3DAnmTransform *, J3DMtxCalc *);
     void registrationBlend(u8, J3DAnmTransform *, J3DMtxCalc *);
     void changeBlendAnm(u8, u8, u8);
     void frameProc();
+
+    u8 _1c;
+    u8 _1d;
+    u8 _1e;
+    u8 _1f;
 };
 
 class AnmController
@@ -117,6 +131,25 @@ public:
 
     virtual ~AnmController() {}
 
+    void InitRegistration(u8 anm_no, ExModel *model)
+    {
+        mTrans = new AnmControlTrans();
+        mTrans->initAnm(anm_no, model);
+    }
+
+    void SetAllWeight(u8 AnmNo) // fabricated?
+    {
+#line 338
+        JUT_MINMAX_ASSERT(0, AnmNo, mTrans->mMaxAnmNo);
+        J3DAnmObjTrans *transObj = mTrans->getObj(AnmNo);
+        if (transObj->_28 & 1) {
+            transObj->mCalc->setWeight(0, 1.0f);
+            for(u8 i = AnmNo; i < 4; i++) {
+                transObj->mCalc->setWeight(i, 0.0f);
+            }
+        }
+    }
+
     void ChangeBlendTransAnm(u8 AnmNo, u8 p2, u8 p3)
     {
         if (mTrans == nullptr)
@@ -126,9 +159,13 @@ public:
         mTrans->changeBlendAnm(AnmNo, p2, p3);
     }
 
+    J3DFrameCtrl *getFrameCtrl(u8 AnmNo) { return mTrans->getFrameCtrl(AnmNo);  }
+    void ChangeTransAnm(u8 AnmNo, bool p2) { mTrans->changeAnm(AnmNo, p2); } // fabricated
+    void RegisterTrans(u8 AnmNo, J3DAnmTransform *transform, J3DMtxCalc *calc) { mTrans->registration(AnmNo, transform, calc); } // fabricated
     bool IsAvailableTrans() const { return mTrans != nullptr; }
+    void StopTrans() { mTrans->resetFlag(); } // fabricated
 
-    AnmControlTrans *mTrans; // 4
+    AnmControlTrans *mTrans;     // 4
     void *_08;                   // AnmControlMatColor
     void *_0C;                   // some JSUPtrList
     void *_10;                   // AnmControlMatColor, copy of _08? or other way around

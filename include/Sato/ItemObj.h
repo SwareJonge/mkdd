@@ -2,6 +2,7 @@
 #define ITEMOBJ_H
 
 #include <JSystem/JGeometry.h>
+#include "Inagaki/SoundMgr.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
 #include "Sato/ObjCollision.h"
@@ -261,14 +262,14 @@ public:
     JGeometry::TVec3f _1c;                //
     f32 _28;                              //
     f32 _2c;                              //
-    f32 _30;                              //
+    f32 mMaxVel;                          // 30
     Quaternion _34;                       //
     Quaternion _44;                       //
-    f32 _54;                              //
+    f32 mLerpRatio;                       // 54
     JGeometry::TVec3f mDisScaleAnm;       // 58
     f32 mEquipScale;                      // 64
     f32 mHeightOffset;                    // 68
-    u8 _6c[0x70 - 0x6c];                  //
+    f32 _6c;                              //
     JGeometry::TVec3f mVel;               // 70
     u32 mItemKind;                        // 7c
     ExModel mModel;                       // 80
@@ -276,7 +277,7 @@ public:
     ObjColBase *mBounds;                  // 110
     u8 _114[0x118 - 0x114];               //
     int mState;                           // 118
-    u8 _11c[0x120 - 0x11c];               //
+    u32 mWaitFrame;                       // 11c
     int mOwnerNum;                        // 120
     u8 mDriverNum;                        // 124
     MtxPtr mpHandAnmMtx;                  // 128
@@ -305,9 +306,12 @@ public:
     u8 _1fc;                              //
     u8 _1fd[0x210 - 0x1fd];               //
     Mtx _210;                             //
-    u8 _240[0x24c - 0x240];               //
+    JGeometry::TVec3f _240;               //
     u8 _24c;                              //
-    u8 _24d[0x28c - 0x24d];               //
+    JGeometry::TVec3f mNormal;            // 250
+    u8 _25c[0x280 - 0x25c];               //
+    GameAudio::ObjectSoundMgr *mSoundMgr; // 280
+    u8 _284[0x28c - 0x284];               //    
     int mDirectHitKartNo;                 // 28c
     u8 _290[0x298 - 0x290];               //
     u8 mColorID;                          // 298

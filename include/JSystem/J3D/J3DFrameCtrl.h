@@ -23,6 +23,8 @@ struct J3DFrameCtrl
 
 	f32 getFrame() const { return mFrame; }
 
+	void setAttribute(u8 attr) { mAttr = attr; }
+
 	// _00 VTBL
 	u8 mAttr;		 // _04
 	u8 mState;		 // _05

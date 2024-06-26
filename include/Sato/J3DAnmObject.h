@@ -3,6 +3,7 @@
 
 #include "JSystem/J3D/J3DAnmBase.h"
 #include "JSystem/J3D/J3DFrameCtrl.h"
+#include "JSystem/J3D/J3DMtxCalc.h"
 #include "Kaneshige/ExModel.h"
 
 class J3DAnmObjBase
@@ -53,7 +54,16 @@ class J3DAnmObjTrans : public J3DAnmObjBase
 {
 public:
     // TODO
+    J3DAnmObjTrans() {}
+    virtual ~J3DAnmObjTrans() {}
+    virtual void anmFrameProc();
+
     static void setupTransAnmData(J3DAnmTransform **, J3DMtxCalc **, J3DModelData *, void *);
+
+//private:
+    J3DMtxCalc *mCalc;
+    u32 _24;
+    u8 _28;
 };
 
 #endif

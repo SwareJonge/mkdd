@@ -17,6 +17,8 @@ public:
     int getBrosPointNumber();
     CLPoint *getBrosPoint(int);
 
+    u8 getGroupID() const { return mPointData->uniqueGroupID; }
+
     void getPosition(JGeometry::TVec3f *pos)
     {
         if (mPointData)
@@ -69,7 +71,7 @@ public:
     void init_ByCLPointPtr(CLPoint *);
     void chkArriveAtFwPoint(const JGeometry::TVec3f &, f32);
     void chkIsOverFwPoint(const JGeometry::TVec3f &);
-    void doNextChkIsOverFwPoint(const JGeometry::TVec3f &);
+    bool doNextChkIsOverFwPoint(const JGeometry::TVec3f &);
     void getLengthFromCLDir(const JGeometry::TVec3f &);
     void changeNextPoint();
     void calcCLDir();
@@ -84,6 +86,11 @@ public:
 
     // Vtable
     virtual int findNextPointNo(CLPoint *);
+
+    CLPoint *getNext() const { return mNext; }
+    CLPoint *getPrev() const { return mPrev; }
+
+    bool tstReverse() const { return mIsReverse; }
 
     CLPoint *mNext; // 4
     CLPoint *mPrev; // 8

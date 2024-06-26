@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "Inagaki/KartSoundMgr.h"
+#include "Kaneshige/CenterLine.h"
 #include "Sato/RivalKart.h"
 
 #include "Yamamoto/kartPad.h"
@@ -103,7 +104,7 @@ public:
     void CheckReverse(int);
     f32 GetKartScale(int);
     RivalKart *getKartEnemy(int);
-    void GetKartCenterPtr(int);
+    CLPoint *GetKartCenterPtr(int);
     void EnemyInit(int);
     void EnemyResetInit(int);
     void CheckZoomWinConsole();

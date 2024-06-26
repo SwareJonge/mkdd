@@ -198,12 +198,12 @@ namespace JGeometry {
             return *this;
         }*/
 
-        /*TVec3 &operator*(float scalar) const
+        TVec3 operator*(f32 scalar) const
         {
             TVec3 scaled(*this);
             scaled *= scalar;
-            TVec3(scaled);
-        }*/
+            return scaled;
+        }
 
         TVec3 &operator+=(const TVec3 &operand)
         {
@@ -217,13 +217,13 @@ namespace JGeometry {
             return *this;
         }
 
-        TVec3 &operator*=(float scalar)
+        TVec3 &operator*=(f32 scalar)
         {
             scale(scalar);
             return *this;
         }
 
-        TVec3 &operator/=(float divisor)
+        TVec3 &operator/=(f32 divisor)
         {
             div(divisor);
             return *this;

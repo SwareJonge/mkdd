@@ -1,6 +1,8 @@
 #ifndef ITEMFLYTURTLE_H
 #define ITEMFLYTURTLE_H
 
+#include <JSystem/JParticle/JPAEmitter.h>
+
 #include "Kaneshige/CenterLine.h"
 #include "Kaneshige/KartChecker.h"
 #include "Sato/AnmController.h"
@@ -23,7 +25,7 @@ public:
     void moveCommon();                       // 0x8027a330
     void find1StKartNo();                    // 0x8027a4d0
     void chkSearchTargetKartRadius();        // 0x8027a808
-    void chkIsBackTargetKartOffsetPos();     // 0x8027a8ec
+    bool chkIsBackTargetKartOffsetPos();     // 0x8027a8ec
     void calcNowHeight();                    // 0x8027affc
 
     // Inline/Unused
@@ -54,7 +56,7 @@ public:
     virtual void moveCannon(CrsGround &);                         // A4
     virtual void deleteEffect();                                  // A8
 
-    static Vec sHandOffsetPos;           // 0x8041383c
+    static JGeometry::TVec3f sHandOffsetPos;           // 0x8041383c
     static J3DAnmTransform *mAnmTrans[2]; // 0x80414f64
     static J3DMtxCalc *mAnmCalc[2];      // 0x80414f6c
 
@@ -63,10 +65,27 @@ public:
     int mMoveState;                                 // 2c8
     int mTargetKartNo;                              // 2cc
     int mLockOnKartNo;                              // 2d0
-    u8 _2d4[0x32c - 0x2d4];                         //
+    u8 _2d4[0x2e0 - 0x2d4];                         //
+    u8 mSearchFrame;                                // 2e0
+    f32 mHeight;                                    // 2e4
+    JGeometry::TVec3f mAttackVel;                   //
+    JGeometry::TVec3f _2f4;                         //
+    JGeometry::TVec3f _300;                         //
+    JGeometry::TVec3f _30c;                         //
+    JGeometry::TVec3f _318;                         //
+    f32 _324;                                       //
+    bool _328;                                      //
+    bool _329;                                      //
     BombEffectObj *mBombEffect;                     // 32c
     ObjColBase *mNewBounds;                         // 330
-    u8 _334[0x350 - 0x334];                         //
+    u16 mAttackFrame;                               // 334
+    JPABaseEmitter *mEmitter;                       // 338
+    bool _33c;                                      //
+    u8 _33d;                                        //
+    f32 _340;                                       //
+    f32 mNowHeight;                                 // 344
+    int m1stKartNo;                                 // 348
+    u8 _34c;                                        //
     LapChecker *mLapChecker;                        // 350
 }; // class ItemFlyTurtle
 

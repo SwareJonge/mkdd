@@ -95,6 +95,7 @@ public:
     int getBombPoint() const { return mBombPoint; };
     const RaceTime &getMarkTime() { return mMarkTime; };
     f32 getTotalUnitDist() const { return mRaceProgression; };
+    f32 getLapUnitDist() const { return mLapProgression; }
     // cmpw was signed right?
     int getGoalFrame() const { return mGoalFrame; };
 
@@ -130,6 +131,7 @@ public:
     bool isMaxTotalTime() const { return !mTotalTime.isAvailable(); }
     bool isDead() const { return tstDead(); }
     bool isBombPointFull() const { return mBombPoint >= sBombPointFull; }
+    Course::Sector *getCheckSector() const { return mSector2; }
 
     static bool isInsideSector(f32 unitDist) { return (unitDist >= 0.0f && unitDist < 1.0f); }
     static int getWinBombPointForMenu(int p1)
@@ -196,17 +198,17 @@ public:
     }
 
     static int sPlayerKartColorTable[];
-    static short sBalForbiddenTime;
+    static s16 sBalForbiddenTime;
 
-    static short sBombPointDirect;   // 1
-    static short sBombPointSpin;     // 1
-    static short sBombPointIndirect; // 1
-    static short sBombPointAttacked; // -1
-    static short sBombPointFull;     // 4
-    static short sBombPointFullS;    // 3
-    static short sBombPointFullL;    // 4
+    static s16 sBombPointDirect;   // 1
+    static s16 sBombPointSpin;     // 1
+    static s16 sBombPointIndirect; // 1
+    static s16 sBombPointAttacked; // -1
+    static s16 sBombPointFull;     // 4
+    static s16 sBombPointFullS;    // 3
+    static s16 sBombPointFullL;    // 4
 
-    static short sBombPointCrushOneself;
+    static s16 sBombPointCrushOneself;
 
     // private: // i'm not really sure how else KartChkUsrPage got access to this
     u16 mRaceFlags;
@@ -234,8 +236,8 @@ public:
     f32 mLapProgression2; // might be max Lap Progression
     f32 mRaceProgression;
     u32 *mPassedSectors; // array of bitfields that keep track of what checkpoints have been passed 
-    JGeometry::TVec3<f32> mPos;
-    JGeometry::TVec3<f32> mPrevPos;
+    JGeometry::TVec3f mPos;
+    JGeometry::TVec3f mPrevPos;
     JugemPoint *mJugemPoint;
     bool mIsInRace;
     int mCurFrame;
@@ -252,7 +254,7 @@ public:
     s16 mRabbitWinFrame;
     int mDemoPoint;
     // these only get set in the constructor?
-    JGeometry::TVec3<f32> _0xb0;
+    JGeometry::TVec3f _0xb0;
     int _0xbc;
 };
 
@@ -262,13 +264,15 @@ public:
     LapChecker();
     void reset();
     void start(Course::Sector *sector);
-    void calc(const JGeometry::TVec3<f32> &);
+    void calc(const JGeometry::TVec3f &);
     bool isUDValid();
+
+    f32 getUD() const { return mLapUnitDist; }
 
 private:
     Course::Sector *mSector;
-    float mSectorDist;
-    float mLapUnitDist;
+    f32 mSectorDist;
+    f32 mLapUnitDist;
 };
 
 #endif // !KARTCHECKER_H

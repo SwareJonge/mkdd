@@ -57,7 +57,7 @@ public:
     void setCurrentViewNo(u32);                                           // 0x8025d690
     void createEffect();                                                  // 0x8025d6f0
     void findAnyKart();                                                   // 0x8025d760
-    void getMaxBombReactFrame();                                          // 0x8025d7b8
+    static u8 getMaxBombReactFrame();                                     // 0x8025d7b8
 
     static J3DAnmObjTrans *mAnmTrans[3]; // 0x803a0dfc
     static J3DAnmTransform *mAnmCalc[3]; // 0x803a0e08
@@ -77,6 +77,8 @@ public:
     // Inline
     virtual ~ItemBomb() {}                 // 0x8025d960
     void createColModel(J3DModelData *) {} // 0x8025daac
+
+    static bool isReact(u32 frame) { return frame >= getMaxBombReactFrame(); } // come up with better name
 
 private:
     u8 _[0x318 - 0x2b0];

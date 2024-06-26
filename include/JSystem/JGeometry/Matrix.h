@@ -125,7 +125,7 @@ namespace JGeometry {
             return (const Mtx *)mMtx;
         }
 
-        operator MtxPtr() const { return (MtxPtr)mMtx; }
+        operator MtxPtr() const { return (MtxPtr)mMtx; }        
 
         T mMtx[3][4];
     };
@@ -141,7 +141,7 @@ namespace JGeometry {
             const T zero = (T)0;
             ref(2, 3) = zero;
             ref(1, 3) = zero;
-            ref(0, 3) = zerof;
+            ref(0, 3) = zero;
 
             ref(1, 2) = zero;
             ref(0, 2) = zero;

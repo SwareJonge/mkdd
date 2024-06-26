@@ -37,7 +37,7 @@ void ItemKinoko::reset()
     _28 = 0.5f;
     mHeightOffset = sHeightOffset;
     _2c = 0.5f;
-    _54 = 0.3f;
+    mLerpRatio = 0.3f;
     _2b0 = 0.0f;
     _12c |= 8;
 }
