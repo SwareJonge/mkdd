@@ -8,11 +8,10 @@
 #include "JSystem/JSupport/JSUList.h"
 
 struct JAIAudience;
-struct JASSoundParams;
 
 struct JASNonCopyable
 {
-    int _0;
+    JAIAudience *mAudience;
 }; // Size: 0x4
 
 struct JAISeCategoryArrangementItem
@@ -25,10 +24,8 @@ struct JAISeCategoryArrangement
 {
     JAISeCategoryArrangementItem mItems[16];
 };
-
-class JAISeMgr;
-
-class JAISeCategoryMgr : public JAISeqDataUser
+// might have it's own header
+class JAISeCategoryMgr : public JAISeqDataUser, JASNonCopyable
 {
 public:
     JAISeCategoryMgr()
@@ -36,9 +33,8 @@ public:
         mParams.init();
         mMaxActiveSe = 0;
         mMaxInactiveSe = 0;
-        _4._0 = 0;
+        mAudience = nullptr;
     }
-
     void JAISeMgr_calc_();
     void JAISeMgr_calcAudibleSounds_();
     void JAISeMgr_freeDeadSe_();
@@ -52,7 +48,7 @@ public:
     void JAISeMgr_mixOut_(const JAISoundParamsMove &moveParams, JAISoundActivity activity);
     int getNumAudibleSe() const;
 
-    virtual ~JAISeCategoryMgr() {}
+    //virtual ~JAISeCategoryMgr() {}
     virtual bool isUsingSeqData(const JAISeqDataRegion &region);
     virtual int releaseSeqData(const JAISeqDataRegion &region);
 
@@ -69,13 +65,13 @@ public:
     int getMaxInactiveSe() const { return mMaxInactiveSe; }
     JSUList<JAISe> *getSeList() { return &mSeList; }
     int getNumSe() const { return mSeList.getNumLinks(); }
-    JAIAudience *getAudience() { return (JAIAudience *)_4._0; }
+    JAIAudience *getAudience() { return mAudience; }
 
-    JASNonCopyable _4;          //
     JAISoundParamsMove mParams; // 08
     JSUList<JAISe> mSeList;     // 58
     int mMaxInactiveSe;         // 64
     int mMaxActiveSe;           // 68
+
 
 }; // Size: 0x6C
 
@@ -103,10 +99,10 @@ public:
 
     static const s32 NUM_CATEGORIES = 16;
 
-    virtual ~JAISeMgr() {} // weak
+    
     virtual bool isUsingSeqData(const JAISeqDataRegion &region);
     virtual int releaseSeqData(const JAISeqDataRegion &region);
-
+    virtual ~JAISeMgr() {}; // weak
     JAISeCategoryMgr *getCategory(int categoryIndex)
     {
 #line 216

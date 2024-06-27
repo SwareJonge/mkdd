@@ -1,10 +1,6 @@
-
 #include "JSystem/JAudio/System/JASDriver.h"
 #include "JSystem/JAudio/System/JASReport.h"
 #include "JSystem/JAudio/Interface/JAISeMgr.h"
-
-DECL_WEAK JAISoundInfo *JASGlobalInstance<JAISoundInfo>::sInstance;
-
 // sym on is trolling me here(no match on debug)
 
 bool JAISeCategoryMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
@@ -34,16 +30,7 @@ int JAISeCategoryMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
             usingSeq = true;
         }
     }
-    // Not matching on debug(is this a ternaty + enum?)
-    int rv;
-    if (usingSeq)
-    {
-        rv = 1;
-    }
-    else {
-        rv = 2;
-    }
-    return rv;
+    return usingSeq != 0 ? JAI_ASYNC_RESULT_RETRY : JAI_ASYNC_RESULT_OK;
 }
 
 void JAISeCategoryMgr::JAISeMgr_calc_()
@@ -56,6 +43,7 @@ void JAISeCategoryMgr::JAISeMgr_calc_()
     }
     sortByPriority_();
 }
+
 
 void JAISeCategoryMgr::JAISeMgr_calcAudibleSounds_()
 {
@@ -244,19 +232,20 @@ bool JAISeMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
 
 int JAISeMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
 {
-    u8 r30 = 0;
+    bool ret = 0;
     for (int i = 0; i < 16; i++)
     {
         switch (mCategoryMgrs[i].JAISeCategoryMgr::releaseSeqData(dataRegion))
         {
         case 0:
-            return 0;
+            return JAI_ASYNC_RESULT_0;
         case 1:
-            r30 = 1;
+            ret = 1;
             break;
         }
     }
-    return (r30 != 0) ? 1 : 0;
+
+    return (ret) ? JAI_ASYNC_RESULT_RETRY : JAI_ASYNC_RESULT_0;
 }
 
 void JAISeMgr::setCategoryArrangement(const JAISeCategoryArrangement &catArrangement)
@@ -357,7 +346,7 @@ void JAISeMgr::resetSeqDataMgr()
 
 JAISe *JAISeMgr::newSe_(int category, u32 prio)
 {
-
+#line 380
     JUT_ASSERT(category < NUM_CATEGORIES)
     if (category < 0)
         category = 0;
@@ -474,5 +463,5 @@ int JAISeMgr::getNumAudibleSe() const
     }
     return sum;
 }
-
+DECL_WEAK JAISoundInfo *JASGlobalInstance<JAISoundInfo>::sInstance;
 #include "JSystem/JAudio/JASFakeMatch2.h"

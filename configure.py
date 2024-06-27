@@ -781,7 +781,7 @@ config.libs = [
         [
             Object(Matching, "JSystem/JAudio/Interface/JAIAudience.cpp"),
             Object(Matching, "JSystem/JAudio/Interface/JAISe.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Interface/JAISeMgr.cpp"),
+            Object(Equivalent, "JSystem/JAudio/Interface/JAISeMgr.cpp"),
             Object(Matching, "JSystem/JAudio/Interface/JAISeq.cpp"),
             Object(Matching, "JSystem/JAudio/Interface/JAISeqDataMgr.cpp"),
             Object(Matching, "JSystem/JAudio/Interface/JAISeqMgr.cpp"),
@@ -892,7 +892,7 @@ config.libs = [
             Object(Matching, "JSystem/JKernel/JKRDvdAramRipper.cpp"),
             Object(Matching, "JSystem/JKernel/JKRDvdArchive.cpp"),
             Object(Matching, "JSystem/JKernel/JKRDvdRipper.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRExpHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRExpHeap.cpp"),
             Object(Matching, "JSystem/JKernel/JKRFileCache.cpp"),
             Object(Matching, "JSystem/JKernel/JKRFileFinder.cpp"),
             Object(Matching, "JSystem/JKernel/JKRFileLoader.cpp"),

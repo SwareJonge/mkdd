@@ -755,26 +755,21 @@ void JKRExpHeap::recycleFreeBlock(JKRExpHeap::CMemBlock *block)
     }
 }
 
-// This functions doesn't match for the debug build, however functionality wise it's the same
-// https://decomp.me/scratch/UOwNi
 void JKRExpHeap::joinTwoBlocks(CMemBlock *block)
 {
-    // for some reason this gets rid of regswaps for the debug version, however is most likely incorrect
-    // u32 endAddr;
-    // u32 nextAddr;
-    // CMemBlock *next;
-
-    u32 endAddr = (u32)(block + 1) + block->mAllocatedSpace;
+    const u32 curBlock = (u32)block; // might get stored as CMemBlock *, compare against TP debug ig 
+    u32 endAddr = ((u32)curBlock + sizeof(CMemBlock)) + block->mAllocatedSpace;
     CMemBlock *next = block->mNext;
     u32 nextAddr = (u32)next - (next->mFlags & 0x7f);
     if (endAddr > nextAddr)
     {
-        JUTWarningConsole_f(":::Heap may be broken. (block = %x)", block);
-        JUT_REPORT_MSG(":::block = %x\n", block);
-        JUT_REPORT_MSG(":::joinTwoBlocks [%x %x %x][%x %x %x]\n", block, block->mFlags, block->mAllocatedSpace, block->mNext, block->mNext->mFlags, block->mNext->mAllocatedSpace);
+        JUTWarningConsole_f(":::Heap may be broken. (block = %x)", curBlock);
+        JUT_REPORT_MSG(":::block = %x\n", curBlock);
+        JUT_REPORT_MSG(":::joinTwoBlocks [%x %x %x][%x %x %x]\n", curBlock, block->mFlags, block->mAllocatedSpace, block->mNext, block->mNext->mFlags, block->mNext->mAllocatedSpace);
         JUT_REPORT_MSG(":::: endAddr = %x\n", endAddr);
         JUT_REPORT_MSG(":::: nextAddr = %x\n", nextAddr);
-        JKRGetCurrentHeap()->dump();
+        JKRHeap *curHeap = JKRGetCurrentHeap();
+        curHeap->dump();
 #line 1820
         JUT_PANIC("Bad Block\n");
     }

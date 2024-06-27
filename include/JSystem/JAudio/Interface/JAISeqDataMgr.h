@@ -3,9 +3,11 @@
 
 #include "types.h"
 
-#define JAI_ASYNC_RESULT_0 0
-#define JAI_ASYNC_RESULT_RETRY 1
-#define JAI_ASYNC_RESULT_OK 2
+enum {
+    JAI_ASYNC_RESULT_0,
+    JAI_ASYNC_RESULT_RETRY,
+    JAI_ASYNC_RESULT_OK
+};
 
 class JAISoundID;
 
@@ -48,6 +50,8 @@ struct JAISeqDataRegion
 
 struct JAISeqDataUser
 {
+    JAISeqDataUser() {}
+
     virtual ~JAISeqDataUser();
     virtual bool isUsingSeqData(const JAISeqDataRegion &) = 0;
     virtual int releaseSeqData(const JAISeqDataRegion &) = 0;
@@ -55,6 +59,7 @@ struct JAISeqDataUser
 
 struct JAISeqDataMgr
 {
+    JAISeqDataMgr() {}
     virtual ~JAISeqDataMgr();
     virtual s32 getSeqData(JAISoundID, JAISeqData *) = 0;
     virtual int releaseSeqData() = 0;
