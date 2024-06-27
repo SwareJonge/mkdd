@@ -690,12 +690,12 @@ libs/dolphin/card/CARDStat.c:
 libs/dolphin/card/CARDRename.c:
     .text: [0x800ba27c, 0x800ba4c0]
 
-#libs/dolphin/exi/EXIBios.c:
-    #.text: [0x800c387c, 0x800c5370]
-    #.data: [, ]
-    #.bss: [, ]
-    #.sdata: [, ]
-    #.sbss: [, 0x803d5010]
+libs/dolphin/exi/EXIBios.c:
+    .text: [0x800c387c, 0x800c5370]
+    .data: [0x803509b8, 0x80350ac8]
+    .bss: [0x80371e08, 0x80371ec8]
+    .sdata: [0x803d3478, 0x803d3480]
+    .sbss: [0x803d5008, 0x803d5010]
 
 libs/dolphin/exi/EXIUart.c:
     .text: [0x800c5370, 0x800c5944]
@@ -1554,6 +1554,16 @@ src/Sato/RivalKart.cpp:
     .ctors: [0x802d885c, 0x802d8860]
     .data: [0x803616c0, 0x803616d8]
     .bss: [0x803acfa0, 0x803acfd0]
+
+src/Sato/ItemFlyTurtle.cpp:
+    .text: [0x8023cbe0, 0x8023f0c8]
+    .ctors: [0x802d8870, 0x802d8874]
+    .rodata: [0x803431b8, 0x80343220]
+    .data: [0x80361980, 0x80361a58]
+    .bss: [0x803ad0b0, 0x803ad0e0]
+    .sdata: [0x803d4180, 0x803d4210]
+    .sbss: [0x803d5f00, 0x803d5f10]
+    .sdata2: [0x803da520, 0x803da548]
 
 src/Sato/ItemHeart.cpp:
     .text: [0x80248e0c, 0x802496a4]

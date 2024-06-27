@@ -962,19 +962,18 @@ bool JKRExpHeap::dump_sort()
     return result;
 }
 
-// these didn't get deadstripped, workaround to generate it
-static void genData()
-{
-    JUTWarningConsole_f("+---------------JKRExpHeap\n");
-    JUTWarningConsole_f("|         Align Group  size    ( prev , next )\n");
-    JUTWarningConsole_f("| ---- FreeFirst\n");
-    JUTWarningConsole_f("| %08x  ");
-    JUTWarningConsole_f("%2x  %3d  %6x  (%08x %08x)\n");
-    JUTWarningConsole_f("| ---- FreeLast\n");
-    JUTWarningConsole_f("| ---- UsedFirst\n");
-    JUTWarningConsole_f("| ---- UsedLast\n");
-    JUTWarningConsole_f("+---------------End\n");
-}
+// these didn't get deadstripped, workaround to generate it(original function: JKRExpHeap::DBshow())
+CW_FORCE_STRINGS(JKRExpHeap_cpp, 
+    "+---------------JKRExpHeap\n",
+    "|         Align Group  size    ( prev , next )\n",
+    "| ---- FreeFirst\n",
+    "| %08x  ",
+    "%2x  %3d  %6x  (%08x %08x)\n",
+    "| ---- FreeLast\n",
+    "| ---- UsedFirst\n",
+    "| ---- UsedLast\n",
+    "+---------------End\n"
+)
 
 void JKRExpHeap::CMemBlock::initiate(JKRExpHeap::CMemBlock *prev, JKRExpHeap::CMemBlock *next, u32 size, u8 groupID, u8 alignment)
 {

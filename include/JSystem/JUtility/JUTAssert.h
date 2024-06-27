@@ -82,10 +82,10 @@ namespace JUTAssertion
 #define JUT_WARNING_F2(...) // remove condintional?
 #define JUT_CRITICAL_WARNING_F(...)
 #define JUT_ASSERT(...) (void)0;
-#define JUT_ASSERT_F(...)
-#define JUT_ASSERT_MSG(...)
-#define JUT_MINMAX_ASSERT(...)
-#define JUT_MAX_ASSERT(...)
+#define JUT_ASSERT_F(...) (void)0;
+#define JUT_ASSERT_MSG(...) (void)0;
+#define JUT_MINMAX_ASSERT(...) (void)0;
+#define JUT_MAX_ASSERT(...) (void)0;
 #define JUT_LOG_F(...)
 #define JUT_REPORT_MSG(...) (void)0
 #endif

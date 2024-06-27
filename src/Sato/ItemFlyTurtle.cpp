@@ -779,33 +779,33 @@ int CLPointControllerFlyTurtle::findNextPointNo(CLPoint *point) {
 
 void CLPointControllerFlyTurtle::recursiveTargetCalcBack(CLPoint *point, int groupID, int *pPointNo, u8 *pCount, bool *pFoundTarget) {
     (*pCount)++;
-    if(*pCount <= 2) {
-        int prevPointNo = point->getPrevPointNumber();
-        if(prevPointNo == 1) {
-            if(point->getPrevPoint(0)->getNextPointNumber() < 2)
-                return;
-        }
-
-        for(int i = 0; i < prevPointNo; i++) {
-            if(*pCount == 1) {
-                *pPointNo = i;
-            }
-            CLPoint *prevPoint = point->getPrevPoint(i);
-            u8 prevGroupID = prevPoint->getGroupID();
-            if(prevGroupID == groupID)
-                *pFoundTarget = true;
-            else {
-                CLPoint *div = prevPoint->getDivPoint();
-                if (div) {
-                    recursiveTargetCalcBack(div, groupID, pPointNo, pCount, pFoundTarget);
-                    (*pCount)--;
-                }
-            }
-            if(*pFoundTarget)
-                return;
-        }
-        
+    if(*pCount > 2)
+        return;
+    int prevPointNo = point->getPrevPointNumber();
+    if(prevPointNo == 1) {
+        for(int i = 0; i < 1; i++) {} // fakematch, affects inline depth
+        if(point->getPrevPoint(0)->getNextPointNumber() < 2)
+            return;
     }
+
+    for(int i = 0; i < prevPointNo; i++) {
+        if(*pCount == 1) {
+            *pPointNo = i;
+        }
+        CLPoint *prevPoint = point->getPrevPoint(i);
+        u8 prevGroupID = prevPoint->getGroupID();
+        if(prevGroupID == groupID)
+            *pFoundTarget = true;
+        else {
+            CLPoint *div = prevPoint->getDivPoint();
+            if (div) {
+                recursiveTargetCalcBack(div, groupID, pPointNo, pCount, pFoundTarget);
+                (*pCount)--;
+            }
+        }
+        if(*pFoundTarget)
+            return;
+    }    
 }
 
 #include "JSystem/JAudio/JASFakeMatch2.h"

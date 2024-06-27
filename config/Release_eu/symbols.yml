@@ -3229,6 +3229,7 @@ global:
   0x80181e48: setCurrentViewNo__7ExModelFUl
   0x80182194: simpleDraw__7ExModelFUlPA4_fUl
   0x80182aac: setBaseTRMtx__7ExModelFPA4_f
+  0x80182bd0: setEffectMtx__7ExModelFPA4_fUl
   0x80182cfc: viewCalc__7ExModelFUl
   0x80355990: __vt__7ExModel
   0x803559b4: __vt__12ExMdlDataMgr
@@ -3495,7 +3496,7 @@ global:
   0x803d88e8: cGeoObjLBTable__13TexLODControl
   0x803d88f0: cCharLBTable__13TexLODControl  
 
-  # ShapPktControl.cpp
+  # ShapePktControl.cpp
   0x80190134: __ct__15ShapePktControlFv
   0x80190154: ctrlPacket__15ShapePktControlFUl
   # SimpleDrawer.cpp
@@ -3508,6 +3509,20 @@ global:
 
   # JugemPoint.cpp
   0x80190324: __ct__10JugemPointFv
+
+  # GeoCannon.cpp
+  0x801960ac: initAnm__33TAnmControlBase<14J3DAnmObjTrans>FUcP7ExModel
+  0x80196180: __dt__14J3DAnmObjTransFv
+  0x801961f0: __ct__15AnmControlTransFv
+  0x8019625c: __dt__33TAnmControlBase<14J3DAnmObjTrans>Fv
+  0x80196600: resetAnm__33TAnmControlBase<14J3DAnmObjTrans>Fv
+  0x8019667c: changeAnm__14AnmControlBaseFUcb
+  0x80196680: changeMatAnm__14AnmControlBaseFUcb  
+  0x8019678c: resetMatAnm__33TAnmControlBase<14J3DAnmObjTrans>Fv
+  0x801967d4: setAnmProc__33TAnmControlBase<14J3DAnmObjTrans>Fv
+  0x80196810: frameProc__33TAnmControlBase<14J3DAnmObjTrans>Fv
+  0x8035641c: __vt__33TAnmControlBase<14J3DAnmObjTrans>
+  0x80356444: __vt__14AnmControlBase
 
   # GeoItemGen.cpp
   0x8019c850: getBmdFileName__12GeographyObjFv
@@ -4492,8 +4507,15 @@ global:
   0x80215220: calc__7ItemObjFv
   0x80215674: initFall__7ItemObjFv
   0x8021569c: initOccur__7ItemObjFRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x80215710: createSoundMgr__7ItemObjFv 
+  0x80215768: createBoundSphere__7ItemObjFP12J3DModelData
+  0x802157e4: createBoundSphere__7ItemObjFff
+  0x80215854: createBoundCylinder__7ItemObjFP12J3DModelData
   0x80215bac: setScaleCol__7ItemObjFf
   0x80215bcc: resetObject__7ItemObjFv
+  0x80215f34: getModelLfDir__7ItemObjFPQ29JGeometry8TVec3<f>
+  0x80215f50: getModelUpDir__7ItemObjFPQ29JGeometry8TVec3<f>
+  0x80215f6c: getModelFrDir__7ItemObjFPQ29JGeometry8TVec3<f>
   0x80215f88: rotationRad__7ItemObjFRff
   0x802162a8: IsHitKart__7ItemObjFiRCQ29JGeometry8TVec3<f>f
   0x8021638c: IsHitObject__7ItemObjFP10ObjColBaseRCQ29JGeometry8TVec3<f>P10ObjColBase
@@ -4512,10 +4534,14 @@ global:
   0x802178a0: doFallScaling__7ItemObjFv
   0x802178c8: calcColReaction__7ItemObjFP7ItemObj
   0x802183bc: getHandAnmMtx__7ItemObjFv
+  0x8021846c: initMoveColGround__7ItemObjFv
+  0x80218498: doMoveColGround__7ItemObjFP10Quaternionb
   0x802188b0: moveCommonAttr__7ItemObjFR9CrsGroundb
   0x80218a6c: moveColWall__7ItemObjFR9CrsGround
   0x80218d98: moveRescue__7ItemObjFR9CrsGround
-  0x80218ec0: moveCannon__7ItemObjFR9CrsGround
+  0x80218ec0: moveCannon__7ItemObjFR9CrsGround 
+  0x80219840: setVelMax__7ItemObjFv
+  0x80219bbc: calcScale__7ItemObjFfff
   0x80219f88: callHitItemSound__7ItemObjFP7ItemObj
   0x8021a0b4: drawSimpleModel__7ItemObjFUlPA4_fP11J3DUClipperPA4_f
   0x8021a0b8: getItemRnd__7ItemObjFv
@@ -4523,6 +4549,9 @@ global:
   0x8021a2fc: doEquip__7ItemObjFv
   0x8021a324: doDivested__7ItemObjFv
   0x8035ff04: __vt__7ItemObj
+  # ItemBanana.cpp
+  0x8021a4a8: __dt__13AnmControllerFv
+  0x803602e0: __vt__13AnmController
   # stEfctWeed.cpp
   0x8021d0f4: getGeneratePos__14stEfctWeedBaseFPQ29JGeometry8TVec3<f>PA4_f
   0x8021d1ec: __ct__10stEfctWeedFv
@@ -4573,16 +4602,54 @@ global:
   0x8021f170: __ct__17J3DEfctKartAnmMgrFv
   0x803d5e18: sJ3DMgr__12J3DEffectMgr
   0x803d5e1c: sJ3DKartAnmMgr__17J3DEfctKartAnmMgr
+  # ItemBomb.cpp
+  0x80225140: getMaxBombReactFrame__8ItemBombFv
   # ObjUtility.cpp
+  0x80225590: getPtrMainArc__10ObjUtilityFPc
   0x802255b8: getPtrCourseArc__10ObjUtilityFPc
-  0x8022581c: getKartPos__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x802255e0: getPtrMainLocaleArc__10ObjUtilityFPc
+  0x80225608: setRMtx__10ObjUtilityFPA4_fRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>
+  0x8022567c: executeShakeCamera__10ObjUtilityFRCQ29JGeometry8TVec3<f>fff
   0x80225804: getKartBodyMtx__10ObjUtilityFi
+  0x8022581c: getKartPos__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x80225848: getKartXdir__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x80225894: getKartYdir__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x802258e0: getKartZdir__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x8022592c: getKartVel__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x8022595c: getKartEfctVel__10ObjUtilityFiPQ29JGeometry8TVec3<f>
+  0x80226948: doNextChkIsOverFwPoint__17CLPointControllerFRCQ29JGeometry8TVec3<f>
+  0x802260e4: __ct__13BombEffectObjFv
+  0x802261b8: reset__13BombEffectObjFv
+  0x802261ec: init__13BombEffectObjFRCQ29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Ucf 
+  0x8022623c: setInitialize__13BombEffectObjFRQ29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>RCQ29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Ucf
+  0x802264c0: setJPAEfct__13BombEffectObjFRCQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<f>Uc
+  0x802265a8: startEfct__13BombEffectObjFRCQ29JGeometry64TPosition3<Q29JGeometry38TMatrix34<Q29JGeometry13SMatrix34C<f>>>Uc
+  0x802265f0: execute__13BombEffectObjFv
+  0x80226620: calc__13BombEffectObjFffUcUc
+  0x802266e8: reset__17CLPointControllerFv
+  0x80226718: init_ByKartIndex__17CLPointControllerFi
+  0x80226764: init_ByCLPointPtr__17CLPointControllerFP7CLPoint
+  0x80226790: chkArriveAtFwPoint__17CLPointControllerFRCQ29JGeometry8TVec3<f>f
+  0x80226854: chkIsOverFwPoint__17CLPointControllerFRCQ29JGeometry8TVec3<f>
+  0x80226948: doNextChkIsOverFwPoint__17CLPointControllerFRCQ29JGeometry8TVec3<f>
+  0x80226a4c: getLengthFromCLDir__17CLPointControllerFRCQ29JGeometry8TVec3<f>
+  0x80226adc: changeNextPoint__17CLPointControllerFv
+  0x80226b20: calcCLDir__17CLPointControllerFv
+  0x80226c10: calcFirstCLbyAngle__17CLPointControllerFRCQ29JGeometry8TVec3
+  0x80226e94: calcNextPoint__17CLPointControllerFP7CLPoint
+  0x80226ef8: findNextPointNo__17CLPointControllerFP7CLPoint
+  0x80226f00: findRndPointNoExceptForShortCut__17CLPointControllerFP7CLPointP8stRandom
+  0x80227010: recursiveTargetCalc__17CLPointControllerFP7CLPointiPiPUcPb
+  0x802272e0: getDivPoint__7CLPointFv
+  0x802272e8: getGroupID__7CLPointCFv
+  0x802272f4: getNextPoint__7CLPointFi
+  0x80227304: getPrevPoint__7CLPointFi
+  0x80227314: tstReverse__17CLPointControllerCFv
+  0x8022731c: __dt__13BombEffectObjFv
+  0x80360aa0: __vt__17CLPointController
+  0x80360aac: __vt__13BombEffectObj
   # JPEffectPerformer.cpp
   0x8022c340: setEffect__17JPEffectPerformerFQ217JPEffectPerformer10EffectTypeiRCQ29JGeometry8TVec3<f>Uc
-  0x802307d8: initFrameCtrl__13J3DAnmObjBaseFP10J3DAnmBase
-  0x80230a64: setupTexSRTAnmData__17J3DAnmObjMaterialFPP19J3DAnmTextureSRTKeyP12J3DModelDataPv
-  0x80230c08: setupTexPatternAnmData__17J3DAnmObjMaterialFPP16J3DAnmTexPatternP12J3DModelDataPv
-  0x80230da0: setupTevRegAnmData__17J3DAnmObjMaterialFPP15J3DAnmTevRegKeyP12J3DModelDataPv
   # ItemSuccession.cpp
   0x8022f424: reset__10ItemObjSucFv
   0x8022f484: initEquip__10ItemObjSucFv
@@ -4597,11 +4664,78 @@ global:
   0x80361100: __vt__10ItemObjSuc
   0x803611cc: __vt__9ItemBuild
   0x803611e8: __vt__10ItemJuggle
+  # J3DAnmObject.cpp
+  0x802307b0: loadJ3DModelData__13J3DAnmObjBaseFPvUl
+  0x802307d8: initFrameCtrl__13J3DAnmObjBaseFP10J3DAnmBase
+  0x802307ec: loadTransAnm__14J3DAnmObjTransFPP15J3DAnmTransformPv
+  0x80230824: setupTransAnmData__14J3DAnmObjTransFPP15J3DAnmTransformPP10J3DMtxCalcP12J3DModelDataPv
+  0x80230878: attach__14J3DAnmObjTransFP15J3DAnmTransformP10J3DMtxCalc
+  0x80230894: attachBlend__14J3DAnmObjTransFP15J3DAnmTransformP10J3DMtxCalc
+  0x802308bc: anmFrameProc__14J3DAnmObjTransFv
+  0x802307d8: initFrameCtrl__13J3DAnmObjBaseFP10J3DAnmBase
+  0x80230a64: setupTexSRTAnmData__17J3DAnmObjMaterialFPP19J3DAnmTextureSRTKeyP12J3DModelDataPv
+  0x80230c08: setupTexPatternAnmData__17J3DAnmObjMaterialFPP16J3DAnmTexPatternP12J3DModelDataPv
+  0x80230da0: setupTevRegAnmData__17J3DAnmObjMaterialFPP15J3DAnmTevRegKeyP12J3DModelDataPv
+  0x80361258: __vt__14J3DAnmObjTrans
   # EffectScreen.cpp
   0x80231cd8: __ct__15EffectScreenMgrFv
   0x80231dc8: reset__15EffectScreenMgrFv
   0x80231ec4: calc__15EffectScreenMgrFv
   0x803d5ec0: ThisMgr__15EffectScreenMgr
+  # AnmController.cpp
+  0x80233b70: registration__15AnmControlTransFUcP15J3DAnmTransformP10J3DMtxCalc
+  0x80233ba8: registrationBlend__15AnmControlTransFUcP15J3DAnmTransformP10J3DMtxCalc
+  0x80233be0: changeBlendAnm__15AnmControlTransFUcUcUc
+  0x80233c5c: frameProc__15AnmControlTransFv
+  0x80233ec0: __ct__13AnmControllerFv
+  0x80233ee0: InitRegistrationMat__13AnmControllerFRC10MatAnmInfoP7ExModel
+  0x8023424c: __dt__37TAnmControlBase<18J3DAnmObjMatTevReg>Fv
+  0x802342c0: __dt__41TAnmControlBase<22J3DAnmObjMatTexPattern>Fv
+  0x80234334: __dt__37TAnmControlBase<18J3DAnmObjMatTexSRT>Fv
+  0x802343a8: __dt__36TAnmControlBase<17J3DAnmObjMatColor>Fv
+  0x8023441c: setAnmProc__15AnmControlTransFv
+  0x802344bc: FrameProc__13AnmControllerFv
+  0x80234538: SetAnimation__13AnmControllerFv
+  0x802345b4: Reset__13AnmControllerFv
+  0x80234600: ResetMat__13AnmControllerFv
+  0x8023465c: __dt__19AnmControlMatTevRegFv
+  0x802346e0: changeMatAnm__19AnmControlMatTevRegFUcb
+  0x802347a8: __dt__23AnmControlMatTexPatternFv
+  0x8023482c: changeMatAnm__23AnmControlMatTexPatternFUcb
+  0x802348f4: __dt__19AnmControlMatTexSRTFv
+  0x80234978: changeMatAnm__19AnmControlMatTexSRTFUcb
+  0x80234a40: __dt__18AnmControlMatColorFv
+  0x80234ac4: changeMatAnm__18AnmControlMatColorFUcb
+  0x80234b8c: __dt__15AnmControlTransFv
+  0x80234c10: initAnm__37TAnmControlBase<18J3DAnmObjMatTevReg>FUcP7ExModel
+  0x80234ce0: resetAnm__37TAnmControlBase<18J3DAnmObjMatTevReg>Fv
+  0x80234d5c: resetMatAnm__37TAnmControlBase<18J3DAnmObjMatTevReg>Fv
+  0x80234da4: initAnm__41TAnmControlBase<22J3DAnmObjMatTexPattern>FUcP7ExModel
+  0x80234e74: resetAnm__41TAnmControlBase<22J3DAnmObjMatTexPattern>Fv
+  0x80234ef0: resetMatAnm__41TAnmControlBase<22J3DAnmObjMatTexPattern>Fv
+  0x80234f38: initAnm__37TAnmControlBase<18J3DAnmObjMatTexSRT>FUcP7ExModel
+  0x80235008: resetAnm__37TAnmControlBase<18J3DAnmObjMatTexSRT>Fv 
+  0x80235084: resetMatAnm__37TAnmControlBase<18J3DAnmObjMatTexSRT>Fv
+  0x802350cc: initAnm__36TAnmControlBase<17J3DAnmObjMatColor>FUcP7ExModel
+  0x8023519c: resetAnm__36TAnmControlBase<17J3DAnmObjMatColor>Fv
+  0x80235218: resetMatAnm__36TAnmControlBase<17J3DAnmObjMatColor>Fv
+  0x80235260: setAnmProc__36TAnmControlBase<17J3DAnmObjMatColor>Fv
+  0x8023529c: frameProc__36TAnmControlBase<17J3DAnmObjMatColor>Fv
+  0x802352dc: __ct__17J3DAnmObjMatColorFv
+  0x8023534c: setAnmProc__37TAnmControlBase<18J3DAnmObjMatTexSRT>Fv
+  0x80235388: anmFrameProc__44J3DAnmObjMaterialBase<19J3DAnmTextureSRTKey>Fv
+  0x80235398: __dt__18J3DAnmObjMatTexSRTFv
+  0x80235418: __ct__18J3DAnmObjMatTexSRTFv
+  0x80235488: __dt__44J3DAnmObjMaterialBase<19J3DAnmTextureSRTKey>Fv
+  0x802354f8: setAnmProc__41TAnmControlBase<22J3DAnmObjMatTexPattern>Fv
+  0x80235534: frameProc__41TAnmControlBase<22J3DAnmObjMatTexPattern>Fv
+  0x80235574: setAnmProc__37TAnmControlBase<18J3DAnmObjMatTevReg>Fv
+  0x802355b0: anmFrameProc__40J3DAnmObjMaterialBase<15J3DAnmTevRegKey>Fv
+  0x802355c0: frameProc__37TAnmControlBase<18J3DAnmObjMatTevReg>Fv
+  0x80235600: __dt__18J3DAnmObjMatTevRegFv
+  0x80235680: __ct__18J3DAnmObjMatTevRegFv
+  0x802356f0: __dt__40J3DAnmObjMaterialBase<15J3DAnmTevRegKey>Fv
+  0x80361658: __vt__15AnmControlTrans
   # RivalKart.cpp
   0x8023586c: __ct__9RivalKartFP8KartBody
   0x80235a4c: __dt__9RivalKartFv
@@ -4627,6 +4761,53 @@ global:
   # NeckCtrl.cpp
   0x8023a3a0: __ct__14CharIKParamMgrFv
   0x803d5ee8: mMgr__14CharIKParamMgr
+
+  # ItemFlyTurtle.cpp
+  0x8023cbe0: __ct__13ItemFlyTurtleFUl
+  0x8023cc94: reset__13ItemFlyTurtleFv
+  0x8023cdf0: getBmdFileName__13ItemFlyTurtleFv
+  0x8023ce18: loadAnmData__13ItemFlyTurtleFP12J3DModelData
+  0x8023ceb4: createModel__13ItemFlyTurtleFP12JKRSolidHeapUlUl
+  0x8023cfc8: createColModel__13ItemFlyTurtleFP12J3DModelData
+  0x8023cff0: update__13ItemFlyTurtleFv
+  0x8023d038: setCurrentViewNo__13ItemFlyTurtleFUl
+  0x8023d09c: doUniv__13ItemFlyTurtleFv
+  0x8023d11c: initEquip__13ItemFlyTurtleFv
+  0x8023d170: doEquip__13ItemFlyTurtleFv
+  0x8023d198: initRelease__13ItemFlyTurtleFv
+  0x8023d390: setInitReleaseParam__13ItemFlyTurtleFv
+  0x8023d3f4: doRelease__13ItemFlyTurtleFv
+  0x8023d4d8: initForceDisappear__13ItemFlyTurtleFv
+  0x8023d518: deleteEffect__13ItemFlyTurtleFv
+  0x8023d55c: moveWait__13ItemFlyTurtleFv
+  0x8023d638: moveFlying__13ItemFlyTurtleFv
+  0x8023d784: moveSearchBack__13ItemFlyTurtleFv
+  0x8023d998: moveSearch__13ItemFlyTurtleFv
+  0x8023dbf0: moveAttack__13ItemFlyTurtleFv
+  0x8023dd7c: moveCommon__13ItemFlyTurtleFv
+  0x8023de98: moveRescue__13ItemFlyTurtleFR9CrsGround
+  0x8023df1c: find1StKartNo__13ItemFlyTurtleFv
+  0x8023e068: chkSearchTargetKartRadius__13ItemFlyTurtleFv
+  0x8023e14c: chkIsBackTargetKartOffsetPos__13ItemFlyTurtleFv
+  0x8023e270: moveNormal__13ItemFlyTurtleFR9CrsGround
+  0x8023e4ac: moveColWall__13ItemFlyTurtleFR9CrsGround
+  0x8023e65c: moveCannon__13ItemFlyTurtleFR9CrsGround
+  0x8023e688: initDisappear__13ItemFlyTurtleFv
+  0x8023e768: doDisappear__13ItemFlyTurtleFv
+  0x8023e83c: initFall__13ItemFlyTurtleFv
+  0x8023e85c: calcNowHeight__13ItemFlyTurtleFv
+  0x8023e9e4: __ct__26CLPointControllerFlyTurtleFv
+  0x8023ea2c: findNextPointNo__26CLPointControllerFlyTurtleFP7CLPoint
+  0x8023ebc0: recursiveTargetCalcBack__26CLPointControllerFlyTurtleFP7CLPointiPiPUcPb
+  0x8023ee30: __dt__13ItemFlyTurtleFv
+  0x8023ef40: getLockOnKartNo__13ItemFlyTurtleCFv
+  0x8023ef48: initSpRelease__13ItemFlyTurtleFv
+  0x8023ef74: doSpRelease__13ItemFlyTurtleFv
+  0x80361980: __vt__26CLPointControllerFlyTurtle
+  0x8036198c: __vt__13ItemFlyTurtle
+  0x803d2afc: sHandOffsetPos__13ItemFlyTurtle # common bss
+  0x803d41fc: mAnmTrans__13ItemFlyTurtle
+  0x803d4204: mAnmCalc__13ItemFlyTurtle
 
   # RivalItemCtrl.cpp
   0x80241868: __ct__13RivalItemCtrlFP9RivalKart
