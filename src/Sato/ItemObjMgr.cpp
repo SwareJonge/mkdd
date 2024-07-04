@@ -507,7 +507,7 @@ bool ItemObjMgr::robRivalOfItem(int kart_index1, int kart_index2, u8 driver_inde
         ItemObj *obj = getKartEquipItem(kart_index2, driver_index);
         if (obj)
         {
-            this->mEquipItem[kart_index1][tandemDriver] = obj;
+            mEquipItem[kart_index1][tandemDriver] = obj;
             obj->setOrigOwnerNum(kart_index2);
             obj->setOrigDriverNum((u8)driver_index);
             obj->setOwnerNum(kart_index1);
@@ -515,7 +515,7 @@ bool ItemObjMgr::robRivalOfItem(int kart_index1, int kart_index2, u8 driver_inde
             obj->setStateDivested(true);
             delete_stockItemToKart(kart_index2, driver_index);
 
-            this->mEquipItem[kart_index2][driver_index] = nullptr;
+            mEquipItem[kart_index2][driver_index] = nullptr;
             robbed = true;
         }
     }
@@ -567,7 +567,7 @@ bool ItemObjMgr::transferPartnerOfItem(int kart_index, bool swap)
         ItemObj *obj = getKartEquipItem(kart_index, (u8)swappedTandem);
         if (obj)
         {
-            this->mEquipItem[kart_index][driver_index] = obj;
+            mEquipItem[kart_index][driver_index] = obj;
             obj->setOrigOwnerNum(kart_index);
             obj->setOrigDriverNum(swappedTandem);
             obj->setOwnerNum(kart_index);
@@ -576,7 +576,7 @@ bool ItemObjMgr::transferPartnerOfItem(int kart_index, bool swap)
             obj->setStateDivested(true);
             delete_stockItemToKart(kart_index, (u8)swappedTandem);
 
-            this->mEquipItem[kart_index][swappedTandem] = nullptr;
+            mEquipItem[kart_index][swappedTandem] = nullptr;
             ret = true;
         }
     }
@@ -731,7 +731,16 @@ void ItemObjMgr::deleteItemKeepMax(ItemObj *obj)
     }
 }
 
-void ItemObjMgr::deleteMaxOverItem(const JSUList<ItemObj> &) {}
+void ItemObjMgr::deleteMaxOverItem(const JSUList<ItemObj> &itemList) {
+    for (JSUListIterator<ItemObj> it(itemList.getFirst()); it.isAvailable(); ++it) {
+        if(it.getObject()) {
+            if(it->isCertainState()) {
+                it->setStateForceDisappear();
+                break;
+            }
+        }
+    }
+}
 
 ItemObj *ItemObjMgr::getDeleteObjByPriorityList(JSUList<ItemObj> *) {}
 
@@ -778,8 +787,8 @@ void ItemObjMgr::loadModelData(ItemObj *obj)
     if (mModel[kind] == nullptr)
     {
         const void *bmd = ResMgr::getPtr(ResMgr::mcArcMRAM, obj->getBmdFileName());
-        this->mModel[kind] = J3DModelLoaderDataBase::load(bmd, 0x19220010 | obj->getModelDataAppendLoadFlg());
-        ExModel::patchModelData(this->mModel[kind]);
+        mModel[kind] = J3DModelLoaderDataBase::load(bmd, 0x19220010 | obj->getModelDataAppendLoadFlg());
+        ExModel::patchModelData(mModel[kind]);
 
         if (obj->getModelDataAppendLoadFlg() == 0x20)
         {
@@ -792,19 +801,19 @@ void ItemObjMgr::loadModelData(ItemObj *obj)
         }
         if (obj->getKind() != 0xf)
         {
-            ExModel::setLODBias(this->mModel[kind], TexLODControl::getGeographyLODBias());
+            ExModel::setLODBias(mModel[kind], TexLODControl::getGeographyLODBias());
         }
-        RCMGetCourse()->setFogInfo(this->mModel[kind]);
+        RCMGetCourse()->setFogInfo(mModel[kind]);
 
         if (sSimpleDrawItemFlg[kind])
         {
-            ExModel::setLightMask(this->mModel[kind], GX_LIGHT1);
+            ExModel::setLightMask(mModel[kind], GX_LIGHT1);
         }
-        this->mModel[kind]->newSharedDisplayList(0x40000);
+        mModel[kind]->newSharedDisplayList(0x40000);
         if ((sSimpleDrawItemFlg)[kind])
         {
-            this->mModel[kind]->simpleCalcMaterial(j3dDefaultMtx);
-            this->mModel[kind]->makeSharedDL();
+            mModel[kind]->simpleCalcMaterial(j3dDefaultMtx);
+            mModel[kind]->makeSharedDL();
         }
     }
 }
@@ -813,12 +822,12 @@ void ItemObjMgr::loadShadowModelData()
 {
     for (u8 i = 0; i < 2; i++)
     {
-        if (this->mShadowModel[i] == nullptr)
+        if (mShadowModel[i] == nullptr)
         {
             const void *shadowBmd = ResMgr::getPtr(ResMgr::mcArcMRAM, ItemObj::getShadowBmdFileName((u8)i));
-            this->mShadowModel[i] = J3DModelLoaderDataBase::load(shadowBmd, 0x18210010);
-            ExModel::patchModelData(this->mShadowModel[i]);
-            this->mShadowModel[i]->newSharedDisplayList(0x40000);
+            mShadowModel[i] = J3DModelLoaderDataBase::load(shadowBmd, 0x18210010);
+            ExModel::patchModelData(mShadowModel[i]);
+            mShadowModel[i]->newSharedDisplayList(0x40000);
         }
     }
 }
@@ -887,15 +896,15 @@ void ItemObjMgr::load()
 
     if (!GetGeoObjMgr()->isBombBattle() && !RCMGetManager()->isStaffRoll())
     {
-        ItemBanana::loadAnmData(this->mModel[3]);
-        ItemWanWanObj::loadAnmData(this->mModel[7]);
-        ItemFlyTurtle::loadAnmData(this->mModel[13]);
-        ItemGoldenKinoko::loadAnmData(this->mModel[12]);
-        ItemBananaBig::loadAnmData(this->mModel[4]);
-        ItemYoshiEgg::loadAnmData(this->mModel[11]);
-        ItemFakeItemBox::loadAnmData(this->mModel[15]);
+        ItemBanana::loadAnmData(mModel[3]);
+        ItemWanWanObj::loadAnmData(mModel[7]);
+        ItemFlyTurtle::loadAnmData(mModel[13]);
+        ItemGoldenKinoko::loadAnmData(mModel[12]);
+        ItemBananaBig::loadAnmData(mModel[4]);
+        ItemYoshiEgg::loadAnmData(mModel[11]);
+        ItemFakeItemBox::loadAnmData(mModel[15]);
     }
-    ItemBomb::loadAnmData(this->mModel[8]);
+    ItemBomb::loadAnmData(mModel[8]);
 }
 
 void ItemObjMgr::createModel(JKRSolidHeap *heap, u32 camera_index)
@@ -1008,7 +1017,9 @@ void ItemObjMgr::calc()
     }
 }
 
-void ItemObjMgr::calcIsHitItem(JSUListIterator<ItemObj> &, JSUListIterator<ItemObj> &) {}
+void ItemObjMgr::calcIsHitItem(JSUListIterator<ItemObj> &list1, JSUListIterator<ItemObj> &list2) {
+    
+}
 
 void ItemObjMgr::setKartHittingList(JSUListIterator<ItemObj> &, int kart_index)
 {
@@ -1171,14 +1182,27 @@ bool ItemObjMgr::IsRollingSlot(int kart_index, u8 driver_index)
     return ret;
 }
 
+void ItemObjMgr::getNowEnableSlotDriver(u8 *pDriverIndex, int kart_index) {
+    if(GetKartCtrl()->CheckChange(kart_index) && mEquipItem[kart_index][*pDriverIndex]) {
+        *pDriverIndex = *pDriverIndex == 0;
+    }
+}
+
 bool ItemObjMgr::IsAvailableRollingSlotDriver(int kart_index, u8 driver_index)
 {
 }
 
 bool ItemObjMgr::IsAvailableRollingSlot(int, u32) {}
 
-void ItemObjMgr::startItemShuffleSingle(int kart_index, bool p2)
+void ItemObjMgr::startItemShuffleSingle(int kart_index, bool doShuffle)
 {
+    u8 driver_index = getNowTandemDriverNum(kart_index);
+    getNowEnableSlotDriver(&driver_index, kart_index);
+
+    mShuffMgr[kart_index][driver_index]->startShuffle();
+    if(doShuffle) {
+        mShuffMgr[kart_index][driver_index]->set_7(true);
+    }
 }
 
 void ItemObjMgr::startItemShuffleDouble(int kart_index)
@@ -1230,14 +1254,33 @@ void ItemObjMgr::removeMiniGameList(ItemObj *obj)
 
 void ItemObjMgr::update(ItemObjMgr::eDrawSimplModelItemType, int) {}
 
-void ItemObjMgr::viewCalc(u32) {}
+void ItemObjMgr::viewCalc(u32 viewNo) {
+    
+    J3DUClipper *clipper =  GetKartCtrl()->getKartCam(viewNo)->GetClipper();
+    const u8 *updateKindList = sJ3DUpdateItemKind;
+    for(int i = 0; i < 15; i++, updateKindList++) {
+        for (JSUListIterator<ItemObj> it(_3e8[*updateKindList].getFirst()); it.isAvailable(); ++it) {
+            if(it->tst_80()) {
+                it->mModel.hide();
+            }
+            else {
+                it->mModel.clipBySphere(viewNo, clipper, j3dSys.getViewMtx(), it->mEquipScale);
+            }            
+        }
+    }
+
+    u8 *drawKindList = sNormalDrawItemKind;
+    for(int i = 0; i < 10; i++, drawKindList++) {
+        for (JSUListIterator<ItemObj> it(_3e8[*drawKindList].getFirst()); it.isAvailable(); ++it)
+            it->viewCalc(viewNo);
+    }
+}
 
 void ItemObjMgr::setCurrentViewNo(u32 viewNo)
 {
     PSMTXCopy(RCMGetManager()->getCamera(viewNo)->GetMtx(), j3dSys.getViewMtx());
     for (int i = 0; i < 10; i++)
     {
-
         for (JSUListIterator<ItemObj> it(_3e8[sNormalDrawItemKind[i]].getFirst()); it.isAvailable(); ++it)
             it->setCurrentViewNo(viewNo);
     }
@@ -1552,8 +1595,8 @@ bool ItemShuffleMgr::doShuffle()
         mSlotCount++;
         if (mSlotCount > SLOT_MAX_COUNT)
         {
-            this->mSlotCount = 0;
-            this->mRollFlags = 0;
+            mSlotCount = 0;
+            mRollFlags = 0;
             return true;
         }
 
@@ -1585,8 +1628,8 @@ bool ItemShuffleMgr::doShuffle()
         mSlotCount++;
         if (mSlotCount > SLOT_WAIT_COUNT)
         {
-            this->mSlotCount = 0;
-            this->mRollFlags = 0;
+            mSlotCount = 0;
+            mRollFlags = 0;
         }
     }
     return false;

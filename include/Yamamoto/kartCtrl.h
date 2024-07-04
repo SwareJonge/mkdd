@@ -99,7 +99,7 @@ public:
     bool IsMiniGameEnd();
     void CheckWinner();
     void GetKartEffctVel(int, JGeometry::TVec3f *);
-    void CheckChange(int);
+    bool CheckChange(int);
     void CheckMatchless(int);
     void CheckReverse(int);
     f32 GetKartScale(int);

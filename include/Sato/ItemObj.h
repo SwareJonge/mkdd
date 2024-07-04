@@ -228,6 +228,12 @@ public:
         return mItemKind;
     }
 
+    bool isCertainState() const { 
+        return mState != 10 && mState != 8 && mState != 7;  
+    }
+
+    bool tst_80() const { return _12c & 0x80; }
+
     void clrTransferPartner() { mTransferFlags &= ~0x200; }
     void setTransferPartner() { mTransferFlags |= 0x200; }
 

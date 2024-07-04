@@ -112,6 +112,7 @@ public:
     // Inline/Unused
     void calcRndSpecialRatio(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, bool);
     void setKartNumber(int no) { mKartNumber = no; }
+    void set_7(bool enable) { _7 = enable; }
     bool isNotRolling() const { return !(mRollFlags & 1) && !(mRollFlags & 2); }
 
 private:
