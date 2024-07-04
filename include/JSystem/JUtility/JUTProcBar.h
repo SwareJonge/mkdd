@@ -7,6 +7,7 @@
 
 #include "types.h"
 
+#pragma optimize_for_size off // precompiled header theory continues
 class JUTProcBar
 {
 public:
@@ -35,6 +36,7 @@ public:
             if (mCost == 0)
                 mCost = 1;
         }
+
 
         void accumePeek()
         {
@@ -90,21 +92,10 @@ public:
     void adjustMeterLength(u32, f32 *, f32, f32, int *);
     void getUnuseUserBar();
 
-    u32 getGpCost() const {
-        return mGp.mCost;
-    }
+    u32 getGpCost() const { return mGp.mCost; }
 
-    u32 getCpuCost() const {
-        return mCpu.mCost;
-    }
-
-    u32 getUserCost(int idx) {
-        return sManager->mUsers[idx].mCost;
-    }
-
-    static JUTProcBar *getManager() {
-        return sManager;
-    }
+    u32 getCpuCost() const { return mCpu.mCost; }
+    u32 getUserCost(int idx) { return sManager->mUsers[idx].mCost; }
 
     void idleStart() { mIdle.start(255, 129, 30); }
     void idleEnd() { mIdle.end(); }
@@ -124,17 +115,17 @@ public:
         sManager->mUsers[idx].start(p2, p3, p4);
         sManager->_108 |= 1 << idx;
     }
+    void userEnd(int idx) { sManager->mUsers[idx].end(); }
 
-    inline u32 calcGPUTime() { // fabricated
-        return mGp.mCost - mGpWait.mCost;
-    }
+    // are these still being used?
+    u32 calcGPUTime() { return mGp.mCost - mGpWait.mCost;} // fabricated
+    int calcBarHeight() { return mParams.mBarWidth * 2; } // fabricated
 
-    int calcBarHeight() { // fabricated
-        return mParams.mBarWidth * 2;
-    }
+    static JUTProcBar *getManager() { return sManager; }
 
-    static JUTProcBar *sManager;    // might be private too
 private:
+    static JUTProcBar *sManager;
+
     CTime mIdle;            // _00
     CTime mGp;              // _14
     CTime mCpu;             // _28
@@ -150,7 +141,8 @@ private:
     JKRHeap *mWatchHeap;    // _12C
     bool mHeapBarVisible;   // _130
 
-private:
 }; // 0x134 size
+
+#pragma optimize_for_size reset
 
 #endif

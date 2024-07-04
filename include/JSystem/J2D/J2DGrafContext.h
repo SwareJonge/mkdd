@@ -53,10 +53,9 @@ struct J2DGrafContext
 	// inlined
 	void line(JGeometry::TVec2f, JGeometry::TVec2f);
 
-	void scissor(f32 x, f32 y, f32 w, f32 h) {
-		 JGeometry::TBox2f box(x, y, x + w, y + h);
-		 scissor(box);
-	}
+	void scissor(f32 x, f32 y, f32 w, f32 h) { scissor(JGeometry::TBox2f(x, y, x + w, y + h)); }
+
+	void fillBox(f32 x, f32 y, f32 w, f32 h) { fillBox(JGeometry::TBox2f(x, y, x + w, y + h)); }
 
 	JGeometry::TBox2f &getBounds() { return mBounds; }
 

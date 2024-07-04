@@ -1076,7 +1076,7 @@ config.libs = [
             Object(Matching, "Kaneshige/KartInfo.cpp"),
             Object(Matching, "Kaneshige/KartChecker.cpp"),
             Object(Equivalent, "Kaneshige/RaceMgr.cpp"),
-            Object(NonMatching, "Kaneshige/SysDebug.cpp"),
+            Object(Matching, "Kaneshige/SysDebug.cpp"),
             Object(Matching, "Kaneshige/CrsArea.cpp"),
             Object(NonMatching, "Kaneshige/LightMgr.cpp"),
             Object(Matching, "Kaneshige/ScrnShot.cpp"),

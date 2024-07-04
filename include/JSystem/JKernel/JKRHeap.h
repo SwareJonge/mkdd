@@ -143,8 +143,8 @@ public:
 
     void setDebugFill(bool debugFill) { mIsDebugFill = debugFill; }
     bool getDebugFill() const { return mIsDebugFill; }
-    void *getStartAddr() const { return (void *)mStartAddress; }
-    void *getEndAddr() const { return (void *)mEndAddress; }
+    void *getStartAddr() { return (void *)mStartAddress; }
+    void *getEndAddr() { return (void *)mEndAddress; }
     u32 getHeapSize() const { return mHeapSize; }
     bool getErrorFlag() const { return mErrorFlag; }
     void callErrorHandler(JKRHeap *heap, u32 size, int alignment)
@@ -195,7 +195,7 @@ public:
     static void *getCodeStart() { return mCodeStart; }
     static void *getCodeEnd() { return mCodeEnd; }
     static void *getUserRamStart() { return mUserRamStart; }
-    static void *getUserRamEnd() {return mUserRamEnd; }
+    static void *getUserRamEnd() { return mUserRamEnd; }
     static u32 getMemorySize() { return mMemorySize; }
     static JKRHeap *getCurrentHeap() { return sCurrentHeap; }
     static JKRHeap *getRootHeap() { return sRootHeap; }
