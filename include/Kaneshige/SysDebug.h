@@ -103,7 +103,7 @@ private:
     bool mDrawUserTime; // f4;
     int mProcTimeType; // f8
     u32 mProcTimeFrames; // fc
-    f32 mCPUTime; //
+    f32 mCPUTime; // 100
     f32 mCPUTimeMax; // 104
     f32 mAllTime; // 108
     f32 mAllTimeMax; // 10c

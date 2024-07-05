@@ -6,7 +6,6 @@
 
 #include "Kaneshige/SysDebug.h"
 
-
 const GXColor SysDebug::cUserBarColorTable[8] = {
     { 255, 255, 255, 255},
     { 255,   0,   0, 255},
@@ -119,40 +118,40 @@ void SysDebug::ctrlDebugMode() {
                     mDrawUserTime = true;                
             }
             switch(mProcTimeType) {
-                case 0:
-                {
-                    if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN))
-                        mProcTimeType = 1;     
-                    break;               
-                }
-                case 1:
-                {
-                    mProcTimeFrames++;
+            case 0:
+            {
+                if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN))
+                    mProcTimeType = 1;     
+                break;               
+            }
+            case 1:
+            {
+                mProcTimeFrames++;
 
-                    if(cpuFrameTime > mCPUTimeMax)
-                        mCPUTimeMax = cpuFrameTime;                    
-                    mCPUTime += cpuFrameTime;
+                if(cpuFrameTime > mCPUTimeMax)
+                    mCPUTimeMax = cpuFrameTime;                    
+                mCPUTime += cpuFrameTime;
 
-                    if(gpuFrameTime > mAllTimeMax)
-                        mAllTimeMax = gpuFrameTime;
-                    mAllTime += gpuFrameTime;
+                if(gpuFrameTime > mAllTimeMax)
+                    mAllTimeMax = gpuFrameTime;
+                mAllTime += gpuFrameTime;
 
-                    if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN))
-                        mProcTimeType = 2;
-                    break;
-                }
-                case 2:
-                {
-                    if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN)) {
-                        mProcTimeType = 0;
-                        mProcTimeFrames = 0;
-                        mCPUTime = 0.0f;
-                        mCPUTimeMax = 0.0f;
-                        mAllTime = 0.0f;
-                        mAllTimeMax = 0.0f;
-                    }                        
-                    break;
-                }
+                if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN))
+                    mProcTimeType = 2;
+                break;
+            }
+            case 2:
+            {
+                if (mGamePad.testTrigger(JUTGamePad::CSTICK_DOWN)) {
+                    mProcTimeType = 0;
+                    mProcTimeFrames = 0;
+                    mCPUTime = 0.0f;
+                    mCPUTimeMax = 0.0f;
+                    mAllTime = 0.0f;
+                    mAllTimeMax = 0.0f;
+                }                        
+                break;
+            }
             }
             break;
         }
@@ -273,8 +272,6 @@ void SysDebug::endUserTime(int idx) {
     
     if(idx >= 0 && idx < 8)
         JUTProcBar::getManager()->userEnd(idx);
-    //JUTProcBar::userEnd(int) {}
-    //JUTProcBar::CTime::end() {}
 }
 
 void SysDebug::draw() {
@@ -359,7 +356,7 @@ void SysDebug::drawProcTime() {
         cpuTimeAvg = mCPUTime / mProcTimeFrames;
         allTimeAvg = mAllTime / mProcTimeFrames;
     }
-    //JUTProcBar::getUserCost(int) {}
+
     JUTReport(mDrawPosX, mDrawPosY + mCharHeight * 17, "       AVG    MAX");
     JUTReport(mDrawPosX, mDrawPosY + mCharHeight * 18, "CPU: %6.3f %6.3f", cpuTimeAvg, mCPUTimeMax);
     JUTReport(mDrawPosX, mDrawPosY + mCharHeight * 19, "ALL: %6.3f %6.3f", allTimeAvg, mAllTimeMax);
@@ -385,7 +382,6 @@ char *SysDebug::getHeapLabel(JKRHeap *pHeap) {
     }
 
     return label;
-
 }
 
 char *SysDebug::getHeapTypeName(JKRHeap *pHeap) {
@@ -485,14 +481,12 @@ void SysDebug::drawHeapSpec()
                     name = "UNUSED";
                 
                 JUTReport(mDrawPosX, mDrawPosY + mCharHeight * (i + 12), "%2d:%08XH(%5dKB):%s",groupID, usedSize, sizeKByte(usedSize), name);
-                
             }
         }
         else {
             JUTReport(mDrawPosX, mDrawPosY + mCharHeight * 10, "NO HEAP INFO");
         }
-    } 
-
+    }
 }
 
 bool SysDebug::beginDebugHeap() {
@@ -549,7 +543,6 @@ SysDebug::HeapInfo::HeapInfo(JKRHeap *pHeap, char *label) : mLink(this) {
     mHeap = pHeap;
     clrGroup();
 
-
     for(int i = 0; i < 8; i++)
         mHeapLabel[i] = label[i];
     mTerminator = '\0';
@@ -567,9 +560,8 @@ SysDebug::HeapInfo::~HeapInfo() {
 
 void SysDebug::HeapInfo::clrGroup() {
     mGroupID = 0;
-    for(s16 i = 0; i < 30; i++) {
+    for(s16 i = 0; i < 30; i++)
         mGroupName[i] = nullptr;
-    }
 }
 
 void SysDebug::HeapInfo::setGroup(const char *name) {
@@ -580,9 +572,8 @@ void SysDebug::HeapInfo::setGroup(const char *name) {
         mGroupID++;
     }
 
-    if(newId >= 0) {
+    if(newId >= 0)
         mHeap->changeGroupID(newId);
-    }
 }
 
 int SysDebug::HeapInfo::searchSameName(const char *name) {

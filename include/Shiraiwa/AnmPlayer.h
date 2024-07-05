@@ -31,7 +31,9 @@ public:
     void isFitBlendFrame();                                                        // 0x802988e4
     void isGoArroundLoop();                                                        // 0x80298ab0
 
-    int _4;
+    u8 getCurAnmNumber() const { return mController->getNowTransNo(); }
+
+    AnmController *mController;
     int _8;
     u8 _c;
     u8 _d;

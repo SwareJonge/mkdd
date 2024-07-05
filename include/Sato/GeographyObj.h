@@ -103,13 +103,18 @@ public:
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
     void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
+    bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
 
     // Vtable
     virtual ~GeographyObj() {}                                                                      // 8, TODO?
     virtual void loadmodel(J3DModelData *modelData);                                                // C, TODO
     virtual void loadAnimation() {}                                                                 // 10                                                     // 0x801b4c74
-    virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }; // 14
-    virtual void createModel(JKRSolidHeap *heap, u32) {}                                            // 18, TODO
+    virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }  // 14
+    virtual void createModel(JKRSolidHeap *heap, u32 p2)  // 18
+    {  
+        if(!tstObjFlagSimpleDraw())
+            mModel.createModel(heap, p2, 0x60000);
+    }                                            
     virtual void configAnimationMode() {}                                                           // 1C
     virtual void createShadowModel(JKRSolidHeap *heap, u32);                                        // 20
     virtual void initByKind() {}                                                                    // 24
@@ -145,12 +150,13 @@ protected:
     CrsData::SObject *mObjData;  // E8
     u32 mGeoObjFlag;             // EC
     u32 mKartHitFlags;           // F0
-    u8 _f4[0xfc - 0xf4];                 //
+    u8 _f4[0xfc - 0xf4];         //
     JSULink<GeographyObj> mLink; // FC
-    int mKind;                   // 10c
+    int mKind;                   // 10C
     u8 _110[0x114 - 0x110];      //
     ItemObj *mColItemObj;        // 114
-    u8 _118[0x120 - 0x118];      //
+    u8 _118[0x11c - 0x118];      //
+    u16 mObjFlag;                // 11C
     AnmController *mAnmCtrl;     // 120
     ItemColReaction mReaction;   // 124
     u8 _134[0x14c - 0x134];      //

@@ -25,6 +25,8 @@ public:
     virtual void setAnmProc() = 0;
     virtual void frameProc() = 0;
 
+    u8 getNowAnmNo() const { return mNowAnmNo; }
+
     bool tstFlgAnmStop() const { return mFlags & 1; }
     void resetFlag() { mFlags &= ~1; }
 
@@ -158,7 +160,7 @@ public:
         JUT_MINMAX_ASSERT(0, AnmNo, mTrans->mMaxAnmNo);
         mTrans->changeBlendAnm(AnmNo, p2, p3);
     }
-
+    u8 getNowTransNo() const { return mTrans->getNowAnmNo();  }
     J3DFrameCtrl *getFrameCtrl(u8 AnmNo) { return mTrans->getFrameCtrl(AnmNo);  }
     void ChangeTransAnm(u8 AnmNo, bool p2) { mTrans->changeAnm(AnmNo, p2); } // fabricated
     void RegisterTrans(u8 AnmNo, J3DAnmTransform *transform, J3DMtxCalc *calc) { mTrans->registration(AnmNo, transform, calc); } // fabricated

@@ -1128,7 +1128,7 @@ config.libs = [
             Object(NonMatching, "Kaneshige/GeoSoundGen.cpp"),
             Object(NonMatching, "Kaneshige/GeoShine.cpp"),
             Object(NonMatching, "Kaneshige/DarkAnmMgr.cpp"),
-            Object(NonMatching, "Kaneshige/Movie/MovieApp.cpp"),
+            Object(Matching, "Kaneshige/Movie/MovieApp.cpp"),
             Object(Matching, "Kaneshige/Movie/MoviePlayer.cpp"),
             Object(Matching, "Kaneshige/Movie/THPDraw.c"),
             Object(NonMatching, "Kaneshige/MdlViewer.cpp"),

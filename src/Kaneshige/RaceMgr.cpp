@@ -69,54 +69,54 @@ s16 RaceMgr::sMyStartPointID = -1;
 #include "mathHelper.h"
 
 const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
-    {0, "ç©º", " SKY"},
-    {1, "ã‚³ãƒ¼ã‚¹", " CRS"},
-    {2, "åœ°å½¢ï¼¯ï¼¢ï¼ª", " GEOOBJ"},
-    {3, "ã‚«ãƒ¼ãƒˆå½±", " KART SHADOW"},
-    {4, "ã‚¿ã‚¤ãƒ¤è·¡", " WHEEL TRACKS"},
-    {5, "ã‚«ãƒ¼ãƒˆ", " KART"},
-    {6, "ã‚¢ã‚¤ãƒ†ãƒ å½±", " ITEM SHADOW"},
-    {7, "ã‚¢ã‚¤ãƒ†ãƒ ", " ITEM"},
-    {8, "ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " EFFECT"},
-    {9, "ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«", " PARTICLE"},
-    {0xa, "ã‚·ãƒ£ãƒ‰ã‚¦ã‚¹ã‚¯ãƒªãƒ¼ãƒ³", " SHADOW SCR"},
-    {0xb, "ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " SCR EFFECT"},
-    {0xc, "ï¼’ï¼¤", " 2D"},
-    {0xd, "ï¼ºã‚­ãƒ£ãƒ—ãƒãƒ£", " ZCAPTURE"},
-    {0x100, "ï¼’ï¼¤", " 2D"},
-    {0x101, "ã‚«ãƒ¼ãƒˆãƒ€ã‚¤ãƒŠãƒŸã‚¯ã‚¹ï¼‘", " KART DYN1"},
-    {0x102, "ã‚«ãƒ¼ãƒˆãƒ€ã‚¤ãƒŠãƒŸã‚¯ã‚¹ï¼’", " KART DYN2"},
-    {0x103, "ã‚³ãƒ¼ã‚¹", " CRS"},
-    {0x104, "ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " EFFECT"},
-    {0x105, "åœ°å½¢ï¼¯ï¼¢ï¼ª", "\tGEOOBJ"},
-    {0x106, "ã‚¢ã‚¤ãƒ†ãƒ ", " ITEM"},
-    {0x107, "ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«", " PARTICLE"},
-    {0x108, "ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " SCR EFFECT"},
-    {0x109, "å‘¨å›žãƒã‚§ãƒƒã‚¯", " LOOP CHECK"},
-    {0x10a, "å®Ÿé¨“", " FOR TEST"},
-    {0x110, "ãƒ‡ãƒãƒƒã‚°ï¼‘", " DEBUG1"},
-    {0x111, "ãƒ‡ãƒãƒƒã‚°ï¼’", " DEBUG2"},
-    {0x112, "ãƒ‡ãƒãƒƒã‚°ï¼“", " DEBUG3"},
-    {0x113, "ãƒ‡ãƒãƒƒã‚°ï¼”", " DEBUG4"},
-    {0x114, "ãƒ‡ãƒãƒƒã‚°ï¼•", " DEBUG5"},
-    {0x115, "ãƒ‡ãƒãƒƒã‚°ï¼–", " DEBUG6"},
-    {0x116, "ãƒ‡ãƒãƒƒã‚°ï¼—", " DEBUG7"},
-    {0x117, "ãƒ‡ãƒãƒƒã‚°ï¼˜", " DEBUG8"},
-    {0x118, "ãƒ‡ãƒãƒƒã‚°ï¼™", " DEBUG9"},
-    {0x119, "ãƒ‡ãƒãƒƒã‚°ï¼‘ï¼", " DEBUG10"},
-    {0x200, "ç©º", " SKY"},
-    {0x201, "ã‚³ãƒ¼ã‚¹ã¨ï¼¯ï¼¢ï¼ª", " CRS&OBJ"},
-    {0x202, "ã‚¢ã‚¤ãƒ†ãƒ ", " ITEM"},
-    {0x203, "ãƒ‰ãƒ©ã‚¤ãƒãƒ¼", " DRIVER"},
-    {0x204, "å½±", " SHADOW"},
-    {0x205, "ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " EFFECT"},
-    {0x300, "ç©º", " SKY"},
-    {0x301, "ã‚³ãƒ¼ã‚¹", " CRS"},
-    {0x302, "ã‚¢ã‚¤ãƒ†ãƒ ", " ITEM"},
-    {0x303, "ã‚«ãƒ¼ãƒˆ", " KART"},
-    {0x304, "å½±", " SHADOW"},
-    {0x305, "ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ", " EFFECT"},
-    {-1, "ãªã—", nullptr}};
+    {0, "‹ó", " SKY"},
+    {1, "ƒR[ƒX", " CRS"},
+    {2, "’nŒ`‚n‚a‚i", " GEOOBJ"},
+    {3, "ƒJ[ƒg‰e", " KART SHADOW"},
+    {4, "ƒ^ƒCƒ„Õ", " WHEEL TRACKS"},
+    {5, "ƒJ[ƒg", " KART"},
+    {6, "ƒAƒCƒeƒ€‰e", " ITEM SHADOW"},
+    {7, "ƒAƒCƒeƒ€", " ITEM"},
+    {8, "ƒGƒtƒFƒNƒg", " EFFECT"},
+    {9, "ƒp[ƒeƒBƒNƒ‹", " PARTICLE"},
+    {0xa, "ƒVƒƒƒhƒEƒXƒNƒŠ[ƒ“", " SHADOW SCR"},
+    {0xb, "ƒXƒNƒŠ[ƒ“ƒGƒtƒFƒNƒg", " SCR EFFECT"},
+    {0xc, "‚Q‚c", " 2D"},
+    {0xd, "‚yƒLƒƒƒvƒ`ƒƒ", " ZCAPTURE"},
+    {0x100, "‚Q‚c", " 2D"},
+    {0x101, "ƒJ[ƒgƒ_ƒCƒiƒ~ƒNƒX‚P", " KART DYN1"},
+    {0x102, "ƒJ[ƒgƒ_ƒCƒiƒ~ƒNƒX‚Q", " KART DYN2"},
+    {0x103, "ƒR[ƒX", " CRS"},
+    {0x104, "ƒGƒtƒFƒNƒg", " EFFECT"},
+    {0x105, "’nŒ`‚n‚a‚i", "\tGEOOBJ"},
+    {0x106, "ƒAƒCƒeƒ€", " ITEM"},
+    {0x107, "ƒp[ƒeƒBƒNƒ‹", " PARTICLE"},
+    {0x108, "ƒXƒNƒŠ[ƒ“ƒGƒtƒFƒNƒg", " SCR EFFECT"},
+    {0x109, "Žü‰ñƒ`ƒFƒbƒN", " LOOP CHECK"},
+    {0x10a, "ŽÀŒ±", " FOR TEST"},
+    {0x110, "ƒfƒoƒbƒO‚P", " DEBUG1"},
+    {0x111, "ƒfƒoƒbƒO‚Q", " DEBUG2"},
+    {0x112, "ƒfƒoƒbƒO‚R", " DEBUG3"},
+    {0x113, "ƒfƒoƒbƒO‚S", " DEBUG4"},
+    {0x114, "ƒfƒoƒbƒO‚T", " DEBUG5"},
+    {0x115, "ƒfƒoƒbƒO‚U", " DEBUG6"},
+    {0x116, "ƒfƒoƒbƒO‚V", " DEBUG7"},
+    {0x117, "ƒfƒoƒbƒO‚W", " DEBUG8"},
+    {0x118, "ƒfƒoƒbƒO‚X", " DEBUG9"},
+    {0x119, "ƒfƒoƒbƒO‚P‚O", " DEBUG10"},
+    {0x200, "‹ó", " SKY"},
+    {0x201, "ƒR[ƒX‚Æ‚n‚a‚i", " CRS&OBJ"},
+    {0x202, "ƒAƒCƒeƒ€", " ITEM"},
+    {0x203, "ƒhƒ‰ƒCƒo[", " DRIVER"},
+    {0x204, "‰e", " SHADOW"},
+    {0x205, "ƒGƒtƒFƒNƒg", " EFFECT"},
+    {0x300, "‹ó", " SKY"},
+    {0x301, "ƒR[ƒX", " CRS"},
+    {0x302, "ƒAƒCƒeƒ€", " ITEM"},
+    {0x303, "ƒJ[ƒg", " KART"},
+    {0x304, "‰e", " SHADOW"},
+    {0x305, "ƒGƒtƒFƒNƒg", " EFFECT"},
+    {-1, "‚È‚µ", nullptr}};
 
 // half fabircated to generate certain data first
 // Note: Kartcam might be part of KartCtrl.h?
@@ -559,7 +559,7 @@ void RaceMgr::createLight()
 
     JUtility::TColor ambientColor;
     mCourse->getAmbientColor(&ambientColor);
-    LtObjAmbient *lightObjAmb = new LtObjAmbient("ã‚·ãƒ¼ãƒ³ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆ", ambientColor); // scene ambient?
+    LtObjAmbient *lightObjAmb = new LtObjAmbient("ƒV[ƒ“ƒAƒ“ƒrƒGƒ“ƒg", ambientColor); // scene ambient?
 
     lightObjAmb->setTagName('AMBI');
     LightMgr::getManager()->appendLight(lightObjAmb);
@@ -571,7 +571,7 @@ void RaceMgr::createLight()
 
     for (u32 i = 0; i < getCameraNumber(); i++)
     {
-        RaceSceneLight *sceneLight = new RaceSceneLight("ã‚·ãƒ¼ãƒ³ãƒ©ã‚¤ãƒˆ", i, lightColor, lightPos);
+        RaceSceneLight *sceneLight = new RaceSceneLight("ƒV[ƒ“ƒ‰ƒCƒg", i, lightColor, lightPos);
         LightMgr::getManager()->appendLight(sceneLight);
         for (int j = 0; j < getKartNumber(); j++)
         {

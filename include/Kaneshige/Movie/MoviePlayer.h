@@ -24,6 +24,13 @@ public:
     void audioFadeOut(int);                            // 0x801d858c
     int getFrameNumber();                             // 0x801d85bc
 
+    static void quitMovie() {
+        if(getPlayer())
+            getPlayer()->quit();
+    }
+    bool isPlaying() const { return mIsPlaying; }
+    int getDrawFrame() const { return mDrawFrame; }
+
     static MoviePlayer *getPlayer() { return sPlayer; }
 
     static const char *cMovieFileNameTable;   // 0x804147d0
