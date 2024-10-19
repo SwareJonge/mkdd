@@ -1,10 +1,11 @@
-Mario Kart Double Dash!!
-[![Build Status]][actions] ![Progress]
+Mario Kart Double Dash!!  
+[![Build Status]][actions] [![Code Progress]][progress]
 =============
 
 [Build Status]: https://github.com/SwareJonge/mkdd/actions/workflows/build.yml/badge.svg
 [actions]: https://github.com/SwareJonge/mkdd/actions/workflows/build.yml
-[Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Fmkdd%2FMarioClub_us%2Fdol%2F%3Fmode%3Dshield%26measure%3Dcode
+[Code Progress]: https://decomp.dev/SwareJonge/mkdd.svg?mode=shield&measure=code&label=Code
+[progress]: https://decomp.dev/SwareJonge/mkdd
 
 WIP 1:1 Decompilation of Mario Kart Double Dash!!
 
