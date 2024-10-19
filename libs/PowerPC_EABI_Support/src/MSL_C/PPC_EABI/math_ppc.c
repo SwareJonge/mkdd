@@ -1,53 +1,12 @@
+#define MATH_INLINE
 #include "PowerPC_EABI_Support/MSL_C/PPC_EABI/math_ppc.h"
 #include "fdlibm.h"
 
-int __fpclassifyf(float x)
-{
-	switch ((*(s32 *)&x) & 0x7f800000)
-	{
-	case 0x7f800000:
-	{
-		if ((*(s32 *)&x) & 0x007fffff)
-			return 1;
-		else
-			return 2;
-		break;
-	}
-	case 0:
-	{
-		if ((*(s32 *)&x) & 0x007fffff)
-			return 5;
-		else
-			return 3;
-		break;
-	}
-	}
-	return 4;
-}
+// Generated via math_api.h
+// int __fpclassifyf(float x);
 
-int __fpclassifyd(double x)
-{
-	switch (__HI(x) & 0x7ff00000)
-	{
-	case 0x7ff00000:
-	{
-		if ((__HI(x) & 0x000fffff) || (__LO(x) & 0xffffffff))
-			return 1;
-		else
-			return 2;
-		break;
-	}
-	case 0:
-	{
-		if ((__HI(x) & 0x000fffff) || (__LO(x) & 0xffffffff))
-			return 5;
-		else
-			return 3;
-		break;
-	}
-	}
-	return 4;
-}
+// Generated via math_api.h
+// int __fpclassifyd(double x);
 
 /*double scalbn(double x, int y)
 {
@@ -324,11 +283,11 @@ void atan2f(void)
 	// UNUSED FUNCTION
 }*/
 
-__declspec(weak) float cosf(float __x) { return cos((double)__x); }
+DECL_WEAK float cosf(float __x) { return cos((double)__x); }
 
-__declspec(weak) float sinf(float __x) { return sin((double)__x); }
+DECL_WEAK float sinf(float __x) { return sin((double)__x); }
 
-__declspec(weak) float tanf(float __x) { return tan((double)__x); }
+DECL_WEAK float tanf(float __x) { return tan((double)__x); }
 
 /*void coshf(void)
 {

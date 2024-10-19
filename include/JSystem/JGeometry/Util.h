@@ -28,7 +28,7 @@ namespace JGeometry {
             return equal;
         }
 
-        f32 invert(f32 x) { return 1.0f/x; }
+        static f32 invert(f32 x) { return 1.0f/x; }
 
         static f32 sqrt(f32 x)
         {

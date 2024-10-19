@@ -136,6 +136,7 @@ JAUSectionHeap *JAUNewSectionHeap(bool);
 
 // TODO: probably move this to a different file(JASFakeMatch?)
 #define createJASInstance(TYPE) \
+    template <> \
     DECL_WEAK TYPE *JASGlobalInstance<TYPE>::sInstance
 
 createJASInstance(JAUSectionHeap);

@@ -1,6 +1,5 @@
-#include "PowerPC_EABI_Support/Runtime/MWCPlusLib.h"
-#include <exception.h>
 #include "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.h"
+#include "PowerPC_EABI_Support/Runtime/MWCPlusPlusLib.h"
 #include "PowerPC_EABI_Support/Runtime/NMWException.h"
 #include "PowerPC_EABI_Support/Runtime/__ppc_eabi_linker.h"
 
@@ -238,7 +237,7 @@ static exaction_type ExPPC_NextAction(ActionIterator* iter){
 			ExPPC_FindExceptionRecord(return_addr, &iter->info);
 
 			if(iter->info.exception_record == 0){
-				terminate();
+				std::terminate();
 			}
 
 			iter->current_SP = callers_SP;
@@ -288,7 +287,7 @@ static exaction_type ExPPC_NextAction(ActionIterator* iter){
 					iter->info.action_pointer += sizeof(ex_specification) + ((ex_specification*)iter->info.action_pointer)->specs * sizeof(void*);
 					break;
 				default:
-					terminate();
+					std::terminate();
 			}
 		}
 
@@ -436,7 +435,7 @@ static void ExPPC_UnwindStack(ThrowContext* context, MWExceptionInfo* info, void
 			ExPPC_FindExceptionRecord(return_addr, info);
 
 			if(info->exception_record == 0){
-				terminate();
+				std::terminate();
 			}
 
 			context->FP = (ET_GetHasFramePtr(info->exception_record->et_field)) ? (char*)context->GPR[31] : context->SP;
@@ -518,7 +517,7 @@ static void ExPPC_UnwindStack(ThrowContext* context, MWExceptionInfo* info, void
 				info->action_pointer += sizeof(ex_specification) + ((ex_specification*)info->action_pointer)->specs * sizeof(void*);
 				break;
 			default:
-				terminate();
+				std::terminate();
 		}
 
 		if(action & EXACTION_ENDBIT) info->action_pointer = 0;
@@ -656,7 +655,7 @@ static void ExPPC_ThrowHandler(ThrowContext* context){
 	ExPPC_FindExceptionRecord(context->returnaddr, &info);
 
 	if(info.exception_record == 0){
-		terminate();
+		std::terminate();
 	}
 
 	context->FP = (ET_GetHasFramePtr(info.exception_record->et_field)) ? (char*)context->GPR[31] : context->SP;
@@ -688,7 +687,7 @@ static void ExPPC_ThrowHandler(ThrowContext* context){
 					continue;
 				case EXACTION_TERMINATE:
 				default:
-					terminate();
+					std::terminate();
 			}
 			break;
 		}
@@ -739,7 +738,7 @@ static void ExPPC_ThrowHandler(ThrowContext* context){
 				continue;
 			case EXACTION_TERMINATE:
 			default:
-				terminate();
+				std::terminate();
 		}
 		break;
 	}

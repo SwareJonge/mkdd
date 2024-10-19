@@ -1,4 +1,5 @@
 #include "PowerPC_EABI_Support/Runtime/global_destructor_chain.h"
+#include "PowerPC_EABI_Support/Runtime/MWCPlusPlusLib.h"
 
 DestructorChain *__global_destructor_chain;
 

@@ -12,7 +12,11 @@ int __fpclassifyf(float);
 int __signbitd(double);
 int __fpclassifyd(double);
 
-inline int __fpclassifyf(f32 x)
+#ifndef MATH_INLINE
+#define MATH_INLINE inline
+#endif
+
+MATH_INLINE int __fpclassifyf(f32 x)
 {
 	switch ((*(s32*)&x) & 0x7f800000) {
 	case 0x7f800000: {
@@ -32,7 +36,8 @@ inline int __fpclassifyf(f32 x)
 	}
 	return 4;
 }
-inline int __fpclassifyd(f64 x)
+
+MATH_INLINE int __fpclassifyd(f64 x)
 {
 	switch (__HI(x) & 0x7ff00000) {
 	case 0x7ff00000: {

@@ -1,0 +1,21 @@
+{
+  "[c]": {
+    "files.encoding": "shiftjis",
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[cpp]": {
+    "files.encoding": "shiftjis",
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.associations": {
+    "*.inc": "c",
+    ".clangd": "yaml"
+  },
+  // Disable C/C++ IntelliSense, use clangd instead
+  "C_Cpp.intelliSenseEngine": "disabled",
+}

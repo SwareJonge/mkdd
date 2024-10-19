@@ -7,6 +7,7 @@
 class JAISe;
 
 #include "JSystem/JAudio/JASFakeMatch.h"
+template <>
 JASMemPool<JAISe> JASPoolAllocObject<JAISe>::memPool_;
 
 #endif

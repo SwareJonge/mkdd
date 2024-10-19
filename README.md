@@ -21,7 +21,8 @@ Currently only the debug version is supported
 - Install python, 3.10.4 is recommended as it gets installed by default on most recent Linux distros
 - Add the path where ninja is located to your environment variables under `PATH`
 - Clone the repository using `git clone https://github.com/SwareJonge/mkdd`
-- Dump a copy of the Debug version and extract `main.dol` and put it in `orig/MarioClub_us/` 
+- Dump a copy of the Debug version and copy the disc image to `orig/MarioClub_us`
+- After the initial build, the disc image can be removed to save space
 
 ### Instructions
 - run `python configure.py`
