@@ -104,9 +104,9 @@ enum ECharID
 
 enum EGhostKind
 {
-    KIND_0,
-    KIND_1,
-    KIND_2,
+    KIND_0, // None?
+    KIND_NORMAL_GHOST,
+    KIND_STAFF_GHOST,
 };
 
 enum EKartID

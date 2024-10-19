@@ -18,8 +18,8 @@ struct J3DAnmTevRegKey : public J3DAnmBase {
 	    : _24()
 	    , _38()
 	{
-		mKRegUpdateMaterialNum = 0;
-		mCRegUpdateMaterialNum = 0;
+		mKRegAnmNum = 0;
+		mCRegAnmNum = 0;
 		_16                    = 0;
 		_14                    = 0;
 		_12                    = 0;
@@ -50,16 +50,19 @@ struct J3DAnmTevRegKey : public J3DAnmBase {
 	void getTevKonstReg(unsigned short, GXColor*) const;
 	void searchUpdateMaterialID(struct J3DModelData*);
 
-	u16 getCRegUpdateMaterialNum() const { return mCRegUpdateMaterialNum; }
-	u16 getKRegUpdateMaterialNum() const { return mKRegUpdateMaterialNum; }
+	u16 getCRegAnmNum() const { return mCRegAnmNum; }
+	u16 getKRegAnmNum() const { return mKRegAnmNum; }
+
+	void setCRegAnmNum(u16 num) { mCRegAnmNum = num; }
+	void setKRegAnmNum(u16 num) { mKRegAnmNum = num; }
 
 	u16 getCRegUpdateMaterialID(u16 idx) const { return mCRegUpdateMaterialID[idx]; }
 	u16 getKRegUpdateMaterialID(u16 idx) const { return mKRegUpdateMaterialID[idx]; }
 
 	// _00     = VTBL
 	// _00-_0C = J3DAnmBase
-	u16 mCRegUpdateMaterialNum; // _0C
-	u16 mKRegUpdateMaterialNum; // _0E
+	u16 mCRegAnmNum; 			// _0C
+	u16 mKRegAnmNum; 			// _0E
 	u16 _10;                    // _10
 	u16 _12;                    // _12
 	u16 _14;                    // _14

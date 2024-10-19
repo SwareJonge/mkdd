@@ -62,9 +62,9 @@ public:
 
 private:
     Course *mCourse;
-    JGeometry::TVec3f _0x4;
+    JGeometry::TVec3f mWorldPos;
     JGeometry::TVec3f _0x10;
-    bool _0x1c;
+    bool mExceptVally;
     u8 _0x1d;
     void *mGround;
     void *mGeoObj;

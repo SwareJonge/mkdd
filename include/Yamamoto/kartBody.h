@@ -6,7 +6,7 @@
 #include "Kaneshige/KartLoader.h"
 #include "Kaneshige/Course/CrsArea.h"
 #include "Kaneshige/Course/CrsGround.h"
-#include "Kawano/driverMgr.h"
+#include "Kawano/driver.h"
 #include "Osako/shadowModel.h"
 #include "Sato/GeographyObj.h"
 #include "Yamamoto/kartSus.h"
