@@ -21,6 +21,8 @@ struct J3DFrameCtrl
 		mState = 0;
 	}
 
+	void setRate(f32 rate) { mRate = rate; }
+	void setFrame(f32 frame) { mFrame = frame; }
 	f32 getFrame() const { return mFrame; }
 
 	void setAttribute(u8 attr) { mAttr = attr; }

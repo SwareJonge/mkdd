@@ -19,7 +19,7 @@ public:
     ExModel(u16 id = 1);                                                                // 0x801a4450
     ~ExModel();                                                                         // 0x801a4538
     void setModelData(J3DModelData *);                                                  // 0x801a4598
-    void setModelData(s16, J3DModelData *);                                             // 0x801a45c0
+    void setModelData(u16, J3DModelData *);                                             // 0x801a45c0
     static void patchModelData(J3DModelData *);                                         // 0x801a46ec
     void setLODBias(f32);                                                               // 0x801a4724
     static void setLODBias(J3DModelData *, f32);                                               // 0x801a4790
@@ -31,8 +31,8 @@ public:
     void setTevColor(u32, const J3DGXColorS10 &);                                       // 0x801a4c34
     void makeSharedDL();                                                                // 0x801a4f08
     void lock();                                                                        // 0x801a4f90
-    void setShapePktControl(s16);                                                       // 0x801a4fec
-    void isAllShapePacketHidding(s16, u32);                                             // 0x801a5110
+    void setShapePktControl(u16);                                                       // 0x801a4fec
+    bool isAllShapePacketHidding(u16 level, u32 viewNo);                                             // 0x801a5110
     void setCurMtx();                                                                   // 0x801a523c
     void calcBBoardMtx(Mtx, Mtx);                                                       // 0x801a56f8
     void simpleDraw(u32, Mtx, u32);                                                     // 0x801a58ac
@@ -40,7 +40,7 @@ public:
     void hide();                                                                        // 0x801a5e98
     void clipAll(u32, bool);                                                            // 0x801a5fc8
     void clipBySphere(u32, J3DUClipper *, const Mtx, f32);                              // 0x801a6040
-    void clipJoint(u32, s16, bool);                                                     // 0x801a6254
+    void clipJoint(u32, u16, bool);                                                     // 0x801a6254
     void setBaseTRMtx(Mtx);                                                             // 0x801a63c8
     void setBaseScale(JGeometry::TVec3f &);                                             // 0x801a6474
     void tstDiffTexMtxMode();                                                           // 0x801a6550

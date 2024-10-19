@@ -2,9 +2,13 @@
 #define KARTDRAWER_H
 
 #include "Kaneshige/Course/CrsArea.h"
-#include "Kaneshige/KartInfo.h"
+#include "Kaneshige/DarkAnmMgr.h"
 #include "Kaneshige/RaceLight.h"
 #include "Kaneshige/DrawBuffer.h"
+#include "Kawano/osage.h"
+#include "Sato/J3DAnmObject.h"
+
+#include "kartEnums.h"
 #include "types.h"
 
 class KartDrawer
@@ -16,27 +20,29 @@ public:
     public:
         virtual void drawIn(u32 idx);   // 0x801b850c
         virtual void update();          // 0x801b8620
-        virtual void viewCalc(u32 idx); // 0x80198c64
         // Inline
-        void setLevelNo(int);  // 0x801b8c08
-        void setDriverNo(int); // 0x801b8c10
-        void setKartNo(int);   // 0x801b8c18
-        ~DriverDB() {
-            _10 = 0;
-            _14 = 0;
-            _18 = 0;
-        }
-        DriverDB();            // 0x801b8c9c
+        void setLevelNo(int no) { mLevelNo = no;  }
+        void setDriverNo(int no) { mDriverNo = no; }
+        void setKartNo(int no) { mKartNo = no; }
+        DriverDB() {
+            mKartNo = 0;
+            mDriverNo = 0;
+            mLevelNo = 0;
+        } 
+        ~DriverDB() {}
 
     private:
-        int _10;
-        int _14;
-        int _18;
+        int mKartNo;   // 10
+        int mDriverNo; // 14
+        int mLevelNo;  // 18
     };
 
     enum EDrawStage
     {
-        // TODO
+        STAGE_0, // None?
+        STAGE_1,
+        STAGE_2,
+        STAGE_GHOST
     };
 
     KartDrawer();                           // 0x801b8714
@@ -52,26 +58,22 @@ public:
     void kartAnmFrameProc();                // 0x801b9340
     void frameProc();                       // 0x801b93e4
     void setShadowInfo(const CrsArea &);    // 0x801b9470
-    void isFlashHidding();                  // 0x801b94b4
-    void enableDrawing(u32, EDrawStage);    // 0x801b951c
+    bool isFlashHidding();                  // 0x801b94b4
+    bool enableDrawing(u32, EDrawStage);    // 0x801b951c
     void drawKart(u32, EDrawStage);         // 0x801b96a4
     void drawDriver(u32, EDrawStage);       // 0x801b9760
     void update();                          // 0x801b9904
     void setLODLevel(u32, u16);             // 0x801b9b98
     void playTevAnm(int);                   // 0x801b9bd4
     void stopTevAnm();                      // 0x801b9bf4
-    static s16 sFlashInterval;              // 0x80414648
-    static u8 sGhostA;                      // 0x8041464a
-    static s16 sGhostFadeOutTime;           // 0x8041464c
     // Inline/Unused
-    // void setFrame(float);
-    // void J3DAnmObjBase::setFrame(float);
+    void setFrame(f32 rate);
     // void sForceLODLevel;
     // Inline
-    void isAvailableTevAnmShock(); // 0x801b9194
-    void isFlashing() const;       // 0x801b950c
-    void isHide(u32) const;        // 0x801b95c8
-    void hide();                   // 0x801b9b88
+    bool isAvailableTevAnmShock() { return mShockAnm.getAnmBase() != nullptr; }
+    bool isFlashing() const { return mFlashState != 0; }
+    bool isHide(u32 viewNo) const { return (mHiddenDrivers & 1 << viewNo) != 0; }
+    void hide() { mHiddenDrivers = 0xffff; }
 
     void setLight(u32 viewNo, RaceKartLight *kartLight)
     {
@@ -80,28 +82,38 @@ public:
         mKartLight[viewNo] = kartLight;
     }
 
-    u8 _0[0x30];
-    RaceKartLight *mKartLight[4];
-    u8 _40[0x178 - 0x40];
+private:
+    static s16 sFlashInterval;          // 0x80414648
+    static u8 sGhostA;                  // 0x8041464a
+    static s16 sGhostFadeOutTime;       // 0x8041464c
 
-    // Size 0x178
-}; // class KartDrawer
-// Outside class members
-// void DrawBuffer::create(u32);
-// 0x// void KartCtrl::SetCoDriverCurrentViewNo(int, u32) // KartCtrl.h; // 0x801b8598
-// void KartCtrl::SetDriverCurrentViewNo(int, u32) // KartCtrl.h; // 0x801b85dc
-// void KartCtrl::DrwaCoDriver(int, u16) // KartCtrl.h; // 0x801b868c
-// void KartCtrl::DrwaDriver(int, u16) // KartCtrl.h; // 0x801b86d0
-// void OsageDrawBuffer::setTargetKart(short) // OsageDrawBuffer.h; // 0x801b8bc4
-// void OsageDrawBuffer::OsageDrawBuffer(u32) // OsageDrawBuffer.h; // 0x801b8bcc
-// void KartLoader::isOsageExist(int) // KartLoader.h; // 0x801b8e0c
-// void J3DAnmObjMaterial::getAnmBase() // J3DAnmObjMaterial.h; // 0x801b91c0
-// void J3DFrameCtrl::setAttribute(u8) // J3DFrameCtrl.h; // 0x801b91c8
-// void J3DAnmObjBase::getFrameCtrl() // J3DAnmObjBase.h; // 0x801b91d0
-// void J3DAnmObjBase::setRate(const float &) // J3DAnmObjBase.h; // 0x801b9310
-// void J3DFrameCtrl::setRate(float) // J3DFrameCtrl.h; // 0x801b9338
-// void J3DFrameCtrl::setFrame(float) // J3DFrameCtrl.h; // 0x801b93dc
-// void KartInfo::isAvailableKart() const // KartInfo.h; // 0x801b95e4
-// void KartInfo::isAvailableDriver(int) const // KartInfo.h; // 0x801b9608
-// void KartLoader::getWheelNumber() // KartLoader.h; // 0x801b9b80
+    int mKartNo;                        // 0
+    u32 mMaxViewNo;                     // 4
+    bool mEnableLOD;                    // 8
+    EDrawStage mStartStage;             // c
+    EDrawStage mStage;                  // 10
+    u8 mGhostAlpha;                     // 14
+    s16 mGhostFadeTimer;                // 16
+    u16 mHiddenDrivers;                 // 18
+    u16 mMaxLevel;                      // 1a
+    u16 *mpLOD;                         // 1c
+    DriverDB *_20;                      // 20
+    DriverDB *_24;                      // 24 
+    OsageDrawBuffer *mOsageDB;          // 28
+    u16 mFlashState;                    // 2c
+    u16 mFlashTime;                     // 2e
+    RaceKartLight *mKartLight[4];       // 30
+    DarkAnmPlayer *_40[2];              // 40
+    DarkAnmPlayer *_48;                 // 48
+    s16 mShadowID;                      // 4c
+    f32 mShadowRate;                    // 50
+    int mAnmNo;                         // 54
+    J3DAnmObjMaterial mDriverAnm[2];    // 58
+    J3DAnmObjMaterial mAccessoryAnm[2]; // 98
+    J3DAnmObjMaterial mBodyAnm;         // d8
+    J3DAnmObjMaterial mArmAnm;          // f8
+    J3DAnmObjMaterial mShockAnm;        // 118
+    J3DAnmObjMaterial mWheelLAnm;       // 138
+    J3DAnmObjMaterial mWheelRAnm;       // 158
+};  // Size 0x178
 #endif // KARTDRAWER_H

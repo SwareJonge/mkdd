@@ -40,7 +40,7 @@ public:
     void createModel(DriverModel *, JKRSolidHeap *, u32, u32);
     void setCurrentViewNo(DriverModel *, u32);
     void CheckNoIK();
-    int IsOsageExist(DriverModel *);
+    ExModel *IsOsageExist(DriverModel *);
 
     static OsageMgr *ptr();
 

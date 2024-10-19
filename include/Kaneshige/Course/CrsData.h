@@ -399,7 +399,7 @@ public:
     SCheckPoint *getCheckPointTable() const;
     Camera *getCameraData(int camIdx) const;
 
-    Grid *getGridTable() const { (Grid*)((u8 *)mCollionData + sizeof(SColHeader));  }
+    Grid *getGridTable() const { return (Grid*)((u8 *)mCollionData + sizeof(SColHeader));  }
     SMaterial *getMatTable() const { return (SMaterial*)((u8 *)mCollionData + mCollionData->matTableOffset); }
     SGround *getGroundTable() const { return (SGround*)((u8 *)mCollionData + mCollionData->groundTableOffset); }
     JGeometry::TVec3f *getVertexTable() const { return (JGeometry::TVec3f *)((u8 *)mCollionData + mCollionData->vertexTableOffset); }

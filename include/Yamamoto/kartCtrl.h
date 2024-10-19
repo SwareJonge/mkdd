@@ -166,6 +166,10 @@ public:
     void CheckObjectReflection(int idx) { getKartBody(idx)->CheckObjectReflection(); }
     void CheckRoofReflection(int idx) { getKartBody(idx)->CheckRoofReflection(); }
     void CheckVertexReflection(int idx) { getKartBody(idx)->CheckVertexReflection(); }
+    void SetDriverCurrentViewNo(int idx, u32 viewNo) { getKartBody(idx)->mExModels[0]->setCurrentViewNo(viewNo);  }
+    void SetCoDriverCurrentViewNo(int idx, u32 viewNo) { getKartBody(idx)->mExModels[1]->setCurrentViewNo(viewNo);  }
+    void DrwaDriver(int idx, u16 level) { getKartBody(idx)->mExModels[0]->update(level);  }
+    void DrwaCoDriver(int idx, u16 level) { getKartBody(idx)->mExModels[1]->update(level);  }
 
     int GetKartNumber() { return mKartCount; }
     KartBody *getKartBody(int idx){return mKartBodies[idx]; } 

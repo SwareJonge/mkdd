@@ -363,7 +363,7 @@ config.libs = [
             Object(Matching, "MSL_C/PPC_EABI/abort_exit.c"),
             Object(Matching, "MSL_C/MSL_Common/alloc.c"),
             Object(Matching, "MSL_C/MSL_Common/ansi_files.c"),
-            Object(NonMatching, "MSL_C/MSL_Common_Embedded/ansi_fp.c"),
+            Object(Matching, "MSL_C/MSL_Common_Embedded/ansi_fp.c"),
             Object(Matching, "MSL_C/MSL_Common/arith.c"),
             Object(Matching, "MSL_C/MSL_Common/bsearch.c"),
             Object(Matching, "MSL_C/MSL_Common/buffer_io.c"),
@@ -417,7 +417,7 @@ config.libs = [
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_exp.c"),
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_pow.c"),
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_sqrt.c"),
-            Object(NonMatching, "MSL_C/PPC_EABI/math_ppc.c"),
+            Object(Matching, "MSL_C/PPC_EABI/math_ppc.c"),
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/w_sqrt.c")
         ]
     ),
@@ -1108,7 +1108,7 @@ config.libs = [
             Object(Matching, "Kaneshige/RaceInfo.cpp"),
             Object(NonMatching, "Kaneshige/RaceLight.cpp"),
             Object(NonMatching, "Kaneshige/RaceDrawBuffer.cpp"),
-            Object(NonMatching, "Kaneshige/KartDrawer.cpp"),
+            Object(Matching, "Kaneshige/KartDrawer.cpp"),
             Object(Matching, "Kaneshige/TexLODControl.cpp"),
             Object(Matching, "Kaneshige/ShapePktControl.cpp"),
             Object(Matching, "Kaneshige/SimpleDrawer.cpp"),

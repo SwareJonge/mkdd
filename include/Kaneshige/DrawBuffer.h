@@ -12,9 +12,9 @@ public:
     void reset();                                // 0x80198888
     ~DrawBuffer();                               // 0x80198904
     void create(u32 opaBufSize, u32 xluBufSize); // 0x8019897c
-    void draw(u32 idx);                          // 0x80198a54
-    void drawOpa(u32 idx);                       // 0x80198afc
-    void drawXlu(u32 idx);                       // 0x80198b64
+    void draw(u32 viewNo);                       // 0x80198a54
+    void drawOpa(u32 viewNo);                    // 0x80198afc
+    void drawXlu(u32 viewNo);                    // 0x80198b64
 
     // Inline
     void create(u32 bufSize) // 0x801b8c20
@@ -34,11 +34,13 @@ public:
     J3DDrawBuffer *getOpaBuf() const { return mOpaBuf; }    // 0x801988fc
     bool isDraw() const { return mDrawFlag != 0; }          // 0x80198aec
     bool isLock() const { return mLockFlag & ~0xfffffffe; } // 0x80198c58
+    void clrDraw() { mDrawFlag = 0; }
+
 
     // Vtable 0x0
-    virtual void drawIn(u32 idx);   // 0x80198a50
-    virtual void update();          // 0x80198bb0
-    virtual void viewCalc(u32 idx); // 0x80198c64
+    virtual void drawIn(u32 viewNo);   // 0x80198a50
+    virtual void update();             // 0x80198bb0
+    virtual void viewCalc(u32 viewNo); // 0x80198c64
 
 private:
     static J3DDrawBuffer sDummyBuf;
@@ -49,5 +51,18 @@ private:
     J3DDrawBuffer *mXluBuf; // 0xc
 
 }; // Size 0x10
+
+class OsageDrawBuffer : public DrawBuffer {
+public:
+    OsageDrawBuffer(u32 bufSize) : DrawBuffer(bufSize) {}
+        // Vtable 0x0
+    virtual void drawIn(u32 idx);   // 0x80198a50
+    virtual void update();          // 0x80198bb0
+    virtual void viewCalc(u32 idx); // 0x80198c64
+
+    void setTargetKart(s16 targetKart) { mTargetKart = targetKart; }
+private:
+    s16 mTargetKart;
+}; // Size 0x14
 
 #endif

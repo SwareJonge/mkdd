@@ -21,7 +21,7 @@ CrsData::CrsData(CrsData::SColHeader *bco, CrsData::SOblHeader *bol) {
     mObjectData = bol;
     if (bco) {
 #line 439
-        JUT_ASSERT_F(bco->version == '0003', "BCO INVAL VER.%08x ORG[%08x]", bco->version, 0x30303033);
+        JUT_ASSERT_F(bco->version == '0003', "BCO INVAL VER.%08x ORG[%08x]", bco->version, '0003');
     }
     JUT_ASSERT_F(bol->version == '0015', "BOL INVAL VER.%08x ORG[%08x]", bol->version, '0015');
 
@@ -85,7 +85,7 @@ CrsData::CrsData(CrsData::SColHeader *bco, CrsData::SOblHeader *bol) {
                 break;
             }
 
-            snprintf(matData->name, 0x10, "â˜†%s%d", matName, mat[i].soundID);
+            snprintf(matData->name, 0x10, "â˜?%s%d", matName, mat[i].soundID);
         }
     }
     else {

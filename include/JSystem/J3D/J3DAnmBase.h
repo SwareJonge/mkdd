@@ -39,7 +39,11 @@ enum J3DAnmKind
 // Intended size: byte
 enum J3DAnmAttr
 {
-    J3DAA_UNKNOWN_0 = 0
+    J3DAA_UNKNOWN_0,
+    J3DAA_UNKNOWN_1,
+    J3DAA_UNKNOWN_2,
+    J3DAA_UNKNOWN_3,
+    J3DAA_UNKNOWN_4,
 };
 #pragma enumalwaysint reset
 

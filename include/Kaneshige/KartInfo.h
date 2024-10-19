@@ -2,9 +2,9 @@
 #ifndef KARTINFO_H
 #define KARTINFO_H
 
-
 #include <dolphin/os.h>
-#include "JSystem/JUtility/JUTDbg.h"
+#include <JSystem/JUtility/JUTDbg.h>
+
 #include "Osako/kartPad.h"
 #include "types.h"
 
@@ -45,30 +45,17 @@ public:
             mCharDB = nullptr;
         }
 
-        bool isComPlayer() const {
-            return mKartGamePad == nullptr;
-        }
-
+        bool isComPlayer() const { return mKartGamePad == nullptr; }
         KartGamePad *getPad() { return mKartGamePad; }
         void setPad(KartGamePad * gamepad);
+        void setCharDB(const SCharDB  * charDB) { mCharDB = charDB; }
+        ECharID getCharID() const{ return (mCharDB) ? (ECharID)mCharDB->id : cCharIDNone; }
+        ECharID getPartnerID() const { return (mCharDB) ? (ECharID)mCharDB->defaultPartnerID : cCharIDNone; }
+        
+        int getPlayerKind() const { return convPlayerKind(mKartGamePad); }
 
-        void setCharDB(const SCharDB  * charDB) {
-            mCharDB = charDB;
-        }
-        ECharID getCharID() const
-        {
-            return (mCharDB) ? (ECharID)mCharDB->id : cCharIDNone;
-        }
-        ECharID getPartnerID() const {
-            return (mCharDB) ? (ECharID)mCharDB->defaultPartnerID : cCharIDNone;
-        }
         bool isAvailable() const;
         static int convPlayerKind(KartGamePad *);
-        
-        int getPlayerKind() const {
-            return convPlayerKind(mKartGamePad);
-        }
-
     private:
         KartGamePad* mKartGamePad; // inherited from JUTGamePad
         const SCharDB* mCharDB;
@@ -92,8 +79,14 @@ public:
 
     void setGhostKind(EGhostKind kind) { mGhostKind = kind; }
     EGhostKind getGhostKind() { return mGhostKind; }
-    // TODO: not important but move to "correct" location
-    // Comment 05-03-2024(DD-MM-YYYY): did i already do this?
+
+    bool isAvailableKart() const { return isAvailableDriver(0); }
+    bool isAvailableDriver(int driverNo) const {
+#line 107
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
+        return mKartCharacters[driverNo].isAvailable();
+    }
+
     bool isComDriver(int driverNo) const {
 #line 113
         JUT_MINMAX_ASSERT(0, driverNo, 2);
@@ -118,28 +111,11 @@ public:
         return mKartCharacters[driverNo].getCharID();
     }
 
-    EKartID getKartID() const
-    {
-        return (mKartDB) ? mKartDB->id : cKartIDNone;
-    }
-
-    EKartWeight getKartWeight() const
-    {
-        return mKartDB ? mKartDB->weight : UNK_3;
-    }
-
-    int getWheelNumber() const {
-        return mKartDB ? mKartDB->wheelCount : 0;
-    }
-
-    bool isComKart() const {
-        return isComDriver(0);
-    }
-
-    void setKartID(EKartID kartID) {
-        mKartDB = getKartDB(kartID);
-    }
-
+    EKartID getKartID() const { return (mKartDB) ? mKartDB->id : cKartIDNone; }
+    EKartWeight getKartWeight() const { return mKartDB ? mKartDB->weight : UNK_3; }
+    int getWheelNumber() const { return mKartDB ? mKartDB->wheelCount : 0; }
+    bool isComKart() const { return isComDriver(0); }
+    void setKartID(EKartID kartID) { mKartDB = getKartDB(kartID); }
     bool isRealPlayerKart() const { return getPlayerKind(0) == 1; }
     bool isGhostKart() const { return getPlayerKind(0) == 4; }
     bool isPlayerKart() const { return !isComKart(); }

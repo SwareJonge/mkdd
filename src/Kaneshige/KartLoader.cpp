@@ -11,14 +11,14 @@ KartLoader::KartLoader(int kartNum, const KartInfo *kartInfo, u16 numLevels, boo
 
     for(int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            _b34[j][i] = 0;
-            _b44[j][i] = 0;
+            mDriverTevRegKey[j][i] = 0;
+            mAccessoryTevRegKey[j][i] = 0;
         }
-        _b54[i] = nullptr;
-        _b5c[i] = nullptr;
-        _b64[i] = nullptr;
-        _b6c[i] = nullptr;
-        _b74[i] = nullptr;
+        mBodyTevRegKey[i] = nullptr;
+        mArmTevRegKey[i] = nullptr;
+        mShockTevRegKey[i] = nullptr;
+        mWheelLTevRegKey[i] = nullptr;
+        mWheelRTevRegKey[i] = nullptr;
     }
 
     SYSDBG_SetHeapGroup("DRIVER MGR", nullptr)
@@ -29,7 +29,7 @@ KartLoader::KartLoader(int kartNum, const KartInfo *kartInfo, u16 numLevels, boo
 
     for (int i = 0; i < 2; i++) {
         mDriverModels[i] = new DriverModel(this, i, numLevels, isTT, awardNo);
-        mOsageExist[i] = OsageMgr::ptr()->IsOsageExist(mDriverModels[i]);
+        mOsagModel[i] = OsageMgr::ptr()->IsOsageExist(mDriverModels[i]);
     }
 }
 

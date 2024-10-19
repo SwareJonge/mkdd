@@ -18,6 +18,8 @@ public:
     
     J3DFrameCtrl *getFrameCtrl() { return &mFrameCtrl; }
     void setExModel(ExModel *model) { mModel = model; }
+    void setRate(const float &rate) { mFrameCtrl.setRate(rate); }
+    void setFrame(float frame) { mFrameCtrl.setFrame(frame); }
 
     virtual ~J3DAnmObjBase() {}
     virtual void anmFrameProc() = 0;

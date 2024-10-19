@@ -43,12 +43,12 @@ void DrawBuffer::create(u32 opaBufSize, u32 xluBufSize)
     mXluBuf->setDrawMode(1);
 }
 
-void DrawBuffer::drawIn(u32 idx) {}
+void DrawBuffer::drawIn(u32 viewNo) {}
 
-void DrawBuffer::draw(u32 idx)
+void DrawBuffer::draw(u32 viewNo)
 {
     mDrawFlag = 1;
-    drawIn(idx);
+    drawIn(viewNo);
 
     if (isDraw())
     {
