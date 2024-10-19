@@ -28,6 +28,8 @@ public:
         getXluBuf()->frameInit();
     }
 
+    void lock() { mLockFlag |= 1; }
+
     J3DDrawBuffer *getXluBuf() const { return mXluBuf; }    // 0x801988f4
     J3DDrawBuffer *getOpaBuf() const { return mOpaBuf; }    // 0x801988fc
     bool isDraw() const { return mDrawFlag != 0; }          // 0x80198aec

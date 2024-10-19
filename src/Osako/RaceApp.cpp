@@ -175,7 +175,7 @@ RaceApp::RaceApp() : GameApp(0x600000, "Race", nullptr)
             ECharID charID2 = kartInfo->getDriverCharID(1);
 
             gRaceInfo.setKart(1, kartID, charID1, _44[0], charID2, nullptr);
-            gRaceInfo.getKartInfo(1)->setGhostKind(KIND_1);
+            gRaceInfo.getKartInfo(1)->setGhostKind(KIND_NORMAL_GHOST);
             mRecorder->setGhostPad(0, _44[0]);
 
             if (gGhostFile.available(ResMgr::msCourseID))
@@ -198,7 +198,7 @@ RaceApp::RaceApp() : GameApp(0x600000, "Race", nullptr)
                 gRaceInfo.setKart(2, kartID, charID1, _44[1], charID2, nullptr);
             }
 
-            gRaceInfo.getKartInfo(2)->setGhostKind(KIND_1);
+            gRaceInfo.getKartInfo(2)->setGhostKind(KIND_NORMAL_GHOST);
             mStaffGhostRecord = (KartPadRecord *)ResMgr::getPtr(ResMgr::mcCourseDataGhost);
 
             if (mStaffGhostRecord)
@@ -219,7 +219,7 @@ RaceApp::RaceApp() : GameApp(0x600000, "Race", nullptr)
             {
                 gRaceInfo.setKart(3, kartID, charID1, _44[2], charID2, nullptr);
             }
-            gRaceInfo.getKartInfo(3)->setGhostKind(KIND_2);
+            gRaceInfo.getKartInfo(3)->setGhostKind(KIND_STAFF_GHOST);
         }
         else
         {

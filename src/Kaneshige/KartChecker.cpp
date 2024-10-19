@@ -28,7 +28,7 @@
 int KartChecker::sPlayerKartColorTable[] = {
     0, 1, 2, 3, 4, 5, 6, 7};
 
-#if DEBUG
+#ifdef DEBUG
 KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
 {
     mKartChecker = kartChecker;

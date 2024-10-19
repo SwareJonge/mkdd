@@ -222,6 +222,8 @@ public:
     void drawNormal(u32 cameraNo) { drawBase(cameraNo, mNormMatIDTable, mNormMatNum, false); }
     void drawHigh(u32 cameraNo) { drawBase(cameraNo, mHighMatIDTable, mHighMatNum, false); }
 
+    f32 getGroundThickness() const { return sGndThickness; }
+
 private: // add all documented stuff from Ghidra
     static u16 sDrawAreaModel;
     static bool sForceDebugFogSetting;

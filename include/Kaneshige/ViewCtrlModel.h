@@ -24,7 +24,7 @@ public:
     void clrVisibleAll() { mFlags &= 0xf0; }
     bool isDetailFlg() { return mFlags & 0x10; }
     bool isInvisibleAll() { return mFlags & 0xf; };
-    bool isVisible(u32 p1) { return mFlags & 1 << p1; }
+    bool isVisible(u32 p1) { return (mFlags & 1 << p1) != 0; }
     void setDetailFlg() { mFlags |= 0x10; }
     void setVisibleAll() { mFlags |= 0xf; }
 
