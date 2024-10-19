@@ -139,22 +139,22 @@ namespace JGeometry {
         void identity() // TODO: OK?
         {
             const T zero = (T)0;
-            ref(2, 3) = zero;
-            ref(1, 3) = zero;
-            ref(0, 3) = zero;
+            this->ref(2, 3) = zero;
+            this->ref(1, 3) = zero;
+            this->ref(0, 3) = zero;
 
-            ref(1, 2) = zero;
-            ref(0, 2) = zero;
+            this->ref(1, 2) = zero;
+            this->ref(0, 2) = zero;
 
-            ref(2, 1) = zero;
-            ref(0, 1) = zero;
-            ref(2, 0) = zero;
-            ref(1, 0) = zero;
+            this->ref(2, 1) = zero;
+            this->ref(0, 1) = zero;
+            this->ref(2, 0) = zero;
+            this->ref(1, 0) = zero;
 
             const T one = TUtil<T>::one();
-            ref(2, 2) = one;
-            ref(1, 1) = one;
-            ref(0, 0) = one;
+            this->ref(2, 2) = one;
+            this->ref(1, 1) = one;
+            this->ref(0, 0) = one;
         }
         void concat(const T &rSrcA, const T &rSrcB);
         void concat(const T &rSrc);
@@ -174,17 +174,17 @@ namespace JGeometry {
 
         void getXDir(TVec3f &rDest) const
         {
-            rDest.set<f32>(mMtx[0][0], mMtx[1][0], mMtx[2][0]);
+            rDest.set<f32>(this->mMtx[0][0], this->mMtx[1][0], this->mMtx[2][0]);
         };
 
         void getYDir(TVec3f &rDest) const
         {
-            rDest.set<f32>(mMtx[0][1], mMtx[1][1], mMtx[2][1]);
+            rDest.set<f32>(this->mMtx[0][1], this->mMtx[1][1], this->mMtx[2][1]);
         };
 
         void getZDir(TVec3f &rDest) const
         {
-            rDest.set<f32>(mMtx[0][2], mMtx[1][2], mMtx[2][2]);
+            rDest.set<f32>(this->mMtx[0][2], this->mMtx[1][2], this->mMtx[2][2]);
         };
 
         void getXYZDir(TVec3f &rDestX, TVec3f &rDestY, TVec3f &rDestZ) const;
@@ -196,15 +196,15 @@ namespace JGeometry {
         void setZDir(f32 x, f32 y, f32 z);
         void setXYZDir(const TVec3f &rSrcX, const TVec3f &rSrcY, const TVec3f &rSrcZ)
         {
-            ref(0, 0) = rSrcX.x;
-            ref(1, 0) = rSrcX.y;
-            ref(2, 0) = rSrcX.z;
-            ref(0, 1) = rSrcY.x;
-            ref(1, 1) = rSrcY.y;
-            ref(2, 1) = rSrcY.z;
-            ref(0, 2) = rSrcZ.x;
-            ref(1, 2) = rSrcZ.y;
-            ref(2, 2) = rSrcZ.z;
+            this->ref(0, 0) = rSrcX.x;
+            this->ref(1, 0) = rSrcX.y;
+            this->ref(2, 0) = rSrcX.z;
+            this->ref(0, 1) = rSrcY.x;
+            this->ref(1, 1) = rSrcY.y;
+            this->ref(2, 1) = rSrcY.z;
+            this->ref(0, 2) = rSrcZ.x;
+            this->ref(1, 2) = rSrcZ.y;
+            this->ref(2, 2) = rSrcZ.z;
         }
 
         void getEuler(TVec3f &rDest) const;
@@ -226,9 +226,9 @@ namespace JGeometry {
 
         inline void getXDirInline(TVec3f &rDest) const
         {
-            f32 z = mMtx[2][0];
-            f32 y = mMtx[1][0];
-            f32 x = mMtx[0][0];
+            f32 z = this->mMtx[2][0];
+            f32 y = this->mMtx[1][0];
+            f32 x = this->mMtx[0][0];
             rDest.set(x, y, z);
         }
 
@@ -253,9 +253,9 @@ namespace JGeometry {
         void setTrans(f32 x, f32 y, f32 z);
         void zeroTrans()
         {
-            ref(0, 3) = 0.0f;
-            ref(1, 3) = 0.0f;
-            ref(2, 3) = 0.0f;
+            this->ref(0, 3) = 0.0f;
+            this->ref(1, 3) = 0.0f;
+            this->ref(2, 3) = 0.0f;
         }
 
         void makeRotate(const TVec3f &, f32);
@@ -265,9 +265,9 @@ namespace JGeometry {
 
         inline void getTransInline(TVec3f &rDest) const
         {
-            f32 z = mMtx[2][3];
-            f32 y = mMtx[1][3];
-            f32 x = mMtx[0][3];
+            f32 z = this->mMtx[2][3];
+            f32 y = this->mMtx[1][3];
+            f32 x = this->mMtx[0][3];
             rDest.set(x, y, z);
         }
     };

@@ -12,7 +12,7 @@ public:
     void getTagName(u32); // UNUSED
 
     virtual ~RaceSceneLight();   // overide
-    virtual Mtx *getEffectMtx(); // overide
+    virtual MtxPtr getEffectMtx(); // overide
     virtual void calc();         // overide
 private:
     u8 _90[0xf4 - 0x90];
@@ -23,7 +23,7 @@ class RaceBalloonLight : public LtObjDiffuse
 public:
     RaceBalloonLight(u32);
     virtual ~RaceBalloonLight(); // overide
-    virtual Mtx *getEffectMtx(); // overide
+    virtual MtxPtr getEffectMtx(); // overide
     virtual void draw();         // overide
 
 private:
@@ -36,7 +36,7 @@ public:
     RaceKartLight(RaceSceneLight *, int);
    
     virtual ~RaceKartLight();    // overide
-    virtual Mtx *getEffectMtx(); // overide
+    virtual MtxPtr getEffectMtx(); // overide
     virtual void draw();         // overide
     virtual void calc();         // overide
     

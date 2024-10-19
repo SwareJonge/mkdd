@@ -1867,13 +1867,14 @@ bool Course::Area::check(TVec3f *areaCoord, const TVec3f &worldPos)
 
     switch (mData->shape)
     {
-    case 1:
+    case 1: {
         f32 lenXZ = (areaCoord->x * areaCoord->x) + (areaCoord->z * areaCoord->z);
         if (lenXZ > mScale.x * mScale.x)
             return false;
         if (areaCoord->y < -100.0f || areaCoord->y > mScale.y)
             return false;
         break;
+    }
     default:
         if ((areaCoord->x < -mScale.x) || (areaCoord->x > mScale.x))
             return false;

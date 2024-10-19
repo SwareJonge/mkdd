@@ -7,6 +7,7 @@
 namespace JGeometry {
     inline void setTVec3f(register const f32 *src, register f32 *dst)
     {
+#ifdef __MWERKS__
         register f32 xy, z;
         __asm {
             // clang-format off
@@ -16,10 +17,12 @@ namespace JGeometry {
             stfs z, 8(dst)
             // clang-format on
         }
+#endif
     }
 
     inline void negateInternal(register const f32 *src, register f32 *dst)
     {
+#ifdef __MWERKS__
         register f32 xy;
         __asm {
             // clang-format off
@@ -29,10 +32,12 @@ namespace JGeometry {
             // clang-format on
         }
         dst[2] = -src[2];
+#endif
     }
 
     inline void mulInternal(register const f32 *vec1, register const f32 *vec2, register f32 *dst) 
     {
+#ifdef __MWERKS__
         register f32 xy1, xy2, res;
         __asm {
             // clang-format off
@@ -43,6 +48,7 @@ namespace JGeometry {
             // clang-format on
         }
         dst[2] = vec1[2] * vec2[2];
+#endif
     }
 
     template <typename T>

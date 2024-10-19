@@ -20,9 +20,15 @@
 #define CLEAR_PATH(x) __memclr((x), sizeof((x)))
 
 #define ALIGN(x) __attribute__((aligned(x)))
+#ifdef __MWERKS__
 #define DECL_SECTION(x) __declspec(section x)
 #define DECL_WEAK __declspec(weak)
 #define DONT_INLINE __attribute__((never_inline))
+#else
+#define DECL_SECTION(x)
+#define DECL_WEAK __attribute__((weak))
+#define DONT_INLINE __attribute__((noinline))
+#endif
 
 // Align X to the previous N bytes (N must be power of two)
 #define ALIGN_PREV(X, N) ((X) & ~((N)-1))

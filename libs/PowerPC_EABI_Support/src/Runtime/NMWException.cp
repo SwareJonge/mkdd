@@ -1,4 +1,5 @@
 #include "PowerPC_EABI_Support/Runtime/NMWException.h"
+#include "PowerPC_EABI_Support/Runtime/MWCPlusPlusLib.h"
 
 #pragma exceptions on
 
@@ -14,14 +15,14 @@ namespace std
 		abort();
 	}
 
-	static terminate_handler thandler = dthandler;
+	terminate_handler thandler = dthandler;
 
 	static void duhandler()
 	{
 		terminate();
 	}
 
-	static unexpected_handler uhandler = duhandler;
+	unexpected_handler uhandler = duhandler;
 
 	extern void terminate()
 	{
@@ -33,11 +34,11 @@ namespace std
 	}
 }
 
-extern "C" void __throw_catch_compare() {
+extern "C" char __throw_catch_compare(const char* throwtype, const char* catchtype, s32* offset_result) {
 
 }
 
-extern "C" void __construct_new_array()
+extern "C" void *__construct_new_array(void *block, ConstructorDestructor ctor, ConstructorDestructor dtor_arg, size_t size, size_t n)
 {
 
 }
@@ -83,7 +84,7 @@ extern "C" void __construct_array(void *ptr, void *ctor, void *dtor, size_t size
 
 }
 
-extern "C" void __destroy_arr(void *block, void *dtor, size_t size, size_t n)
+extern "C" void __destroy_arr(void *block, ConstructorDestructor *dtor, size_t size, size_t n)
 {
 
 }

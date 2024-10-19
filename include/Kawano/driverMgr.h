@@ -87,7 +87,7 @@ public:
 
     // Virtual Table
     virtual void update(u16);                           // override
-    virtual void createModel(JKRSolidHeap *, u32, u32); // override
+    virtual bool createModel(JKRSolidHeap *, u32, u32); // override
     virtual void setCurrentViewNo(u32);                 // override
     virtual ~DriverModel();
 
