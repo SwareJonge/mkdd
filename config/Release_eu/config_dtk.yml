@@ -1,5 +1,6 @@
 # doesn't work yet!
-object: orig/Release_eu/main.dol
+object_base: orig/Release_eu
+object: sys/main.dol
 hash: f3bf225dd81cd9eb094fa9f8415f95f6bbcb9d10
 symbols: config/Release_eu/symbols.txt
 splits: config/Release_eu/splits.txt

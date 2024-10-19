@@ -1,6 +1,7 @@
-object: orig/MarioClub_us/main.dol
+object_base: orig/MarioClub_us
+object: sys/main.dol
 hash: db87a9ec1a34275efc45d965dcdcb1a9eb131885
-#map: orig/MarioClub_us/debugInfoM.MAP
+#map: orig/MarioClub_us/files/debugInfoM.MAP
 symbols: config/MarioClub_us/symbols.txt
 splits: config/MarioClub_us/splits.txt
 mw_comment_version: 8

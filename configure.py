@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 ###
 # Generates build files for the project.
 # This file also includes the project configuration,
@@ -71,11 +73,6 @@ parser.add_argument(
     help="generate map file(s)",
 )
 parser.add_argument(
-    "--no-asm",
-    action="store_true",
-    help="don't incorporate .s files from asm directory",
-)
-parser.add_argument(
     "--debug",
     action="store_true",
     help="build with debug info (non-matching)",
@@ -94,6 +91,12 @@ parser.add_argument(
     help="path to decomp-toolkit binary or source (optional)",
 )
 parser.add_argument(
+    "--objdiff",
+    metavar="BINARY | DIR",
+    type=Path,
+    help="path to objdiff-cli binary or source (optional)",
+)
+parser.add_argument(
     "--sjiswrap",
     metavar="EXE",
     type=Path,
@@ -110,32 +113,46 @@ parser.add_argument(
     action="store_true",
     help="builds equivalent (but non-matching) or modded objects",
 )
+parser.add_argument(
+    "--no-progress",
+    dest="progress",
+    action="store_false",
+    help="disable progress calculation",
+)
 args = parser.parse_args()
 
 config = ProjectConfig()
 config.version = str(args.version)
 version_num = VERSIONS.index(config.version)
 
+debug = args.debug
+if config.version == "MarioClub_us":
+    debug = True
+
 # Apply arguments
 config.build_dir = args.build_dir
 config.dtk_path = args.dtk
+config.objdiff_path = args.objdiff
 config.binutils_path = args.binutils
 config.compilers_path = args.compilers
-config.debug = args.debug
 config.generate_map = args.map
 config.non_matching = args.non_matching
 config.sjiswrap_path = args.sjiswrap
+config.progress = args.progress
 if not is_windows():
     config.wrapper = args.wrapper
-if args.no_asm:
+# Don't build asm unless we're --non-matching
+if not config.non_matching:
     config.asm_dir = None
 
+# Disable sjiswrap
 config.shift_jis = False
 
 # Tool versions
 config.binutils_tag = "2.42-1"
-config.compilers_tag = "20231018"
-config.dtk_tag = "v0.9.0"
+config.compilers_tag = "20240706"
+config.dtk_tag = "v1.1.4"
+config.objdiff_tag = "v2.3.2"
 config.sjiswrap_tag = "v1.1.1"
 config.wibo_tag = "0.6.11"
 
@@ -152,9 +169,12 @@ config.asflags = [
 config.ldflags = [
     "-fp hardware",
     "-nodefaults",
-    "-warn off",
-    # "-listclosure", # Uncomment for Wii linkers
 ]
+if debug:
+    config.ldflags.append("-g")
+if args.map:
+    config.ldflags.append("-mapunused")
+
 # Use for any additional files that should cause a re-configure when modified
 config.reconfig_deps = []
 
@@ -165,7 +185,7 @@ cflags_base = [
     "-enum int",
     "-fp hardware",
     "-Cpp_exceptions off",
-    #"-W all",
+    # "-W all",
     "-inline auto",
     '-pragma "cats off"',
     '-pragma "warn_notinlined off"',
@@ -181,12 +201,8 @@ cflags_base = [
     f"-i build/{config.version}/include"
 ]
 
-if config.version == "MarioClub_us":
-    config.debug = True
-    
-
 # Debug flags
-if config.debug:
+if debug:
     cflags_base.extend(["-DDEBUG=1", "-DHIO_SCREENSHOT=1"])
 else:
     cflags_base.append("-DNDEBUG=1")
@@ -198,7 +214,7 @@ elif "_us" in config.version:
 elif "_jp" in config.version:
     cflags_base.extend(["-DREGION_JP=1",])
 
-if config.non_matching == False:
+if not config.non_matching:
     cflags_base.extend(["-DMATCHING=1"])
 
 # Metrowerks library flags
@@ -256,16 +272,18 @@ def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "objects": objects,
     }
 
+
 # Helper function for MSL libraries
-def mslLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+def mslLib(lib_name: str, extra_cflags: List[str], objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
         "src_dir": "libs/PowerPC_EABI_Support/src",
         "mw_version": "GC/2.6",
-        "cflags": cflags_runtime + [ f"{extra_cflags}" ],
+        "cflags": cflags_runtime + extra_cflags,
         "host": True,
         "objects": objects,
     }
+
 
 def trkLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
@@ -277,23 +295,25 @@ def trkLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "objects": objects,
     }
 
+
 # Helper function for JSystem libraries
-def JSystemLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+def JSystemLib(lib_name: str, extra_cflags: List[str], objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
         "src_dir": "libs",
         "mw_version": "GC/2.6",
-        "cflags": cflags_jsystem + [ f"{extra_cflags}" ],
+        "cflags": cflags_jsystem + extra_cflags,
         "host": True,
         "objects": objects,
     }
 
+
 # Helper function for Game libraries
-def GameLib(lib_name: str, extra_cflags: str, objects: List[Object]) -> Dict[str, Any]:
+def GameLib(lib_name: str, extra_cflags: List[str], objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
         "mw_version": "GC/2.6",
-        "cflags": cflags_game + [ f"{extra_cflags}" ],
+        "cflags": cflags_game + extra_cflags,
         "host": True,
         "objects": objects,
     }
@@ -303,23 +323,26 @@ Matching = True                   # Object matches and should be linked
 NonMatching = False               # Object does not match and should not be linked
 Equivalent = config.non_matching  # Object should be linked when configured with --non-matching
 
+
+# Object is only matching for specific versions
+def MatchingFor(*versions):
+    return config.version in versions
+
+
 config.warn_missing_config = True
 config.warn_missing_source = True
 config.progress_all = False
-
-#Object(Matching, "kartLocale.cpp")
-
 config.libs = [
     GameLib(
         "Localize",
-        "",
+        [],
         [
-            Object(Matching, "kartLocale.cpp")   
+            Object(Matching, "kartLocale.cpp"),
         ]
     ),
     mslLib(
         "Runtime.PPCEABI.H",
-        "",
+        [],
         [
             Object(Matching, "Runtime/__mem.c"),
             Object(Matching, "Runtime/__va_arg.c"),
@@ -335,7 +358,7 @@ config.libs = [
     ),
     mslLib(
         "MSL_C.PPCEABI.H",
-        "-str pool -opt level=0, peephole, schedule, nospace -inline off -sym on",
+        ["-str pool", "-opt level=0, peephole, schedule, nospace", "-inline off", "-sym on"],
         [
             Object(Matching, "MSL_C/PPC_EABI/abort_exit.c"),
             Object(Matching, "MSL_C/MSL_Common/alloc.c"),
@@ -368,7 +391,7 @@ config.libs = [
     ),
     mslLib(
         "fdlibm.PPCEABI.H",
-        "",          
+        [],          
         [
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_asin.c"),
             Object(Matching, "MSL_C/MSL_Common_Embedded/Math/Double_precision/e_atan2.c"),
@@ -400,7 +423,7 @@ config.libs = [
     ),
     mslLib(
         "MSL_C.PPCEABI.bare.H",
-        "",
+        [],
         [
             Object(Matching, "MSL_C/MSL_Common/extras.c")
         ]
@@ -598,7 +621,7 @@ config.libs = [
         ]
     ),
     DolphinLib(
-        "lg", # unofficial name
+        "lg",  # unofficial name
         [
             Object(NonMatching, "dolphin/lg/allsrc.c")
         ]
@@ -698,7 +721,7 @@ config.libs = [
     ),
     JSystemLib(
         "J2DGraph",
-        "-O4,s",
+        ["-O4,s"],
         [
             Object(Matching, "JSystem/J2DGraph/J2DAnimation.cpp"),
             Object(NonMatching, "JSystem/J2DGraph/J2DAnmLoader.cpp"),
@@ -724,7 +747,7 @@ config.libs = [
     ),
     JSystemLib(
         "J3D",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DAnimation.cpp"),
             Object(NonMatching, "JSystem/J3D/GraphAnimator/J3DCluster.cpp"),
@@ -754,20 +777,20 @@ config.libs = [
             Object(NonMatching, "JSystem/J3D/GraphBase/J3DVertex.cpp"),                     
 
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DAnmLoader.cpp"),
-            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DBinaryFormat.cpp"), # might not be in GraphLoader
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DBinaryFormat.cpp"),  # might not be in GraphLoader
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DClusterLoader.cpp"),            
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DJointFactory.cpp"),
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DMaterialFactory.cpp"),
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DMaterialFactory_v21.cpp"),
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelLoader.cpp"),
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelLoaderCalcSize.cpp"),
-            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelSaver.cpp"), # might not be in GraphLoader
+            Object(NonMatching, "JSystem/J3D/GraphLoader/J3DModelSaver.cpp"),  # might not be in GraphLoader
             Object(NonMatching, "JSystem/J3D/GraphLoader/J3DShapeFactory.cpp")
         ]
     ),
     JSystemLib(
         "J3DU",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(NonMatching, "JSystem/J3DU/J3DUPerf.cpp"),
             Object(NonMatching, "JSystem/J3DU/J3DUDL.cpp"),
@@ -777,7 +800,7 @@ config.libs = [
     ),
     JSystemLib(
         "JAudio",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Matching, "JSystem/JAudio/Interface/JAIAudience.cpp"),
             Object(Matching, "JSystem/JAudio/Interface/JAISe.cpp"),
@@ -835,10 +858,10 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio/System/JASTrack.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASTrackPort.cpp"),
 
-            Object(Matching, "JSystem/JAudio/Task/dspproc.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
-            Object(Matching, "JSystem/JAudio/Task/dsptask.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
-            Object(Matching, "JSystem/JAudio/Task/osdsp.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
-            Object(Matching, "JSystem/JAudio/Task/osdsp_task.c", extra_cflags="-O4,s, -inline noauto -use_lmw_stmw off -func_align 32"),
+            Object(Matching, "JSystem/JAudio/Task/dspproc.c", extra_cflags=["-O4,s", "-inline noauto", "-use_lmw_stmw off", "-func_align 32"]),
+            Object(Matching, "JSystem/JAudio/Task/dsptask.c", extra_cflags=["-O4,s", "-inline noauto", "-use_lmw_stmw off", "-func_align 32"]),
+            Object(Matching, "JSystem/JAudio/Task/osdsp.c", extra_cflags=["-O4,s", "-inline noauto", "-use_lmw_stmw off", "-func_align 32"]),
+            Object(Matching, "JSystem/JAudio/Task/osdsp_task.c", extra_cflags=["-O4,s", "-inline noauto", "-use_lmw_stmw off", "-func_align 32"]),
 
             Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcInterpreter.cpp"),
             Object(Matching, "JSystem/JAudio/Utility/JAUAudioArcLoader.cpp"),
@@ -859,7 +882,7 @@ config.libs = [
     ),
     JSystemLib(
         "JFramework",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Matching, "JSystem/JFramework/JFWSystem.cpp"),
             Object(Matching, "JSystem/JFramework/JFWDisplay.cpp")
@@ -867,7 +890,7 @@ config.libs = [
     ),
     JSystemLib(
         "JGadget",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Matching, "JSystem/JGadget/hashcode.cpp"),
             Object(Matching, "JSystem/JGadget/linklist.cpp")
@@ -875,7 +898,7 @@ config.libs = [
     ),
     JSystemLib(
         "JKernel",
-        "-O4,s",
+        ["-O4,s"],
         [
             Object(Matching, "JSystem/JKernel/JKRAram.cpp"),
             Object(Matching, "JSystem/JKernel/JKRAramArchive.cpp"),
@@ -905,7 +928,7 @@ config.libs = [
     ),
     JSystemLib(
         "JMath",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Matching, "JSystem/JMath/JMath.cpp"),
             Object(Matching, "JSystem/JMath/random.cpp"),
@@ -914,7 +937,7 @@ config.libs = [
     ),
     JSystemLib(
         "JParticle",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Equivalent, "JSystem/JParticle/JPABaseShape.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAChildShape.cpp"),
@@ -935,7 +958,7 @@ config.libs = [
     ),
     JSystemLib(
         "JSupport",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(Matching, "JSystem/JSupport/JSUInputStream.cpp"),
             Object(Matching, "JSystem/JSupport/JSUList.cpp"),
@@ -945,7 +968,7 @@ config.libs = [
     ),
     JSystemLib(
         "JUtility",
-        "-O4,s",
+        ["-O4,s"],
         [
             Object(Matching, "JSystem/JUtility/JUTAssert.cpp"),
             Object(Matching, "JSystem/JUtility/JUTConsole.cpp"),
@@ -965,12 +988,12 @@ config.libs = [
             Object(Matching, "JSystem/JUtility/JUTTexture.cpp"),
             Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
             Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
-            Object(Matching, "JSystem/JUtility/JUTFontData_Ascfont_fix12.s", extra_asflags=f"-I build/{config.version}/bin",)
+            Object(Matching, "JSystem/JUtility/JUTFontData_Ascfont_fix12.s", extra_asflags=[f"-I build/{config.version}/bin"],)
         ]
     ),
     JSystemLib(
         "Logitech",
-        "-O4,p",
+        ["-O4,p"],
         [
             Object(NonMatching, "JSystem/Logitech/Conditon.cpp"),
             Object(NonMatching, "JSystem/Logitech/Constant.cpp"),
@@ -983,14 +1006,14 @@ config.libs = [
     ),
     GameLib(
         "Bando",
-        "",
+        [],
         [
             Object(Matching, "Bando/EngineSound.cpp")
         ]
     ),
     GameLib(
         "Inagaki",
-        "",
+        [],
         [
             Object(NonMatching, "Inagaki/CharacterSoundMgr.cpp"),
             Object(NonMatching, "Inagaki/GameAudioCamera.cpp"),
@@ -1014,7 +1037,7 @@ config.libs = [
     ),
     GameLib(
         "Kameda",
-        "",
+        [],
         [
             Object(NonMatching, "Kameda/Motor.cpp"),
             Object(NonMatching, "Kameda/MotorManager.cpp"),
@@ -1064,7 +1087,7 @@ config.libs = [
     ),
     GameLib(
         "Kaneshige",
-        "-inline off",
+        ["-inline off"],
         [
             Object(Matching, "Kaneshige/DrawBuffer.cpp"),
             Object(Equivalent, "Kaneshige/Course/Course.cpp"),
@@ -1142,7 +1165,7 @@ config.libs = [
     ),
     GameLib(
         "Kawano",
-        "",
+        [],
         [
             Object(NonMatching, "Kawano/driverData.cpp"),
             Object(NonMatching, "Kawano/driver.cpp"),
@@ -1165,7 +1188,7 @@ config.libs = [
     ),
     GameLib(
         "Osako",
-        "",
+        [],
         [
             Object(Matching, "Osako/clock.cpp"),
             Object(NonMatching, "Osako/animator.cpp"),
@@ -1222,7 +1245,7 @@ config.libs = [
     ),
     GameLib(
         "Sato",
-        "",
+        [],
         [
             Object(NonMatching, "Sato/logbridge.cpp"),
             Object(Matching, "Sato/stMath.cpp"),
@@ -1278,7 +1301,7 @@ config.libs = [
     ),
     GameLib(
         "Shiraiwa",
-        "",
+        [],
         [
             Object(NonMatching, "Shiraiwa/Coord3D.cpp"),
             Object(NonMatching, "Shiraiwa/MapObjDossun.cpp"),
@@ -1367,7 +1390,7 @@ config.libs = [
     ),
     GameLib(
         "Yamamoto",
-        "-inline off",
+        ["-inline off"],
         [
             Object(NonMatching, "Yamamoto/kartBody.cpp"),
             Object(Matching, "Yamamoto/kartCamera.cpp"),
@@ -1407,12 +1430,18 @@ config.libs = [
     ),
 ]
 
+# Optional extra categories for progress tracking
+config.progress_categories = [
+    # ProgressCategory("game", "Game Code"),
+    # ProgressCategory("sdk", "SDK Code"),
+]
+config.progress_each_module = args.verbose
+
 if args.mode == "configure":
     # Write build.ninja and objdiff.json
     generate_build(config)
 elif args.mode == "progress":
     # Print progress and write progress.json
-    config.progress_each_module = args.verbose
     calculate_progress(config)
 else:
     sys.exit("Unknown mode: " + args.mode)
