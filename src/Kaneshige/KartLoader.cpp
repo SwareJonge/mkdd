@@ -22,8 +22,8 @@ KartLoader::KartLoader(int kartNum, const KartInfo *kartInfo, u16 numLevels, boo
 
     for(int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            mDriverTevRegKey[j][i] = 0;
-            mAccessoryTevRegKey[j][i] = 0;
+            mDriverTevRegKey[j][i] = nullptr;
+            mAccessoryTevRegKey[j][i] = nullptr;
         }
         mBodyTevRegKey[i] = nullptr;
         mArmTevRegKey[i] = nullptr;

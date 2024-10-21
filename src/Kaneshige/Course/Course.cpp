@@ -752,7 +752,7 @@ void Course::loadModelData()
 
         mMatFlags = new u16[modelData->getMaterialNum() & 0xffff];
         for (u16 i = 0; i < modelData->getMaterialNum(); i++)
-            mMatFlags[i] = nullptr;
+            mMatFlags[i] = 0;
 
         mNormMatIDTable = new u32[modelData->getMaterialInitNum() & 0xffff];
         mHighMatIDTable = new u32[modelData->getMaterialInitNum() & 0xffff];

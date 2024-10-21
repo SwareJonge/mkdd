@@ -113,7 +113,7 @@ void KartDrawer::create(int kartNo, int numCams, u16 numLevels, EGhostKind ghost
 
     mpLOD = new u16[numCams];
     for (int i = 0; i < mMaxViewNo; i++)
-        mpLOD[i] = nullptr;
+        mpLOD[i] = 0;
 
     _20 = new DriverDB[mMaxLevel];
     _24 = new DriverDB[mMaxLevel];
