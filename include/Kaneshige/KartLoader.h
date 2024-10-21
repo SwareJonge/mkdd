@@ -31,8 +31,16 @@ public:
     void setDemoBodyBmd(void *ptr) { mDemoBmd = ptr; }
     bool isOsageExist(int driver) { return getExModelOsage(driver) != nullptr; }
     bool isShockExist() const { return mShockModels[0].getModelData() != 0; } // 0x801a7720
-    bool isKartTevAnmEnable(int wheel);                                       // 0x801a8094
-    bool isDriverTevAnmEnable(int wheel);                                     // 0x801a8378
+    bool isKartTevAnmEnable(int tevanmID) {
+        if (tevanmID < 0)
+            return false;
+        return getBodyTevRegKey(tevanmID) != nullptr;    
+    }
+    bool isDriverTevAnmEnable(int tevanmID) {
+        if (tevanmID < 0)
+            return false;
+        return getDriverTevRegKey(0, tevanmID) != nullptr;
+    }
     
     ExModel *getExModelDriver(int driver) {
 #line 80
@@ -59,20 +67,20 @@ public:
 
     ExModel *getExModelOsage(int driver) {
         JUT_MINMAX_ASSERT(0, 2, 6); // line 97
-        return mOsagModel[driver];
+        return mOsageModel[driver];
     }
 
     J3DAnmTevRegKey *getDriverTevRegKey(int driverNo, int tevanmID)  {
 #line 168
         JUT_MINMAX_ASSERT(0, driverNo, 2); // line 168
         JUT_MINMAX_ASSERT(0, tevanmID, 2); // line 169
-        return mDriverTevRegKey[tevanmID][driverNo];
+        return mDriverTevRegKey[driverNo][tevanmID];
     }
 
     J3DAnmTevRegKey *getAccessoryTevRegKey(int driverNo, int tevanmID) {
         JUT_MINMAX_ASSERT(0, driverNo, 2); // line 174
         JUT_MINMAX_ASSERT(0, tevanmID, 2); // line 175
-        return mDriverTevRegKey[tevanmID][driverNo];
+        return mAccessoryTevRegKey[driverNo][tevanmID];
     }
 
     J3DAnmTevRegKey *getBodyTevRegKey(int tevanmID) {
@@ -109,7 +117,7 @@ private:
     ExModel mWheelModels[6];                    // a4
     ExModel mArmModels[6];                      // 3ec
     ExModel mShockModels[6];                    // 734
-    ExModel *mOsagModel[2];                     // a7c
+    ExModel *mOsageModel[2];                    // a7c
     KartShadowModel mShadowModel;               // a84
     J3DAnmTevRegKey *mDriverTevRegKey[2][2];    // b34
     J3DAnmTevRegKey *mAccessoryTevRegKey[2][2]; // b44

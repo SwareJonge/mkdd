@@ -1095,7 +1095,7 @@ config.libs = [
             Object(NonMatching, "Kaneshige/Course/CrsGround.cpp"),
             Object(NonMatching, "Kaneshige/ExModel.cpp"),
             Object(Matching, "Kaneshige/HioMgr.cpp"),
-            Object(NonMatching, "Kaneshige/KartLoader.cpp"),
+            Object(Matching, "Kaneshige/KartLoader.cpp"),
             Object(Matching, "Kaneshige/KartInfo.cpp"),
             Object(Matching, "Kaneshige/KartChecker.cpp"),
             Object(Equivalent, "Kaneshige/RaceMgr.cpp"),

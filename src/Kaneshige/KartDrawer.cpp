@@ -188,9 +188,8 @@ void KartDrawer::resetAnimation() {
 void KartDrawer::setTevAnm(int anmNo) {
     KartLoader *kartLoader = RaceMgr::getManager()->getKartLoader(mKartNo);
     bool diffAnmNo = false;
-    if (mAnmNo != anmNo) {
+    if (mAnmNo != anmNo)
         diffAnmNo = true;
-    }
 
     if (diffAnmNo) {
         if (mAnmNo < 2) 
@@ -345,10 +344,6 @@ bool KartDrawer::enableDrawing(u32 viewNo, EDrawStage drawStage) {
     return isFlashHidding() == false;
 }
 
-//void KartInfo::isAvailableKart() const {}
-
-//void KartInfo::isAvailableDriver(int) const {}
-
 void KartDrawer::drawKart(u32 viewNo, EDrawStage drawStage) {
     if (!enableDrawing(viewNo, drawStage))
         return;
@@ -427,7 +422,6 @@ void KartDrawer::update() {
 
         if (kartLoader->isOsageExist(i))
             _40[i]->setTevColor(kartLoader->getExModelOsage(i));
-
     }
 
     _48->calc(mShadowID, mShadowRate);
@@ -440,8 +434,6 @@ void KartDrawer::update() {
             _48->setTevColor(kartLoader->getExModelShock(i));
     }
 
-
-
     for (u16 i = 0; i < mMaxLevel; i++) {
         _20[i].update();
         _24[i].update();
@@ -451,8 +443,6 @@ void KartDrawer::update() {
     if (mBodyAnm.getAnmBase())
         frameProc();
 }
-
-//void KartLoader::getWheelNumber() {}
 
 void KartDrawer::setLODLevel(u32 viewNo, u16 level) {
     if (viewNo >= mMaxViewNo)

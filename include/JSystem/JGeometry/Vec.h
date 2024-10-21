@@ -132,8 +132,8 @@ namespace JGeometry {
     public:
         // constructors
         TVec3() {}
-        TVec3(const TVec3<f32> &other) { setTVec3f((const f32 *)&other, (f32 *)this); }
-        TVec3(const Vec &other) { setTVec3f((const f32 *)&other, (f32 *)this); }
+        TVec3(const TVec3<f32> &other) { setTVec3f(&other.x, &x); }
+        TVec3(const Vec &other) { setTVec3f(&other.x, &x); }
 
         template <typename TY>
         TVec3(TY X, TY Y, TY Z) { set(X, Y, Z); }
@@ -194,7 +194,7 @@ namespace JGeometry {
 
         // operators
         TVec3 &operator=(const TVec3 &other) {
-            setTVec3f((const f32*)&other, (f32 *)this);
+            setTVec3f(&other.x, &x);
             return *this;
         }
 
@@ -243,11 +243,11 @@ namespace JGeometry {
         void sub(const TVec3<T> &translate) { JMathInlineVEC::PSVECSubtract((const Vec *)this, (const Vec *)&translate, (Vec *)this); }
         void sub(const TVec3 &base, const TVec3 &translate) { JMathInlineVEC::PSVECSubtract((const Vec *)&base, (const Vec *)&translate, (Vec *)this); }
 
-        void negate() { negateInternal((const f32 *)this, (f32 *)this); }
-        void negate(const TVec3 &other) { negateInternal((const f32 *)&other, (f32 *)this); }
+        void negate() { negateInternal(&x, &x); }
+        void negate(const TVec3 &other) { negateInternal(&other.x, &x); }
 
-        void mul(const TVec3 &multiplier) { mulInternal((const f32 *)this, (const f32 *)multiplier, (f32 *)this); }
-        void mul(const TVec3 &vec1, const TVec3 &vec2) { mulInternal((const f32 *)vec1, (const f32 *)vec2, (f32 *)this); }
+        void mul(const TVec3 &multiplier) { mulInternal(&x, &multiplier.x, &x); }
+        void mul(const TVec3 &vec1, const TVec3 &vec2) { mulInternal(&vec1.x, &vec2.x, &x); }
 
         void scale(f32 scalar) { JMathInlineVEC::PSVECScale((const Vec *)this, (Vec *)this, scalar); }
         void scale(f32 scalar, const TVec3 &operand) { JMathInlineVEC::PSVECScale((const Vec *)&operand, (Vec *)this, scalar); }

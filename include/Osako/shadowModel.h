@@ -36,8 +36,8 @@ class KartShadowModel : public ShadowModel
 public:
     KartShadowModel() : ShadowModel(0xf, cShadowKind_Kart, 0xff) // 0x801a6e18
     {
-        mScaleX = 0.0f;
-        mScaleY = 0.0f;
+        mScaleX = 1.0f;
+        mScaleY = 1.0f;
     }
 
     virtual void calc();                                // 0x801f71d0

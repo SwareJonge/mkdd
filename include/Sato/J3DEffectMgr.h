@@ -3,6 +3,8 @@
 
 #include "Kaneshige/ExModel.h"
 
+class CrsGround;
+
 class J3DEffectObj
 {
 public:
@@ -56,15 +58,22 @@ class J3DEfctKartAnmMgr
 {
 public:
     J3DEfctKartAnmMgr();
+
+    void *getSimpleCharBrkAnm(u32, u8 index);
+    void *getSimpleKartBrkAnm(u32, u8 index);
+
     static void createMgr() { sJ3DKartAnmMgr = new J3DEfctKartAnmMgr(); };
-    static J3DEfctKartAnmMgr *sJ3DKartAnmMgr;
+    static J3DEfctKartAnmMgr *getMgr() { return sJ3DKartAnmMgr; }
 
 private:
+    static J3DEfctKartAnmMgr *sJ3DKartAnmMgr;
+
     u8 _00[0x18];
 };
 
 inline void CreateJ3DEfctKarAnmMgr() { J3DEfctKartAnmMgr::createMgr(); };
 inline void CreateJ3DEfctMgr() { J3DEffectMgr::createMgr(); };
 inline J3DEffectMgr *GetJ3DEfctMgr() { return J3DEffectMgr::getJ3DEffectMgr(); }
+inline J3DEfctKartAnmMgr *GetJ3DEfctKartAnmMgr() { return J3DEfctKartAnmMgr::getMgr(); }
 
 #endif

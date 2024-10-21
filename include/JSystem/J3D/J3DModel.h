@@ -115,6 +115,8 @@ struct J3DModelData
 
 	void simpleCalcMaterial(Mtx m) { simpleCalcMaterial(0, m); }
 
+	void removeTevRegAnimator(J3DAnmTevRegKey *key) { mMaterialTable.removeTevRegAnimator(key); }
+
 	J3DVertexData *getVertexData() { return &mVertexData; }
 	J3DJoint *getJointNodePointer(u16 idx) const { return mJointTree.getJointNodePointer(idx); }
 	J3DMaterialTable &getMaterialTable() { return mMaterialTable; }
@@ -146,8 +148,8 @@ struct J3DModelData
 	bool checkBBoardFlag() const { return mBillboardFlag == 1; }
 	bool isLocked() { return mMaterialTable.isLocked(); }
 
-	void entryTexMtxAnimator(J3DAnmTextureSRTKey *anm) { mMaterialTable.entryTexMtxAnimator(anm); }
-	void entryTevRegAnimator(J3DAnmTevRegKey *anm) { mMaterialTable.entryTevRegAnimator(anm); }
+	void entryTexMtxAnimator(J3DAnmTextureSRTKey *key) { mMaterialTable.entryTexMtxAnimator(key); }
+	void entryTevRegAnimator(J3DAnmTevRegKey *key) { mMaterialTable.entryTevRegAnimator(key); }
 
 	// VTBL _00
 	const void *mBmd;				 // _04

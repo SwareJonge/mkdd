@@ -17,4 +17,3 @@
 #include <JSystem/JUtility/TColor.h>
 
 #endif
-

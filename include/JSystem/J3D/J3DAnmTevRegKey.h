@@ -56,6 +56,9 @@ struct J3DAnmTevRegKey : public J3DAnmBase {
 	void setCRegAnmNum(u16 num) { mCRegAnmNum = num; }
 	void setKRegAnmNum(u16 num) { mKRegAnmNum = num; }
 
+	u16 getCRegUpdateMaterialNum() const { return mCRegAnmNum; }
+	u16 getKRegUpdateMaterialNum() const { return mKRegAnmNum; }
+
 	u16 getCRegUpdateMaterialID(u16 idx) const { return mCRegUpdateMaterialID[idx]; }
 	u16 getKRegUpdateMaterialID(u16 idx) const { return mKRegUpdateMaterialID[idx]; }
 
