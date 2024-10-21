@@ -122,34 +122,16 @@ namespace JGeometry {
 
         bool isAbove(const TVec2<T> &other) const { return (x >= other.x) && (y >= other.y) ? true : false; }
 
-        T x;
-        T y;
+        T x, y;
     };
 
     template <typename T>
-    class TVec3
-    {
+    class TVec3 {
     public:
-        // constructors
         TVec3() {}
-        TVec3(const TVec3<f32> &other) { setTVec3f(&other.x, &x); }
-        TVec3(const Vec &other) { setTVec3f(&other.x, &x); }
 
         template <typename TY>
         TVec3(TY X, TY Y, TY Z) { set(X, Y, Z); }
-
-        // getters/setters
-        bool equals(const TVec3<f32> &other) 
-        {
-            bool equal = false;
-            if (x == other.x && y == other.y && z == other.z)
-            {
-                equal = true;
-            }
-            return equal;
-        }
-
-        bool isZero() const { return (squared() <= TUtilf::epsilon()); }
 
         template <typename TY>
         void set(TY X, TY Y, TY Z)
@@ -174,6 +156,58 @@ namespace JGeometry {
             y = val;
             z = val;
         }
+
+        T x, y, z;
+    };
+
+    template <>
+    class TVec3<f32> : public Vec
+    {
+    public:
+        // constructors
+        TVec3() {}
+        TVec3(const TVec3<f32> &other) { setTVec3f(&other.x, &x); }
+        TVec3(const Vec &other) { setTVec3f(&other.x, &x); }
+
+        template <typename TY>
+        TVec3(TY X, TY Y, TY Z) { set(X, Y, Z); }
+
+        // getters/setters
+        template <typename TY>
+        void set(TY X, TY Y, TY Z)
+        {
+            x = X;
+            y = Y;
+            z = Z;
+        }
+
+        template <typename TY>
+        void set(const TVec3<TY> &src)
+        {
+            x = src.x;
+            y = src.y;
+            z = src.z;
+        }
+
+        template <typename TY>
+        void setAll(TY val)
+        {
+            x = val;
+            y = val;
+            z = val;
+        }
+    
+        bool equals(const TVec3<f32> &other) 
+        {
+            bool equal = false;
+            if (x == other.x && y == other.y && z == other.z)
+            {
+                equal = true;
+            }
+            return equal;
+        }
+
+        bool isZero() const { return (squared() <= TUtilf::epsilon()); }
 
         f32 setLength(f32 length)
         {
@@ -237,11 +271,11 @@ namespace JGeometry {
 
         // simple math operations
 
-        void add(const TVec3 &operand) { JMathInlineVEC::PSVECAdd((const Vec *)this, (Vec *)&operand, (Vec *)this); }
-        void add(const TVec3 &vec1, const TVec3 &vec2) { JMathInlineVEC::PSVECAdd((const Vec *)&vec1, (const Vec *)&vec2, (Vec *)this); }
+        void add(const TVec3 &operand) { JMathInlineVEC::PSVECAdd(this, &operand, this); }
+        void add(const TVec3 &vec1, const TVec3 &vec2) { JMathInlineVEC::PSVECAdd(&vec1, &vec2, this); }
         
-        void sub(const TVec3<T> &translate) { JMathInlineVEC::PSVECSubtract((const Vec *)this, (const Vec *)&translate, (Vec *)this); }
-        void sub(const TVec3 &base, const TVec3 &translate) { JMathInlineVEC::PSVECSubtract((const Vec *)&base, (const Vec *)&translate, (Vec *)this); }
+        void sub(const TVec3 &translate) { JMathInlineVEC::PSVECSubtract(this, &translate, this); }
+        void sub(const TVec3 &base, const TVec3 &translate) { JMathInlineVEC::PSVECSubtract(&base, &translate, this); }
 
         void negate() { negateInternal(&x, &x); }
         void negate(const TVec3 &other) { negateInternal(&other.x, &x); }
@@ -249,22 +283,22 @@ namespace JGeometry {
         void mul(const TVec3 &multiplier) { mulInternal(&x, &multiplier.x, &x); }
         void mul(const TVec3 &vec1, const TVec3 &vec2) { mulInternal(&vec1.x, &vec2.x, &x); }
 
-        void scale(f32 scalar) { JMathInlineVEC::PSVECScale((const Vec *)this, (Vec *)this, scalar); }
-        void scale(f32 scalar, const TVec3 &operand) { JMathInlineVEC::PSVECScale((const Vec *)&operand, (Vec *)this, scalar); }
+        void scale(f32 scalar) { JMathInlineVEC::PSVECScale(this, this, scalar); }
+        void scale(f32 scalar, const TVec3 &operand) { JMathInlineVEC::PSVECScale(&operand, this, scalar); }
 
-        void scaleAdd(f32 scalar, const TVec3 &operand, const TVec3 &translate) { JMAVECScaleAdd((const Vec *)&operand, (const Vec *)&translate, (Vec *)this, scalar); }
+        void scaleAdd(f32 scalar, const TVec3 &operand, const TVec3 &translate) { JMAVECScaleAdd(&operand, &translate, this, scalar); }
 
         void div(f32 divisor) { return scale(TUtilf::invert(divisor)); }
         void div(f32 divisor, const TVec3 &operand) { return scale(TUtilf::invert(divisor), operand); }
 
-        f32 squared() const { return JMathInlineVEC::PSVECSquareMag((Vec *)this); }
-        f32 squaredZX() const { return dotZX(this); }
+        f32 squared() const { return JMathInlineVEC::PSVECSquareMag(this); }
+        f32 squaredZX() const { return dotZX(*this); }
         // more complex math operations
 
-        void cross(const TVec3 &vec1, const TVec3 &vec2) { PSVECCrossProduct((const Vec *)&vec1, (const Vec *)&vec2, (Vec *)this); }
-        f32 dot(const TVec3 &operand) const { return JMathInlineVEC::PSVECDotProduct((const Vec *)this, (Vec *)&operand); }
+        void cross(const TVec3 &vec1, const TVec3 &vec2) { PSVECCrossProduct(&vec1, &vec2, this); }
+        f32 dot(const TVec3 &operand) const { return JMathInlineVEC::PSVECDotProduct(this, &operand); }
         f32 dotZX(const TVec3 &operand) const { return x * operand.x + z * operand.z; }
-        f32 length() const { return PSVECMag((Vec *)this); }
+        f32 length() const { return PSVECMag(this); }
 
         f32 angle(const TVec3 &vec2) const
         {
@@ -289,10 +323,6 @@ namespace JGeometry {
                 return invsqrt * this_squared;
             }
         }
-
-        T x;
-        T y;
-        T z;
     };
     typedef TVec2<f32> TVec2f;
     typedef TVec3<f32> TVec3f;
