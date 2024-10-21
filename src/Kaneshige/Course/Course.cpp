@@ -128,7 +128,7 @@ void Course::reset()
     mShakeXNorm.set(mXNorm);
     mPos.zero();
 
-    switch ((mCrsID))
+    switch (mCrsID)
     {
     case MINI_5: // TODO: Minigame ID -> Name
     case TEST_18:
@@ -750,12 +750,12 @@ void Course::loadModelData()
         smpCalcMaterial(modelData, modelData->getJointNodePointer(0), j3dDefaultMtx);
         modelData->makeSharedDL();
 
-        mMatFlags = new u16[modelData->getMaterialNum()];
-        for (u16 i = 0; i < (u16)modelData->getMaterialNum(); i++)
+        mMatFlags = new u16[modelData->getMaterialNum() & 0xffff];
+        for (u16 i = 0; i < modelData->getMaterialNum(); i++)
             mMatFlags[i] = nullptr;
 
-        mNormMatIDTable = new u32[modelData->getMaterialInitNum()];
-        mHighMatIDTable = new u32[modelData->getMaterialInitNum()];
+        mNormMatIDTable = new u32[modelData->getMaterialInitNum() & 0xffff];
+        mHighMatIDTable = new u32[modelData->getMaterialInitNum() & 0xffff];
 
         for (int i = 0; i < modelData->getMaterialInitNum(); i++)
         {
@@ -763,7 +763,7 @@ void Course::loadModelData()
             mHighMatIDTable[i] = 0xffffffff;
         }
 
-        for (u16 i = 0; i < (u16)modelData->getMaterialNum(); i++)
+        for (u16 i = 0; i < modelData->getMaterialNum(); i++)
         {
             J3DMaterial *node = modelData->getMaterialNodePointer(i);
 
@@ -782,7 +782,7 @@ void Course::loadModelData()
             }
         }
 
-        for (u16 i = 0; i < (u16)modelData->getMaterialNum(); i++)
+        for (u16 i = 0; i < modelData->getMaterialNum(); i++)
         {
             J3DMaterial *node = modelData->getMaterialNodePointer(i);
 
@@ -804,7 +804,7 @@ void Course::loadModelData()
             }
         }
 
-        for (u16 i = 0; i < (u16)modelData->getMaterialNum(); i++)
+        for (u16 i = 0; i < modelData->getMaterialNum(); i++)
         {
             J3DMaterial *node = modelData->getMaterialNodePointer(i);
 
@@ -1124,7 +1124,7 @@ void Course::calc()
         for (u32 cns = 0; cns < RaceMgr::getManager()->getConsoleNumber(); cns++)
         {
             KartCam *cam = RaceMgr::getManager()->getCamera(cns);
-            for (u16 index = 0; index < (u16)modelData->getMaterialNum(); index++)
+            for (u16 index = 0; index < modelData->getMaterialNum(); index++)
             {
                 J3DMaterial *mat = modelData->getMaterialNodePointer(index);
                 if (_4 != 0)

@@ -182,7 +182,7 @@ BUILD_INCDIR = f"{BUILDDIR}/include"
 OUTDIR = f"out/{VERSION_DIR}"
 
 # Original binaries directory
-ORIG = f"orig/{VERSION_DIR}"
+ORIG = f"orig/{VERSION_DIR}/sys"
 
 # Version specififc config directory
 CONFIG = f"config/{VERSION_DIR}"
@@ -267,7 +267,7 @@ DISASM_OVERRIDES = f"{MAIN_CONFIG}/disasm_overrides.yml"
 # Binaries
 DOL = f"{ORIG}/main.dol" # read in python code
 DOL_YML = f"{CONFIG}/dol.yml"
-DOL_SHA = f"{ORIG}/main.dol.sha1"
+DOL_SHA = f"orig/{VERSION_DIR}/main.dol.sha1"
 DOL_OK = f"{BUILDDIR}/main.dol.ok"
 DOL_ASM_LIST = f"{BUILDDIR}/main.dol.asml"
 
