@@ -105,6 +105,9 @@ public:
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
     bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
 
+    u32 getKind() const { return mKind; }
+    ItemColReaction &getItemReaction() { return mReaction; }
+
     // Vtable
     virtual ~GeographyObj() {}                                                                      // 8, TODO?
     virtual void loadmodel(J3DModelData *modelData);                                                // C, TODO

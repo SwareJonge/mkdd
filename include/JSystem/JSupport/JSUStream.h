@@ -50,6 +50,8 @@ public:
 class JSUInputStream : public JSUIosBase
 {
 public:
+    JSUInputStream() {}
+
     virtual ~JSUInputStream();              // _08
     virtual int getAvailable() const = 0;   // _0C
     virtual s32 skip(long);                 // _10
@@ -57,6 +59,44 @@ public:
 
     s32 read(void *, long);
     char *read(char *);
+
+    JSUInputStream &operator>>(char *pVal) {
+        read(pVal);
+        return *this;
+    }
+
+    JSUInputStream &operator>>(u8 &val) {
+        read(&val, sizeof(u8));
+        return *this;
+    }
+
+    JSUInputStream &operator>>(u16 &val) {
+        read(&val, sizeof(u16));
+        return *this;
+    }
+
+    /** @fabricated */
+    template<typename T>
+    T read(T *pType) {
+        read(pType, sizeof(T));
+        return *pType;
+    }
+
+    inline s32 read(bool &val) {
+        return read(&val, (sizeof(val)));
+    }
+
+    inline s32 read(u8 &val) {
+        return read(&val, (sizeof(val)));
+    }
+
+    inline s32 read(u16 &val) {
+        return read(&val, (sizeof(val)));
+    }
+
+    inline s32 read(u32 &val) {
+        return read(&val, (sizeof(val)));
+    }
 
     /** @fabricated */
     inline bool readBool()
@@ -66,14 +106,34 @@ public:
         return temp;
     }
 
-    inline u8 readByte()
+    inline u8 read8b()
     {
         u8 byte;
         read(&byte, 1);
         return byte;
     }
 
-    /** @fabricated */
+    inline u16 read16b()
+    {
+        u16 temp;
+        read(&temp, 2);
+        return temp;
+    }
+
+    inline u32 read32b()
+    {
+        u32 temp;
+        read(&temp, 4);
+        return temp;
+    }
+
+    inline u8 readU8()
+    {
+        u8 byte;
+        read(&byte, 1);
+        return byte;
+    }
+
     inline s16 readS16()
     {
         s16 temp;
@@ -89,7 +149,6 @@ public:
         return temp;
     }
 
-    /** @fabricated */
     inline u16 readU16()
     {
         u16 temp;
@@ -105,7 +164,6 @@ public:
         return temp;
     }
 
-    /** @fabricated */
     inline u32 readU32()
     {
         u32 temp;
@@ -120,6 +178,8 @@ public:
 class JSURandomInputStream : public JSUInputStream
 {
 public:
+    JSURandomInputStream() {}
+
     virtual ~JSURandomInputStream() {}                                       // _08 (weak)
     virtual int getAvailable() const { return getLength() - getPosition(); } // _0C (weak)
     virtual s32 skip(long);                                                  // _10
@@ -139,6 +199,10 @@ public:
 class JSUMemoryInputStream : public JSURandomInputStream
 {
 public:
+    JSUMemoryInputStream(const void *head, s32 len) {
+        setBuffer(head,len);
+    }
+
     virtual ~JSUMemoryInputStream() {}                    // _08 (weak)
     virtual int readData(void *, long);                   // _14
     virtual int getLength() const { return mLength; }     // _18 (weak)

@@ -1332,7 +1332,7 @@ config.libs = [
             Object(NonMatching, "Shiraiwa/MapObjWall.cpp"),
             Object(NonMatching, "Shiraiwa/SmallAnimalGen.cpp"),
             Object(NonMatching, "Shiraiwa/SMAButterfly.cpp"),
-            Object(NonMatching, "Shiraiwa/SiUtil.cpp"),
+            Object(Matching, "Shiraiwa/SiUtil.cpp"),
             Object(NonMatching, "Shiraiwa/SMABirdGroup.cpp"),
             Object(NonMatching, "Shiraiwa/SMABird2.cpp"),
             Object(NonMatching, "Shiraiwa/MapObjGeyser.cpp"),

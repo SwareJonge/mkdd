@@ -56,9 +56,9 @@ namespace JGeometry {
     {
     public:
         TVec2() {}
-        TVec2(T X, T Y) { set(X, Y); }
 
-        void zero() { x = y = 0; }
+        template <typename TY>
+        TVec2(TY X, TY Y) { set(X, Y); }
 
         template <typename TY>
         void set(TY X, TY Y)
@@ -99,6 +99,8 @@ namespace JGeometry {
             x *= scalar;
             y *= scalar;
         }
+
+        void zero() { x = y = 0; }
 
         f32 dot(const TVec2<T> &other) const { return x * other.x + y * other.y; }
         f32 length() const { return TUtilf::sqrt(squared()); }
