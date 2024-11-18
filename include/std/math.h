@@ -15,8 +15,8 @@ namespace std
 #if __MWERKS__ > 0x2301
 extern inline float sqrtf(float x)
 {
-    /*static*/ const double _half = .5f;
-    /*static*/ const double _three = 3.0f;
+    static const double _half = .5f;
+    static const double _three = 3.0f;
     if (x > 0.0f)
     {
         double xd = (double)x;
@@ -42,8 +42,8 @@ extern inline float sqrtf(float x)
 #else
 extern inline float sqrtf(float x)
 {
-    /*static*/ const double _half = .5;
-    /*static*/ const double _three = 3.0;
+    static const double _half = .5;
+    static const double _three = 3.0;
     volatile float y;
     if (x > 0.0f)
     {
