@@ -1,18 +1,4 @@
-#include <dolphin/gx.h>
-#include <dolphin/vi.h>
 #include "Osako/systemData.h"
-
-// TODO: rename stuff, general cleanup
-
-// This makes no sense? shouldn't it be SCREEN_WIDTH * (720/640) to fill more of the screen and maintaining a 4:3 aspect ratio?
-// even with PAR in mind it's wrong, it should be 684
-#define VI_WIDTH 666
-
-// This isn't even proper 4:3? screen height should be 456 instead
-#define SCREEN_WIDTH 608
-#define SCREEN_HEIGHT 448
-#define VI_X_OFFSET (VI_MAX_WIDTH_NTSC - VI_WIDTH) / 2
-#define VI_Y_OFFSET (VI_MAX_HEIGHT_NTSC - SCREEN_HEIGHT) / 2
 
 const int SystemData::scNumStandardHeaps = 2;
 const int SystemData::scDefaultFifoSize = 0x80000;
@@ -20,35 +6,34 @@ const int SystemData::scSystemHeapSize = 0xE0000;
 const int SystemData::scAudioHeapSize = 0xC0000;
 const int SystemData::scAudioAramSize = 0xA20000;
 
-const ScreenDataf SystemData::sc3DViewPort = {
-    0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT};
+const SystemData::ViewPort SystemData::sc3DViewPort = {
+    0.0f, 0.0f, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT};
 
-const ScreenDatai SystemData::sc3DScissor = {
-    0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+const SystemData::Scissor SystemData::sc3DScissor = {
+    0, 0, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT};
 
-const ScreenDatai SystemData::sc3DAwardScissor = {
-    0, 34, SCREEN_WIDTH, 380};
+const SystemData::Scissor SystemData::sc3DAwardScissor = {
+    0, 34, GAME_SCREEN_WIDTH, 380};
 
-const ScreenDataf SystemData::scOrtho = {
-    0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT};
+const SystemData::ViewPort SystemData::scOrtho = {
+    0.0f, 0.0f, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT};
 
-// these seem like split screen values
-const ScreenDataf SystemData::sc3DViewPortSub = { 
+const SystemData::ViewPort SystemData::sc3DViewPortSub = { 
     437.0f, 312.0f, 149.0f, 112.0f};
 
-const ScreenDatai SystemData::sc3DScissorSub = {
+const SystemData::Scissor SystemData::sc3DScissorSub = {
     437, 312, 149, 112};
 
 #ifndef VIDEO_PAL
 const _GXRenderModeObj SystemData::scNtscInt448Df = {
     VI_TVMODE_NTSC_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_DF,
     0,
     0,
@@ -70,13 +55,13 @@ const _GXRenderModeObj SystemData::scNtscInt448Df = {
 
 const _GXRenderModeObj SystemData::scNtscInt448 = {
     VI_TVMODE_NTSC_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_DF,
     0,
     0,
@@ -98,13 +83,13 @@ const _GXRenderModeObj SystemData::scNtscInt448 = {
 
 const _GXRenderModeObj SystemData::scNtscProg448Soft = {
     VI_TVMODE_NTSC_PROG,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_SF,
     0,
     0,
@@ -126,13 +111,13 @@ const _GXRenderModeObj SystemData::scNtscProg448Soft = {
 
 const _GXRenderModeObj SystemData::scNtscProg448 = {
     VI_TVMODE_NTSC_PROG,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_SF,
     0,
     0,
@@ -152,22 +137,15 @@ const _GXRenderModeObj SystemData::scNtscProg448 = {
     {0, 0, 21, 22, 21, 0, 0}};
 #else
 
-// This also doesn't make sense
-
-#define PAL_VI_WIDTH 670
-#define SCREEN_HEIGHT_PAL 538
-#define VI_PAL_X_OFFSET (VI_MAX_WIDTH_PAL - PAL_VI_WIDTH) / 2
-#define VI_PAL_Y_OFFSET (VI_MAX_HEIGHT_PAL - SCREEN_HEIGHT_PAL) / 2
-
 const _GXRenderModeObj SystemData::scPalInt448Df = {
     VI_TVMODE_PAL_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT_PAL,
-    VI_PAL_X_OFFSET,
-    VI_PAL_Y_OFFSET,
-    PAL_VI_WIDTH,
-    SCREEN_HEIGHT_PAL,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT_PAL,
+    GAME_VI_X_OFFSET_PAL,
+    GAME_VI_Y_OFFSET_PAL,
+    GAME_VI_WIDTH_PAL,
+    GAME_VI_HEIGHT_PAL,
     VI_XFBMODE_DF,
     0,
     0,
@@ -189,13 +167,13 @@ const _GXRenderModeObj SystemData::scPalInt448Df = {
 
 const _GXRenderModeObj SystemData::scPalInt448 = {
     VI_TVMODE_PAL_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT_PAL,
-    VI_PAL_X_OFFSET,
-    VI_PAL_Y_OFFSET,
-    PAL_VI_WIDTH,
-    SCREEN_HEIGHT_PAL,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT_PAL,
+    GAME_VI_X_OFFSET_PAL,
+    GAME_VI_Y_OFFSET_PAL,
+    GAME_VI_WIDTH_PAL,
+    GAME_VI_HEIGHT_PAL,
     VI_XFBMODE_DF,
     0,
     0,
@@ -217,13 +195,13 @@ const _GXRenderModeObj SystemData::scPalInt448 = {
 
 const _GXRenderModeObj SystemData::scEuRgb60Int448Df = {
     VI_TVMODE_EURGB60_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_DF,
     0,
     0,
@@ -245,13 +223,13 @@ const _GXRenderModeObj SystemData::scEuRgb60Int448Df = {
 
 const _GXRenderModeObj SystemData::scEuRgb60Int448 = {
     VI_TVMODE_EURGB60_INT,
-    SCREEN_WIDTH,
-    SCREEN_HEIGHT,
-    SCREEN_HEIGHT,
-    VI_X_OFFSET,
-    VI_Y_OFFSET,
-    VI_WIDTH,
-    SCREEN_HEIGHT,
+    GAME_SCREEN_WIDTH,
+    GAME_SCREEN_HEIGHT,
+    GAME_SCREEN_HEIGHT,
+    GAME_VI_X_OFFSET,
+    GAME_VI_Y_OFFSET,
+    GAME_VI_WIDTH,
+    GAME_VI_HEIGHT,
     VI_XFBMODE_DF,
     0,
     0,
@@ -272,15 +250,15 @@ const _GXRenderModeObj SystemData::scEuRgb60Int448 = {
      21, 0, 0}};
 #endif
 
-const float SystemData::scAspect = (float)(sc3DViewPort.W / sc3DViewPort.H);
+const f32 SystemData::scAspect = (f32)(sc3DViewPort.W / sc3DViewPort.H);
 
 // 2 Player Splitscreen screen coordinates/size
-const ScreenDataf SystemData::sca3DViewPortDiv2[2] = {
+const SystemData::ViewPort SystemData::sca3DViewPortDiv2[2] = {
     {
-        sc3DViewPort.X,             // 0
-        sc3DViewPort.Y,             // 0
-        sc3DViewPort.W,             // 608
-        (sc3DViewPort.H / 2) - 1.0f // 223
+        sc3DViewPort.X,                               // 0
+        sc3DViewPort.Y,                               // 0
+        sc3DViewPort.W,                               // 608
+        (sc3DViewPort.H / 2) - 1.0f                   // 223
     },
     {
         sc3DViewPort.X,                               // 0
@@ -289,7 +267,7 @@ const ScreenDataf SystemData::sca3DViewPortDiv2[2] = {
         (sc3DViewPort.H / 2) - 1.0f                   // 223
     }};
 
-const ScreenDatai SystemData::sca3DScissorDiv2[2] = {
+const SystemData::Scissor SystemData::sca3DScissorDiv2[2] = {
     {sc3DScissor.X,
      sc3DScissor.Y,
      sc3DScissor.W,
@@ -298,23 +276,24 @@ const ScreenDatai SystemData::sca3DScissorDiv2[2] = {
      sc3DScissor.Y + (sc3DScissor.H / 2) + 1,
      sc3DScissor.W,
      (sc3DScissor.H / 2) - 1}};
-const float SystemData::scAspectDiv2 = SystemData::sc3DViewPort.W / ((sc3DViewPort.H / 2) - 1.0f); // 223);
+
+const f32 SystemData::scAspectDiv2 = SystemData::sc3DViewPort.W / ((sc3DViewPort.H / 2) - 1.0f); // 223);
 
 // 4 Player Splitscreen screen coordinates/size
-const ScreenDataf SystemData::sca3DViewPortDiv4[4] = {
+const SystemData::ViewPort SystemData::sca3DViewPortDiv4[4] = {
     {
-        sc3DViewPort.X,                                      // 0
-        sc3DViewPort.Y,                                      // 0
+        sc3DViewPort.X,                               // 0
+        sc3DViewPort.Y,                               // 0
         (sc3DViewPort.W / 2) - 1.0f,                  // 303
         (sc3DViewPort.H / 2) - 1.0f},                 // 223
     {
         sc3DViewPort.X + (sc3DViewPort.W / 2) + 1.0f, // 305
-        sc3DViewPort.Y,                                      // 0
+        sc3DViewPort.Y,                               // 0
         (sc3DViewPort.W / 2) - 1.0f,                  // 303
         (sc3DViewPort.H / 2) - 1.0f                   // 223
     },
     {
-        sc3DViewPort.X,                                      // 0
+        sc3DViewPort.X,                               // 0
         sc3DViewPort.Y + (sc3DViewPort.H / 2) + 1.0f, // 225
         (sc3DViewPort.W / 2) - 1.0f,                  // 303
         (sc3DViewPort.H / 2) - 1.0f                   // 223
@@ -326,7 +305,7 @@ const ScreenDataf SystemData::sca3DViewPortDiv4[4] = {
         (sc3DViewPort.H / 2) - 1.0f                   // 223
     }};
 
-const ScreenDatai SystemData::sca3DScissorDiv4[4] = {
+const SystemData::Scissor SystemData::sca3DScissorDiv4[4] = {
     {sc3DScissor.X,
      sc3DScissor.Y,
      (sc3DScissor.W / 2) - 1,
@@ -344,4 +323,4 @@ const ScreenDatai SystemData::sca3DScissorDiv4[4] = {
      (sc3DScissor.W / 2) - 1,
      (sc3DScissor.H / 2) - 1}};
 
-const float SystemData::scAspectSub = SystemData::sc3DViewPortSub.W / SystemData::sc3DViewPortSub.H;
+const f32 SystemData::scAspectSub = SystemData::sc3DViewPortSub.W / SystemData::sc3DViewPortSub.H;
