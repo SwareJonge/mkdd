@@ -189,7 +189,7 @@ namespace ResMgr
     extern const u32 mscKeepHeapSize;
     extern const u32 mscCourceHeapSize;
 
-    inline void *getArchive(ArchiveId id) { return mspaLoader[(int)id]; };
+    inline JKRArchive *getArchive(ArchiveId id) { return mspaLoader[(int)id]; };
     inline ECourseID getCourseID() { return msCourseID; }
 
 }; // namespace ResMgr

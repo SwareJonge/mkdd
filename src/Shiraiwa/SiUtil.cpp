@@ -10,7 +10,6 @@
 #include "Yamamoto/kartCtrl.h"
 #include "Yamamoto/kartCamera.h"
 #include "dolphin/mtx.h"
-#include "macros.h"
 
 bool SiUtil::checkPassFrame(f32 x, f32 y, f32 z) {
     if (z == 0.0f)
@@ -20,12 +19,12 @@ bool SiUtil::checkPassFrame(f32 x, f32 y, f32 z) {
     const f32 diff = x-y;    
     
     if (z > 0.0f) {
-        if (x-y >= 0.0f && diff <= z) {
+        if (diff >= 0.0f && diff <= z) {
             ret = true;
         }
     } 
     else {
-        if (x-y <= 0.0f && diff >= z) {
+        if (diff <= 0.0f && diff >= z) {
             ret = true;
         }
     }

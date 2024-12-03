@@ -334,6 +334,7 @@ struct J2DPane
     Mtx *getGlobalMtx() { return &mGlobalMtx; }
     f32 getHeight() const { return mBounds.getHeight(); }
     f32 getWidth() const { return mBounds.getWidth(); }
+    JGeometry::TBox2f& getGlobalBounds() { return mGlobalBounds; }
 
     void setMtx(Mtx mtx) { PSMTXCopy(mtx, mPositionMtx); }
 
@@ -444,6 +445,8 @@ struct J2DScreen : public J2DPane
             material->makeAnmPointer();
         }
     }
+
+    inline void setScissor(bool enable) {mIsScissor = enable; }
 
     static void *getNameResource(const char *);
 

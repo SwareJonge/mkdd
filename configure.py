@@ -1230,7 +1230,7 @@ config.libs = [
             Object(Matching, "Osako/Kart2DCommon.cpp"),
             Object(Matching, "Osako/ResetAgent.cpp"),
             Object(NonMatching, "Osako/Award2D.cpp"),
-            Object(NonMatching, "Osako/NameEntryHelper.cpp"),
+            Object(Matching, "Osako/NameEntryHelper.cpp"),
             Object(NonMatching, "Osako/LANBackground.cpp"),
             Object(NonMatching, "Osako/LANSelectMode.cpp"),
             Object(NonMatching, "Osako/LANTitle.cpp"),
