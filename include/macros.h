@@ -20,6 +20,7 @@
 #define CLEAR_PATH(x) __memclr((x), sizeof((x)))
 
 #define ALIGN(x) __attribute__((aligned(x)))
+#define ATTRIBUTE_ALIGN(x) __attribute__((aligned(x)))
 #ifdef __MWERKS__
 #define DECL_SECTION(x) __declspec(section x)
 #define DECL_WEAK __declspec(weak)

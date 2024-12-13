@@ -201,12 +201,6 @@ cflags_base = [
     f"-i build/{config.version}/include"
 ]
 
-# Debug flags
-if debug:
-    cflags_base.extend(["-DDEBUG=1", "-DHIO_SCREENSHOT=1"])
-else:
-    cflags_base.append("-DNDEBUG=1")
-
 if "_eu" in config.version:
     cflags_base.extend(["-DVIDEO_PAL=1", "-DREGION_EU=1",])
 elif "_us" in config.version:
@@ -236,7 +230,8 @@ cflags_dolphin = [
     "-char signed",
     "-str reuse", 
     "-common off",
-    "-O4,p"
+    "-O4,p",
+    #"-requireprotos"
 ]
 
 # JSystem flags
@@ -257,6 +252,14 @@ cflags_game = [
     "-rostr",
     "-O4,s"
 ]
+
+# Debug flags
+if debug:
+    cflags_game.extend(["-DDEBUG=1", "-DHIO_SCREENSHOT=1"])
+    cflags_jsystem.extend(["-DDEBUG=1", "-DHIO_SCREENSHOT=1"])
+else:
+    cflags_game.append("-DNDEBUG=1")
+    cflags_jsystem.append("-DNDEBUG=1")
 
 config.linker_version = "GC/2.6"
 
@@ -542,10 +545,10 @@ config.libs = [
     DolphinLib(
         "eth",
         [
-            Object(NonMatching, "dolphin/eth/eth.c"),
-            Object(NonMatching, "dolphin/eth/ethsec.c"),
-            Object(NonMatching, "dolphin/eth/md5.c"),
-            Object(NonMatching, "dolphin/eth/base64.c")
+            Object(Matching, "dolphin/eth/eth.c"),
+            Object(Matching, "dolphin/eth/ethsec.c"),
+            Object(Matching, "dolphin/eth/md5.c"),
+            Object(Matching, "dolphin/eth/base64.c")
         ]
     ),
     DolphinLib(
