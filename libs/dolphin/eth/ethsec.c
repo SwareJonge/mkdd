@@ -1,11 +1,13 @@
-#include <dolphin/eth/eth.h>
-
-#include <dolphin/ip/ip.h>
-#include <dolphin/tcp/tcp.h>
 #include <dolphin/md5.h>
 #include <dolphin/os.h>
+#include <dolphin/eth/eth.h>
 #include <dolphin/ip/ip.h>
+#include <dolphin/tcp/tcp.h>
+
 #include <string.h>
+
+#define IP_MIN_HLEN (s32)sizeof(IPHeader)
+#define TCP_MIN_HLEN (s32)sizeof(TCPHeader)
 
 static TCPResetInfo Ri;
 static u8 SendBuf[82];
@@ -68,7 +70,7 @@ static u16 CalcTcpCheckSum(IPHeader *ip, s32 len) {
     u32 sum = 0;
 
 #line 212
-    ASSERT(IP_MIN_HLEN + TCP_MIN_HLEN <= len); // TODO: what are these defines?
+    ASSERT(IP_MIN_HLEN + TCP_MIN_HLEN <= len);
 #line 215
     ASSERT(ip->proto == IP_PROTO_TCP);
     
@@ -154,7 +156,6 @@ BOOL __ETHFilter(u8 *buf, s32 len) {
     u8 digest2[16];
 
     ri = &Ri;
-
     if (CheckConsoleType()) {
         return TRUE;
     }
@@ -170,7 +171,7 @@ BOOL __ETHFilter(u8 *buf, s32 len) {
 
     len = len - sizeof(ETHHeader);
     ip = (IPHeader *)(eh + 1);
-    if (len < (s32)sizeof(IPHeader) || len < ip->len) {
+    if (len < IP_MIN_HLEN || len < ip->len) {
         return TRUE;
     }
 
@@ -179,7 +180,7 @@ BOOL __ETHFilter(u8 *buf, s32 len) {
     }
 
     tcp = (TCPHeader *)((u32)ip + ((ip->verlen & 0xf) << 2));
-    if ((s32)(((tcp->flag & 0xf000) >> 10)) < (s32)sizeof(TCPHeader)) {
+    if ((s32)(((tcp->flag & 0xf000) >> 10)) < TCP_MIN_HLEN) {
         return TRUE;
     }
 
@@ -236,7 +237,7 @@ BOOL __ETHFilter(u8 *buf, s32 len) {
     }
 
     if ((tcp->flag & 3) == 3) {
-        if ((s32)(((tcp->flag & 0xf000) >> 10)) != (s32)sizeof(TCPHeader)) {
+        if ((s32)(((tcp->flag & 0xf000) >> 10)) != TCP_MIN_HLEN) {
             return TRUE;
         }
 
@@ -339,5 +340,5 @@ BOOL __ETHPostSend(u8 ltps , void (*callback)(u8), void *prev) {
     else if (callback) {
         (*callback)(ltps);
     }
-    return TRUE;
+    return ETH_OK;
 }
