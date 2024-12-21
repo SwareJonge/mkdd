@@ -21,4 +21,6 @@ typedef struct IPHeader {
     u8 dst[4];
 } IPHeader;
 
+BOOL IPIsLocalAddr(u32, const u8 *addr);
+
 #endif

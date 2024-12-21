@@ -19,8 +19,8 @@ void SystemRecord::init()
         mOptions |= 1;
     }
 
-    mGameFlag = 0;
     mSecretKart = 0;
+    mGameFlag = 0;    
     mVolume = 0;
     mVsLapNum = 0;
     mItemSlotType = 0;
@@ -204,11 +204,11 @@ void SystemRecord::setBestLap(ECourseID crsID, TARecord &newBestLap)
     mBestLapTimes[convCourseID(crsID)] = newBestLap;
 }
 
-GPRecord *SystemRecord::getGPRecord(ERaceGpCup cup, ERaceLevel level)
+GPRecord &SystemRecord::getGPRecord(ERaceGpCup cup, ERaceLevel level)
 {
 #line 284
     JUT_MINMAX_ASSERT(0, cup, 5);
-    return &mGPRecordData[cup][level];
+    return mGPRecordData[cup][level];
 }
 
 void SystemRecord::setGPRecord(ERaceGpCup cup, ERaceLevel level, GPRecord &record)

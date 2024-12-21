@@ -2,6 +2,7 @@
 #define GPRECORD_H
 
 #include "Kaneshige/RaceTime.h"
+#include "kartEnums.h"
 #include "types.h"
 
 struct GPRecord
@@ -16,6 +17,10 @@ struct GPRecord
     {
         mFlags &= ~0x1;
         mTotalTime.reset();
+    }
+
+    bool isValid() const { // fabricated
+        return (mFlags & 1) && mKartID < cKartIDMax && mCharIDs[0] > cCharIDNone && mCharIDs[0] < cCharIDMax && mCharIDs[1] > cCharIDNone && mCharIDs[1] < cCharIDMax;
     }
 
     u8 mCharIDs[2];      // 00

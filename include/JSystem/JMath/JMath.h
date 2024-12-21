@@ -219,13 +219,16 @@ namespace JMath
     protected:
         u32 seed;
     };
+
     template <typename T>
-    class TRandom_ : public TRandom_fast_
+    class TRandom_ : public T
     {
     public:
-        TRandom_(u32 num) : TRandom_fast_(num){};
+        TRandom_(u32 num) : T(num) {}
     };
 }
+
+typedef JMath::TRandom_<JMath::TRandom_fast_> JMARandFast;
 
 inline f32 JMAAbs(f32 input) { return __fabsf(input); }
 

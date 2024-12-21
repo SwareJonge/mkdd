@@ -3,6 +3,8 @@
 #include "Osako/ResetAgent.h"
 #include "Osako/SystemRecord.h"
 
+#include <JSystem/JUTility/JUTDbg.h>
+
 // TODO: documentation, inline rework
 
 namespace CardAgent

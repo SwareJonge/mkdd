@@ -2,6 +2,7 @@
 #include "dolphin/DVDPriv.h"
 #include "dolphin/db.h"
 #include "dolphin/os/OSBootInfo.h"
+#include "macros.h"
 
 extern OSTime __OSGetSystemTime();
 static const char *__OSVersion =
@@ -22,7 +23,7 @@ static DVDCommandBlock DriveBlock;
 static OSBootInfo *BootInfo;
 static u32 *BI2DebugFlag;
 static u32 *BI2DebugFlagHolder;
-__declspec(weak) BOOL __OSIsGcam = FALSE;
+DECL_WEAK BOOL __OSIsGcam = FALSE;
 static f64 ZeroF;
 static f32 ZeroPS[2];
 static BOOL AreWeInitialized = FALSE;

@@ -19,6 +19,7 @@ public:
 
     bool isAvailable() const { return mTime != MAX_TIME; }
 
+    bool isBig(const RaceTime &raceTime) const { return mTime > raceTime.mTime; } // fabricated
     bool isLittle(const RaceTime &raceTime) const { return mTime < raceTime.mTime; }
 
     void reset() { mTime = MAX_TIME; }
@@ -38,6 +39,14 @@ public:
     void setFrame(int frame)
     {
         mTime = (frame * 1000) / 60;
+        if (mTime > MAX_TIME)
+            mTime = MAX_TIME;
+    }
+
+    // Fabricated
+    void add(const RaceTime &other) 
+    {
+        mTime += other.mTime;
         if (mTime > MAX_TIME)
             mTime = MAX_TIME;
     }

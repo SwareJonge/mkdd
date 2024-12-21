@@ -1,20 +1,64 @@
 #ifndef SEQUENCEINFO_H
 #define SEQUENCEINFO_H
 
-#include "Kaneshige/KartInfo.h"
+#include "JSystem/JMath/JMath.h"
+#include "JSystem/JUtility/JUTAssert.h"
+#include "Kaneshige/RaceTime.h"
+#include "Osako/SystemRecord.h"
+#include "Osako/kartPad.h"
+#include "kartEnums.h"
 #include "types.h"
-
-struct DemoKart
-{ // most likely a placeholder struct
-    ECharID char1;
-    ECharID char2;
-    EKartID kart;
-};
 
 class SequenceInfo
 {
 public:
-    void rndDemo(u32);
+public:
+    void init(); // 0x801515f0
+    void setRandomSeed(); // 0x80151760
+    u32 getRandom(); // 0x80151790
+    KartGamePad *getDecidePad(); // 0x801517b4
+    void setClrGPCourse(); // 0x801517d0
+    bool isEndGP(); // 0x80151df0
+    bool isGameClr(); // 0x80151e34
+    int getPlayerRankGP(); // 0x80151f7c
+    int getPad2Player(KartGamePad *); // 0x801520c8
+    void setSecretFlag(); // 0x80152110
+    void setSecretGameAppear(SystemRecord::GameFlag); // 0x80152890
+    void setSecretKartAppear(SystemRecord::SecretKartID); // 0x801528bc
+    void rndDemo(unsigned long); // 0x801528e8
+    EKartID getDemoKart(ECharID); // 0x80152a4c
+    void rndAllCupCourse(); // 0x80152b10
+    static const int RANKPOINT[8]; // 0x8036f410
+    // Inline/Unused
+    SequenceInfo();
+    void setGPRank(int, int);
+
+    void setStartNo(int kartNo, int startNo) {
+#line 167
+        JUT_MINMAX_ASSERT(0, kartNo, 8);
+        JUT_MINMAX_ASSERT(0, startNo, 8);
+        mStartNo[kartNo] = startNo;
+    }
+
+    RaceTime get_318_RaceTime(int kart) {
+#line 301
+        JUT_MINMAX_ASSERT(0, kart, 2);
+        return _318[kart].mTime;
+    }
+
+    void set_318_RaceTime(int kart, RaceTime time) {
+#line 305
+        JUT_MINMAX_ASSERT(0, kart, 2);
+        _318[kart].mTime = time;
+    }
+
+    void set_318_14(int kart, int val) {
+#line 313
+        JUT_MINMAX_ASSERT(0, kart, 2);
+        JUT_MINMAX_ASSERT(0, kart, 8); // compared against the wrong value?
+        _318[kart]._14 = val;
+    }
+
     void getDemoKart(int no, ECharID &charID1, ECharID &charID2, EKartID &kartID)
     {
 #line 413
@@ -28,11 +72,53 @@ public:
     void setGhostFlag(u8 flags) { mGhostFlags = flags; }
 
 private:
-    u8 _0[0x34];
-    u8 mGhostFlags;
-    u8 _35[0x36c - 0x35];
-    DemoKart mDemoKart[8];
-    u8 _0x390[0x44c - 0x390];
+    JMARandFast mRnd;          // 00
+    int mStartNo[8];           // 004
+    KartGamePad *mDecidePad;   // 024
+    u8 _28;                    // 028
+    int _2c;                   // 02C
+    int _30;                   // 030
+    u8 mGhostFlags;            // 034
+    u8 _35[0x3C - 0x35];       // 035
+    int mMapIndex;             // 03C
+    int _40[4][4];             // 040
+    int _80[4];                // 080
+    struct {    
+        int cup;               // 090
+        int course;            // 094
+    } mMapInfo;
+    int _98[8][16];            // 098
+    int mRankPoint[8];         // 298
+    int _2b8[8];               // 2B8
+    int _2d8[8];               // 2D8
+    int _2f8[8];               // 2F8
+    struct {
+        int _0[2];         // 00
+        int _8;            // 08
+        u8 _C[0x10 - 0xc]; // 0C
+        RaceTime mTime;    // 10
+        int _14;           // 14
+        int _18;           // 18
+        // Size: 0x1c
+    } _318[2];                 // 318
+    int _350;                  //
+    int _354;                  //
+    ERaceLevel mLevel;         //
+    u8 _35c;                   //
+    u8 _35d;                   //
+    u8 _35e;                   //
+    u8 _35f;                   //
+    u8 _360;                   //
+    int _364;                  //
+    u16 mGameFlag;             // 368
+    u16 _36a;                  //
+    struct {
+        ECharID char1;
+        ECharID char2;
+        EKartID kart;
+        // Size: 0xc
+    } mDemoKart[8];            // 36C
+    int _3cc[16];              // 3CC
 };
 
 extern SequenceInfo gSequenceInfo;

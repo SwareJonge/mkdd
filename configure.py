@@ -1060,7 +1060,7 @@ config.libs = [
             Object(NonMatching, "Kameda/SceneMap.cpp"),
             Object(NonMatching, "Kameda/Result2D.cpp"),
             Object(NonMatching, "Kameda/SceneFactory.cpp"),
-            Object(NonMatching, "Kameda/SequenceInfo.cpp"),
+            Object(Matching, "Kameda/SequenceInfo.cpp"),
             Object(Matching, "Kameda/PrintDvdError.cpp"),
             Object(NonMatching, "Kameda/Race2D.cpp"),
             Object(Matching, "Kameda/ReadPrintMessage.cpp"),

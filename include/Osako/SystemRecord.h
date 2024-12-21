@@ -2,13 +2,40 @@
 #define SYSTEMRECORD_H
 
 #include "kartEnums.h"
-#include "Kaneshige/RaceInfo.h"
 #include "Osako/GPRecord.h"
 #include "Osako/TARecord.h"
 #include "types.h"
 
 struct SystemRecord
 {
+    enum GameFlag {
+        KinopioCombi = 0,  // Toad and Toadette
+        BossCombi = 1,     // Petey Piranha and King Boo
+        Mirror = 2,        // Mirror Mode
+        SpecialCup = 3,    // Special Cup
+        AllCupTour = 4,    // All Cup Tour
+        Ending = 5,        // Ending
+        SpecialEnding = 6, // Special Ending
+        MiniLuigi = 7,     // Luigi's Mansion
+        MiniMario = 8,     // Tilt-A-Kart
+    };
+
+    enum SecretKartID {
+        BabyLuigi = 0, // Rattle Buggy
+        Patapata = 1,  // Para Wing
+        Diddy = 2,     // Barrel Train
+        KoopaJr = 3,   // Bullet Blaster
+        Kinopio = 4,   // Toad Kart
+        Kinopico = 5,  // Toadette Kart
+        Luigi = 6,     // Green Fire
+        Daisy = 7,     // Bloom Coach
+        Catherine = 8, // Turbo Birdo
+        Waluigi = 9,   // Waluigi Racer
+        Pakkun = 10,   // Piranha Pipes
+        Teressa = 11,  // Boo Pipes
+        Extra = 12,    // Parade Kart
+    };
+
     SystemRecord() {}
     void init();
     void crypt(u16 seed);
@@ -17,7 +44,7 @@ struct SystemRecord
 
     TARecord *getTARecord(ECourseID, int rank);
     TARecord *getBestLap(ECourseID crsID);
-    GPRecord *getGPRecord(ERaceGpCup cup, ERaceLevel level);
+    GPRecord &getGPRecord(ERaceGpCup cup, ERaceLevel level);
 
     int rankTARecord(ECourseID crsId, TARecord &record);
 
@@ -37,8 +64,8 @@ struct SystemRecord
     struct
     {*/
     int mOptions;
-    u16 mGameFlag;   // unlockable characters, cups and maps
     u16 mSecretKart; // Unlockable karts
+    u16 mGameFlag;   // unlockable characters, cups and maps
     s8 mVolume;
     u8 mItemSlotType;
     u8 mVsLapNum;

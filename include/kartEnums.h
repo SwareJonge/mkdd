@@ -161,7 +161,8 @@ enum ERaceLevel
     LVL_50CC = 0,
     LVL_100CC = 1,
     LVL_150CC = 2,
-    LVL_MIRROR = 3
+    LVL_MIRROR = 3,
+    LVL_MAX
 };
 
 enum ERaceMode
