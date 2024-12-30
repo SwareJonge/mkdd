@@ -44,6 +44,8 @@ class JASChannel : public JASPoolAllocObject_MultiThreaded<JASChannel>
 public:
     typedef void (*Callback)(u32, JASChannel *channel, JASDsp::TChannel *dspChannel, void *);
 
+    static const u16 BUSOUT_CPUCH = 6;
+
     enum CallbackType
     {
         CB_PLAY,  // 0

@@ -126,7 +126,7 @@ public:
             {
                 chunk->free(ptr);
 
-                if ((chunk != mChunk && chunk->isEmpty()) != 0)
+                if ((chunk != mChunk && chunk->isEmpty()))
                 {
                     MemoryChunk *nextChunk = chunk->getNextChunk();
                     delete chunk;
@@ -137,13 +137,13 @@ public:
             prevChunk = chunk;
             chunk = chunk->getNextChunk();
         }
-#line 362
+#line 357
         JUT_ASSERT_MSG(false, "Cannnot free for JASMemChunkPool");
     }
 
     bool createNewChunk()
     {
-        if ((mChunk != NULL && mChunk->isEmpty()) != 0)
+        if ((mChunk != NULL && mChunk->isEmpty()))
         {
             mChunk->revive();
             return true;
@@ -155,7 +155,7 @@ public:
         {
             return true;                
         }
-    #line 428
+    #line 390
         JUT_WARNING_F2("%s", "Not enough JASSystemHeap");
         mChunk = new (JKRHeap::getSystemHeap(), 0) MemoryChunk(chunk);
         if (mChunk != NULL)

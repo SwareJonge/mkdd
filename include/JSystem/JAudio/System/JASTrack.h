@@ -18,20 +18,22 @@ class JASChannel;
 class JASTrackPort
 {
 public:
+    static const u32 MAX_PORTS = 16;
+
     void init();
-    u16 readImport(u32);
-    u16 readExport(u32);
-    void writeImport(u32, u16);
-    void writeExport(u32, u16);
-    u32 checkImport(u32) const;
-    u32 checkExport(u32) const;
+    u16 readImport(u32 port_num);
+    u16 readExport(u32 port_num);
+    void writeImport(u32 port_num, u16);
+    void writeExport(u32 port_num, u16);
+    bool checkImport(u32 port_num) const;
+    bool checkExport(u32 port_num) const;
 
-    u16 get(u32 param_0) { return _4[param_0]; }
-    void set(u32 param_0, u16 param_1) { _4[param_0] = param_1; }
+    u16 get(u32 port_num) { return mPortData[port_num]; }
+    void set(u32 port_num, u16 data) { mPortData[port_num] = data; }
 
-    u16 _0;
-    u16 _2;
-    u16 _4[16];
+    u16 mImportFlags;
+    u16 mExportFlags;
+    u16 mPortData[MAX_PORTS];
 };
 
 class JASTrack : public JASPoolAllocObject_MultiThreaded<JASTrack>
@@ -94,12 +96,12 @@ public:
     void close();                                                              // 0x800a0d60
     void connectChild(u32, JASTrack *);                                        // 0x800a10e4
     void closeChild(u32);                                                      // 0x800a1190
-    void openChild(u32);                                                       // 0x800a12ec
+    JASTrack *openChild(u32 trk_no);                                                       // 0x800a12ec
     void connectBus(int, int);                                                 // 0x800a1820
     void setLatestKey(u8);                                                     // 0x800a18b0
-    void noteOn(u32, u32, u32);                                                // 0x800a18ec
-    void gateOn(u32, u32, f32, u32);                                           // 0x800a1ac0
-    void noteOff(u32, u16);                                                    // 0x800a1cf8
+    s32 noteOn(u32, u32, u32);                                                // 0x800a18ec
+    s32 gateOn(u32, u32, f32, u32);                                           // 0x800a1ac0
+    s32 noteOff(u32, u16);                                                    // 0x800a1cf8
     void checkNoteStop(u32) const;                                             // 0x800a1db8
     void overwriteOsc(JASChannel *);                                           // 0x800a1e74
     void updateTimedParam();                                                   // 0x800a1f28
@@ -114,10 +116,10 @@ public:
     void setOscAdsr(s16, s16, s16, s16, u16);                                  // 0x800a2a74
     void setFIR(const s16 *);                                                  // 0x800a2acc
     void setIIR(const s16 *);                                                  // 0x800a2b2c
-    void readPortSelf(u32);                                                    // 0x800a2b80
+    u16 readPortSelf(u32);                                                    // 0x800a2b80
     void writePortSelf(u32, u16);                                              // 0x800a2ba4
     void writePort(u32, u16);                                                  // 0x800a2bc8
-    void readPort(u32);                                                        // 0x800a2c2c
+    u16 readPort(u32);                                                        // 0x800a2c2c
     void pause(bool);                                                          // 0x800a2c50
     void getTransposeTotal() const;                                            // 0x800a2d38
     void isMute() const;                                                       // 0x800a2ea8
@@ -145,9 +147,52 @@ public:
     // void getChannelCount() const;
     // void JGadget::TLinkList<JASTrack, -584>::~TLinkList();
     // void JASGlobalInstance<JASDefaultBankTable>::~JASGlobalInstance();
-
+    JASTrack *getParent() { return mParent; }
+    JASSeqCtrl* getSeqCtrl() { return &mSeqCtrl; }
     s32 getStatus() const { return mStatus; }
     u32 getChannelMgrCount() const { return mChannelMgrCount; }
+
+    u8 getBendSense() const { return mBendSense; }
+    u16 getDirectRelease() const { return mDirectRelease; }
+    u8 getGateRate() const { return mGateRate; }
+    int getNoteOnPrio() const { return mNoteOnPrio; }
+    f32 getPanPower() const { return mPanPower; }
+    int getReleasePrio() const { return mReleasePrio; }
+    u32 getSkipSample() const { return mSkipSample; }
+    u16 getTimebase() const { return mTimebase; }
+    s32 getTranspose() const { return mTranspose; }
+    u16 getTremDelay() const { return mTremDelay; }
+    f32 getTremDepth() const { return mTremDepth; }
+    f32 getTremPitch() const { return mTremPitch; }
+    u16 getVibDelay() const { return mVibDelay; }
+    f32 getVibDepth() const { return mVibDepth; }
+    f32 getVibPitch() const { return mVibPitch; }
+
+    void setBendSense(u8 val) { mBendSense = val; }
+    void setDirectRelease(u16 release) { mDirectRelease = release; }
+    void setGateRate(u8 rate) { mGateRate = rate; }
+    void setNoteOnPrio(u8 prio) { mNoteOnPrio = prio; }
+    void setPanPower(f32 power) { mPanPower = power; }
+    void setReleasePrio(u8 prio) { mReleasePrio = prio; }
+    void setSkipSample(u32 skip) { mSkipSample = skip; }
+    void setTranspose(s8 val) { mTranspose = val; }
+    void setTremDelay(u16 delay) { mTremDelay = delay; }
+    void setTremDepth(f32 depth) { mTremDepth = depth; }
+    void setTremPitch(f32 pitch) { mTremPitch = pitch; }
+    void setVibDelay(u16 delay) { mVibDelay = delay; }
+    void setVibDepth(f32 depth) { mVibDepth = depth; }
+    void setVibPitch(f32 pitch) { mVibPitch = pitch; }
+
+    u16 getPort(u32 port) { return mTrackPort.get(port); }
+    u16 getBankNumber() const { return mBankNumber; }    
+    u16 getProgNumber() const { return mProgNumber; }
+    void setPort(u32 port, u16 data) { mTrackPort.set(port, data); }
+    void setBankNumber(u16 num) { mBankNumber = num; }
+    void setProgNumber(u16 num) { mProgNumber = num; }
+    u32 readReg(JASRegisterParam::RegID regId) { return mRegisterParam.read(regId); }
+    void writeReg(JASRegisterParam::RegID regId, u32 p2) { mRegisterParam.write(regId, p2); }
+    bool checkPort(u32 port) const { return mTrackPort.checkExport(port); }
+    bool checkPortIn(u32 port) const { return mTrackPort.checkImport(port); }
 
     void setAutoDelete(bool del) {
         mFlags.autoDelete = del;
@@ -191,12 +236,12 @@ public:
     u16 mTimebase;                     // 228
     s8 mTranspose;                     // 22a
     u8 _22b;                           // 22b
-    u16 mBankNumber;                   // 22c
-    u16 mProgNumber;                   // 22e
-    u8 mBendSense;                     // 230
-    u8 mNoteOnPrio;                    // 231
-    u8 mReleasePrio;                   // 232
-    u8 mGateRate;                      // 233
+    u8 mBankNumber;                    // 22c
+    u8 mProgNumber;                    // 22d
+    u8 mBendSense;                     // 23e
+    u8 mNoteOnPrio;                    // 22f
+    u8 mReleasePrio;                   // 230
+    u8 mGateRate;                      // 231
     u16 mMixConfig[6];                 // 234
     // TODO
 

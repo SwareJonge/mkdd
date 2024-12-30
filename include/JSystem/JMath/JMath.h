@@ -197,6 +197,8 @@ namespace JMath
             return seed;
         }
 
+        u32 get_bit32(void) { return get(); }
+
         // from TP decomp
         f32 get_ufloat_1()
         {

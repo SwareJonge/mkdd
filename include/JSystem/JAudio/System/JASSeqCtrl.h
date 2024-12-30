@@ -37,12 +37,12 @@ public:
     const JASSeqReader *getSeqReader() const { return &mReader; }
     void *getBase() { return mReader.getBase(); }
     void *getAddr(u32 offset) { return mReader.getAddr(offset); }
-    u8 getByte(u32 offset) { return mReader.getByte(offset); }
-    u16 get16(u32 offset) { return mReader.get16(offset); }
-    u32 get24(int offset) { return mReader.get24(offset); }
+    u8 getByte(u32 offset) const { return mReader.getByte(offset); }
+    u16 get16(u32 offset) const { return mReader.get16(offset); }
+    u32 get24(u32 offset) const { return mReader.get24(offset); }
     u32 get32(u32 offset) { return mReader.get32(offset); }
     void *getCur() { return mReader.getCur(); }
-    u32 readByte() { return mReader.readByte(); }
+    u8 readByte() { return mReader.readByte(); }
     u32 read16() { return mReader.read16(); }
     u32 read24() { return mReader.read24(); }
     bool call(u32 offset) { return mReader.call(offset); }
@@ -50,7 +50,7 @@ public:
     void jump(u32 offset) { mReader.jump(offset); }
     bool loopStart(u32 param_0) { return mReader.loopStart(param_0); }
     bool loopEnd() { return mReader.loopEnd(); }
-    int readMidiValue() { return mReader.readMidiValue(); }
+    u32 readMidiValue() { return mReader.readMidiValue(); }
     void wait(s32 waitTime) { mWaitTime = waitTime; }
     void clrIntr() { _44 = NULL; }
     void setIntrTable(u32 intr) { mIntrTable = intr; }

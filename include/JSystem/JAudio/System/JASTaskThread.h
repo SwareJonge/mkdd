@@ -11,10 +11,10 @@ typedef void (*JASTaskCb)(void *);
 struct JASCallStackBase
 {
     JASTaskCb mCb; // 0
-    int _4;        // 4
+    u32 _4;        // 4
 }; // Size: 08
 
-struct JASCallStack : JASCallStackBase
+struct JASCallStack : public JASCallStackBase
 {
     void *mPtr;
 }; // Size: 0C

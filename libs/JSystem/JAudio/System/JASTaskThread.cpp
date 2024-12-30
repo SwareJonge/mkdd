@@ -82,21 +82,21 @@ int JASTaskThread::sendCmdMsg(JASTaskCb cb, void *p)
 }
 
 void *JASTaskThread::run() {
-    JASCallStackBase *stack;
+    void *stack;
     OSInitFastCast();
     while (TRUE) 
     {
-        stack = (JASCallStackBase *)waitMessageBlock();
+        stack = waitMessageBlock();
         if (mDoSleep) {            
             OSSleepThread(&mpThreadQueue);
         }
-        if (stack->_4 != 0)
+        if (((JASCallStackBase *)stack)->_4 != 0)
         {
-            stack->mCb(stack + 1);
+            ((JASCallStackBase *)stack)->mCb((JASCallStackBase *)stack + 1);
         }
         else
         {
-            stack->mCb(((JASCallStack *)stack)->mPtr);
+            ((JASCallStackBase *)stack)->mCb(((JASCallStack *)stack)->mPtr);
         }
         JASKernel::getCommandHeap()->free(stack);
     }

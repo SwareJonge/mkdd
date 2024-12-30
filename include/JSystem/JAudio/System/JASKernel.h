@@ -19,7 +19,7 @@ namespace JASKernel
     extern u8 audioAramHeap[68];
     extern u32 sAramBase;
     extern JKRHeap *sSystemHeap;
-    extern void *sCommandHeap;
+    extern JASMemChunkPool<1024, JASThreadingModel::ObjectLevelLockable> *sCommandHeap;
 };
 
 #endif

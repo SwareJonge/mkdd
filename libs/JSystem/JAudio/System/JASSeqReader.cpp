@@ -15,8 +15,8 @@ void JASSeqReader::init()
 
 void JASSeqReader::init(void *base)
 {
-    mBase = base;
-    mReadPtr = (u8*)mBase;
+    mBase = (u8*)base;
+    mReadPtr = mBase;
     mCommandNo = 0;
     for (int i = 0; i < 8; i++)
     {
