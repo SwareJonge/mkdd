@@ -1,27 +1,32 @@
 #ifndef JAUDIO_JASDRIVER_H
 #define JAUDIO_JASDRIVER_H
 
-#include "types.h"
+#include <dolphin/ai.h>
 
 enum JASMixMode
 {
     MixMode_Mono,
     MixMode_Mono_Wide,
     MixMode_Extra,
-    MixMode_InterLeave
+    MixMode_InterLeave,
+    MixMode_Max, // 4
 };
 
 enum JASOutputRate
 {
-    // TODO
+    OutputRate_32kHz,
+    OutputRate_48kHz
 };
 
 typedef s16 *(*JASMixCallBack)(s32);
+typedef void (*JASDACCallBack)(s16 *, u32);
+typedef void (*JASMixFunc)(s16 *, u32, JASMixCallBack);
 
-class JASDriver
+namespace JASDriver
 {
-public:
-    static void setDSPLevel(f32);
+    // JASAiCtrl
+    void initAI(AIDCallback);
+    void setDSPLevel(f32);
     void startDMA();
     void stopDMA();
     void setOutputRate(JASOutputRate);
@@ -29,20 +34,32 @@ public:
     void updateDSP();
     void readDspBuffer(s16 *, u32);
     void finishDSPFrame();
-    static void registerMixCallback(JASMixCallBack, JASMixMode);
-    void getDacRate();
-    void getSubFrames();
-    void getSubFrameCounter();
-    static void waitSubFrame();
-
-    static void setOutputMode(u32);
-    static u32 getOutputMode();
-
-    // Inline/Unused
+    void registerMixCallback(JASMixCallBack, JASMixMode);
+    f32 getDacRate();
+    u32 getSubFrames();
+    u32 getSubFrameCounter();
+    void waitSubFrame();
     void setSubFrames(u32);
     void setNumDSPBuffer(u8);
     void registerDacCallback(void (*)(s16 *, u32));
     void registDSPBufCallback(void (*)(s16 *, u32));
+
+    // JASDriverIF
+    void setDSPLevel(f32);
+    void getChannelLevel_dsp();
+    void getDSPLevel();
+    void setOutputMode(u32);
+    u32 getOutputMode();
+    void waitSubFrame();
+    void rejectCallback(s32 (*) (void *), void *);
+    void registerDspSyncCallback(s32 (*) (void *), void *);
+    void registerSubFrameCallback(s32 (*) (void *), void *);
+    void subframeCallback();
+    void DSPSyncCallback();
+    void updateDacCallback();
+    void setChannelLevel(f32);
+    f32 getChannelLevel();
+    void registerUpdateDacCallback(s32 (*) (void *), void *);
 };
 
 #endif

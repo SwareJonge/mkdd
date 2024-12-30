@@ -836,7 +836,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio/System/JASHeapCtrl.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASProbe.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASResArcLoader.cpp"),
-            Object(NonMatching, "JSystem/JAudio/System/JASAiCtrl.cpp"),
+            Object(Matching, "JSystem/JAudio/System/JASAiCtrl.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASAudioReseter.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASAudioThread.cpp"),
             Object(NonMatching, "JSystem/JAudio/System/JASChannel.cpp"),
