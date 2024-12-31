@@ -1094,7 +1094,7 @@ config.libs = [
         [
             Object(Matching, "Kaneshige/DrawBuffer.cpp"),
             Object(Equivalent, "Kaneshige/Course/Course.cpp"),
-            Object(NonMatching, "Kaneshige/Course/CrsData.cpp"),
+            Object(Matching, "Kaneshige/Course/CrsData.cpp"),
             Object(NonMatching, "Kaneshige/Course/CrsGround.cpp"),
             Object(NonMatching, "Kaneshige/ExModel.cpp"),
             Object(Matching, "Kaneshige/HioMgr.cpp"),

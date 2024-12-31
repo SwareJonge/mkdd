@@ -55,7 +55,7 @@ public:
         u8 zMinIndex : 2;
         u8 xMinIndex : 2;
         u8 camCode;
-        s16 nearTrigs[3];
+        u16 nearTrigs[3];
         u8 thickness : 4;
         u8 _21;
         u8 _22;
@@ -269,8 +269,8 @@ public:
         bool checkFront(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                                 // 0x801a0770
         bool checkFaceSide(const CrsData *, const JGeometry::TVec3f &) const;                                                                                                              // 0x801a083c
         f32 getPlaneY(const JGeometry::TVec3f &, Course *) const;                                                                                                                         // 0x801a097c
-        int checkPolygonTouchBySphere(const JGeometry::TVec3f *, const JGeometry::TVec3f &, float, Course *) const;                                                                       // 0x801a0ae4
-        int getTouchState(const SColInfoSphere &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, float *, float) const;                                       // 0x801a0c5c
+        u32 checkPolygonTouchBySphere(const JGeometry::TVec3f *, const JGeometry::TVec3f &, float, Course *) const;                                                                       // 0x801a0ae4
+        u32 getTouchState(const SColInfoSphere &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, JGeometry::TVec3f *, float *, float) const;                                       // 0x801a0c5c
         void getCenter(JGeometry::TVec3f *, const JGeometry::TVec3f *, Course *) const;                                                                                                    // 0x801a0f64
         // Inline
         int getZmaxIndex() const { return zMaxIndex; } // 0x801a0034
@@ -399,9 +399,12 @@ public:
     SCheckPoint *getCheckPointTable() const;
     Camera *getCameraData(int camIdx) const;
 
+    // Unused
+    const char *getMatTableLabel(int matNo) const;
+
     Grid *getGridTable() const { return (Grid*)((u8 *)mCollionData + sizeof(SColHeader));  }
     SMaterial *getMatTable() const { return (SMaterial*)((u8 *)mCollionData + mCollionData->matTableOffset); }
-    SGround *getGroundTable() const { return (SGround*)((u8 *)mCollionData + mCollionData->groundTableOffset); }
+    Ground *getGroundTable() const { return (Ground*)((u8 *)mCollionData + mCollionData->groundTableOffset); }
     JGeometry::TVec3f *getVertexTable() const { return (JGeometry::TVec3f *)((u8 *)mCollionData + mCollionData->vertexTableOffset); }
     u16 *getIndexTable() const { return (u16*)((u8 *)mCollionData + mCollionData->indexTableOffset); }
     

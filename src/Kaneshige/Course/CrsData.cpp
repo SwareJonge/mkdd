@@ -1,7 +1,11 @@
+#include "JSystem/JGeometry/Vec.h"
+#include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Kaneshige/Course/CrsData.h"
 
+#include "Sato/stMath.h"
 #include "mathHelper.h"
+#include "JSystem/JAudio/JASFakeMatch2.h"
 
 const u32 CrsData::cPatchCamTagTable[] ={
     'prma', 'debu', 
@@ -85,7 +89,7 @@ CrsData::CrsData(CrsData::SColHeader *bco, CrsData::SOblHeader *bol) {
                 break;
             }
 
-            snprintf(matData->name, 0x10, "â˜?%s%d", matName, mat[i].soundID);
+            snprintf(matData->name, 0x10, "™%s%d", matName, mat[i].soundID);
         }
     }
     else {
@@ -119,7 +123,7 @@ void CrsData::patchCamDataForStaffRoll(Language lang, VideoMode vMode) {
 }
 
 // Really feel like this code doesn't make sense, try to rewrite
-CrsData::SMaterial *CrsData::searchSameAttr(unsigned char attr, unsigned char attrIdx) const {
+CrsData::SMaterial *CrsData::searchSameAttr(u8 attr, u8 attrIdx) const {
     SMaterial *ret = nullptr;
     bool same = false;
     SMaterial *matTable = getMatTable();
@@ -142,7 +146,7 @@ CrsData::SMaterial *CrsData::searchSameAttr(unsigned char attr, unsigned char at
     return ret;
 }
 
-u16 CrsData::searchMaterial(unsigned char attr, unsigned char attrIdx) const {
+u16 CrsData::searchMaterial(u8 attr, u8 attrIdx) const {
     u16 ret = 0xff;
     SMaterial *mat = searchSameAttr(attr, attrIdx);
     if (mat)
@@ -280,19 +284,54 @@ CrsData::Ground *CrsData::Grid::searchGround(stPlaneParam *plane, const JGeometr
     return foundGround;
 }
 
-CrsData::Ground *CrsData::Grid::checkPolygonBySphere(JGeometry::TVec3f*, float *, const CrsData *crsData, const CrsData::SColInfoSphere &infoSphere, float *) {
+CrsData::Ground *CrsData::Grid::checkPolygonBySphere(JGeometry::TVec3f *p1, f32 *pScale, const CrsData *crsData, const CrsData::SColInfoSphere &infoSphere, f32 *p5) {
     CrsData::Ground *ground = nullptr;
     u16 *indexTable = crsData->getIndexTable();
     SGround *groundTable = crsData->getGroundTable();
+    u16 *gndIdxTbl = indexTable + mGroundIndex;
 
     JGeometry::TVec3f v1;
     JGeometry::TVec3f v2;
     v2.zero();
 
-    for (int i = 0; i < mCount; i++) {
+    f32 f = 0.0f;
 
+    for (int i = 0; i < mCount; i++, gndIdxTbl++) {
+        Ground *groundPoint = (Ground *)&groundTable[*gndIdxTbl];
+        switch (groundPoint->attribute) {
+        case 0x12:    
+        case 0x2: {
+            JGeometry::TVec3f v3;
+            JGeometry::TVec3f v4;
+            f32 scale = groundPoint->checkWallBySphere(&v1, infoSphere, crsData->getVertexTable(), &f, &v3, &v4);
+            bool noCover = false; 
+            f32 f2 = -1.0f;
+            if (scale >= 0.0f) {
+                CrsGround grnd(RCMGetCourse());
+                if (!grnd.checkPolygonCover(v3, v4, infoSphere._0, infoSphere.d, groundPoint, &f2))
+                    noCover = true;
+            }
+            if (noCover) {
+                if (ground == nullptr) {
+                    *p5 = f2;
+                    ground = groundPoint;
+                }
+                v2.scaleAdd(scale, v1, v2);
+                if (*pScale < scale) {
+                    *pScale = scale;
+                }
+            }            
+        }
+        }
     }
     
+    if (*pScale >= 0.0f) {
+        v2.normalize();
+        p1->set(v2);
+    }
+    else {
+        ground = nullptr;
+    }
 
     return ground;
 }
@@ -310,6 +349,7 @@ bool CrsData::Ground::checkPosition(stPlaneParam *plane, const JGeometry::TVec3f
     int xmaxId = getXmaxIndex();
     int zmaxId = getZmaxIndex();
 
+#line 1078
     JUT_MINMAX_ASSERT(0, xminId, 3)
     JUT_MINMAX_ASSERT(0, zminId, 3)
     JUT_MINMAX_ASSERT(0, xmaxId, 3)
@@ -332,9 +372,13 @@ bool CrsData::Ground::checkPosition(stPlaneParam *plane, const JGeometry::TVec3f
     stPlaneParam newPlane;
     course->calcPlaneParam(&newPlane, normDir.x * 0.0001f, normDir.y * 0.0001f, normDir.z * 0.0001f, dir, aWorldPos[0]);
 
-    // regswaps here
-    if (((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.direction) < 0.0f && -((newPlane.x * worldPos.x)+(newPlane.z * worldPos.z) + newPlane.direction) / newPlane.y - worldPos.y > addThickness)
-        return false;
+    //f32 n = ((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.direction);
+    if (((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.direction) < -0.0f) {
+        f32 a = -((newPlane.x * worldPos.x)+(newPlane.z * worldPos.z) + newPlane.direction) / newPlane.y;
+        if (a - worldPos.y > addThickness) {
+            return false;
+        }
+    }
     
     u8 attr = attribute;
     for (int i = 0; i < 3; i++) {
@@ -382,11 +426,168 @@ bool CrsData::Ground::checkPosition(stPlaneParam *plane, const JGeometry::TVec3f
     return ret;
 }
 
-f32 CrsData::Ground::checkWallBySphere(JGeometry::TVec3f*, const CrsData::SColInfoSphere &, const JGeometry::TVec3f*, float *, JGeometry::TVec3f*, JGeometry::TVec3f*) const {}
+f32 CrsData::Ground::checkWallBySphere(JGeometry::TVec3f *p1, const CrsData::SColInfoSphere &infoSphere, const JGeometry::TVec3f *vertexTbl, f32 *pY, JGeometry::TVec3f *p5, JGeometry::TVec3f *p6) const {
+    Course *course = RaceMgr::getManager()->getCourse();
+    SGround *gnd = course->getCrsData()->getGroundTable();
+    f32 thickness = course->getGroundThickness();
 
-void CrsData::Ground::getNearPoint(const CrsData::SColInfoSphere &, float, const JGeometry::TVec3f&, const JGeometry::TVec3f&, const JGeometry::TVec3f&, JGeometry::TVec3f*, JGeometry::TVec3f*) const {}
+    JGeometry::TVec3f aWorldPos[3];
 
-f32 CrsData::Grid::checkPolygonCoverWall(const JGeometry::TVec3f&, const CrsData::SColInfoSphere &, const CrsData::Ground *) {}
+    for (int i = 0; i < 3; i++) {
+        course->convMapCoordToWorldPos(&aWorldPos[i], vertexTbl[pointIndices[i]]);
+    }
+    f32 ret = -1.0;
+    *pY = getPlaneY(infoSphere._0, course);
+
+    if (*pY < (infoSphere._0.y + infoSphere.d)) {
+        for (int i = 0; i < 3; i++) {
+            bool sameFlag = false;
+            int pos2Idx = (i+1) % 3;
+            u16 trig = nearTrigs[i];
+            
+            if (trig == 0xffff || attribute != gnd[trig].attribute) {
+                sameFlag = true;
+            }
+            if (sameFlag) {
+                f32 f1 = -1.0;
+                JGeometry::TVec3f v1;
+                u32 touchState = getTouchState(infoSphere, aWorldPos[i], aWorldPos[pos2Idx], &v1, &f1, 0.0f);
+                bool touching = false;
+                f32 f2 = infoSphere.d - f1;
+                switch (touchState) {
+                case 0: {
+                    ret = -1.0f;
+                    sameFlag = false;
+                    p1->zero();
+                    break;
+                }
+                case 1: {
+                    sameFlag = true;
+                    touching = true;
+                    break;
+                }
+                case 2: {
+                    if (f2 < ret) {
+                        sameFlag = true;
+                    }
+                    else {
+                        sameFlag = false;
+                    }
+                    touching = false;
+                    break;
+                }
+                case 3: {
+                    sameFlag = false;
+                    touching = false;
+                    break;
+                }
+                }
+                if (sameFlag && f2 > ret) {
+                    ret = f2;
+                    p1->set(v1);
+                    getNearPoint(infoSphere, f2, v1, aWorldPos[i], aWorldPos[pos2Idx], p5, p6);
+                }
+                if (touching) break;
+            }
+        }
+    }
+    return ret;
+}
+
+void CrsData::Ground::getNearPoint(const CrsData::SColInfoSphere &infoSphere, f32 d, const JGeometry::TVec3f &pos1, const JGeometry::TVec3f &pos2, const JGeometry::TVec3f &pos3, JGeometry::TVec3f *p6, JGeometry::TVec3f *p7) const {
+    Course *course = RCMGetCourse();
+    const CrsData *crsData = course->getCrsData();
+    JGeometry::TVec3f *vertexTbl = crsData->getVertexTable();
+    JGeometry::TVec3f dir(infoSphere._0);
+    f32 sphereDir = infoSphere.d;
+
+    JGeometry::TVec3f v1;
+    v1.sub(pos3, pos2);
+
+    JGeometry::TVec3f v2;
+    JGeometry::TVec3f v3;
+    v2.sub(dir, pos2);
+    v3.sub(dir, pos3);
+
+    JGeometry::TVec3f center;
+    getCenter(&center,vertexTbl,course);
+
+    f32 v2ZXdp = v2.dotZX(v1);
+    f32 v3ZXdp = v3.dotZX(v1);
+    JGeometry::TVec3f v4;
+    f32 scalar;
+    if (v2ZXdp < 0.0f) {
+        v4.sub(center, pos2);
+        v4.normalize();
+        dir.set(pos2);
+        scalar = 0.0f;
+    }
+    else if (v3ZXdp > 0.0f) {
+        v4.sub(center, pos3);
+        v4.normalize();
+        dir.set(pos3);
+        scalar = 0.0f;
+    }
+    else {
+        v4.negate(pos1);
+        v4.normalize();
+        scalar = (sphereDir - d);
+    }
+
+    static const f32 inTickness[4] ={
+        5.0f, 1.0f, 0.5f, 0.01f
+    };
+
+    for (int i = 0; i < 4; i++) {
+        p6->scaleAdd(scalar + inTickness[i], v4, dir);
+        u32 touchState = checkPolygonTouchBySphere(vertexTbl, *p6, sphereDir, course);
+        if (touchState == 1) continue;
+        if (touchState != 0) break;
+    }
+    p7->scaleAdd(scalar - 1.0f, v4, dir);
+}
+
+f32 CrsData::Grid::checkPolygonCoverWall(const JGeometry::TVec3f &pos, const CrsData::SColInfoSphere &infoSphere, const CrsData::Ground *ground) {
+    JGeometry::TVec3f v1(infoSphere._0);
+    v1.y += CrsGround::getOverLevel();
+    f32 d = infoSphere.d;
+    const CrsData *crsData = RCMGetCourse()->getCrsData();
+
+    u16 *indexTable = crsData->getIndexTable();
+    Ground *groundTable = crsData->getGroundTable();
+    f32 ret = -1.0f;
+    
+    u16 *gndIdxTbl = indexTable + mGroundIndex;
+    
+    for (int i = 0; i < mCount; i++, gndIdxTbl++) {
+        const Ground *groundPoint = &groundTable[*gndIdxTbl];
+        Course *course = RaceMgr::getManager()->getCourse();
+        f32 planeY = groundPoint->getPlaneY(pos, course);
+        JGeometry::TVec3f v2;
+        v2.set(pos);
+        v2.y = planeY;
+
+        if (groundPoint != ground && groundPoint->checkFront(crsData, v1) && (ground == nullptr || ground->checkFaceSide(crsData, v2))) {
+            u32 touchState = groundPoint->checkPolygonTouchBySphere(crsData->getVertexTable(), pos, d, course);
+            if (touchState == 2 || touchState == 3) {
+                switch (groundPoint->attribute) {
+                case 0x12:    
+                case 0x2:
+                    groundPoint = ground;
+                    break;
+                default:
+                    ret = planeY;
+                    break;
+                }
+                
+            }
+        }
+        if (groundPoint == ground) break;
+        if (ret != -1.0f) break;
+    }
+
+    return ret;
+}
 
 bool CrsData::Ground::checkFront(const CrsData *crsData, const JGeometry::TVec3f &p) const {
     bool isFront = true;
@@ -407,8 +608,26 @@ bool CrsData::Ground::checkFront(const CrsData *crsData, const JGeometry::TVec3f
     return isFront;
 }
 
-bool CrsData::Ground::checkFaceSide(const CrsData *CrsData, const JGeometry::TVec3f &p) const {
+bool CrsData::Ground::checkFaceSide(const CrsData *crsData, const JGeometry::TVec3f &p) const {
+    stPlaneParam plane;
+    Course *course =  RaceMgr::getManager()->getCourse();
+    course->calcPlaneParam(&plane, normDir.x * 0.0001f, normDir.y * 0.0001f, normDir.z * 0.0001f, dir, p);
 
+    JGeometry::TVec3f dir;
+    dir.x = plane.x;
+    dir.y = plane.y;
+    dir.z = plane.z;
+    dir.normalize();
+
+    
+    JGeometry::TVec3f *vertexTable = crsData->getVertexTable();
+    JGeometry::TVec3f worldPos;
+    course->convMapCoordToWorldPos(&worldPos, vertexTable[pointIndices[0]]);
+    JGeometry::TVec3f diff;
+    diff.sub(p, worldPos);
+    diff.normalize();
+
+    return diff.dot(dir) >= 0.0f;
 }
 
 f32 CrsData::Ground::getPlaneY(const JGeometry::TVec3f &p, Course *course) const {
@@ -430,7 +649,7 @@ f32 CrsData::Ground::getPlaneY(const JGeometry::TVec3f &p, Course *course) const
     return -(n.x * p.x + n.z * p.z + dir) / n.y;
 }
 
-int CrsData::Ground::checkPolygonTouchBySphere(const JGeometry::TVec3f*vertexTable, const JGeometry::TVec3f &p, float d, Course *course) const {
+u32 CrsData::Ground::checkPolygonTouchBySphere(const JGeometry::TVec3f*vertexTable, const JGeometry::TVec3f &p, f32 d, Course *course) const {
     JGeometry::TVec3f aWorldPos[3];
 
     for(int i = 0; i < 3; i++)
@@ -457,7 +676,81 @@ int CrsData::Ground::checkPolygonTouchBySphere(const JGeometry::TVec3f*vertexTab
     
 }
 
-int CrsData::Ground::getTouchState(const CrsData::SColInfoSphere &infoSphere, const JGeometry::TVec3f&, const JGeometry::TVec3f&, JGeometry::TVec3f*, float *, float) const {}
+u32 CrsData::Ground::getTouchState(const CrsData::SColInfoSphere &infoSphere, const JGeometry::TVec3f &pos1, const JGeometry::TVec3f &pos2, JGeometry::TVec3f *p4, f32 *p5, f32 p6) const {
+    if (p4) {
+        p4->zero();
+    }
+    if (p5) {
+        *p5 = -1.0f;
+    }
+
+    JGeometry::TVec3f sphereDir(infoSphere._0);
+    f32 d = infoSphere.d;
+    JGeometry::TVec3f v1;
+    v1.sub(pos2, pos1);
+    JGeometry::TVec3f yDir(0.0f, 1.0f, 0.0f);
+    JGeometry::TVec3f v2;
+    v2.cross(v1, yDir);
+    v2.normalize();
+    JGeometry::TVec3f v3;
+    v3.sub(sphereDir, pos1);
+    JGeometry::TVec3f v4;
+    v4.sub(sphereDir, pos2);
+    f32 v3v2dp = v3.dot(v2);
+
+    if (v3v2dp > d) 
+        return 0;
+
+    JGeometry::TVec3f v5;
+    v5.cross(yDir, v2);
+    v5.normalize();
+    f32 v3v5dp = v3.dot(v5);
+    f32 v4v5dp = v4.dot(v5);
+    if ((v3v2dp > 0.0f) && (v3v5dp < -d))
+        return 0;
+
+    if ((v3v2dp > 0.0f) && (v4v5dp > d))
+        return 0;
+
+    if (v3v2dp <= 0.0f ) {
+        if (p5) {
+            *p5 = (float)v3v2dp;
+        }
+        if (v3v2dp < -(d + p6)) {
+            return 3;
+        }
+        
+        if (p4) {
+            p4->set(v2);
+        }
+        return 2;
+        
+    }
+
+    f32 len = (d * d);
+    if ((v4v5dp > 0.0f) && (v3v2dp > 0.0f)) {
+        if (v4.squaredZX() > len) {
+            return 0;
+        }
+        v4.y = 0.0f;
+        v3v2dp = v4.length();
+    }
+    else if ((v3v5dp < 0.0f) && (v3v2dp > 0.0f)) {
+        if (v3.squaredZX() > len) {
+            return 0;
+        }
+        v3.y = 0.0f;
+        v3v2dp = v3.length();
+    }
+
+    if (p4) {
+        p4->set(v2);
+    }
+    if (p5) {
+        *p5 = (float)v3v2dp;
+    }
+    return 1;
+}
 
 void CrsData::Ground::getCenter(JGeometry::TVec3f *center, const JGeometry::TVec3f *vertexTable, Course *course) const {
     JGeometry::TVec3f aWorldPos[3];
@@ -468,7 +761,7 @@ void CrsData::Ground::getCenter(JGeometry::TVec3f *center, const JGeometry::TVec
     for(int i = 0; i < 3; i++)
         center->add(aWorldPos[i]);
 
-    center->scale(1/3);
+    center->scale(0.33333334f);
 }
 
 CrsData::SCheckPoint *CrsData::getCheckPointTable() const {
@@ -499,10 +792,12 @@ bool CrsData::SObject::isAvailableObject() {
             {
             case 1:
             case 0x26b2:
+            {
                 s16 maxKarts = robberyKarts;
                 if (maxKarts > 1 && RaceMgr::getManager()->getKartNumber() <= maxKarts)
                     filterType = -1;
-                break;            
+                break;
+            }          
             default:
                 break;
             }
@@ -619,6 +914,13 @@ CrsData::PointData *CrsData::getPointData(u16 pathIdx, u16 pointIdx) const {
         pointData = &start[pointIdx];
     }
     return pointData;
+}
+
+const char *CrsData::getMatTableLabel(int matNo) const { 
+    // UNUSED, fabricated
+    // Size mismatch, should be 0xa4, currently is 0xa8
+    JUT_MINMAX_ASSERT(0, matNo, getMatNum());
+    return mMatData[matNo].name;
 }
 
 CrsData::MGParam *CrsData::getMGParam(int paramNo) const {

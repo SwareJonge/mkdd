@@ -20,7 +20,7 @@ public:
     void search(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32, bool);                                                                      // 0x801a21e4
     void roundDepth(const JGeometry::TVec3f &);                                                                                                          // 0x801a262c
     void checkGridBySphere(f32 *, const CrsData::SColInfoSphere &, u32, f32, f32, f32);                                                // 0x801a2698
-    void checkPolygonCover(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32, const CrsData::Ground *, f32 *);    // 0x801a290c
+    bool checkPolygonCover(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32, const CrsData::Ground *, f32 *);    // 0x801a290c
     void checkPolygonCoverMain(const JGeometry::TVec3f &, const CrsData::SColInfoSphere &, u32, f32, f32, f32, const CrsData::Ground *); // 0x801a2d20
     void isInsideGrid(const JGeometry::TVec3f &, f32, f32, f32, f32);                                                                            // 0x801a2ec0
     void searchGridIndex(int *, int *, Course *, const JGeometry::TVec3f &, f32, f32, f32, f32, int, int);                                       // 0x801a3004
@@ -59,6 +59,8 @@ public:
     {
         // TODO
     };
+
+    static f32 getOverLevel() { return 50.0f; }
 
 private:
     Course *mCourse;
