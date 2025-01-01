@@ -49,8 +49,8 @@ public:
     void MakeShaker(float);
     void DoShaker(JGeometry::TVec3f *, JGeometry::TVec3f);
     void SetPtr();
-    JGeometry::TVec3f *GetCameraPos();
-    void GetCameraLookPos();
+    JGeometry::TVec3f *GetCameraPos(); // TODO: does this return a reference or a pointer
+    JGeometry::TVec3f *GetCameraLookPos();
     void SetFovyData();
     void First4ScreenPort(u8);
     void Second4ScreenPort(u8);
@@ -87,7 +87,7 @@ public:
     void PipeView();
 
     f32 GetFovy() { return mFovY; }
-    void SetFovy(f32 fov) { mFovY; }
+    void SetFovy(f32 fov) { mFovY = fov; }
     u8 GetCameraMode() { return mMode; }
     void SetFlag(u16 flag) { mFlags |= flag; }
     void ClrFlag(u16 flag) { mFlags &= ~flag; }
@@ -120,7 +120,7 @@ public:
     J3DUClipper *GetClipper() { return &mClipper; }
     KartDemoCam *GetDemoCam() { return mDemoCam; }
 
-    const Mtx &GetMtx() { return mMtx; }
+    MtxPtr GetMtx() { return mMtx; }
     f32 GetVpWidth() { return mVpWidth; }
     f32 GetVpHeight() { return mVpHeight; }
     int GetVpPosv() { return mVpPosV; }

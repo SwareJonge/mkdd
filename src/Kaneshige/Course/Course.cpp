@@ -15,6 +15,7 @@
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/Course/Course.h"
 #include "Yamamoto/kartCamera.h"
+#include "dolphin/mtx.h"
 
 u16 Course::sDrawAreaModel;
 bool Course::sForceDebugFogSetting;
@@ -1940,7 +1941,7 @@ void Course::Area::drawDebugModel(u32 cameraNo)
     TVec3f areaScale;
     Mtx rot;
     Mtx posMtx;
-    const Mtx &camMtx = RCMGetCamera(cameraNo)->GetMtx();
+    MtxPtr camMtx = RCMGetCamera(cameraNo)->GetMtx();
 
     switch (getShape())
     {

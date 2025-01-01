@@ -292,11 +292,17 @@ public:
     };
 
     struct LightParam {
-        void getLightColor(JUTColor *color) const {  }
-
-        JUTColor mColor;
-        JGeometry::TVec3f mPos;
-        JUTColor mAmbientColor;
+        void getLightColor(JUTColor *out) const { out->set(mLightColor.r, mLightColor.g, mLightColor.b, mLightColor.a); }
+        void getLightOffsetPosition(JGeometry::TVec3f *out) const { out->set(mPos.x, mPos.y, mPos.z); }
+        void getAmbientColor(JUTColor *out) const { out->set(mAmbientColor.r, mAmbientColor.g, mAmbientColor.b, 0);  }
+        
+        struct { 
+            u8 r, g, b, a;
+        } mLightColor;
+        Vec mPos;
+        struct { 
+            u8 r, g, b;
+        } mAmbientColor;
     };
 
     struct MGParam // Minigame Parameters

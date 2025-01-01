@@ -130,7 +130,7 @@ public:
 
     void setClearColor(JUtility::TColor color)
     {
-        mClearColor.set(color);
+        mClearColor = color;
     }
 
     void setFBAlpha(bool enable) {

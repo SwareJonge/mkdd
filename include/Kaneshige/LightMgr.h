@@ -2,19 +2,23 @@
 #define LIGHTMGR_H
 
 #include "JSystem/JGeometry.h"
+#include "JSystem/JGeometry/Vec.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JUtility/TColor.h"
+#include "dolphin/mtx.h"
 #include "types.h"
 
 // TODO: everything
 class LightObj : public JKRDisposer
 {
 public:
-    LightObj(const char *); // UNUSED
-    LightObj(const char *, u32);
+    LightObj(const char *name); // UNUSED
+    LightObj(const char *name, u32 viewNo);
 
     void init(const char *, u32);
+    u32 getViewNo() const { return mViewNo; }
     void setTagName(u32 tagName) { mTagName = tagName; };
+    void setManualDraw() { mDrawFlags |= 1; }
 
     // 00 Vtable
     virtual ~LightObj();
@@ -25,7 +29,8 @@ public:
     virtual void setGXObj() {}
 
 private:
-    u8 _18[0x20 - 0x18];     //
+    u32 mDrawFlags;          // 18
+    u32 mViewNo;             // 1C
     u32 mTagName;            // 20
     JSULink<LightObj> mLink; // 24
     u32 _34;                 //
@@ -49,6 +54,10 @@ public:
     virtual void getColor(JUtility::TColor *) const; // overide
     virtual void draw();                             // overide
 
+    void setColor(const JUtility::TColor &color) {
+        mColor.set(color);
+    }
+
 private:
     JUtility::TColor mColor;
 }; // Size: 0x3c
@@ -56,15 +65,32 @@ private:
 class LtObjDiffuse : public LightObj
 {
 public:
+    LtObjDiffuse(const char *name, u32 viewNo) : LightObj(name, viewNo) {
+        mPos.set(0.0f, 0.0f, 0.0f);
+        mColor.set(200, 200, 200, 255);
+        mViewMtx = nullptr;
+        mLoadNo = 0;
+    }
+
     virtual ~LtObjDiffuse(); // overide
     virtual void setGXObj(); // overide
     virtual void draw();     // overide
+    virtual void getColor(JUtility::TColor *out) const { out->set((mColor)); }
     void load(GXLightID id);
 
-private:
+    MtxPtr getViewMtx() const { return mViewMtx; }
+    void getPosition(JGeometry::TVec3f *out) const {
+        out->set(mPos);
+    }
+
+    void setLoadNo(u8 loadNo) {
+       mLoadNo = loadNo; 
+    }
+
+protected:
     JGeometry::TVec3f mPos;  // 0x38
     JUtility::TColor mColor; // 0x44
-    Mtx *mViewMtx;           // 0x48
+    MtxPtr mViewMtx;         // 0x48
     u16 mLoadNo;             // 0x4c
     GXLightObj mLightObj;    // 0x50
 };

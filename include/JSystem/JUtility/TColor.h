@@ -50,7 +50,7 @@ namespace JUtility
         void set(u32 u32Color) { *(u32 *)&r = u32Color; }
 
         void set(GXColor gxColor) { *(GXColor *)&r = gxColor; }
-        void set(TColor color) { *this = color; }
+        //void set(TColor color) { *this = color; }
 
         void setRGB(u8 cR, u8 cG, u8 cB)
         {
