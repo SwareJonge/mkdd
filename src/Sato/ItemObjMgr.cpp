@@ -598,24 +598,6 @@ bool ItemObjMgr::stockItemToKart(int kind, int kart_index, u8 driver_index, bool
     return ret;
 }
 
-ItemObj *ItemObjMgr::equipItem2(int kind, int kart_index, u8 driver_index) { // fabricated
-        
-    if (GetGeoObjMgr()->isBombBattle())
-    {
-        ItemObj *obj = equipItemSuccession(kind, kart_index, driver_index);
-        removeMiniGameList(obj);
-        return obj;
-    }
-    else if (kind > 0x10)
-    {
-        return equipItemSuccession(kind, kart_index, driver_index);
-    }
-    else
-    {
-        return equipItem(kind);
-    }
-}
-
 // regswaps, functionally equivalent
 bool ItemObjMgr::equipItemToKart(int kind, int kart_index, u8 driver_index, bool doEffect, u8 colorID)
 {

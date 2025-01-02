@@ -287,7 +287,22 @@ public:
     void drawColModel(u32);                                                        // 0x80241f64
     static void setLANDebugInfo();                                                 // 0x80241f68
 
-    ItemObj *equipItem2(int kind, int kart_index, u8 driver_index);
+    ItemObj *equipItem2(int kind, int kart_index, u8 driver_index) { 
+        if (GetGeoObjMgr()->isBombBattle())
+        {
+            ItemObj *obj = equipItemSuccession(kind, kart_index, driver_index);
+            removeMiniGameList(obj);
+            return obj;
+        }
+        else if (kind > 0x10)
+        {
+            return equipItemSuccession(kind, kart_index, driver_index);
+        }
+        else
+        {
+            return equipItem(kind);
+        }
+    }
 
     // Inline/Unused
     ItemObj *equipItem(u32);
