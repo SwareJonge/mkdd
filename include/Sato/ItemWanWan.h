@@ -20,7 +20,7 @@ public:
     void viewCalc(u32);
     void setCurrentViewNo(u32);
     void doUniv();
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void initEquip();
     void doEquip();
     void initRelease();

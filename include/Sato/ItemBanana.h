@@ -61,7 +61,7 @@ public:
     void doUniv();
     void initEquip();
     void callHitItemSound(ItemObj *);
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void initDisappear();
 
     // static J3DAnmObjTrans *mAnmTrans[3];
@@ -82,7 +82,7 @@ public:
     void initEquip();
     void callHitItemSound(ItemObj *);
     void moveNormal(CrsGround &);
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void initDisappear();
     void doDisappear();
     void calcBaseRotQt();

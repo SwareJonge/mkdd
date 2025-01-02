@@ -38,12 +38,12 @@ public:
 
     struct KartSlotRankDataSet
     {
-        KartSlotData *data;    // 0
-        u32 specialItemIndex;  // 4
-        u32 specialItemChance; // 8
-        int kart_rank;         // C
-        int total;             // 10
-        int kart_index;        // 14
+        const KartSlotData *slotData; // 0
+        int specialItemIndex;     // 4
+        u32 specialItemChance;    // 8
+        int kart_rank;            // C
+        int total;                // 10
+        int kart_index;           // 14
     };
     static KartSlotData mSlotList;
     static KartSlotData mSlotListEnemy;
@@ -287,23 +287,7 @@ public:
     void drawColModel(u32);                                                        // 0x80241f64
     static void setLANDebugInfo();                                                 // 0x80241f68
 
-    ItemObj *equipItem2(int kind, int kart_index, u8 driver_index) { // fabricated
-        
-        if (GetGeoObjMgr()->isBombBattle())
-        {
-            ItemObj *obj = equipItemSuccession(kind, kart_index, driver_index);
-            removeMiniGameList(obj);
-            return obj;
-        }
-        else if (kind > 0x10)
-        {
-            return equipItemSuccession(kind, kart_index, driver_index);
-        }
-        else
-        {
-            return equipItem(kind);
-        }
-    }
+    ItemObj *equipItem2(int kind, int kart_index, u8 driver_index);
 
     // Inline/Unused
     ItemObj *equipItem(u32);

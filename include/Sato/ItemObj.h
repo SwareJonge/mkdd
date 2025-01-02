@@ -59,7 +59,7 @@ public:
     virtual void viewCalc(u32);                                                      // 18
     virtual void setCurrentViewNo(u32);                                              // 1C
     virtual void drawSimpleModel(u32, f32 (*)[4], J3DUClipper *, f32 (*)[4]);        // 20
-    virtual void calcColReaction(ItemObj *);                                         // 24
+    virtual ItemColFlag calcColReaction(ItemObj *);                                  // 24
     virtual const char *getBmdFileName();                                            // 28
     virtual u32 getModelDataAppendLoadFlg() { return 0; }                            // 2C
     virtual void callHitItemSound(ItemObj *);                                        // 30
@@ -98,8 +98,8 @@ public:
     virtual void selectSucChild();                                                   // B4
     virtual void doSucReleaseFunc(ItemObj *);                                        // B8
     virtual void doSucSpReleaseFunc(ItemObj *);                                      // BC
-    virtual void IsHitKart(int, const JGeometry::TVec3f &, f32);                     // C0
-    virtual void IsHitObject(ObjColBase *, const JGeometry::TVec3f &, ObjColBase *); // C4
+    virtual bool IsHitKart(int, const JGeometry::TVec3f &, f32);                     // C0
+    virtual bool IsHitObject(ObjColBase *, const JGeometry::TVec3f &, ObjColBase *); // C4
     virtual void executeGeoObjHitCallBack(GeographyObj *);                           // C8
 
     void loadmodel(J3DModelData *);                                           // 0x8024a4a4
@@ -147,7 +147,7 @@ public:
     void rotationRad(f32 &, f32);                                             // 0x8024ccf0
     void QuatRotX(f32, Quaternion *);                                         // 0x8024cd40
     void QuatRotY(f32, Quaternion *);                                         // 0x8024cd84
-    void IsSpecialItem(int);                                                  // 0x8024cdc8
+    static bool IsSpecialItem(int);                                           // 0x8024cdc8
     void getCompVecLength(JGeometry::TVec3f &, f32 &);                        // 0x8024cdf8
     void setFrameNoColKart(u8, bool);                                         // 0x8024ced0
     void doFrameNoColKart();                                                  // 0x8024cfa0
@@ -171,7 +171,7 @@ public:
     void moveFall();                                                          // 0x8024e558
     void doHeartWaiting();                                                    // 0x8024e880
     void doFallScaling();                                                     // 0x8024e8dc
-    void colItemReflect(ItemObj *, ItemObj *, ItemColFlag, ItemColFlag);      // 0x8024e93c
+    static void colItemReflect(ItemObj *, ItemObj *, ItemColFlag, ItemColFlag);      // 0x8024e93c
     void doColMoveReflect(JGeometry::TVec3f, f32);                            // 0x8024eba8
     void doColMoveReflectAndStopDisappear(JGeometry::TVec3f, f32);            // 0x8024ecdc
     void doColMoveJumpDown(JGeometry::TVec3f, f32);                           // 0x8024ef28
@@ -228,12 +228,14 @@ public:
         return mItemKind;
     }
 
-    bool isCertainState() const { 
-        return mState != 10 && mState != 8 && mState != 7;  
+    bool isCertainState() const {
+        int state = getState();
+        return ((state != 10 && state != 8 && state != 7));
     }
 
     bool tst_80() const { return _12c & 0x80; }
 
+    void setTransfer1() { mTransferFlags |= 1; }
     void clrTransferPartner() { mTransferFlags &= ~0x200; }
     void setTransferPartner() { mTransferFlags |= 0x200; }
 
@@ -259,13 +261,15 @@ public:
     bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != 0; } // 0x8024b324
     void doOccur() { doFall(); }                                                // 0x8024af68, ptmf shit
 
+    const JGeometry::TVec3f getColPos() const { return mColPos; }
+
     // private:
 
     typedef void (ItemObj::*StateFunc)();
 
     JGeometry::TVec3f mPos;               // 04
     JGeometry::TVec3f _10;                //
-    JGeometry::TVec3f _1c;                //
+    JGeometry::TVec3f mColPos;            // 1C
     f32 _28;                              //
     f32 _2c;                              //
     f32 mMaxVel;                          // 30

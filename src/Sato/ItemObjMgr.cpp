@@ -1,3 +1,4 @@
+#include "JSystem/JGeometry/Vec.h"
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/J3D/J3DModelLoader.h"
 #include "JSystem/J3D/J3DTransform.h"
@@ -9,6 +10,7 @@
 #include "Sato/ItemBomb.h"
 #include "Sato/ItemFlyTurtle.h"
 #include "Sato/ItemKinoko.h"
+#include "Sato/ItemObj.h"
 #include "Sato/ItemWanWan.h"
 #include "Sato/ItemStar.h"
 #include "Sato/ItemThunder.h"
@@ -596,6 +598,24 @@ bool ItemObjMgr::stockItemToKart(int kind, int kart_index, u8 driver_index, bool
     return ret;
 }
 
+ItemObj *ItemObjMgr::equipItem2(int kind, int kart_index, u8 driver_index) { // fabricated
+        
+    if (GetGeoObjMgr()->isBombBattle())
+    {
+        ItemObj *obj = equipItemSuccession(kind, kart_index, driver_index);
+        removeMiniGameList(obj);
+        return obj;
+    }
+    else if (kind > 0x10)
+    {
+        return equipItemSuccession(kind, kart_index, driver_index);
+    }
+    else
+    {
+        return equipItem(kind);
+    }
+}
+
 // regswaps, functionally equivalent
 bool ItemObjMgr::equipItemToKart(int kind, int kart_index, u8 driver_index, bool doEffect, u8 colorID)
 {
@@ -609,7 +629,7 @@ bool ItemObjMgr::equipItemToKart(int kind, int kart_index, u8 driver_index, bool
             if (doEffect)
             {
                 ItemHeart *heart = getHeartItem(kart_index);
-                // #line 1055
+#line 1055
                 JUT_ASSERT_F(heart, "heartNullCheck 0");
                 heart->initMoveEffect(obj);
             }
@@ -710,7 +730,7 @@ void ItemObjMgr::deleteItemByKartEquipItemListSuc(ItemObj *obj)
 void ItemObjMgr::deleteItemKeepMax(ItemObj *obj)
 {
     u32 seqID = obj->getKind();
-    // #line 1243
+#line 1243
     JUT_MINMAX_ASSERT(0, seqID, 16);
 
     if (seqID == 14)
@@ -733,16 +753,15 @@ void ItemObjMgr::deleteItemKeepMax(ItemObj *obj)
 
 void ItemObjMgr::deleteMaxOverItem(const JSUList<ItemObj> &itemList) {
     for (JSUListIterator<ItemObj> it(itemList.getFirst()); it.isAvailable(); ++it) {
-        if(it.getObject()) {
-            if(it->isCertainState()) {
-                it->setStateForceDisappear();
-                break;
-            }
+        ItemObj *obj = it.getObject();
+        if(obj && obj->isCertainState()) {
+            obj->setStateForceDisappear();
+            break;
         }
     }
 }
 
-ItemObj *ItemObjMgr::getDeleteObjByPriorityList(JSUList<ItemObj> *) {}
+ItemObj *ItemObjMgr::getDeleteObjByPriorityList(JSUList<ItemObj> *obj) {}
 
 void ItemObjMgr::releaseItemByKartEquipItemList(ItemObj *obj)
 {
@@ -1018,11 +1037,30 @@ void ItemObjMgr::calc()
 }
 
 void ItemObjMgr::calcIsHitItem(JSUListIterator<ItemObj> &list1, JSUListIterator<ItemObj> &list2) {
-    
+    // I hope you got fired for writing this function
+    if ((list2->_12c & 1) == 0)
+        return;
+
+    const JGeometry::TVec3f colPos = list2->mColPos; // should've used a reference
+    if (list1->IsHitObject(list1->mBounds, colPos, list2->mBounds)) {
+        ItemObj *item1 = list1.getObject(); // pls use this for the actualy function calls as well, it's the exact same as operator->
+        ItemObj *item2 = list2.getObject();
+        ItemObj::ItemColFlag flag1 = list1->calcColReaction(item2);
+        ItemObj::ItemColFlag flag2 = list2->calcColReaction(item1);
+        
+        if (flag1 != 6 && flag2 != 6) {            
+            list1->callHitItemSound(item2);
+            list2->callHitItemSound(item1);
+            list1->setTransfer1();
+            list2->setTransfer1();
+            ItemObj::colItemReflect(item1, item2, flag1, flag2);
+        }   
+    }
 }
 
-void ItemObjMgr::setKartHittingList(JSUListIterator<ItemObj> &, int kart_index)
+void ItemObjMgr::setKartHittingList(JSUListIterator<ItemObj> &list, int kart_index)
 {
+    mHitList[kart_index].mObjects[list->getKartReaction()] = list.getObject();
 }
 
 void ItemObjMgr::checkItemByShuffle() {}
@@ -1077,6 +1115,7 @@ ItemObj *ItemObjMgr::getItemYoshiEgg(ItemObj *obj)
 
 void ItemObjMgr::setHeartItem(int kart_index, ItemHeart *heart)
 {
+#line 2392
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     mHeartItem[kart_index] = heart;
 }
@@ -1088,8 +1127,7 @@ void ItemObjMgr::deleteHeartItem(int kart_index)
     if (heart)
         heart->setStateDisappear(true);
 
-    JUT_MINMAX_ASSERT(0, kart_index, 8);
-    mHeartItem[kart_index] = nullptr;
+    setHeartItem(kart_index, nullptr);
     for (u8 i = 0; i < 2; i++)
     {
         mStockItem[kart_index][i]._4 = false;
@@ -1098,25 +1136,28 @@ void ItemObjMgr::deleteHeartItem(int kart_index)
 
 bool ItemObjMgr::tstHaveItemHeart(int kart_index)
 {
+#line 2424
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     return (mHeartItem[kart_index] && mHeartItem[kart_index]->hasHeartsRemaining());
 }
 
 void ItemObjMgr::executeColHitHeart(ItemObj *obj, int kart_index)
 {
+#line 2439
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     mHeartItem[kart_index]->setHitItem(*obj);
 }
 
 ItemHeart *ItemObjMgr::getHeartItem(int kart_index)
 {
-    // #line 2453
+#line 2453
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     return mHeartItem[kart_index];
 }
 
 void ItemObjMgr::setItemUseTrigger(int kart_index, u8 driver_index)
 {
+#line 2466
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     JUT_MINMAX_ASSERT(0, driver_index, 2);
     mItemUse[kart_index][driver_index] = true;
@@ -1124,6 +1165,7 @@ void ItemObjMgr::setItemUseTrigger(int kart_index, u8 driver_index)
 
 int ItemObjMgr::tstItemUseTrigger(int kart_index, u8 driver_index) const
 {
+#line 2481
     JUT_MINMAX_ASSERT(0, kart_index, 8);
     JUT_MINMAX_ASSERT(0, driver_index, 2);
 
@@ -1182,14 +1224,14 @@ bool ItemObjMgr::IsRollingSlot(int kart_index, u8 driver_index)
     return ret;
 }
 
-void ItemObjMgr::getNowEnableSlotDriver(u8 *pDriverIndex, int kart_index) {
-    if(GetKartCtrl()->CheckChange(kart_index) && mEquipItem[kart_index][*pDriverIndex]) {
-        *pDriverIndex = *pDriverIndex == 0;
-    }
-}
-
 bool ItemObjMgr::IsAvailableRollingSlotDriver(int kart_index, u8 driver_index)
 {
+}
+
+void ItemObjMgr::getNowEnableSlotDriver(u8 *pDriverIndex, int kart_index) {
+    if(GetKartCtrl()->CheckChange(kart_index) && mEquipItem[kart_index][*pDriverIndex]) {
+        *pDriverIndex = bool(!*pDriverIndex); 
+    }
 }
 
 bool ItemObjMgr::IsAvailableRollingSlot(int, u32) {}
@@ -1207,7 +1249,6 @@ void ItemObjMgr::startItemShuffleSingle(int kart_index, bool doShuffle)
 
 void ItemObjMgr::startItemShuffleDouble(int kart_index)
 {
-
     for (u8 i = 0; i < 2; i++)
     {
         if (GetGeoObjMgr()->isBombBattle())
@@ -1255,23 +1296,21 @@ void ItemObjMgr::removeMiniGameList(ItemObj *obj)
 void ItemObjMgr::update(ItemObjMgr::eDrawSimplModelItemType, int) {}
 
 void ItemObjMgr::viewCalc(u32 viewNo) {
-    
     J3DUClipper *clipper =  GetKartCtrl()->getKartCam(viewNo)->GetClipper();
-    const u8 *updateKindList = sJ3DUpdateItemKind;
-    for(int i = 0; i < 15; i++, updateKindList++) {
-        for (JSUListIterator<ItemObj> it(_3e8[*updateKindList].getFirst()); it.isAvailable(); ++it) {
+    const Mtx &viewMtx = j3dSys.getViewMtx();
+    for(int i = 0; i < 15; i++) {
+        for (JSUListIterator<ItemObj> it(_3e8[sJ3DUpdateItemKind[i]].getFirst()); it.isAvailable(); ++it) {
             if(it->tst_80()) {
                 it->mModel.hide();
             }
             else {
-                it->mModel.clipBySphere(viewNo, clipper, j3dSys.getViewMtx(), it->mEquipScale);
+                it->mModel.clipBySphere(viewNo, clipper, viewMtx, it->mEquipScale);
             }            
         }
     }
 
-    u8 *drawKindList = sNormalDrawItemKind;
-    for(int i = 0; i < 10; i++, drawKindList++) {
-        for (JSUListIterator<ItemObj> it(_3e8[*drawKindList].getFirst()); it.isAvailable(); ++it)
+    for(int i = 0; i < 10; i++) {
+        for (JSUListIterator<ItemObj> it(_3e8[sNormalDrawItemKind[i]].getFirst()); it.isAvailable(); ++it)
             it->viewCalc(viewNo);
     }
 }
@@ -1642,14 +1681,14 @@ void ItemShuffleMgr::resetRolling()
     mSlotCount = 0;
 }
 
-void ItemShuffleMgr::calcRaceUseNormalItem(u32 *pUseCount, ItemShuffleMgr::KartSlotRankDataSet *rdata, int maxId)
+void ItemShuffleMgr::calcRaceUseNormalItem(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *rdata, int maxId)
 {
     for (int i = 0; i < sSlotNormalItemNum; i++)
     {
         int itemIdx = sSlotItemIndex[i];
         if ((((itemIdx != 10) && (itemIdx != 6) && (itemIdx != 0x12)) && (itemIdx != 0xd)) || maxId != itemIdx)
         {
-            *pUseCount += rdata->data->mList[rdata->kart_rank].slotTable[1][i];
+            *pTotal += rdata->slotData->mList[rdata->kart_rank].slotTable[1][i];
             sTempSlotUseItem[i] = true;
         }
         else
@@ -1659,13 +1698,34 @@ void ItemShuffleMgr::calcRaceUseNormalItem(u32 *pUseCount, ItemShuffleMgr::KartS
     }
 }
 
-void ItemShuffleMgr::calcSpecialItemNum(u32 *pUseCount, ItemShuffleMgr::KartSlotRankDataSet *data, int, int, bool)
+void ItemShuffleMgr::calcSpecialItemNum(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *data, int itemID1, int itemID2, bool charCombi)
 {
     data->specialItemIndex = -1;
-    for (int i = 0; i < sSlotNormalItemNum; i++)
+    
+    for (int i = sSlotNormalItemNum; i < data->slotData->totalSlots; i++)
     {
+        if (itemID1 == sSlotKindIndexArray[i]) {
+            data->specialItemIndex = i;
+
+            if (ItemObj::IsSpecialItem(itemID2) || (itemID1 == 0xe && ItemObjMgr::getItemObjMgr()->getHeartItem(data->kart_index))) {
+                sTempSlotUseItem[sSlotNormalItemNum] = false;
+            }
+            else {
+                sTempSlotUseItem[sSlotNormalItemNum] = true;
+                u32 chance = data->slotData->mList[data->kart_rank].slotTable[1][i];
+
+                if (charCombi) {
+                    chance *= 1.5f;
+                }
+                *pTotal += chance;
+                
+                data->specialItemChance = chance;
+            }
+            break;
+        }      
     }
 
+#line 3920
     JUT_ASSERT(data->specialItemIndex != -1)
 }
 
@@ -1679,7 +1739,7 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata)
 
     for (int i = 0; i < sSlotNormalItemNum + 1; i++, prevTotalChance = totalChance)
     {
-        int itemChance = rdata.data->mList[rdata.kart_rank].slotTable[1][i];
+        int itemChance = rdata.slotData->mList[rdata.kart_rank].slotTable[1][i];
         int itemIdx = i;
         if (i >= sSlotNormalItemNum)
         {
@@ -1704,30 +1764,44 @@ int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata)
     return ret;
 }
 
-int ItemShuffleMgr::calcSlot(KartSlotRankDataSet &rdata, int p2, int p3, bool p4)
+int ItemShuffleMgr::calcSlot(KartSlotRankDataSet &rdata, int p2, int p3, bool charCombi)
 {
 #line 4017
-    JUT_MINMAX_ASSERT(0, rdata.kart_rank, rdata.data->kartCount);
+    JUT_MINMAX_ASSERT(0, rdata.kart_rank, rdata.slotData->kartCount);
     u32 total = 0;
 
     calcRaceUseNormalItem(&total, &rdata, p3);
-    calcSpecialItemNum(&total, &rdata, p2, p3, p4);
+    calcSpecialItemNum(&total, &rdata, p2, p3, charCombi);
 
     rdata.total = total;
 
     return calcRank(rdata);
 }
 
-int ItemShuffleMgr::calcRndSpecialSlot(int, const ItemShuffleMgr::KartSlotData &, bool) {}
+int ItemShuffleMgr::calcRndSpecialSlot(int kart_rank, const ItemShuffleMgr::KartSlotData &rdata, bool) {
+#line 4044
+    JUT_MINMAX_ASSERT(0, kart_rank, rdata.kartCount);
+    // confusion
+    KartSlotRankDataSet set;
+    set.slotData = &rdata;
+    set.kart_rank = kart_rank;
 
-void ItemRndSpecialShuffleMgr::calcRaceUseNormalItem(u32 *pUseCount, ItemShuffleMgr::KartSlotRankDataSet *rdata, int maxId)
+    for (int i = 0; i < sSlotSpecialItemNum; i++) {
+
+    }
+
+    
+    return calcRndSpecialRank(set);
+}
+
+void ItemRndSpecialShuffleMgr::calcRaceUseNormalItem(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *rdata, int maxId)
 {
     for (int i = 0; i < sSlotNormalItemNum; i++)
     {
         int itemIdx = sSlotItemIndex[i];
         if ((((itemIdx != 10) && (itemIdx != 6) && (itemIdx != 0x12)) && (itemIdx != 0xd)) || maxId != itemIdx)
         {
-            *pUseCount += rdata->data->mList[rdata->kart_rank].slotTable[1][i];
+            *pTotal += rdata->slotData->mList[rdata->kart_rank].slotTable[1][i];
             sTempSlotUseItem[i] = true;
         }
         else
@@ -1737,7 +1811,31 @@ void ItemRndSpecialShuffleMgr::calcRaceUseNormalItem(u32 *pUseCount, ItemShuffle
     }
 }
 
-void ItemRndSpecialShuffleMgr::calcSpecialItemNum(u32 *, ItemShuffleMgr::KartSlotRankDataSet *, int, int, bool) {}
+void ItemRndSpecialShuffleMgr::calcSpecialItemNum(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *data, int itemID1, int itemID2, bool charCombi) {
+    if (ItemObj::IsSpecialItem(itemID2)) {
+        for (int i = 0; i < sSlotSpecialItemNum; i++) {
+            sTempSlotUseItem[i + sSlotNormalItemNum] = false;
+        }
+        return;
+    }
+    
+    for (int i = 0; i < sSlotSpecialItemNum; i++) {
+        if ((sSlotKindIndexArray[i + sSlotNormalItemNum] == 0xe && ItemObjMgr::getItemObjMgr()->getHeartItem(data->kart_index))) {
+            sTempSlotUseItem[i + sSlotNormalItemNum] = false;
+        }
+        else {
+            sTempSlotUseItem[i + sSlotNormalItemNum] = true;
+            u32 chance = data->slotData->mList[data->kart_rank].slotTable[1][i + sSlotNormalItemNum + sSlotSpecialItemNum];
+
+            if (!GetGeoObjMgr()->isMiniGame() && charCombi) {
+                chance *= 1.5f;
+            }
+            *pTotal += chance;
+            
+            sTempSpecialRatio[i] = chance;
+        }
+    }
+}
 
 int ItemShuffleMgr::calcRndSpecialRank(KartSlotRankDataSet slotRankData)
 {
@@ -1746,7 +1844,7 @@ int ItemShuffleMgr::calcRndSpecialRank(KartSlotRankDataSet slotRankData)
     int prevTotalChance = 0;
     int totalChance = 0;
 
-    for (int idx = sSlotNormalItemNum; idx < slotRankData.data->totalSlots; idx++, prevTotalChance = totalChance)
+    for (int idx = sSlotNormalItemNum; idx < slotRankData.slotData->totalSlots; idx++, prevTotalChance = totalChance)
     {
         int ratio = sTempSpecialRatio[idx - sSlotNormalItemNum];
         totalChance += sTempSlotUseItem[idx] ? ratio : 0;
@@ -1768,9 +1866,9 @@ int ItemRndSpecialShuffleMgr::calcRank(KartSlotRankDataSet slotRankData)
     int prevTotalChance = 0;
     int totalChance = 0;
 
-    for (int idx = 0; idx < slotRankData.data->totalSlots; idx++, prevTotalChance = totalChance)
+    for (int idx = 0; idx < slotRankData.slotData->totalSlots; idx++, prevTotalChance = totalChance)
     {
-        u32 itemChance = idx >= sSlotNormalItemNum ? sTempSpecialRatio[idx - sSlotNormalItemNum] : slotRankData.data->mList[slotRankData.kart_rank].slotTable[1][idx];
+        u32 itemChance = idx >= sSlotNormalItemNum ? sTempSpecialRatio[idx - sSlotNormalItemNum] : slotRankData.slotData->mList[slotRankData.kart_rank].slotTable[1][idx];
 
         totalChance += sTempSlotUseItem[idx] ? itemChance : 0;
         if ((prevTotalChance <= randomNum) && (totalChance > randomNum))

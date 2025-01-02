@@ -38,8 +38,7 @@ void GeoStartLine::reset() {
 
     CrsGround ground;
     ground.search(mPos);
-    f32 gndHeight = ground.getHeight();
-    mPos.y = 2.0f + gndHeight;
+    mPos.y = 2.0f + ground.getHeight();
 
     ground.getNormal(&upDir);
     frDir.cross(lfDir, upDir);

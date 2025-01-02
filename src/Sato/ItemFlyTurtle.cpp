@@ -676,9 +676,9 @@ void ItemFlyTurtle::initDisappear() {
 
     JGeometry::TMtx34f r_m;
     ObjUtility::setRMtx(r_m, norm, frDir);
-    r_m[0][3] = _1c.x;
-    r_m[1][3] = _1c.y;
-    r_m[2][3] = _1c.z;
+    r_m[0][3] = mColPos.x;
+    r_m[1][3] = mColPos.y;
+    r_m[2][3] = mColPos.z;
     mNewBounds = mBounds;
     mBounds = mBombEffect->mSphere1;
     mBombEffect->init(r_m,1, 1.0f);

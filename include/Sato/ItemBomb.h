@@ -32,11 +32,11 @@ public:
     void update();                                                        // 0x8025bdb0
     void setAnimation(BombBck, int);                                      // 0x8025bf68
     void deleteEffect();                                                  // 0x8025bf7c
-    void IsHitKart(int, const JGeometry::TVec3f &, f32);                  // 0x8025bfc0
+    bool IsHitKart(int, const JGeometry::TVec3f &, f32);                  // 0x8025bfc0
     void doUniv();                                                        // 0x8025c034
     void doScale();                                                       // 0x8025c2d8
     void setSparkTranslation();                                           // 0x8025c3a8
-    void calcColReaction(ItemObj *);                                      // 0x8025c464
+    ItemColFlag calcColReaction(ItemObj *);                               // 0x8025c464
     void initEquip();                                                     // 0x8025c46c
     void setMiniGameBombColor();                                          // 0x8025c4f4
     void doEquip();                                                       // 0x8025c618
@@ -92,8 +92,6 @@ public:
     ItemBombSuc(u32);
     void reset();
     virtual ~ItemBombSuc() {} // 0x8025d858
-
-    u8 _[0x300 - 0x2b0];
 };
 
 // Inline Functions referenced in TU:

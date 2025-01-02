@@ -14,7 +14,7 @@ public:
     const char *getBmdFileName();                                // 0x8024424c
     void createModel(JKRSolidHeap *, u32, u32);                  // 0x80244274
     void doUniv();                                               // 0x80244278
-    void calcColReaction(ItemObj *);                             // 0x80244370
+    ItemColFlag calcColReaction(ItemObj *);                      // 0x80244370
     void callHitItemSound(ItemObj *);                            // 0x80244378
     void initEquip();                                            // 0x802443c4
     void doEquip();                                              // 0x802444c0
@@ -64,7 +64,7 @@ public:
     void reset();
     const char *getBmdFileName();
     void doUniv();
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void initRelease();
     void searchTarget(float, bool);
     void checkOver1stKart();
@@ -97,7 +97,7 @@ public:
     void initRelease();
     void initSpRelease();
     void initDisappear();
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void getMaxColWallNum();
     void calcBalanceFlying();
     void checkKartColDisappear(int);
@@ -131,7 +131,7 @@ public:
     void doDivested();
     void doUnivRelease();
     void moveNormal(CrsGround &);
-    void calcColReaction(ItemObj *);
+    ItemColFlag calcColReaction(ItemObj *);
     void calcRotQuat(Quaternion *);
     void getMaxColWallNum();
     void executeGeoObjHitCallBack(GeographyObj *);
@@ -152,8 +152,6 @@ public:
     void doSucReleaseFunc(ItemObj *);
     void doSucSpReleaseFunc(ItemObj *);
     virtual ~ItemGTurtleSuc() {} // 0x80247da4
-
-    u8 _2b0[0x300 - 0x2b0];
 };
 
 class ItemRTurtleSuc : public ItemGTurtleSuc
@@ -185,7 +183,7 @@ public:
     void IsEfctTypeRed() const;
     virtual ~ItemFireBallSuc() {} // 0x80249b44
 
-    u8 _[0x310 - 0x2b0];
+    u8 _[0x310 - 0x300];
 };
 
 // Inline/Unknown Functions Referenced in TU:

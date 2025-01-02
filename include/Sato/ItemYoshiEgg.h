@@ -24,7 +24,7 @@ public:
     void calcRotQuat(Quaternion *);             // 0x8027e3d0
     void calcCreateItem(u32 *);                 // 0x8027e4b4
     void calcRndItemKind(u32, u32 *, u32 *);    // 0x8027e620
-    void calcColReaction(ItemObj *);            // 0x8027e6cc
+    ItemColFlag calcColReaction(ItemObj *);     // 0x8027e6cc
     void moveColWall(CrsGround &);              // 0x8027e728
     void checkKartColDisappear(int);            // 0x8027e774
 
