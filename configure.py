@@ -1106,7 +1106,7 @@ config.libs = [
             Object(Matching, "Kaneshige/CrsArea.cpp"),
             Object(NonMatching, "Kaneshige/LightMgr.cpp"),
             Object(Matching, "Kaneshige/ScrnShot.cpp"),
-            Object(NonMatching, "Kaneshige/GeoStartLine.cpp"),
+            Object(Matching, "Kaneshige/GeoStartLine.cpp"),
             Object(Matching, "Kaneshige/CenterLine.cpp"),
             Object(Matching, "Kaneshige/RaceInfo.cpp"),
             Object(Matching, "Kaneshige/RaceLight.cpp"),
