@@ -2,6 +2,7 @@
 #define JPEFFECTMGR_H
 
 #include "JSystem/JKernel/JKRHeap.h"
+#include "JSystem/JParticle/JPAEmitter.h"
 #include "JSystem/JParticle/JPAResource.h"
 
 class JPEffectMgr
@@ -35,11 +36,13 @@ public:
     void draw_forBefore2D();                                                  // 0x80230cc0
     void draw_forBefore2D(u8);                                                // 0x80230d90
     void createSnowEmt();                                                     // 0x80230f30
-    void createAwardDemoEmt(bool);                                            // 0x80231084
+    void createAwardDemoEmt(const bool);                                      // 0x80231084
     void createRainbowEmt();                                                  // 0x80231130
     void createCupStartDemoEmt();                                             // 0x80231190
     void resetSnowCamVel();                                                   // 0x80231254
     void calcSnowCamVel();                                                    // 0x802312b0
+
+    JPAEmitterManager *getEm2DMgr() { return mEm2DMgr; }
 
     static void createMgr(JKRHeap *heap, bool p2)
     {
@@ -54,7 +57,9 @@ public:
     static JPEffectMgr *mThis;
 
 private:
-    u8 _00[0x38];
+    u8 _00[0x18];
+    JPAEmitterManager *mEm2DMgr; // 18
+    u8 _1C[0x38 - 0x1C];
 };
 
 inline void CreateJPAMgr(JKRHeap *heap, bool p2) { JPEffectMgr::createMgr(heap, p2); };

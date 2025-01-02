@@ -1,6 +1,9 @@
 #ifndef RACEMGR_H
 #define RACEMGR_H
 
+#include "JSystem/JUtility/TColor.h"
+#include "Kaneshige/Blurscreen.h"
+#include "Kaneshige/MaskScreen.h"
 #include "kartEnums.h"
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JUtility/JUTDbg.h"
@@ -138,6 +141,7 @@ public:
     int getItemSlotType() const { return mRaceInfo->getItemSlotType(); }
     int getStatusNumber() const { return mRaceInfo->getStatusNumber(); }
     ERaceLevel getRaceLevel() const { return mRaceInfo->getRaceLevel(); }
+    ERaceGpCup getRaceGpCup() const { return mRaceInfo->getGpCup(); }
     // why did this not use a getter?
     ERaceMode getRaceMode() const { return mRaceInfo->mRaceMode; }
 
@@ -163,7 +167,11 @@ public:
     bool isRaceEnd() const { return mRaceDirector->isRaceEnd(); };
     bool checkRaceEnd() { return mRaceDirector->checkRaceEnd(); }
 
+    BlurScreen *getBlurScreen() { return mRaceDrawer->getBlurScreen(); }
+    void setBlurColor(const JUTColor &color) { mRaceDrawer->setBlurColor(color); }
+    void setBlurDecrease(u8 a) { mRaceDrawer->setBlurDecrease(a); }
     KartDrawer *getKartDrawer(int idx) { return mRaceDrawer->getKartDrawer(idx); };
+    MaskScreen *getMaskScreen() { return mRaceDrawer->getMaskScreen(); }
     int getCameraNumber() const { return getConsoleNumber(); }
 
     bool isCrsDemoMode() { return getRacePhase() == PHASE_CRS_DEMO; }
@@ -180,8 +188,9 @@ public:
     bool isReplayMode() const { return mReplayMode & 1; }
     bool isActiveAreaLight() const { return mAreaLight & 1; }
     void activeAreaLight() { mAreaLight |= 1; }
-
     bool isSubScrExist() const { return false; }
+    Award2D *getAward2D() { return mAward2D; }
+    StaffRoll2D *getStaffRoll2D() { return mStaffRoll2D; }
 
     KartLoader *getKartLoader(int index) const
     {

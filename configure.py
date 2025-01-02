@@ -1143,7 +1143,7 @@ config.libs = [
             Object(Matching, "Kaneshige/BlurScreen.cpp"),
             Object(NonMatching, "Kaneshige/GeoRabbitMark.cpp"),
             Object(Matching, "Kaneshige/KartMtx.cpp"),
-            Object(NonMatching, "Kaneshige/DemoTimeKeeper.cpp"),
+            Object(Matching, "Kaneshige/DemoTimeKeeper.cpp"),
             Object(NonMatching, "Kaneshige/GeoKinojii.cpp"),
             Object(NonMatching, "Kaneshige/GeoSplash.cpp"),
             Object(NonMatching, "Kaneshige/GeoTideSensor.cpp"),

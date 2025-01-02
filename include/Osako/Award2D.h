@@ -21,6 +21,9 @@ public:
         f32 _10;
     };
 
+    void start() { _10 = 1; }
+    bool isFinish() { return _10 == 6; } 
+
     u8 _00[0x10];
     u32 _10;
     u8 _14[0x58 - 0x14];

@@ -136,7 +136,8 @@ public:
     KartBody *getBody() { return mTargetBody; }
     void setVideo(bool video) { _1d8 = video; }
 
-private:
+// TODO: figure out what stuff is private(if that even was the case)
+//private:
     KartBody *mTargetBody;            //
     KartCtrl *mCtrl;                  //
     J3DUClipper mClipper;             //

@@ -51,5 +51,6 @@ struct JUTDbPrint
 };
 
 void JUTReport(int, int, const char *, ...);
+void JUTReport(int , int , int, const char *, ...);
 
 #endif // !JUTDBPPRINT_H

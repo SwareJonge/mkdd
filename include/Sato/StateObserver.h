@@ -2,6 +2,7 @@
 #define STATEOBSERVER_H
 
 #include "types.h"
+#include <JSystem/JUtility.h>
 
 // TODO: check if this matches in every instance
 

@@ -239,6 +239,7 @@ public:
         u32 getKind() const { return mKind; }
         s16 getPathSpeed() const { return mPathSpeed; }
         s16 getPathID() const { return mPathID; }
+        int getTime() const { return mTime; }
 
         bool isStartCamera() const { return mID != 0; }
     

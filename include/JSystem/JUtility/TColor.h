@@ -2,6 +2,7 @@
 #ifndef _JSYSTEM_JUT_TCOLOR_H
 #define _JSYSTEM_JUT_TCOLOR_H
 
+#include "macros.h"
 #include "types.h"
 #include <dolphin/gx.h>
 
@@ -77,7 +78,7 @@ namespace JUtility
         }
 
         // _00 = GXColor (_00 = r, _01 = g, _02 = b, _03 = a)
-    };
+    } ALIGN(4);
 } // namespace JUtility
 
 typedef JUtility::TColor JUTColor;

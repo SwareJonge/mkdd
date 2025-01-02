@@ -83,7 +83,7 @@ f32 RivalKart::getOffsetMaxSpeed() const
 
 void RivalKart::setMaxSpeed(const float &max)
 {
-    mSpeedCtrl->setMaxSpeed(max);
+    mSpeedCtrl->setMaxSpd(max);
 }
 
 void RivalKart::ContempLate()

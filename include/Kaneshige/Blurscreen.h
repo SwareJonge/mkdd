@@ -11,6 +11,8 @@ public:
     void draw(const JUtility::TColor &color, u8, u8, f32, f32); // 0x801cd030
     void captureScene();                                                             // 0x801cd46c
     void captureBlur();                                                              // 0x801cd4b8
+
+    void flush() { mFlush = true; }
 private:
     u16 mStartX;
     u16 mStartY;

@@ -17,21 +17,21 @@ public:
     virtual bool isPlayingEndingWinAnm() const { return false; };
 
     // Inline
-    void isDispInfo();          // 0x801cee74
-    void updateCutTimer();      // 0x801cf1ec
-    void getCutTimer() const;   // 0x801cf234
-    int getCurCutName() const;  // 0x801cf23c
-    void setDemoEnd();          // 0x801cf514
-    void getCurCutTime() const; // 0x801cfc94
+    bool isDispInfo() { return mDispFlags != 0; }
+    void updateCutTimer() { mCutTimer++; }      // 0x801cf1ec
+    s32 getCutTimer() const { return mCutTimer; }   // 0x801cf234
+    u32 getCurCutName() const { return mCutName; }  // 0x801cf23c
+    void setDemoEnd() { mDemoEnd = true; }          // 0x801cf514
+    s32 getCurCutTime() const { return mCurCutTime; } // 0x801cfc94
 private:
     bool mStaffRoll;
-    s16 _6;
+    u16 mDispFlags;
     s16 _8;
-    s16 _a;
-    int mCutTimer;
-    int mCutName; // maybe this is u32? however the comparisions are cmpw
-    int mCurCutTime;
-    u8 _18[5];
+    s16 mCamId;
+    s32 mCutTimer;
+    u32 mCutName; // maybe this is u32? however the comparisions are cmpw
+    s32 mCurCutTime;
+    char mName[5];
     bool mDemoEnd;
 }; // class DemoTimeKeeper
 // Size: 0x20
@@ -53,20 +53,23 @@ public:
     void stopAllKart();                      // 0x801cf658
     void fadeOutSE();                        // 0x801cf6bc
     virtual int requestDemoCameraID() const; // 0x801cf700
-    /*void AwardsEventTimeHanabi1;           // 0x80414770
-    void AwardsEventTimeHanabi2;           // 0x80414772
-    void AwardsEventTimeHanabi3;           // 0x80414774
-    void AwardsEventTimeHanabi4;           // 0x80414776
-    void AwardsEventTimeHanabi5;           // 0x80414778
-    void AwardsEventTimeHanabi6;           // 0x8041477a
-    void AwardsEventTimeHanabi7;           // 0x8041477c
-    void AwardsEventTimeHanabi8;           // 0x8041477e
-    void AwardsEventTimePaper;             // 0x80414780
-    void AwardsEventTimeStart2D;           // 0x80414782*/
+    static s16 sEventTimeHanabi1;            // 0x80414770
+    static s16 sEventTimeHanabi2;            // 0x80414772
+    static s16 sEventTimeHanabi3;            // 0x80414774
+    static s16 sEventTimeHanabi4;            // 0x80414776
+    static s16 sEventTimeHanabi5;            // 0x80414778
+    static s16 sEventTimeHanabi6;            // 0x8041477a
+    static s16 sEventTimeHanabi7;            // 0x8041477c
+    static s16 sEventTimeHanabi8;            // 0x8041477e
+    static s16 sEventTimePaper;              // 0x80414780
+    static s16 sEventTimeStart2D;            // 0x80414782
 private:
-    s16 _20;
-    s16 _22;
-    u8 _24[4];
+    s16 mEventTime;
+    u16 _22;
+    bool _24;
+    bool _25;
+    bool _26;
+    bool mPaperEventStarted;
 }; // Size 0x28
 
 class StaffRollTimeKeeper : public DemoTimeKeeper
@@ -75,17 +78,17 @@ public:
     StaffRollTimeKeeper();
     virtual void reset();
     virtual void calc();
-    virtual bool isStartFadeIn(); // 0x801d0cf4
+    virtual bool isStartFadeIn() { return false; } // 0x801d0cf4
     virtual int requestDemoCameraID() const;
     virtual bool isPlayingEndingWinAnm() const { return _24 != 0; };
 
     void jump();
     void setLastBlanking(int);
     bool isKartAppearanceFrame();
-    void checkCreditStart(int, long);
+    bool checkCreditStart(int, long);
     void setupCreditMask(int);
-    void warpKart(unsigned short);
-    void setBlurColor(const JUtility::TColor &);
+    void warpKart(u16);
+    void setBlurColor(const JUTColor &blurColor);
     void doOpening();
     void doMarioTitle();
     void doExecProducer();
@@ -105,78 +108,57 @@ public:
     void doSpecial();
     void doLocalization();
     void doLast();
-    /*void sKartAppearancePreTime;
-    void sKartMaxSpeed;
-    void sStartTitleCreditTime;
-    void sStartExectiveProducerCreditTime;
-    void sStartProducerCreditTime;
-    void sStartChiefDirectorCreditTime;
-    void sStartDirectorCreditTime;
-    void sStartProgramDirectorCreditTime;
-    void sStartProgramCreditTime;
-    void sStartDesignManagerCreditTime;
-    void sStartCourseDesignCreditTime;
-    void sStartGraphicDesignCreditTime;
-    void sStartScreenDesignCreditTime;
-    void sStartMusicCreditTime;
-    void sStartVoiceCreditTime;
-    void sStartProgressCreditTime;
-    void sStartDebugSupportCreditTime;
-    void sStartSpecialCreditTime;
-    void sStartLocalizationCreditTime;
-    void sStartLastCreditTime;
-    void sBlurTitleColor;
-    void sBlurExProducerColor;
-    void sBlurProducerColor;
-    void sBlurChiefDirectorColor;
-    void sBlurDirectorColor;
-    void sBlurProgramDirectorColor;
-    void sBlurProgramColor;
-    void sBlurDesignManagerColor;
-    void sBlurCourseDesignColor;
-    void sBlurGraphicDesignColor;
-    void sBlurScreenDesignColor;
-    void sBlurMusicColor;
-    void sBlurVoiceColor;
-    void sBlurProgressColor;
-    void sBlurDebugSupportColor;
-    void sBlurSpecialColor;
-    void sBlurLocalizationColor;
-    void sBlurLastColor;*/
+
+    // Inline
+    bool isEnableJump() const { return _20 != 0; } // 0x801cfaec
+    bool isJumpedEnd() const { return mJumpFlag != 0; } // 0x801cfafc
+    bool isFirstFrame() const { return getCutTimer() == 0; } // 0x801d00cc
+
+    static s32 sKartAppearancePreTime;
+    static f32 sKartMaxSpeed;
+    static s32 sStartTitleCreditTime;
+    static s32 sStartExectiveProducerCreditTime;
+    static s32 sStartProducerCreditTime;
+    static s32 sStartChiefDirectorCreditTime;
+    static s32 sStartDirectorCreditTime;
+    static s32 sStartProgramDirectorCreditTime;
+    static s32 sStartProgramCreditTime;
+    static s32 sStartDesignManagerCreditTime;
+    static s32 sStartCourseDesignCreditTime;
+    static s32 sStartGraphicDesignCreditTime;
+    static s32 sStartScreenDesignCreditTime;
+    static s32 sStartMusicCreditTime;
+    static s32 sStartVoiceCreditTime;
+    static s32 sStartProgressCreditTime;
+    static s32 sStartDebugSupportCreditTime;
+    static s32 sStartSpecialCreditTime;
+    static s32 sStartLocalizationCreditTime;
+    static s32 sStartLastCreditTime;
+    static JUTColor sBlurTitleColor;
+    static JUTColor sBlurExProducerColor;
+    static JUTColor sBlurProducerColor;
+    static JUTColor sBlurChiefDirectorColor;
+    static JUTColor sBlurDirectorColor;
+    static JUTColor sBlurProgramDirectorColor;
+    static JUTColor sBlurProgramColor;
+    static JUTColor sBlurDesignManagerColor;
+    static JUTColor sBlurCourseDesignColor;
+    static JUTColor sBlurGraphicDesignColor;
+    static JUTColor sBlurScreenDesignColor;
+    static JUTColor sBlurMusicColor;
+    static JUTColor sBlurVoiceColor;
+    static JUTColor sBlurProgressColor;
+    static JUTColor sBlurDebugSupportColor;
+    static JUTColor sBlurSpecialColor;
+    static JUTColor sBlurLocalizationColor;
+    static JUTColor sBlurLastColor;
 private:
-    s16 _20;
-    s16 _22;
-    s16 _24;
-    JUtility::TColor mBlurColor;
+    u16 _20;
+    u16 mJumpFlag;
+    u16 _24;
+    JUTColor mBlurColor;
     int _2c;
     s16 _30;
 }; // Size 0x34
 
-// void CrsData::Camera::getTime() const // CrsData.h; // 0x801cee84
-// void RaceMgr::getRaceGpCup() const // RaceMgr.h; // 0x801cf1fc
-// void RaceInfo::getGpCup() const // RaceInfo.h; // 0x801cf220
-// void RivalSpeedCtrl::set_speeddown() // RivalSpeedCtrl.h; // 0x801cf228
-// void RivalKart::getSpeedCtrl() // RivalKart.h; // 0x801cf22c
-// void Award2D::isFinish() // Award2D.h; // 0x801cf520
-// void Award2D::start() // Award2D.h; // 0x801cf534
-// void RivalSpeedCtrl::stop_immediately() // RivalSpeedCtrl.h; // 0x801cf6b8
-// void isEnableJump() const // StaffRollTimeKeeper.h; // 0x801cfaec
-// void isJumpedEnd() const // StaffRollTimeKeeper.h; // 0x801cfafc
-// void RaceMgr::setBlurColor(const JUtility::TColor &) // RaceMgr.h; // 0x801cfb0c
-// void RaceDrawer::setBlurColor(const JUtility::TColor &) // RaceDrawer.h; // 0x801cfb30
-// void BlurScreen::flush() // BlurScreen.h; // 0x801cfb60
-// void RaceMgr::getBlurScreen() // RaceMgr.h; // 0x801cfb6c
-// void RaceDrawer::getBlurScreen() // RaceDrawer.h; // 0x801cfb90
-// void ExitBoxInfo::getBox() // ExitBoxInfo.h; // 0x801cfde8
-// void ExitBoxInfo::getDir() // ExitBoxInfo.h; // 0x801cfdec
-// void RaceMgr::getMaskScreen() // RaceMgr.h; // 0x801cfdf4
-// void KartChecker::setDemoPoint(JugemPoint *) // KartChecker.h; // 0x801cfee0
-// void RaceMgr::setBlurDecrease(unsigned char) // RaceMgr.h; // 0x801cff30
-// void RaceDrawer::setBlurDecrease(unsigned char) // RaceDrawer.h; // 0x801cff54
-// void JUTFader::getStatus() const // JUTFader.h; // 0x801cffc0
-// void RivalSpeedCtrl::setMaxSpd(const float &) // RivalSpeedCtrl.h; // 0x801d0098
-// void TJugem::setEndingState() // TJugem.h; // 0x801d00a4
-// void isFirstFrame() const // StaffRollTimeKeeper.h; // 0x801d00cc
-// void GeoCar::getCarSupervisor() // GeoCar.h; // 0x801d09cc
-// void JPEffectMgr::getEm2DMgr() // JPEffectMgr.h; // 0x801d0cec
 #endif // DEMOTIMEKEEPER_H

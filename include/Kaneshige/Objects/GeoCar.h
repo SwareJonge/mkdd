@@ -4,6 +4,8 @@
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
 
+class GeoCarSupervisor;
+
 class GeoCar : public GeographyObj, StateObserver
 {
 public:
@@ -50,21 +52,21 @@ public:
     void recvStateReqSlowdown();  // 0x801bc490
 
     // void sTable;                                                                                                                  // 0x80396058
-    static f32 sHornDistance;         // 0x80414658
-    static f32 sHornDot;              // 0x8041465c
-    static f32 sAccValue;             // 0x80414660
-    static f32 sGravity;              // 0x80414664
-    static f32 sDamageGravity;        // 0x80414668
-    static f32 sAirResistance;        // 0x8041466c
-    static f32 sHandlePower;          // 0x80414670
-    static f32 sTargetRadius;         // 0x80414674
-    static f32 sTargetAmp;            // 0x80414678
-    static f32 sSafeDistance;         // 0x8041467c
-    static f32 sDamageVel0;           // 0x80414680
-    static f32 sDamageShakeAmp;       // 0x80414684
-    static s16 sDamageShakeVel;       // 0x80414688
-    static u16 sSupervisorCreateNum;  // 0x804163f0
-    static GeographyObj *sSupervisor; // 0x804163f4
+    static f32 sHornDistance;             // 0x80414658
+    static f32 sHornDot;                  // 0x8041465c
+    static f32 sAccValue;                 // 0x80414660
+    static f32 sGravity;                  // 0x80414664
+    static f32 sDamageGravity;            // 0x80414668
+    static f32 sAirResistance;            // 0x8041466c
+    static f32 sHandlePower;              // 0x80414670
+    static f32 sTargetRadius;             // 0x80414674
+    static f32 sTargetAmp;                // 0x80414678
+    static f32 sSafeDistance;             // 0x8041467c
+    static f32 sDamageVel0;               // 0x80414680
+    static f32 sDamageShakeAmp;           // 0x80414684
+    static s16 sDamageShakeVel;           // 0x80414688
+    static u16 sSupervisorCreateNum;      // 0x804163f0
+    static GeoCarSupervisor *sSupervisor; // 0x804163f4
     // Inline/Unused
     // void drawPrimForDebug(u32);
     // void getPointLinkSignal();
@@ -100,6 +102,9 @@ public:
     virtual void hitItemYoshiEgg() {}                   // 0x801bbd14
     virtual void initCallBackDeath() {}                 // 0x801bce84
     virtual void doCallBackDeath() {}                   // 0x801bceb4
+
+    static GeoCarSupervisor *getCarSupervisor() { return sSupervisor; }
+
 private:
     // TODO
 };

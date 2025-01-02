@@ -2,8 +2,10 @@
 #define RACEDRAWER_H
 
 #include "JSystem/JUtility/TColor.h"
+#include "Kaneshige/Blurscreen.h"
 #include "Kaneshige/DrawBuffer.h"
 #include "Kaneshige/KartDrawer.h"
+#include "Kaneshige/MaskScreen.h"
 #include "types.h"
 
 class RaceDrawer
@@ -38,8 +40,11 @@ public:
     void isDrawGhostScene() const; // 0x801c9ef8
     void isDrawCup() const;        // 0x801ca268
     void isBlurActive() const;     // 0x801ca31c
-    void getMaskScreen();          // 0x801ca490
+    MaskScreen *getMaskScreen();   // 0x801ca490
     void isMaskActive() const;     // 0x801ca4a0
+
+    void setBlurDecrease(u8 a) { mBlurDecrease = a; }
+    void setBlurColor(const JUTColor &color) { mBlurColor.set(color);  }
 
     DrawBuffer *getItemDrawBuffer(int kartNo) {
 #line 163
@@ -53,6 +58,10 @@ public:
         return &mKartDrawer[kartNo];
     }
 
+
+    BlurScreen *getBlurScreen() { 
+        return mBlurScreen;
+    }
     // TODO: own class types
     DrawBuffer *getEffectDrawBuffer() {
         return mEfctDrawBuf;
@@ -80,7 +89,11 @@ private:
     DrawBuffer *mFeelDrawBuf;
     int mKartNum;
     KartDrawer *mKartDrawer; // double array?
-    u8 _48[0x64 - 0x48];
+    BlurScreen *mBlurScreen;
+    u8 _4c[0x5c - 0x4c];
+    u8 mBlurDecrease;
+    u8 _5d[0x60 - 0x5d];
+    JUTColor mBlurColor;
     // Size: 0x64
 }; // class RaceDrawer
 // void KartDrawer::lodOff() // KartDrawer.h; // 0x801c92f8

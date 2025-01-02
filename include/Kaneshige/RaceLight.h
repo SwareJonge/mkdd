@@ -66,7 +66,6 @@ protected:
     Mtx mEffectMtx;
     LtObjAmbient mAmbient;
     bool _110;
-    u8 _111[0x114 - 0x111]; // padding
     JUtility::TColor mLightColor;
     JUtility::TColor mAmbientColor;
     JGeometry::TVec3f mLightOffsetPos;

@@ -61,6 +61,8 @@ public:
             JUTReport(x, (y + 16) + (i * 16), "[%d]:%08X", i, mPassedSectors[i]);
     }
 
+    void setDemoPoint(JugemPoint *point) { mDemoPoint = point; }
+
     const RaceTime &getLapSplit(int lap)
     {
 #line 199
@@ -252,7 +254,7 @@ public:
     s8 mBombPointTable[10];
     s16 mBombPoint;
     s16 mRabbitWinFrame;
-    int mDemoPoint;
+    JugemPoint *mDemoPoint;
     // these only get set in the constructor?
     JGeometry::TVec3f _0xb0;
     int _0xbc;

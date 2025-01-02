@@ -89,7 +89,9 @@ public:
     KartBody *mBody;
     Mtx mPosMtx;
     u16 _38;
-    u8 _3a[0x70 - 0x3a];
+    u8 _3a[0x44 - 0x3a];
+    int mStartId;
+    u8 _48[0x70 - 0x48];
     f32 mCamKartDiffLength;
     JGeometry::TVec3f _74;
     JGeometry::TVec3f _80;

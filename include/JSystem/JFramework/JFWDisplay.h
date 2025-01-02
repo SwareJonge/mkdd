@@ -102,16 +102,16 @@ public:
         _38 = val;
     }
 
-    int startFadeOut(int param_0) {
+    int startFadeOut(int duration) {
         if (mFader != nullptr) {
-            return mFader->startFadeOut(param_0);
+            return mFader->startFadeOut(duration);
         }
         return 1;
     }
 
-    int startFadeIn(int param_0) {
+    int startFadeIn(int duration) {
         if (mFader != nullptr) {
-            return mFader->startFadeIn(param_0);
+            return mFader->startFadeIn(duration);
         }
         return 1;
     }

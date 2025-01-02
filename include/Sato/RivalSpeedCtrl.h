@@ -50,7 +50,7 @@ public:
 
     f32 getMaxSpeed() const { return mMaxSpeed; }
     f32 getOffsetMaxSpeed() const { return mOffsetMaxSpeed; }
-    void setMaxSpeed(const float &max) { mMaxSpeed = max; }
+    void setMaxSpd(const float &max) { mMaxSpeed = max; }
 
     u8 _20[0x34 - 0x20];
     f32 mMaxSpeed; // 34

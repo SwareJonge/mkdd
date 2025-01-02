@@ -39,7 +39,7 @@ public:
     // void DoSearchTarget();
 
     RivalBodyCtrl *getBodyCtrl() { return mBodyCtrl; }
-
+    RivalSpeedCtrl *getSpeedCtrl() { return mSpeedCtrl; }
 
     KartBody *mBody;            // 20
     KartSus *mSus[4];           // 24
@@ -48,7 +48,6 @@ public:
     RivalBodyCtrl *mBodyCtrl;   // 3c
     RivalItemCtrl *mItemCtrl;   // 40
     RivalSpeedCtrl *mSpeedCtrl; // 44
-
 }; // 0x48
 
 #endif // RIVALKART_H
