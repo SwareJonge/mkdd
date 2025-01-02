@@ -45,13 +45,13 @@ public:
     static u64 mTag_exitbox[200]; // 0x8037c590
     static int maConvertChartSceneNo2DataID[14]; // 0x8037cbd0, unsure
     static u64 mTag_textboxTrue[2]; // 0x8037cc00
-    const char *mBloName[25]; // 0x8039bcc8
-    const char *mBckName[25]; // 0x8039bd2c
-    const char *mBrkName[25]; // 0x8039bd90
-    const char *mName_jpa[375]; // 0x8039bdf4
-    const char *mBloNameTrue[2]; // 0x80414840
-    const char *mBckNameTrue[2]; // 0x80414848
-    const char *mBpkNameTrue[2]; // 0x80414850
+    static const char *mBloName[25]; // 0x8039bcc8
+    static const char *mBckName[25]; // 0x8039bd2c
+    static const char *mBrkName[25]; // 0x8039bd90
+    static const char *mName_jpa[375]; // 0x8039bdf4
+    static const char *mBloNameTrue[2]; // 0x80414840
+    static const char *mBckNameTrue[2]; // 0x80414848
+    static const char *mBpkNameTrue[2]; // 0x80414850
     // Inline/Unused    
     //void Constructer_JPA(JKRHeap *);
     ~StaffRoll2D();

@@ -22,7 +22,7 @@ public:
     virtual void InitExec();                     // 0x801ccc54
     virtual void MoveExec();                     // 0x801ccd68
 
-    static StateObserver::StateFuncSet<GeoAirJet> sTable[1]; // 0x803978d8
+    static StateFuncSet<GeoAirJet> sTable[1]; // 0x803978d8
 
     // Why is this swapped? rpy, ypr thing?
     JGeometry::TVec3f mDirZ;

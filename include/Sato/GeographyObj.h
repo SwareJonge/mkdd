@@ -99,9 +99,18 @@ public:
     void setLODBias();
     void getColRadius();
 
+    template<class T>
+    static T *New(CrsData::SObject &object) { return new T(object); }
+    template<class T>
+    static T *NewS(CrsData::SObject &object) { return new T(object); }
+    template<class T>
+    static T *ExNew(CrsData::SObject &object) { return new T(object); }
+
     void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; }
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
+    void clrAllCheckKartHitFlag() { mKartHitFlags = 0; }
     void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
+    void setObjFlagMainResource() { mObjFlag |= 2; }
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
     bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
 
@@ -110,7 +119,10 @@ public:
 
     // Vtable
     virtual ~GeographyObj() {}                                                                      // 8, TODO?
-    virtual void loadmodel(J3DModelData *modelData);                                                // C, TODO
+    virtual void loadmodel(J3DModelData *modelData) {                                               // C
+        mModel.setModelData(modelData);
+        createColModel(modelData);
+    }                                                
     virtual void loadAnimation() {}                                                                 // 10                                                     // 0x801b4c74
     virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }  // 14
     virtual void createModel(JKRSolidHeap *heap, u32 p2)  // 18
@@ -139,9 +151,13 @@ public:
     virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                                   // 64
     virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);                   // 68
     virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                               // 6C
-    virtual void makeSharedDL() {}                                                                  // 70, TODO
+    virtual void makeSharedDL() {                                                                   // 70
+        if (!tstObjFlagSimpleDraw()) {
+            mModel.makeSharedDL();
+        }
+    }                                                                  
     virtual void doKartColCallBack(int);                                                            // 74
-    virtual void initClassCreateNum();                                                              // 78
+    virtual void initClassCreateNum() { }                                                           // 78
     virtual void setModelMatrixAndScale();                                                          // 7C
 protected:
     JGeometry::TVec3f mPos;      // 04

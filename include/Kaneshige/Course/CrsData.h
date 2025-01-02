@@ -396,6 +396,7 @@ public:
     int getPathNumber() const { return mObjectData->pathNum; }
     int getStartPointNumber() const { return mObjectData->startPointNum; }
     
+    bool isDummyStartLineOn() const  { return mObjectData->dummyStartLineOn != 0; } 
     bool isSkyFollow() const { return mObjectData->skyMode != 0; }
     bool isShaking() const { return mObjectData->shaking != 0; }
 

@@ -11,22 +11,22 @@ void JASInstRand::effect(int, int, JASSoundParams *params) const
     val += mFloor;
 
     switch(mType) {
-        case 0:
+    case 0:
         params->mVolume *= val;
         break;
-        case 1:
+    case 1:
         params->mPitch *= val;
         break;
-        case 2:
+    case 2:
         params->mPan += val - 0.5;
         break;
-        case 3:
+    case 3:
         params->mFxMix += val;
         break;
-        case 4:
+    case 4:
         params->mDolby += val;
         break;
-        default:
+    default:
 #line 42
         JUT_ASSERT(0);
         break;

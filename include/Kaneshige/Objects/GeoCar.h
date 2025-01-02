@@ -4,7 +4,25 @@
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
 
-class GeoCarSupervisor;
+class GeoCar;
+
+class GeoCarSupervisor : public GeoObjSupervisor, JKRDisposer
+{
+public:
+    GeoCarSupervisor();
+    void entryCar(GeoCar *, bool);
+    int getCarNumber();
+    void hideAllCar();
+
+    // Vtable
+    virtual ~GeoCarSupervisor();
+    virtual void reset();
+    virtual void calc();
+
+private:
+    u32 _3c;
+    JSUList<GeoCar> mList; // 0x40
+};                         // Size: 0x4c
 
 class GeoCar : public GeographyObj, StateObserver
 {
@@ -51,24 +69,24 @@ public:
     void recvStateReqExplosion(); // 0x801bba08
     void recvStateReqSlowdown();  // 0x801bc490
 
-    // void sTable;                                                                                                                  // 0x80396058
-    static f32 sHornDistance;             // 0x80414658
-    static f32 sHornDot;                  // 0x8041465c
-    static f32 sAccValue;                 // 0x80414660
-    static f32 sGravity;                  // 0x80414664
-    static f32 sDamageGravity;            // 0x80414668
-    static f32 sAirResistance;            // 0x8041466c
-    static f32 sHandlePower;              // 0x80414670
-    static f32 sTargetRadius;             // 0x80414674
-    static f32 sTargetAmp;                // 0x80414678
-    static f32 sSafeDistance;             // 0x8041467c
-    static f32 sDamageVel0;               // 0x80414680
-    static f32 sDamageShakeAmp;           // 0x80414684
-    static s16 sDamageShakeVel;           // 0x80414688
-    static u16 sSupervisorCreateNum;      // 0x804163f0
-    static GeoCarSupervisor *sSupervisor; // 0x804163f4
+    static StateFuncSet<GeoCar> sTable[6]; // 0x80396058                                                                                                                  // 0x80396058
+    static f32 sHornDistance;              // 0x80414658
+    static f32 sHornDot;                   // 0x8041465c
+    static f32 sAccValue;                  // 0x80414660
+    static f32 sGravity;                   // 0x80414664
+    static f32 sDamageGravity;             // 0x80414668
+    static f32 sAirResistance;             // 0x8041466c
+    static f32 sHandlePower;               // 0x80414670
+    static f32 sTargetRadius;              // 0x80414674
+    static f32 sTargetAmp;                 // 0x80414678
+    static f32 sSafeDistance;              // 0x8041467c
+    static f32 sDamageVel0;                // 0x80414680
+    static f32 sDamageShakeAmp;            // 0x80414684
+    static s16 sDamageShakeVel;            // 0x80414688
+    static u16 sSupervisorCreateNum;       // 0x804163f0
+    static GeoCarSupervisor *sSupervisor;  // 0x804163f4
     // Inline/Unused
-    // void drawPrimForDebug(u32);
+    void drawPrimForDebug(u32);
     // void getPointLinkSignal();
     // void sHandleMinDot;
     // void sDebugTarget;
@@ -79,7 +97,7 @@ public:
     virtual void reset();                               // 0x801bb19c, overide
     virtual void calc();                                // 0x801bb810, overide
     virtual u32 getSoundID() const;                     // 0x801bbb98, overide
-    virtual char *getBmdFileName() = 0;                 // 0x0, overide
+    virtual const char *getBmdFileName() = 0;           // 0x0, overide
     virtual void createColModel(J3DModelData *) = 0;    // 0x0, overide
     virtual GeoObjSupervisor *getSupervisor();          // 0x801bcf90, overide
     virtual void initClassCreateNum();                  // 0x801bcf98, overide
@@ -109,23 +127,6 @@ private:
     // TODO
 };
 
-class GeoCarSupervisor : public GeoObjSupervisor, JKRDisposer
-{
-public:
-    GeoCarSupervisor();
-    void entryCar(GeoCar *, bool);
-    int getCarNumber();
-    void hideAllCar();
-
-    // Vtable
-    virtual ~GeoCarSupervisor();
-    virtual void reset();
-    virtual void calc();
-
-private:
-    u32 _3c;
-    JSUList<GeoCar> mList; // 0x40
-};                         // Size: 0x4c
 
 // Outside class members
 

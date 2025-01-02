@@ -4,6 +4,22 @@
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
 
+class GeoSignal;
+
+class GeoSignalSupervisor : public GeoObjSupervisor, JKRDisposer
+{
+public:
+    GeoSignalSupervisor();
+
+    void entrySignal(GeoSignal *);
+
+    virtual void reset();
+    virtual void calc();
+    virtual ~GeoSignalSupervisor() {} // 0x801be2a8, overide
+private:
+    // TODO
+}; // class GeoSignalSupervisor
+
 class GeoSignal : public GeographyObj, StateObserver
 {
 public:
@@ -50,7 +66,7 @@ public:
         /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/
     }
     virtual ~GeoSignal() {}                                         // 0x801be918, overide
-    virtual char *getBmdFileName() { "/Objects/Signal1.bmd"; }      // 0x801be9a0, overide
+    virtual const char *getBmdFileName() { return "/Objects/Signal1.bmd"; }      // 0x801be9a0, overide
     virtual void initClassCreateNum() { sSupervisorCreateNum = 0; } // 0x801be9ac, overide
 private:
     static u32 sSupervisorCreateNum;      // 0x80416408
@@ -58,20 +74,6 @@ private:
     static J3DAnmTevRegKey *sTevRegKey;   // 0x80416410
     // TODO
 }; // class GeoSignal
-
-class GeoSignalSupervisor : public GeoObjSupervisor, JKRDisposer
-{
-public:
-    GeoSignalSupervisor();
-
-    void entrySignal(GeoSignal *);
-
-    virtual void reset();
-    virtual void calc();
-    virtual ~GeoSignalSupervisor() {} // 0x801be2a8, overide
-private:
-    // TODO
-}; // class GeoSignalSupervisor
 
 // Outside class members
 

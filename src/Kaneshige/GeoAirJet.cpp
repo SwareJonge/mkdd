@@ -1,7 +1,7 @@
-#include "Kaneshige/GeoAirJet.h"
+#include "Kaneshige/Objects/GeoAirJet.h"
 #include "Sato/JPEffectMgr.h"
 
-StateObserver::StateFuncSet<GeoAirJet> GeoAirJet::sTable[1] = {0, GeoAirJet::initFuncWait, GeoAirJet::doFuncWait};
+StateObserver::StateFuncSet<GeoAirJet> GeoAirJet::sTable[1] = {0, &GeoAirJet::initFuncWait, &GeoAirJet::doFuncWait};
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
 
@@ -44,4 +44,3 @@ void GeoAirJet::MoveExec() { Observer_FindAndExec(GeoAirJet, 1); }
 void GeoAirJet::initFuncWait() {}
 
 void GeoAirJet::doFuncWait() {}
-

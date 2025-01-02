@@ -5,7 +5,7 @@
 #include "Kaneshige/Course/Course.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/Course/CrsArea.h"
-#include "Kaneshige/GeoRabbitMark.h"
+#include "Kaneshige/Objects/GeoRabbitMark.h"
 #include "Kaneshige/KartInfo.h"
 #include "Kaneshige/RaceInfo.h"
 #include "Kaneshige/RaceMgr.h"
@@ -34,7 +34,6 @@ KartChkUsrPage::KartChkUsrPage(KartChecker *kartChecker)
     mKartChecker = kartChecker;
 }
 
-// https://decomp.me/scratch/9s4i7
 void KartChkUsrPage::draw()
 {
     CrsGround ground;
@@ -95,7 +94,6 @@ short KartChecker::sBombPointFullS = 3;     // 3
 short KartChecker::sBombPointFullL = 4;     // 4
 short KartChecker::sBombPointCrushOneself = 0;
 
-// https://decomp.me/scratch/DJxMp
 KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lapNum)
 {
     mRaceFlags = 0;
@@ -144,7 +142,6 @@ KartChecker::KartChecker(int kartNum, KartInfo *kartInfo, int sectorNum, int lap
     }
 }
 
-// https://decomp.me/scratch/yvJRl
 void KartChecker::reset()
 {
     mLapRenewal = false;
@@ -186,10 +183,9 @@ void KartChecker::reset()
     else
         mRabbitWinFrame = 0;
 
-    mDemoPoint = 0;
+    mDemoPoint = nullptr;
 }
 
-// https://decomp.me/scratch/zVUdm
 void KartChecker::clrCheckPointIndex()
 {
     mLap = -1;
@@ -216,7 +212,6 @@ void KartChecker::clrCheckPointIndex()
     mRaceProgression = 0.0f;
 }
 
-// https://decomp.me/scratch/8JI09
 void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
 {
     if (RaceMgr::getManager()->isLANMode())
@@ -249,7 +244,6 @@ void KartChecker::setPlayerKartColor(KartInfo *kartInfo)
     }
 }
 
-// https://decomp.me/scratch/gfNGd doesn't match on decomp.me because i'm too lazy to add classes
 void KartChecker::createGamePad(KartInfo *kartInfo)
 {
     for (int i = 0; i < 2; i++)
@@ -263,7 +257,6 @@ void KartChecker::createGamePad(KartInfo *kartInfo)
     }
 }
 
-// https://decomp.me/scratch/ijLhU
 Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3<f32> const &pos, Course::Sector *curSector, int sectorCnt)
 {
     Course::Sector *ret = nullptr;
@@ -371,7 +364,6 @@ Course::Sector *KartChecker::searchCurrentSector(f32 *unitDist, JGeometry::TVec3
     return ret;
 }
 
-// https://decomp.me/scratch/BQ18K
 void KartChecker::checkKart()
 {
     mPrevPos.set(mPos);
@@ -392,7 +384,6 @@ void KartChecker::checkKart()
         calcRabbitTime();
 }
 
-// https://decomp.me/scratch/lCRXb
 void KartChecker::checkKartLap()
 {
     Course::Sector *nextSector = nullptr;
@@ -486,7 +477,6 @@ bool KartChecker::isUDValid()
     return validUD(mLapProgression);
 }
 
-// https://decomp.me/scratch/7mQAF
 RaceTime *KartChecker::getBestLapTime()
 {
     RaceTime *bestLapTime = nullptr;
@@ -499,7 +489,6 @@ RaceTime *KartChecker::getBestLapTime()
     return bestLapTime;
 }
 
-// https://decomp.me/scratch/0lnEb also includes a lot of inlines
 void KartChecker::checkLap(bool raceEnd)
 {
     if (tstLapChecking())
@@ -611,7 +600,6 @@ void KartChecker::checkLap(bool raceEnd)
     }
 }
 
-// https://decomp.me/scratch/JVpLz
 void KartChecker::setLapTime()
 {
     if (mLap < mMaxLap)
@@ -669,7 +657,6 @@ void KartChecker::setLapTime()
     }
 }
 
-// https://decomp.me/scratch/m3ZyI
 void KartChecker::setForceGoal()
 {
     f32 distToGoal = 0.0f;
@@ -711,7 +698,6 @@ void KartChecker::setForceGoal()
     setGoalTime();
 }
 
-// https://decomp.me/scratch/DJhtT also includes isPass()
 bool KartChecker::setPass(int sectorIdx)
 {
     bool pass = false;
@@ -741,7 +727,6 @@ bool KartChecker::setPass(int sectorIdx)
     return pass;
 }
 
-// https://decomp.me/scratch/Wp30Q
 bool KartChecker::isPassAll(int SectorCnt)
 {
     bool allPassed = true;
@@ -758,7 +743,6 @@ bool KartChecker::isPassAll(int SectorCnt)
     return allPassed;
 }
 
-// https://decomp.me/scratch/mCXI2
 void KartChecker::incTime()
 {
     if (mIsInRace)
@@ -771,7 +755,6 @@ void KartChecker::incTime()
     }
 }
 
-// https://decomp.me/scratch/74FW0
 bool KartChecker::isReverse()
 {
     bool reverse = false;
@@ -800,7 +783,6 @@ bool KartChecker::isFinalLapRenewal() const
     return renewal;
 }
 
-// https://decomp.me/scratch/JeodW
 bool KartChecker::isCurrentLapTimeRenewal()
 {
     bool currentLapRenewal = false;
@@ -813,7 +795,6 @@ bool KartChecker::isCurrentLapTimeRenewal()
     return currentLapRenewal;
 }
 
-// https://decomp.me/scratch/kIxFJ
 bool KartChecker::isBestLapTimeRenewal(void)
 {
     bool renewal = false;
@@ -850,7 +831,6 @@ bool KartChecker::incBalloon()
 }
 
 // Dumb code incoming
-// https://decomp.me/scratch/5J3WZ
 bool KartChecker::decBalloon()
 {
     bool decreased = false;
@@ -875,7 +855,6 @@ bool KartChecker::decBalloon()
     return decreased;
 }
 
-// https://decomp.me/scratch/bDxAr
 bool KartChecker::incMyBombPoint(int pnt, int increment)
 {
     bool increased = false;
@@ -915,13 +894,11 @@ bool KartChecker::incMyBombPoint(int pnt, int increment)
     return increased;
 }
 
-// https://decomp.me/scratch/fBBv9
 bool KartChecker::incYourBombPoint(int idx, int pnt, int increment)
 {
     return RaceMgr::getManager()->getKartChecker(idx)->incMyBombPoint(pnt, increment);
 }
 
-// https://decomp.me/scratch/Pl4Wz
 void KartChecker::setBombEvent(KartChecker::EBombEvent bombEvent, ItemObj *itemObj)
 {
     if (tstBombCtrl() && !isBombPointFull())
@@ -959,7 +936,6 @@ void KartChecker::setBombEvent(KartChecker::EBombEvent bombEvent, ItemObj *itemO
     }
 }
 
-// https://decomp.me/scratch/uXEO9
 int KartChecker::getRobberyItemNumber(void)
 {
     int num = 0;
@@ -968,7 +944,6 @@ int KartChecker::getRobberyItemNumber(void)
     return num;
 }
 
-// https://decomp.me/scratch/0guno
 bool KartChecker::releaseRabbitMark()
 {
     bool released = false;
@@ -987,7 +962,6 @@ bool KartChecker::releaseRabbitMark()
     return released;
 }
 
-// https://decomp.me/scratch/9G0Hj
 bool KartChecker::isRabbit() const
 {
     bool rabbit = false;
@@ -1057,7 +1031,6 @@ void LapChecker::start(Course::Sector *sector)
     mSector = sector;
 }
 
-// https://decomp.me/scratch/VlU2K
 void LapChecker::calc(const JGeometry::TVec3<f32> &pos)
 {
     if (mSector != nullptr)
