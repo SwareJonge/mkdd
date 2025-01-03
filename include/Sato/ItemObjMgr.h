@@ -270,7 +270,7 @@ public:
     void setItemUseTrigger(int, u8);                                               // 0x80241018
     int tstItemUseTrigger(int, u8) const;                                          // 0x80241100
     void setThunderDisableUseCounter();                                            // 0x802411e4
-    static u8 getNowTandemDriverNum(int);                                          // 0x8024123c
+    static u8 getNowTandemDriverNum(int);                                          // 0x8024123c, does this return u8 or int?
     static bool IsSpecialCharacter(long);                                          // 0x80241294
     bool IsRollingSlot(int);                                                       // 0x802412b8
     bool IsRollingSlot(int, u8);                                                   // 0x8024131c
@@ -318,8 +318,8 @@ public:
     void IsAbleToCreateItem(int);
     void getNowStockingKindNum(int, u32);
     void cancelRollingSlot(int);
-    bool IsAvailableRollingSlotDriver(int, u8);
-    void getMaxHoldMiniBombNum();
+    bool IsAvailableRollingSlotDriver(int, const u8);
+    static int getMaxHoldMiniBombNum();
     void getNowEnableSlotDriver(u8 *, int);
     void getConvertSucItemKind(u32);
     void getMaxItemMoveNum();
@@ -347,6 +347,13 @@ public:
         obj->setStateDivested(true);
         delete_stockItemToKart(kart_index2, driver_index2);
         this->mEquipItem[kart_index2][driver_index2] = nullptr;
+    }
+
+    static u8 swapDriver(u8 driver_index) { // fabricated
+        if (driver_index == 0)
+            return 1;
+        return 0;
+
     }
 
     // private:

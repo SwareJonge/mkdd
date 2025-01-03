@@ -16,6 +16,7 @@ class ObjColBase;
 class ItemMultiBase;
 class ItemJuggle;
 class ItemBuild;
+class ItemObjSuc;
 
 class ItemObj
 {
@@ -228,9 +229,13 @@ public:
         return mItemKind;
     }
 
-    bool isCertainState() const {
-        int state = getState();
-        return ((state != 10 && state != 8 && state != 7));
+    bool isCertainState() const { // brainrot
+        bool ret = false;
+        int state = mState;
+        if ((state != 10 && state != 8 && state != 7)) {
+            ret = true;
+        }
+        return ret;
     }
 
     bool tst_80() const { return _12c & 0x80; }
@@ -262,7 +267,9 @@ public:
     void doOccur() { doFall(); }                                                // 0x8024af68, ptmf shit
 
     const JGeometry::TVec3f getColPos() const { return mColPos; }
+    ItemObjSuc *getSuccessionParent() const { return mSuccessionParent; }
 
+    void setSuccessionParent(ItemObjSuc *parent) { mSuccessionParent = parent;}
     // private:
 
     typedef void (ItemObj::*StateFunc)();
@@ -306,10 +313,11 @@ public:
     u32 mSucKind;                         // 1a0
     JSUList<ItemObj> _1a4;                // 1a4
     JSULink<ItemObj> mSuccessionItemLink; // 1b0
-    ItemObj *_1c0;                        // 1c0, probably ItemObjSuc
+    ItemObjSuc *mSuccessionParent;        // 1c0
     int mOrigOwnerNum;                    // 1c4
     u8 mOrigDriverNum;                    // 1c8
-    u8 _1c9[0x1f0 - 0x1c9];               //
+    u8 _1c9[0x1ec - 0x1c9];               //
+    int _1ec;
     ItemJuggle *mJuggle;                  // 1f0
     ItemBuild *mBuild;                    // 1f4
     ItemMultiBase *mMulti;                // 1f8

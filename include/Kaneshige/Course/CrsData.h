@@ -194,7 +194,7 @@ public:
         s16 _32;                     //
         s16 _34;                     //
         s16 _36;                     //
-        s16 _38;                     //
+        s16 mParam5;                 // 38, official name from assert(so ig everything in here should have the m naming scheme... not now)
         s16 _3a;                     //
         s16 _3c;                     //
         s16 robberyKarts;            // 3e, amount of robbery karts

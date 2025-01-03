@@ -476,7 +476,7 @@ ItemObj *ItemObjMgr::equipItemSuccession(u32 kind, int kart_index, u8 driver_ind
             {
                 it->_1a4.append(&equipObj->mSuccessionItemLink);
                 equipObj->setMultiType(multiType);
-                equipObj->_1c0 = sucObj;
+                equipObj->setSuccessionParent(sucObj);
                 equipObj->setOwnerNum(kart_index);
                 equipObj->setDriverNum((u8)driver_index);
                 equipObj->setStateEquip(true, false);
@@ -736,14 +736,36 @@ void ItemObjMgr::deleteItemKeepMax(ItemObj *obj)
 void ItemObjMgr::deleteMaxOverItem(const JSUList<ItemObj> &itemList) {
     for (JSUListIterator<ItemObj> it(itemList.getFirst()); it.isAvailable(); ++it) {
         ItemObj *obj = it.getObject();
-        if(obj && obj->isCertainState()) {
+
+        if(obj && obj->isCertainState()) {            
             obj->setStateForceDisappear();
-            break;
+            return;
         }
     }
 }
 
-ItemObj *ItemObjMgr::getDeleteObjByPriorityList(JSUList<ItemObj> *obj) {}
+ItemObj *ItemObjMgr::getDeleteObjByPriorityList(JSUList<ItemObj> *pList) {
+    for (int i = 0; i < 4; i ++) {
+        for (JSUListIterator<ItemObj> it(_700[i].getFirst()); it.isAvailable(); it = _700[i].getFirst()) {
+            _700[i].remove(&it->_180);
+        }
+    }
+
+    for (JSUListIterator<ItemObj> it(pList->getFirst()); it.isAvailable(); ++it) {
+        _700[it->_1ec].append(&it->_180);
+    }
+
+    for (int i = 0; i < 3; i ++) {
+        for (JSUListIterator<ItemObj> it(_700[i].getFirst()); it.isAvailable(); ++it) {
+            ItemObj *obj = it.getObject();
+
+            if(obj && obj->isCertainState()) {            
+                return obj;
+            }
+        }
+    }
+    return nullptr;
+}
 
 void ItemObjMgr::releaseItemByKartEquipItemList(ItemObj *obj)
 {
@@ -1208,18 +1230,46 @@ bool ItemObjMgr::IsRollingSlot(int kart_index, u8 driver_index)
 
 bool ItemObjMgr::IsAvailableRollingSlotDriver(int kart_index, u8 driver_index)
 {
+    // Size mismatch (target: 0x74, current: 0x70)
+    bool ret = false;
+    if (mShuffMgr[kart_index][driver_index]->isNotRolling()) {
+        if (GetGeoObjMgr()->isBombBattle() && getRobberyItemNum(kart_index, (u8)driver_index) < getMaxHoldMiniBombNum()) {
+            ret = true;
+        }
+        else if(getKartEquipItem(kart_index, driver_index) == nullptr) {
+            ret = true;
+        }
+    }
+    return ret;
 }
 
+int ItemObjMgr::getMaxHoldMiniBombNum() { return sMaxHoldMiniBombNum; }
+
 void ItemObjMgr::getNowEnableSlotDriver(u8 *pDriverIndex, int kart_index) {
-    if(GetKartCtrl()->CheckChange(kart_index) && mEquipItem[kart_index][*pDriverIndex]) {
-        *pDriverIndex = bool(!*pDriverIndex); 
+    if(GetKartCtrl()->CheckChange(kart_index) && getKartEquipItem(kart_index, *pDriverIndex)) {
+        *pDriverIndex = swapDriver(*pDriverIndex);
     }
 }
 
-bool ItemObjMgr::IsAvailableRollingSlot(int, u32) {}
+bool ItemObjMgr::IsAvailableRollingSlot(int kart_index, u32 kind) {
+    bool ret = false;
+    if (kind == 0xc) {
+        for (u8 i = 0; i < 2; i++) {
+            ret = IsAvailableRollingSlotDriver(kart_index, (u8)i);
+            if(ret) {
+                break;
+            }
+        }
+    }
+    else {
+        u8 driver_index = getNowTandemDriverNum(kart_index);
+        getNowEnableSlotDriver(&driver_index, kart_index);
+        ret = IsAvailableRollingSlotDriver(kart_index, (u8)driver_index);
+    }
+    return ret;
+}
 
-void ItemObjMgr::startItemShuffleSingle(int kart_index, bool doShuffle)
-{
+void ItemObjMgr::startItemShuffleSingle(int kart_index, bool doShuffle) {
     u8 driver_index = getNowTandemDriverNum(kart_index);
     getNowEnableSlotDriver(&driver_index, kart_index);
 
@@ -1250,12 +1300,14 @@ void ItemObjMgr::startItemShuffleDouble(int kart_index)
 
 ItemObj::ItemHandOffsetData &ItemObjMgr::getHandOffsetData(ItemObj *obj)
 {
+#line 2782
     JUT_MINMAX_ASSERT(0, obj->getOwnerNum(), 8);
     JUT_MINMAX_ASSERT(0, obj->getDriverNum(), 2);
 
     ECharID charID = RCMGetManager()->getKartInfo(obj->getOwnerNum())->getDriverCharID(obj->getDriverNum());
     int shuffleNum = obj->getItemID();
 
+#line 2790
     JUT_MINMAX_ASSERT(cCharIDNone, charID, cCharIDMax);
     return (mpHandOffsetData + (shuffleNum * sizeof(ItemObj::ItemHandOffsetData)))[charID - 1];
 }
@@ -1587,6 +1639,7 @@ void ItemShuffleMgr::setToListLAN(ItemShuffleMgr::KartSlotData *data, const u8 &
     {
         if (rnum != pTblIndex[rnum])
         {
+#line 3643
             JUT_ASSERT(data->mList + rnum != 0);
             for (u8 slot = 0; slot < data->totalSlots; slot++)
             {
