@@ -2,6 +2,7 @@
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/J3D/J3DModelLoader.h"
 #include "JSystem/J3D/J3DTransform.h"
+#include "Kaneshige/Objects/GeoRabbitMark.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Sato/GeographyObjMgr.h"
@@ -617,6 +618,7 @@ bool ItemObjMgr::equipItemToKart(int kind, int kart_index, u8 driver_index, bool
             }
             return false;
         }
+        
         if (!obj->IsSuccessionItem())
         {
             obj->setOwnerNum(kart_index);
@@ -791,11 +793,17 @@ bool ItemObjMgr::tstKartEquipItemTrigger(int kart_index, u8 driver_index)
 int ItemObjMgr::getStockItem(int kart_index, u8 driver_index)
 {
     int ret = mStockItem[kart_index][driver_index].mKind;
-    if (mEquipItem[kart_index][driver_index] != nullptr)
+    ItemObj *equipItem = mEquipItem[kart_index][driver_index];
+    if (equipItem != nullptr)
     {
-        ret = mEquipItem[kart_index][driver_index]->getKind();
+        ret = equipItem->getKind();
     }
     return ret;
+}
+
+int ItemObjMgr::getStockItem(int kart_index)
+{
+    return getStockItem(kart_index, getNowTandemDriverNum(kart_index));
 }
 
 bool ItemObjMgr::tstColReactionKart(int kart_index, ItemObj *obj)
@@ -1028,7 +1036,6 @@ void ItemObjMgr::calcCharShadowModel() {}
 
 void ItemObjMgr::calc()
 {
-
     if (_820)
     {
         calcCharShadowModel();
@@ -1203,7 +1210,7 @@ u8 ItemObjMgr::getNowTandemDriverNum(int kart_index)
     return driverNum;
 }
 
-bool ItemObjMgr::IsSpecialCharacter(long charID) { return charID == 0x13 || charID == 0x14; }
+bool ItemObjMgr::IsSpecialCharacter(s32 charID) { return charID == 0x13 || charID == 0x14; }
 
 bool ItemObjMgr::IsRollingSlot(int kart_index)
 {
@@ -1230,10 +1237,10 @@ bool ItemObjMgr::IsRollingSlot(int kart_index, u8 driver_index)
 
 bool ItemObjMgr::IsAvailableRollingSlotDriver(int kart_index, u8 driver_index)
 {
-    // Size mismatch (target: 0x74, current: 0x70)
+    // Size mismatch (target: 0xc4, current: 0xc0)
     bool ret = false;
     if (mShuffMgr[kart_index][driver_index]->isNotRolling()) {
-        if (GetGeoObjMgr()->isBombBattle() && getRobberyItemNum(kart_index, (u8)driver_index) < getMaxHoldMiniBombNum()) {
+        if (GetGeoObjMgr()->isBombBattle() && getRobberyItemNum(kart_index, driver_index) < getMaxHoldMiniBombNum()) {
             ret = true;
         }
         else if(getKartEquipItem(kart_index, driver_index) == nullptr) {
@@ -1327,7 +1334,9 @@ void ItemObjMgr::removeMiniGameList(ItemObj *obj)
     mMiniGameList.remove(&obj->mMiniGameLink);
 }
 
-void ItemObjMgr::update(ItemObjMgr::eDrawSimplModelItemType, int) {}
+void ItemObjMgr::update(ItemObjMgr::eDrawSimplModelItemType type, int id) {
+
+}
 
 void ItemObjMgr::viewCalc(u32 viewNo) {
     J3DUClipper *clipper =  GetKartCtrl()->getKartCam(viewNo)->GetClipper();
@@ -1456,8 +1465,43 @@ namespace
         1, 2, 3, 4, 6, 7, 8};
 }
 
-u32 ItemShuffleMgr::getRndItemKindPossibilityGetting(stRandom *rnd, int, u8)
+u32 ItemShuffleMgr::getRndItemKindPossibilityGetting(stRandom *rnd, const int kart_index, const u8 driver_index)
 {
+    u8 numItems = 9;
+    u8 numSpecialItems = 1;
+    bool special = false;
+    if (GetGeoObjMgr()->isMiniGame()) {
+        if (GetGeoObjMgr()->isEscapeBattle()) {
+            numItems -= 1;
+        }
+        else {
+            numItems -= 2;
+        }
+        
+        numSpecialItems = 5;
+        special = true;
+    }
+    else {
+        s32 charID = RCMGetManager()->getKartInfo(kart_index)->getDriverCharID(driver_index);
+        if (charID == 0x14 || charID == 0x13) {
+            numSpecialItems = 9;
+            special = true;
+        }
+    }
+
+    u32 randomNum = rnd->getRandomMax(numItems + numSpecialItems - 1);
+    if (randomNum < numItems) {
+        return sRndSpecialSlotIndex[randomNum];
+    }
+
+    if (!special) {
+        return ItemObj::getSpecialKind(kart_index, driver_index);
+    }
+
+#line 3430
+    u32 tmpNum = randomNum - numItems;
+    JUT_MINMAX_ASSERT(0, tmpNum, numSpecialItems);
+    return sRndSpecialSlotIndex[tmpNum];
 }
 
 void ItemShuffleMgr::loadSlotData()
@@ -1656,11 +1700,70 @@ void ItemShuffleMgr::setAllDynamicRate()
         setDynamicRate(&mSlotListEnemy, true);
 }
 
-void ItemShuffleMgr::setDynamicRate(ItemShuffleMgr::KartSlotData *, bool isGrandPrix)
+void ItemShuffleMgr::setDynamicRate(ItemShuffleMgr::KartSlotData *slotData, bool isGrandPrix)
 {
+
 }
 
-int ItemShuffleMgr::SlotItem(int kart_index, u8 driver_index) {}
+int ItemShuffleMgr::SlotItem(const int kart_index, const u8 driver_index) {
+    bool hasEnemy = ObjUtility::isPlayerDriver(kart_index) ? false : true;
+
+    if (!RCMGetManager()->isRaceModeGp()) {
+        hasEnemy = false;
+    }
+
+    const KartSlotData *slotList = hasEnemy ? &mSlotListEnemy : &mSlotList;
+
+    int specialKind = ItemObj::getSpecialKind(kart_index, driver_index);
+    int rankIdx = RCMGetKartChecker(kart_index)->getRank() - 1;
+    switch(RCMGetManager()->getRaceMode()) {
+    case BALLOON_BATTLE: {
+        rankIdx = ItemObjMgr::sTopBalloonNum - RCMGetKartChecker(kart_index)->getBalloonNumber();;
+        if (rankIdx > 2)
+            rankIdx = 2;
+        break;
+    }
+    case ESCAPE_BATTLE: {
+        if (kart_index == GeoRabbitMark::getSupervisor()->getRabbitKartNo()) {
+            rankIdx = 0;
+        }
+        else {
+            rankIdx = RCMGetManager()->getKartNumber();
+            if (rankIdx >= 5) {
+                rankIdx = 4;
+            }
+            else {
+                rankIdx -= 1;
+            }
+        }
+        break;
+    }
+    case BOMB_BATTLE: {
+        return 8;
+    }
+    }
+
+    u8 swapped_idx = driver_index == 0 ? 1 : 0;
+    ItemObj *equipedItem = GetItemObjMgr()->getKartEquipItem(kart_index, swapped_idx);
+    int normalKind;
+    if (equipedItem != nullptr) {
+        normalKind = equipedItem->getKind();
+    }
+    else {
+        normalKind = GetItemObjMgr()->getStockItem(kart_index, swapped_idx);
+    }
+    const bool combi = RCMGetManager()->getKartInfo(kart_index)->isDefaultCharCombi();
+    if (_7) {
+        int slot = calcRndSpecialSlot(rankIdx, *slotList, combi);
+        if (slot >= 0)
+            return slot;
+    }
+    KartSlotRankDataSet rdata;
+    rdata.slotData = slotList;
+    rdata.kart_rank = rankIdx;
+    rdata.kart_index = kart_index;
+    return calcSlot(rdata, specialKind, normalKind, combi);
+}
 
 bool ItemShuffleMgr::doShuffle()
 {
@@ -1764,6 +1867,25 @@ void ItemShuffleMgr::calcSpecialItemNum(u32 *pTotal, ItemShuffleMgr::KartSlotRan
     JUT_ASSERT(data->specialItemIndex != -1)
 }
 
+void ItemShuffleMgr::calcRndSpecialRatio(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *data, bool charCombi) {
+    for (int i = 0; i < sSlotSpecialItemNum; i++) {
+        if ((sSlotKindIndexArray[i + sSlotNormalItemNum] == 0xe && ItemObjMgr::getItemObjMgr()->getHeartItem(data->kart_index))) {
+            sTempSlotUseItem[i + sSlotNormalItemNum] = false;
+        }
+        else {
+            sTempSlotUseItem[i + sSlotNormalItemNum] = true;
+            u32 chance = data->slotData->mList[data->kart_rank].slotTable[1][i + sSlotNormalItemNum + sSlotSpecialItemNum];
+
+            if (!GetGeoObjMgr()->isMiniGame() && charCombi) {
+                chance *= 1.5f;
+            }
+            *pTotal += chance;
+            
+            sTempSpecialRatio[i] = chance;
+        }
+    }
+}
+
 int ItemShuffleMgr::calcRank(KartSlotRankDataSet rdata)
 {
     int ret = -1;
@@ -1813,20 +1935,17 @@ int ItemShuffleMgr::calcSlot(KartSlotRankDataSet &rdata, int p2, int p3, bool ch
     return calcRank(rdata);
 }
 
-int ItemShuffleMgr::calcRndSpecialSlot(int kart_rank, const ItemShuffleMgr::KartSlotData &rdata, bool) {
+int ItemShuffleMgr::calcRndSpecialSlot(int kart_rank, const ItemShuffleMgr::KartSlotData &rdata, bool combi) {
 #line 4044
     JUT_MINMAX_ASSERT(0, kart_rank, rdata.kartCount);
-    // confusion
-    KartSlotRankDataSet set;
-    set.slotData = &rdata;
-    set.kart_rank = kart_rank;
 
-    for (int i = 0; i < sSlotSpecialItemNum; i++) {
-
-    }
-
-    
-    return calcRndSpecialRank(set);
+    u32 total = 0;
+    KartSlotRankDataSet data;
+    data.slotData = &rdata;
+    data.kart_rank = kart_rank;
+    calcRndSpecialRatio(&total, &data, combi);
+    data.total = total;
+    return calcRndSpecialRank(data);
 }
 
 void ItemRndSpecialShuffleMgr::calcRaceUseNormalItem(u32 *pTotal, ItemShuffleMgr::KartSlotRankDataSet *rdata, int maxId)
@@ -1854,32 +1973,17 @@ void ItemRndSpecialShuffleMgr::calcSpecialItemNum(u32 *pTotal, ItemShuffleMgr::K
         return;
     }
     
-    for (int i = 0; i < sSlotSpecialItemNum; i++) {
-        if ((sSlotKindIndexArray[i + sSlotNormalItemNum] == 0xe && ItemObjMgr::getItemObjMgr()->getHeartItem(data->kart_index))) {
-            sTempSlotUseItem[i + sSlotNormalItemNum] = false;
-        }
-        else {
-            sTempSlotUseItem[i + sSlotNormalItemNum] = true;
-            u32 chance = data->slotData->mList[data->kart_rank].slotTable[1][i + sSlotNormalItemNum + sSlotSpecialItemNum];
-
-            if (!GetGeoObjMgr()->isMiniGame() && charCombi) {
-                chance *= 1.5f;
-            }
-            *pTotal += chance;
-            
-            sTempSpecialRatio[i] = chance;
-        }
-    }
+    calcRndSpecialRatio(pTotal, data, charCombi);
 }
 
-int ItemShuffleMgr::calcRndSpecialRank(KartSlotRankDataSet slotRankData)
+int ItemShuffleMgr::calcRndSpecialRank(KartSlotRankDataSet data)
 {
     int ret = -1;
-    u32 randomNum = stGetRnd(0)->getRandomMax(slotRankData.total - 1);
+    u32 randomNum = stGetRnd(0)->getRandomMax(data.total - 1);
     int prevTotalChance = 0;
     int totalChance = 0;
 
-    for (int idx = sSlotNormalItemNum; idx < slotRankData.slotData->totalSlots; idx++, prevTotalChance = totalChance)
+    for (int idx = sSlotNormalItemNum; idx < data.slotData->totalSlots; idx++, prevTotalChance = totalChance)
     {
         int ratio = sTempSpecialRatio[idx - sSlotNormalItemNum];
         totalChance += sTempSlotUseItem[idx] ? ratio : 0;

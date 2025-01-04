@@ -198,7 +198,7 @@ public:
     void calcScale(f32, f32, f32);                                            // 0x80250e98
     void calcAllUseInitVel(u8, f32);                                          // 0x8025117c
     void callHitKartSound(int);                                               // 0x80251260
-    void getSpecialKind(const int &, const u8 &);                             // 0x802512dc
+    static int getSpecialKind(const int &, const u8 &);                       // 0x802512dc
     stRandom *getItemRnd();                                                   // 0x8025146c
     void setHandOffsetData();                                                 // 0x80251490
     void setHandOffsetPos(ItemHandOffsetData *);                              // 0x80251588
@@ -263,7 +263,7 @@ public:
 
     // Inline
     bool IsSuccessionItem() { return mItemKind > 0x10; }                        // 0x8024b30c
-    bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != 0; } // 0x8024b324
+    bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != nullptr; } // 0x8024b324
     void doOccur() { doFall(); }                                                // 0x8024af68, ptmf shit
 
     const JGeometry::TVec3f getColPos() const { return mColPos; }

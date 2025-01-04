@@ -294,14 +294,11 @@ public:
             removeMiniGameList(obj);
             return obj;
         }
-        else if (kind > 0x10)
+        if (kind > 0x10)
         {
             return equipItemSuccession(kind, kart_index, driver_index);
         }
-        else
-        {
-            return equipItem(kind);
-        }
+        return equipItem(kind);
     }
 
     // Inline/Unused
@@ -311,14 +308,14 @@ public:
     void isEnableDeleteItem(ItemObj *);
     void IsItemAvailable(int);
     bool tstKartEquipItemTrigger(int, u8);
-    void getStockItem(int);
+    int getStockItem(int);
     void loadModelData(ItemObj *);
     void loadShadowModelData();
     void changeItemHoldCharacter();
     void IsAbleToCreateItem(int);
     void getNowStockingKindNum(int, u32);
     void cancelRollingSlot(int);
-    bool IsAvailableRollingSlotDriver(int, const u8);
+    bool IsAvailableRollingSlotDriver(int, u8);
     static int getMaxHoldMiniBombNum();
     void getNowEnableSlotDriver(u8 *, int);
     void getConvertSucItemKind(u32);
@@ -337,7 +334,7 @@ public:
 
     void swapOwner(ItemObj *obj, bool fromRival, int kart_index1, int kart_index2, u8 driver_index1, u8 driver_index2)
     {
-        this->mEquipItem[kart_index1][driver_index1] = obj; // here
+        mEquipItem[kart_index1][driver_index1] = obj; // here
         obj->setOrigOwnerNum(kart_index2);
         obj->setOrigDriverNum(driver_index2);
         obj->setOwnerNum(kart_index1);
@@ -346,14 +343,13 @@ public:
             obj->mTransferFlags |= 0x200;
         obj->setStateDivested(true);
         delete_stockItemToKart(kart_index2, driver_index2);
-        this->mEquipItem[kart_index2][driver_index2] = nullptr;
+        mEquipItem[kart_index2][driver_index2] = nullptr;
     }
 
     static u8 swapDriver(u8 driver_index) { // fabricated
         if (driver_index == 0)
             return 1;
         return 0;
-
     }
 
     // private:
