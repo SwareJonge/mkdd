@@ -11,6 +11,33 @@ class GeographyObj; // forward declaration
 class CrsGround
 {
 public:
+    enum EAttr
+    {
+        Attr_0,
+        Attr_1,
+        Attr_2,
+        Attr_3,
+        Attr_4,
+        Attr_5,
+        Attr_6,
+        Attr_7,
+        Attr_8,
+        Attr_9,
+        Attr_10,
+        Attr_11,
+        Attr_12,
+        Attr_13,
+        Attr_14,
+        Attr_15,
+        Attr_16,
+        Attr_255 = 0xff,
+    };
+
+    enum EMat
+    {
+        // TODO
+    };
+
     CrsGround(Course *course = nullptr);
     void reset();                                                                                                                                        // 0x801a1814
     void search(const JGeometry::TVec3f &);                                                                                                              // 0x801a18f0
@@ -48,17 +75,7 @@ public:
     void getVelocity(JGeometry::TVec3f *dest) const { dest->set(mVelocity); }
     int getMaterial() const { return mMaterial; }
     int getAttrIndex() const { return mAttrIdx; }
-    int getAttribute() const { return mAttribute; }
-
-    enum EAttr
-    {
-        // TODO
-    };
-
-    enum EMat
-    {
-        // TODO
-    };
+    EAttr getAttribute() const { return mAttribute; }
 
     static f32 getOverLevel() { return 50.0f; }
 
@@ -73,7 +90,7 @@ private:
     JGeometry::TVec3f mNormal;
     JGeometry::TVec3f mVelocity;
     JGeometry::TVec3f _0x40;
-    int mAttribute;
+    EAttr mAttribute;
     int mAttrIdx;
     int mMaterial;
     f32 mHeight;

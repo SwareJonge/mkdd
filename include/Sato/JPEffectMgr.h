@@ -34,7 +34,7 @@ public:
     void draw_thunder(int);                                                   // 0x80230ae0
     void draw_for2D();                                                        // 0x80230bf0
     void draw_forBefore2D();                                                  // 0x80230cc0
-    void draw_forBefore2D(u8);                                                // 0x80230d90
+    void draw_forBefore2D(const u8);                                          // 0x80230d90
     void createSnowEmt();                                                     // 0x80230f30
     void createAwardDemoEmt(const bool);                                      // 0x80231084
     void createRainbowEmt();                                                  // 0x80231130

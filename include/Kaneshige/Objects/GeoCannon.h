@@ -34,7 +34,7 @@ public:
         /*__ptmf_scall(this, StateObserver::FindStateFunc(uVar2, sTable, 1));*/
     }
     virtual ~GeoCannon() {}                                           // 0x801c05d4
-    virtual char *getBmdFileName() { return "/Objects/Cannon1.bmd"; } // 0x801c065c
+    virtual const char *getBmdFileName() { return "/Objects/Cannon1.bmd"; } // 0x801c065c
     virtual void initClassCreateNum() { sSupervisorCreateNum = 0; }   // 0x801c0668
 private:
     // void sTable;                                     // 0x80396640

@@ -45,6 +45,13 @@ public:
         STAGE_GHOST
     };
 
+    void drawKartFirstStage(u32 viewNo) { drawKart(viewNo, STAGE_1); }
+    void drawDriverFirstStage(u32 viewNo) { drawDriver(viewNo, STAGE_1); }
+    void drawKartSecondStage(u32 viewNo) { drawKart(viewNo, STAGE_2); }
+    void drawDriverSecondStage(u32 viewNo) { drawDriver(viewNo, STAGE_2); }
+    void drawKartGhostStage(u32 viewNo) { drawKart(viewNo, STAGE_GHOST);  }
+    void drawDriverGhostStage(u32 viewNo) { drawDriver(viewNo, STAGE_GHOST);  }
+
     KartDrawer();                           // 0x801b8714
     void reset();                           // 0x801b8844
     void create(int, int, u16, EGhostKind); // 0x801b88e8
@@ -70,10 +77,12 @@ public:
     void setFrame(f32 rate);
     // void sForceLODLevel;
     // Inline
+    bool isSecondStage() const { return mStage == STAGE_2; }
     bool isAvailableTevAnmShock() { return mShockAnm.getAnmBase() != nullptr; }
     bool isFlashing() const { return mFlashState != 0; }
     bool isHide(u32 viewNo) const { return (mHiddenDrivers & 1 << viewNo) != 0; }
     void hide() { mHiddenDrivers = 0xffff; }
+    
 
     void setLight(u32 viewNo, RaceKartLight *kartLight)
     {
@@ -81,6 +90,14 @@ public:
         JUT_MAX_ASSERT(viewNo, 4);
         mKartLight[viewNo] = kartLight;
     }
+
+    RaceKartLight *getLight(u32 viewNo) {
+        JUT_MAX_ASSERT(viewNo, 4);
+        return mKartLight[viewNo];
+    }
+
+    void lodOff() { mEnableLOD = false; }
+    u8 getGhostAlpha() const { return mGhostAlpha; }
 
 private:
     static s16 sFlashInterval;          // 0x80414648

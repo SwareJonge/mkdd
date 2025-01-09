@@ -156,7 +156,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     if (getProcLevel() <= 0)
         activeAreaLight();
 
-    bool hasRacePhase = false;
+    bool waitForDemo = false;
     if (!isWaitDemoMode())
     {
         switch (getRaceMode())
@@ -166,7 +166,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
         case ROBBERY_BATTLE:
         case BOMB_BATTLE:
         case ESCAPE_BATTLE:
-            hasRacePhase = true;
+            waitForDemo = true;
             break;
         }
     }
@@ -177,7 +177,7 @@ RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
     else if (isStaffRoll())
         timeKeeper = new StaffRollTimeKeeper();
 
-    mRaceDirector = new RaceDirector(hasRacePhase, timeKeeper, getConsoleNumber());
+    mRaceDirector = new RaceDirector(waitForDemo, timeKeeper, getConsoleNumber());
 
     u16 numLevels = 1;
     if (mRaceInfo->isDriverLODOn())
@@ -1605,7 +1605,7 @@ RaceMgr::Console::Console()
 {
     mCnsNo = -1;
     mTargetNo = -1;
-    _04 = false;
+    mIsDemo = false;
     mFlags = 0;
     mFlags |= 8;
 }
@@ -1615,7 +1615,7 @@ void RaceMgr::Console::changeTargetNo(int targetNo, bool p2)
     if (isValid())
     {
         mTargetNo = targetNo;
-        _04 = p2;
+        mIsDemo = p2;
         RCMGetCamera(mCnsNo)->SetTargetNum(mTargetNo);
         if (!isNoStat())
             J2DManager::getManager()->setStatus2Kart(mCnsNo, mTargetNo);
@@ -1684,7 +1684,7 @@ void RaceUsrPage::draw()
     for (int i = 0; i < RaceMgr::getManager()->getKartNumber(); i++)
     {
         KartInfo *kartInfo = RaceMgr::getManager()->getKartInfo(i);
-        char *kind = nullptr;
+        const char *kind = nullptr;
         switch (kartInfo->getPlayerKind(0))
         {
         case 0:
@@ -1704,8 +1704,8 @@ void RaceUsrPage::draw()
             break;
         }
         KartGamePad *kartPad = kartInfo->getPad(0);
-        char *type = "NULL  ";
-        char *port = "NULL  ";
+        const char *type = "NULL  ";
+        const char *port = "NULL  ";
 
         if (kartPad)
         {

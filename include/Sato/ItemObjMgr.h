@@ -143,6 +143,9 @@ public:
 
     enum eDrawSimplModelItemType
     {
+        ItemType_0,
+        ItemType_1,
+        ItemType_2
     };
 
     struct SLAN_DebugKartPadData
@@ -305,20 +308,20 @@ public:
     ItemObj *equipItem(u32);
     void appendItemSuccession(ItemObj *, u32, u8);
     void createItemByKartStockingItemList();
-    void isEnableDeleteItem(ItemObj *);
-    void IsItemAvailable(int);
+    bool isEnableDeleteItem(ItemObj *);
+    bool IsItemAvailable(int);
     bool tstKartEquipItemTrigger(int, u8);
     int getStockItem(int);
     void loadModelData(ItemObj *);
     void loadShadowModelData();
     void changeItemHoldCharacter();
-    void IsAbleToCreateItem(int);
-    void getNowStockingKindNum(int, u32);
+    bool IsAbleToCreateItem(int);
+    int getNowStockingKindNum(int, u32);
     void cancelRollingSlot(int);
     bool IsAvailableRollingSlotDriver(int, u8);
     static int getMaxHoldMiniBombNum();
     void getNowEnableSlotDriver(u8 *, int);
-    void getConvertSucItemKind(u32);
+    static u32 getConvertSucItemKind(u32);
     void getMaxItemMoveNum();
     void setMaxItemMoveNum(const u8 &);
     void entryMiniGameList(ItemObj *);
@@ -352,6 +355,8 @@ public:
         return 0;
     }
 
+    bool isThunderDisabled() const { return mThunderDisableTimer != 0; }
+
     // private:
     u8 _28[0x2c - 0x28];                           //
     KartHitList mHitList[8];                       // 2c
@@ -373,7 +378,7 @@ public:
     JSUList<ItemObj> _73c[16];                     //
     JSUList<ItemObj> _7fc;                         //
     bool mObjectsCreated;                          // 808
-    int mThunderDisableTimer;                      // 80c
+    u32 mThunderDisableTimer;                      // 80c
     ItemObj::ItemHandOffsetData *mpHandOffsetData; // 810
     J3DModelData *mpMdlData;                       // 814
     ShadowModel *mpShadowMdl[2];                   // 818, 81c

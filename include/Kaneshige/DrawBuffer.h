@@ -52,6 +52,61 @@ private:
 
 }; // Size 0x10
 
+class EffectDrawBuffer : public DrawBuffer {
+public:
+    EffectDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {}
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+};
+
+class FeelDrawBuffer : public DrawBuffer {
+public:
+    FeelDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {}
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+};
+
+class GeoDrawBuffer : public DrawBuffer {
+public:
+    GeoDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {}
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+};
+
+class ShadowGeoDrawBuffer : public DrawBuffer {
+public:
+    ShadowGeoDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {}
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+};
+
+class ItemDrawBuffer : public DrawBuffer {
+public:
+    ItemDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {
+        mTargetKart = -1;
+    }
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+
+    void setTargetKart(s16 kartNo) { mTargetKart = kartNo; }
+
+private:
+    s16 mTargetKart;
+};
+
+class JugemDrawBuffer : public DrawBuffer {
+public:
+    JugemDrawBuffer(u32 bufSize=4) : DrawBuffer(bufSize) {}
+    virtual void drawIn(u32);
+    virtual void update();
+    virtual void viewCalc(u32);
+};
+
 class OsageDrawBuffer : public DrawBuffer {
 public:
     OsageDrawBuffer(u32 bufSize) : DrawBuffer(bufSize) {}

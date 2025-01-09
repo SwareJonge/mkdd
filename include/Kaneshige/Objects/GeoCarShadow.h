@@ -9,7 +9,7 @@ public:
     GeoCarShadow();                                                        // 0x801c3be4
     GeoCarShadow(u32);                                                     // 0x801c3c84
     virtual void reset();                                                  // 0x801c3d10
-    virtual char *getBmdFileName();                                        // 0x801c3d90
+    virtual const char *getBmdFileName();                                        // 0x801c3d90
     void setCarPose(const JGeometry::TVec3f &, const JGeometry::TVec3f &); // 0x801c3db8
     // Inline
     virtual ~GeoCarShadow() {} // 0x801c3ec0
@@ -23,17 +23,17 @@ class GeoHanaBodyShadow : public GeoCarShadow
 public:
     GeoHanaBodyShadow();
     virtual ~GeoHanaBodyShadow() {}                                               // 0x801c3fd8
-    virtual char *getBmdFileName() { return "/Objects/Car_Hana1BodyShadow.bmd"; } // 0x801c4030
+    virtual const char *getBmdFileName() { return "/Objects/Car_Hana1BodyShadow.bmd"; } // 0x801c4030
 private:
     // TODO
-}
+};
 
 class GeoHanaShadow : public GeoCarShadow
 {
 public:
     GeoHanaShadow();
     virtual ~GeoHanaShadow() {}                                               // 0x801c4068
-    virtual char *getBmdFileName() { return "/Objects/Car_Hana1Shadow.bmd"; } // 0x801c40c0
+    virtual const char *getBmdFileName() { return "/Objects/Car_Hana1Shadow.bmd"; } // 0x801c40c0
 private:
     // TODO
 };
@@ -43,7 +43,7 @@ class GeoBombShadow : public GeoCarShadow
 public:
     GeoBombShadow();
     virtual ~GeoBombShadow() {}                                               // 0x801c4130
-    virtual char *getBmdFileName() { return "/Objects/Car_Bomb1Shadow.bmd"; } // 0x801c4188
+    virtual const char *getBmdFileName() { return "/Objects/Car_Bomb1Shadow.bmd"; } // 0x801c4188
 private:
     // TODO
 };
@@ -53,7 +53,7 @@ class GeoKinoShadow : public GeoCarShadow
 public:
     GeoKinoShadow();
     virtual ~GeoKinoShadow();                                                   // 0x801c40cc
-    virtual char *getBmdFileName() { return "/Objects/Car_Kinoko1Shadow.bmd"; } // 0x801c4124
+    virtual const char *getBmdFileName() { return "/Objects/Car_Kinoko1Shadow.bmd"; } // 0x801c4124
 private:
     // TODO
 };

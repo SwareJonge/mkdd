@@ -16,7 +16,7 @@ public:
     virtual void calc();                              // 0x801bd840
 
     virtual ~GeoBus() {}                                                // 0x801bd8c0, overide
-    virtual char *getBmdFileName() { return "/Objects/Car_Bus1.bmd"; }; // 0x801bd93c, overide
+    virtual const char *getBmdFileName() { return "/Objects/Car_Bus1.bmd"; }; // 0x801bd93c, overide
     virtual u32 getMotorType() const { return 3; };                     // 0x801bd948, overide
 private:
     static JGeometry::TVec3f sTireOfsTable[4]; // 0x80378a60

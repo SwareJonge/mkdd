@@ -17,7 +17,7 @@ public:
     virtual void calc();                                                    // 0x801c37e8
     virtual JGeometry::TVec3f *getTirePosOffset(int tireNo);                // 0x801c39b4
     virtual ~GeoHanaBody() {}                                               // 0x801c3a44
-    virtual char *getBmdFileName() { return "/Objects/Car_Hana1Body.bmd"; } // 0x801c3ab4
+    virtual const char *getBmdFileName() { return "/Objects/Car_Hana1Body.bmd"; } // 0x801c3ab4
     virtual u16 getPathID(){/*return mHanaCar->getPathId();*/};             // 0x801c3ac0
 
     // Inline/Unused

@@ -16,7 +16,7 @@ public:
     ~THanabiSupervisor();
     void entry(TMapObjHanabi *);
     void fire(s16);
-    void getFireFrame(s16);
+    s16 getFireFrame(s16);
     
     void reset() {} // 0x802cdda0
     void calc() {}  // 0x802cdda4
@@ -31,10 +31,13 @@ public:
     void reset(); // 0x802cdafc
     void calc(); // 0x802cdb4c
 
+
+    virtual THanabiSupervisor *getSupervisor() { return sSupervisor; }
     // ??? GeographyObj::getSupervisor() is a virtual function which this class inherits from (via TMapObjHioNode)
     // and thus this overrides the function in the vtable
     // but is this even valid in C++?
     static THanabiSupervisor *getSupervisor() { return sSupervisor; } 
+
 
     static THanabiSupervisor *sSupervisor; // 0x80417110
 }; // class MapObjHanabi

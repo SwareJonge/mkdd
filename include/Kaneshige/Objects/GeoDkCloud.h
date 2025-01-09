@@ -14,7 +14,7 @@ public:
     virtual void calc();                                                 // 0x801caa54
     virtual void update();                                               // 0x801caaa8
     virtual ~GeoDkCloud() {}                                             // 0x801caac8
-    virtual char *getBmdFileName() { return "/Objects/DonkyCloud.bmd"; } // 0x801cab30
+    virtual const char *getBmdFileName() { return "/Objects/DonkyCloud.bmd"; } // 0x801cab30
 private:
     static J3DAnmTextureSRTKey *sBtkAnm; // 0x80416498
     // Unused

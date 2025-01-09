@@ -102,18 +102,18 @@ public:
         _38 = val;
     }
 
-    int startFadeOut(int duration) {
+    bool startFadeOut(int duration) {
         if (mFader != nullptr) {
             return mFader->startFadeOut(duration);
         }
-        return 1;
+        return true;
     }
 
-    int startFadeIn(int duration) {
+    bool startFadeIn(int duration) {
         if (mFader != nullptr) {
             return mFader->startFadeIn(duration);
         }
-        return 1;
+        return true;
     }
 
     void setTickRate(u32 rate) {

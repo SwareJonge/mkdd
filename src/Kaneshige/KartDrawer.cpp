@@ -146,17 +146,6 @@ void KartDrawer::create(int kartNo, int numCams, u16 numLevels, EGhostKind ghost
 
 }
 
-//void OsageDrawBuffer::setTargetKart(short) {}
-
-//void OsageDrawBuffer::OsageDrawBuffer(u32) {}
-
-
-//void DrawBuffer::create(u32) {}
-
-//void KartDrawer::DriverDB::~DriverDB() {}
-
-//void KartDrawer::DriverDB::DriverDB() {}
-
 void KartDrawer::setAnimation() {
     KartLoader *kartLoader = RaceMgr::getManager()->getKartLoader(mKartNo);
     

@@ -17,15 +17,19 @@ public:
     // Inline/Unused
     // void stop();
     // Inline
-    void stopCrsDemo() { mFlags |= 4; }                // 0x801c6e54
-    bool isMiniGameEnd() const { return mFlags & 16; } // 0x801c7288
-    bool isLastTime() const { return mFlags & 8; }     // 0x801c7294
-    bool isExecPrepare() const { return mFlags & 32; } // 0x801c72a0
-    bool isPlay() const { return mFlags & 2; }         // 0x801c72ac
-    void execPrepare() { mFlags |= 32; }               // 0x801c72b8
-    bool isPrepare() const { return mFlags & 1; };     // 0x801c72c8
-    bool isCrsDemoEnd() const { return mFlags & 4; }   // 0x801c72d4
-
+    void prepare() { mFlags |= 1; }
+    void play() { mFlags |= 2; }
+    void stopCrsDemo() { mFlags |= 4; }
+    void setMiniGameEnd() {mFlags |= 0x10; }
+    void execPrepare() { mFlags |= 0x20; }    
+    
+    bool isPrepare() const { return mFlags & 1; }
+    bool isPlay() const { return mFlags & 2; }
+    bool isCrsDemoEnd() const { return mFlags & 4; }
+    bool isLastTime() const { return mFlags & 8; }
+    bool isMiniGameEnd() const { return mFlags & 0x10; }
+    bool isExecPrepare() const { return mFlags & 0x20; }
+    
     void setLowestKartNo(int kartNo)
     {
         if (mLowestKartNo < 0)

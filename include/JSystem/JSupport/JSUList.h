@@ -64,6 +64,7 @@ public:
     {
     }
 
+    void initiate() { JSUPtrList::initiate(); }
     bool append(JSULink<T> *link) { return JSUPtrList::append((JSUPtrLink *)link); }
     bool prepend(JSULink<T> *link) { return JSUPtrList::prepend((JSUPtrLink *)link); }
     bool insert(JSULink<T> *before, JSULink<T> *link) { return JSUPtrList::insert((JSUPtrLink *)before, (JSUPtrLink *)link); }

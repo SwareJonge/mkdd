@@ -56,6 +56,7 @@ struct stRandom : public JMath::TRandom_fast_
     static void createAllRandom();
     static void deleteAllRandom();
 
+    u32 getRandom() { return get(); }
     u32 getRandomMax(u32 max);
     void getArbitUnitVec(JGeometry::TVec3f &, f32, f32);
     void getArbitUnitVecSimple(JGeometry::TVec3f &, f32);

@@ -14,9 +14,28 @@ public:
     void calc();
     void createModel(JKRSolidHeap *, u32);
     void reset(const CrsData &);
-    
+    void drawGXObj(u32 cameraNo);
+    void drawPrim(u32 cameraNo);
+
+    void update();
+    void drawSimpleModel(u32 cameraNo);
+    void setCurrentViewNo(u32 cameraNo);
+    void viewCalc(u32 cameraNo);
+
+    void update_groundObj();
+    void drawSimpleModel_groundObj(u32 cameraNo);    
+    void setCurrentViewNo_groundObj(u32 cameraNo);
+    void viewCalc_groundObj(u32 cameraNo);
+
+    void update_foreground();
+    void drawSimpleModel_foreground(u32 cameraNo);    
+    void setCurrentViewNo_foreground(u32 cameraNo);
+    void viewCalc_foreground(u32 cameraNo);
+
     TJugem *getJugem(int camera_index) const;
     TBalloonManager *getBalloonMgr(int kart_index) const;
+
+    GeographyObj *createSubObj(u32 id);
 
     f32 getKartHitDepthNormalObj(int kart_index) const { return mHitDepth[kart_index]; }
     static void createMgr(const CrsData &crsData) { gMgr = new GeographyObjManager(crsData); }

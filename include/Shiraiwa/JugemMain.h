@@ -40,11 +40,14 @@ public:
         mIsAbleStart = true;
         setState(0);
     };
+    bool isAllShapePacketHidding(u32 viewNo) { return mModel.isAllShapePacketHidding(viewNo); }
     bool isAbleStart(); /* { return mIsAbleStart; }*/
     bool isCallThree() { return !mSignal ? false : mSignal->isCallThree(); }
     bool isDemoOut() { return isDemoMode() && mAnmPlayer.getCurAnmNumber() == 2; }
 
     const JGeometry::TVec3f &getPosition() const { return mPos; }
+    u8 getKartNum() { return mKartNum; }
+
     void setHearPtr(TJugemHeadHear *hear) { setJugemHeadItem(hear, 0); }
     void setSignalPtr(TJugemRodSignal *signal) { mSignal = signal; }
     void setVoidRodPtr(TJugemVoidRod *rod) {
@@ -67,7 +70,9 @@ public:
     TAnmPlayer mAnmPlayer;    // 178
     u8 _18c[0x244 - 0x18c];   //
     u32 mDemoPattern;         // 244
-    u8 _248[0x250 - 0x248];   //
+    u8 _248;                  //
+    u8 mKartNum;              // 249
+    u8 _24a[0x250 - 0x24a];   //
     bool mIsAbleStart;        // 250    
     u8 _251[0x26c - 0x251];   //
     TJugemRodSignal *mSignal; // 26c

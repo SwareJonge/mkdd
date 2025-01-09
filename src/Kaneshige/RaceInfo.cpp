@@ -87,7 +87,7 @@ void RaceInfo::reset()
     }
 
     mAwardKartNo = -1;
-    mDemoNextPhase = 6;
+    mDemoNextPhase = PHASE_6;
 }
 
 void RaceInfo::setConsoleTarget(int cnsNo, int target, bool demo)
@@ -276,14 +276,14 @@ void RaceInfo::setRaceLevel(ERaceLevel raceLvl)
 
 void RaceInfo::shuffleRandomSeed()
 {
-    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed); 
+    JMARandFast rndm(mRandomSeed); 
     mRandomSeed = rndm.get();
     // randomSeed = JMath::TRandom_<JMath::TRandom_fast_>(randomSeed).get();
 }
 
 void RaceInfo::shuffleStartNo()
 {
-    JMath::TRandom_<JMath::TRandom_fast_> rndm(mRandomSeed);
+    JMARandFast rndm(mRandomSeed);
 
     for (u32 i = 0; i < (u32)getKartNumber(); i++)
     {

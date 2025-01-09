@@ -17,12 +17,14 @@ public:
     virtual bool isPlayingEndingWinAnm() const { return false; };
 
     // Inline
+    bool isDemoEnd() const { return mDemoEnd; }
     bool isDispInfo() { return mDispFlags != 0; }
     void updateCutTimer() { mCutTimer++; }      // 0x801cf1ec
     s32 getCutTimer() const { return mCutTimer; }   // 0x801cf234
     u32 getCurCutName() const { return mCutName; }  // 0x801cf23c
     void setDemoEnd() { mDemoEnd = true; }          // 0x801cf514
     s32 getCurCutTime() const { return mCurCutTime; } // 0x801cfc94
+    u32 getDemoCameraTagName() const { return mCutName; }
 private:
     bool mStaffRoll;
     u16 mDispFlags;

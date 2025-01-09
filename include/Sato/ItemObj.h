@@ -4,6 +4,7 @@
 #include <JSystem/JGeometry.h>
 #include "Inagaki/SoundMgr.h"
 #include "Kaneshige/Course/CrsGround.h"
+#include "Kaneshige/DarkAnmMgr.h"
 #include "Osako/shadowModel.h"
 #include "Sato/ObjCollision.h"
 #include "Sato/stMath.h"
@@ -237,6 +238,15 @@ public:
         }
         return ret;
     }
+    bool IsState1or5() const { return (mState != 1 && mState != 5);  }
+    bool IsState1or5AndSameOwner(int owner) const {
+        bool ret = false;
+        if (owner == mOwnerNum) {
+            if ((mState != 1 && mState != 5))
+                ret = true;
+        }
+        return ret;
+    }
 
     bool tst_80() const { return _12c & 0x80; }
 
@@ -271,6 +281,14 @@ public:
 
     void setSuccessionParent(ItemObjSuc *parent) { mSuccessionParent = parent;}
     // private:
+
+    void setLightMask() {
+        GXLightID lightId =  GX_LIGHT0;
+        if ((mState == 1 || mState == 5))
+            lightId = GX_LIGHT1;
+        ExModel::setLightMask(mModel.getModelData(), lightId); 
+    }
+    void setTevColor() { mAnmPlayer->setTevColor(&mModel); }
 
     typedef void (ItemObj::*StateFunc)();
 
@@ -329,7 +347,8 @@ public:
     JGeometry::TVec3f mNormal;            // 250
     u8 _25c[0x280 - 0x25c];               //
     GameAudio::ObjectSoundMgr *mSoundMgr; // 280
-    u8 _284[0x28c - 0x284];               //    
+    DarkAnmPlayer *mAnmPlayer;            // 284
+    u8 _288[0x28c - 0x288];               //    
     int mDirectHitKartNo;                 // 28c
     u8 _290[0x298 - 0x290];               //
     u8 mColorID;                          // 298

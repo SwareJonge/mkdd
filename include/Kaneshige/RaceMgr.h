@@ -55,6 +55,7 @@ public:
         void clearZBuffer();
         bool isZoom();
         // Inline
+        int getTargetNo() const { return mTargetNo; }
         void setDraw() { mFlags |= 1; }
         void setConsoleNo(int cnsNo) { mCnsNo = cnsNo; }
         void clrDraw() { mFlags &= ~1; }
@@ -63,10 +64,11 @@ public:
         void setJugemZClr() { mFlags |= 8; }
         bool isNoStat() const { return mFlags & 4; }
         bool isValid() const { return mCnsNo >= 0; }
+        bool isDemo() const { return mIsDemo; }
 
     private:
         int mCnsNo;
-        bool _04;
+        bool mIsDemo;
         int mTargetNo;
         u16 mFlags;
     };
@@ -135,11 +137,14 @@ public:
     bool isMirror() const { return mRaceInfo->isMirror(); }
     bool isTinyProcess() const { return mRaceInfo->isTinyProcess(); }
     bool isWaitDemoMode() const { return mRaceInfo->isWaitDemo(); }
+    bool isLastWaitDemo() const { return mRaceInfo->isLastWaitDemo(); } 
     int getKartNumber() const { return mRaceInfo->getKartNumber(); }
     int getAwardKartNo() const { return mRaceInfo->getAwardKartNo(); }
     int getConsoleNumber() const { return mRaceInfo->getConsoleNumber(); }
     int getItemSlotType() const { return mRaceInfo->getItemSlotType(); }
     int getStatusNumber() const { return mRaceInfo->getStatusNumber(); }
+    int getGPStageNo() const { return mRaceInfo->getGpStageNo(); }
+    ERacePhase getDemoNextPhase() const { return mRaceInfo->getDemoNextPhase(); }
     ERaceLevel getRaceLevel() const { return mRaceInfo->getRaceLevel(); }
     ERaceGpCup getRaceGpCup() const { return mRaceInfo->getGpCup(); }
     // why did this not use a getter?
@@ -223,9 +228,10 @@ public:
         return mBestTotalTimes[recID];
     }
 
-private:
+public:
     RaceDirector *mRaceDirector;
     RaceDrawer *mRaceDrawer;
+private:
     u16 mAreaLight;
     u8 _0x22; // raceNum?
     u8 _0x23; // probably padding
@@ -235,9 +241,11 @@ private:
     s16 mTotalLapNumber;
     s32 _0x30;
     bool mAbleStart;
+public:
     RaceInfo *mRaceInfo;
     RaceBGMPlayer *mRaceBGMPlayer;
     Console *mConsole;
+private:
     Course *mCourse;
     KartChecker *mKartChecker[8];
     KartLoader *mKartLoader[8];

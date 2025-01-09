@@ -20,9 +20,9 @@ public:
     StateObserver();     // 0x802714b0
     void ExecuteState(); // 0x80271518
     void ResetState();   // 0x80271570
-
+    void changeState();
     void setState(u16);
-    u16 getState() const { return mState; }
+    u16 getState() const { return mPrevState; }
 
     // Vtable
     virtual ~StateObserver();
@@ -52,9 +52,9 @@ public:
     }
 
 private:
-    u16 _4;     // confusion, this one gets set by the setter, _06 for the getter
-    u16 mState; // 6
-    u32 _8;     //
+    u16 mState;        // 4
+    u16 mPrevState;    // 6
+    u32 mTimeExecuted; // 8
 };
 
 template <typename T>

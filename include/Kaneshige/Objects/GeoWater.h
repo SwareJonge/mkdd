@@ -29,7 +29,7 @@ public:
     {                                                                  /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/
     }                                                                  // 0x801c4c3c
     virtual ~GeoWater() {}                                             // 0x801c4e94
-    virtual char *getBmdFileName() { return "/Objects/sea1_spc.bmd"; } // 0x801c4f1c
+    virtual const char *getBmdFileName() { return "/Objects/sea1_spc.bmd"; } // 0x801c4f1c
     virtual void initClassCreateNum() { sSupervisorCreateNum = 0; }    // 0x801c4f28
 private:
     // void sTable;                          // 0x80396f88
@@ -76,9 +76,8 @@ public:
     virtual void createModel(JKRSolidHeap *, u32);
     virtual void simpleDraw(u32);
     virtual void calc();
-    virtual void simpleDraw(u32);
     virtual ~GeoWaterUp2() {}                                          // 0x801c6b10
-    virtual char *getBmdFileName() { return "/Objects/sea2_tex.bmd"; } // 0x801c6bdc
+    virtual const char *getBmdFileName() { return "/Objects/sea2_tex.bmd"; } // 0x801c6bdc
 private:
     // TODO
 };

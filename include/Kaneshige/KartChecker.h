@@ -1,6 +1,7 @@
 #ifndef KARTCHECKER_H
 #define KARTCHECKER_H
 
+
 #include "types.h"
 
 #include "JSystem/JGeometry.h"
@@ -90,16 +91,17 @@ public:
         mRaceEnd = true;
     }
 
-    // might be a reference
     const RaceTime &getDeathTime() { return mDeathTime; };
-    int getBalloonNumber() const { return mBalloonNum; };
-    bool isRankAvailable() const { return mRank != 0; };
-    int getBombPoint() const { return mBombPoint; };
     const RaceTime &getMarkTime() { return mMarkTime; };
+
+    int getBalloonNumber() const { return mBalloonNum; };    
+    int getBombPoint() const { return mBombPoint; };
+    int getRabbitTimer() const { return mRabbitWinFrame; }
+    int getGoalFrame() const { return mGoalFrame; };
     f32 getTotalUnitDist() const { return mRaceProgression; };
     f32 getLapUnitDist() const { return mLapProgression; }
-    // cmpw was signed right?
-    int getGoalFrame() const { return mGoalFrame; };
+    bool isRankAvailable() const { return mRank != 0; };
+
 
     void setForceGoal();
 
@@ -116,9 +118,11 @@ public:
     void setBombCtrl() { mRaceFlags |= 4; }
     void setRabbitCtrl() { mRaceFlags |= 8; }
     void setDemoRank() { mRaceFlags |= 16; }
+    void stillRabbitTimer() { mBattleFlags |= 1; }
+    void fixMiniPoint() { mBattleFlags |= 2; }
     void setDead() { mBattleFlags |= 4; }
     void setRank(int rank) { mRank = rank; }
-    void stillRabbitTimer() { mBattleFlags |= 1; }
+    
     inline bool setPass(int index); // ??? function is weak yet in cpp file itself
     void clrRank() { mRank = 0; }
     void resumeRabbitTimer() { mBattleFlags &= 0xfffe; }
@@ -212,7 +216,8 @@ public:
 
     static s16 sBombPointCrushOneself;
 
-    // private: // i'm not really sure how else KartChkUsrPage got access to this
+    friend class KartChkUsrPage;
+private: 
     u16 mRaceFlags;
     s16 mTargetKartNo;
     int mNumSectors;

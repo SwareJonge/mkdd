@@ -16,7 +16,7 @@ public:
     virtual void calc();                                                 // 0x801bdfb4
     virtual ~GeoTruck();                                                 // 0x801be024
     virtual u32 getMotorType() const { return 3; }                       // 0x801be0a0, overide
-    virtual char *getBmdFileName() { return "/Objects/Car_Truck1.bmd"; } // 0x801be0a8, overide
+    virtual const char *getBmdFileName() { return "/Objects/Car_Truck1.bmd"; } // 0x801be0a8, overide
     virtual u32 getSoundCarType() const { return 1; }                    // 0x801be0b4, overide
 
 private:

@@ -82,14 +82,14 @@ public:
     void GetTireAngle(int);
     void GetTandemDir(int);
     void GetWaterHeight(int);
-    void CheckJugemuSignal();
+    bool CheckJugemuSignal();
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /*{ return getKartSound(idx)->mKartSoundMgr; }*/
     f32 GetKartBodyOffset(int);
     void MakeChangePossible(int);
     bool CheckTandemItmGet(int);
     bool CheckTandemItmRollingGet(int);
     void SetObjectPos(int, JGeometry::TVec3f);
-    void CheckThunderBolt(int);
+    bool CheckThunderBolt(int);
     void GetTireRadius(int);
     void IsBurn(int);
     void IsWallReact(int);
@@ -97,17 +97,17 @@ public:
     int GetDriftCnt(int);
     bool IsMiniGame();
     bool IsMiniGameEnd();
-    void CheckWinner();
+    bool CheckWinner();
     void GetKartEffctVel(int, JGeometry::TVec3f *);
     bool CheckChange(int);
-    void CheckMatchless(int);
-    void CheckReverse(int);
+    bool CheckMatchless(int);
+    bool CheckReverse(int);
     f32 GetKartScale(int);
     RivalKart *getKartEnemy(int);
     CLPoint *GetKartCenterPtr(int);
     void EnemyInit(int);
     void EnemyResetInit(int);
-    void CheckZoomWinConsole();
+    bool CheckZoomWinConsole();
     void SetUpMiniTurbo(int, u8);
     // Inline/Unused
     // void SetPadKeyClear(KartGamePad *);

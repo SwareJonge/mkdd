@@ -170,9 +170,9 @@ public:
     void drawBase(u32, u32 *, s16, bool);                                               // 0x8019d028
     void drawSky(u32);                                                                  // 0x8019d6ac
     void getStartLine(JGeometry::TVec3f *, JGeometry::TVec3f *);                        // 0x8019d7e8
-    void getLightColor(JUtility::TColor *);                                             // 0x8019d914
+    void getLightColor(JUTColor *);                                             // 0x8019d914
     void getLightOffsetPosition(JGeometry::TVec3f *);                                   // 0x8019d948
-    void getAmbientColor(JUtility::TColor *);                                           // 0x8019d97c
+    void getAmbientColor(JUTColor *);                                           // 0x8019d97c
     u32 getCourseBGM();                                                                 // 0x8019d9b0
     u32 getFinalLapBGM();                                                               // 0x8019db78
     void drawModelForDebug(u32);                                                        // 0x8019dc2c
@@ -215,6 +215,7 @@ public:
     bool isTexPatAnmEnable() const { return mTexPattern != nullptr; }; // 0x80199534
 
     bool isShaking() const { return getCrsData()->isShaking(); }
+    void disableShaking() { mShakeEnabled = false; }
 
     int getAreaNumber() const { return mAreaNum; }
     Area *getArea(int no) const { return &mAreas[no]; }
@@ -258,7 +259,7 @@ private: // add all documented stuff from Ghidra
     f32 mFogEndZ;
     f32 mFogNearZ;
     f32 mFogFarZ;
-    JUtility::TColor mFogColor;
+    JUTColor mFogColor;
     ExModel mTexModel;
     J3DAnmTextureSRTKey *mTexSRTKey[3];
     J3DAnmObjMaterial mTexSRTAnm[3];

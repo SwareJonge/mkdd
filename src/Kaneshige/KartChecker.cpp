@@ -908,7 +908,7 @@ void KartChecker::setBombEvent(KartChecker::EBombEvent bombEvent, ItemObj *itemO
             ownerNum = itemObj->getOwnerNum();
         switch (bombEvent)
         {
-        case EVENT_1:
+        case EVENT_1: {
             int increment = sBombPointCrushOneself;
             if (ownerNum != mTargetKartNo)
                 increment = sBombPointAttacked;
@@ -929,9 +929,11 @@ void KartChecker::setBombEvent(KartChecker::EBombEvent bombEvent, ItemObj *itemO
                 incYourBombPoint(ownerNum, mTargetKartNo, increment);
             }
             break;
-        case EVENT_3:
+        }
+        case EVENT_3: {
             incMyBombPoint(-1, -1);
             break;
+        }
         }
     }
 }

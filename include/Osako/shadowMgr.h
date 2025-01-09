@@ -2,7 +2,7 @@
 #define SHADOWMGR_H
 
 #include "JSystem/JUtility/TColor.h"
-#include "JSystem/JGadget/linklist.h"
+#include "JSystem/JGadget/std-list.h"
 #include "Osako/shadowModel.h"
 #include "types.h"
 
@@ -10,9 +10,11 @@ class ShadowManager {
 public:
     ShadowManager();
 
-    void getShadowModelList(ShadowModel::ShadowKind);
+    typedef JGadget::TList<ShadowModel*> List;
+
+    List &getShadowModelList(ShadowModel::ShadowKind);
     void regist(ShadowModel *);
-    //void draw(u32, JGadget::TList<ShadowModel *, JGadget::TAllocator<ShadowModel *>> &);
+    void draw(u32, List &modelList);
     void calc();
     void viewCalc(u32);
     void setDstAlpha();
@@ -25,7 +27,7 @@ public:
     void setMirror(bool mirror) {
         mIsMirror = mirror;
     }
-    void setShadowColor(JUtility::TColor & color) {
+    void setShadowColor(JUTColor & color) {
         mShadowColor = color;
     }
     void setShadowDepth(u8 depth) {
@@ -34,6 +36,10 @@ public:
     void setDepthMode(u8 depth)
     {
         mDepthMode = depth;
+    }
+
+    void drawShadowVolume(u32 viewNo, ShadowModel::ShadowKind shadowKind) {
+        draw(viewNo, getShadowModelList(shadowKind));
     }
 
     int getDstAlpha() {
@@ -47,7 +53,7 @@ public:
 
 //private:
     u8 _00[0x58];
-    JUtility::TColor mShadowColor;
+    JUTColor mShadowColor;
     u8 mDepth[2];
     u8 mDepthMode;
     u8 _5f;

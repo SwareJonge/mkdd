@@ -66,7 +66,7 @@ public:
     }
 
     ExModel *getExModelOsage(int driver) {
-        JUT_MINMAX_ASSERT(0, 2, 6); // line 97
+        JUT_MINMAX_ASSERT(0, driver, 2); // line 102
         return mOsageModel[driver];
     }
 

@@ -1,6 +1,7 @@
 #ifndef RACEINFO_H
 #define RACEINFO_H
 
+#include "kartEnums.h"
 #include "types.h"
 
 #include "Kaneshige/KartInfo.h"
@@ -44,8 +45,10 @@ public:
     int getPlayerKartNumber() const { return mPlayerNum; }
     int getConsoleNumber() const { return mConsoleNum; }
     int getStatusNumber() const { return mStatusNum; }
-    ERaceMode getRaceMode() const { return mRaceMode; }
+    int getGpStageNo() const { return mGpStageNo; }
     int getItemSlotType() const { return mItemSlotType; }
+    ERaceMode getRaceMode() const { return mRaceMode; }
+    ERacePhase getDemoNextPhase() const { return mDemoNextPhase; }
     ERaceLevel getRaceLevel() const { return mRaceLevel; }
     ERaceGpCup getGpCup() const { return mGpCup; }
 
@@ -54,6 +57,7 @@ public:
     bool isTrueEnding() const { return mIsTrueEnding; }
     bool isMirror() const { return mIsMirror; }
     bool isWaitDemo() const  {return mDemoType != 0; }
+    bool isLastWaitDemo() const { return mDemoType == 2; }  
     bool isDriverLODOn() const  { return (mLOD & 2); };
     bool isHiddingConsole(u32 viewNo) const { return (mHidingConsoles & 1 << viewNo) != 0; }
     void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
@@ -110,7 +114,7 @@ public:
     s16 mTargetKarts[4];       // 114
     bool mIsDemoKart[4];       // 11C
     s16 mAwardKartNo;          // 120
-    int mDemoNextPhase;        // 124
+    ERacePhase mDemoNextPhase; // 124
     s16 mRank[8];              // 128, stores what rank you finished at previous race, basically the same as startPosIndex
     RaceTime mFinishTime[8];   // 138
     RaceTime mLapTimes[8][10]; // 158

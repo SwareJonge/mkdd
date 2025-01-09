@@ -10,6 +10,7 @@
 #include "Osako/shadowModel.h"
 #include "Sato/AnmController.h"
 #include "Sato/ItemObj.h"
+#include "Sato/stMath.h"
 
 // TODO: Remove Forward declarations
 class ObjColBase; // ObjCollision.h
@@ -35,9 +36,9 @@ public:
 
     // Vtable 0x0
     virtual ~GeoObjSupervisor() {}   // 0x801ba3b4
-    virtual void load() {}           // 0x801bcfa4
-    virtual void reset() = 0;        // 0x0
+    virtual void reset() = 0;        // 0x0    
     virtual void calc() = 0;         // 0x0
+    virtual void load() {}           // 0x801bcfa4
     virtual void thunderDownAll() {} // 0x801bcfa8
     virtual void createModel(JKRSolidHeap *, u32);
 
@@ -76,7 +77,7 @@ public:
     void createMultiBoundsCylinder(u8, J3DModelData *, f32, f32);                               // 0x8022a934
     void createBoundsCube(J3DModelData *);                                                      // 0x8022aa04
     void setColObjPos(const JGeometry::TVec3f &, u8);                                           // 0x8022ab20
-    u32 getGeoRnd();                                                                            // 0x8022ac14
+    stRandom *getGeoRnd();                                                                            // 0x8022ac14
     void moveShadowModel();                                                                     // 0x8022ac38
     void createSoundMgr();                                                                      // 0x8022acec
     f32 getColScaleRadius();                                                                    // 0x8022ad44
@@ -106,13 +107,20 @@ public:
     template<class T>
     static T *ExNew(CrsData::SObject &object) { return new T(object); }
 
+    GameAudio::ObjectSoundMgr *getSoundMgr() { return mSoundMgr; }
+
     void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; }
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
+    void clrObjFlagHidding() { mGeoObjFlag &= ~0x20; }
     void clrAllCheckKartHitFlag() { mKartHitFlags = 0; }
+
+    void setObjFlagCheckItemHitting() { mGeoObjFlag |= 2; }
     void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
+    void setObjFlagSimpleDraw() { mObjFlag |= 1; }
     void setObjFlagMainResource() { mObjFlag |= 2; }
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
     bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
+    bool tstIsHitKartFlg(int kartNo) const { return mKartHitFlags == kartNo; }
 
     u32 getKind() const { return mKind; }
     ItemColReaction &getItemReaction() { return mReaction; }
@@ -160,25 +168,27 @@ public:
     virtual void initClassCreateNum() { }                                                           // 78
     virtual void setModelMatrixAndScale();                                                          // 7C
 protected:
-    JGeometry::TVec3f mPos;      // 04
-    JGeometry::TPos3f mRotMtx;   // 10
-    JGeometry::TVec3f mScale;    // 40
-    JGeometry::TVec3f mVel;      // 4C
-    int _58;                     // 58, some sort of ID
-    ExModel mModel;              // 5C
-    CrsData::SObject *mObjData;  // E8
-    u32 mGeoObjFlag;             // EC
-    u32 mKartHitFlags;           // F0
-    u8 _f4[0xfc - 0xf4];         //
-    JSULink<GeographyObj> mLink; // FC
-    int mKind;                   // 10C
-    u8 _110[0x114 - 0x110];      //
-    ItemObj *mColItemObj;        // 114
-    u8 _118[0x11c - 0x118];      //
-    u16 mObjFlag;                // 11C
-    AnmController *mAnmCtrl;     // 120
-    ItemColReaction mReaction;   // 124
-    u8 _134[0x14c - 0x134];      //
+    JGeometry::TVec3f mPos;               // 04
+    JGeometry::TPos3f mRotMtx;            // 10
+    JGeometry::TVec3f mScale;             // 40
+    JGeometry::TVec3f mVel;               // 4C
+    int _58;                              // 58, some sort of ID
+    ExModel mModel;                       // 5C
+    CrsData::SObject *mObjData;           // E8
+    u32 mGeoObjFlag;                      // EC
+    u32 mKartHitFlags;                    // F0
+    u8 _f4[0xfc - 0xf4];                  //
+    JSULink<GeographyObj> mLink;          // FC
+    int mKind;                            // 10C
+    u8 _110[0x114 - 0x110];               //
+    ItemObj *mColItemObj;                 // 114
+    u8 _118[0x11c - 0x118];               //
+    u16 mObjFlag;                         // 11C
+    AnmController *mAnmCtrl;              // 120
+    ItemColReaction mReaction;            // 124
+    u8 _134[0x144 - 0x134];               //
+    GameAudio::ObjectSoundMgr *mSoundMgr; // 144
+    u8 _148[0x14c - 0x148];               //
 }; // Size: 0x14c
 
 class TMapObjHioNode : public GeographyObj

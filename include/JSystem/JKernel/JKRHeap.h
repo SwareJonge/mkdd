@@ -175,10 +175,7 @@ public:
         return mHeapTree.getParent()->getObject();
     }
 
-    const JSUTree<JKRHeap> &getHeapTree()
-    {
-        return mHeapTree;
-    }
+    const JSUTree<JKRHeap> &getHeapTree() { return mHeapTree; }
 
     // Unused
     void checkMemoryFilled(u8 *, u32 size, u8);

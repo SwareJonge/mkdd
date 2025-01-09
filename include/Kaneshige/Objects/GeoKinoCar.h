@@ -26,7 +26,7 @@ public:
     // void sCreateNum;
     // Inline
     virtual ~GeoKinoCar() {}                                              // 0x801c1bc4
-    virtual char *getBmdFileName() { return "/Objects/Car_Kinoko1.bmd"; } // 0x801c1c34
+    virtual const char *getBmdFileName() { return "/Objects/Car_Kinoko1.bmd"; } // 0x801c1c34
 private:
     static JGeometry::TVec3f sTireOfsTable[4]; // 0x80378ed8
     static s16 sOccurLimitSpeed;               // 0x804146a8

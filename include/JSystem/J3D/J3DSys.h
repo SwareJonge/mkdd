@@ -29,6 +29,7 @@ struct J3DSys
 	void loadPosMtxIndx(int, u16) const;
 	void loadNrmMtxIndx(int, u16) const;
 	void ErrorReport(J3DErrType) const;
+	void setTexCacheRegion(GXTexCacheSize);
 
 	void setDrawBuffer(J3DDrawBuffer *drawBuffer, int idx) { mDrawBuffer[idx] = drawBuffer; }
 	void setDrawModeOpaTexEdge() { mDrawMode = 3; }

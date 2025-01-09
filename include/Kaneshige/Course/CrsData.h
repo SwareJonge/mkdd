@@ -181,7 +181,7 @@ public:
         JGeometry::TVec3<s16> zNorm; // 18
         JGeometry::TVec3<s16> yNorm; // 1e
         u16 objID;
-        s16 pathID;                  // 26
+        u16 pathID;                  // 26
         s16 _28;                     //
         s16 pointIdx;                // 2a
         struct {
@@ -240,6 +240,7 @@ public:
         s16 getPathSpeed() const { return mPathSpeed; }
         s16 getPathID() const { return mPathID; }
         int getTime() const { return mTime; }
+        int getNextCameraID() const { return mNextID; }
 
         bool isStartCamera() const { return mID != 0; }
     
@@ -308,6 +309,10 @@ public:
 
     struct MGParam // Minigame Parameters
     {
+        s16 getRabbitWinSec() const { return rabbitWinSec; }
+        s16 getRabbitMinSec() const { return rabbitMinSec; }
+        s16 getRabbitDecSec() const { return rabbitDecSec; }
+
         s16 rabbitWinSec;
         s16 rabbitMinSec;
         s16 rabbitDecSec;

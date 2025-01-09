@@ -23,6 +23,7 @@ public:
     void getUpDirection(JGeometry::TVec3f *out) { out->set(mUpDir); }
     void getLfDirection(JGeometry::TVec3f *out) { out->set(mLfDir); }
 
+    static u32 getSceneLightTagName(u32 viewNo) { return 0x53434e30 + viewNo; } // SCN0
 private:
     KartCam *mTargetCam;
     JGeometry::TVec3f mOffsetPos;
@@ -80,6 +81,7 @@ public:
     virtual void draw();       // overide
     virtual void calc();       // overide
 
+    static u32 getTagName(u32 viewNo) { return 0x43555030 + viewNo; } // CUP0
 private:
     RaceSceneLight *mSceneLight;
     LtObjAmbient mAmbient;

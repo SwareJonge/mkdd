@@ -60,7 +60,7 @@ public:
     // void sLowestComKartIndex;                            // 0x80415044
     // void sCrsStdDistRatio;                               // 0x80415048
     // void sEngineBParamPtr;                               // 0x80416d20
-    // void sCommonFlgs;                                    // 0x80416d24
+    static u32 sCommonFlgs;                                    // 0x80416d24
     // void sCheckTopDistRatio;                             // 0x80416d28
 
     // void getNthCLPoint(CLPoint *, short);
@@ -81,6 +81,8 @@ public:
     // void findRivalDistanceFrontAngle(float, float);
     // void findRivalDistanceRearAngle(float, float);
     
+    static bool isPlayerFirst() { return (sCommonFlgs & 2) != 0; }
+
 
     u8 _20[0xc8 - 0x20];
 }; // Size: 0xc8

@@ -12,8 +12,6 @@ class GeoStartLine : public GeographyObj
     virtual void createColModel(J3DModelData *); // 0x801b4ba0
     virtual const char *getBmdFileName();        // 0x801b4ba4
     virtual void calc();                         // 0x801b4bcc
-private:
-    // TODO
 };
 
 #endif

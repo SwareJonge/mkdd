@@ -30,7 +30,7 @@ public:
     void setStatus2Kart(int, int);  // 0x80131d98
     void setUsisi(int, ECharID);    // 0x80131f40
     void startPreRace();            // 0x80132034
-    void getPreRaceStatus();        // 0x80132058
+    int getPreRaceStatus();         // 0x80132058
     int getPreRaceWipeType();       // 0x80132064
     void setRace2DDrawFlag(bool);   // 0x80132070
     void hideRace2D();              // 0x80132084

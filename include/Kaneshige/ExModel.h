@@ -59,8 +59,7 @@ public:
     const Mtx &getBaseTRMtx() { return mBaseTRMtx; }
     void hide(u32 p1) { clipAll(p1, false); }
     void show(u32 p1) { clipAll(p1, true); }
-    static bool isMtxCombinationOn() { return sMtxCombinationOn; };
-    static f32 getInvalidLODBias() { return sExModelInvalidLODBias; }
+    bool isAllShapePacketHidding(u32 viewNo) { return isAllShapePacketHidding(0, viewNo); }
     J3DModelData *getModelData() const { return mModelData[0]; }
     J3DModel *getModel() const { return mModel[0]; }
     void setSimpleTevReg(u32 id) { mSimpleTevReg |= (1 << id); }
@@ -71,6 +70,9 @@ public:
         JUT_MINMAX_ASSERT(0, level, mLevelCnt)
         return mModelData[level];
     }
+
+    static bool isMtxCombinationOn() { return sMtxCombinationOn; };
+    static f32 getInvalidLODBias() { return sExModelInvalidLODBias; }
 
     static bool sClippingOn;           // 0x80414610
     static bool sMtxCombinationOn;     // 0x80416398
