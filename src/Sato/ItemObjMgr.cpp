@@ -2,6 +2,7 @@
 #include "JSystem/JUtility/JUTDbPrint.h"
 #include "JSystem/J3D/J3DModelLoader.h"
 #include "JSystem/J3D/J3DTransform.h"
+#include "Kaneshige/ExModel.h"
 #include "Kaneshige/Objects/GeoRabbitMark.h"
 #include "Kaneshige/TexLODControl.h"
 #include "Kaneshige/RaceMgr.h"
@@ -22,6 +23,8 @@
 #include "Sato/stMath.h"
 #include "Yamamoto/kartCamera.h"
 
+#include "Yamamoto/kartCtrl.h"
+#include "dolphin/gx/GXEnum.h"
 #include "mathHelper.h"
 
 // WIP
@@ -775,6 +778,11 @@ void ItemObjMgr::releaseItemByKartEquipItemList(ItemObj *obj)
         mEquipItem[obj->getOwnerNum()][obj->getDriverNum()] = nullptr;
 }
 
+bool ItemObjMgr::IsItemAvailable(int) { 
+    // UNUSED
+    // SIZE: 0x48
+}
+
 ItemObj *ItemObjMgr::getKartEquipItem(int kart_index, u8 driver_index)
 {
     return mEquipItem[kart_index][driver_index];
@@ -788,6 +796,7 @@ ItemObj *ItemObjMgr::getKartEquipItem(int kart_index)
 bool ItemObjMgr::tstKartEquipItemTrigger(int kart_index, u8 driver_index)
 {
     // UNUSED
+    // SIZE: 0x18
 }
 
 int ItemObjMgr::getStockItem(int kart_index, u8 driver_index)
@@ -1212,6 +1221,43 @@ u8 ItemObjMgr::getNowTandemDriverNum(int kart_index)
 
 bool ItemObjMgr::IsSpecialCharacter(s32 charID) { return charID == 0x13 || charID == 0x14; }
 
+bool ItemObjMgr::IsAbleToCreateItem(int itemIdx) { // UNUSED, fabricated, size mismatch
+    bool ret = false;
+
+    if (itemIdx == 10 && isThunderDisabled()) {
+        return false;
+    }
+    
+    int iVar2 = 0;
+    u32 kind = itemIdx;
+
+    if (itemIdx > 0x10) {
+        iVar2 = kind == 0x15 ? 4 : 2;
+        kind = ItemObjMgr::getConvertSucItemKind(kind);
+    }
+    int moreTemps = iVar2 + 1;
+    int links = _3e8[kind].getNumLinks();
+    links += getNowStockingKindNum(itemIdx, moreTemps);
+
+    if (sMaxItemNum[kind] - links >= moreTemps) {
+        ret = true;
+    }
+    
+    return ret;
+}
+
+int ItemObjMgr::getNowStockingKindNum(int kind, u32 p2) { // UNUSED, fabricated, size match
+    int ret = 0;
+    for (int i = 0; i < RCMGetManager()->getKartNumber(); i++) {
+        for (u8 j = 0; j < 2; j++) {
+            if (mStockItem[i][j].mKind == kind) {
+                ret += p2;
+            }
+        }
+    }
+    return ret;
+}
+
 bool ItemObjMgr::IsRollingSlot(int kart_index)
 {
     bool ret = false;
@@ -1319,6 +1365,31 @@ ItemObj::ItemHandOffsetData &ItemObjMgr::getHandOffsetData(ItemObj *obj)
     return (mpHandOffsetData + (shuffleNum * sizeof(ItemObj::ItemHandOffsetData)))[charID - 1];
 }
 
+u32 ItemObjMgr::getConvertSucItemKind(u32 kind) {
+    u32 ret = kind;
+    if (kind> 0x10) { // special item kind
+        switch (kind) {
+        case 17: { // triple green shells
+            ret = 0; // single green shell
+            break;
+        }
+        case 19: { // triple red shells
+            ret = 2; // single red shell
+            break;
+        }
+        case 18: { // triple mushrooms
+            ret = 5; // single mushroom
+            break;
+        }
+        case 21: { // red/green fireballs
+            ret = 9; // in my documentation this says just "special item"
+            break;
+        }
+        }
+    }
+    return ret;
+}
+
 int ItemObjMgr::getRobberyItemNum(int kart_index, u8 driver_index)
 {
     int ret = 0;
@@ -1336,6 +1407,31 @@ void ItemObjMgr::removeMiniGameList(ItemObj *obj)
 
 void ItemObjMgr::update(ItemObjMgr::eDrawSimplModelItemType type, int id) {
 
+    for(int i = 0; i < 15; i++) {
+        for (JSUListIterator<ItemObj> it(_3e8[sJ3DUpdateItemKind[i]].getFirst()); it.isAvailable(); ++it) {
+            bool doUpdate = true;
+            switch(type) {
+            case ItemType_1: {
+                if (it->IsState1or5AndSameOwner(id))
+                    doUpdate = false;
+                break;
+            }
+            case ItemType_2: {
+                doUpdate = false;
+                int state = it->getState();
+                if (state != 1 && state != 5)
+                    doUpdate = true;
+                break;
+            }
+            }
+
+            if (doUpdate) {
+                it->setLightMask();
+                it->setTevColor();
+                it->update();
+            }
+        }
+    }
 }
 
 void ItemObjMgr::viewCalc(u32 viewNo) {
@@ -1368,7 +1464,30 @@ void ItemObjMgr::setCurrentViewNo(u32 viewNo)
     }
 }
 
-void ItemObjMgr::drawSimpleModel(u32, ItemObjMgr::eDrawSimplModelItemType, int, LightObj *) {}
+void ItemObjMgr::drawSimpleModel(u32 viewNo, ItemObjMgr::eDrawSimplModelItemType type, int owner, LightObj *lightObj) {
+    
+    for (JSUListIterator<ItemObj> it(_3e8[7].getFirst()); it.isAvailable(); ++it) {
+        bool doUpdate = true;
+        switch(type) {
+        case ItemType_1: {
+            if (it->IsState1or5AndSameOwner(owner))
+                doUpdate = false;
+            break;
+        }
+        case ItemType_2: {
+            doUpdate = false;
+            int state = it->getState();
+            if (state != 1 && state != 5)
+                doUpdate = true;
+            break;
+        }
+        }
+
+        if (doUpdate) {
+            //it->drawSimpleModel(viewNo, j3dSys.getViewMtx(), );
+        }
+    }
+}
 
 void ItemObjMgr::drawColModel(u32) {}
 
@@ -1702,11 +1821,27 @@ void ItemShuffleMgr::setAllDynamicRate()
 
 void ItemShuffleMgr::setDynamicRate(ItemShuffleMgr::KartSlotData *slotData, bool isGrandPrix)
 {
-
+    for (int i = 0; i < slotData->totalSlots; i++) {
+        bool ableToCreate = false;
+        if (GetItemObjMgr()->IsAbleToCreateItem(sSlotItemIndex[i]))
+            ableToCreate = true;
+        
+        for (int j = 0; j < slotData->kartCount; j++) {
+            if (ableToCreate) {
+                slotData->mList[j].slotTable[1][i] = slotData->mList[j].slotTable[0][i];
+                if (isGrandPrix && RivalBodyCtrl::isPlayerFirst() && sSlotItemIndex[i] == 0xd) {
+                    slotData->mList[j].slotTable[1][i] *= sGPEnemyFlyTurtleItemSlotRatio;
+                }
+            }
+            else {
+                slotData->mList[j].slotTable[1][i] = 0;
+            }
+        }    
+    }
 }
 
 int ItemShuffleMgr::SlotItem(const int kart_index, const u8 driver_index) {
-    bool hasEnemy = ObjUtility::isPlayerDriver(kart_index) ? false : true;
+    bool hasEnemy = !ObjUtility::isPlayerDriver(kart_index);
 
     if (!RCMGetManager()->isRaceModeGp()) {
         hasEnemy = false;
