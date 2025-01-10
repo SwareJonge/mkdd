@@ -951,7 +951,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JParticle/JPAExtraShape.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAFieldBlock.cpp"),
             Object(Matching, "JSystem/JParticle/JPAKeyBlock.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAMath.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAMath.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAParticle.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAResource.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAResourceLoader.cpp"),

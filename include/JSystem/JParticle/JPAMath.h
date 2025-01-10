@@ -6,10 +6,10 @@
 
 static inline u32 COLOR_MULTI(u32 color1, u32 color2) { return (color1 * (color2 + 1) * 0x10000) >> 24; }
 
-void JPAConvertFixToFloat(short);
+f32 JPAConvertFixToFloat(s16);
 void JPAGetDirMtx(const JGeometry::TVec3f &, Mtx);
-void JPAGetYZRotateMtx(short, short, Mtx);
-void JPAGetXYZRotateMtx(short, short, short, Mtx);
+void JPAGetYZRotateMtx(s16, s16, Mtx);
+void JPAGetXYZRotateMtx(s16, s16, s16, Mtx);
 void JPASetRMtxfromMtx(const Mtx, Mtx);
 void JPASetRMtxTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f *);
 void JPASetRMtxSTVecfromMtx(const Mtx, Mtx, JGeometry::TVec3f *, JGeometry::TVec3f *);

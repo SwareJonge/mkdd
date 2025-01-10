@@ -618,7 +618,7 @@ void JPADrawBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
         return;
     
     JGeometry::TVec3f position;
-    PSMTXMultVec(work->mPosCamMtx, (Vec *)&particle->mPosition, (Vec *)&position);
+    PSMTXMultVec(work->mPosCamMtx, &particle->mPosition, &position);
     Mtx mtx;
     mtx[0][0] = work->mGlobalPtclScl.x * particle->mParticleScaleX;
     mtx[0][3] = position.x;
@@ -636,10 +636,10 @@ void JPADrawBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 void JPADrawRotBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
     if (particle->checkStatus(8) != 0)
-    return;
+        return;
     
     JGeometry::TVec3f position;
-    PSMTXMultVec(work->mPosCamMtx, (Vec *)&particle->mPosition, (Vec *)&position);
+    PSMTXMultVec(work->mPosCamMtx, &particle->mPosition, &position);
     f32 sinRot = JMASSin(particle->mRotateAngle);
     f32 cosRot = JMASCos(particle->mRotateAngle);
     f32 particleX = work->mGlobalPtclScl.x * particle->mParticleScaleX;
@@ -666,23 +666,23 @@ void JPADrawYBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
     if (particle->checkStatus(8) != 0)
         return;
 
-        JGeometry::TVec3f position;
-        PSMTXMultVec(work->mPosCamMtx, (Vec *)&particle->mPosition, (Vec *)&position);
-        Mtx mtx;
-        f32 particleX = work->mGlobalPtclScl.x * particle->mParticleScaleX;
-        f32 particleY = work->mGlobalPtclScl.y * particle->mParticleScaleY;        
-        mtx[0][0] = particleX;
-        mtx[0][3] = position.x;
-        mtx[1][1] = work->mYBBCamMtx[1][1] * particleY;
-        mtx[1][2] = work->mYBBCamMtx[1][2];
-        mtx[1][3] = position.y;
-        mtx[2][1] = work->mYBBCamMtx[2][1] * particleY;
-        mtx[2][2] = work->mYBBCamMtx[2][2];
-        mtx[2][3] = position.z;
-        mtx[0][1] = mtx[0][2] = mtx[1][0] = mtx[2][0] = 0.0f;
-        GXLoadPosMtxImm(mtx, 0);
-        p_prj[work->mProjectionType](work, mtx);
-        GXCallDisplayList(jpa_dl, sizeof(jpa_dl));
+    JGeometry::TVec3f position;
+    PSMTXMultVec(work->mPosCamMtx, &particle->mPosition, &position);
+    Mtx mtx;
+    f32 particleX = work->mGlobalPtclScl.x * particle->mParticleScaleX;
+    f32 particleY = work->mGlobalPtclScl.y * particle->mParticleScaleY;        
+    mtx[0][0] = particleX;
+    mtx[0][3] = position.x;
+    mtx[1][1] = work->mYBBCamMtx[1][1] * particleY;
+    mtx[1][2] = work->mYBBCamMtx[1][2];
+    mtx[1][3] = position.y;
+    mtx[2][1] = work->mYBBCamMtx[2][1] * particleY;
+    mtx[2][2] = work->mYBBCamMtx[2][2];
+    mtx[2][3] = position.z;
+    mtx[0][1] = mtx[0][2] = mtx[1][0] = mtx[2][0] = 0.0f;
+    GXLoadPosMtxImm(mtx, 0);
+    p_prj[work->mProjectionType](work, mtx);
+    GXCallDisplayList(jpa_dl, sizeof(jpa_dl));
     
 }
 
@@ -692,7 +692,7 @@ void JPADrawRotYBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
         return;
 
     JGeometry::TVec3f position;
-    PSMTXMultVec(work->mPosCamMtx, (Vec *)&particle->mPosition, (Vec *)&position);
+    PSMTXMultVec(work->mPosCamMtx, &particle->mPosition, &position);
     f32 sinRot = JMASSin(particle->mRotateAngle);
     f32 cosRot = JMASCos(particle->mRotateAngle);
     Mtx mtx;
@@ -959,32 +959,32 @@ void JPADrawDBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
     if (particle->checkStatus(8) != 0)
         return;
     
-        JGeometry::TVec3<f32> direction;
-        p_direction[work->mDirType](work, particle, &direction);
-        JGeometry::TVec3<f32> cameraPos(work->mPosCamMtx[2][0], work->mPosCamMtx[2][1], work->mPosCamMtx[2][2]);
-        direction.cross(direction, cameraPos);
-        if (direction.isZero())
-            return;
-        
-        direction.normalize();
-        PSMTXMultVecSR(work->mPosCamMtx, (Vec *)&direction, (Vec *)&direction);
-        JGeometry::TVec3<f32> particlePos;
-        PSMTXMultVec(work->mPosCamMtx, (Vec *)&particle->mPosition, (Vec *)&particlePos);
-        f32 particleX = work->mGlobalPtclScl.x * particle->mParticleScaleX;
-        f32 particleY = work->mGlobalPtclScl.y * particle->mParticleScaleY;
-        Mtx transformMtx;
-        transformMtx[0][0] = direction.x * particleX;
-        transformMtx[0][1] = -direction.y * particleY;
-        transformMtx[0][3] = particlePos.x;
-        transformMtx[1][0] = direction.y * particleX;
-        transformMtx[1][1] = direction.x * particleY;
-        transformMtx[1][3] = particlePos.y;
-        transformMtx[2][2] = 1.0f;
-        transformMtx[2][3] = particlePos.z;
-        transformMtx[0][2] = transformMtx[2][0] = transformMtx[2][1] = 0.0f;
-        GXLoadPosMtxImm(transformMtx, 0);
-        p_prj[work->mProjectionType](work, transformMtx);
-        GXCallDisplayList(jpa_dl, sizeof(jpa_dl));
+    JGeometry::TVec3f direction;
+    p_direction[work->mDirType](work, particle, &direction);
+    JGeometry::TVec3f cameraPos(work->mPosCamMtx[2][0], work->mPosCamMtx[2][1], work->mPosCamMtx[2][2]);
+    direction.cross(direction, cameraPos);
+    if (direction.isZero())
+        return;
+    
+    direction.normalize();
+    PSMTXMultVecSR(work->mPosCamMtx, &direction, &direction);
+    JGeometry::TVec3<f32> particlePos;
+    PSMTXMultVec(work->mPosCamMtx, &particle->mPosition, &particlePos);
+    f32 particleX = work->mGlobalPtclScl.x * particle->mParticleScaleX;
+    f32 particleY = work->mGlobalPtclScl.y * particle->mParticleScaleY;
+    Mtx transformMtx;
+    transformMtx[0][0] = direction.x * particleX;
+    transformMtx[0][1] = -direction.y * particleY;
+    transformMtx[0][3] = particlePos.x;
+    transformMtx[1][0] = direction.y * particleX;
+    transformMtx[1][1] = direction.x * particleY;
+    transformMtx[1][3] = particlePos.y;
+    transformMtx[2][2] = 1.0f;
+    transformMtx[2][3] = particlePos.z;
+    transformMtx[0][2] = transformMtx[2][0] = transformMtx[2][1] = 0.0f;
+    GXLoadPosMtxImm(transformMtx, 0);
+    p_prj[work->mProjectionType](work, transformMtx);
+    GXCallDisplayList(jpa_dl, sizeof(jpa_dl));
 }
 
 void JPADrawRotation(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
@@ -1030,21 +1030,22 @@ void JPADrawLine(JPAEmitterWorkData *work, JPABaseParticle *particle)
     if (particle->checkStatus(8) != 0)
         return;
 
-    JGeometry::TVec3f position(particle->mPosition);
-    JGeometry::TVec3f direction;
-    particle->getVelVec(&direction);
-    if (direction.isZero())
+    JGeometry::TVec3f position1(particle->mPosition);
+    JGeometry::TVec3f position2;
+    
+    particle->getVelVec(&position2);
+    if (position2.isZero())
         return;
 
-    direction.setLength(work->mGlobalPtclScl.y * (25.0f * particle->mParticleScaleY));
-    direction.sub(position, direction);
+    position2.setLength(work->mGlobalPtclScl.y * (25.0f * particle->mParticleScaleY));
+    position2.sub(position1, position2);
     GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
     GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
     GXBegin(GX_LINES, GX_VTXFMT1, 2);
 
-    GXPosition3f32(position.x, position.y, position.z);
+    GXPosition3f32(position1.x, position1.y, position1.z);
     GXTexCoord2f32(0.0f, 0.0f);
-    GXPosition3f32(direction.x, direction.y, direction.z);
+    GXPosition3f32(position2.x, position2.y, position2.z);
     GXTexCoord2f32(0.0f, 1.0f);
 
     GXEnd();
@@ -1145,7 +1146,7 @@ void JPADrawStripe(JPAEmitterWorkData *work)
         matrix[2][2] = particle->mBaseAxis.z;
         matrix[2][3] = 0.0f;
 
-        PSMTXMultVecArraySR(matrix, (Vec *)local_e0, (Vec *)local_e0, 2); // ???
+        PSMTXMultVecArraySR(matrix, local_e0, local_e0, 2); // ???
         GXPosition3f32(local_e0[0].x + local_ec.x, local_e0[0].y + local_ec.y, local_e0[0].z + local_ec.z);
 
 
@@ -1250,7 +1251,7 @@ void JPADrawStripeX(JPAEmitterWorkData *work)
         matrix[2][1] = direction.z;
         matrix[2][2] = particle->mBaseAxis.z;
         matrix[2][3] = 0.0f;
-        PSMTXMultVecArraySR(matrix, (Vec *)local_a8, (Vec *)local_a8, 2); // ???
+        PSMTXMultVecArraySR(matrix, local_a8, local_a8, 2); // ???
         GXPosition3f32(local_a8[0].x + position.x, local_a8[0].y + position.y, local_a8[0].z + position.z);
         GXTexCoord2f32( 0.0f, coord);
         GXPosition3f32(local_a8[1].x + position.x, local_a8[1].y + position.y, local_a8[1].z + position.z);
@@ -1309,7 +1310,7 @@ void JPADrawStripeX(JPAEmitterWorkData *work)
         matrix[2][1] = direction.z;
         matrix[2][2] = particle->mBaseAxis.z;
         matrix[2][3] = 0.0f;
-        PSMTXMultVecArraySR(matrix, (Vec *)local_a8, (Vec *)local_a8, 2); // ???
+        PSMTXMultVecArraySR(matrix, local_a8, local_a8, 2); // ???
         GXPosition3f32(local_a8[0].x + position.x, local_a8[0].y + position.y, local_a8[0].z + position.z);
 
         //const f32 zero = 0.0f;
