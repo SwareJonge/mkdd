@@ -1157,7 +1157,7 @@ config.libs = [
             Object(Matching, "Kaneshige/Movie/MovieApp.cpp"),
             Object(Matching, "Kaneshige/Movie/MoviePlayer.cpp"),
             Object(Matching, "Kaneshige/Movie/THPDraw.c"),
-            Object(NonMatching, "Kaneshige/MdlViewer.cpp"),
+            Object(Matching, "Kaneshige/MdlViewer.cpp"),
             Object(Matching, "Kaneshige/RaceTime.cpp"),
             Object(Matching, "Kaneshige/MaskScreen.cpp"),
             Object(Matching, "Kaneshige/THP/THPPlayer.c"),
