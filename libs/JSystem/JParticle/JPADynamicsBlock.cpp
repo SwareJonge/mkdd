@@ -3,6 +3,8 @@
 #include "JSystem/JParticle/JPAEmitter.h"
 #include "types.h"
 
+// TODO: check against TP Debug
+
 void JPAVolumePoint(JPAEmitterWorkData* workData)
 {
     workData->mVolumePos.zero();
@@ -75,18 +77,23 @@ void JPAVolumeSphere(JPAEmitterWorkData* workData)
             workData->mVolumeAngleNum = 0;
             workData->mVolumeX++;
             if (workData->mVolumeX * 2 < workData->mDivNumber) {
-                int angleMax = workData->mVolumeAngleMax;
-                if (workData->mVolumeAngleMax != 1) {
-                    angleMax += 4;
-                } else {
-                    angleMax += 3;
+                // a ternary makes much more sense here
+                int angleMax;
+                switch (workData->mVolumeAngleMax) {
+                default:
+                    angleMax = workData->mVolumeAngleMax + 4;
+                    break;
+                case 1:
+                    angleMax = workData->mVolumeAngleMax + 3;
                 }
                 workData->mVolumeAngleMax = angleMax;
             } else {
-                int angleMax = workData->mVolumeAngleMax;
-                if (workData->mVolumeAngleMax != 4) {
-                    angleMax -= 4;
-                } else {
+                int angleMax;
+                switch (workData->mVolumeAngleMax) {
+                default:
+                    angleMax = workData->mVolumeAngleMax - 4;
+                    break;
+                case 4:
                     angleMax = 1;
                 }
                 workData->mVolumeAngleMax = angleMax;
