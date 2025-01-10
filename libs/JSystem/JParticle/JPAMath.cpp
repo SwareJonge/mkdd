@@ -6,7 +6,7 @@ f32 JPAConvertFixToFloat(s16) {
     // UNUSED FUNCTION
 }
 
-void JPAGetDirMtx(const JGeometry::TVec3f &vec, Mtx mtx) {
+void JPAGetDirMtx(const JGeometry::TVec3f &vec, Mtx m) {
     Vec *v = (Vec *)&vec; // fakematch?
     JGeometry::TVec3f newVec;
     newVec.set(vec.y, -vec.x, 0.0f);
@@ -23,20 +23,20 @@ void JPAGetDirMtx(const JGeometry::TVec3f &vec, Mtx mtx) {
     const f32 yLen = newVec.y * mag; // f27
     const f32 xyz  = (1.0f - vec.z) * (newVec.x * newVec.y); // f26
 
-    mtx[0][0] = xSq + vec.z * (1.0f - xSq);
-    mtx[0][1] = xyz;
-    mtx[0][2] = -yLen;
-    mtx[0][3] = 0.0f;
+    m[0][0] = xSq + vec.z * (1.0f - xSq);
+    m[0][1] = xyz;
+    m[0][2] = -yLen;
+    m[0][3] = 0.0f;
 
-    mtx[1][0] = xyz;
-    mtx[1][1] = ySq + vec.z * (1.0f - ySq);
-    mtx[1][2] = xLen;
-    mtx[1][3] = 0.0f;
+    m[1][0] = xyz;
+    m[1][1] = ySq + vec.z * (1.0f - ySq);
+    m[1][2] = xLen;
+    m[1][3] = 0.0f;
 
-    mtx[2][0] = yLen;
-    mtx[2][1] = -xLen;
-    mtx[2][2] = v->z;
-    mtx[2][3] = 0.0f;
+    m[2][0] = yLen;
+    m[2][1] = -xLen;
+    m[2][2] = v->z;
+    m[2][3] = 0.0f;
 }
 
 void JPAGetYZRotateMtx(s16 angleY, s16 angleZ, Mtx m) {
@@ -100,39 +100,39 @@ void JPASetRMtxTVecfromMtx(const Mtx src, Mtx dst, JGeometry::TVec3f *v2) {
     JPASetRMtxSTVecfromMtx(src, dst, &v, v2);
 }
 
-void JPASetRMtxSTVecfromMtx(const Mtx mtx, Mtx RMtx, JGeometry::TVec3f* lengths, JGeometry::TVec3f* translation) {
+void JPASetRMtxSTVecfromMtx(const Mtx m, Mtx RMtx, JGeometry::TVec3f* lengths, JGeometry::TVec3f* translation) {
     JGeometry::TVec3f tempVec;
-    tempVec.set(mtx[0][0], mtx[1][0], mtx[2][0]);
+    tempVec.set(m[0][0], m[1][0], m[2][0]);
     lengths->x = tempVec.length();
-    tempVec.set(mtx[0][1], mtx[1][1], mtx[2][1]);
+    tempVec.set(m[0][1], m[1][1], m[2][1]);
     lengths->y = tempVec.length();
-    tempVec.set(mtx[0][2], mtx[1][2], mtx[2][2]);
+    tempVec.set(m[0][2], m[1][2], m[2][2]);
     lengths->z = tempVec.length();
     PSMTXIdentity(RMtx);
     if (lengths->x != 0.0f) {
         f32 fVar5  = 1.0f / lengths->x;
-        RMtx[0][0] = mtx[0][0] * fVar5;
-        RMtx[1][0] = mtx[1][0] * fVar5;
-        RMtx[2][0] = mtx[2][0] * fVar5;
+        RMtx[0][0] = m[0][0] * fVar5;
+        RMtx[1][0] = m[1][0] * fVar5;
+        RMtx[2][0] = m[2][0] * fVar5;
     }
     if (lengths->y != 0.0f) {
         f32 fVar5  = 1.0f / lengths->y;
-        RMtx[0][1] = mtx[0][1] * fVar5;
-        RMtx[1][1] = mtx[1][1] * fVar5;
-        RMtx[2][1] = mtx[2][1] * fVar5;
+        RMtx[0][1] = m[0][1] * fVar5;
+        RMtx[1][1] = m[1][1] * fVar5;
+        RMtx[2][1] = m[2][1] * fVar5;
     }
     if (lengths->z != 0.0f) {
         f32 fVar5  = 1.0f / lengths->z;
-        RMtx[0][2] = mtx[0][2] * fVar5;
-        RMtx[1][2] = mtx[1][2] * fVar5;
-        RMtx[2][2] = mtx[2][2] * fVar5;
+        RMtx[0][2] = m[0][2] * fVar5;
+        RMtx[1][2] = m[1][2] * fVar5;
+        RMtx[2][2] = m[2][2] * fVar5;
     }
 
-    translation->set(mtx[0][3], mtx[1][3], mtx[2][3]);
+    translation->set(m[0][3], m[1][3], m[2][3]);
 }
 
 f32 JPACalcKeyAnmValue(f32 currentFrame, u16 keyFrameCount, const f32* keyFrameData) {
-if (currentFrame < keyFrameData[0]) {
+    if (currentFrame < keyFrameData[0]) {
         return keyFrameData[1];
     }
 
