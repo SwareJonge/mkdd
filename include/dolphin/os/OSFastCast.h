@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include "dolphin/types.h"
+
 #define OS_GQR_F32 0x0000
 #define OS_GQR_U8 0x0004
 #define OS_GQR_U16 0x0005

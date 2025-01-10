@@ -943,7 +943,7 @@ config.libs = [
         ["-O4,p"],
         [
             Object(Equivalent, "JSystem/JParticle/JPABaseShape.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAChildShape.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAChildShape.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPADynamicsBlock.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAEmitter.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAEmitterManager.cpp"),

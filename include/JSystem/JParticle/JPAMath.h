@@ -4,7 +4,7 @@
 #include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
 
-static inline u32 COLOR_MULTI(u32 color1, u32 color2) { return (color1 * (color2 + 1) * 0x10000) >> 24; }
+static inline u32 COLOR_MULTI(u32 color1, u32 color2) { return (color1 * (color2 + 1) << 16) >> 24; }
 
 f32 JPAConvertFixToFloat(s16);
 void JPAGetDirMtx(const JGeometry::TVec3f &, Mtx);
