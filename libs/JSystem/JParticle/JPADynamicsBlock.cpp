@@ -228,8 +228,8 @@ void JPADynamicsBlock::create(JPAEmitterWorkData* work)
         work->mEmitter->mRateStepTimer -= (work->mEmitter->mRateStep + 1);
         work->mEmitter->setFlag(JPAEMIT_RateStepEmit);
     } else {
-        work->mEmitter->resetFlag(JPAEMIT_RateStepEmit);
+        work->mEmitter->clearStatus(JPAEMIT_RateStepEmit);
     }
 
-    work->mEmitter->resetFlag(JPAEMIT_FirstEmit);
+    work->mEmitter->clearStatus(JPAEMIT_FirstEmit);
 }

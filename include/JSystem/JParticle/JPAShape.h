@@ -2,6 +2,7 @@
 #define _JSYSTEM_JPA_JPASHAPE_H
 
 #include <dolphin/gx.h>
+#include <dolphin/mtx.h>
 
 #include "JSystem/JKernel/JKRHeap.h"
 #include "types.h"
@@ -82,18 +83,20 @@ struct JPABaseShape
     u32 getProjType() const { return ((pBsd->mFlags >> 24) & 0x01); }
     u32 getTilingS() const { return (pBsd->mFlags >> 25) & 0x01; }
     u32 getTilingT() const { return (pBsd->mFlags >> 26) & 0x01; }
-    bool isGlblClrAnm() const { return !!(pBsd->mFlags & 0x00001000); }
-    bool isGlblTexAnm() const { return !!(pBsd->mFlags & 0x00004000); }
-    bool isPrjTex() const { return !!(pBsd->mFlags & 0x00100000); }
-    bool isDrawFwdAhead() const { return !!(pBsd->mFlags & 0x00200000); }
-    bool isDrawPrntAhead() const { return !!(pBsd->mFlags & 0x00400000); }
-    bool isClipOn() const { return !!(pBsd->mFlags & 0x00800000); }
-    bool isTexCrdAnm() const { return !!(pBsd->mFlags & 0x01000000); }
-    bool isNoDrawParent() const { return !!(pBsd->mFlags & 0x08000000); }
-    bool isNoDrawChild() const { return !!(pBsd->mFlags & 0x10000000); }
+    BOOL isNoDrawParent() const { return ((pBsd->mFlags >> 27) & 1); }
+    BOOL isNoDrawChild() const { return ((pBsd->mFlags >> 28) & 1); }
 
-    bool isPrmAnm() const { return !!(pBsd->mClrFlg & 0x02); }
-    bool isEnvAnm() const { return !!(pBsd->mClrFlg & 0x08); }
+    BOOL isPrjTex() const { return (pBsd->mFlags & 0x00100000); }
+    BOOL isTexCrdAnm() const { return (pBsd->mFlags & 0x01000000); }
+    BOOL isGlblClrAnm() const { return (pBsd->mFlags & 0x00001000); }
+    u32 isGlblTexAnm() const { return (pBsd->mFlags & 0x00004000) ; } // fakematch most likely
+    BOOL isDrawFwdAhead() const { return (pBsd->mFlags & 0x00200000); }
+    BOOL isDrawPrntAhead() const { return (pBsd->mFlags & 0x00400000); }
+    BOOL isClipOn() const { return (pBsd->mFlags & 0x00800000); }
+
+    BOOL isTexAnm() const { return (pBsd->mTexFlg & 0x01); }
+    BOOL isPrmAnm() const { return (pBsd->mClrFlg & 0x02); }
+    BOOL isEnvAnm() const { return (pBsd->mClrFlg & 0x08); }
     u8 getClrAnmType() const { return (pBsd->mClrFlg >> 4) & 0x07; }
     s32 getClrAnmMaxFrm() const { return pBsd->mClrAnmFrmMax; }
     void getPrmClr(GXColor *dst) { *dst = pBsd->mClrPrm; }
@@ -101,7 +104,6 @@ struct JPABaseShape
     void getEnvClr(GXColor *dst) { *dst = pBsd->mClrEnv; }
     void getEnvClr(s16 idx, GXColor *dst) const { *dst = mEnvClrAnmTbl[idx]; }
 
-    bool isTexAnm() const { return !!(pBsd->mTexFlg & 0x01); }
     u8 getTexAnmType() const { return (pBsd->mTexFlg >> 2) & 0x07; }
     s64 getTexIdx() const { return (u8)pBsd->mTexIdx; }
     u8 getTexIdx(u8 idx) const { return mTexIdxAnimTbl[idx]; }
@@ -195,11 +197,17 @@ struct JPAChildShape
     f32 getAlphaInhRate() const { return mData->mInheritAlpha; }
     f32 getGravity() const { return mData->mGravity; }
 
-    bool isFieldAffected() const { return mData->mFlags & 0x200000; }
-    bool isScaleInherited() const { return mData->mFlags & 0x10000; }
-    bool isColorInherited() const { return mData->mFlags & 0x40000; }
-    bool isAlphaInherited() const { return mData->mFlags & 0x20000; }
-    bool isRotateOn() const { return mData->mFlags & 0x1000000; }
+    u32 getType() const { return (mData->mFlags >> 0) & 0x0F; }
+    u32 getBasePlaneType() const { return (mData->mFlags >> 10) & 0x01; }
+
+    BOOL isScaleInherited() const { return mData->mFlags & 0x10000; }
+    BOOL isAlphaInherited() const { return mData->mFlags & 0x20000; }
+    BOOL isColorInherited() const { return mData->mFlags & 0x40000; }
+    BOOL isClipOn() const { return mData->mFlags & 0x100000; }
+    BOOL isFieldAffected() const { return mData->mFlags & 0x200000; }
+    BOOL isScaleOutOn() const { return mData->mFlags & 0x400000; }
+    BOOL isAlphaOutOn() const { return mData->mFlags & 0x800000; }
+    BOOL isRotateOn() const { return mData->mFlags & 0x1000000; }
 
     const JPAChildShapeData *mData; // _00
 };
@@ -210,7 +218,7 @@ struct JPAExTexShapeData
     u32 mSize;    // _04
 
     u32 mFlags;           // _08
-    f32 mIndTexMtx[2][3]; // _0C
+    Mtx23 mIndTexMtx; // _0C
     s8 mExpScale;         // _24
     s8 mIndTexIdx;        // _25
     s8 mSecTexIdx;        // _26
@@ -226,12 +234,12 @@ struct JPAExTexShape
     // Unused/inlined:
     void init_jpa(const u8 *, JKRHeap *);
 
-    const f32 *getIndTexMtx() const { return &mData->mIndTexMtx[0][0]; }
-    s32 getExpScale() const { return mData->mExpScale; }
+    const Mtx23 &getIndTexMtx() const { return mData->mIndTexMtx; }
+    const s8 getExpScale() const { return mData->mExpScale; }
     u8 getIndTexIdx() const { return mData->mIndTexIdx; }
     u8 getSecTexIdx() const { return mData->mSecTexIdx; }
-    bool isUseIndirect() const { return !!(mData->mFlags & 0x01); }
-    bool isUseSecTex() const { return !!(mData->mFlags & 0x0100); }
+    BOOL isUseIndirect() const { return (mData->mFlags & 0x01); }
+    BOOL isUseSecTex() const { return (mData->mFlags & 0x0100); }
 
     const JPAExTexShapeData *mData; // _00
 };
@@ -307,17 +315,26 @@ struct JPAExtraShape
     f32 getAlphaIncRate() const { return mAlphaIncRate; }
     f32 getAlphaDecRate() const { return mAlphaDecRate; }
 
-    bool isEnableScaleAnm() const { return mData->mFlags & 0x1; }
-    bool isEnableAlphaFlick() const { return mData->mFlags & 0x20000; }
-    bool isEnableRotateAnm() const { return mData->mFlags & 0x1000000; }
+    u32 getScaleAnmTypeX() const { return (mData->mFlags >> 8) & 3; }
+    u32 getScaleAnmTypeY() const { return (mData->mFlags >> 10) & 3; }
+    u32 getScaleCenterX() const { return (mData->mFlags >> 12) & 3; }
+    u32 getScaleCenterY() const { return (mData->mFlags >> 14) & 3; }
+    
+    BOOL isEnableAlphaAnm() const { return mData->mFlags & 0x10000; }
+    BOOL isEnableAlphaFlick() const { return mData->mFlags & 0x20000; }
+    BOOL isEnableRotateAnm() const { return mData->mFlags & 0x1000000; }
+
+    BOOL isEnableScaleAnm() const { return mData->mFlags & 1; }
+    BOOL isScaleXYDiff() const { return mData->mFlags & 2; }
+    
 
     const JPAExtraShapeData *mData; // _00
-    f32 mAlphaIncRate;             // _04
-    f32 mAlphaDecRate;             // _08
-    f32 mScaleIncRateX;            // _0C
-    f32 mScaleIncRateY;            // _10
-    f32 mScaleDecRateX;            // _14
-    f32 mScaleDecRateY;            // _18
+    f32 mAlphaIncRate;              // _04
+    f32 mAlphaDecRate;              // _08
+    f32 mScaleIncRateX;             // _0C
+    f32 mScaleIncRateY;             // _10
+    f32 mScaleDecRateX;             // _14
+    f32 mScaleDecRateY;             // _18
 };
 
 // In JPABaseShape.cpp:

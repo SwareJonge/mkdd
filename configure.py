@@ -953,7 +953,7 @@ config.libs = [
             Object(Matching, "JSystem/JParticle/JPAKeyBlock.cpp"),
             Object(Matching, "JSystem/JParticle/JPAMath.cpp"),
             Object(Matching, "JSystem/JParticle/JPAParticle.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAResource.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAResource.cpp"),
             Object(Matching, "JSystem/JParticle/JPAResourceLoader.cpp"),
             Object(Matching, "JSystem/JParticle/JPAResourceManager.cpp"),
             Object(Matching, "JSystem/JParticle/JPATexture.cpp")

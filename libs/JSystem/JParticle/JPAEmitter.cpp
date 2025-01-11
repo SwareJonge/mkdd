@@ -7,7 +7,7 @@
 
 JPAEmitterCallBack::~JPAEmitterCallBack() { }
 
-void JPABaseEmitter::init(JPAEmitterManager* manager, JPAResource* resource)
+void JPABaseEmitter::init(JPAEmitterManager *manager, JPAResource *resource)
 {
     mManager  = manager;
     mResource = resource;
@@ -54,7 +54,7 @@ void JPABaseEmitter::init(JPAEmitterManager* manager, JPAResource* resource)
     mRateStepTimer = 0;
 }
 
-JPABaseParticle* JPABaseEmitter::createParticle()
+JPABaseParticle *JPABaseEmitter::createParticle()
 {
     if (mPtclPool->mNum != 0) {
         JPANode<JPABaseParticle>* node = mPtclPool->pop_front();
@@ -72,7 +72,7 @@ JPABaseParticle* JPABaseEmitter::createParticle()
     return nullptr;
 }
 
-JPABaseParticle* JPABaseEmitter::createChild(JPABaseParticle* parent)
+JPABaseParticle *JPABaseEmitter::createChild(JPABaseParticle *parent)
 {
     if (mPtclPool->mNum != 0) {
         JPANode<JPABaseParticle>* node = mPtclPool->pop_front();
@@ -136,7 +136,7 @@ bool JPABaseEmitter::processTermination()
     return false;
 }
 
-void JPABaseEmitter::calcEmitterGlobalPosition(JGeometry::TVec3f* p1) const
+void JPABaseEmitter::calcEmitterGlobalPosition(JGeometry::TVec3f *pos) const
 {
     Mtx mtx;
     PSMTXScale(mtx, mGlobalScl.x, mGlobalScl.y, mGlobalScl.z);
@@ -144,7 +144,7 @@ void JPABaseEmitter::calcEmitterGlobalPosition(JGeometry::TVec3f* p1) const
     mtx[0][3] = mGlobalTrs.x;
     mtx[1][3] = mGlobalTrs.y;
     mtx[2][3] = mGlobalTrs.z;
-    PSMTXMultVec(mtx, (Vec*)&mLocalTrs, (Vec*)p1);
+    PSMTXMultVec(mtx, &mLocalTrs, pos);
 }
 
 void JPABaseEmitter::getEmitterAxisX(JGeometry::TVec3<f32>*) const

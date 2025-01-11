@@ -5,10 +5,6 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "types.h"
 
-/*
-
-*/
-
 #define GetTypeFromByteStream(data, type, offset) (*(type*)((data) + (offset)))
 
 JPAResourceLoader::JPAResourceLoader(const u8 *p1, JPAResourceManager* p_res_mgr, u16)

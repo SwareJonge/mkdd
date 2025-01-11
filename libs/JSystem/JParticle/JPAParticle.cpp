@@ -20,7 +20,7 @@ void JPABaseParticle::init_p(JPAEmitterWorkData *workData)
     mLifeTime = (f32)emitter->mLifeTime * (1.0f - dynamicsBlock->mData->mLifeTimeRndm * emitter->mRandom.getRandF32());
     mTime     = 0.0f;
     initStatus(0);
-    PSMTXMultVecSR(workData->mGlobalSR, (Vec*)&workData->mVolumePos, (Vec*)&mLocalPosition);
+    PSMTXMultVecSR(workData->mGlobalSR, &workData->mVolumePos, &mLocalPosition);
     if (emitter->checkDynFlag(8)) {
         setStatus(0x20);
     }
@@ -69,7 +69,7 @@ void JPABaseParticle::init_p(JPAEmitterWorkData *workData)
         mVelType1.mul(emitter->mLocalScl);
     }
 
-    PSMTXMultVecSR(workData->mGlobalRot, (Vec*)&mVelType1, (Vec*)&mVelType1);
+    PSMTXMultVecSR(workData->mGlobalRot, &mVelType1, &mVelType1);
     mVelType0.zero();
     mMoment = 1.0f - (dynamicsBlock->getMomentRndm() * emitter->getRandF32());
     mDrag   = 1.0f;

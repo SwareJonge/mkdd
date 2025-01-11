@@ -3,8 +3,9 @@
 
 #include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
-#include "JSystem/JParticle/JPABlock.h"
 #include "JSystem/JParticle/JPAResource.h"
+
+struct JPAFieldBlock;
 
 struct JPAFieldBase
 {

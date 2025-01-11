@@ -68,7 +68,7 @@ void JPAResourceManager::registTex(JPATexture *res)
     texRegNum++;
 }
 
-void JPAResourceManager::registTexDupCheck(const unsigned char *, JKRHeap *)
+void JPAResourceManager::registTexDupCheck(const u8 *, JKRHeap *)
 {
     // UNUSED
 }

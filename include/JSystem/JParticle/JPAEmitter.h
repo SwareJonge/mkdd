@@ -146,7 +146,7 @@ struct JPABaseEmitter
     void initFlag(u32 flag) { mFlags = flag; }
     void setFlag(u32 flag) { mFlags |= flag; }
     bool checkStatus(u32 flag) const { return mFlags & flag; }
-    void resetFlag(u32 flag) { mFlags &= ~flag; }
+    void clearStatus(u32 flag) { mFlags &= ~flag; }
 
     inline void setScale(f32 scale)
     {

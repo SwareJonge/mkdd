@@ -5,8 +5,8 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JParticle/JPATexture.h"
 
-typedef void JPAFunctionA(struct JPAEmitterWorkData *);
-typedef void JPAFunctionB(struct JPAEmitterWorkData *, struct JPABaseParticle *);
+typedef void (*JPAEmitterFunc)(struct JPAEmitterWorkData *);
+typedef void (*JPAParticleFunc)(struct JPAEmitterWorkData *, struct JPABaseParticle *);
 
 struct JPABaseShape;
 struct JPAExtraShape;
@@ -46,32 +46,32 @@ struct JPAResource
     u16 getTexIdx(u8 idx) { return texIdxTbl[idx]; }
     u16 getUsrIdx() const { return mUsrIdx; }
 
-    JPAFunctionA **mCalcEmitterFuncList;       // _00
-    JPAFunctionA **mDrawEmitterFuncList;       // _04
-    JPAFunctionA **mDrawEmitterChildFuncList;  // _08
-    JPAFunctionB **mCalcParticleFuncList;      // _0C
-    JPAFunctionB **mDrawParticleFuncList;      // _10
-    JPAFunctionB **mCalcParticleChildFuncList; // _14
-    JPAFunctionB **mDrawParticleChildFuncList; // _18
-    JPABaseShape *pBsp;                        // _1C
-    JPAExtraShape *pEsp;                       // _20
-    JPAChildShape *pCsp;                       // _24
-    JPAExTexShape *pEts;                       // _28
-    JPADynamicsBlock *pDyn;                    // _2C
-    JPAFieldBlock **ppFld;                     // _30
-    JPAKeyBlock **ppKey;                       // _34
-    u16 *texIdxTbl     ;                       // _38
-    u16 mUsrIdx;                               // _3C
-    u8 fldNum;                                 // _3E
-    u8 keyNum;                                 // _3F
-    u8 texNum;                                 // _40
-    u8 mCalcEmitterFuncListNum;                // _41
-    u8 mDrawEmitterFuncListNum;                // _42
-    u8 mDrawEmitterChildFuncListNum;           // _43
-    u8 mCalcParticleFuncListNum;               // _44
-    u8 mDrawParticleFuncListNum;               // _45
-    u8 mCalcParticleChildFuncListNum;          // _46
-    u8 mDrawParticleChildFuncListNum;          // _47
+    JPAEmitterFunc *mCalcEmitterFuncList;        // _00
+    JPAEmitterFunc *mDrawEmitterFuncList;        // _04
+    JPAEmitterFunc *mDrawEmitterChildFuncList;   // _08
+    JPAParticleFunc *mCalcParticleFuncList;      // _0C
+    JPAParticleFunc *mDrawParticleFuncList;      // _10
+    JPAParticleFunc *mCalcParticleChildFuncList; // _14
+    JPAParticleFunc *mDrawParticleChildFuncList; // _18
+    JPABaseShape *pBsp;                          // _1C
+    JPAExtraShape *pEsp;                         // _20
+    JPAChildShape *pCsp;                         // _24
+    JPAExTexShape *pEts;                         // _28
+    JPADynamicsBlock *pDyn;                      // _2C
+    JPAFieldBlock **ppFld;                       // _30
+    JPAKeyBlock **ppKey;                         // _34
+    u16 *texIdxTbl     ;                         // _38
+    u16 mUsrIdx;                                 // _3C
+    u8 fldNum;                                   // _3E
+    u8 keyNum;                                   // _3F
+    u8 texNum;                                   // _40
+    u8 mCalcEmitterFuncListNum;                  // _41
+    u8 mDrawEmitterFuncListNum;                  // _42
+    u8 mDrawEmitterChildFuncListNum;             // _43
+    u8 mCalcParticleFuncListNum;                 // _44
+    u8 mDrawParticleFuncListNum;                 // _45
+    u8 mCalcParticleChildFuncListNum;            // _46
+    u8 mDrawParticleChildFuncListNum;            // _47
 };
 
 /**

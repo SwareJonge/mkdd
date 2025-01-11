@@ -130,6 +130,27 @@ struct JPAList
 
         return ret;
     }
+
+    JPANode<T>* erase(JPANode<T>* node) {
+        if (node->mNext != NULL && node->mPrev != NULL) {
+            node->mPrev->mNext = node->mNext;
+            node->mNext->mPrev = node->mPrev;
+            mNum--;
+        } else if (node->mNext != NULL) {
+            node->mNext->mPrev = NULL;
+            mFirst = node->mNext;
+            mNum--;
+        } else if (node->mPrev != NULL) {
+            node->mPrev->mNext = NULL;
+            mLast = node->mPrev;
+            mNum--;
+        } else {
+            mLast = NULL;
+            mFirst = NULL;
+            mNum--;
+        }
+        return node;
+    }
 };
 
 #endif

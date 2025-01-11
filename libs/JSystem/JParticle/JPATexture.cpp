@@ -2,7 +2,7 @@
 
 #include "JSystem/JParticle/JPATexture.h"
 
-JPATexture::JPATexture(const unsigned char *p1)
+JPATexture::JPATexture(const u8 *p1)
     : mTexture(), mData((const JPATextureData *)p1)
 {
     mTexture.storeTIMG(&mData->mResTIMG, (u8)'\0');

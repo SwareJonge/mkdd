@@ -6,9 +6,9 @@
 
 JPAEmitterManager::JPAEmitterManager(u32 ptclNum_, u32 emtrNum_, JKRHeap *heap, u8 groups, u8 resnum) {
     emtrNum = emtrNum_;
-    ptclNum  = ptclNum_;
-    gidMax   = groups;
-    ridMax   = resnum;
+    ptclNum = ptclNum_;
+    gidMax  = groups;
+    ridMax  = resnum;
 #line 40
     JUT_ASSERT(emtrNum && ptclNum && gidMax && ridMax);
 
@@ -40,7 +40,7 @@ JPAEmitterManager::JPAEmitterManager(u32 ptclNum_, u32 emtrNum_, JKRHeap *heap, 
     JUT_ASSERT(pWd);
 }
 
-JPABaseEmitter *JPAEmitterManager::createSimpleEmitterID(const JGeometry::TVec3f& pos, u16 resID, u8 group_id, u8 res_mgr_id,
+JPABaseEmitter *JPAEmitterManager::createSimpleEmitterID(const JGeometry::TVec3f &pos, u16 resID, u8 group_id, u8 res_mgr_id,
                                                          JPAEmitterCallBack *ecback, JPAParticleCallBack *pcback) {
 #line 88
     JUT_ASSERT(group_id < gidMax);

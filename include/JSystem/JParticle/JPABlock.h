@@ -4,9 +4,11 @@
 #include "JSystem/JGeometry.h"
 #include "types.h"
 
+#include "JSystem/JParticle/JPAField.h"
+
 struct JKRHeap;
 struct JPAEmitterWorkData;
-struct JPAFieldBase;
+struct JPABaseParticle;
 
 typedef void JPAVolumeFunc(JPAEmitterWorkData *);
 
@@ -187,6 +189,9 @@ struct JPAFieldBlock
         getDirOrig(&mVelocity);
         mSpeed = getMagOrig();
     }
+
+    void prepare(JPAEmitterWorkData *work) { pFld->prepare(work, this); }
+    void calc(JPAEmitterWorkData *work, JPABaseParticle *ptcl) { pFld->calc(work, this, ptcl); }
 
     const Data *mData;           // _00
     JPAFieldBase *pFld;          // _04
