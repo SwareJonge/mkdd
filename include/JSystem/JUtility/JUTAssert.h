@@ -52,6 +52,10 @@ namespace JUTAssertion
 #define JUT_CRITICAL_WARNING_F(...) \
   JUTAssertion::setWarningMessage_f(2, __FILE__, __LINE__, __VA_ARGS__);
 
+// perhaps "%s" is already added here
+#define JUT_WARNING_F3(...) \
+  JUTAssertion::setWarningMessage_f(3, __FILE__, __LINE__, __VA_ARGS__);
+
 #define JUT_ASSERT(COND) \
   (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt"));
 

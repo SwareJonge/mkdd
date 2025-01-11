@@ -185,7 +185,7 @@ void JPADynamicsBlock::init()
 
 void JPADynamicsBlock::create(JPAEmitterWorkData* work)
 {
-    if (work->mEmitter->isFlag(JPAEMIT_RateStepEmit)) {
+    if (work->mEmitter->checkStatus(JPAEMIT_RateStepEmit)) {
         s32 emitCount;
         s32 createCount;
 
@@ -206,12 +206,12 @@ void JPADynamicsBlock::create(JPAEmitterWorkData* work)
             emitCount                  = (s32)newEmitCount;
             work->mEmitter->mEmitCount -= emitCount;
 
-            if (work->mEmitter->isFlag(JPAEMIT_FirstEmit) && 0.0f < newPtclCount && newPtclCount < 1.0f)
+            if (work->mEmitter->checkStatus(JPAEMIT_FirstEmit) && 0.0f < newPtclCount && newPtclCount < 1.0f)
                 emitCount = 1;
         }
 
         work->mCreateNumber = emitCount;
-        if (work->mEmitter->isFlag(JPAEMIT_StopEmitting)) {
+        if (work->mEmitter->checkStatus(JPAEMIT_StopEmitting)) {
             emitCount = 0;
         }
 

@@ -29,7 +29,7 @@ void JPACalcChildScaleOut(JPAEmitterWorkData *workData, JPABaseParticle *particl
 }
 
 JPAChildShape::JPAChildShape(const u8 *data) {
-    pBsd = (JPAChildShapeData *)data;
+    mData = (JPAChildShapeData *)data;
 }
 
 void JPAChildShape::init_jpa(const u8 *, JKRHeap *) {

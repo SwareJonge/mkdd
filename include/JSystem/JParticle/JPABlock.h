@@ -150,6 +150,7 @@ struct JPAFieldBlock
         u8 mCycle;                   // _40
     };
 
+
     JPAFieldBlock(const u8 *, JKRHeap *);
 
     void init(JKRHeap *);
@@ -162,8 +163,8 @@ struct JPAFieldBlock
     inline u32 getType() const { return mData->_08 & 0xF; }
     inline int checkStatus(u16 flag) { return getSttFlag() & flag; }
 
-    inline JGeometry::TVec3f &getDir() { return mVelocity; } // should be const?
-    inline JGeometry::TVec3f &getPos() { return mOffset; }
+    inline const JGeometry::TVec3f &getDir() const { return mVelocity; }
+    inline JGeometry::TVec3f &getPos()  { return mOffset; }
 
     inline f32 getMag() const { return mSpeed; }
     inline f32 getEnTime() const { return mData->mEnTime; }
@@ -177,12 +178,18 @@ struct JPAFieldBlock
     inline f32 getVal1() const { return mData->mVal1; }
     inline u16 getCycle() const { return mData->mCycle; }
 
-    inline void getPosOrig(JGeometry::TVec3f *pos) const { *pos = mData->mOffset; }
-    inline void getDirOrig(JGeometry::TVec3f *dir) const { *dir = mData->mVelocity; }
+    inline void getPosOrig(JGeometry::TVec3f *pos) const { pos->set(mData->mOffset); }
+    inline void getDirOrig(JGeometry::TVec3f *dir) const { dir->set(mData->mVelocity); }
     inline f32 getMagOrig() const { return mData->mAmplitude; }
 
+    inline void initOpParam() {
+        getPosOrig(&mOffset);
+        getDirOrig(&mVelocity);
+        mSpeed = getMagOrig();
+    }
+
     const Data *mData;           // _00
-    JPAFieldBase *mField;        // _04
+    JPAFieldBase *pFld;          // _04
     f32 mFadeInRate;             // _08
     f32 mFadeOutRate;            // _0C
     JGeometry::TVec3f mOffset;   // _10

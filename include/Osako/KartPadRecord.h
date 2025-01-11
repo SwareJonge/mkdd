@@ -1,6 +1,7 @@
 #ifndef KARTPADRECORD_H
 #define KARTPADRECORD_H
 
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Osako/TARecord.h"
 #include "Osako/KartPadData.h"
 
@@ -51,7 +52,7 @@ public:
 
     bool isFrameValid() const { return mFrame > 0 && mFrame < MAX_INPUT_FRAME_COUNT; }
 
-    const RaceTime &setLapSlit(int lap, const RaceTime &other)
+    void setLapSlit(int lap, const RaceTime &other)
     {
 #line 102
         JUT_MINMAX_ASSERT(0, lap, NUM_LAP_SPLITS)

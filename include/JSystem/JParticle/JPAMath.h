@@ -21,6 +21,7 @@ f32 JPACalcKeyAnmValue(f32, u16, const f32 *);
 struct JPARandom
 {
     JPARandom() { mSeed = 0; }
+    ~JPARandom() {}
 
     void setSeed(u32 seed) { mSeed = seed; }
 

@@ -2,6 +2,7 @@
 #define JGEOMETRY_VEC_H
 
 #include <JSystem/JGeometry/Util.h>
+#include "JSystem/JGeometry/Vec.h"
 #include "types.h"
 
 namespace JGeometry {
@@ -221,7 +222,22 @@ namespace JGeometry {
             scale(invsqrt * length);
             return invsqrt * sq;
         }
-        void setLength(const TVec3 &operand, f32 length);
+
+
+        f32 setLength(const JGeometry::TVec3<f32> &other, f32 length)
+        {
+            f32 sq = other.squared();
+            if (sq <= TUtilf::epsilon()) {
+                zero();
+                return 0.0f;
+            }
+               
+
+            f32 invsqrt = TUtilf::inv_sqrt(sq);
+            scale(invsqrt * length, other);
+            return invsqrt * sq;
+        }
+
         void setMax(const TVec3 &other);
         void setMin(const TVec3 &other);
         void setNormal(const TVec3 &, const TVec3 &, const TVec3 &);
@@ -318,12 +334,23 @@ namespace JGeometry {
             f32 this_squared = squared();
             if (this_squared <= TUtilf::epsilon())
                 return 0.0f;
-            else
-            {
-                f32 invsqrt = TUtilf::inv_sqrt(this_squared);
-                scale(invsqrt);
-                return invsqrt * this_squared;
+
+            f32 invsqrt = TUtilf::inv_sqrt(this_squared);
+            scale(invsqrt);
+            return invsqrt * this_squared;
+        }
+
+        f32 normalize(const TVec3 &other)
+        {
+            f32 sq = other.squared();
+            if (sq <= TUtilf::epsilon()) {
+                zero();
+                return 0.0f;
             }
+            
+            f32 invsqrt = TUtilf::inv_sqrt(sq);
+            scale(invsqrt, other);
+            return invsqrt * sq;
         }
     };
     typedef TVec2<f32> TVec2f;

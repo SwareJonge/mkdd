@@ -61,7 +61,7 @@ struct JPABaseParticle
     f32 getCalcCurrentPositionZ(const JPABaseEmitter *) const;
 
     // unused/inlined:
-    //~JPABaseParticle();
+    ~JPABaseParticle() {}
     f32 getWidth(const JPABaseEmitter *) const;
     f32 getHeight(const JPABaseEmitter *) const;
 
@@ -145,7 +145,7 @@ struct JPABaseEmitter
 
     void initFlag(u32 flag) { mFlags = flag; }
     void setFlag(u32 flag) { mFlags |= flag; }
-    bool isFlag(u32 flag) const { return mFlags & flag; }
+    bool checkStatus(u32 flag) const { return mFlags & flag; }
     void resetFlag(u32 flag) { mFlags &= ~flag; }
 
     inline void setScale(f32 scale)
@@ -421,23 +421,23 @@ struct JPAEmitterManager
     void calcYBBCam();
 
     // unused/inlined:
-    void createSimpleEmitter(const JGeometry::TVec3f &, u16, JPAEmitterCallBack *, JPAParticleCallBack *);
+    JPABaseEmitter *createSimpleEmitter(const JGeometry::TVec3f &, u16, JPAEmitterCallBack *, JPAParticleCallBack *);
     void calc(u8);
     void draw(Mtx, u8);
     void draw(const JPADrawInfo *);
     void draw(Mtx);
 
-    JPAResourceManager *getResourceManager(u16 idx) { return mResMgrAry[idx]; }
+    JPAResourceManager *getResourceManager(u16 idx) { return pResMgrAry[idx]; }
 
-    JSUList<JPABaseEmitter> *mGrpEmtr;     // _00
+    JSUList<JPABaseEmitter> *pEmtrUseList; // _00
     JSUList<JPABaseEmitter> mFreeEmtrList; // _04
     JPAList<JPABaseParticle> mPtclPool;    // _10
-    JPAResourceManager **mResMgrAry;       // _1C
-    JPAEmitterWorkData *mWorkData;         // _20
-    uint mEmtrMax;                         // _24
-    uint mPtclMax;                         // _28
-    u8 mGrpMax;                            // _2C
-    u8 mResMax;                            // _2D
+    JPAResourceManager **pResMgrAry;       // _1C
+    JPAEmitterWorkData *pWd;               // _20
+    u32 emtrNum;                           // _24
+    u32 ptclNum;                           // _28
+    u8 gidMax;                             // _2C
+    u8 ridMax;                             // _2D
 };
 
 #endif

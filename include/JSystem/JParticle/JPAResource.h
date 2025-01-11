@@ -37,13 +37,13 @@ struct JPAResource
     void calcWorkData_c(JPAEmitterWorkData *);
     void calcWorkData_d(JPAEmitterWorkData *);
 
-    JPABaseShape *const getBsp() const { return mBaseShape; }
-    JPAExtraShape *getEsp() const { return mExtraShape; }
-    JPAChildShape *getCsp() const { return mChildShape; }
-    JPAExTexShape *getEts() const { return mExTexShape; }
-    JPADynamicsBlock *getDyn() const { return mDynamicsBlock; }
+    JPABaseShape *const getBsp() const { return pBsp; }
+    JPAExtraShape *getEsp() const { return pEsp; }
+    JPAChildShape *getCsp() const { return pCsp; }
+    JPAExTexShape *getEts() const { return pEts; }
+    JPADynamicsBlock *getDyn() const { return pDyn; }
 
-    u16 getTexIdx(u8 idx) { return mTextureIDList[idx]; }
+    u16 getTexIdx(u8 idx) { return texIdxTbl[idx]; }
     u16 getUsrIdx() const { return mUsrIdx; }
 
     JPAFunctionA **mCalcEmitterFuncList;       // _00
@@ -53,18 +53,18 @@ struct JPAResource
     JPAFunctionB **mDrawParticleFuncList;      // _10
     JPAFunctionB **mCalcParticleChildFuncList; // _14
     JPAFunctionB **mDrawParticleChildFuncList; // _18
-    JPABaseShape *mBaseShape;                  // _1C
-    JPAExtraShape *mExtraShape;                // _20
-    JPAChildShape *mChildShape;                // _24
-    JPAExTexShape *mExTexShape;                // _28
-    JPADynamicsBlock *mDynamicsBlock;          // _2C
-    JPAFieldBlock **mFieldBlocks;              // _30
-    JPAKeyBlock **mKeyBlocks;                  // _34
-    u16 *mTextureIDList;                       // _38
+    JPABaseShape *pBsp;                        // _1C
+    JPAExtraShape *pEsp;                       // _20
+    JPAChildShape *pCsp;                       // _24
+    JPAExTexShape *pEts;                       // _28
+    JPADynamicsBlock *pDyn;                    // _2C
+    JPAFieldBlock **ppFld;                     // _30
+    JPAKeyBlock **ppKey;                       // _34
+    u16 *texIdxTbl     ;                       // _38
     u16 mUsrIdx;                               // _3C
-    u8 mFieldBlockNum;                         // _3E
-    u8 mKeyBlockNum;                           // _3F
-    u8 mTDB1Num;                               // _40
+    u8 fldNum;                                 // _3E
+    u8 keyNum;                                 // _3F
+    u8 texNum;                                 // _40
     u8 mCalcEmitterFuncListNum;                // _41
     u8 mDrawEmitterFuncListNum;                // _42
     u8 mDrawEmitterChildFuncListNum;           // _43

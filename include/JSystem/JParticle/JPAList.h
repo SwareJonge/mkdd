@@ -5,6 +5,8 @@
 
 struct JPABaseParticle;
 
+#define FOREACH_NODE(type, first, varname) for (type* varname = (type*)(first); varname != nullptr; varname = (type*)(varname->mNext))
+
 template <typename T>
 struct JPANode
 {
@@ -38,6 +40,7 @@ struct JPAList
         : mFirst(nullptr), mLast(nullptr), mNum()
     {
     }
+    ~JPAList() { }
 
     JPANode<T> *getEnd() { return nullptr; }
     JPANode<T> *getFirst() const { return mFirst; }

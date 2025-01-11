@@ -179,29 +179,29 @@ struct JPAChildShape
     // Unused/inlined:
     void init_jpa(const u8 *, JKRHeap *);
 
-    void getPrmClr(GXColor *dst) { *dst = pBsd->mPrmClr; }
-    void getEnvClr(GXColor *dst) { *dst = pBsd->mEnvClr; }
-    s16 getLife() const { return pBsd->mLife; }
-    s16 getRotInitSpeed() const { return pBsd->mRotSpeed; }
-    s16 getRate() const { return pBsd->mRate; }
-    u8 getPrmAlpha() const { return pBsd->mPrmClr.a; }
+    void getPrmClr(GXColor *dst) { *dst = mData->mPrmClr; }
+    void getEnvClr(GXColor *dst) { *dst = mData->mEnvClr; }
+    s16 getLife() const { return mData->mLife; }
+    s16 getRotInitSpeed() const { return mData->mRotSpeed; }
+    s16 getRate() const { return mData->mRate; }
+    u8 getPrmAlpha() const { return mData->mPrmClr.a; }
 
-    f32 getPosRndm() const { return pBsd->mPosRndm; }
-    f32 getBaseVel() const { return pBsd->mBaseVel; }
-    f32 getBaseVelRndm() const { return pBsd->mBaseVelRndm; }
-    f32 getVelInhRate() const { return pBsd->mVelInfRate; }
-    f32 getScaleInhRate() const { return pBsd->mInheritScale; }
-    f32 getColorInhRate() const { return pBsd->mInheritRGB; }
-    f32 getAlphaInhRate() const { return pBsd->mInheritAlpha; }
-    f32 getGravity() const { return pBsd->mGravity; }
+    f32 getPosRndm() const { return mData->mPosRndm; }
+    f32 getBaseVel() const { return mData->mBaseVel; }
+    f32 getBaseVelRndm() const { return mData->mBaseVelRndm; }
+    f32 getVelInhRate() const { return mData->mVelInfRate; }
+    f32 getScaleInhRate() const { return mData->mInheritScale; }
+    f32 getColorInhRate() const { return mData->mInheritRGB; }
+    f32 getAlphaInhRate() const { return mData->mInheritAlpha; }
+    f32 getGravity() const { return mData->mGravity; }
 
-    bool isFieldAffected() const { return pBsd->mFlags & 0x200000; }
-    bool isScaleInherited() const { return pBsd->mFlags & 0x10000; }
-    bool isColorInherited() const { return pBsd->mFlags & 0x40000; }
-    bool isAlphaInherited() const { return pBsd->mFlags & 0x20000; }
-    bool isRotateOn() const { return pBsd->mFlags & 0x1000000; }
+    bool isFieldAffected() const { return mData->mFlags & 0x200000; }
+    bool isScaleInherited() const { return mData->mFlags & 0x10000; }
+    bool isColorInherited() const { return mData->mFlags & 0x40000; }
+    bool isAlphaInherited() const { return mData->mFlags & 0x20000; }
+    bool isRotateOn() const { return mData->mFlags & 0x1000000; }
 
-    const JPAChildShapeData *pBsd; // _00
+    const JPAChildShapeData *mData; // _00
 };
 
 struct JPAExTexShapeData
@@ -226,14 +226,14 @@ struct JPAExTexShape
     // Unused/inlined:
     void init_jpa(const u8 *, JKRHeap *);
 
-    const f32 *getIndTexMtx() const { return &pBsd->mIndTexMtx[0][0]; }
-    s32 getExpScale() const { return pBsd->mExpScale; }
-    u8 getIndTexIdx() const { return pBsd->mIndTexIdx; }
-    u8 getSecTexIdx() const { return pBsd->mSecTexIdx; }
-    bool isUseIndirect() const { return !!(pBsd->mFlags & 0x01); }
-    bool isUseSecTex() const { return !!(pBsd->mFlags & 0x0100); }
+    const f32 *getIndTexMtx() const { return &mData->mIndTexMtx[0][0]; }
+    s32 getExpScale() const { return mData->mExpScale; }
+    u8 getIndTexIdx() const { return mData->mIndTexIdx; }
+    u8 getSecTexIdx() const { return mData->mSecTexIdx; }
+    bool isUseIndirect() const { return !!(mData->mFlags & 0x01); }
+    bool isUseSecTex() const { return !!(mData->mFlags & 0x0100); }
 
-    const JPAExTexShapeData *pBsd; // _00
+    const JPAExTexShapeData *mData; // _00
 };
 
 struct JPAExtraShapeData
@@ -278,28 +278,28 @@ struct JPAExtraShape
     // Unused/inlined:
     void init_jpa(const u8 *, JKRHeap *);
 
-    f32 getScaleInTiming() const { return pBsd->mScaleInTiming; }
-    f32 getScaleOutTiming() const { return pBsd->mScaleOutTiming; }
-    f32 getScaleInValueX() const { return pBsd->mScaleInValueX; }
-    f32 getScaleInValueY() const { return pBsd->mScaleInValueY; }
-    f32 getScaleOutValueX() const { return pBsd->mScaleOutValueX; }
-    f32 getScaleOutValueY() const { return pBsd->mScaleOutValueY; }
-    s16 getScaleAnmCycleX() const { return pBsd->mScaleAnmCycleX; }
-    s16 getScaleAnmCycleY() const { return pBsd->mScaleAnmCycleY; }
-    f32 getScaleRndm() const { return pBsd->mScaleOutRandom; }
-    f32 getAlphaInTiming() const { return pBsd->mAlphaInTiming; }
-    f32 getAlphaOutTiming() const { return pBsd->mAlphaOutTiming; }
-    f32 getAlphaInValue() const { return pBsd->mAlphaInValue; }
-    f32 getAlphaOutValue() const { return pBsd->mAlphaOutValue; }
-    f32 getAlphaBaseValue() const { return pBsd->mAlphaBaseValue; }
-    f32 getAlphaFreq() const { return pBsd->mAlphaWaveFrequency; }
-    f32 getAlphaFreqRndm() const { return pBsd->mAlphaWaveRandom; }
-    f32 getAlphaAmp() const { return pBsd->mAlphaWaveAmplitude; }
-    f32 getRotateInitAngle() const { return pBsd->mRotateAngle; }
-    f32 getRotateRndmAngle() const { return pBsd->mRotateAngleRandom; }
-    f32 getRotateInitSpeed() const { return pBsd->mRotateSpeed; }
-    f32 getRotateRndmSpeed() const { return pBsd->mRotateSpeedRandom; }
-    f32 getRotateDirection() const { return pBsd->mRotateDirection; }
+    f32 getScaleInTiming() const { return mData->mScaleInTiming; }
+    f32 getScaleOutTiming() const { return mData->mScaleOutTiming; }
+    f32 getScaleInValueX() const { return mData->mScaleInValueX; }
+    f32 getScaleInValueY() const { return mData->mScaleInValueY; }
+    f32 getScaleOutValueX() const { return mData->mScaleOutValueX; }
+    f32 getScaleOutValueY() const { return mData->mScaleOutValueY; }
+    s16 getScaleAnmCycleX() const { return mData->mScaleAnmCycleX; }
+    s16 getScaleAnmCycleY() const { return mData->mScaleAnmCycleY; }
+    f32 getScaleRndm() const { return mData->mScaleOutRandom; }
+    f32 getAlphaInTiming() const { return mData->mAlphaInTiming; }
+    f32 getAlphaOutTiming() const { return mData->mAlphaOutTiming; }
+    f32 getAlphaInValue() const { return mData->mAlphaInValue; }
+    f32 getAlphaOutValue() const { return mData->mAlphaOutValue; }
+    f32 getAlphaBaseValue() const { return mData->mAlphaBaseValue; }
+    f32 getAlphaFreq() const { return mData->mAlphaWaveFrequency; }
+    f32 getAlphaFreqRndm() const { return mData->mAlphaWaveRandom; }
+    f32 getAlphaAmp() const { return mData->mAlphaWaveAmplitude; }
+    f32 getRotateInitAngle() const { return mData->mRotateAngle; }
+    f32 getRotateRndmAngle() const { return mData->mRotateAngleRandom; }
+    f32 getRotateInitSpeed() const { return mData->mRotateSpeed; }
+    f32 getRotateRndmSpeed() const { return mData->mRotateSpeedRandom; }
+    f32 getRotateDirection() const { return mData->mRotateDirection; }
     f32 getScaleIncRateX() const { return mScaleIncRateX; }
     f32 getScaleDecRateX() const { return mScaleDecRateX; }
     f32 getScaleIncRateY() const { return mScaleIncRateY; }
@@ -307,11 +307,11 @@ struct JPAExtraShape
     f32 getAlphaIncRate() const { return mAlphaIncRate; }
     f32 getAlphaDecRate() const { return mAlphaDecRate; }
 
-    bool isEnableScaleAnm() const { return pBsd->mFlags & 0x1; }
-    bool isEnableAlphaFlick() const { return pBsd->mFlags & 0x20000; }
-    bool isEnableRotateAnm() const { return pBsd->mFlags & 0x1000000; }
+    bool isEnableScaleAnm() const { return mData->mFlags & 0x1; }
+    bool isEnableAlphaFlick() const { return mData->mFlags & 0x20000; }
+    bool isEnableRotateAnm() const { return mData->mFlags & 0x1000000; }
 
-    const JPAExtraShapeData *pBsd; // _00
+    const JPAExtraShapeData *mData; // _00
     f32 mAlphaIncRate;             // _04
     f32 mAlphaDecRate;             // _08
     f32 mScaleIncRateX;            // _0C
