@@ -57,7 +57,7 @@ struct JUTTexture : public GXTexObj
     void initTexObj();
     void initTexObj(_GXTlut);
     void load(_GXTexMapID);
-    void storeTIMG(const ResTIMG *, u8);
+    void storeTIMG(const ResTIMG *, u8=0);
     void storeTIMG(const ResTIMG *, JUTPalette *);
     void storeTIMG(const ResTIMG *, JUTPalette *, _GXTlut);
 
@@ -68,7 +68,7 @@ struct JUTTexture : public GXTexObj
     void setEmbPaletteDelFlag(bool del) {
         mFlags &= TEXFLAG_Unk1 | del << 1;
     }
-    u8 getTlutName() const { return mTlut; }
+    GXTlut getTlutName() const { return (GXTlut)mTlut; }
 
     void setTlutName(u8 tlut) { mTlut = tlut; }
 

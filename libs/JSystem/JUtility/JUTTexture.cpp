@@ -34,7 +34,7 @@ JUTTexture::JUTTexture(int sizeX, int sizeY, GXTexFmt textureFormat)
     img->mLODBias = 0;
     img->mImageDataOffset = 0x20;
     mEmbPalette = nullptr;
-    storeTIMG(img, (u8)'\0');
+    storeTIMG(img);
     DCFlushRange(mTexData, texBufferSize);
 }
 

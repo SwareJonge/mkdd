@@ -614,7 +614,7 @@ void loadPrjAnm(const JPAEmitterWorkData *workData, const Mtx transformationMatr
 
 void JPADrawBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     JGeometry::TVec3f position;
@@ -635,7 +635,7 @@ void JPADrawBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 
 void JPADrawRotBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     JGeometry::TVec3f position;
@@ -663,7 +663,7 @@ void JPADrawRotBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 
 void JPADrawYBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
 
     JGeometry::TVec3f position;
@@ -688,7 +688,7 @@ void JPADrawYBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 
 void JPADrawRotYBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
 
     JGeometry::TVec3f position;
@@ -863,7 +863,7 @@ void basePlaneTypeX(Mtx mtx, f32 xz, f32 y)
 
 void JPADrawDirection(JPAEmitterWorkData *emitterData, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     JGeometry::TVec3f directionVector;
@@ -908,7 +908,7 @@ void JPADrawDirection(JPAEmitterWorkData *emitterData, JPABaseParticle *particle
 
 void JPADrawRotDirection(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     f32 sinRot = JMASSin(particle->mRotateAngle);
@@ -956,7 +956,7 @@ void JPADrawRotDirection(JPAEmitterWorkData *work, JPABaseParticle *particle)
 
 void JPADrawDBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     JGeometry::TVec3f direction;
@@ -989,7 +989,7 @@ void JPADrawDBillboard(JPAEmitterWorkData *work, JPABaseParticle *particle)
 
 void JPADrawRotation(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
 {
-    if (ptcl->checkStatus(8) != 0)
+    if (ptcl->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     f32 sinRot = JMASSin(ptcl->mRotateAngle);
@@ -1010,7 +1010,7 @@ void JPADrawRotation(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
 
 void JPADrawPoint(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
 {
-    if (ptcl->checkStatus(8) != 0)
+    if (ptcl->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
     
     GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
@@ -1027,7 +1027,7 @@ void JPADrawPoint(JPAEmitterWorkData *work, JPABaseParticle *ptcl)
 // incorrect scheduling and regswaps for the GXPosition stuff
 void JPADrawLine(JPAEmitterWorkData *work, JPABaseParticle *particle)
 {
-    if (particle->checkStatus(8) != 0)
+    if (particle->checkStatus(JPAEMIT_EnableDeleteEmitter) != 0)
         return;
 
     JGeometry::TVec3f position1(particle->mPosition);
@@ -1041,13 +1041,12 @@ void JPADrawLine(JPAEmitterWorkData *work, JPABaseParticle *particle)
     position2.sub(position1, position2);
     GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
     GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-    GXBegin(GX_LINES, GX_VTXFMT1, 2);
 
+    GXBegin(GX_LINES, GX_VTXFMT1, 2);
     GXPosition3f32(position1.x, position1.y, position1.z);
     GXTexCoord2f32(0.0f, 0.0f);
     GXPosition3f32(position2.x, position2.y, position2.z);
     GXTexCoord2f32(0.0f, 1.0f);
-
     GXEnd();
 
     GXSetVtxDesc(GX_VA_POS, GX_INDEX8);

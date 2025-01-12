@@ -21,12 +21,6 @@ namespace JUtility
 
         TColor(GXColor color) { set(color); }
 
-        TColor &operator=(const TColor &other) // is this actually needed?
-        {
-            *((GXColor *)&r) = (other);
-            return *this;
-        }
-
         /** @fabricated */
         TColor &operator=(const GXColorS10 &other)
         {

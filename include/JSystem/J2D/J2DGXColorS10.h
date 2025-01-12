@@ -22,6 +22,16 @@ struct J2DGXColorS10 : public GXColorS10
         a = _a;
     }
 
+    /** @fabricated */
+    J2DGXColorS10 &operator=(const GXColorS10 &other)
+    {
+        r = other.r;
+        g = other.g;
+        b = other.b;
+        a = other.a;
+        return *this;
+    }
+
     J2DGXColorS10(const J2DGXColorS10 &other)
     {
         r = other.r;

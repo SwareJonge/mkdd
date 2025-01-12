@@ -1,6 +1,8 @@
 #ifndef _JSYSTEM_J3D_J3DTYPES_H
 #define _JSYSTEM_J3D_J3DTYPES_H
 
+#include "JSystem/JBlockType.h"
+
 #include <dolphin/gx.h>
 //#include <dolphin/vec.h>
 //#include "JSystem/J3D/J3DGXColor.h"
@@ -45,33 +47,6 @@ typedef u32 J3DModelLoaderFlags;
 #define J3DMLF_30 0x20000000
 #define J3DMLF_31 0x40000000
 #define J3DMLF_32 0x80000000
-
-enum JBlockType
-{
-    JBT_ColorAmbientOn = 'CLAB',
-    JBT_ColorNull = 'CLNL',
-    JBT_ColorLightOff = 'CLOF',
-    JBT_ColorLightOn = 'CLON',
-    JBT_IndFull = 'IBLF',
-    JBT_IndNull = 'IBLN',
-    JBT_PETexEdge = 'PEED',
-    JBT_PEFogOff = 'PEFG',
-    JBT_PEFull = 'PEFL',
-    JBT_PENull = 'PENL',
-    JBT_PEOpa = 'PEOP',
-    JBT_PEXlu = 'PEXL',
-    JBT_TexGen4 = 'TGB4',
-    JBT_TexGenBasic = 'TGBC',
-    JBT_TexGenNull = 'TGNL',
-    JBT_TexGenPatched = 'TGPT',
-    JBT_Tev16 = 'TV16',
-    JBT_Tev1 = 'TVB1',
-    JBT_Tev2 = 'TVB2',
-    JBT_Tev4 = 'TVB4',
-    JBT_Tev8 = 'TVB8',
-    JBT_TevNull = 'TVNL',
-    JBT_TevPatched = 'TVPT'
-};
 
 enum J3DErrType
 {
@@ -254,7 +229,7 @@ struct J3DTevOrder
     // , mChannelID(j3dDefaultTevOrderInfoNull.mChannelID)
     {
         // for (int i = 0; i < 3; i++) {
-        // 	mData[i] = j3dDefaultTevOrderInfoNull.mData[i];
+        //     mData[i] = j3dDefaultTevOrderInfoNull.mData[i];
         // }
         const J3DTevOrderInfo &info = j3dDefaultTevOrderInfoNull;
         mTexCoordID = info.mData[0];
@@ -281,7 +256,7 @@ struct J3DTevOrder
         : mTexCoordID(info.mData[0]), mTexMapID(info.mData[1]), mChannelID(info.mData[2])
     {
         // for (int i = 0; i < 3; i++) {
-        // 	mData[i] = info.mData[i];
+        //     mData[i] = info.mData[i];
         // }
     }
 
@@ -292,7 +267,7 @@ struct J3DTevOrder
         mTexMapID = other.mTexMapID;
         mChannelID = other.mChannelID;
         // for (int i = 0; i < 3; i++) {
-        // 	mData[i] = other.mData[i];
+        //     mData[i] = other.mData[i];
         // }
         return *this;
     }
