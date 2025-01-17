@@ -29,7 +29,7 @@ public:
     _GXTlut getTlutName() const { return (_GXTlut)mTlutName; }
     GXTlutFmt getFormat() const { return (GXTlutFmt)mFormat; }
     ResTLUT *getColorTable() const { return mColorTable; }
-    u64 getNumColors() const { return mNumColors; } // WTF, there's no way this is right, however matches both debug and release
+    const u16 getNumColors() const { return mNumColors; }
     JUTTransparency getTransparency() const { return (JUTTransparency)mTransparency; }
 
 private:

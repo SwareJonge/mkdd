@@ -6,8 +6,12 @@
 #include "types.h"
 #include <dolphin/gx.h>
 
+#define GXCOLOR_AS_U32(color)   (*((u32*)&(color)))
+#define RGBA_TO_U32(r, g, b, a) (((u8)(r) << 24) | ((u8)(g) << 16) | ((u8)(b) << 8) | ((u8)(a)))
 #define TCOLOR_WHITE JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF)
 #define TCOLOR_BLACK JUtility::TColor(0, 0, 0, 0)
+#define TCOLOR_WHITE_U32 0xFFFFFFFF
+#define TCOLOR_BLACK_U32 0x00000000
 
 namespace JUtility
 {

@@ -2,7 +2,7 @@
 #define RACE2D_H
 
 #include <JSystem/JKernel/JKRHeap.h>
-#include <JSystem/J2D/J2DPane.h>
+#include <JSystem/J2D/J2DPicture.h>
 #include "Kaneshige/KartInfo.h"
 
 class Race2D

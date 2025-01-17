@@ -72,13 +72,12 @@ struct J3DAnmBase
 /**
  * @fabricated
  */
-struct J3DAnmFullData : public J3DFileBlockBase
-{
-    u8 _08;  // _08
-    u8 _09;  // _09
-    s16 _0A; // _0A
-    u16 _0C; // _0C
-    u16 _0E; // _0E
+struct J3DAnmFullData : public J3DFileBlockBase {
+    u8 mAttribute;        // _08
+    u8 mRotationScale;    // _09
+    s16 mTotalFrameCount; // _0A
+    u16 mExtraInfo1;      // _0C
+    u16 mExtraInfo2;      // _0E
 };
 
 struct J3DAnmKeyTableBase

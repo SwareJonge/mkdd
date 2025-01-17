@@ -51,7 +51,7 @@ void J2DOrthoGraph::scissorBounds(JGeometry::TBox2<f32> *param_0, JGeometry::TBo
     param_0->intersect(mScissorBounds);
 }
 
-void J2DDrawLine(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUtility::TColor color, int line_width)
+void J2DDrawLine(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUTColor color, int line_width)
 {
     J2DOrthoGraph oGrph;
     oGrph.setLineWidth(line_width);
@@ -60,36 +60,36 @@ void J2DDrawLine(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUtility::T
     oGrph.lineTo(param_2, param_3);
 }
 
-void J2DFillBox(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUtility::TColor color)
+void J2DFillBox(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUTColor color)
 {
     J2DFillBox(JGeometry::TBox2<f32>(param_0, param_1, param_0 + param_2, param_1 + param_3), color);
 }
 
-void J2DFillBox(JGeometry::TBox2<f32> const &param_0, JUtility::TColor param_1)
+void J2DFillBox(JGeometry::TBox2<f32> const &param_0, JUTColor param_1)
 {
     J2DOrthoGraph oGrph;
     oGrph.setColor(param_1);
     oGrph.fillBox(param_0);
 }
 
-void J2DFillBox(float x0, float y0, float x1, float y1, JUtility::TColor c1, JUtility::TColor c2, JUtility::TColor c3, JUtility::TColor c4)
+void J2DFillBox(float x0, float y0, float x1, float y1, JUTColor c1, JUTColor c2, JUTColor c3, JUTColor c4)
 {
     J2DFillBox(JGeometry::TBox2<f32>(x0, y0, x0 + x1, y0 + y1), c1, c2, c3, c4);
 }
 
-void J2DFillBox(const JGeometry::TBox2<f32> &box, JUtility::TColor c1, JUtility::TColor c2, JUtility::TColor c3, JUtility::TColor c4)
+void J2DFillBox(const JGeometry::TBox2<f32> &box, JUTColor c1, JUTColor c2, JUTColor c3, JUTColor c4)
 {
     J2DOrthoGraph oGrph;
     oGrph.setColor(c1, c2, c3, c4);
     oGrph.fillBox(box);
 }
 
-void J2DDrawFrame(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUtility::TColor color, u8 line_width)
+void J2DDrawFrame(f32 param_0, f32 param_1, f32 param_2, f32 param_3, JUTColor color, u8 line_width)
 {
     J2DDrawFrame(JGeometry::TBox2<f32>(param_0, param_1, param_0 + param_2, param_1 + param_3), color, line_width);
 }
 
-void J2DDrawFrame(JGeometry::TBox2<f32> const &param_0, JUtility::TColor color, u8 line_width)
+void J2DDrawFrame(JGeometry::TBox2<f32> const &param_0, JUTColor color, u8 line_width)
 {
     J2DOrthoGraph oGrph;
     oGrph.setColor(color);

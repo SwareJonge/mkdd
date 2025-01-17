@@ -1,14 +1,16 @@
-#include "JSystem/J2D/J2DAnm.h"
+#include "JSystem/J2D/J2DAnimation.h"
 #include "JSystem/J2D/J2DPane.h"
+#include "JSystem/J2D/J2DScreen.h"
 #include "JSystem/J3D/J3DAnmTransform.h"
 #include "JSystem/J3D/J3DAnmVisibilityFull.h"
+#include "JSystem/J3D/J3DTypes.h"
 #include "JSystem/JUtility/JUTResource.h"
 #include "JSystem/J3D/J3DAnmTexPattern.h"
 #include "JSystem/J3D/J3DAnmTevRegKey.h"
 #include "types.h"
 
 template <class T>
-f32 J2DGetKeyFrameInterpolation(f32, J3DAnmKeyTableBase *, T *);
+static f32 J2DGetKeyFrameInterpolation(f32, J3DAnmKeyTableBase *, T *);
 
 void J2DAnmTransformFull::getTransform(u16 p1, J3DTransformInfo *transformInfo) const
 {
@@ -58,89 +60,89 @@ void J2DAnmTransformFull::getTransform(u16 p1, J3DTransformInfo *transformInfo) 
     xMaxFrame = xPart->mRotationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mEulerRot.x = mRotationVals[xPart->mRotationOffset];
+        transformInfo->mRotation.x = mRotationVals[xPart->mRotationOffset];
     }
     else if (getFrame() >= xMaxFrame)
     {
-        transformInfo->mEulerRot.x = mRotationVals[(xPart->mRotationOffset + (xMaxFrame - 1))];
+        transformInfo->mRotation.x = mRotationVals[(xPart->mRotationOffset + (xMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mEulerRot.x = mRotationVals[(xPart->mRotationOffset + (int)getFrame())];
+        transformInfo->mRotation.x = mRotationVals[(xPart->mRotationOffset + (int)getFrame())];
     }
     yMaxFrame = yPart->mRotationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mEulerRot.y = mRotationVals[yPart->mRotationOffset];
+        transformInfo->mRotation.y = mRotationVals[yPart->mRotationOffset];
     }
     else if (getFrame() >= yMaxFrame)
     {
-        transformInfo->mEulerRot.y = mRotationVals[(yPart->mRotationOffset + (yMaxFrame - 1))];
+        transformInfo->mRotation.y = mRotationVals[(yPart->mRotationOffset + (yMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mEulerRot.y = mRotationVals[(yPart->mRotationOffset + (int)getFrame())];
+        transformInfo->mRotation.y = mRotationVals[(yPart->mRotationOffset + (int)getFrame())];
     }
     zMaxFrame = zPart->mRotationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mEulerRot.z = mRotationVals[zPart->mRotationOffset];
+        transformInfo->mRotation.z = mRotationVals[zPart->mRotationOffset];
     }
     else if (getFrame() >= zMaxFrame)
     {
-        transformInfo->mEulerRot.z = mRotationVals[(zPart->mRotationOffset + (zMaxFrame - 1))];
+        transformInfo->mRotation.z = mRotationVals[(zPart->mRotationOffset + (zMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mEulerRot.z = mRotationVals[(zPart->mRotationOffset + (int)getFrame())];
+        transformInfo->mRotation.z = mRotationVals[(zPart->mRotationOffset + (int)getFrame())];
     }
     xMaxFrame = xPart->mTranslationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mZRotation.x = mTranslationVals[xPart->mTranslationOffset];
+        transformInfo->mTranslation.x = mTranslationVals[xPart->mTranslationOffset];
     }
     else if (getFrame() >= xMaxFrame)
     {
-        transformInfo->mZRotation.x = mTranslationVals[(xPart->mTranslationOffset + (xMaxFrame - 1))];
+        transformInfo->mTranslation.x = mTranslationVals[(xPart->mTranslationOffset + (xMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mZRotation.x = mTranslationVals[(xPart->mTranslationOffset + (int)getFrame())];
+        transformInfo->mTranslation.x = mTranslationVals[(xPart->mTranslationOffset + (int)getFrame())];
     }
     yMaxFrame = yPart->mTranslationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mZRotation.y = mTranslationVals[yPart->mTranslationOffset];
+        transformInfo->mTranslation.y = mTranslationVals[yPart->mTranslationOffset];
     }
     else if (getFrame() >= yMaxFrame)
     {
-        transformInfo->mZRotation.y = mTranslationVals[(yPart->mTranslationOffset + (yMaxFrame - 1))];
+        transformInfo->mTranslation.y = mTranslationVals[(yPart->mTranslationOffset + (yMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mZRotation.y = mTranslationVals[(yPart->mTranslationOffset + (int)getFrame())];
+        transformInfo->mTranslation.y = mTranslationVals[(yPart->mTranslationOffset + (int)getFrame())];
     }
     zMaxFrame = zPart->mTranslationMaxFrame;
     if (getFrame() < 0)
     {
-        transformInfo->mZRotation.z = mTranslationVals[zPart->mTranslationOffset];
+        transformInfo->mTranslation.z = mTranslationVals[zPart->mTranslationOffset];
     }
     else if (getFrame() >= zMaxFrame)
     {
-        transformInfo->mZRotation.z = mTranslationVals[(zPart->mTranslationOffset + (zMaxFrame - 1))];
+        transformInfo->mTranslation.z = mTranslationVals[(zPart->mTranslationOffset + (zMaxFrame - 1))];
     }
     else
     {
-        transformInfo->mZRotation.z = mTranslationVals[(zPart->mTranslationOffset + (int)getFrame())];
+        transformInfo->mTranslation.z = mTranslationVals[(zPart->mTranslationOffset + (int)getFrame())];
     }
 }
 
 void J2DAnmTransformKey::calcTransform(f32 p1, u16 p2, J3DTransformInfo *transformInfo) const
 {
     u16 idx = p2 * 3;
-    J3DAnmTransformKeyTable *xInf = &mTable[idx];
-    J3DAnmTransformKeyTable *yInf = &mTable[idx + 1];
-    J3DAnmTransformKeyTable *zInf = &mTable[idx + 2];
+    J3DAnmTransformKeyTable *xInf = &mInfoTable[idx];
+    J3DAnmTransformKeyTable *yInf = &mInfoTable[idx + 1];
+    J3DAnmTransformKeyTable *zInf = &mInfoTable[idx + 2];
 
     switch (xInf->mScaleInfo.mMaxFrame)
     {
@@ -181,76 +183,76 @@ void J2DAnmTransformKey::calcTransform(f32 p1, u16 p2, J3DTransformInfo *transfo
     switch (xInf->mRotationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mEulerRot.x = 0;
+        transformInfo->mRotation.x = 0;
         break;
     case 1:
-        transformInfo->mEulerRot.x = mRotationVals[xInf->mRotationInfo.mOffset] << _24;
+        transformInfo->mRotation.x = mRotationVals[xInf->mRotationInfo.mOffset] << mRotationScale;
         break;
     default:
-        transformInfo->mEulerRot.x = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &xInf->mRotationInfo, &mRotationVals[xInf->mRotationInfo.mOffset]))
-                                     << _24;
+        transformInfo->mRotation.x = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &xInf->mRotationInfo, &mRotationVals[xInf->mRotationInfo.mOffset]))
+                                     << mRotationScale;
     }
 
     switch (yInf->mRotationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mEulerRot.y = 0;
+        transformInfo->mRotation.y = 0;
         break;
     case 1:
-        transformInfo->mEulerRot.y = mRotationVals[yInf->mRotationInfo.mOffset] << _24;
+        transformInfo->mRotation.y = mRotationVals[yInf->mRotationInfo.mOffset] << mRotationScale;
         break;
     default:
-        transformInfo->mEulerRot.y = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &yInf->mRotationInfo, &mRotationVals[yInf->mRotationInfo.mOffset]))
-                                     << _24;
+        transformInfo->mRotation.y = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &yInf->mRotationInfo, &mRotationVals[yInf->mRotationInfo.mOffset]))
+                                     << mRotationScale;
     }
 
     switch (zInf->mRotationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mEulerRot.z = 0;
+        transformInfo->mRotation.z = 0;
         break;
     case 1:
-        transformInfo->mEulerRot.z = mRotationVals[zInf->mRotationInfo.mOffset] << _24;
+        transformInfo->mRotation.z = mRotationVals[zInf->mRotationInfo.mOffset] << mRotationScale;
         break;
     default:
-        transformInfo->mEulerRot.z = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &zInf->mRotationInfo, &mRotationVals[zInf->mRotationInfo.mOffset]))
-                                     << _24;
+        transformInfo->mRotation.z = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(p1, &zInf->mRotationInfo, &mRotationVals[zInf->mRotationInfo.mOffset]))
+                                     << mRotationScale;
     }
 
     switch (xInf->mTranslationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mZRotation.x = 0;
+        transformInfo->mTranslation.x = 0;
         break;
     case 1:
-        transformInfo->mZRotation.x = mTranslationVals[xInf->mTranslationInfo.mOffset];
+        transformInfo->mTranslation.x = mTranslationVals[xInf->mTranslationInfo.mOffset];
         break;
     default:
-        transformInfo->mZRotation.x = J2DGetKeyFrameInterpolation<f32>(p1, &xInf->mTranslationInfo, &mTranslationVals[xInf->mTranslationInfo.mOffset]);
+        transformInfo->mTranslation.x = J2DGetKeyFrameInterpolation<f32>(p1, &xInf->mTranslationInfo, &mTranslationVals[xInf->mTranslationInfo.mOffset]);
     }
 
     switch (yInf->mTranslationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mZRotation.y = 0;
+        transformInfo->mTranslation.y = 0;
         break;
     case 1:
-        transformInfo->mZRotation.y = mTranslationVals[yInf->mTranslationInfo.mOffset];
+        transformInfo->mTranslation.y = mTranslationVals[yInf->mTranslationInfo.mOffset];
         break;
     default:
-        transformInfo->mZRotation.y = J2DGetKeyFrameInterpolation<f32>(p1, &yInf->mTranslationInfo, &mTranslationVals[yInf->mTranslationInfo.mOffset]);
+        transformInfo->mTranslation.y = J2DGetKeyFrameInterpolation<f32>(p1, &yInf->mTranslationInfo, &mTranslationVals[yInf->mTranslationInfo.mOffset]);
     }
 
     switch (zInf->mTranslationInfo.mMaxFrame)
     {
     case 0:
-        transformInfo->mZRotation.z = 0;
+        transformInfo->mTranslation.z = 0;
         break;
     case 1:
-        transformInfo->mZRotation.z = mTranslationVals[zInf->mTranslationInfo.mOffset];
+        transformInfo->mTranslation.z = mTranslationVals[zInf->mTranslationInfo.mOffset];
         break;
     default:
-        transformInfo->mZRotation.z = J2DGetKeyFrameInterpolation<f32>(p1, &zInf->mTranslationInfo, &mTranslationVals[zInf->mTranslationInfo.mOffset]);
+        transformInfo->mTranslation.z = J2DGetKeyFrameInterpolation<f32>(p1, &zInf->mTranslationInfo, &mTranslationVals[zInf->mTranslationInfo.mOffset]);
     }
 }
 
@@ -625,11 +627,11 @@ void J2DAnmTextureSRTKey::calcTransform(f32 frame, u16 inputIdx, J3DTextureSRTIn
         texInfo->mRotation = 0;
         break;
     case 1:
-        texInfo->mRotation = mRotationVals[zInf->mRotationInfo.mOffset] << _10;
+        texInfo->mRotation = mRotationVals[zInf->mRotationInfo.mOffset] << mRotationScale;
         break;
     default:
         texInfo->mRotation = static_cast<s32>(J2DGetKeyFrameInterpolation<s16>(frame, &zInf->mRotationInfo, &mRotationVals[zInf->mRotationInfo.mOffset]))
-                             << _10;
+                             << mRotationScale;
     }
     switch (xInf->mTranslationInfo.mMaxFrame)
     {
@@ -724,13 +726,6 @@ void J2DAnmTexPattern::searchUpdateMaterialID(J2DScreen *screen)
         }
     }
 }
-
-J2DAnmTexPattern::J2DAnmTexPatternTIMGPointer::J2DAnmTexPatternTIMGPointer()
-    : mImg(nullptr), mPalette(nullptr)
-{
-}
-
-J2DAnmTexPattern::J2DAnmTexPatternTIMGPointer::~J2DAnmTexPatternTIMGPointer() { delete mPalette; }
 
 void J2DAnmTexPattern::getTexNo(u16 idx, u16 *texNo) const
 {

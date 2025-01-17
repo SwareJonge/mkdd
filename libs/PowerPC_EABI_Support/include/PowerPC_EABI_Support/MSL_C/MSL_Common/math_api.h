@@ -58,6 +58,12 @@ MATH_INLINE int __fpclassifyd(f64 x)
 	return 4;
 }
 
+MATH_INLINE float cosf(float __x) { return cos((double)__x); }
+
+MATH_INLINE float sinf(float __x) { return sin((double)__x); }
+
+MATH_INLINE float tanf(float __x) { return tan((double)__x); }
+
 #define fpclassify(x) ((sizeof(x) == sizeof(float)) ? __fpclassifyf((float)(x)) : __fpclassifyd((double)(x)))
 
 #define isinf(x) ((fpclassify(x) == 2))

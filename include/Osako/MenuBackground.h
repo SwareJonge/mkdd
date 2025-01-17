@@ -1,7 +1,7 @@
 #ifndef MENUBACKGROUND_H
 #define MENUBACKGROUND_H
 
-#include "JSystem/J2D/J2DPane.h"
+#include "JSystem/J2D/J2DScreen.h"
 #include "JSystem/JKernel/JKRArchive.h"
 
 class MenuBackground

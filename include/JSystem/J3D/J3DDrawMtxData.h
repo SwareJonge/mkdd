@@ -4,14 +4,14 @@
 #include "types.h"
 
 struct J3DDrawMtxData {
-	J3DDrawMtxData();
+    J3DDrawMtxData();
 
-	~J3DDrawMtxData();
+    ~J3DDrawMtxData();
 
-	u16 mCount;        // _00
-	u16 mDrawMtxCount; // _02
-	u8* mDrawMtxFlag;  // _04
-	u16* mDrawMtxIdx;  // _08
+    u16 mCount;        // _00
+    u16 mDrawMtxCount; // _02
+    u8* mDrawMtxFlag;  // _04
+    u16* mDrawMtxIdx;  // _08
 };
 
 #endif

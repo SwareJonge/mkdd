@@ -6,6 +6,9 @@
 #include <dolphin/os.h>
 #include "JSystem/JUtility/TColor.h"
 
+#define ASCII_PRINTABLE_MIN (0x20) // space
+#define ASCII_PRINTABLE_MAX (0x80) // one more than last printable symbol (0x7F = delete)
+
 struct JKRAramBlock;
 struct JKRHeap;
 
@@ -76,6 +79,8 @@ struct JUTFont
     }
 
     bool isValid() const { return mValid; }
+    bool isFixed() const { return mFixed; }
+    int getFixedWidth() const { return mFixedWidth; }
 
     static bool isLeadByte_1Byte(int c) { return false; }
     static bool isLeadByte_2Byte(int c) { return true; }

@@ -2,7 +2,8 @@
 #define _JSYSTEM_JUT_JUTTEXTURE_H
 
 #include <dolphin/gx.h>
-#include <JSystem/J2D/J2DPane.h>
+#include <JSystem/J2D/J2DScreen.h>
+#include "JSystem/JUtility/JUTPalette.h"
 #include "types.h"
 
 struct JUTPalette;
@@ -47,6 +48,14 @@ struct JUTTexture : public GXTexObj
         setCaptureFlag(false);
     }
 
+ 	bool operator==(const JUTTexture& other)
+	{
+		return mTexInfo == other.mTexInfo && mActivePalette == other.mActivePalette && mWrapS == other.mWrapS && mWrapT == other.mWrapT
+		    && mMinFilter == other.mMinFilter && mMagFilter == other.mMagFilter && mMinLOD == other.mMinLOD && mMinLOD == other.mMinLOD
+		    && mLODBias == other.mLODBias;
+	}
+	bool operator!=(const JUTTexture& other) { return !operator==(other); }
+
     ~JUTTexture();
 
     void attachPalette(JUTPalette *);
@@ -75,6 +84,7 @@ struct JUTTexture : public GXTexObj
     GXTexFmt getFormat() const {return (GXTexFmt)mTexInfo->mTextureFormat; }
     int getWidth() const { return mTexInfo->mSizeX; }
     int getHeight() const { return mTexInfo->mSizeY; }
+    JUTTransparency getTransparency() const { return (JUTTransparency)mTexInfo->mTransparency; }
 
     ResTIMG *mTexInfo;          // _20
     void *mTexData;             // _24
@@ -91,7 +101,5 @@ struct JUTTexture : public GXTexObj
     u8 mFlags;                  // _3B
     ResTIMG *mImage;            // _3C
 };
-
-inline ResTIMG *J2DPicture::getTIMG(u8 i) { return getTexture(i)->mTexInfo; }
 
 #endif

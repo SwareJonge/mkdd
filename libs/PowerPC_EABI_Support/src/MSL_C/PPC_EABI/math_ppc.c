@@ -283,11 +283,6 @@ void atan2f(void)
 	// UNUSED FUNCTION
 }*/
 
-DECL_WEAK float cosf(float __x) { return cos((double)__x); }
-
-DECL_WEAK float sinf(float __x) { return sin((double)__x); }
-
-DECL_WEAK float tanf(float __x) { return tan((double)__x); }
 
 /*void coshf(void)
 {

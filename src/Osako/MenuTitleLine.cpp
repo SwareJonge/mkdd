@@ -1,4 +1,5 @@
 #include <JSystem/J2D/J2DAnmLoader.h>
+#include <JSystem/J2D/J2DPicture.h>
 #include "Osako/MenuTitleLine.h"
 
 static const char *scaFileName[] = {

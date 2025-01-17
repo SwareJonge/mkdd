@@ -1,14 +1,9 @@
-#include "JSystem/J2D/J2DColorBlock.h"
-#include "JSystem/J2D/J2DTexGenBlock.h"
-#include "JSystem/J2D/J2DTevBlock.h"
-#include "JSystem/J2D/J2DPEBlock.h"
+#include "JSystem/J2D/J2DMatBlock.h"
 #include "JSystem/J2D/J2DTypes.h"
 #include "JSystem/JUtility/JUTTexture.h"
 #include "JSystem/JUtility/JUTPalette.h"
 #include "dolphin/gx/GXEnum.h"
 #include "types.h"
-
-#pragma sym on
 
 void J2DColorBlock::initialize() {
     for (int i = 0; i < 2; i++) {

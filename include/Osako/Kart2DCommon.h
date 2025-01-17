@@ -1,7 +1,7 @@
 #ifndef KART2DCOMMON_H
 #define KART2DCOMMON_H
 
-#include <JSystem/J2D/J2DPane.h>
+#include <JSystem/J2D/J2DPicture.h>
 #include <JSystem/JKernel/JKRHeap.h>
 
 #include "kartEnums.h"

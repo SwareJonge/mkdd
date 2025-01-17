@@ -1,4 +1,5 @@
 #include <JSystem/J2D/J2DAnmLoader.h>
+#include <JSystem/J2D/J2DScreen.h>
 #include <stdio.h>
 
 #include "Kawano/SceneTitleLine.h"

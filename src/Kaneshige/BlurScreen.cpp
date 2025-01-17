@@ -1,4 +1,7 @@
 #include "Kaneshige/Blurscreen.h"
+
+#include "JSystem/J2D/J2DPicture.h"
+
 #include "Osako/system.h"
 
 BlurScreen::BlurScreen() : mBlurTex(System::getDisplay()->getEfbWidth() / 2, System::getDisplay()->getEfbHeight() / 2, GX_TF_RGB565),

@@ -8,7 +8,7 @@
 
 /**
  * Everything is fabricated here except for the default ctor.
- * Copied from J3DGXColorS10.
+ * Copied from J3DGXColorS10. 
  */
 struct J2DGXColorS10 : public GXColorS10
 {
@@ -32,6 +32,14 @@ struct J2DGXColorS10 : public GXColorS10
         return *this;
     }
 
+    J2DGXColorS10(const GXColorS10 &other)
+    {
+        r = other.r;
+        g = other.g;
+        b = other.b;
+        a = other.a;
+    }
+
     J2DGXColorS10(const J2DGXColorS10 &other)
     {
         r = other.r;
@@ -47,6 +55,22 @@ struct J2DGXColorS10 : public GXColorS10
         g = otherBytes->g;
         b = otherBytes->b;
         a = otherBytes->a;
+    }
+
+    // TODO: remove when const issue has been resolved
+    J2DGXColorS10(J2DGXColorS10 &other) 
+    {
+        r = other.r;
+        g = other.g;
+        b = other.b;
+        a = other.a;
+    }
+    J2DGXColorS10(GXColorS10 &other)
+    {
+        r = other.r;
+        g = other.g;
+        b = other.b;
+        a = other.a;
     }
 
     inline operator u64() const { return toUInt64(); }

@@ -171,6 +171,14 @@ public:
         return temp;
     }
 
+    
+    inline s32 readS32()
+    {
+        s32 temp;
+        read(&temp, 4);
+        return temp;
+    }
+
     // _00		= VTBL
     // _00-_08	= JSUIosBase
 };

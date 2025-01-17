@@ -1,7 +1,7 @@
 #ifndef NAMEENTRYHELPER_H
 #define NAMEENTRYHELPER_H
 
-#include <JSystem/J2D/J2DPane.h>
+#include <JSystem/J2D/J2DPicture.h>
 #include <JSystem/JUtility/JUTGamePad.h>
 #include "JSystem/J2D/J2DAnmLoader.h"
 

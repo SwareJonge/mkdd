@@ -1,16 +1,90 @@
-#ifndef _JSYSTEM_J2D_J2DTEVBLOCK_H
-#define _JSYSTEM_J2D_J2DTEVBLOCK_H
+#ifndef JSYSTEM_J2D_J2DMATHBLOCK_H
+#define JSYSTEM_J2D_J2DMATHBLOCK_H
 
-#include <dolphin/gx.h>
-#include "JSystem/J2D/J2DGXColorS10.h"
 #include "JSystem/J2D/J2DTypes.h"
-#include "JSystem/J3D/J3DTypes.h"
+#include "JSystem/J2D/J2DTevStage.h"
+#include "JSystem/J2D/J2DGXColorS10.h"
+#include "JSystem/J2D/J2DTexMtx.h"
+#include "JSystem/J2D/J2DInd.h"
+
 #include "JSystem/JUtility/JUTFont.h"
 #include "JSystem/JUtility/JUTPalette.h"
 #include "JSystem/JUtility/TColor.h"
 #include "JSystem/ResTLUT.h"
 #include "JSystem/ResTIMG.h"
+#include "JSystem/JBlockType.h"
 #include "types.h"
+
+struct J2DColorBlock {
+    JUtility::TColor mColors[2]; // _00
+    u8 mChannelCount;            // _08
+    J2DColorChan mChannels[4];   // _0A
+    u8 mCullMode;                // _12 - _GXCullMode
+
+    JUtility::TColor* getMatColor(u32 i) { return &mColors[i]; }
+    J2DColorChan* getColorChan(u32 i) { return &mChannels[i]; }
+    void setCullMode(u8 mode) { mCullMode = mode; }
+    void setColorChanNum(u8 num) { mChannelCount = num; }
+    void setMatColor(u32 i, JUtility::TColor color) { mColors[i] = color; }
+    void setColorChan(u32 i, const J2DColorChan& color) { mChannels[i] = color; }
+
+    /** @fabricated */
+    inline J2DColorBlock() { initialize(); }
+
+    void initialize();
+    void setGX();
+
+    virtual ~J2DColorBlock() { } // _08 (weak)
+                                 // _14 VTBL
+};
+
+struct J2DTexGenBlock {
+    inline J2DTexGenBlock() { initialize(); }
+
+    u32 mTexGenNum;            // _00
+    J2DTexCoord mTexCoords[8]; // _04
+    J2DTexMtx* mTexMtxes[8];   // _24
+
+    void initialize();
+    void setGX();
+    void setTexMtx(u32, J2DTexMtx&);
+    void getTexMtx(u32, J2DTexMtx&);
+
+    u32 getTexGenNum() const { return mTexGenNum; }
+    J2DTexCoord& getTexCoord(u32 i) { return mTexCoords[i]; }
+    void setTexGenNum(u32 num) { mTexGenNum = num; }
+    void setTexCoord(u32 idx, J2DTexCoord coord) { mTexCoords[idx] = coord;}
+    void setTexCoord(u32 i, const J2DTexCoord* coord) { mTexCoords[i] = *coord; }
+    J2DTexMtx &getTexMtx(u32 idx) { return *mTexMtxes[idx]; }
+    void setTexMtx(u32 i, J2DTexMtx* mtx) { mTexMtxes[i] = mtx; }
+
+    virtual ~J2DTexGenBlock(); // _08
+
+    // _44 VTBL
+};
+
+struct J2DPEBlock {
+    /** @fabricated */
+    inline J2DPEBlock()
+        : mAlphaComp()
+        , mBlendInfo()
+    {
+        initialize();
+    }
+
+    inline ~J2DPEBlock() { } // unused/inlined
+
+    void initialize();
+    void setGX();
+
+    void setAlphaComp(J2DAlphaComp comp) { mAlphaComp = comp; }
+    void setBlend(J2DBlend blend) { mBlendInfo = blend; }
+    void setDither(u8 dither) { mDither = dither; }
+
+    J2DAlphaComp mAlphaComp; // _00
+    J2DBlend mBlendInfo;     // _04
+    u8 mDither;              // _08
+};
 
 struct J2DTevBlock
 {
@@ -438,5 +512,64 @@ struct J2DTevBlock16 : J2DTevBlock
     u8 mUndeleteFlag;                       // _1B0
     u8 mFontUndeleteFlag;                   // _1B1
 };
+
+struct J2DIndBlock {
+    virtual void initialize() { }                                                   // _08 (weak)
+    virtual void setGX() { }                                                        // _0C (weak)
+    virtual u32 getType() = 0;                                                      // _10
+    virtual void setIndTexStageNum(u8 texStageNum) { }                              // _14 (weak)
+    virtual u8 getIndTexStageNum() const { return 0; }                              // _18 (weak)
+    virtual void setIndTexOrder(u32 index, J2DIndTexOrder order) { }                // _1C (weak)
+    virtual J2DIndTexOrder* getIndTexOrder(u32 index) { return nullptr; }           // _20 (weak)
+    virtual void setIndTexMtx(u32 index, J2DIndTexMtx texMtx) { }                   // _24 (weak)
+    virtual J2DIndTexMtx* getIndTexMtx(u32 index) { return nullptr; }               // _28 (weak)
+    virtual void setIndTexCoordScale(u32 index, J2DIndTexCoordScale scale) { }      // _2C (weak)
+    virtual J2DIndTexCoordScale* getIndTexCoordScale(u32 index) { return nullptr; } // _30 (weak)
+    virtual ~J2DIndBlock() { }                                                      // _34 (weak)
+
+    //  _00 VTBL
+};
+
+struct J2DIndBlockNull : public J2DIndBlock {
+    inline J2DIndBlockNull()
+        : J2DIndBlock()
+    {
+    }
+
+    virtual void setGX() { }                      // _0C (weak)
+    virtual u32 getType() { return JBT_IndNull; } // _10 (weak)
+    virtual ~J2DIndBlockNull() { }                // _34 (weak)
+};
+
+struct J2DIndBlockFull : public J2DIndBlock {
+    inline J2DIndBlockFull()
+        : J2DIndBlock()
+        , mTexOrders()
+        , mTexMtxes()
+        , mTexCoordScales()
+    {
+        initialize();
+    }
+
+    virtual void initialize();                                                                                 // _08
+    virtual void setGX();                                                                                      // _0C
+    virtual u32 getType() { return JBT_IndFull; }                                                              // _10 (weak)
+    virtual void setIndTexStageNum(u8 texStageNum) { mTexStageNum = texStageNum; }                             // _14 (weak)
+    virtual u8 getIndTexStageNum() const { return mTexStageNum; }                                              // _18 (weak)
+    virtual void setIndTexOrder(u32 index, J2DIndTexOrder order) { mTexOrders[index] = order; }                // _1C (weak)
+    virtual J2DIndTexOrder* getIndTexOrder(u32 index) { return mTexOrders + index; }                           // _20 (weak)
+    virtual void setIndTexMtx(u32 index, J2DIndTexMtx texMtx) { mTexMtxes[index].mMtxInfo = texMtx.mMtxInfo; } // _24 (weak)
+    virtual J2DIndTexMtx* getIndTexMtx(u32 index) { return mTexMtxes + index; }                                // _28 (weak)
+    virtual void setIndTexCoordScale(u32 index, J2DIndTexCoordScale scale) { mTexCoordScales[index] = scale; } // _2C (weak)
+    virtual J2DIndTexCoordScale* getIndTexCoordScale(u32 index) { return mTexCoordScales + index; }            // _30 (weak)
+    virtual ~J2DIndBlockFull() { }                                                                             // _34 (weak)
+
+    u8 mTexStageNum;              // _04
+    J2DIndTexOrder mTexOrders[4]; // _05
+    u32 : 0;
+    J2DIndTexMtx mTexMtxes[3];              // _10
+    J2DIndTexCoordScale mTexCoordScales[4]; // _64
+};
+
 
 #endif

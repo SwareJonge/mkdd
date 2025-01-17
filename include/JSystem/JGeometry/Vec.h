@@ -353,8 +353,12 @@ namespace JGeometry {
             return invsqrt * sq;
         }
     };
+    typedef TVec2<f64> TVec2d;
     typedef TVec2<f32> TVec2f;
+    typedef TVec2<s16> TVec2s;
+    typedef TVec3<f64> TVec3d;
     typedef TVec3<f32> TVec3f;
+    typedef TVec3<s16> TVec3s;
 }
 
 #endif
