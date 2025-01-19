@@ -12,6 +12,7 @@ class KartSus
 public:
     KartSus() { }
 
+    void InitTirePose(int);
     void InitSettingParam(int);
     void InitParam(int);
     void Init(int);
@@ -24,6 +25,10 @@ public:
     void DoTireAction();
     // Inlines
     KartBody *getKartBody() { return mBody; }
+
+    // Unused
+    void InitTestTirePose(int);
+    void WallReflection(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *, float, float);
 
     // TODO
     ExModel *mWheel;

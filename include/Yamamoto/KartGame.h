@@ -10,6 +10,7 @@ class KartBody;
 class KartGame
 {
 public:
+    // In kartCtrlStrat.cpp
     void Init(int);
     void GetGorundTireNum();
     void WatchEffectAcceleration();
@@ -60,6 +61,23 @@ public:
     void DoActionMgr();
     void DoActionCtrl();
     void DoStatus();
+
+    // In kartChapter.cpp
+    void DoVisible();
+    void DoWinCamera();
+    void DoChapterOne();
+    void DoChapterTwo();
+    void DoChapterThree();
+    void DoChapterFour();
+    void DoChapterFive();
+    void DoChapterSix();
+    void DoChapterSeven();
+    void DoChapterBalloon();
+    void DoChapterBomEsc();
+    void DoStaffRoll();
+    void DoWaitBattleWin();
+    void DoStartGoalCtl();
+
     // Inline/Unused
     // void DoParamChange();
     // void DoJump();

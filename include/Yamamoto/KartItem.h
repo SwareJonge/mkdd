@@ -17,8 +17,8 @@ public:
     void ReleseWanWan();
     void CompulsionReleseWanWan();
     void KillWanWan();
-    void IsMyItem();
-    void IsChanging();
+    bool IsMyItem();
+    bool IsChanging();
     void DoTurtleReleaseDir(int, int);
     void DoBananaReleaseDir();
     void DoTurtleReleaseDynamicDir(u32);

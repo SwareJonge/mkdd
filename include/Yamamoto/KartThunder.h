@@ -11,8 +11,8 @@ public:
     KartThunder() {}
     
     void Init(int);      // 0x80307ff4
-    void DoReturn();     // 0x80308058
-    void DoShake();      // 0x803080c4
+    bool DoReturn();     // 0x80308058
+    bool DoShake();      // 0x803080c4
     void ClearThunder(); // 0x80308144
     void MakeThunder();  // 0x803081d0
     void DoThunderCrl(); // 0x80308364

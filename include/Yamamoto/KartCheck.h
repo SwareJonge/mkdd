@@ -9,14 +9,14 @@ public:
     KartCheck() {}
 
     void Init(int);
-    void CheckCrash();
-    void CheckCheange(int);
-    void CheckSpecialDyn();
-    void CheckSpecialDyn2();
-    void CheckBodyHit(int, int);
-    void CheckAllClearKey();
-    void CheckAllClearKeyT();
-    void CheckPartsClearKey(int);
+    bool CheckCrash();
+    bool CheckCheange(int);
+    bool CheckSpecialDyn();
+    bool CheckSpecialDyn2();
+    bool CheckBodyHit(int, int);
+    bool CheckAllClearKey();
+    bool CheckAllClearKeyT();
+    bool CheckPartsClearKey(int);
     bool CheckOnlyTandemPartsClearKey(int);
     bool CheckPlayer();
     bool CheckDraw(u32, int);

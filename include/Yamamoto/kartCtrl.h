@@ -71,17 +71,17 @@ public:
     u32 GetGameStatus(int);
     void SetTireDispRound(KartBody *, KartSus *, f32);
     void SetKartRpm(KartBody *, f32, f32);
-    void WhichDriver(int);
+    u8 WhichDriver(int);
     u8 WhichNowDriver(int);
     bool CheckCamera(int);
     int GetCameraNum(int);
-    void CheckItem(int);
-    void GetMaxSpeed(int);
-    void GetDownSlopeAcc(int);
-    void GetDownSlopeSpeed(int);
-    void GetTireAngle(int);
-    void GetTandemDir(int);
-    void GetWaterHeight(int);
+    bool CheckItem(int);
+    f32 GetMaxSpeed(int);
+    f32 GetDownSlopeAcc(int);
+    f32 GetDownSlopeSpeed(int);
+    f32 GetTireAngle(int);
+    f32 GetTandemDir(int);
+    f32 GetWaterHeight(int);
     bool CheckJugemuSignal();
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /*{ return getKartSound(idx)->mKartSoundMgr; }*/
     f32 GetKartBodyOffset(int);

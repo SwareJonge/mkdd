@@ -39,7 +39,7 @@ public:
     bool IsBack(int);                   // 0x802fa298
     bool IsGaol(int);                   // 0x802fa2fc
     bool IsAttack(int);                 // 0x802fa344
-    void IsProhibition(int);            // 0x802fa38c
+    bool IsProhibition(int);            // 0x802fa38c
     void MakeThrowAnime(int, int, int); // 0x802fa408
     void MakeBackAnime(int);            // 0x802fa424
     void MakeFrontAnime(int);           // 0x802fa4b0
@@ -99,7 +99,7 @@ public:
     // void MakeDriverThrowAnime(int, int, int);
     // void MakeGetAnime(ItemObj *, int);
     // Inline
-    void IsChangeStart(); // 0x802f9bc4
+    bool IsChangeStart() { return mFlags & 0x1; } // 0x802f9bc4
 
     u8 _0[0x10];         //
     u64 mFlags;          // 0x10, 0x14

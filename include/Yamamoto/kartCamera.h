@@ -43,7 +43,7 @@ public:
     // void InitLaunchView();
     // void InitLandView();
 
-    JGeometry::TVec3f *SetTargetNum(u8);
+    void SetTargetNum(u8);
     void SetClipper();
     void CheckClipper();
     void MakeShaker(float);
