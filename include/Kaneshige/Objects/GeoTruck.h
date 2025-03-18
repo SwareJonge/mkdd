@@ -1,6 +1,7 @@
 #ifndef GEOTRUCK_H
 #define GEOTRUCK_H
 
+#include "Kaneshige/Objects/GeoCarShadow.h"
 #include "Kaneshige/Objects/GeoCar.h"
 
 class GeoTruck : public GeoCar
@@ -11,22 +12,26 @@ public:
     virtual void createModel(JKRSolidHeap *, u32);                       // 0x801bdce4
     virtual void loadAnimation();                                        // 0x801bdd8c
     virtual void createColModel(J3DModelData *);                         // 0x801bddf8
-    virtual JGeometry::TVec3f *getTirePosOffset(int);                    // 0x801bdebc
+    virtual const Vec &getTirePosOffset(int);                            // 0x801bdebc
     virtual void simpleDraw(u32);                                        // 0x801bdf4c
     virtual void calc();                                                 // 0x801bdfb4
-    virtual ~GeoTruck();                                                 // 0x801be024
+    //virtual ~GeoTruck();                                                 // 0x801be024
     virtual u32 getMotorType() const { return 3; }                       // 0x801be0a0, overide
     virtual const char *getBmdFileName() { return "/Objects/Car_Truck1.bmd"; } // 0x801be0a8, overide
     virtual u32 getSoundCarType() const { return 1; }                    // 0x801be0b4, overide
 
 private:
-    static JGeometry::TVec3f sTireOfsTable[4]; // 0x80378b18
+    static const Vec sTireOfsTable[4]; // 0x80378b18
     static J3DAnmTexPattern *sBodyBtpAnm;      // 0x80416400
     static J3DAnmTextureSRTKey *sTireBtkAnm;   // 0x80416404
     // Unused
-    // static u32 sCreateNum;
-    // TODO
+    static u16 sCreateNum;
 
+    GeoCarShadow *mShadow;
+    f32 mFrame;
+    J3DAnmObjMaterial mBodyMat;
+    J3DAnmObjMaterial mTireMat;
+    f32 _2a8;
 }; // class GeoTruck
 
 #endif // GEOTRUCK_H

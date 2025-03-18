@@ -6,9 +6,9 @@
 
 struct J3DFog {
     /** @fabricated */
-    inline J3DFog& operator=(const J3DFog& other)
+    /*inline J3DFog& operator=(const J3DFog& other)
     {
-        _00 = other._00;
+        mType = other.mType;
         _01 = other._01;
         _02 = other._02;
         _04 = other._04;
@@ -23,19 +23,33 @@ struct J3DFog {
             _18[i] = other._18[i];
         }
         return *this;
+    }*/
+
+    u8 getType() const { return mType; }
+    void setType(u8 type) { mType = type; }
+    void setStartZ(f32 startZ) { mStartZ = startZ; }
+    void setEndZ(f32 endZ) { mEndZ = endZ; }
+    void setNearZ(f32 nearZ) { mNearZ = nearZ; }
+    void setFarZ(f32 farZ) { mFarZ = farZ; }
+
+    void setFogColor(GXColor &color) {
+        mColorR = color.r;
+        mColorG = color.g;
+        mColorB = color.b;
+        mColorA = color.a;
     }
 
-    u8 _00;       // _00
+    u8 mType;     // _00
     u8 _01;       // _01
     u16 _02;      // _02
-    f32 _04;      // _04
-    f32 _08;      // _08
-    f32 _0C;      // _0C
-    f32 _10;      // _10
-    u8 _14;       // _14
-    u8 _15;       // _15
-    u8 _16;       // _16
-    u8 _17;       // _17
+    f32 mStartZ;  // _04
+    f32 mEndZ;    // _08
+    f32 mNearZ;   // _0C
+    f32 mFarZ;    // _10
+    u8 mColorR;   // _14
+    u8 mColorG;   // _15
+    u8 mColorB;   // _16
+    u8 mColorA;   // _17
     u16 _18[0xA]; // _18
 };
 

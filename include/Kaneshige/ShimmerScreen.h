@@ -40,14 +40,15 @@ public:
         JUT_MINMAX_ASSERT(0, level, NUM_LEVELS)
         JUT_MINMAX_ASSERT(0, z, 0x1000)
         if (!_0)
-            mOffsetZ - z;
+            mOffsetZ[level] = z;
     }
 
-    void setBlendRate(int level, u8 blendRate)
+    void setBlendRate(int level, u8 rate)
     {
 #line 56
         JUT_MINMAX_ASSERT(0, level, NUM_LEVELS)
-        mBlendRate[level] = blendRate;
+        JUT_MINMAX_ASSERT(0, rate, 0x100); // silly
+        mBlendRate[level] = rate;
     }
 
 private:

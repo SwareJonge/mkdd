@@ -56,12 +56,15 @@ class J3DAnmObjTrans : public J3DAnmObjBase
 {
 public:
     // TODO
-    J3DAnmObjTrans() {}
+    J3DAnmObjTrans() {
+        _24 = 0;
+        _28 = 0;
+    }
     virtual ~J3DAnmObjTrans() {}
     virtual void anmFrameProc();
 
     static void setupTransAnmData(J3DAnmTransform **, J3DMtxCalc **, J3DModelData *, void *);
-
+    static void loadTransAnm(J3DAnmTransform **paTrans, void *pData);
 //private:
     J3DMtxCalc *mCalc;
     u32 _24;

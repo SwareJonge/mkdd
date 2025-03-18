@@ -2,12 +2,16 @@
 #define _JSYSTEM_J3D_J3DPACKET_H
 
 #include <dolphin/mtx.h>
+#include <string.h>
 #include "JSystem/J3D/J3DDisplayListObj.h"
 #include "JSystem/J3D/J3DShape.h"
 #include "JSystem/J3D/J3DTypes.h"
 #include "JSystem/JGadget/linklist.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "types.h"
+
+#pragma push
+#pragma optimize_for_size off
 
 struct J3DDrawBuffer;
 struct J3DTexMtxObj;
@@ -20,7 +24,17 @@ struct J3DModel;
 struct J3DTexMtxObj {
     Mtx& getMtx(u16 idx) { return mTexMtx[idx]; }
 
+    void setEffectMtx(u16 idx, Mtx &m) {
+        memcpy(mEffMtx[idx], m, sizeof(Mtx));
+        mEffMtx[idx][3][2] = 0.0f;
+        mEffMtx[idx][3][1] = 0.0f;
+        mEffMtx[idx][3][0] = 0.0f;
+        mEffMtx[idx][3][3] = 1.0f;
+    }
+
     Mtx* mTexMtx; // _00, array of Mtxs
+    Mtx44 *mEffMtx; // _04, Effect Matrix array
+    u16 mTexMtxNum;
 };
 
 // TODO: Could this use TLinkList?
@@ -47,6 +61,7 @@ struct J3DPacket {
         mChildPacket = nullptr;
     }
 
+    u32 getUserArea() const { return mUserArea; }
     void setUserArea(u32 area) { mUserArea = area; }
 
     // _00 = VTBL
@@ -78,7 +93,7 @@ struct J3DDrawPacket : public J3DPacket {
     void offFlag(u32 flag) { mFlags &= ~flag; }
     void lock() { onFlag(J3DDP_IsLocked); }
     void unlock() { offFlag(J3DDP_IsLocked); }
-    J3DTexMtxObj* getTexMtxObj() const { return mTexMtxObj; }
+    J3DTexMtxObj* getTexMtxObj() { return mTexMtxObj; }
 
     // _00     = VTBL
     // _00-_10 = J3DPacket
@@ -169,5 +184,7 @@ struct J3DShapePacket : public J3DDrawPacket {
     u32 mDiffFlag;            // _34
     J3DModel* mModel;         // _38
 };
+
+#pragma pop
 
 #endif

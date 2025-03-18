@@ -46,10 +46,11 @@ struct J3DJointTree {
     J3DMtxCalc* getBasicMtxCalc() const { return mTransformCalc; }
     Mtx& getInvJointMtx(s32 idx) const { return mInvJointMtx[idx]; }
     u32 getModelDataType() const { return mModelDataType; }
+    u32 getMtxCalcType() const { return mFlags & 0xf; }
 
     // VTBL _00
     J3DModelHierarchy* mHierarchy; // _04
-    u32 mFlags;                    // _08 previously s8* TODO: rename
+    u32 mFlags;                    // _08 previously s8* TODO: rename, nibbles
     u32 mModelDataType;            // _0C
     J3DJoint* mRootNode;           // _10
     J3DMtxCalc* mTransformCalc;    // _14

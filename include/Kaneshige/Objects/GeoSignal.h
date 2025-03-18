@@ -1,7 +1,9 @@
 #ifndef GEOSIGNAL_H
 #define GEOSIGNAL_H
 
+#include "JSystem/JSupport/JSUList.h"
 #include "Sato/GeographyObj.h"
+#include "Sato/J3DAnmObject.h"
 #include "Sato/StateObserver.h"
 
 class GeoSignal;
@@ -12,12 +14,14 @@ public:
     GeoSignalSupervisor();
 
     void entrySignal(GeoSignal *);
+    void searchSameGroupSignal(GeoSignal *);
+    GeoSignal *searchSignal(s32);
 
     virtual void reset();
     virtual void calc();
-    virtual ~GeoSignalSupervisor() {} // 0x801be2a8, overide
+    virtual ~GeoSignalSupervisor(); // 0x801be2a8, overide
 private:
-    // TODO
+    JSUList<GeoSignal> mList;
 }; // class GeoSignalSupervisor
 
 class GeoSignal : public GeographyObj, StateObserver
@@ -33,22 +37,10 @@ public:
     virtual void update();                         // 0x801be764
     void initFuncWait();                           // 0x801be910
     void doFuncWait();                             // 0x801be914
-    // void sTable;                                     // 0x80396438
+    
     // Inline/Unused
-    // void GeoSignalSupervisor::searchSameGroupSignal(GeoSignal *);
-    // void JSUListIterator<GeoSignal>::operator!= (const JSULink<GeoSignal> *) const;
-    // void JSUList<GeoSignal>::getEnd() const;
-    // void JSUListIterator<GeoSignal>::operator++ (int);
-    // void JSULink<GeoSignal>::getNext() const;
-    // void JSUListIterator<GeoSignal>::JSUListIterator(const JSUListIterator<GeoSignal> &);
-    // void isSameGroup(GeoSignal *) const;
-    // void JSUListIterator<GeoSignal>::operator-> () const;
-    // void JSULink<GeoSignal>::getObject() const;
-    // void JSUListIterator<GeoSignal>::getObject() const;
-    // void JSUListIterator<GeoSignal>::JSUListIterator(JSULink<GeoSignal> *);
-    // void JSUList<GeoSignal>::getFirst() const;
-    // void GeoSignalSupervisor::searchSignal(long);
-    // void isSameID(long) const;
+    bool isSameGroup(GeoSignal *) const;
+    bool isSameID(s32) const;
     // void sGreenTime;
     // void sLagTime;
     // void sRedAnmFrame;
@@ -57,30 +49,28 @@ public:
     // void sCreateNum;
     // void sGreenAnmFrame;
 
-    virtual void InitExec() // 0x801be7a8, overide
-    {
-        /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/
-    }
-    void MoveExec() // 0x801be8bc, overide
-    {
-        /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/
-    }
-    virtual ~GeoSignal() {}                                         // 0x801be918, overide
+    virtual void InitExec(); // 0x801be7a8, overide
+    void MoveExec(); // 0x801be8bc, overide
+    //virtual ~GeoSignal() {}                                         // 0x801be918, overide
     virtual const char *getBmdFileName() { return "/Objects/Signal1.bmd"; }      // 0x801be9a0, overide
     virtual void initClassCreateNum() { sSupervisorCreateNum = 0; } // 0x801be9ac, overide
+    virtual GeoSignalSupervisor *getSupervisor() { return sSupervisor; }
+    static GeoSignalSupervisor *getSupervisor() { return sSupervisor; }
 private:
-    static u32 sSupervisorCreateNum;      // 0x80416408
-    static GeoObjSupervisor *sSupervisor; // 0x8041640c
-    static J3DAnmTevRegKey *sTevRegKey;   // 0x80416410
-    // TODO
+    friend class GeoSignalSupervisor;
+
+    static StateFuncSet<GeoSignal> sTable[1]; // 0x80396438
+    static u16 sSupervisorCreateNum;          // 0x80416408
+    static GeoSignalSupervisor *sSupervisor;  // 0x8041640c
+    static J3DAnmTevRegKey *sTevRegKey;       // 0x80416410
+    
+    JSULink<GeoSignal> mLink;
+    bool _168;
+    u8 _169[0x174 - 0x169];
+    JGeometry::TVec3f mFrDir;
+    JGeometry::TVec3f mUpDir;
+    JGeometry::TVec3f mLfDir;
+    J3DAnmObjMaterial mMat;
 }; // class GeoSignal
 
-// Outside class members
-
-// 0x// void JSUList<GeoSignal>::initiate() // JSUList<GeoSignal>.h; // 0x801be20c
-// virtual JSUList<GeoSignal>::~JSUList() // JSUList<GeoSignal>.h; // 0x801be22c
-// void JSUList<GeoSignal>::JSUList() // JSUList<GeoSignal>.h; // 0x801be278
-// void JSUList<GeoSignal>::append(JSULink<GeoSignal> *) // JSUList<GeoSignal>.h; // 0x801be35c
-// virtual JSULink<GeoSignal>::~JSULink() // JSULink<GeoSignal>.h; // 0x801be500
-// void JSULink<GeoSignal>::JSULink(GeoSignal *) // JSULink<GeoSignal>.h; // 0x801be54c
 #endif // GEOSIGNAL_H

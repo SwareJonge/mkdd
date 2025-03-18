@@ -63,9 +63,9 @@ void SequenceInfo::init() {
 
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            _318[i]._0[j] = 0;
+            _318[i]._0[j] = cCharIDNone;
         }
-        _318[i]._8 = 0xff;
+        _318[i]._8 = cKartIDNone;
         _318[i].mTime.zero();
         _318[i]._14 = 0;
         _318[i]._18 = 0;

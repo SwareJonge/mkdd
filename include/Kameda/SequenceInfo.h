@@ -40,6 +40,21 @@ public:
         mStartNo[kartNo] = startNo;
     }
 
+    void set_318_charId(int kart, int driverNo, ECharID charId) {
+#line 278
+        JUT_MINMAX_ASSERT(0, kart, 2);        
+        //JUT_MINMAX_ASSERT(0, kart, 8);
+        JUT_MINMAX_ASSERT(0, charId, cCharIDMax);
+        _318[kart]._0[driverNo] = charId;
+    }
+
+    void set_318_kartId(int kart, EKartID kartId) {
+#line 288
+        JUT_MINMAX_ASSERT(0, kart, 2);        
+        JUT_MINMAX_ASSERT(0, kartId, cKartIDMax);
+        _318[kart]._8 = kartId;
+    }
+
     RaceTime get_318_RaceTime(int kart) {
 #line 301
         JUT_MINMAX_ASSERT(0, kart, 2);
@@ -59,6 +74,10 @@ public:
         _318[kart]._14 = val;
     }
 
+    void set_318_Pad(int kart, KartGamePad *pad) {
+        _318[kart]._18 = pad;
+    }
+
     void getDemoKart(int no, ECharID &charID1, ECharID &charID2, EKartID &kartID)
     {
 #line 413
@@ -69,6 +88,8 @@ public:
         kartID = mDemoKart[no].kart;
     }
 
+    void set_354(int val) { _354 =  val; }
+    void setRaceLevel(ERaceLevel level) { mLevel = level; }
     void setGhostFlag(u8 flags) { mGhostFlags = flags; }
 
 private:
@@ -93,12 +114,12 @@ private:
     int _2d8[8];               // 2D8
     int _2f8[8];               // 2F8
     struct {
-        int _0[2];         // 00
-        int _8;            // 08
+        ECharID _0[2];     // 00
+        EKartID _8;        // 08
         u8 _C[0x10 - 0xc]; // 0C
         RaceTime mTime;    // 10
         int _14;           // 14
-        int _18;           // 18
+        KartGamePad *_18;  // 18
         // Size: 0x1c
     } _318[2];                 // 318
     int _350;                  //

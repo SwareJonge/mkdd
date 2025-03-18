@@ -276,6 +276,7 @@ public:
     bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != nullptr; } // 0x8024b324
     void doOccur() { doFall(); }                                                // 0x8024af68, ptmf shit
 
+    const JGeometry::TVec3f &getPos() const { return mPos; }
     const JGeometry::TVec3f getColPos() const { return mColPos; }
     ItemObjSuc *getSuccessionParent() const { return mSuccessionParent; }
 

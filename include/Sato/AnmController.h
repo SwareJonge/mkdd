@@ -45,11 +45,10 @@ public:
     virtual void initAnm(u8 anm_no, ExModel *model) // 08
     {
         mMaxAnmNo = anm_no;
-        u8 max = mMaxAnmNo;
 
-        mObj = new T[anm_no];
+        mObj = new T[mMaxAnmNo];
 
-        for (u8 i = 0; i < max; i++)
+        for (u8 i = 0; i < mMaxAnmNo; i++)
         {
             mObj[i].setExModel(model);
             mObj[i].resetFrame();
@@ -64,7 +63,7 @@ public:
     }
     virtual void resetMatAnm() // 10
     {
-        changeAnm(0, true);
+        changeMatAnm(0, true);
         mFlags = 0;
     }
     virtual void setAnmProc() { mObj[mNowAnmNo].anmFrameProc(); } // 14
@@ -137,6 +136,10 @@ public:
     {
         mTrans = new AnmControlTrans();
         mTrans->initAnm(anm_no, model);
+    }
+
+    void RegisterTransBlend(u8 anm_no, J3DAnmTransform *transform, J3DMtxCalc *mtxCalc) {
+        mTrans->registrationBlend(anm_no, transform, mtxCalc);
     }
 
     void SetAllWeight(u8 AnmNo) // fabricated?

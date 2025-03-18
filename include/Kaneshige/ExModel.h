@@ -23,7 +23,7 @@ public:
     static void patchModelData(J3DModelData *);                                         // 0x801a46ec
     void setLODBias(f32);                                                               // 0x801a4724
     static void setLODBias(J3DModelData *, f32);                                               // 0x801a4790
-    void disableTexLOD(J3DModelData *);                                                 // 0x801a483c
+    static void disableTexLOD(J3DModelData *);                                                 // 0x801a483c
     static void setFogInfo(J3DModelData *, u8, f32, f32, f32, f32, JUtility::TColor *); // 0x801a48ac
     static void reverseCullMode(J3DModelData *);                                               // 0x801a49f0
     static void setLightMask(J3DModelData *, _GXLightID);                                      // 0x801a4abc
@@ -34,7 +34,7 @@ public:
     void setShapePktControl(u16);                                                       // 0x801a4fec
     bool isAllShapePacketHidding(u16 level, u32 viewNo);                                             // 0x801a5110
     void setCurMtx();                                                                   // 0x801a523c
-    void calcBBoardMtx(Mtx, Mtx);                                                       // 0x801a56f8
+    static void calcBBoardMtx(Mtx, Mtx);                                                       // 0x801a56f8
     void simpleDraw(u32, Mtx, u32);                                                     // 0x801a58ac
     void show();                                                                        // 0x801a5d6c
     void hide();                                                                        // 0x801a5e98
@@ -43,12 +43,12 @@ public:
     void clipJoint(u32, u16, bool);                                                     // 0x801a6254
     void setBaseTRMtx(Mtx);                                                             // 0x801a63c8
     void setBaseScale(JGeometry::TVec3f &);                                             // 0x801a6474
-    void tstDiffTexMtxMode();                                                           // 0x801a6550
-    void setEffectMtx(Mtx, u32);                                                      // 0x801a65a4
+    bool tstDiffTexMtxMode();                                                           // 0x801a6550
+    void setEffectMtx(Mtx, u32);                                                        // 0x801a65a4
 
     // Vtable
     virtual bool createModel(JKRSolidHeap *, u32, u32);               // 0x801a4c70
-    virtual void createDifferedModel(JKRSolidHeap *, u32, u32, bool); // 0x801a4e6c
+    virtual bool createDifferedModel(JKRSolidHeap *, u32, u32, bool); // 0x801a4e6c
     virtual void calc();                                              // 0x801a5288
     virtual void calc(u16);                                           // 0x801a52b8
     virtual void update(u16);                                         // 0x801a5434
@@ -65,6 +65,11 @@ public:
     void setSimpleTevReg(u32 id) { mSimpleTevReg |= (1 << id); }
     void simpleDraw(u32 viewNo) { simpleDraw(viewNo, nullptr, 1); }
 
+    bool isAvailable() const { return mModelData[0] != nullptr; }
+    bool tstSimpleTevReg(u32 id) const { return (mSimpleTevReg & (1 << id)) != 0; }
+    bool tstConcatViewMode() const { return mModelData[0]->checkFlag(0x10); }
+    bool tstKartBBoardOn() { return (_18 & 2) != 0; }
+
     J3DModelData *getModelData(u16 level) const {
 #line 188
         JUT_MINMAX_ASSERT(0, level, mLevelCnt)
@@ -77,30 +82,48 @@ public:
     static bool sClippingOn;           // 0x80414610
     static bool sMtxCombinationOn;     // 0x80416398
     static bool sDrawingOnlyUpdZMat;   // 0x80416399
-    static f32 sExModelInvalidLODBias; // 0x80419d90
+    static const f32 sExModelInvalidLODBias; // 0x80419d90
 
 protected:
     // Vtable 0x0
-    u16 mLevelCnt;
-    J3DModelData **mModelData;
-    J3DModel **mModel;
-    u8 _10[0x1c - 0x10];
-    u16 mSimpleTevReg;
-    JGeometry::TVec3f mScale;
-    Mtx mBaseTRMtx;
-    Mtx _5c;
+    u16 mLevelCnt;             // 04
+    J3DModelData **mModelData; // 08
+    J3DModel **mModel;         // 0C
+    u32 mMagic;                // 10
+    int _14;                   // 
+    u16 _18;                   // 
+    u16 _1a;                   //
+    u16 mSimpleTevReg;         // 1C
+    JGeometry::TVec3f mScale;  // 20
+    Mtx mBaseTRMtx;            // 2C
+    Mtx _5c;                   // 5C
 }; // Size: 0x8c
 
-class ExMDRecord;
+class ExMDRecord {
+public:
+    ExMDRecord(J3DModelData *mdlData);
+
+    void patch(bool mirror);
+
+    JSULink<ExMDRecord> mRecordLink;
+    J3DModelData *mModelData;
+};
 
 class ExMdlDataMgr : JKRDisposer
 {
 public:
     ExMdlDataMgr(bool);
+    ~ExMdlDataMgr();
 
+    void entryModelData(J3DModelData*);
+    ExMDRecord *searchRecord(J3DModelData *);
+
+    static ExMdlDataMgr *getManager() { return sManager; }
 private:
-    JSUList<ExMDRecord> mList;
-    bool _18;
+    static ExMdlDataMgr *sManager;
+
+    bool mIsMirror;
+    JSUList<ExMDRecord> mRecordList;
 };
 
 #endif // EXMODEL_H

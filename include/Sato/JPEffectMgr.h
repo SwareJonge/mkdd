@@ -11,7 +11,7 @@ public:
     JPEffectMgr(JKRHeap *, bool, u8);                                         // 0x8022fda0
     void reset();                                                             // 0x8022fe58
     void reset_forMenu();                                                     // 0x802301c0
-    void getHashValue(const char *);                                          // 0x80230224
+    static u16 getHashValue(const char *);                                    // 0x80230224
     void create2DEmtMgr(JPAResourceManager *, u16, u16);                      // 0x80230248
     void create_forMenu();                                                    // 0x8023038c
     JPABaseEmitter *createEmt(u16, const JGeometry::TVec3f &);                // 0x8023050c
@@ -20,7 +20,7 @@ public:
     void createEmt2D(const char *, const JGeometry::TVec3f &);                // 0x80230600
     void createEmt(const char *, const JGeometry::TVec3f &, Mtx);             // 0x8023064c
     void createEmtThunder(const char *, const JGeometry::TVec3f &);           // 0x802306c0
-    void createEmtCam(const char *, const JGeometry::TVec3f &, u8);           // 0x8023070c
+    JPABaseEmitter *createEmtCam(const char *, const JGeometry::TVec3f &, u8);           // 0x8023070c
     void createEmtBefore2DMulti(const char *, const JGeometry::TVec3f &, u8); // 0x80230764
     void deleteEmt(JPABaseEmitter *);                                         // 0x802307bc
     void deleteEmtThunder(JPABaseEmitter *);                                  // 0x802307e0

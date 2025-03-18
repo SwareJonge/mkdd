@@ -24,7 +24,7 @@ struct JUTNameTab
     virtual ~JUTNameTab() {}
 
     void setResource(const ResNTAB *pNameTable);
-    s32 getIndex(const char *) const;
+    int getIndex(const char *) const;
     const char *getName(u16 index) const;
     u16 calcKeyCode(const char *pName) const;
 

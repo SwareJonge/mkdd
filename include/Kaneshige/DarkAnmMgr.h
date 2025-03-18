@@ -47,8 +47,7 @@ public:
     void calc(const CrsArea &area);
     void calc(int darkAnmID, f32);
     void setTevColor(ExModel *);
-
-
+private:
     static KartTevColor sMarioNormColor;
     static KartTevColor sMarioNGNormColor;
     static KartTevColor sMarioSGNormColor;
@@ -143,6 +142,7 @@ private:
 };
 
 class ObjDarkAnmPlayer : public DarkAnmPlayer {
+public:
     ObjDarkAnmPlayer(u32);
 
     static KartTevColor sObjJugemNormColor;

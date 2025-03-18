@@ -6,6 +6,9 @@
 
 struct J3DVertexData;
 struct J3DVertexBuffer {
+    J3DVertexBuffer() {
+        init();
+    }
     ~J3DVertexBuffer();
     void copyVtxColorArray(J3DDeformAttachFlag);
     void init();

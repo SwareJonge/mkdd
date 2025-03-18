@@ -9,7 +9,6 @@
 #include "Sato/J3DEffectMgr.h"
 #include "Sato/stEffectMgr.h"
 
-
 void ShadowGeoDrawBuffer::drawIn(u32 viewNo) {
     GetGeoObjMgr()->setCurrentViewNo_groundObj(viewNo);
 }

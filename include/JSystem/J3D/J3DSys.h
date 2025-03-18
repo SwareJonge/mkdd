@@ -36,23 +36,24 @@ struct J3DSys
     void setDrawModeXlu() { mDrawMode = 4; }
     void setViewMtx(const Mtx mtx) { PSMTXCopy(mtx, mViewMtx); }
     Mtx &getViewMtx() { return mViewMtx; }
+    J3DDrawBuffer *getDrawBuffer(int idx) { return mDrawBuffer[idx]; }
 
-    Mtx mViewMtx;                   // _000
-    J3DMtxCalc *mMtxCalc;           // _030
+    Mtx mViewMtx;                  // _000
+    J3DMtxCalc *mMtxCalc;          // _030
     u32 _34;                       // _034 /* bitfield */
-    J3DModel *_38;                   // _038
-    J3DMatPacket *mMatPacket;       // _03C
+    J3DModel *_38;                 // _038
+    J3DMatPacket *mMatPacket;      // _03C
     J3DShapePacket *mShapePacket;  // _040
     u32 _44;                       // _044
     J3DDrawBuffer *mDrawBuffer[2]; // _048
-    int mDrawMode;                   // _050, TODO: enum/defines
+    int mDrawMode;                 // _050, TODO: enum/defines
     u32 _54;                       // _054
     J3DTexture *_58;               // _058
-    u8 _5C[4];                       // _05C
+    u8 _5C[4];                     // _05C
     u32 _60;                       // _060
-    u8 _64[0xA0];                   // _064
-    Mtx *_104;                       // _104
-    Mtx *_108;                       // _108
+    u8 _64[0xA0];                  // _064
+    Mtx *_104;                     // _104
+    Mtx *_108;                     // _108
     /*
      * These three might be part of a J3DVertexBuffer.
      * See setArray__15J3DVertexBufferCFv.

@@ -7,6 +7,7 @@
 #include "JSystem/JGeometry.h"
 #include "Kaneshige/Course/Course.h"
 
+class GeoCannon;
 class GeographyObj; // forward declaration
 
 class CrsGround
@@ -23,14 +24,18 @@ public:
         Attr_6,
         Attr_7,
         Attr_8,
-        Attr_9,
+        Attr_Cannon,
         Attr_10,
         Attr_11,
         Attr_12,
-        Attr_13,
+        Attr_Pipe,
         Attr_14,
         Attr_15,
-        Attr_16,
+        Attr_Puller,
+        Attr_Water,
+        Attr_18,
+        Attr_55 = 0x37,
+        Attr_71 = 0x47,
         Attr_255 = 0xff,
     };
 
@@ -55,28 +60,33 @@ public:
     f32 getHeight() const;                                                                                                                        // 0x801a3168
     void getNormal(JGeometry::TVec3f *) const;                                                                                                    // 0x801a3170
     u8 getCameraCode() const;                                                                                                                     // 0x801a319c
-    void isItemInvalGround() const;                                                                                                               // 0x801a3204
+    bool isItemInvalGround() const;                                                                                                               // 0x801a3204
     u8 getAddThickness() const;                                                                                                                   // 0x801a3268
     u8 getStaggerCode() const;                                                                                                                    // 0x801a32c0
     u8 getSpiralCode() const;                                                                                                                     // 0x801a3338
     u8 getSplashCode() const;                                                                                                                     // 0x801a338c
     f32 getSplashHeight();                                                                                                                        // 0x801a33e4
-    void getSplashID();                                                                                                                           // 0x801a3520
-    void getJugemPoint();                                                                                                                         // 0x801a35ec
-    void getCannonPoint();                                                                                                                        // 0x801a36d4
+    int getSplashID();                                                                                                                           // 0x801a3520
+    JugemPoint *getJugemPoint();                                                                                                                         // 0x801a35ec
+    JugemPoint *getCannonPoint();                                                                                                                        // 0x801a36d4
     JugemPoint *getPipePoint();                                                                                                                   // 0x801a3728
-    void getGeoCannon();                                                                                                                          // 0x801a377c
+    GeoCannon *getGeoCannon();                                                                                                                          // 0x801a377c
     f32 getWaterHeight();                                                                                                                         // 0x801a37e8
-    void isShaking() const;                                                                                                                       // 0x801a3848
-    void isAttributeCollision();                                                                                                                  // 0x801a38a8
+    bool isShaking() const;                                                                                                                       // 0x801a3848
+    bool isAttributeCollision();                                                                                                                  // 0x801a38a8
     void getWallNormal(JGeometry::TVec3f *, JGeometry::TVec3f *);                                                                                 // 0x801a38f4
     void addPullerVelocity();                                                                                                                     // 0x801a3e9c
 
     // Inlines
     void getVelocity(JGeometry::TVec3f *dest) const { dest->set(mVelocity); }
     int getMaterial() const { return mMaterial; }
-    int getAttrIndex() const { return mAttrIdx; }
+    u32 getAttrIndex() const { return mAttrIdx; }
     EAttr getAttribute() const { return mAttribute; }
+
+    bool isObject() const { return mGeoObj != nullptr; }
+    bool exceptValley(bool except) {
+        mExceptVally = except;
+    }
 
     static f32 getOverLevel() { return 50.0f; }
 
@@ -90,12 +100,12 @@ private:
     void *mGeoObj;
     JGeometry::TVec3f mNormal;
     JGeometry::TVec3f mVelocity;
-    JGeometry::TVec3f _40;
+    JGeometry::TVec3f mWallNormal;
     EAttr mAttribute;
-    int mAttrIdx;
+    u32 mAttrIdx;
     int mMaterial;
     f32 mHeight;
-    f32 _5c;
+    f32 mDepth;
 };
 
 #endif

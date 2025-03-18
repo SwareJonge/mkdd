@@ -1,6 +1,7 @@
 #ifndef GEOITEMGEN_H
 #define GEOITEMGEN_H
 
+#include "JSystem/JGeometry/Vec.h"
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
 
@@ -10,7 +11,7 @@ public:
     GeoItemGen(const CrsData::SObject &);        // 0x801c507c
     virtual void reset();                        // 0x801c50f4
     virtual void createColModel(J3DModelData *); // 0x801c5364
-    void setItemKind();                          // 0x801c53a0
+    u32 setItemKind();                           // 0x801c53a0
     void checkKartCollision();                   // 0x801c5488
     virtual void calc();                         // 0x801c577c
     void initFuncWait();                         // 0x801c5930
@@ -18,15 +19,25 @@ public:
     // Inline/Unused
     // void sDummyKartHit;
     // Inline
-    virtual void InitExec() /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/; // 0x801c57c8
-    virtual void MoveExec() /*__ptmf_scall(this, FindStateFunc(getState()), &sTable, 1);*/; // 0x801c58dc
-    virtual ~GeoItemGen() {}                                                          // 0x801c5938
+    virtual void InitExec();   // 0x801c57c8
+    virtual void MoveExec();   // 0x801c58dc
+    //virtual ~GeoItemGen() {} // 0x801c5938
 private:
-    static int sRandomTable[4]; // 0x80379358
-    // void sTable;                          // 0x803970b0
-    static s16 sNextOccurTime;                                                      // 0x804146e0
-    static s16 sOccurLimitSpeed;                                                    // 0x804146e2
-};                                                                                  // class GeoItemGen
-// void ItemObj::setOwnerNum(int) // ItemObj.h; // 0x801c5758
-// void GeographyObj::getBmdFileName() // GeographyObj.h; // 0x801c59a8
+    static const u32 sRandomTable[10];         // 0x80379358
+    static StateFuncSet<GeoItemGen> sTable[1]; // 0x803970b0
+    static s16 sNextOccurTime;                 // 0x804146e0
+    static s16 sOccurLimitSpeed;               // 0x804146e2
+
+    int mGenId;
+    bool _15c;
+    f32 _160;
+    f32 _164;
+    f32 _168;
+    int mOccurId;
+    s16 mTimer;
+    JGeometry::TVec3f mFrDir;
+    JGeometry::TVec3f mUpDir;
+    JGeometry::TVec3f mLfDir;
+};
+
 #endif // GEOITEMGEN_H

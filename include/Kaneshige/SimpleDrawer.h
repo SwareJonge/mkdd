@@ -14,7 +14,7 @@ public:
     ~SimpleDrawer() {}
     J3DMaterial *getDrawingMaterial() { return mDrawingMaterial; }
     void enableDrawMaterial() { mIsMatDrawOn = true; }
-    bool isPhaseCheckHidding() { return mPhase == 1; }
+    bool isPhaseCheckHidding() { return mPhase == 0; }
 
     static SimpleDrawer *getDrawingDrawer() { return sDrawingDrawer; }
 

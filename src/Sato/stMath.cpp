@@ -478,7 +478,7 @@ float stGetCollideDepthFromT(const TVec3f &vec1, const TVec3f &vec2, float scala
 void stMTXRotS16(Mtx matrix, char axis, short v)
 {
     float sin = JMASinShort(v);
-    float cos = JMASCosShort(v);
+    float cos = JMACosShort(v);
     PSMTXRotTrig(matrix, axis, sin, cos);
 }
 

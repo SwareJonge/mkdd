@@ -13,7 +13,7 @@ class JASBank
 public:
     JASBank() { mWaveBank = NULL; }
     virtual ~JASBank(){};
-    virtual JASInst *getInst(int) const = 0;
+    virtual JASInst *getInst(u32) const = 0;
     virtual u32 getType() const = 0;
 
     JASWaveBank *getWaveBank() const { return mWaveBank; }
@@ -33,14 +33,14 @@ public:
     void newInstTable(u8, JKRHeap *);
     bool getInstParam(int, int, int, JASInstParam *) const;
     void setInst(int prg_no, JASInst *inst);
-    virtual JASInst *getInst(int) const;
-    virtual ~JASBasicBank();
-    virtual u32 getType() const;
+    virtual JASInst *getInst(u32) const;
+    virtual ~JASBasicBank() {}
+    virtual u32 getType() const { return 0x42534943; } // BSIC
 
+
+    static const int INST_MAX = 0x100;
 private:
-    u8 mInstTable[0x400]; // 08
-    //JASInst **mInstTable; // 08
-    //u8 mInstNumMax;       // 0c
+    JASInst *mInstTable[0x100]; // 08
 };
 
 #endif

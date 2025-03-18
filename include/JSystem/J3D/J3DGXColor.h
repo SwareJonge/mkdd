@@ -5,6 +5,9 @@
 #include <dolphin/gx.h>
 #include <dolphin/gd.h>
 
+#pragma push
+#pragma optimize_for_size off
+
 struct J3DGXColor : public GXColor {
     J3DGXColor() { }
 
@@ -64,13 +67,7 @@ struct J3DGXColorS10 : public GXColorS10 {
         a = _a;
     }
 
-    J3DGXColorS10(const J3DGXColorS10& other)
-    {
-        r = other.r;
-        g = other.g;
-        b = other.b;
-        a = other.a;
-    }
+    J3DGXColorS10(const J3DGXColorS10 & other) { __memcpy(this, &other, sizeof(J3DGXColorS10)); }
 
     J3DGXColorS10(const GXColorS10& other)
     {
@@ -89,5 +86,7 @@ struct J3DGXColorS10 : public GXColorS10 {
         a                      = otherBytes->a;
     }
 };
+
+#pragma pop
 
 #endif

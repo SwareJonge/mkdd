@@ -793,7 +793,7 @@ bool CrsData::SObject::isAvailableObject() {
             case 1:
             case 0x26b2:
             {
-                s16 maxKarts = robberyKarts;
+                s16 maxKarts = mParam8;
                 if (maxKarts > 1 && RaceMgr::getManager()->getKartNumber() <= maxKarts)
                     filterType = -1;
                 break;

@@ -48,23 +48,27 @@ namespace JUTAssertion
 #define JUT_WARNING_F2(...) \
   JUTAssertion::setWarningMessage_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__);
 
+// TODO: refactor
 // perhaps "%s" is already added here
 #define JUT_CRITICAL_WARNING_F(...) \
   JUTAssertion::setWarningMessage_f(2, __FILE__, __LINE__, __VA_ARGS__);
 
+  // perhaps "%s" is already added here
+#define JUT_WARNING_F1(...) \
+JUTAssertion::setWarningMessage_f(1, __FILE__, __LINE__, __VA_ARGS__);
 // perhaps "%s" is already added here
 #define JUT_WARNING_F3(...) \
   JUTAssertion::setWarningMessage_f(3, __FILE__, __LINE__, __VA_ARGS__);
 
 #define JUT_ASSERT(COND) \
-  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt"));
+  (COND) || ((JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt")), 0);
 
 #define JUT_ASSERT_F(COND, ...) \
-  (COND) ? (void)0 : (JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__), OSHalt("Halt"));
+  (COND) || ((JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__), OSHalt("Halt")), 0);
 
 // could this maybe have used __VA_ARGS__?
 #define JUT_ASSERT_MSG(COND, MSG) \
-  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG), OSHalt("Halt"));
+  (COND) || ((JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG), OSHalt("Halt")), 0);
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \
   JUT_ASSERT_F((((min) <= (cur)) && ((cur) < (max))), "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));

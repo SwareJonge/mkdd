@@ -680,11 +680,6 @@ struct J3DTexCoordInfo {
         mTexGenMtx  = other.mTexGenMtx;
     }
 
-    u8 getTexGenType() { return mTexGenType; }
-    u8 getTexGenSrc() { return mTexGenSrc; }
-    u32 getTexGenMtx() { return mTexGenMtx & 0xFF; }
-    void setTexGenMtx(u8 mtx) { mTexGenMtx = mtx; }
-
     u8 mTexGenType; // _00
     u8 mTexGenSrc;  // _01
     u8 mTexGenMtx;  // _02
@@ -719,6 +714,8 @@ struct J3DTexCoord : public J3DTexCoordInfo {
     u8 getTexGenMtx() { return mTexGenMtx & 0xFF; }
     u16 getTexMtxReg() { return mTexMtxReg & 0xFF; }
 
+    void setTexMtxReg(u16 reg) { mTexMtxReg = reg; }
+    void setTexGenMtx(u8 mtx) { mTexGenMtx = mtx; }
     void resetTexMtxReg() { mTexMtxReg = mTexGenMtx; }
 
     // _00-_04 = J3DTexCoordInfo

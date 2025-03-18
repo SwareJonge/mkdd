@@ -4,6 +4,9 @@
 #include "types.h"
 #include "JSystem/ResTIMG.h"
 
+#pragma push
+#pragma optimize_for_size off
+
 struct ResTIMG;
 struct ResTIMGPair;
 
@@ -31,6 +34,12 @@ struct J3DTexture : _UnknownJ3DTextureParent {
     u16 getNum() const { return mNum; }
     ResTIMG* getResTIMG(u16 entry) const { return &mRes[entry]; }
 
+    void setResTIMG(u16 entry, const ResTIMG &rImg) { 
+        mRes[entry] = rImg;
+        mRes[entry].mImageDataOffset = (u32)&rImg + mRes[entry].mImageDataOffset - (u32)&mRes[entry];
+        mRes[entry].mPaletteOffset =  (u32)&rImg  + mRes[entry].mPaletteOffset - (u32)&mRes[entry];
+    }
+
     // fabricated:
     inline void setImageOffset(u32 format) { mRes[0].mImageDataOffset = (int)((format + mRes[0].mImageDataOffset) - (u32)&mRes[0]); }
     inline void setImageOffset2(u32 format) { mRes[1].mImageDataOffset = (int)((format + mRes[1].mImageDataOffset) - (u32)&mRes[1]); }
@@ -39,5 +48,7 @@ struct J3DTexture : _UnknownJ3DTextureParent {
 
     // _08 VTBL
 };
+
+#pragma pop
 
 #endif

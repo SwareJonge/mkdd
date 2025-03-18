@@ -60,8 +60,8 @@ public:
     void getAssignedModelXYZdir(JGeometry::TVec3f *, JGeometry::TVec3f *, JGeometry::TVec3f *); // 0x80229838
     void getAssignedModelMatrix(Mtx);                                                           // 0x80229968
     void resetObject();                                                                         // 0x80229bcc
-    void IsHitKart(const JGeometry::TVec3f &, f32, JGeometry::TVec3f *);                        // 0x80229df4
-    void IsHitObject(const JGeometry::TVec3f &, ObjColBase *);                                  // 0x80229f98
+    bool IsHitKart(const JGeometry::TVec3f &, f32, JGeometry::TVec3f *);                        // 0x80229df4
+    bool IsHitObject(const JGeometry::TVec3f &, ObjColBase *);                                  // 0x80229f98
     void setIsHitKartFlg(int);                                                                  // 0x8022a074
     void clrIsHitKartSoundFlg(int);                                                             // 0x8022a0c4
     bool tstUserFlg1(int kart_index) const;                                                     // 0x8022a0ec
@@ -74,9 +74,9 @@ public:
     void createMultiBoundsSphere(u8, f32, f32);                                                 // 0x8022a66c
     void createBoundsCylinder(J3DModelData *, f32, f32);                                        // 0x8022a6fc
     void createBoundsCylinder(f32, f32, f32);                                                   // 0x8022a81c
-    void createMultiBoundsCylinder(u8, J3DModelData *, f32, f32);                               // 0x8022a934
+    void createMultiBoundsCylinder(const u8, J3DModelData *, f32, f32);                               // 0x8022a934
     void createBoundsCube(J3DModelData *);                                                      // 0x8022aa04
-    void setColObjPos(const JGeometry::TVec3f &, u8);                                           // 0x8022ab20
+    void setColObjPos(const JGeometry::TVec3f &, const u8);                                           // 0x8022ab20
     stRandom *getGeoRnd();                                                                            // 0x8022ac14
     void moveShadowModel();                                                                     // 0x8022ac38
     void createSoundMgr();                                                                      // 0x8022acec
@@ -100,6 +100,10 @@ public:
     void setLODBias();
     void getColRadius();
 
+    void setItemColReaction(u8 p1, u8 p2) { mReaction.setFlg(p1, p2); }
+
+    bool IsPathMove() const { return mObjData->pathID != 0xffff; }
+
     template<class T>
     static T *New(CrsData::SObject &object) { return new T(object); }
     template<class T>
@@ -107,23 +111,50 @@ public:
     template<class T>
     static T *ExNew(CrsData::SObject &object) { return new T(object); }
 
+    void NewAnmCtrl() {
+        if (mAnmCtrl == nullptr) {
+            mAnmCtrl = new AnmController();
+        }
+    }
+
+    ShadowModel *getShadowModel() const { return mShadowMdl; }
     GameAudio::ObjectSoundMgr *getSoundMgr() { return mSoundMgr; }
+    AnmController *getAnmCtrl() const { return mAnmCtrl; }
+
+    ObjColBase *getBounds(u8 idx) { return mBounds[idx]; }
+    void setBounds(ObjColBase *bounds, u8 idx) { mBounds[idx] = bounds; } 
 
     void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; }
+    void clrObjFlagCheckGeoHitting() { mGeoObjFlag &= ~1; }
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
     void clrObjFlagHidding() { mGeoObjFlag &= ~0x20; }
+    
+    void clrCheckKartHitFlag(int kartId) { mKartHitFlags &=  ~(1 << kartId); }
     void clrAllCheckKartHitFlag() { mKartHitFlags = 0; }
+    void clrAllIsHitKartFlg() { mKartFlags = 0; }
 
-    void setObjFlagCheckItemHitting() { mGeoObjFlag |= 2; }
-    void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
+    void setObjFlagCheckItemHitting() { mGeoObjFlag |= 2; }    
     void setObjFlagSimpleDraw() { mObjFlag |= 1; }
     void setObjFlagMainResource() { mObjFlag |= 2; }
+    void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
+
+    bool tstItemHitting() const { return mGeoObjFlag & 0x4; }
     void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
     bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
-    bool tstIsHitKartFlg(int kartNo) const { return mKartHitFlags == kartNo; }
+    bool tstObjFlagHidding() const { return mGeoObjFlag & 0x20; }
+    void clrObjFlagLODBias() { mObjFlag &= ~0x100;  }
+    bool tstIsHitKartFlg(int kartNo) const { return (mKartFlags & (1 << kartNo)) != 0; }
 
+    ItemObj *getColItemObj() const { return mColItemObj; }
     u32 getKind() const { return mKind; }
     ItemColReaction &getItemReaction() { return mReaction; }
+    const u8 &getAllBoundsNum() const { return mBoundsNum; }
+
+    void showShadow() {
+        if (mShadowMdl) {
+            mShadowMdl->setVisibleAll();
+        }
+    }
 
     // Vtable
     virtual ~GeographyObj() {}                                                                      // 8, TODO?
@@ -174,22 +205,27 @@ protected:
     JGeometry::TVec3f mVel;               // 4C
     int _58;                              // 58, some sort of ID
     ExModel mModel;                       // 5C
-    CrsData::SObject *mObjData;           // E8
+    const CrsData::SObject *mObjData;           // E8
     u32 mGeoObjFlag;                      // EC
-    u32 mKartHitFlags;                    // F0
-    u8 _f4[0xfc - 0xf4];                  //
-    JSULink<GeographyObj> mLink;          // FC
+    u32 mKartHitFlags;                    // F0, maybe u64?
+    u32 mKartFlags;                       // F4
+    u8 _f8[0xfc - 0xf8];                  //
+    JSULink<GeographyObj> mObjLink;       // FC
     int mKind;                            // 10C
     u8 _110[0x114 - 0x110];               //
     ItemObj *mColItemObj;                 // 114
-    u8 _118[0x11c - 0x118];               //
+    ShadowModel *mShadowMdl;              // 118
     u16 mObjFlag;                         // 11C
     AnmController *mAnmCtrl;              // 120
     ItemColReaction mReaction;            // 124
-    u8 _134[0x144 - 0x134];               //
+    ObjColBase **mBounds;                 // 134
+    u8 _13c[0x140 - 0x138];               //
+    u8 mBoundsNum;                        // 140
     GameAudio::ObjectSoundMgr *mSoundMgr; // 144
     u8 _148[0x14c - 0x148];               //
 }; // Size: 0x14c
+
+// TODO: Move to Shiraiwa?
 
 class TMapObjHioNode : public GeographyObj
 {

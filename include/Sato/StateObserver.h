@@ -23,6 +23,7 @@ public:
     void changeState();
     void setState(u16);
     u16 getState() const { return mPrevState; }
+    u32 getStateCount() const { return mStateCount; } 
 
     // Vtable
     virtual ~StateObserver();
@@ -52,9 +53,9 @@ public:
     }
 
 private:
-    u16 mState;        // 4
-    u16 mPrevState;    // 6
-    u32 mTimeExecuted; // 8
+    u16 mState;      // 4
+    u16 mPrevState;  // 6
+    u32 mStateCount; // 8
 };
 
 template <typename T>

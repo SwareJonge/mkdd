@@ -23,7 +23,7 @@ void JUTNameTab::setResource(const ResNTAB *pNameTable)
     }
 }
 
-s32 JUTNameTab::getIndex(const char *pName) const
+int JUTNameTab::getIndex(const char *pName) const
 {
 #line 101
     JUT_ASSERT(mNameTable != 0);

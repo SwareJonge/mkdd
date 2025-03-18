@@ -14,6 +14,9 @@ enum TextureFlags
     TEXFLAG_Unk2 = 0x2,
 };
 
+#pragma push
+#pragma optimize_for_size off
+
 // Size: 0x40
 struct JUTTexture : public GXTexObj
 {
@@ -81,6 +84,8 @@ struct JUTTexture : public GXTexObj
 
     void setTlutName(u8 tlut) { mTlut = tlut; }
 
+    void capture(int x0, int y0) { capture(x0, y0, getFormat(), false, 0); }
+
     GXTexFmt getFormat() const {return (GXTexFmt)mTexInfo->mTextureFormat; }
     int getWidth() const { return mTexInfo->mSizeX; }
     int getHeight() const { return mTexInfo->mSizeY; }
@@ -101,5 +106,7 @@ struct JUTTexture : public GXTexObj
     u8 mFlags;                  // _3B
     ResTIMG *mImage;            // _3C
 };
+
+#pragma pop
 
 #endif

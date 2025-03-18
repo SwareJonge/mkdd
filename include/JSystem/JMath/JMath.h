@@ -66,6 +66,14 @@ namespace JMath
          */
         f32 sinShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].first; }
         f32 cosShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].second; }
+        f32 sinLap(f32 x) const { 
+            // TP Debug is 8192 and 0x1fff?
+            if (x < 0.0f) {
+                return -mTable[static_cast<u16>(x * -2048.0f) & 0x7ff].first;
+            }
+            return mTable[static_cast<u16>(x * 2048.0f) & 0x7ff].first;
+        }
+        
         std::pair<f32, f32> mTable[2048];
     };
 
@@ -236,10 +244,12 @@ inline f32 JMAAbs(f32 input) { return __fabsf(input); }
 
 inline f32 JMAAtan2Radian(f32 y, f32 x) { return JMath::atanTable_.atan2Radian(y, x); };
 
-inline f32 JMASCosShort(s16 v) { return JMath::sincosTable_.cosShort(v); }
+inline f32 JMASSinLap(f32 x) { return JMath::sincosTable_.sinLap(x); }
+
+inline f32 JMACosShort(s16 v) { return JMath::sincosTable_.cosShort(v); }
 inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }
 
-inline f32 JMASCos(s16 v) { return JMASCosShort(v); }
+inline f32 JMASCos(s16 v) { return JMACosShort(v); }
 inline f32 JMASSin(s16 v) { return JMASinShort(v); }
 
 inline f32 JMAHermiteInterpolation(register f32 p1, register f32 p2, register f32 p3, register f32 p4, register f32 p5, register f32 p6,

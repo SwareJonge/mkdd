@@ -36,6 +36,7 @@ public:
     bool isLock() const { return mLockFlag & ~0xfffffffe; } // 0x80198c58
     void clrDraw() { mDrawFlag = 0; }
 
+    static bool isValidDrawBuffer(J3DDrawBuffer *drawBuf) { return drawBuf != &sDummyBuf; }
 
     // Vtable 0x0
     virtual void drawIn(u32 viewNo);   // 0x80198a50

@@ -4,6 +4,7 @@
 #include <dolphin/gx.h>
 #include <dolphin/mtx.h>
 #include "JSystem/JGeometry.h"
+#include "JSystem/JGeometry/Vec.h"
 #include "JSystem/JMath/JMath.h"
 #include "JSystem/JParticle/JPABlock.h"
 #include "JSystem/JParticle/JPAList.h"
@@ -141,12 +142,23 @@ struct JPABaseEmitter
     int getDrawCount() const;
     void loadTexture(u8, _GXTexMapID);
 
-    u32 getParticleNumber() { return mAlivePtclBase.getNum() + mAlivePtclChld.getNum(); }
+    void becomeContinuousParticle() { mMaxFrame = 0; }
+
+    u32 getParticleNumber() const { return mAlivePtclBase.getNum() + mAlivePtclChld.getNum(); }
 
     void initFlag(u32 flag) { mFlags = flag; }
     void setFlag(u32 flag) { mFlags |= flag; }
-    bool checkStatus(u32 flag) const { return mFlags & flag; }
+    u32 checkStatus(u32 flag) const { return mFlags & flag; }
     void clearStatus(u32 flag) { mFlags &= ~flag; }
+
+    void setStatus(u32 mask) { mFlags |= mask; }
+    void stopCreateParticle() { setStatus(1); }
+
+    void playCreateParticle() { clearStatus(1); }
+
+    bool isEnableDeleteEmitter() const {
+        return checkStatus(8) != 0 && getParticleNumber() == 0;
+    }
 
     inline void setScale(f32 scale)
     {
@@ -170,6 +182,11 @@ struct JPABaseEmitter
     }
 
     inline void setScaleOnly(f32 scale) { mGlobalScl.set(scale, scale, scale); }
+
+    inline void setGlobalScale(const JGeometry::TVec3f &scale) {
+        mGlobalScl.set(scale);
+        mGlobalPScl.set(scale.x, scale.y);
+    }
 
     inline void setGlobalScale(f32 x, f32 y)
     {
@@ -267,10 +284,11 @@ struct JPABaseEmitter
     void setEmitterCallBackPtr(JPAEmitterCallBack *ptr) { mEmitterCallback = ptr; }
     void setGlobalRTMatrix(const Mtx m) { JPASetRMtxTVecfromMtx(m, mGlobalRot, &mGlobalTrs); }
     void setGlobalRMatrix(const Mtx m) { JPASetRMtxfromMtx(m, mGlobalRot); }
+    void setGlobalParticleScale(const JGeometry::TVec3f &vec) { mGlobalPScl.set(vec.x, vec.y); }
     void setGlobalTranslation(f32 x, f32 y, f32 z) { mGlobalTrs.set(x, y, z); }
     void setGlobalTranslation(const JGeometry::TVec3f &vec) { mGlobalTrs.set(vec); }
     void getLocalTranslation(JGeometry::TVec3f &vec) { vec.set(mLocalTrs); }
-    void setGlobalRotation(const JGeometry::TVec3<s16> &rot) { JPAGetXYZRotateMtx(rot.x, rot.y, rot.z, mGlobalRot); }
+    void setGlobalRotation(const JGeometry::TVec3s &rot) { JPAGetXYZRotateMtx(rot.x, rot.y, rot.z, mGlobalRot); }
     void setGlobalAlpha(u8 alpha) { mGlobalPrmClr.a = alpha; }
     u8 getGlobalAlpha() { return mGlobalPrmClr.a; }
     void getGlobalPrmColor(GXColor &color) { color = mGlobalPrmClr; }

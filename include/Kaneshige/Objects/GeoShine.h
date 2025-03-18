@@ -3,6 +3,7 @@
 
 #include "JSystem/JGeometry/Vec.h"
 #include "Sato/GeographyObj.h"
+#include "Sato/JPEffectMgr.h"
 
 class GeoRabbitMark;
 
@@ -30,8 +31,8 @@ public:
 
 private:
     static const char *sNormalEmitterName[3]; // 0x803980b8
-    static const f32 sShadowScale;            // 0x803fc288
     static const char *sWinnerEmitterName[2]; // 0x804147a8
+    static JGeometry::TVec3f sShadowScale;    // 0x803fc288
     static f32 sScalingNearZ;                 // 0x804147b0
     static f32 sScalingFarZ;                  // 0x804147b4
     static f32 sMaxScale;                     // 0x804147b8
@@ -48,20 +49,11 @@ private:
     JGeometry::TVec3f _178;
     JGeometry::TVec3f _184;
     JGeometry::TVec3f _190;
-    u8 _19c[0x1a4 - 0x19c];
+    f32 mRotAnmVel;
+    int _1a0; // duration of vel?
     bool mWinEffectOn;
-    u8 _1a5[0x1b0 - 0x1a5];
+    JPABaseEmitter *mNormalEmitter[3];
+    JPABaseEmitter *mWinnerEmitter[2];
 }; // class GeoShine
-
-// Inline Functions called in TU
-// void ViewCtrlModel::setVisible(unsigned long) // ViewCtrlModel.h; // 0x801d5344
-// void ViewCtrlModel::clrVisibleAll() // ViewCtrlModel.h; // 0x801d535c
-// void ViewCtrlModel::setDetailFlg() // ViewCtrlModel.h; // 0x801d536c
-// void GeoRabbitMark::getPosition(JGeometry::TVec3<float> *) // GeoRabbitMark.h; // 0x801d53a8
-// void ViewCtrlModel::isInvisibleAll() // ViewCtrlModel.h; // 0x801d5588
-// void JPABaseEmitter::setGlobalScale(const JGeometry::TVec3<float> &) // JPABaseEmitter.h; // 0x801d59dc
-// void GeoRabbitMark::getFootLength() const // GeoRabbitMark.h; // 0x801d5a2c
-// void GeoRabbitMark::getMarkScale() const // GeoRabbitMark.h; // 0x801d5a44
-// void GeoRabbitMark::getFootPosition(JGeometry::TVec3<float> *) // GeoRabbitMark.h; // 0x801d5a4c
 
 #endif // GEOSHINE_H

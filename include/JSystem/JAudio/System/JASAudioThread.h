@@ -15,6 +15,7 @@ struct JASAudioThread : public JKRThread, public JASGlobalInstance<JASAudioThrea
 {
     JASAudioThread(int, int, u32);
     static void create(s32);
+    static void bootDSP();
     void stop();
     virtual void *run();
     static void DMACallback();
@@ -25,8 +26,8 @@ struct JASAudioThread : public JKRThread, public JASGlobalInstance<JASAudioThrea
     static int getDSPSyncCount() { return snIntCount; }
     static void setDSPSyncCount(u32 count) { snIntCount = count; }
 
-    OSThreadQueue sThreadQueue; // 7x
-    bool sbPauseFlag;           //  b4, type unsure
+    OSThreadQueue sThreadQueue; // 7c
+    bool sbPauseFlag;           // b4, type unsure
 
     static volatile int snIntCount; // type unsure
 };

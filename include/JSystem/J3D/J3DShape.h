@@ -21,6 +21,9 @@ struct J3DShapeMtx;
 #define J3DShapeMtx_Y_BBoard 0x2
 #define J3DShapeMtx_Multi 0x3
 
+#pragma push
+#pragma optimize_for_size off
+
 struct J3DShapeInitData
 {
     u8 mShapeMtxType;             // _00
@@ -69,12 +72,12 @@ struct J3DShape
     void hide() { onFlag(IsHidden); }
     void setCurrentViewNoPtr(u32 *pViewNoPtr) { mCurrentViewNumber = pViewNoPtr; }
     void setScaleFlagArray(u8 *pScaleFlagArray) { mFlagList = pScaleFlagArray; }
-    void setTexMtxLoadType(u32 type) { mFlags = (mFlags & 0xFFFF0FFF) | type; }
+    void setTexMtxLoadType(u32 type) { mFlags = type | (mFlags & 0xFFFF0FFF); }
     bool getNBTFlag() const { return mMode; }
     u32 getBumpMtxOffset() const { return mBumpMtxOffset; }
 
     J3DMaterial *getMaterial() const { return mMaterial; }
-    u32 getIndex() const { return mId; }
+    u16 getIndex() const { return mId; }
     u32 getPipeline() const { return (mFlags >> 2) & 0x07; }
     u32 getTexMtxLoadType() const { return mFlags & 0xF000; }
     u32 getMtxGroupNum() const { return mMtxGroupNum; }
@@ -168,7 +171,7 @@ struct J3DShapeTable
     void initShapeNodes(J3DDrawMtxData *, J3DVertexData *);
     void sortVcdVatCmd();
 
-    J3DShape *getItem(u16 index) const { return mItems[index]; } // called getShapeNodePointer in TP
+    J3DShape *getShapeNodePointer(u16 index) const { return mItems[index]; }
     u16 getShapeNum() const { return mCount; }
 
     // VTBL _00
@@ -238,5 +241,7 @@ struct J3DShapeMtxYBBoardConcatView : public J3DShapeMtxConcatView
     virtual int getType() const { return 'SMYB'; } // _0C (weak)
     virtual void load() const;                       // _18
 };
+
+#pragma pop
 
 #endif

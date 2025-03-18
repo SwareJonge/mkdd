@@ -94,6 +94,10 @@ public:
     {
     }
 
+    void goNext() {
+        mLink = mLink->getNext();
+    }
+
     JSUListIterator<T> &operator=(JSULink<T> *link)
     {
         mLink = link;

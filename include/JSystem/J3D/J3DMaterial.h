@@ -109,7 +109,7 @@ struct J3DMaterial
     J3DMaterial *getNext() { return mNext; }
     J3DShape *getShape() const { return mShape; }
     J3DTevBlock *getTevBlock() { return mTevBlock; }
-    J3DColorBlock *getColorBlock() const { return mColorBlock; }
+    J3DColorBlock *getColorBlock() { return mColorBlock; }
     J3DTexGenBlock *getTexGenBlock() { return mTexGenBlock; }
     J3DDisplayListObj *getSharedDisplayListObj() const { return mSharedDLObj; }
     J3DPEBlock *getPEBlock() { return mPeBlock; }

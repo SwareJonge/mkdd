@@ -56,10 +56,12 @@ public:
         u8 xMinIndex : 2;
         u8 camCode;
         u16 nearTrigs[3];
-        u8 thickness : 4;
-        u8 _21;
-        u8 _22;
-        u8 _23;
+        u8 thickness : 4; // 20.0
+        u8 itemType : 4;  // 20.4
+        u8 _21; // unused?
+        u8 spiralCode : 4; // 22.0
+        u8 staggerCode : 4; // 22.4
+        u8 splashCode;
     };
 
     struct SMaterial {
@@ -183,21 +185,21 @@ public:
         u16 objID;
         u16 pathID;                  // 26
         s16 _28;                     //
-        s16 pointIdx;                // 2a
+        u16 pointIdx;                // 2a
         struct {
             u8 filter;               // 2c
             u8 flag;                 // 2d,  0x00 = all game modes disabled, 0x01 = single screen, 0x02 = split screen, 0x03 = all game modes.
         } presence;
         u8 colFlag;                  // 2e
         u8 _2f;                      //
-        s16 _30;                     //
-        s16 _32;                     //
-        s16 _34;                     //
-        s16 _36;                     //
+        s16 mParam1;                 // 30
+        s16 mParam2;                 // 32
+        s16 mParam3;                 // 34
+        s16 mParam4;                 // 36
         s16 mParam5;                 // 38, official name from assert(so ig everything in here should have the m naming scheme... not now)
-        s16 _3a;                     //
-        s16 _3c;                     //
-        s16 robberyKarts;            // 3e, amount of robbery karts
+        s16 mParam6;                 // 3a
+        s16 mParam7;                 // 3c
+        s16 mParam8;                 // 3e, amount of robbery karts
     };
 
     struct SJugemPoint
@@ -241,7 +243,8 @@ public:
         s16 getPathID() const { return mPathID; }
         int getTime() const { return mTime; }
         int getNextCameraID() const { return mNextID; }
-
+        int getShimmerZ0() const { return mShimmerZ0; }
+        int getShimmerZ1() const { return mShimmerZ1; }
         bool isStartCamera() const { return mID != 0; }
     
         JGeometry::TVec3f mPos;
@@ -333,7 +336,7 @@ public:
     struct PointData
     {
         JGeometry::TVec3f pos;
-        u32 linkPoint;
+        s32 linkPoint;
         u8 pad[0x10];
     };
     

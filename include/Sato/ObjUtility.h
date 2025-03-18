@@ -44,16 +44,16 @@ class MtxRotateCtrl
     void init(JGeometry::TPos3f *);
     void doRotate();
     void moveTheta();
-    void moveThetaOne(short *, short);
-    void setMaxSpd(short);
+    void moveThetaOne(s16 *, s16);
+    void setMaxSpd(s16);
 };
 
 class MtxRotateCtrlSpvar
 {
     ~MtxRotateCtrlSpvar();
 
-    void moveThetaOne(short *, short);
-    void setMaxSpd(short);
+    void moveThetaOne(s16 *, s16);
+    void setMaxSpd(s16);
 };
 
 class BombEffectObj
@@ -70,8 +70,10 @@ public:
     virtual void init(const JGeometry::TMtx34f &, u8, f32);
     virtual bool execute();
 
+    ObjColSphere *getBlastBound() const { return mBlastBound; }
+
     u32 _4;                                // 4
-    ObjColSphere *mSphere1;                // 8
+    ObjColSphere *mBlastBound;             // 8
     ObjColSphere *mSphere2;                // C
     JGeometry::TVec3f _10;                 // 10
     GameAudio::ObjectSoundMgr *mObjSndMgr; // 1c

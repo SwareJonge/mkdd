@@ -49,7 +49,7 @@ public:
     void MakeShaker(float);
     void DoShaker(JGeometry::TVec3f *, JGeometry::TVec3f);
     void SetPtr();
-    JGeometry::TVec3f *GetCameraPos(); // TODO: does this return a reference or a pointer
+    JGeometry::TVec3f *GetCameraPos(); // TODOL did these return pointers or references i forgot
     JGeometry::TVec3f *GetCameraLookPos();
     void SetFovyData();
     void First4ScreenPort(u8);

@@ -1,6 +1,7 @@
 #ifndef GEODKCLOUD_H
 #define GEODKCLOUD_H
 
+#include "JSystem/JGeometry/Vec.h"
 #include "Sato/GeographyObj.h"
 
 class GeoDkCloud : public GeographyObj
@@ -19,6 +20,9 @@ private:
     static J3DAnmTextureSRTKey *sBtkAnm; // 0x80416498
     // Unused
     // static u16 sCreateNum;
-    // TODO
+    JGeometry::TVec3f mLfDir;
+    JGeometry::TVec3f mUpDir;
+    JGeometry::TVec3f mFrDir;
+    J3DAnmObjMaterial mAnmObj;
 };     // class GeoDkCloud
 #endif // GEODKCLOUD_H

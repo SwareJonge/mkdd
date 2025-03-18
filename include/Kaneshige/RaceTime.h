@@ -10,6 +10,7 @@ class RaceTime
 {
 public:
     RaceTime() { reset(); }
+    RaceTime(int val) { mTime = val; } // fabricated
 
     void get(int *, int *, int *) const;
 

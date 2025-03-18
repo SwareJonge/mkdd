@@ -2,15 +2,13 @@
 #define JAUDIO_JAUSOUNDOBJECT_H
 
 #include "JSystem/JAudio/Interface/JAISound.h"
+#include "JSystem/JAudio/Interface/JAISoundHandles.h"
 #include "JSystem/JGeometry.h"
 #include "types.h"
 
-class JAUSoundObject
+class JAUSoundObject : public JAISoundHandles
 {
 public:
-    JAISoundHandle *mHandles; // _0
-    u32 _4;
-
     JAUSoundObject();
     ~JAUSoundObject();
 
@@ -30,12 +28,14 @@ public:
     JGeometry::TVec3<f32> *_14;
 };
 
-class JAUDopplerSoundObject : JAUSoundObject
+class JAUDopplerSoundObject : public JAUSoundObject
 { 
 public:
     virtual void process();
     virtual void *startSound(int soundID);
     virtual void *startLevelSound(int soundID);
+
+    u8 _20[0x30 - 0x20];
 };
 
 #endif

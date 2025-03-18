@@ -19,7 +19,7 @@ public:
     void show() { mFlags = 0; }
     void show(u32 idx) { mFlags &= ~(1 << idx); }
 
-    bool isHidding(u32 idx) const { return mFlags & 1 << idx; }
+    bool isHidding(u32 idx) const { return (mFlags & 1 << idx) != 0; }
     bool isValid() const { return mMagic == SHAPEPKT_MAGIC; }    
     void setShapePacket(J3DShapePacket *shapPkt) { mShapePkt = shapPkt; }
 

@@ -47,13 +47,13 @@ namespace JASDriver
     // JASDriverIF
     void setDSPLevel(f32);
     void getChannelLevel_dsp();
-    void getDSPLevel();
+    f32 getDSPLevel();
     void setOutputMode(u32);
     u32 getOutputMode();
     void waitSubFrame();
     void rejectCallback(s32 (*) (void *), void *);
-    void registerDspSyncCallback(s32 (*) (void *), void *);
-    void registerSubFrameCallback(s32 (*) (void *), void *);
+    bool registerDspSyncCallback(s32 (*) (void *), void *);
+    bool registerSubFrameCallback(s32 (*) (void *), void *);
     void subframeCallback();
     void DSPSyncCallback();
     void updateDacCallback();

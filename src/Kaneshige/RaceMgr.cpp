@@ -23,6 +23,7 @@ Also, make headers for all libraries itself?
 #include "kartEnums.h"
 #include "kartLocale.h"
 #include "Inagaki/GameAudioMain.h"
+#include "Inagaki/GameAudioCommon.h" 
 #include "Kameda/J2DManager.h"
 #include "Kameda/MotorManager.h"
 #include "Kameda/PauseManager.h"

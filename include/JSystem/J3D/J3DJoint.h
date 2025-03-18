@@ -28,8 +28,10 @@ struct J3DJoint {
     void appendChild(J3DJoint*);
     void entryIn();
     void recursiveCalc();
-
+    u8 getKind() const { return mKind; }
+    u8 getMtxType() const { return mMtxType; }
     u16 getJntNo() const { return mJointIdx; }
+    f32 getRadius() const { return mRadius; }
     J3DJoint* getYounger() { return mParent; }
     J3DJoint* getChild() { return mChild; }
     J3DMaterial* getMesh() { return mMaterial; }
@@ -43,6 +45,8 @@ struct J3DJoint {
     void setMtxCalc(J3DMtxCalc* i_mtxCalc) { mMtxCalc = i_mtxCalc; }
     void setCurrentMtxCalc(J3DMtxCalc* calc) { mCurrentMtxCalc = calc; }
 
+    
+
     static J3DMtxCalc* mCurrentMtxCalc;
 
     u32 mCallBackUserData;           // _00
@@ -51,7 +55,8 @@ struct J3DJoint {
     J3DJoint* mChild;                // _0C
     J3DJoint* mParent;               // _10
     u16 mJointIdx;                   // _14
-    s8 mKind;                        // _16
+    u8 mMtxType : 4;                 // _16.0
+    u8 mKind : 4;                    // _16.4
     u8 mIgnoreParentScaling;         // _17
     J3DTransformInfo mTransformInfo; // _18
     f32 mRadius;                     // _38, bounding sphere radius

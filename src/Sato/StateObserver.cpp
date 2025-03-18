@@ -3,7 +3,7 @@
 StateObserver::StateObserver() {
     mState = 0;
     mPrevState = 0;
-    mTimeExecuted = 0;
+    mStateCount = 0;
 }
 
 StateObserver::~StateObserver() {}
@@ -13,13 +13,13 @@ void StateObserver::ExecuteState() {
         changeState();
     }
     MoveExec();
-    mTimeExecuted++;
+    mStateCount++;
 }
 
 void StateObserver::ResetState() {
     mState = 0;
     mPrevState = 0;
-    mTimeExecuted = 0;
+    mStateCount = 0;
 }
 
 void StateObserver::setState(u16 state) {
@@ -29,6 +29,6 @@ void StateObserver::setState(u16 state) {
 void StateObserver::changeState() {
     mPrevState = mState;
     mState = 0xffff;
-    mTimeExecuted = 0;
+    mStateCount = 0;
     InitExec();
 }

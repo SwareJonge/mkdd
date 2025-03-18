@@ -48,7 +48,7 @@ struct J3DTexNoAnm {
 
     void setAnmFlag(bool flag) { mAnmFlag = flag; }
     bool getAnmFlag() const { return mAnmFlag; }
-    J3DAnmTexPattern* getAnmTexPattern() { return mAnm; }
+    J3DAnmTexPattern* getAnmTexPattern() const { return mAnm; }
 
     // _00 = VTBL
     u16 _04;                // _04
@@ -71,6 +71,7 @@ struct J3DTexMtxAnm {
     void setAnmFlag(bool flag) { mAnmFlag = flag; }
     void calc(J3DTextureSRTInfo* pSRTInfo) const { mAnm->getTransform(mIndex, pSRTInfo); }
     bool getAnmFlag() const { return mAnmFlag; }
+    J3DAnmTextureSRTKey *getAnmTransform() const { return mAnm; } 
 
     u16 mIndex;                // _00
     u16 mAnmFlag;              // _02
@@ -112,6 +113,7 @@ struct J3DTevKColorAnm {
 
     void setAnmFlag(bool flag) { mAnmFlag = flag; }
     bool getAnmFlag() const { return mAnmFlag; }
+    J3DAnmTevRegKey *getAnmTevReg() const { return mAnm; }
     void calc(GXColor* pColor) const { mAnm->getTevKonstReg(mIndex, pColor); }
 
     u16 mIndex;            // _00
@@ -134,7 +136,9 @@ struct J3DMaterialAnm {
     void setTevColorAnm(int, J3DTevColorAnm*);
     void setTevKColorAnm(int, J3DTevKColorAnm*);
 
+    const J3DTexNoAnm &getTexNoAnm(int i) const { return mTexNoAnmList[i]; }
     const J3DTexMtxAnm& getTexMtxAnm(int i) const { return mTexMtxAnmList[i]; }
+    const J3DTevKColorAnm &getTevKColorAnm(int i) const { return mTevKColAnmList[i]; }
 
     // _00 = VTBL
     J3DMatColorAnm mMatColAnmList[2];   // _04

@@ -680,7 +680,7 @@ void ItemFlyTurtle::initDisappear() {
     r_m[1][3] = mColPos.y;
     r_m[2][3] = mColPos.z;
     mNewBounds = mBounds;
-    mBounds = mBombEffect->mSphere1;
+    mBounds = mBombEffect->getBlastBound();
     mBombEffect->init(r_m,1, 1.0f);
 }
 

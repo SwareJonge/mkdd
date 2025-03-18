@@ -186,7 +186,9 @@ struct JASDSPChannel
     void getNumFree();
     void getNumBreak();
 
-    s32 _00;
+    u8 getStatus() const { return _00; }
+
+    u32 _00;
     s16 _04;
     u32 _08;
     u32 _0C;

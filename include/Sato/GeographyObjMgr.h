@@ -3,6 +3,7 @@
 
 #include "JSystem/JKernel/JKRHeap.h"
 #include "Kaneshige/Course/CrsData.h"
+#include "Sato/GeographyObj.h"
 #include "Shiraiwa/Balloon.h"
 #include "Shiraiwa/JugemMain.h"
 
@@ -32,10 +33,13 @@ public:
     void setCurrentViewNo_foreground(u32 cameraNo);
     void viewCalc_foreground(u32 cameraNo);
 
+    void setKartHitItemBoxTrigger(const int kart_index);
+
     TJugem *getJugem(int camera_index) const;
     TBalloonManager *getBalloonMgr(int kart_index) const;
 
     GeographyObj *createSubObj(u32 id);
+    GeographyObj *createPrevDrawSubObj(u32 id);
 
     f32 getKartHitDepthNormalObj(int kart_index) const { return mHitDepth[kart_index]; }
     static void createMgr(const CrsData &crsData) { gMgr = new GeographyObjManager(crsData); }

@@ -58,6 +58,14 @@ struct SystemRecord
 
     void setDefaultName(const char *name);
 
+    void unlockGame(GameFlag flag) {
+        mGameFlag ^= (1 << flag);
+    }
+
+    void unlockKart(int kart) {
+        mSecretKart ^= (1 << kart);
+    }
+
     bool isRumble() { return !(mOptions & 4); } 
     /*union
     {

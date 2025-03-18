@@ -36,12 +36,12 @@ struct JASOscillator
 
     struct Data
     {
-        u32 mTarget;          // 00
-        f32 _04;              // 04
-        const Point *mTable;  // 08
-        const Point *mTable2; // 0c
-        f32 mScale;           // 10
-        f32 _14;              // 14
+        u32 mTarget;            // 00
+        f32 _04;                // 04
+        const Point *mTable;    // 08
+        const Point *rel_table; // 0c
+        f32 mScale;             // 10
+        f32 _14;                // 14
     };
 
     enum Target
@@ -58,14 +58,14 @@ struct JASOscillator
     JASOscillator();
 
     void initStart(const Data *);
-    void incCounter(f32 param_0);
+    void incCounter(f32);
     f32 getValue() const;
     void release();
     void update();
-    void updateCurrentValue(f32 param_0);
+    void updateCurrentValue(f32);
 
     void setDirectRelease(u16 release) { mDirectRelease = release; }
-    void stop() { _1C = 0; }
+    void stop() { mDirectRelease = 0x10; }
     bool isValid() { return mData != NULL; }
     bool isStop() { return _1C == 0; }
     bool isRelease() { return _1C == 3 || _1C == 4; }
@@ -75,7 +75,7 @@ struct JASOscillator
     f32 _04;            // 04
     f32 _08;            // 08
     f32 _0C;            // 0c
-    f32 _10;            // 10
+    f32 _10;            // 10, target?
     u16 _14;            // 14
     u16 mDirectRelease; // 16
     u8 _18;             // 18

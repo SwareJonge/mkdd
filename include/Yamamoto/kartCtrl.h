@@ -75,7 +75,7 @@ public:
     u8 WhichNowDriver(int);
     bool CheckCamera(int);
     int GetCameraNum(int);
-    bool CheckItem(int);
+    bool CheckItem(const int); // TODO: maybe not const
     f32 GetMaxSpeed(int);
     f32 GetDownSlopeAcc(int);
     f32 GetDownSlopeSpeed(int);
@@ -185,6 +185,8 @@ public:
     void setKartPad(KartPad *pad, int idx) { mKartPads[idx] = pad; }
     void setKartCam(KartCam *cam, int idx) { mKartCams[idx] = cam; }
     void setKartAnime(KartAnime *anime, int idx) { mKartAnimes[idx] = anime; }
+
+    u64 GetKartStatus(int idx) { return getKartBody(idx)->mCarStatus; }
 
     static KartCtrl *getKartCtrl() { return mCtrl; }
 

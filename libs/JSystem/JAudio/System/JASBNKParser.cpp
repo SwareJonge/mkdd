@@ -2,6 +2,7 @@
 #include "JSystem/JAudio/System/JASDrumSet.h"
 #include "JSystem/JAudio/System/JASCalc.h"
 
+template<>
 JASMemPool_MultiThreaded<JASChannel> JASPoolAllocObject_MultiThreaded<JASChannel>::memPool_;
 
 namespace JASBNKParser
@@ -73,11 +74,11 @@ namespace JASBNKParser
                         JASOscillator::Point *table = new (pHeap, 0) JASOscillator::Point[(end - start)];
                         JUT_ASSERT(table != 0);
                         JASCalc::bcopy(start, table, (end - start) * sizeof(JASOscillator::Point));
-                        osc->mTable2 = table;
+                        osc->rel_table = table;
                     }
                     else
                     {
-                        osc->mTable2 = nullptr;
+                        osc->rel_table = nullptr;
                     }
 
                     osc->mScale = oscp->scale;
@@ -202,7 +203,7 @@ namespace JASBNKParser
     {
         const TBank *bankp = &pHeader->bank;
 
-        for (int i = 0; i < MAX_INST; i++)
+        for (u32 i = 0; i < MAX_INST; i++)
         {
             TInst *instp = bankp->instOffsets[i].ptr(pHeader);
             if (instp == NULL)

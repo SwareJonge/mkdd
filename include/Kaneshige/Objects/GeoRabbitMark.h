@@ -68,6 +68,9 @@ public:
     bool isResetGndAttr(CrsGround::EAttr);   // 0x801ce8c4
     void setBoundSE();                       // 0x801ce904
 
+    void getPosition(JGeometry::TVec3f *pos) { pos->set(mPos); }
+    void getFootPosition(JGeometry::TVec3f *pos) { pos->scaleAdd(-sFootLength, mUpDir, mPos); }
+
     virtual void InitExec();
     virtual void MoveExec();
     virtual void initClassCreateNum() { sSupervisorCreateNum = 0; }
@@ -76,6 +79,10 @@ public:
     static const s16 cNonOwner = -1; // was this an enum?
 
     bool isNonOwner() const { return mOwnerNo == cNonOwner; }
+
+    f32 getMarkScale() const { return mMarkScale; }
+    f32 getFootLength() const { return sFootLength; } 
+
     virtual GeoRabbitMarkSupervisor *getSupervisor() { return sSupervisor; }
     static GeoRabbitMarkSupervisor *getSupervisor() { return sSupervisor; }
 

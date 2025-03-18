@@ -63,6 +63,7 @@ public:
     void setAwardKartNo(int kartNo) { mAwardKartNo = kartNo; }
     void setGpCup(ERaceGpCup cup) { mGpCup = cup; }
     void setRandomSeed(u32 value) { mRandomSeed = value; }
+    void setItemSlotType(int type) { mItemSlotType = type; }
 
     void setRivalKartNo(int rivalNo, int kartNo) {
 #line 114

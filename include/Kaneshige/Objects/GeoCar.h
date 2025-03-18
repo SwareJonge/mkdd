@@ -1,8 +1,13 @@
 #ifndef GEOCAR_H
 #define GEOCAR_H
 
+#include "JSystem/JGeometry/Vec.h"
+#include "JSystem/JSupport/JSUList.h"
+#include "Kaneshige/Course/CrsArea.h"
+#include "Kaneshige/DarkAnmMgr.h"
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"
+#include "dolphin/types.h"
 
 class GeoCar;
 
@@ -20,11 +25,11 @@ public:
     virtual void calc();
 
 private:
-    u32 _3c;
+    s16 mEntryId;
     JSUList<GeoCar> mList; // 0x40
 };                         // Size: 0x4c
 
-class GeoCar : public GeographyObj, StateObserver
+class GeoCar : public GeographyObj, public StateObserver
 {
 public:
     GeoCar(u32, bool);                                                                                    // 0x801bab60
@@ -35,7 +40,7 @@ public:
     void setTargetPoint(u16);                                                                             // 0x801bb50c
     void resetDrivePower();                                                                               // 0x801bb688
     void calcFrontAndBackPosition();                                                                      // 0x801bb6cc
-    void isHorn();                                                                                        // 0x801bb730
+    bool isHorn();                                                                                        // 0x801bb730
     void setTevColor();                                                                                   // 0x801bb994
     void recvStateRequest();                                                                              // 0x801bb9c0
     void checkKartCollision();                                                                            // 0x801bba20
@@ -43,8 +48,8 @@ public:
     void checkItemCollision();                                                                            // 0x801bbbfc
     void getTargetPosition(JGeometry::TVec3f *);                                                          // 0x801bbf20
     void setAllObjectCollision(bool);                                                                     // 0x801bc05c
-    void getTireAnmRate();                                                                                // 0x801bc0e0
-    void getTireAnmRate(f32);                                                                             // 0x801bc118
+    f32 getTireAnmRate();                                                                                 // 0x801bc0e0
+    f32 getTireAnmRate(f32);                                                                              // 0x801bc118
     void initFuncParking();                                                                               // 0x801bc12c
     void doFuncParking();                                                                                 // 0x801bc130
     void initFuncMove();                                                                                  // 0x801bc134
@@ -59,15 +64,35 @@ public:
     void doFuncDeath();                                                                                   // 0x801bce88
     void initFuncWait();                                                                                  // 0x801bceb8
     void doFuncWait();                                                                                    // 0x801bcebc
-    
+
     // Inline
-    void sendStateReqExplosion(); // 0x801ba8b0
-    void sendStateReqSlowdown();  // 0x801ba8d8
-    void tstCarCollision();       // 0x801ba930
-    void setCarCollision();       // 0x801bb468
-    void isDeath();               // 0x801bb924
-    void recvStateReqExplosion(); // 0x801bba08
-    void recvStateReqSlowdown();  // 0x801bc490
+    void sendStateReqExplosion() { mStateReq |= 1; } // 0x801ba8b0
+    void sendStateReqSlowdown() { mStateReq |= 2; }  // 0x801ba8d8
+    bool tstCarCollision() { return _1e0 & 1; }       // 0x801ba930
+    void setCarCollision() { _1e0 |= 1;}       // 0x801bb468
+    bool isDeath() { return StateObserver::getState() == 4; } // 0x801bb924
+    bool recvStateReqExplosion() { // 0x801bba08
+        bool ret = mStateReq & 1;
+        mStateReq &= ~1;
+        return ret;
+    }
+
+    bool recvStateReqSlowdown() { 
+        bool ret = mStateReq & 2;
+        mStateReq &= ~2;
+        return ret;
+    }
+
+    void clrCarCollision() { _1e0 &= ~1; }
+
+    void getScale(JGeometry::TVec3f *scale) { scale->set(mScale); }  
+    void getBasePosition(JGeometry::TVec3f *pos) { pos->set(mBasePos); }  
+    void getFrontDirection(JGeometry::TVec3f *frDir) { frDir->set(mFrDir); }
+    DarkAnmPlayer *getDarkAnm() { return mDarkAnm; }
+    CrsArea *getShadowArea() { return mShadowArea; }
+
+    s16 getCarID() { return mCarID; }
+    void setCarID(s16 id) { mCarID = id; }
 
     static StateFuncSet<GeoCar> sTable[6]; // 0x80396058                                                                                                                  // 0x80396058
     static f32 sHornDistance;              // 0x80414658
@@ -87,29 +112,29 @@ public:
     static GeoCarSupervisor *sSupervisor;  // 0x804163f4
     // Inline/Unused
     void drawPrimForDebug(u32);
-    // void getPointLinkSignal();
+    void getPointLinkSignal();
     // void sHandleMinDot;
     // void sDebugTarget;
     // void sDebugParam;
 
-    virtual ~GeoCar();                                  // 0x801bcf0c, overide
+    //virtual ~GeoCar() {}                                // 0x801bcf0c, overide
     virtual void createModel(JKRSolidHeap *, u32);      // 0x801bb700, overide
     virtual void reset();                               // 0x801bb19c, overide
     virtual void calc();                                // 0x801bb810, overide
     virtual u32 getSoundID() const;                     // 0x801bbb98, overide
     virtual const char *getBmdFileName() = 0;           // 0x0, overide
-    virtual void createColModel(J3DModelData *) = 0;    // 0x0, overide
-    virtual GeoObjSupervisor *getSupervisor();          // 0x801bcf90, overide
-    virtual void initClassCreateNum();                  // 0x801bcf98, overide
-    virtual void MoveExec();                            // 0x801bbecc
-    virtual void InitExec();                            // 0x801bbdb8
+    virtual void createColModel(J3DModelData *) = 0;    // 0x0, overide 
     virtual void setRMtx();                             // 0x801bb960
-    virtual u32 getSoundCarType() const;                // 0x801bcf88
-    virtual JGeometry::TVec3f *getTirePosOffset(int);   // 0x0
+    virtual u32 getSoundCarType() const { return 4; }   // 0x801bcf88
+    virtual GeoCarSupervisor *getSupervisor() { return sSupervisor; } // 0x801bcf90, overide
+    virtual void initClassCreateNum() { sSupervisorCreateNum = 0; }   // 0x801bcf98, overide
+    virtual const Vec &getTirePosOffset(int) = 0;       // 0x0
     virtual bool isBlast() { return false; }            // 0x801ba8c0
     virtual u16 getPathID();                            // 0x801bc0c4
     virtual bool isHitVibrationOn() { return true; }    // 0x801bbad4
     virtual int getVibrationLimitSpeed() { return 50; } // 0x801bbacc
+    virtual void InitExec();                            // 0x801bbdb8
+    virtual void MoveExec();                            // 0x801bbecc 
     virtual void hitKart(int);                          // 0x801bbaf8
     virtual void hitItemBomb();                         // 0x801bbd3c
     virtual void hitItemWanWan();                       // 0x801bbd68
@@ -120,11 +145,44 @@ public:
     virtual void hitItemYoshiEgg() {}                   // 0x801bbd14
     virtual void initCallBackDeath() {}                 // 0x801bce84
     virtual void doCallBackDeath() {}                   // 0x801bceb4
-
+   
     static GeoCarSupervisor *getCarSupervisor() { return sSupervisor; }
-
 private:
-    // TODO
+    friend class GeoCarSupervisor;
+protected:
+    f32 _158;                       //
+    f32 mZigZagRate;                //
+    f32 _160;                       //
+    JGeometry::TVec3f mFrScale;     // 164
+    JGeometry::TVec3f mBcScale;     // 170
+    JGeometry::TVec3f mBasePos;     // 17C
+    f32 _188;                       //
+    JGeometry::TVec3f mFrDir;       // 18C
+    JGeometry::TVec3f mUpDir;       // 198
+    JGeometry::TVec3f mLfDir;       // 1A4
+    JGeometry::TVec3f _1b0;         //
+    GameAudio::NpcCarSoundMgr *mNpcSoundMgr;      // 1b4
+    s16 mCarID;                     // 1C0
+    JSULink<GeoCar> mLink;          // 1C4
+    f32 mAccValue;                  // 1D4
+    f32 mTargetRadius;              // 1D8
+    f32 mHandlePower;               // 1DC
+    u16 _1e0;                       //
+    u16 mStateReq;                  // 1E2
+    JGeometry::TVec3f mFrPos;       // 1E4
+    JGeometry::TVec3f mBcPos;       // 1F0
+    f32 mMoveAccValue;                  //
+    JGeometry::TVec3f _200;         //
+    JGeometry::TVec3f _20c[3];      //
+    u16 mPointIdx;                  // 230
+    s16 _232;                       //
+    s16 mDamageShakeVel;            // 234
+    f32 mDamageShakeAmp;            // 238
+    JGeometry::TVec3f _23c;         //
+    JGeometry::TVec3f mDamagePos;   //
+    s16 _254;                       //
+    CrsArea *mShadowArea;           // 258
+    ObjDarkAnmPlayer *mDarkAnm;     // 25C
 };
 
 

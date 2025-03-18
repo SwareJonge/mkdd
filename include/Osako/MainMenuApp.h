@@ -16,6 +16,7 @@ public:
     void up();
     void down();
     void left();
+    void right();
     void decide();
     void cancel();       // doesn't exist, inline auto?
     virtual void draw(); // override
@@ -29,17 +30,17 @@ private:
     int _10;
     int _14;
     int _18;
-    u8 _1C;
-    u8 _1D;
-    u8 _1E;
-    u8 _1F;
-    u8 _20;
-    u8 _21;
-    u8 mGameFlagIdx;
-    u8 _23;
-    u8 _mCupIdx;
-    u8 _mLevelIdx;
-    u8 _26;
+    s8 _1C;
+    s8 _1D;
+    s8 _1E;
+    s8 _1F;
+    s8 _20;
+    s8 _21;
+    s8 mGameFlagIdx;
+    s8 mSecretKartId;
+    s8 mCupIdx;
+    s8 mLevelIdx;
+    s8 _26;
 };
 
 #endif

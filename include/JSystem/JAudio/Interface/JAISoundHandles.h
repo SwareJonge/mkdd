@@ -30,7 +30,7 @@ public:
         return handles_[index];
     }
 
-private:
+protected:
     JAISoundHandle *handles_; // 00
     int numHandles_;          // 04
 };

@@ -6,6 +6,7 @@
 #include "JSystem/JKernel/JKRHeap.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTConsole.h"
+#include "dolphin/os/OSMessage.h"
 #include "types.h"
 
 struct JKRThread;
@@ -157,6 +158,10 @@ struct JKRThread : public JKRDisposer
         OSMessage msg;
         OSReceiveMessage(&mMessageQueue, &msg, OS_MESSAGE_BLOCK);
         return msg;
+    }
+
+    void jamMessageBlock(OSMessage msg) {
+        OSJamMessage(&mMessageQueue, msg, OS_MESSAGE_BLOCK);
     }
 
     static JSUList<JKRThread> sThreadList;
