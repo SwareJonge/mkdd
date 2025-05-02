@@ -207,6 +207,13 @@ void OSReport(const char *msg, ...);
 void OSPanic(const char *file, int line, const char *msg, ...);
 void OSFatal(GXColor fg, GXColor bg, const char *msg);
 
+#define OSError(...) OSPanic(__FILE__, __LINE__, __VA_ARGS__)
+#ifndef MATCHING
+#define OSErrorLine(line, ...) OSError(__VA_ARGS__)
+#else
+#define OSErrorLine(line, ...) OSPanic(__FILE__, line, __VA_ARGS__)
+#endif
+
 #ifdef __cplusplus
 }
 #endif
