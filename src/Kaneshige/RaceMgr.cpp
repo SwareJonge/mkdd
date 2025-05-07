@@ -115,20 +115,19 @@ const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0x305, "エフェクト", " EFFECT"},
     {-1, "なし", nullptr}};
 
-// fabricated to emit these functions in the right place + right order
-void ReadKartCamDims()
-{
-    KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv();
-    KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh();
-    KartCtrl::getKartCtrl()->getKartCam(0)->GetWidth();
-    KartCtrl::getKartCtrl()->getKartCam(0)->GetHeight();
-}
-
-// half fabircated to generate certain data first
-// Note: Kartcam might be part of KartCtrl.h?
+// fabircated to generate certain data first
+// just ignore it
 void PrintRaceHeap(u32 free, JKRHeap *heap)
 {
-    JUT_REPORT_MSG("LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
+    if (false) {
+        KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv();
+        KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh();
+        KartCtrl::getKartCtrl()->getKartCam(0)->GetWidth();
+        KartCtrl::getKartCtrl()->getKartCam(0)->GetHeight();
+    }
+
+    if (heap != nullptr)
+        JUT_REPORT_MSG("LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
 RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
@@ -698,15 +697,16 @@ void RaceMgr::resetRaceCommon()
     JUT_REPORT_MSG("End   Reset.............................................\n");
 }
 
-// Unused, size matches(not bad for a first guess)
+// Unused
 int RaceMgr::getDrawingConsoleNumber()
 {
+    int ret = 0;
     for (int i = 0; i < getKartNumber(); i++)
     {
         if (mConsole[i].isDraw())
-            return i;
+            ret++;
     }
-    return -1;
+    return ret;
 }
 
 int RaceMgr::getCurrentConsoleNumber()
@@ -1280,11 +1280,11 @@ void RaceMgr::updateRace()
 // fabricated to call all JSUTree and JSUTreeIterator functions before ~RaceMgr, which is needed to order JKRHeap::getHeapTree() correctly
 // if any one of these functions is first emitted in the destructor (including ++iterator and iterator.getObject()),
 // it "pulls" the getHeapTree() call into the section with all the JSUTree* functions. don't ask me why
-void WalkHeapTree(const JSUTree<JKRHeap>& heapTree)
+void DestroyHeapTree(const JSUTree<JKRHeap>& heapTree)
 {
     for (JSUTreeIterator<JKRHeap> iterator = heapTree.getFirstChild(); iterator != heapTree.getEndChild(); ++iterator)
     {
-        (void)iterator.getObject();
+        SYSDBG_DestroyHeapInfo(iterator.getObject());
     }
 }
 
@@ -1655,8 +1655,6 @@ void RaceMgr::Console::clearZBuffer()
 bool RaceMgr::Console::isZoom()
 {
     RCMGetKartChecker(0);
-    f32 wdth = KartCtrl::getKartCtrl()->getKartCam(0)->GetWidth(); // these 2 are most likely used in a different function however i'm lazy
-    f32 ht = KartCtrl::getKartCtrl()->getKartCam(0)->GetHeight();
 }
 
 bool RaceMgr::robRivalOfBalloon(int playerIdx, int rivalIdx)
