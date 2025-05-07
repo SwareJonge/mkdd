@@ -9,11 +9,8 @@
 #include "Sato/StateObserver.h"
 #include "types.h"
 
-// Non matching due to weak function ordering
-// TAnmControlBase<J3DAnmObjTrans>::resetAnm() gets placed before GeoCannon::~GeoCannon()? 
-
-GeoCannonSupervisor *GeoCannon::sSupervisor;
 u16 GeoCannon::sSupervisorCreateNum;
+GeoCannonSupervisor *GeoCannon::sSupervisor;
 J3DAnmTevRegKey *GeoCannon::sTevRegKey;
 J3DAnmTransform *GeoCannon::sBcaAnmTrans;
 J3DMtxCalc *GeoCannon::sBcaMtxCalc;

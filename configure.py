@@ -1127,7 +1127,7 @@ config.libs = [
             Object(Matching, "Kaneshige/GeoTruck.cpp"),
             Object(Matching, "Kaneshige/GeoSignal.cpp"),
             Object(Matching, "Kaneshige/GeoNormCar.cpp"),
-            Object(Equivalent, "Kaneshige/GeoCannon.cpp"),
+            Object(Matching, "Kaneshige/GeoCannon.cpp"),
             Object(Matching, "Kaneshige/GeoBombCar.cpp"),
             Object(Matching, "Kaneshige/GeoKinoCar.cpp"),
             Object(Matching, "Kaneshige/GeoKuriCar.cpp"),
