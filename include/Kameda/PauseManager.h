@@ -42,7 +42,7 @@ private:
     bool mExec;
     u32 _14;
     bool mPauseEnd;
-    u8 _18[0x3c - 0x18];
+    u8 _19[0x3c - 0x19];
 };
 
 inline PauseManager *GETPauseManager() { return PauseManager::getManager(); }

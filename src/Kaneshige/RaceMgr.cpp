@@ -1,7 +1,3 @@
-/* Todo list:
-Class Sizes?
-text ordering
-*/
 /*
 I guess the idea here was to not create seperate sections for JSystem? didnt work that well
 Also, make headers for all libraries itself?
@@ -14,8 +10,7 @@ Also, make headers for all libraries itself?
 #include "JSystem/JKernel/JKRDisposer.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "JSystem/JUtility/JUTGamePad.h"
-#include <JSystem/JAudio/JASFakeMatch2.h>
-#include "Sato/stMath.h"
+
 #ifdef DEBUG
 #pragma sym on
 #endif
@@ -56,6 +51,7 @@ Also, make headers for all libraries itself?
 #include "Sato/ObjUtility.h"
 // #include "Sato/RivalKart.h"
 #include "Sato/stEffectMgr.h"
+#include "Sato/stMath.h"
 
 // #include "Shiraiwa/Balloon.h"
 // #include "Shiraiwa/JugemRodSignal.h"
@@ -119,11 +115,20 @@ const RaceMgr::EventInfo RaceMgr::sEventTable[] = {
     {0x305, "エフェクト", " EFFECT"},
     {-1, "なし", nullptr}};
 
+// fabricated to emit these functions in the right place + right order
+void ReadKartCamDims()
+{
+    KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv();
+    KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh();
+    KartCtrl::getKartCtrl()->getKartCam(0)->GetWidth();
+    KartCtrl::getKartCtrl()->getKartCam(0)->GetHeight();
+}
+
 // half fabircated to generate certain data first
 // Note: Kartcam might be part of KartCtrl.h?
 void PrintRaceHeap(u32 free, JKRHeap *heap)
 {
-    JUTReport(KartCtrl::getKartCtrl()->getKartCam(0)->GetPosh(), KartCtrl::getKartCtrl()->getKartCam(0)->GetPosv(), "LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
+    JUT_REPORT_MSG("LINE%4d:(%d/%d)\n", 0, free, heap->getHeapSize());
 }
 
 RaceMgr::RaceMgr(RaceInfo *raceInfo) : mRaceInfo(nullptr),
@@ -752,7 +757,12 @@ void RaceMgr::checkKart()
 
         if (!kartChecker->isGoal())
         {
-            if (kartChecker->isFinalLap() &&
+            bool finalLap = kartChecker->isFinalLap();
+            if (false) {
+                // ~RaceUsrPage() needs to be emitted right here, between isFinalLap() and isPlayerKart()
+                RaceUsrPage page(mRaceInfo);
+            }
+            if (finalLap &&
                 getKartInfo(i)->isPlayerKart() && !getKartInfo(i)->isGhostKart())
             {
                 finalLapKartNo = i;
@@ -1267,6 +1277,17 @@ void RaceMgr::updateRace()
     SYSDBG_EndUserTime(6);
 }
 
+// fabricated to call all JSUTree and JSUTreeIterator functions before ~RaceMgr, which is needed to order JKRHeap::getHeapTree() correctly
+// if any one of these functions is first emitted in the destructor (including ++iterator and iterator.getObject()),
+// it "pulls" the getHeapTree() call into the section with all the JSUTree* functions. don't ask me why
+void WalkHeapTree(const JSUTree<JKRHeap>& heapTree)
+{
+    for (JSUTreeIterator<JKRHeap> iterator = heapTree.getFirstChild(); iterator != heapTree.getEndChild(); ++iterator)
+    {
+        (void)iterator.getObject();
+    }
+}
+
 RaceMgr::~RaceMgr()
 {
     if (GameAudioParameters::getDemoMode())
@@ -1748,3 +1769,5 @@ void RaceUsrPage::draw()
         JUTReport(40, (i * 40) + 80, "PAD :%08x:TYPE %s: PORT %s", kartPad, type, port);
     }
 }
+
+#include "JSystem/JAudio/JASFakeMatch2.h"

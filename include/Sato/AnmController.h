@@ -122,6 +122,13 @@ public:
     void SetAnimation();                                     // 0x8026f8d4
     void Reset();                                            // 0x8026f950
     void ResetMat();                                         // 0x8026f99c
+    void ResetAnm() // fabricated but causes TAnmControlBase<J3DAnmObjTrans>::resetAnm() to be ordered correctly in GeoCannon, also inlines into a matching AnmController::reset()
+    {
+        if (mTrans != nullptr) {
+            mTrans->resetAnm();
+        }
+    }
+
     // Inline/Unused
     void appendMaterial(AnmControlBase *);
     void ChangeMatAnmAll(u8);
@@ -172,7 +179,7 @@ public:
 
     AnmControlTrans *mTrans;     // 4
     void *_08;                   // AnmControlMatColor
-    void *_0C;                   // some JSUPtrList
+    JSUList<AnmControlBase> *mCtrls;
     void *_10;                   // AnmControlMatColor, copy of _08? or other way around
 
 }; // Size: 0x14
