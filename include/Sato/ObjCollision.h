@@ -13,7 +13,9 @@ class ObjColBase
 public:
     enum CKind
     {
-
+        SPHERE,
+        CYLINDER,
+        CUBE,
     };
 
     ObjColBase(J3DModelData *, JGeometry::TVec3f, CKind);
@@ -22,8 +24,8 @@ public:
     void setScale(const JGeometry::TVec3f &);
 
     // Vtable
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32) = 0;
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &) = 0;
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32) = 0;
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &) = 0;
 
     // Inline/Unused
     void initialize();
@@ -34,13 +36,13 @@ public:
     void setRadius(f32 rad) { mRadius = rad; }
     void setScale(f32 scale) { mScale = scale; }
 
-    f32 mRadius;
-    CKind mKind;
-    f32 mScale;
-    f32 _10;
-    f32 _14;
-    f32 _18;
-    f32 _1c;
+    // VTBL _00
+    f32 mRadius;            // _04
+    CKind mKind;            // _08
+    f32 mScale;             // _0C
+    f32 mBoundDepth;        // _10
+    JGeometry::TVec3f mPos; // _14
+    u32 _20;                // _20, unused?
 };
 
 class ExObjColBase : public ObjColBase
@@ -58,11 +60,30 @@ public:
     virtual void SearchWall(JGeometry::TVec3f, JGeometry::TVec3f) = 0; // 24
 };
 
+class ObjColSphere : public ObjColBase
+{
+public:
+    ObjColSphere(J3DModelData *modelData, JGeometry::TVec3f scale) : ObjColBase(modelData, scale, SPHERE) {}
+    ObjColSphere(f32 radius, f32 scale) : ObjColBase(radius, scale, SPHERE) {}
+    
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+};
+
 class ObjColCylinder : public ObjColBase
 {
 public:
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+    ObjColCylinder(J3DModelData *modelData, JGeometry::TVec3f scale) : ObjColBase(modelData, scale, CYLINDER), mCylinderRadius(0.0f), mCylinderHeight(0.0f) {}
+    ObjColCylinder(f32 radius, f32 scale) : ObjColBase(radius, scale, CYLINDER), mCylinderRadius(0.0f), mCylinderHeight(0.0f) {}
+    
+    void setCylinderRadius(f32 radius) { mCylinderRadius = radius; }
+    void setCylinderHeight(f32 height) { mCylinderHeight = height; }
+
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+    
+    f32 mCylinderRadius; // _24
+    f32 mCylinderHeight; // _28
 };
 
 class ObjColBoard // UNUSED
@@ -75,19 +96,17 @@ public:
 class ObjColCube : public ObjColBase
 {
 public:
+    ObjColCube(J3DModelData *modelData, JGeometry::TVec3f scale) : ObjColBase(modelData, scale, CUBE) {}
+
     void makeParameter(J3DModelData *, Mtx m);
     void updateParameter(Mtx m);
-    void chkIsHitQuad(const JGeometry::TVec3f &, const f32 &);
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
-};
+    bool chkIsHitQuad(const JGeometry::TVec3f &, const f32 &);
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 
-class ObjColSphere : public ObjColBase
-{
-public:
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
-};
+    u8 _24[0x80 - 0x24];      // _24
+    JGeometry::TVec3f _80[5]; // _80
+}; // size: 0xbc
 
 class ObjColBlock : public ExObjColBase
 {
@@ -95,8 +114,8 @@ public:
     virtual void makeParameter(J3DModelData *, Mtx m);
     virtual void SearchWall(JGeometry::TVec3f, JGeometry::TVec3f);
     virtual void Search(JGeometry::TVec3f, JGeometry::TVec3f);
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 };
 
 class ObjColJump1 : public ExObjColBase
@@ -105,8 +124,8 @@ public:
     virtual void makeParameter(J3DModelData *, Mtx m);
     virtual void SearchWall(JGeometry::TVec3f, JGeometry::TVec3f);
     virtual void Search(JGeometry::TVec3f, JGeometry::TVec3f);
-    virtual void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    virtual void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+    virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 };
 
 class ObjColJump2 // UNUSED
@@ -117,8 +136,8 @@ public:
     void Search(JGeometry::TVec3f, JGeometry::TVec3f);
     void makeColParam(JGeometry::TVec3f, stPlaneParam, CrsGround::EAttr);
     void IsOnDashPlane(JGeometry::TVec3f);
-    void IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
-    void IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
+    bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
+    bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 };
 
 #endif // OBJCOLLISION_H

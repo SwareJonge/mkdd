@@ -1259,7 +1259,7 @@ config.libs = [
             Object(NonMatching, "Sato/logbridge.cpp"),
             Object(Matching, "Sato/stMath.cpp"),
             Object(NonMatching, "Sato/GeographyObjMgr.cpp"),
-            Object(NonMatching, "Sato/GeographyObj.cpp"),
+            Object(Matching, "Sato/GeographyObj.cpp"),
             Object(NonMatching, "Sato/GeoTree.cpp"),
             Object(NonMatching, "Sato/ObjCollision.cpp"),
             Object(NonMatching, "Sato/GeoRFlower.cpp"),

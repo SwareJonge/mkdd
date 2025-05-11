@@ -51,6 +51,8 @@ public:
     bool isEscapeBattle() const { return mIsEscapeBattle; }
     bool isBombBattle() const { return mIsBombBattle; }
 
+    void* getGeoHitTable() const { return mGeoHitTable; }
+
     static GeographyObjManager *gMgr;
 
     u8 _18[0x2A8 - 0x18];   //
@@ -62,7 +64,9 @@ public:
     bool mIsBombBattle;     // 492
     bool mIsRobberyBattle;  // 493
     bool mIsEscapeBattle;   // 494
-    u8 _495[0x4A4 - 0x495]; //
+    u8 _495[0x49C - 0x495]; // 495
+    void* mGeoHitTable;     // 49C
+    u8 _4A0[0x4A4 - 0x4A0]; // 4A0
 
 }; // size 0x4A4
 
