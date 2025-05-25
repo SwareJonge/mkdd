@@ -1,3 +1,4 @@
+#include "JSystem/JAudio/Interface/JAISeqDataMgr.h"
 #include "JSystem/JAudio/System/JASDriver.h"
 #include "JSystem/JAudio/System/JASReport.h"
 #include "JSystem/JAudio/Interface/JAISeMgr.h"
@@ -19,7 +20,7 @@ bool JAISeCategoryMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
     return false;
 }
 
-int JAISeCategoryMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
+JAISeqDataResult JAISeCategoryMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
 {
     bool usingSeq = false;
     for (JSULink<JAISe> *link = mSeList.getFirst(); link != NULL; link = link->getNext())
@@ -181,7 +182,7 @@ void JAISeCategoryMgr::JAISeMgr_mixOut_(const JAISoundParamsMove &moveParams,
                                         JAISoundActivity activity)
 {
     JASSoundParams params;
-    params.combine(moveParams.mParams, mParams.mParams);
+    params.combine(moveParams, mParams);
     JSULink<JAISe> *it = mSeList.getFirst();
     int activeCount = getMaxActiveSe();
 
@@ -230,17 +231,17 @@ bool JAISeMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
     return false;
 }
 
-int JAISeMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
+JAISeqDataResult JAISeMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
 {
     bool ret = 0;
     for (int i = 0; i < 16; i++)
     {
         switch (mCategoryMgrs[i].JAISeCategoryMgr::releaseSeqData(dataRegion))
         {
-        case 0:
+        case JAI_ASYNC_RESULT_0:
             return JAI_ASYNC_RESULT_0;
-        case 1:
-            ret = 1;
+        case JAI_ASYNC_RESULT_RETRY:
+            ret = JAI_ASYNC_RESULT_OK;
             break;
         }
     }
@@ -422,7 +423,7 @@ bool JAISeMgr::startSound(JAISoundID soundID, JAISoundHandle *handle,
     }
     else
     {
-        categoryIndex = soundID.mId.mBytes.b1;
+        categoryIndex = soundID.mId.mBytes.mGroupId;
         prio = 0;
     }
     JAISe *pJAISe = newSe_(categoryIndex, prio);

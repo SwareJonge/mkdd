@@ -8,6 +8,8 @@ class JAISoundID;
 class JAIAudience
 {
 public:
+    JAIAudience() {}
+
     virtual ~JAIAudience();
     virtual JAIAudible *newAudible(const JGeometry::TVec3f &, JAISoundID soundID, const JGeometry::TVec3f *, u32 channels) = 0;
     virtual int getMaxChannels() = 0;

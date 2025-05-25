@@ -107,7 +107,7 @@ void JAIStreamMgr::stop(u32 fadeCount)
 void JAIStreamMgr::mixOut()
 {
     for (JSULink<JAIStream> *it = mStreamList.getFirst(); it != NULL; it = it->getNext())
-        it->getObject()->JAIStreamMgr_mixOut_(mParams.mParams, mActivity);
+        it->getObject()->JAIStreamMgr_mixOut_(mParams, mActivity);
 }
 
 JAIStream *JAIStreamMgr::newStream_()

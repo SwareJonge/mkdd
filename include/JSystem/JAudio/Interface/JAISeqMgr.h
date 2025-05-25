@@ -12,11 +12,6 @@ class JAISeq;
 class JAISeqMgr : public JASGlobalInstance<JAISeqMgr>, public JAISeqDataUser
 {
 public:
-    enum ReleaseSeqResult
-    {
-        RELEASE_SEQ_1 = 1,
-        RELEASE_SEQ_2 = 2,
-    };
     JAISeqMgr(bool);
     void freeDeadSeq_();
     bool startSound(JAISoundID soundID, JAISoundHandle *handle, const JGeometry::TVec3<f32> *pos);
@@ -30,7 +25,7 @@ public:
 
     virtual ~JAISeqMgr() {}
     virtual bool isUsingSeqData(const JAISeqDataRegion &region);
-    virtual int releaseSeqData(const JAISeqDataRegion &region);
+    virtual JAISeqDataResult releaseSeqData(const JAISeqDataRegion &region);
 
     void setAudience(JAIAudience *audience) { mAudience = audience; }
     JAIAudience *getAudience() { return mAudience; }

@@ -12,7 +12,7 @@ class JAIStreamMgr : public JASGlobalInstance<JAIStreamMgr>
 {
 public:
     JAIStreamMgr(bool);
-    ~JAIStreamMgr();
+    ~JAIStreamMgr() {}
     void startStreamDirect(const char *fileName, JAISoundHandle *handle, int category, const JGeometry::TVec3f *pos);
     bool startSound(JAISoundID soundID, JAISoundHandle *handle, const JGeometry::TVec3<f32> *pos);
     void freeDeadStream_();

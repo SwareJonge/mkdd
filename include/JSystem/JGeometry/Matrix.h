@@ -248,7 +248,9 @@ namespace JGeometry {
     {
     public:
         TPosition3() {}
-        void getTrans(TVec3f &rDest) const;
+        void getTrans(TVec3f &rDest) const {
+            rDest.set(this->mMtx[0][3], this->mMtx[1][3], this->mMtx[2][3]);
+        }
         void setTrans(const TVec3f &rSrc);
         void setTrans(f32 x, f32 y, f32 z);
         void zeroTrans()
@@ -260,7 +262,27 @@ namespace JGeometry {
 
         void makeRotate(const TVec3f &, f32);
         void makeQuat(const TQuat4f &rSrc);
-        void setPositionFromLookAt(const TPosition3<T> &rLookAt);
+        void setPositionFromLookAt(const TPosition3<T> &rLookAt) {
+            // regswaps
+            this->ref(0, 0) = -rLookAt[0][0]; 
+            this->ref(1, 1) = rLookAt[1][1];
+            this->ref(2, 2) = -rLookAt[2][2];            
+            this->ref(1, 0) = -rLookAt[0][1]; 
+            this->ref(0, 1) = rLookAt[1][0]; 
+            this->ref(2, 0) = -rLookAt[0][2];
+            this->ref(0, 2) = -rLookAt[2][0]; 
+            this->ref(1, 2) = -rLookAt[2][1];
+            this->ref(2, 1) = rLookAt[1][2];
+            
+
+            f32 x = rLookAt[0][3];
+            f32 y = rLookAt[1][3];
+            f32 z = rLookAt[2][3];
+
+            this->ref(0, 3) = (rLookAt[0][3] * this->mMtx[0][0]) - (rLookAt[1][3] * this->mMtx[0][1]) + rLookAt[2][3] * this->mMtx[0][2];
+            this->ref(1, 3) = (rLookAt[0][3] * this->mMtx[1][0]) - (rLookAt[1][3] * this->mMtx[1][1]) + rLookAt[2][3] * this->mMtx[1][2];
+            this->ref(2, 3) = (rLookAt[0][3] * this->mMtx[2][0]) - (rLookAt[1][3] * this->mMtx[2][1]) + rLookAt[0][3] * this->mMtx[2][2];
+        }
         void setQT(const TQuat4f &rSrcQuat, const TVec3f &rSrcTrans);
 
         inline void getTransInline(TVec3f &rDest) const

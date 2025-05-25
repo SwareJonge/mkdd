@@ -6,12 +6,12 @@ void JAISoundParamsMove::moveVolume(f32 newValue, u32 fadeCount)
     JUT_ASSERT((newValue>=0.f))
     if (fadeCount == 0)
     {
-        mParams.mVolume = newValue;
+        mVolume = newValue;
         mTransition.mVolume.mCount = 0;
     }
     else
     {
-        mTransition.mVolume.set(newValue, mParams.mVolume, fadeCount);
+        mTransition.mVolume.set(newValue, mVolume, fadeCount);
     }
 }
 
@@ -21,12 +21,12 @@ void JAISoundParamsMove::movePitch(f32 newValue, u32 fadeCount)
     JUT_ASSERT((newValue>=0.f))
     if (fadeCount == 0)
     {
-        mParams.mPitch = newValue;
+        mPitch = newValue;
         mTransition.mPitch.mCount = 0;
     }
     else
     {
-        mTransition.mPitch.set(newValue, mParams.mPitch, fadeCount);
+        mTransition.mPitch.set(newValue, mPitch, fadeCount);
     }
 }
 
@@ -34,12 +34,12 @@ void JAISoundParamsMove::moveFxMix(f32 newValue, u32 fadeCount)
 {
     if (fadeCount == 0)
     {
-        mParams.mFxMix = newValue;
+        mFxMix = newValue;
         mTransition.mFxMix.mCount = 0;
     }
     else
     {
-        mTransition.mFxMix.set(newValue, mParams.mFxMix, fadeCount);
+        mTransition.mFxMix.set(newValue, mFxMix, fadeCount);
     }
 }
 
@@ -47,12 +47,12 @@ void JAISoundParamsMove::movePan(f32 newValue, u32 fadeCount)
 {
     if (fadeCount == 0)
     {
-        mParams.mPan = newValue;
+        mPan = newValue;
         mTransition.mPan.mCount = 0;
     }
     else
     {
-        mTransition.mPan.set(newValue, mParams.mPan, fadeCount);
+        mTransition.mPan.set(newValue, mPan, fadeCount);
     }
 }
 
@@ -60,12 +60,12 @@ void JAISoundParamsMove::moveDolby(f32 newValue, u32 fadeCount)
 {
     if (fadeCount == 0)
     {
-        mParams.mDolby = newValue;
+        mDolby = newValue;
         mTransition.mDolby.mCount = 0;
     }
     else
     {
-        mTransition.mDolby.set(newValue, mParams.mDolby, fadeCount);
+        mTransition.mDolby.set(newValue, mDolby, fadeCount);
     }
 }
 

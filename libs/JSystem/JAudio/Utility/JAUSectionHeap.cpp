@@ -1,3 +1,4 @@
+#include "JSystem/JAudio/Interface/JAISeqDataMgr.h"
 #define JAUSECTIONHEAP_FIX
 
 #include "JSystem/JAudio/JAUSectionHeap.h"
@@ -364,8 +365,8 @@ u8* JAUSection::newStaticSeqDataBlock_(JAISoundID soundID, u32 size)
             JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
             return NULL;
         }
-        seqDataBlock->region_.addr = addr;
-        seqDataBlock->region_.size = size;
+        seqDataBlock->region.addr = addr;
+        seqDataBlock->region.size = size;
         seqDataBlock->soundID_ = soundID;
 
         JASCriticalSection cs;
@@ -704,8 +705,8 @@ bool JAUSectionHeap::newDynamicSeqBlock(u32 size) {
             JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
             return false;
         }
-        seqDataBlock->region_.addr = block;
-        seqDataBlock->region_.size = size;
+        seqDataBlock->region.addr = block;
+        seqDataBlock->region.size = size;
         seqDataBlock->soundID_.setAnonymous();
 
         JASCriticalSection cs;
@@ -719,11 +720,11 @@ bool JAUSectionHeap::newDynamicSeqBlock(u32 size) {
     return false;
 }
 
-s32 JAUSectionHeap::getSeqData(JAISoundID soundID, JAISeqData *seqData)
+JAISeqDataResult JAUSectionHeap::getSeqData(JAISoundID soundID, JAISeqData *seqData)
 {
     for (JSULink<JAUSection> *link = sectionList_.getFirst(); link; link = link->getNext())
     {
-        s32 result = link->getObject()->data_.seqDataBlocks_.getSeqData(soundID, sectionHeapData_.seqDataUser, seqData, false);
+        JAISeqDataResult result = link->getObject()->data_.seqDataBlocks_.getSeqData(soundID, sectionHeapData_.seqDataUser, seqData, false);
 #line 921
         JUT_ASSERT(result != JAI_ASYNC_RESULT_RETRY);
         if (result == JAI_ASYNC_RESULT_OK)
@@ -734,8 +735,8 @@ s32 JAUSectionHeap::getSeqData(JAISoundID soundID, JAISeqData *seqData)
     return sectionHeapData_.dynamicSeqBlocks_.getSeqData(soundID, sectionHeapData_.seqDataUser, seqData, true);
 }
 
-int JAUSectionHeap::releaseSeqData()
+JAISeqDataResult JAUSectionHeap::releaseSeqData()
 {
     JUT_WARNING_F2("%s", "JAUSectionHeap cannot release SeqData all at once. Please pop Section.\n")
-    return 0;
+    return JAI_ASYNC_RESULT_0;
 }

@@ -8,10 +8,10 @@ class JAISeqDataRegion;
 
 struct JAUSeqCollectionData
 {
-    s8 _0;
+    s8 groupId;
     s8 _1;
     u16 _2;
-    u32 _4;
+    u32 size;
     u32 _8;
 };
 
@@ -23,12 +23,12 @@ public:
     bool getSeqData(int, int, JAISeqData *);
     bool getSeqDataRegion(JAISeqDataRegion *);
 
-    bool isValid() { return _8; }
+    bool isValid() { return collection_ != NULL; }
 
-    u16 _0;
+    u16 groupId_;
     const u32 *_4;
-    const JAUSeqCollectionData *_8;
-    int _c;
+    const JAUSeqCollectionData *collection_;
+    int size_;
 };
 
 
@@ -36,10 +36,10 @@ class JAUSeqDataMgr_SeqCollection : public JAISeqDataMgr, public JAUSeqCollectio
 {
 public:
     JAUSeqDataMgr_SeqCollection();
+    ~JAUSeqDataMgr_SeqCollection() {}
     bool setSeqDataUser(JAISeqDataUser *);
-    int releaseSeqData();
-    s32 getSeqData(JAISoundID, JAISeqData *);
-    ~JAUSeqDataMgr_SeqCollection();
+    JAISeqDataResult releaseSeqData();
+    JAISeqDataResult getSeqData(JAISoundID, JAISeqData *);
 
     void init(const void *bsc) { JAUSeqCollection::init(bsc); }
 

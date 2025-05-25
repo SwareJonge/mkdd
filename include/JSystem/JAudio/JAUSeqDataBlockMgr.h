@@ -2,6 +2,7 @@
 #define JAUDIO_JAUSEQDATABLOCKMGR_H
 
 #include "JSystem/JAudio/Interface/JAISound.h"
+#include "JSystem/JAudio/Interface/JAISeqDataMgr.h"
 #include "JSystem/JSupport/JSUList.h"
 
 class JAISeqData;
@@ -15,21 +16,21 @@ struct JAUSeqDataBlock
 
     JSULink<JAUSeqDataBlock> link_; // 0
     JAISoundID soundID_;            // 10
-    JAISeqDataRegion region_;       // 14
+    JAISeqDataRegion region;       // 14
     int _1c;                        //
 };
 
-class JAUSeqDataBlocks : JSUList<JAUSeqDataBlock>
+class JAUSeqDataBlocks : public JSUList<JAUSeqDataBlock>
 {
 public:
     JAUSeqDataBlocks() {}
     ~JAUSeqDataBlocks(){}
 
-    void getSeqData(JAISoundID);
-    void seekFreeBlock(u32);
-    void append(JSULink<JAUSeqDataBlock> *);
-    void remove(JSULink<JAUSeqDataBlock> *);
-    void hasFailedBlock(JAISoundID);
+    u8 *getSeqData(JAISoundID);
+    JSULink<JAUSeqDataBlock> *seekFreeBlock(u32);
+    bool append(JSULink<JAUSeqDataBlock> *);
+    bool remove(JSULink<JAUSeqDataBlock> *);
+    bool hasFailedBlock(JAISoundID);
 };
 
 class JAUDynamicSeqDataBlocks
@@ -38,19 +39,19 @@ public:
     JAUDynamicSeqDataBlocks();
     ~JAUDynamicSeqDataBlocks() {}
     void setSeqDataArchive(JKRArchive *);
-    s32 getSeqData(JAISoundID, JAISeqDataUser *, JAISeqData *, bool);
+    JAISeqDataResult getSeqData(JAISoundID, JAISeqDataUser *, JAISeqData *, bool);
     bool appendDynamicSeqDataBlock(JAUSeqDataBlock *);
     bool removeDynamicSeqDataBlock(JAUSeqDataBlock *, JAISeqDataUser *);
     bool loadDynamicSeq(JAISoundID, bool, JAISeqDataUser *);
-    void releaseIdleDynamicSeqDataBlock(JAISeqDataUser *);
-    void releaseIdleDynamicSeqDataBlock_(JAISeqDataUser *, u32);
+    u32 releaseIdleDynamicSeqDataBlock(JAISeqDataUser *);
+    JAUSeqDataBlock *releaseIdleDynamicSeqDataBlock_(JAISeqDataUser *, u32);
     void rearrangeLoadingSeqs_();
 
     JKRArchive *getSeqDataArchive() { return seqDataArchive_; }
 
-    JAUSeqDataBlocks _0;
+    JAUSeqDataBlocks freeBlocks_;
     JAUSeqDataBlocks _c;
-    JAUSeqDataBlocks _18;
+    JAUSeqDataBlocks loadedBlocks_;
     JKRArchive *seqDataArchive_; // 24
 };
 

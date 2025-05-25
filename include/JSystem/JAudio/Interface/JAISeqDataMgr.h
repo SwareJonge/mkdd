@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-enum {
+enum JAISeqDataResult {
     JAI_ASYNC_RESULT_0,
     JAI_ASYNC_RESULT_RETRY,
     JAI_ASYNC_RESULT_OK
@@ -54,15 +54,15 @@ struct JAISeqDataUser
 
     virtual ~JAISeqDataUser();
     virtual bool isUsingSeqData(const JAISeqDataRegion &) = 0;
-    virtual int releaseSeqData(const JAISeqDataRegion &) = 0;
+    virtual JAISeqDataResult releaseSeqData(const JAISeqDataRegion &) = 0;
 };
 
 struct JAISeqDataMgr
 {
     JAISeqDataMgr() {}
     virtual ~JAISeqDataMgr();
-    virtual s32 getSeqData(JAISoundID, JAISeqData *) = 0;
-    virtual int releaseSeqData() = 0;
+    virtual JAISeqDataResult getSeqData(JAISoundID, JAISeqData *) = 0;
+    virtual JAISeqDataResult releaseSeqData() = 0;
     virtual bool setSeqDataUser(JAISeqDataUser *) = 0;
 };
 

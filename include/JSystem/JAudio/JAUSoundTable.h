@@ -18,28 +18,28 @@ struct JAUSoundTable_
 {
     JAUSoundTable_()
     {
-        _0 = NULL;
+        mRes = NULL;
         _4 = 0;
     }
 
     void reset()
     {
-        _0 = NULL;
+        mRes = NULL;
         _4 = NULL;
     }
 
-    void init(const void *param_0)
+    void init(const void *res)
     {
-        _0 = param_0;
+        mRes = res;
         // magic number is not in debug rom. I'm not sure what this comparison is (maybe some sort of '' number?)
         // I also do not know how it is different between JAUSoundTable and JAUSoundNameTable
-        if (*(u32 *)_0 + 0xbdad0000 != Root::magicNumber())
+        if (*(u32 *)mRes + 0xbdad0000 != Root::magicNumber())
         {
-            _0 = NULL;
+            mRes = NULL;
         }
         else
         {
-            _4 = (Root *)((u8 *)_0 + *((u32 *)_0 + 3));
+            _4 = (Root *)((u8 *)mRes + *((u32 *)mRes + 3));
         }
     }
 
@@ -58,10 +58,10 @@ struct JAUSoundTable_
         {
             return NULL;
         }
-        return (Section *)((u8 *)_0 + offset);
+        return (Section *)((u8 *)mRes + offset);
     }
 
-    Group *getGroup(Section *param_1, int index) const
+    Group *getGroup(Section *section, int index) const
     {
         int iVar1;
 
@@ -69,19 +69,19 @@ struct JAUSoundTable_
         {
             return NULL;
         }
-        if ((u32)index >= param_1->mNumGroups)
+        if ((u32)index >= section->mNumGroups)
         {
             return NULL;
         }
-        u32 offset = param_1->getGroupOffset(index);
+        u32 offset = section->getGroupOffset(index);
         if (offset == 0)
         {
             return NULL;
         }
-        return (Group *)((u8 *)_0 + offset);
+        return (Group *)((u8 *)mRes + offset);
     }
 
-    const void *_0;
+    const void *mRes;
     Root *_4;
     //u32 _8;
     //u32 _c;
@@ -156,6 +156,8 @@ struct JAUSoundTable : public JASGlobalInstance<JAUSoundTable>
     void init(void const *);
     u8 getTypeID(JAISoundID) const;
     JAUSoundTableItem *getData(JAISoundID) const;
+    u32 getNumGroups_inSection(u8) const;
+    u32 getNumItems_inGroup(u8, u8) const;
 
     JAUSoundTableItem *getItem(JAUSoundTableGroup *group, int index) const
     {
@@ -164,12 +166,12 @@ struct JAUSoundTable : public JASGlobalInstance<JAUSoundTable>
         {
             return NULL;
         }
-        return (JAUSoundTableItem *)((u8 *)_0._0 + offset);
+        return (JAUSoundTableItem *)((u8 *)mTable.mRes + offset);
     }
 
-    const void *getResource() { return _0._0; }
+    const void *getResource() { return mTable.mRes; }
 
-    JAUSoundTable_<JAUSoundTableRoot, JAUSoundTableSection, JAUSoundTableGroup, void> _0;
+    JAUSoundTable_<JAUSoundTableRoot, JAUSoundTableSection, JAUSoundTableGroup, void> mTable;
 };
 
 struct JAUSoundNameTableRoot
@@ -193,9 +195,9 @@ struct JAUSoundNameTable : public JASGlobalInstance<JAUSoundNameTable>
     {
     }
     ~JAUSoundNameTable() {}
-    void init(void const *);
+    void init(const void *);
 
-    JAUSoundTable_<JAUSoundNameTableRoot, JAUSoundNameTableSection, JAUSoundNameTableGroup, char> _0;
+    JAUSoundTable_<JAUSoundNameTableRoot, JAUSoundNameTableSection, JAUSoundNameTableGroup, char> mTable;
 };
 
 #endif

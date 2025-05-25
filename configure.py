@@ -879,14 +879,14 @@ config.libs = [
             Object(Matching, "JSystem/JAudio/Utility/JAUStreamFileTable.cpp"),
             Object(Matching, "JSystem/JAudio/Utility/JAUSectionHeap.cpp"),
             Object(NonMatching, "JSystem/JAudio/Utility/JAUAudioMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUClusterSound.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSeqCollection.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSeqDataBlockMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundAnimator.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundTable.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUClusterSound.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUSeqCollection.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUSeqDataBlockMgr.cpp"),
+            Object(Equivalent, "JSystem/JAudio/Utility/JAUSoundAnimator.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUSoundMgr.cpp"),
+            Object(Matching, "JSystem/JAudio/Utility/JAUSoundTable.cpp"),
             Object(NonMatching, "JSystem/JAudio/Utility/JAUAudience.cpp"),
-            Object(NonMatching, "JSystem/JAudio/Utility/JAUSoundObject.cpp")
+            Object(Matching, "JSystem/JAudio/Utility/JAUSoundObject.cpp")
         ]
     ),
     JSystemLib(

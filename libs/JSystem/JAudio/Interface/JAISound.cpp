@@ -71,11 +71,11 @@ s32 JAISoundStatus_::unlockIfLocked()
 
 void JAISoundParams::mixOutAll(const JASSoundParams &params, JASSoundParams *outParams, f32 intensity)
 {
-    outParams->mVolume = params.mVolume * mProperty._0 * mMove.mParams.mVolume * intensity;
-    outParams->mFxMix = params.mFxMix + mProperty._4 + mMove.mParams.mFxMix;
-    outParams->mPitch = params.mPitch * mMove.mParams.mPitch;
-    outParams->mPan = (params.mPan + mMove.mParams.mPan) - 0.5f;
-    outParams->mDolby = params.mDolby + mMove.mParams.mDolby;
+    outParams->mVolume = params.mVolume * mProperty._0 * mMove.mVolume * intensity;
+    outParams->mFxMix = params.mFxMix + mProperty._4 + mMove.mFxMix;
+    outParams->mPitch = params.mPitch * mMove.mPitch;
+    outParams->mPan = (params.mPan + mMove.mPan) - 0.5f;
+    outParams->mDolby = params.mDolby + mMove.mDolby;
 }
 
 JAISound::JAISound() : params_() {}
@@ -105,7 +105,7 @@ void JAISound::start_JAISound_(JAISoundID soundID, const JGeometry::TVec3f *pos,
 bool JAISound::acceptsNewAudible() const
 {
     bool accepts = false;
-    if (audible_ == NULL && status_.state.flags.flag2 == 0)
+    if (audible_ == NULL && status_.state.flags.calcedOnce == 0)
     {
         accepts = true;
     }
@@ -187,7 +187,7 @@ void JAISound::increasePrepareCount_JAISound_()
 
 bool JAISound::calc_JAISound_()
 {
-    status_.state.flags.flag2 = 1;
+    status_.state.flags.calcedOnce = 1;
     if (isStopping() && JAISound_tryDie_())
     {
         return false;

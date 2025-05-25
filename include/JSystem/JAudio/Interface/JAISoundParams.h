@@ -85,17 +85,17 @@ struct JAISoundParamsTransition
     TTransition mDolby;
 }; // Size: 0x3C
 
-struct JAISoundParamsMove
+struct JAISoundParamsMove : public JASSoundParams // not entirely sure if this actually inherits, however it makes access to it a bit cleaner
 {
-    JAISoundParamsMove() : mParams() {}
+    JAISoundParamsMove() {}
 
     void init()
     {
-        mParams.init();
+        JASSoundParams::init();
         mTransition.init();
     }
 
-    void calc() { mTransition.apply(&mParams); }
+    void calc() { mTransition.apply(this); }
 
     void moveVolume(f32 newValue, u32 fadeCount);
     void movePitch(f32 newValue, u32 fadeCount);
@@ -104,7 +104,6 @@ struct JAISoundParamsMove
     void moveDolby(f32 newValue, u32 fadeCount);
     void move(const JASSoundParams &params, u32 fadeCount);
 
-    JASSoundParams mParams;
     JAISoundParamsTransition mTransition;
 }; // Size: 0x50
 

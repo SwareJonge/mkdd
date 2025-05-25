@@ -22,7 +22,7 @@ public:
 
     void startSoundCustom(u32, u32); // 0x8012fe84
 
-    u8 _40[0x5c - 0x40];
+    u8 _48[0x5c - 0x48];
 };
 
 

@@ -21,16 +21,26 @@ public:
     // Inline/Unused
     // void getFreeHandleIndex() const;
     // void releaseAllSounds();
-    // void isActive() const;
+    bool isActive() const;
+
+    int getNumHandles() const { return numHandles_; }
 
     JAISoundHandle &operator[](int index)
     {
+#line 33
         JUT_ASSERT(index >= 0)
         JUT_ASSERT(index < numHandles_)
         return handles_[index];
     }
 
-protected:
+    JAISoundHandle &getHandle(int index)
+    {
+#line 42
+        JUT_ASSERT(index >= 0)
+        JUT_ASSERT(index < numHandles_)
+        return handles_[index];
+    }
+
     JAISoundHandle *handles_; // 00
     int numHandles_;          // 04
 };

@@ -61,14 +61,14 @@ JUTAssertion::setWarningMessage_f(1, __FILE__, __LINE__, __VA_ARGS__);
   JUTAssertion::setWarningMessage_f(3, __FILE__, __LINE__, __VA_ARGS__);
 
 #define JUT_ASSERT(COND) \
-  (COND) || ((JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt")), 0);
+  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, #COND), OSHalt("Halt"));
 
 #define JUT_ASSERT_F(COND, ...) \
-  (COND) || ((JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__), OSHalt("Halt")), 0);
+  (COND) ? (void)0 : (JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), __FILE__, __LINE__, __VA_ARGS__), OSHalt("Halt"));
 
 // could this maybe have used __VA_ARGS__?
 #define JUT_ASSERT_MSG(COND, MSG) \
-  (COND) || ((JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG), OSHalt("Halt")), 0);
+  (COND) ? (void)0 : (JUTAssertion::showAssert(JUTAssertion::getSDevice(), __FILE__, __LINE__, MSG), OSHalt("Halt"));
 
 #define JUT_MINMAX_ASSERT(min, cur, max) \
   JUT_ASSERT_F((((min) <= (cur)) && ((cur) < (max))), "range over: %d <= " #cur "=%d < %d", (min), (cur), (max));

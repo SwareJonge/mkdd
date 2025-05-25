@@ -50,7 +50,7 @@ public:
 
     //virtual ~JAISeCategoryMgr() {}
     virtual bool isUsingSeqData(const JAISeqDataRegion &region);
-    virtual int releaseSeqData(const JAISeqDataRegion &region);
+    virtual JAISeqDataResult releaseSeqData(const JAISeqDataRegion &region);
 
     void JAISeMgr_appendSe_(JAISe *se) { mSeList.append(se); }
 
@@ -101,7 +101,7 @@ public:
 
     
     virtual bool isUsingSeqData(const JAISeqDataRegion &region);
-    virtual int releaseSeqData(const JAISeqDataRegion &region);
+    virtual JAISeqDataResult releaseSeqData(const JAISeqDataRegion &region);
     virtual ~JAISeMgr() {}; // weak
     JAISeCategoryMgr *getCategory(int categoryIndex)
     {

@@ -184,13 +184,13 @@ void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &soundParams, JAISound
         mInner.mAramStream.setPitch(mixParams->mPitch);
         if (mChilds[i] != NULL)
         {
-            mInner.mAramStream.setChannelVolume(i, mChilds[i]->mMove.mParams.mVolume *
+            mInner.mAramStream.setChannelVolume(i, mChilds[i]->mMove.mVolume *
                                                           mixParams->mVolume);
             mInner.mAramStream.setChannelPan(
-                i, (mChilds[i]->mMove.mParams.mPan + mixParams->mPan) - 0.5f);
-            mInner.mAramStream.setChannelFxmix(i, mChilds[i]->mMove.mParams.mFxMix +
+                i, (mChilds[i]->mMove.mPan + mixParams->mPan) - 0.5f);
+            mInner.mAramStream.setChannelFxmix(i, mChilds[i]->mMove.mFxMix +
                                                          mixParams->mFxMix);
-            mInner.mAramStream.setChannelDolby(i, mChilds[i]->mMove.mParams.mDolby +
+            mInner.mAramStream.setChannelDolby(i, mChilds[i]->mMove.mDolby +
                                                          mixParams->mDolby);
         }
         else

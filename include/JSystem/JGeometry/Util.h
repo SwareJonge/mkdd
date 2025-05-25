@@ -78,7 +78,15 @@ namespace JGeometry {
             return 3.1415927f;
         }*/
 
-        static T clamp(T p1, T p2, T p3);
+        static T clamp(T cur, T min, T max) {
+            if (cur < min) {
+                return min;
+            }
+            if (cur > max) {
+                return max;
+            }
+            return cur;
+        }
     };
 
     typedef TUtil<f32> TUtilf;

@@ -16,6 +16,10 @@ struct JASGenericMemPool
     void free(void *p, u32 n);
     void *alloc(u32 n);
 
+    bool isActive() {
+        return mTotalMemCount != mFreeMemCount;
+    }
+
     void *mRunner;
     int mFreeMemCount;
     int mTotalMemCount;
@@ -206,6 +210,10 @@ struct JASPoolAllocObject
 
     static void *operator new(u32 n) {
         return memPool_.alloc(n);
+    }
+
+    static bool isActive() {
+        return memPool_.isActive();
     }
 
     static JASMemPool<T> memPool_;

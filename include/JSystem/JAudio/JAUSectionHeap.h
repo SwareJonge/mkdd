@@ -116,8 +116,8 @@ public:
     int getNumSections() const;
     bool setSeqDataUser(JAISeqDataUser *);
     bool newDynamicSeqBlock(u32);
-    s32 getSeqData(JAISoundID, JAISeqData *);
-    int releaseSeqData();
+    JAISeqDataResult getSeqData(JAISoundID, JAISeqData *);
+    JAISeqDataResult releaseSeqData();
     ~JAUSectionHeap() {}
 
     JAUWaveBankTable &getWaveBankTable() { return sectionHeapData_.waveBankTable; }

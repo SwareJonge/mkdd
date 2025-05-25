@@ -1,6 +1,7 @@
 #ifndef JAUDIO_JAISOUND_H
 #define JAUDIO_JAISOUND_H
 
+#include "JSystem/JUtility/JUTAssert.h"
 #include "JSystem/JUtility/JUTDbg.h"
 #include "JSystem/JAudio/Interface/JAIAudible.h"
 #include "JSystem/JAudio/Interface/JAISoundParams.h"
@@ -15,6 +16,9 @@ class JAISoundHandle
 {
 public:
     JAISoundHandle() { sound_ = NULL; }
+    ~JAISoundHandle() {
+        releaseSound();
+    }
 
     void releaseSound();
 
@@ -42,25 +46,25 @@ public:
 class JAISoundID
 {
 public:
-    operator u32() const { return this->mId.mFullId; }
-    void operator=(const JAISoundID &other) { mId.mFullId = other.mId.mFullId; };
+    operator u32() const { return mId.mFullId; }
+    //void operator=(const JAISoundID &other) { mId.mFullId = other.mId.mFullId; };
 
     JAISoundID(u32 pId) { mId.mFullId = pId; };
-
-    JAISoundID(const JAISoundID &other) { mId = other.mId; };
+    JAISoundID(const JAISoundID &other) { mId.mFullId = other.mId.mFullId; };
 
     JAISoundID() {}
 
-    bool isAnonymous() const { return mId.mFullId == 0xffffffff; }
-    void setAnonymous() { mId.mFullId = -1; }
+    bool isAnonymous() const { return mId.mFullId == 0xffffffffUL; }
+    void setAnonymous() { mId.mFullId = 0xffffffffUL; }
 
-    union
+    mutable union // mutable... this smells fake but so far matches every file
+    // if something doesn't match because of this, mark JAUSeqDataBlockMgr.cpp as Equivalent
     {
         u32 mFullId;
         struct
         {
-            u8 b0;
-            u8 b1;
+            u8 mSectionId;
+            u8 mGroupId;
             u8 b2;
             u8 b3;
         } mBytes;
@@ -159,7 +163,7 @@ struct JAISoundStatus_
             struct
             {
                 u8 flag1 : 1;
-                u8 flag2 : 1;
+                u8 calcedOnce : 1;
                 u8 animationState : 2;
                 u8 flag5 : 1;
                 u8 flag6 : 1;
@@ -317,16 +321,43 @@ public:
     const JAISoundID &getID() const { return soundID_; }
     u8 getAnimationState() const { return status_.state.flags.animationState; }
     bool isAnimated() const { return getAnimationState() != 0; }
-    void setAnimationState(u8 state)
-    {
-        status_.state.flags.animationState = state;
-    }
+    void setAnimationState(u8 state) { status_.state.flags.animationState = state; }
     u32 getUserData() const { return status_.user_data; }
     void setUserData(u32 userData) { status_.user_data = userData; }
     JAIAudible *getAudible() const { return audible_; }
     bool isHandleAttached() const { return handle_ != NULL; }
     bool hasLifeTime() const { return status_._1.flags.flag2; }
     void removeLifeTime_() { status_._1.flags.flag1 = false; }
+
+    void setLifeTime(u32 newLifeTime, bool pause)
+    {
+#line 333
+        JUT_ASSERT(status_.state.flags.calcedOnce == 0);
+        lifeTime_ = newLifeTime;
+        setComesBack(pause);
+        status_._1.flags.flag2 = 1;
+    }
+
+    void setComesBack(bool pause)
+    {
+#line 354
+        JUT_ASSERT(status_.state.flags.calcedOnce == 0)
+        status_._1.flags.flag1 = 1;
+        if (pause)
+        {
+            status_.pauseWhenOut();
+        }
+    }
+
+    bool setPos(const JGeometry::TVec3f &pos)
+    {
+        if (audible_ != NULL)
+        {
+            audible_->setPos(pos);
+        }
+        return audible_ != NULL;
+    }
+
     void stop_JAISound_()
     {
         status_.state.flags.flag5 = 0;
@@ -348,31 +379,6 @@ public:
         {
             lifeTime_ = newLifeTime;
         }
-    }
-
-    void setLifeTime(u32 newLifeTime, bool pause)
-    {
-        lifeTime_ = newLifeTime;
-        setComesBack(pause);
-        status_._1.flags.flag2 = 1;
-    }
-
-    void setComesBack(bool pause)
-    {
-        status_._1.flags.flag1 = 1;
-        if (pause)
-        {
-            status_.pauseWhenOut();
-        }
-    }
-
-    bool setPos(const JGeometry::TVec3f &pos)
-    {
-        if (audible_ != NULL)
-        {
-            audible_->setPos(pos);
-        }
-        return audible_ != NULL;
     }
 
     void fadeIn(u32 fadeCount)

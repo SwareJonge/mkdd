@@ -1,5 +1,6 @@
 #include "JSystem/JAudio/Interface/JAISeqMgr.h"
 #include "JSystem/JAudio/Interface/JAISeq.h"
+#include "JSystem/JAudio/Interface/JAISeqDataMgr.h"
 
 // once again .text sections don't match for debug, however it still works
 
@@ -19,7 +20,7 @@ bool JAISeqMgr::isUsingSeqData(const JAISeqDataRegion &dataRegion)
     return false;
 }
 
-int JAISeqMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
+JAISeqDataResult JAISeqMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
 {
     bool usingSeq = false;
     for (JSULink<JAISeq> *link = mSeqList.getFirst(); link != NULL; link = link->getNext())
@@ -31,14 +32,14 @@ int JAISeqMgr::releaseSeqData(const JAISeqDataRegion &dataRegion)
         }
     }
 
-    ReleaseSeqResult res;
+    JAISeqDataResult res;
     if (!usingSeq)
     {
-        res = RELEASE_SEQ_2;
+        res = JAI_ASYNC_RESULT_OK;
     }
     else
     {
-        res = RELEASE_SEQ_1;
+        res = JAI_ASYNC_RESULT_RETRY;
     }
     return res;
 }
@@ -145,7 +146,7 @@ void JAISeqMgr::mixOut()
 {
     for (JSULink<JAISeq> *link = mSeqList.getFirst(); link != NULL; link = link->getNext())
     {
-        link->getObject()->JAISeqMgr_mixOut_(mMove.mParams, mActivity);
+        link->getObject()->JAISeqMgr_mixOut_(mMove, mActivity);
     }
 }
 

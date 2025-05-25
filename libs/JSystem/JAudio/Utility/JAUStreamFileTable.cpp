@@ -34,7 +34,7 @@ const char *JAUStreamFileTable::getFilePath(int index) const
     return (const char *)mBuf + fileOffset;
 }
 
-const char *JAUStreamFileTable::getFilePath_fromEntry(long entry) const
+const char *JAUStreamFileTable::getFilePath_fromEntry(s32 entry) const
 {
     // UNUSED
     if (mBuf == NULL)
@@ -43,7 +43,7 @@ const char *JAUStreamFileTable::getFilePath_fromEntry(long entry) const
     JUT_ASSERT(entry >= 0)
 }
 
-long JAUStreamDataMgr_StreamFileTable::getStreamFileEntry(JAISoundID soundID)
+s32 JAUStreamDataMgr_StreamFileTable::getStreamFileEntry(JAISoundID soundID)
 {
     const char *filePath = getFilePath(soundID.mId.mAdvancedId.mShortId);
     if (filePath == NULL)
