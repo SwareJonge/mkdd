@@ -1261,7 +1261,7 @@ config.libs = [
             Object(NonMatching, "Sato/GeographyObjMgr.cpp"),
             Object(Matching, "Sato/GeographyObj.cpp"),
             Object(NonMatching, "Sato/GeoTree.cpp"),
-            Object(NonMatching, "Sato/ObjCollision.cpp"),
+            Object(Matching, "Sato/ObjCollision.cpp"),
             Object(NonMatching, "Sato/GeoRFlower.cpp"),
             Object(NonMatching, "Sato/GeoJumpNarrow.cpp"),
             Object(NonMatching, "Sato/GeoItemBox.cpp"),

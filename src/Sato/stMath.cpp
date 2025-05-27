@@ -372,7 +372,7 @@ int stMakePlaneParam(stPlaneParam &planeParam, TVec3f &vec1, const TVec3f &vec2)
     planeParam.x = vec1.x;
     planeParam.y = vec1.y;
     planeParam.z = vec1.z;
-    planeParam.direction = -vec1.dot(vec2);
+    planeParam.d = -vec1.dot(vec2);
     return 1;
 }
 
@@ -384,51 +384,50 @@ int stMakePlaneParam(stPlaneParam &planeParam, const TVec3f &vec1, const TVec3f 
     return stMakePlaneParam(planeParam, crossp, vec3);
 }
 
-int stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
+u8 stSearchInSurface(const TVec3f &vec1, const TVec3f &vec2, const TVec3f &vec3)
 {
-    int ret = 0;
-    if (vec2.x * (vec1.x - vec3.x) + vec2.y * (vec1.y - vec3.y) + vec2.z * (vec1.z - vec3.z) <=
-        0.0f)
+    u8 ret = 0;
+    if (vec2.x * (vec1.x - vec3.x) + vec2.y * (vec1.y - vec3.y) + vec2.z * (vec1.z - vec3.z) <= 0.0f)
     {
         ret = 1;
     }
     return ret;
 }
 
-int stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam)
+u8 stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam)
 {
-    int ret = 0;
-    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.direction) <= 0.0f)
+    u8 ret = 0;
+    if (((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.d) <= 0.0f)
     {
         ret = 1;
     }
     return ret;
 }
 
-int stCollideSurfaceAndSphere(const TVec3f &vec, float radius, const stPlaneParam &planeparam, float &retVal)
+u8 stCollideSurfaceAndSphere(const TVec3f &vec, float radiusSq, const stPlaneParam &planeparam, float &depthSq)
 {
-    int ret = 0;
+    u8 collides = 0;
 
-    f32 length = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.direction);
-    if (length > 0.0f)
+    f32 distanceSq = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.d);
+    if (distanceSq > 0.0f)
     {
-        if (length < radius)
+        if (distanceSq < radiusSq)
         {
-            ret = 1;
-            retVal = radius - length;
+            collides = 1;
+            depthSq = radiusSq - distanceSq;
         }
         else
         {
-            retVal = -1.0f;
+            depthSq = -1.0f;
         }
     }
     else
     {
-        ret = 1;
-        retVal = radius - length;
+        collides = 1;
+        depthSq = radiusSq - distanceSq;
     }
 
-    return ret;
+    return collides;
 }
 
 float stCollideLineToPlaneIn(const TVec3f &vec1, const TVec3f &vec2, const stPlaneParam &planeparam)
@@ -451,7 +450,7 @@ float stCollideLineToPlaneIn(const TVec3f &vec1, const TVec3f &vec2, const stPla
     {
         return -1.0f;
     }
-    return -(f2 + planeparam.direction) / (f - f2);
+    return -(f2 + planeparam.d) / (f - f2);
 }
 
 TVec3f stGetCollidePosFromT(const TVec3f &vec1, const TVec3f &vec2, float scalar)

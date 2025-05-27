@@ -372,9 +372,9 @@ bool CrsData::Ground::checkPosition(stPlaneParam *plane, const JGeometry::TVec3f
     stPlaneParam newPlane;
     course->calcPlaneParam(&newPlane, normDir.x * 0.0001f, normDir.y * 0.0001f, normDir.z * 0.0001f, dir, aWorldPos[0]);
 
-    //f32 n = ((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.direction);
-    if (((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.direction) < -0.0f) {
-        f32 a = -((newPlane.x * worldPos.x)+(newPlane.z * worldPos.z) + newPlane.direction) / newPlane.y;
+    //f32 n = ((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.d);
+    if (((newPlane.x * worldPos.x)+(newPlane.y * worldPos.y)+(newPlane.z * worldPos.z) + newPlane.d) < -0.0f) {
+        f32 a = -((newPlane.x * worldPos.x)+(newPlane.z * worldPos.z) + newPlane.d) / newPlane.y;
         if (a - worldPos.y > addThickness) {
             return false;
         }
@@ -643,7 +643,7 @@ f32 CrsData::Ground::getPlaneY(const JGeometry::TVec3f &p, Course *course) const
         n.x = normDir.x * 0.0001f;
         n.y = normDir.y * 0.0001f;
         n.z = normDir.z * 0.0001f;
-        n.direction = dir;
+        n.d = dir;
     }
 
     return -(n.x * p.x + n.z * p.z + dir) / n.y;

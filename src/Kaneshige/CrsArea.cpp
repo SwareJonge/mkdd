@@ -81,7 +81,7 @@ void CrsArea::getRoofPosition(JGeometry::TVec3f *out)
         if (plane.y != 0.0f)
         {
             out->x = mPos.x;
-            out->y = -(plane.direction + (plane.x * mPos.x + plane.z * mPos.z)) / plane.y; // todo: get better understand of planeparam
+            out->y = -(plane.d + (plane.x * mPos.x + plane.z * mPos.z)) / plane.y; // todo: get better understand of planeparam
             out->z = mPos.z;
         }
         else
