@@ -14,9 +14,19 @@ inline f32 stAbs(f32 x) {
 
 struct stPlaneParam
 {
-    f32 x, y, z; // might be JGeometry::TVec3f
-    f32 direction;
+    f32 x, y, z; // Components of the unit normal vector N.
+                 // Vec and TVec3f, either as a member or as a base, change the ordering of operator=
+    f32 d;       // Constant D in the plane equation N.P + D = 0.
+                 // abs(d) is squared distance from origin along normal axis
 };
+
+inline JGeometry::TVec3f stPlaneNormal(const stPlaneParam& plane) {
+    return JGeometry::TVec3f(plane.x, plane.y, plane.z);
+}
+
+inline f32 stDot(const stPlaneParam& plane, const JGeometry::TVec3f &vec) {
+    return stPlaneNormal(plane).dot(vec);
+}
 
 int stVecNormalize(JGeometry::TVec3f &);
 int stVecNormalize(JGeometry::TVec3f *);
@@ -35,9 +45,9 @@ void stQtLerp(Quaternion *, const Quaternion *, const Quaternion *, f32);
 f32 stQtNormalize(Quaternion *, const Quaternion *);
 int stMakePlaneParam(stPlaneParam &, JGeometry::TVec3f &, const JGeometry::TVec3f &);
 int stMakePlaneParam(stPlaneParam &, const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
-int stSearchInSurface(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
-int stSearchInSurface(const JGeometry::TVec3f &, const stPlaneParam &);
-int stCollideSurfaceAndSphere(const JGeometry::TVec3f &, f32, const stPlaneParam &, f32 &);
+u8 stSearchInSurface(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const JGeometry::TVec3f &);
+u8 stSearchInSurface(const JGeometry::TVec3f &, const stPlaneParam &);
+u8 stCollideSurfaceAndSphere(const JGeometry::TVec3f &, f32, const stPlaneParam &, f32 &);
 f32 stCollideLineToPlaneIn(const JGeometry::TVec3f &, const JGeometry::TVec3f &, const stPlaneParam &);
 JGeometry::TVec3f stGetCollidePosFromT(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32);
 f32 stGetCollideDepthFromT(const JGeometry::TVec3f &, const JGeometry::TVec3f &, f32);

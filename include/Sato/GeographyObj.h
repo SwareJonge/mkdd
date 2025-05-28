@@ -22,8 +22,8 @@ public:
     ~ItemColReaction() {}
 
     void init();
-    void setFlg(u32, u8);
-    bool tstFlg(u32);
+    void setFlg(u32 flgId, u8 flgVal);
+    u8 tstFlg(u32 flgId);
 
 private:
     u8 mFlags[16];
@@ -57,6 +57,7 @@ public:
     void calc_norm();                                                                           // 0x802295f0
     void update_norm();                                                                         // 0x80229630
     void loadShadowModel(J3DModelData *, u32);                                                  // 0x8022972c
+    void getAssignedModelZdir(JGeometry::TVec3f *);                                             // UNUSED / INLINED
     void getAssignedModelXYZdir(JGeometry::TVec3f *, JGeometry::TVec3f *, JGeometry::TVec3f *); // 0x80229838
     void getAssignedModelMatrix(Mtx);                                                           // 0x80229968
     void resetObject();                                                                         // 0x80229bcc
@@ -67,38 +68,38 @@ public:
     bool tstUserFlg1(int kart_index) const;                                                     // 0x8022a0ec
     void clrUserFlg1(int);                                                                      // 0x8022a190
     void setUserFlg1(int);                                                                      // 0x8022a230
-    void getHitSoundDegree();                                                                   // 0x8022a2d0
+    f32 getHitSoundDegree();                                                                    // 0x8022a2d0
     void createMultiBoundsPtrAll(u8);                                                           // 0x8022a314
+    void initSingleBound();                                                                     // UNUSED / INLINED
     void calcBoundsGlPos();                                                                     // 0x8022a420
     void createBoundsSphere(f32, f32);                                                          // 0x8022a57c
-    void createMultiBoundsSphere(u8, f32, f32);                                                 // 0x8022a66c
+    bool createMultiBoundsSphere(u8, f32, f32);                                                 // 0x8022a66c
     void createBoundsCylinder(J3DModelData *, f32, f32);                                        // 0x8022a6fc
     void createBoundsCylinder(f32, f32, f32);                                                   // 0x8022a81c
-    void createMultiBoundsCylinder(const u8, J3DModelData *, f32, f32);                               // 0x8022a934
+    bool createMultiBoundsCylinder(const u8, J3DModelData *, f32, f32);                         // 0x8022a934
     void createBoundsCube(J3DModelData *);                                                      // 0x8022aa04
-    void setColObjPos(const JGeometry::TVec3f &, const u8);                                           // 0x8022ab20
-    stRandom *getGeoRnd();                                                                            // 0x8022ac14
+    bool setColObjPos(const JGeometry::TVec3f &, const u8);                                     // 0x8022ab20
+    stRandom *getGeoRnd();                                                                      // 0x8022ac14
     void moveShadowModel();                                                                     // 0x8022ac38
     void createSoundMgr();                                                                      // 0x8022acec
+    f32 getColRadius();                                                                         // UNUSED / INLINED
     f32 getColScaleRadius();                                                                    // 0x8022ad44
-    void getAxisMaxScale();                                                                     // 0x8022adb4
+    f32 getAxisMaxScale();                                                                      // 0x8022adb4
     void lockMdl();                                                                             // 0x8022ae58
     void getSRTMtx(Mtx m);                                                                      // 0x8022ae88
     void setBoundScaleAll();                                                                    // 0x8022aef0
     f32 getAllBoundDepth();                                                                     // 0x8022af54
     void setObjData(const CrsData::SObject &, bool);                                            // 0x8022af94
+
     // Inline/Unused
-    void getAssignedModelZdir(JGeometry::TVec3f *);
     void findVtxPosMaxY(J3DModelData *, JGeometry::TVec3f &, JGeometry::TVec3f &);
     void newSingleObjColSphere(f32, f32);
     void newSingleObjColSphere(J3DModelData *);
     void newSingleObjColCylinder(J3DModelData *, f32, f32);
     void newSingleObjColCylinder(f32, f32, f32);
-    void initSingleBound();
     void createMultiBoundsSphere(u8, J3DModelData *);
     void createMultiBoundsCylinder(u8, f32, f32, f32);
     void setLODBias();
-    void getColRadius();
 
     void setItemColReaction(u8 p1, u8 p2) { mReaction.setFlg(p1, p2); }
 
@@ -128,22 +129,28 @@ public:
     void clrObjFlagCheckGeoHitting() { mGeoObjFlag &= ~1; }
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
     void clrObjFlagHidding() { mGeoObjFlag &= ~0x20; }
+    void clrObjFlagLODBias() { mObjFlag &= ~0x100; }
     
-    void clrCheckKartHitFlag(int kartId) { mKartHitFlags &=  ~(1 << kartId); }
-    void clrAllCheckKartHitFlag() { mKartHitFlags = 0; }
-    void clrAllIsHitKartFlg() { mKartFlags = 0; }
+    void clrCheckKartHitFlag(int kartId) { mCheckKartHitFlags &= ~(1 << kartId); }
+    void clrAllCheckKartHitFlag() { mCheckKartHitFlags = 0; }
+    void clrAllIsHitKartFlg() { mIsHitKartFlags = 0; }
 
     void setObjFlagCheckItemHitting() { mGeoObjFlag |= 2; }    
     void setObjFlagSimpleDraw() { mObjFlag |= 1; }
     void setObjFlagMainResource() { mObjFlag |= 2; }
+    void setObjFlagNoCollision() { mObjFlag |= 0x80; }
+    void setObjFlagLODBias() { mObjFlag |= 0x100; }
     void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
 
+    void setAllCheckKartHitFlag() { mCheckKartHitFlags = 0xffffffff; }
+
     bool tstItemHitting() const { return mGeoObjFlag & 0x4; }
-    void setAllCheckKartHitFlag() { mKartHitFlags = 0xffffffff; }
     bool tstObjFlagSimpleDraw() const { return mObjFlag & 1; }
+    bool tstObjFlagNorm() const { return mObjFlag & 4; }
+    bool tstObjFlagShadow() const { return mObjFlag & 8; }
     bool tstObjFlagHidding() const { return mGeoObjFlag & 0x20; }
-    void clrObjFlagLODBias() { mObjFlag &= ~0x100;  }
-    bool tstIsHitKartFlg(int kartNo) const { return (mKartFlags & (1 << kartNo)) != 0; }
+
+    bool tstIsHitKartFlg(int kartNo) const { return (mIsHitKartFlags & (1 << kartNo)) != 0; }
 
     ItemObj *getColItemObj() const { return mColItemObj; }
     u32 getKind() const { return mKind; }
@@ -157,14 +164,14 @@ public:
     }
 
     // Vtable
-    virtual ~GeographyObj() {}                                                                      // 8, TODO?
+    virtual ~GeographyObj() {}                                                                      // 8
     virtual void loadmodel(J3DModelData *modelData) {                                               // C
         mModel.setModelData(modelData);
         createColModel(modelData);
     }                                                
-    virtual void loadAnimation() {}                                                                 // 10                                                     // 0x801b4c74
+    virtual void loadAnimation() {}                                                                 // 10
     virtual ShadowModel::ShadowKind getShadowKind() const { return ShadowModel::cShadowKind_Geo; }  // 14
-    virtual void createModel(JKRSolidHeap *heap, u32 p2)  // 18
+    virtual void createModel(JKRSolidHeap *heap, u32 p2)                                            // 18
     {  
         if(!tstObjFlagSimpleDraw())
             mModel.createModel(heap, p2, 0x60000);
@@ -198,6 +205,15 @@ public:
     virtual void doKartColCallBack(int);                                                            // 74
     virtual void initClassCreateNum() { }                                                           // 78
     virtual void setModelMatrixAndScale();                                                          // 7C
+
+    const JGeometry::TVec3f &getBoundsGlPos(u32 num)
+    {
+#line 217
+        JUT_MINMAX_ASSERT(0, num, mBoundsNum);
+
+        return mBoundsGlPos[num];
+    }
+
 protected:
     JGeometry::TVec3f mPos;               // 04
     JGeometry::TPos3f mRotMtx;            // 10
@@ -205,11 +221,12 @@ protected:
     JGeometry::TVec3f mVel;               // 4C
     int _58;                              // 58, some sort of ID
     ExModel mModel;                       // 5C
-    const CrsData::SObject *mObjData;           // E8
+    const CrsData::SObject *mObjData;     // E8
     u32 mGeoObjFlag;                      // EC
-    u32 mKartHitFlags;                    // F0, maybe u64?
-    u32 mKartFlags;                       // F4
-    u8 _f8[0xfc - 0xf8];                  //
+    u32 mCheckKartHitFlags;               // F0
+    u32 mIsHitKartFlags;                  // F4
+    u16 mIsHitKartSoundFlg;               // F8
+    u16 mIsHitKartSoundPlayedFlg;         // FA
     JSULink<GeographyObj> mObjLink;       // FC
     int mKind;                            // 10C
     u8 _110[0x114 - 0x110];               //
@@ -219,10 +236,12 @@ protected:
     AnmController *mAnmCtrl;              // 120
     ItemColReaction mReaction;            // 124
     ObjColBase **mBounds;                 // 134
-    u8 _13c[0x140 - 0x138];               //
+    JGeometry::TVec3f *mColObjPos;        // 138
+    JGeometry::TVec3f *mBoundsGlPos;      // 13c
     u8 mBoundsNum;                        // 140
+    u8 mDefaultBound;                     // 141
     GameAudio::ObjectSoundMgr *mSoundMgr; // 144
-    u8 _148[0x14c - 0x148];               //
+    u8 mUserFlg1;                         // 148
 }; // Size: 0x14c
 
 // TODO: Move to Shiraiwa?
@@ -230,7 +249,7 @@ protected:
 class TMapObjHioNode : public GeographyObj
 {
 public:
-    TMapObjHioNode(u32 id) :  GeographyObj(id) {}
+    TMapObjHioNode(u32 id) : GeographyObj(id) {}
     TMapObjHioNode(const CrsData::SObject &rObj) : GeographyObj(rObj) {}
     virtual ~TMapObjHioNode();
 };

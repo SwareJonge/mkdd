@@ -65,6 +65,8 @@ public:
     void setSimpleTevReg(u32 id) { mSimpleTevReg |= (1 << id); }
     void simpleDraw(u32 viewNo) { simpleDraw(viewNo, nullptr, 1); }
 
+    void setScale(const JGeometry::TVec3f &scale) { mScale = scale; }
+
     bool isAvailable() const { return mModelData[0] != nullptr; }
     bool tstSimpleTevReg(u32 id) const { return (mSimpleTevReg & (1 << id)) != 0; }
     bool tstConcatViewMode() const { return mModelData[0]->checkFlag(0x10); }

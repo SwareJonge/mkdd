@@ -1178,7 +1178,7 @@ void Course::convWorldPosToGridCoord(TVec3f *gridCoord, const TVec3f &worldPos)
         stPlaneParam plane;
         stMakePlaneParam(plane, mYNorm, mPos);
         TVec3f gridPos(worldPos);
-        gridPos.y = -(plane.direction + (plane.x * worldPos.x + plane.z * worldPos.z)) / plane.y;
+        gridPos.y = -(plane.d + (plane.x * worldPos.x + plane.z * worldPos.z)) / plane.y;
 
         TVec3f diff;
         diff.sub(gridPos, mPos);
@@ -1228,14 +1228,14 @@ void Course::calcPlaneParam(stPlaneParam *plane, f32 x, f32 y, f32 z, f32 d, con
         plane->x = groundNormal.x;
         plane->y = groundNormal.y;
         plane->z = groundNormal.z;
-        plane->direction = -(plane->x * p.x + plane->y * p.y + plane->z * p.z);
+        plane->d = -(plane->x * p.x + plane->y * p.y + plane->z * p.z);
         return;
     }
 
     plane->x = x;
     plane->y = y;
     plane->z = z;
-    plane->direction = d;
+    plane->d = d;
 }
 
 void Course::getShakeVelocity(TVec3f *vel, const TVec3f &pos)
