@@ -34,9 +34,12 @@ public:
     void setScale(f32 scale) { mScale = scale; }
 
     f32 getRadius() const { return mRadius; }
+    CKind getKind() const { return mKind; }
     f32 getScale() const { return mScale; }
+    f32 getBoundDepth() const { return mBoundDepth; }
+    const JGeometry::TVec3f &getPos() const { return mPos; }
 
-// private:
+protected:
     // VTBL _00
     f32 mRadius;            // _04
     CKind mKind;            // _08
@@ -51,7 +54,18 @@ class ObjColSphere : public ObjColBase
 public:
     ObjColSphere(J3DModelData *modelData, JGeometry::TVec3f scale) : ObjColBase(modelData, scale, SPHERE) {}
     ObjColSphere(f32 radius, f32 scale) : ObjColBase(radius, scale, SPHERE) {}
-    
+
+    bool checkRadialCollisionXYZ(f32 otherRadius, JGeometry::TVec3f &deltaPos, f32 &minSeparationSq,
+            f32 &distanceSq) const
+    {
+        f32 minSeparation = mRadius * mScale + otherRadius;
+
+        minSeparationSq = minSeparation * minSeparation;
+        distanceSq = deltaPos.squared();
+
+        return minSeparationSq - distanceSq > 0.0f;
+    }
+
     virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
     virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 };
@@ -61,15 +75,35 @@ class ObjColCylinder : public ObjColBase
 public:
     ObjColCylinder(J3DModelData *modelData, JGeometry::TVec3f scale) : ObjColBase(modelData, scale, CYLINDER), mCylinderRadius(0.0f), mCylinderHeight(0.0f) {}
     ObjColCylinder(f32 radius, f32 scale) : ObjColBase(radius, scale, CYLINDER), mCylinderRadius(0.0f), mCylinderHeight(0.0f) {}
-    
+
+    bool checkRadialCollisionXZ(f32 otherRadius, JGeometry::TVec3f const &posThis,
+            JGeometry::TVec3f const &posOther, f32 &minSeparationSq, f32 &distanceSq, f32 &deltaX, f32 &deltaZ) const
+    {
+        // I hate this, but the register allocation is wrong if I write it the natural way
+        f32 minSeparation = mCylinderRadius;
+        minSeparation = (minSeparation * mScale) + otherRadius;
+
+        deltaX = posOther.x - posThis.x;
+        deltaZ = posOther.z - posThis.z;
+
+        minSeparationSq = minSeparation * minSeparation;
+        distanceSq = (deltaX * deltaX) + (deltaZ * deltaZ);
+
+        return distanceSq < minSeparationSq;
+    }
+
     void setCylinderRadius(f32 radius) { mCylinderRadius = radius; }
     void setCylinderHeight(f32 height) { mCylinderHeight = height; }
+
+    f32 getCylinderRadius() const { return mCylinderRadius; }
+    f32 getCylinderHeight() const { return mCylinderHeight; }
 
     f32 getScaledHeight() const { return mScale * mCylinderHeight; }
 
     virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
     virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
-    
+
+private:
     f32 mCylinderRadius; // _24
     f32 mCylinderHeight; // _28
 };
@@ -85,6 +119,7 @@ public:
     virtual bool IsHitSphere(JGeometry::TVec3f, JGeometry::TVec3f, f32);
     virtual bool IsHitCylinder(JGeometry::TVec3f, JGeometry::TVec3f, const ObjColCylinder &);
 
+private:
     f32 mDimensions[3];             // _24 - edge lengths
     stPlaneParam mSidePlanes[4];    // _30
     stPlaneParam mTopPlane;         // _70
@@ -132,6 +167,7 @@ public:
         return mAttrIndex;
     }
     
+protected:
     stPlaneParam mSidePlanes[4];   // _24
     stPlaneParam mTopPlane;        // _64
     stPlaneParam mBottomPlane;     // _74

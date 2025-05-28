@@ -79,22 +79,12 @@ u8 ObjColBase::IsHitBoundPos(JGeometry::TVec3f objPos, JGeometry::TVec3f boundPo
     return isHit;
 }
 
-inline bool checkRadialCollisionXYZ(f32 radius1, f32 scale1, f32 scaledRadius2, JGeometry::TVec3f &deltaPos,
-        f32 &minSeparationSq, f32 &distanceSq)
-{
-    // Calculate effective radius (reuse register)
-    radius1 = radius1 * scale1 + scaledRadius2;
-    minSeparationSq = radius1 * radius1;
-    distanceSq = deltaPos.squared();
-    return minSeparationSq - distanceSq > 0.0f;
-}
-
-bool ObjColSphere::IsHitSphere(JGeometry::TVec3f posOther, JGeometry::TVec3f posThis, f32 otherSphereRadius)
+bool ObjColSphere::IsHitSphere(JGeometry::TVec3f posOther, JGeometry::TVec3f posThis, f32 otherRadius)
 {
     bool isHit = false;
     mPos.sub(posThis, posOther);
     f32 minSeparationSq, distanceSq;
-    if (checkRadialCollisionXYZ(mRadius, mScale, otherSphereRadius, mPos, minSeparationSq, distanceSq)) {
+    if (checkRadialCollisionXYZ(otherRadius, mPos, minSeparationSq, distanceSq)) {
         f32 minSeparation = JMAFastSqrt(minSeparationSq);
         f32 distance = JMAFastSqrt(distanceSq);
         mBoundDepth = minSeparation - distance;
@@ -104,28 +94,13 @@ bool ObjColSphere::IsHitSphere(JGeometry::TVec3f posOther, JGeometry::TVec3f pos
     return isHit;
 }
 
-inline bool checkRadialCollisionXZ(f32 radius1, f32 scale1, f32 scaledRadius2, JGeometry::TVec3f const &posThis,
-        JGeometry::TVec3f const &posOther, f32 &outMinSeparationSq, f32 &outDistanceSq, f32 &outDeltaX, f32 &outDeltaZ)
-{
-    // Calculate effective radius (reuse register)
-    radius1 = (radius1 * scale1) + scaledRadius2;
-
-    outDeltaX = posOther.x - posThis.x;
-    outDeltaZ = posOther.z - posThis.z;
-
-    outMinSeparationSq = radius1 * radius1;
-    outDistanceSq = (outDeltaX * outDeltaX) + (outDeltaZ * outDeltaZ);
-
-    return outDistanceSq < outMinSeparationSq;
-}
-
 bool ObjColSphere::IsHitCylinder(JGeometry::TVec3f posThis, JGeometry::TVec3f posOther,
         const ObjColCylinder &cylinderCol)
 {
     bool isHit = false;
     f32 sphereScaledRadius = mRadius * getScale();
     f32 deltaX, deltaZ, minSeparationSq, distanceSq;
-    if (checkRadialCollisionXZ(cylinderCol.mCylinderRadius, cylinderCol.mScale, sphereScaledRadius, posThis, posOther,
+    if (cylinderCol.checkRadialCollisionXZ(sphereScaledRadius, posThis, posOther,
                 minSeparationSq, distanceSq, deltaX, deltaZ)) {
         if ((posThis.y - sphereScaledRadius < posOther.y + cylinderCol.getScaledHeight()) &&
                 (posThis.y + sphereScaledRadius > posOther.y)) {
@@ -140,14 +115,14 @@ bool ObjColSphere::IsHitCylinder(JGeometry::TVec3f posThis, JGeometry::TVec3f po
     return isHit;
 }
 
-bool ObjColCylinder::IsHitSphere(JGeometry::TVec3f posThis, JGeometry::TVec3f posOther, f32 sphereRadius)
+bool ObjColCylinder::IsHitSphere(JGeometry::TVec3f posThis, JGeometry::TVec3f posOther, f32 otherRadius)
 {
     bool isHit = false;
     f32 deltaX, deltaZ, minSeparationSq, distanceSq;
-    if (checkRadialCollisionXZ(mCylinderRadius, mScale, sphereRadius, posThis, posOther, minSeparationSq, distanceSq,
+    if (checkRadialCollisionXZ(otherRadius, posThis, posOther, minSeparationSq, distanceSq,
                 deltaX, deltaZ) &&
-            posOther.y + sphereRadius > posThis.y) {
-        if (posOther.y - sphereRadius < (mCylinderHeight * mScale) + posThis.y) {
+            posOther.y + otherRadius > posThis.y) {
+        if (posOther.y - otherRadius < (mCylinderHeight * mScale) + posThis.y) {
             f32 minSeparation = JMAFastSqrt(minSeparationSq);
             f32 distance = JMAFastSqrt(distanceSq);
             mBoundDepth = minSeparation - distance;
@@ -164,7 +139,7 @@ bool ObjColCylinder::IsHitCylinder(JGeometry::TVec3f posThis, JGeometry::TVec3f 
 {
     bool isHit = false;
     f32 deltaX, deltaZ, minSeparationSq, distanceSq;
-    if (checkRadialCollisionXZ(mCylinderRadius, mScale, colOther.mCylinderRadius * colOther.mScale, posThis, posOther,
+    if (checkRadialCollisionXZ(colOther.mCylinderRadius * colOther.mScale, posThis, posOther,
                 minSeparationSq, distanceSq, deltaX, deltaZ)) {
         if ((posThis.y < posOther.y + colOther.getScaledHeight()) &&
                 (posThis.y + (mCylinderHeight * mScale) > posOther.y)) {
@@ -310,14 +285,14 @@ bool ObjColCube::IsHitSphere(JGeometry::TVec3f posThis, JGeometry::TVec3f posOth
 
 bool ObjColCube::IsHitCylinder(JGeometry::TVec3f posThis, JGeometry::TVec3f posOther, const ObjColCylinder &cylinder)
 {
-    f32 cylScale = cylinder.mScale;
-    f32 cylHeight = cylScale * cylinder.mCylinderHeight;
+    f32 cylScale = cylinder.getScale();
+    f32 cylHeight = cylScale * cylinder.getCylinderHeight();
     f32 thisY = posThis.y;
     f32 cylY = posOther.y;
 
     if ((thisY > cylY + cylHeight) || (thisY + mDimensions[2] < cylY)) { return false; }
 
-    return chkIsHitQuad(posOther, cylScale * cylinder.mCylinderRadius);
+    return chkIsHitQuad(posOther, cylScale * cylinder.getCylinderRadius());
 }
 
 bool ExObjColBase::IsHitBound(JGeometry::TVec3f objPos, JGeometry::TVec3f boundPos)
@@ -334,11 +309,11 @@ bool ExObjColBase::IsHitBound(JGeometry::TVec3f objPos, JGeometry::TVec3f boundP
     return isHit;
 }
 
-u8 ExObjColBase::IsHitBoundRadius(JGeometry::TVec3f pos, f32 radiusSq)
+u8 ExObjColBase::IsHitBoundRadius(JGeometry::TVec3f pos, f32 radius)
 {
     u8 isHit = 0;
     for (u8 i = 0; i < 4; i++) {
-        if (stCollideSurfaceAndSphere(pos, radiusSq, mSidePlanes[i], mColDepth)) {
+        if (stCollideSurfaceAndSphere(pos, radius, mSidePlanes[i], mColDepth)) {
             isHit = 1;
             break;
         }
@@ -469,7 +444,7 @@ f32 ObjColJump1::SearchWall(JGeometry::TVec3f pos1, JGeometry::TVec3f pos2)
 
 void ObjColJump1::Search(JGeometry::TVec3f pos1, JGeometry::TVec3f pos2)
 {
-    f32 t = ObjColJump1::SearchWall(pos1, pos2);
+    f32 t = SearchWall(pos1, pos2);
     if (mHitNum != 2) {
         mNormal.set(mTopPlane.x, mTopPlane.y, mTopPlane.z);
         stVecNormalize(mNormal);

@@ -404,27 +404,27 @@ u8 stSearchInSurface(const TVec3f &vec, const stPlaneParam &planeparam)
     return ret;
 }
 
-u8 stCollideSurfaceAndSphere(const TVec3f &vec, float radiusSq, const stPlaneParam &planeparam, float &depthSq)
+u8 stCollideSurfaceAndSphere(const TVec3f &vec, float radius, const stPlaneParam &planeparam, float &depth)
 {
     u8 collides = 0;
 
-    f32 distanceSq = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.d);
-    if (distanceSq > 0.0f)
+    f32 distance = ((planeparam.x * vec.x) + (planeparam.y * vec.y) + (planeparam.z * vec.z) + planeparam.d);
+    if (distance > 0.0f)
     {
-        if (distanceSq < radiusSq)
+        if (distance < radius)
         {
             collides = 1;
-            depthSq = radiusSq - distanceSq;
+            depth = radius - distance;
         }
         else
         {
-            depthSq = -1.0f;
+            depth = -1.0f;
         }
     }
     else
     {
         collides = 1;
-        depthSq = radiusSq - distanceSq;
+        depth = radius - distance;
     }
 
     return collides;

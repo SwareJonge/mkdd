@@ -17,7 +17,7 @@ struct stPlaneParam
     f32 x, y, z; // Components of the unit normal vector N.
                  // Vec and TVec3f, either as a member or as a base, change the ordering of operator=
     f32 d;       // Constant D in the plane equation N.P + D = 0.
-                 // abs(d) is squared distance from origin along normal axis
+                 // d is signed distance from origin along normal axis
 };
 
 inline JGeometry::TVec3f stPlaneNormal(const stPlaneParam& plane) {
