@@ -24,7 +24,7 @@ void ItemHeart::reset()
     _12c |= 0x200;
 
     if (mBounds)
-        mBounds->mRadius = sBoundsRadius;
+        mBounds->setRadius(sBoundsRadius);
 
     mNoHeartsRemaining = false;
     mRot = 0.0f;

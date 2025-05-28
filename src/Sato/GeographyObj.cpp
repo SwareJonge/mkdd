@@ -226,8 +226,8 @@ bool GeographyObj::IsHitKart(const JGeometry::TVec3f &spherePos, f32 sphereRadiu
     for (u8 i = 0; i < mBoundsNum; i++, pBounds++) {
         if ((*pBounds)->IsHitSphere(getBoundsGlPos(i), spherePos, sphereRadius)) {
             if (posAdjust && (_58 != 2)) {
-                JGeometry::TVec3f collPos = (*pBounds)->mPos;
-                f32 distance = (*pBounds)->mBoundDepth;
+                JGeometry::TVec3f collPos = (*pBounds)->getPos();
+                f32 distance = (*pBounds)->getBoundDepth();
                 collPos *= distance;
                 *posAdjust += collPos;
             }
@@ -240,10 +240,10 @@ bool GeographyObj::IsHitKart(const JGeometry::TVec3f &spherePos, f32 sphereRadiu
 bool GeographyObj::IsHitObject(const JGeometry::TVec3f &hitCheckPos, ObjColBase *collider)
 {
     bool isHit = false;
-    ObjColBase::CKind colliderKind = collider->mKind;
-    switch (collider->mKind) {
+    ObjColBase::CKind colliderKind = collider->getKind();
+    switch (collider->getKind()) {
     case ObjColBase::SPHERE:
-        isHit = (*mBounds)->IsHitSphere(mPos, hitCheckPos, collider->mRadius);
+        isHit = (*mBounds)->IsHitSphere(mPos, hitCheckPos, collider->getRadius());
         break;
     case ObjColBase::CYLINDER:
         isHit = (*mBounds)->IsHitCylinder(mPos, hitCheckPos, *(ObjColCylinder *)collider);
@@ -492,12 +492,12 @@ f32 GeographyObj::getColRadius()
     if (mBounds != nullptr) {
         ObjColBase *bound = mBounds[mDefaultBound];
 
-        switch (bound->mKind) {
+        switch (bound->getKind()) {
         case ObjColBase::CYLINDER:
-            fVar1 = ((ObjColCylinder *)bound)->mCylinderRadius;
+            fVar1 = ((ObjColCylinder *)bound)->getCylinderRadius();
             break;
         case ObjColBase::SPHERE:
-            fVar1 = bound->mRadius;
+            fVar1 = bound->getRadius();
             break;
         default:
             break;
@@ -510,7 +510,7 @@ f32 GeographyObj::getColScaleRadius()
 {
     f32 radius = getColRadius();
 
-    if (mBounds && radius > 0.0f) { radius *= mBounds[mDefaultBound]->mScale; }
+    if (mBounds && radius > 0.0f) { radius *= mBounds[mDefaultBound]->getScale(); }
     return radius;
 }
 
@@ -564,7 +564,7 @@ f32 GeographyObj::getAllBoundDepth()
     f32 totalDepth = 0.0f;
     ObjColBase **bound = mBounds;
     for (u8 i = 0; i < mBoundsNum; i++, bound++) {
-        totalDepth += (*bound)->mBoundDepth;
+        totalDepth += (*bound)->getBoundDepth();
     }
     return totalDepth;
 }
@@ -588,7 +588,7 @@ void ItemColReaction::init()
 
 void ItemColReaction::setFlg(u32 flgId, u8 flgVal)
 {
-    u32 flgByte = (flgId >> 1) & 0xff;
+    u8 flgByte = flgId >> 1;
     u8 flgNibble = flgId & 1;
     u32 flgMask = 0xf0 >> (flgNibble * 4);
     u32 flgBits = (flgVal & 0x0f) << ((1 - flgNibble) * 4);
