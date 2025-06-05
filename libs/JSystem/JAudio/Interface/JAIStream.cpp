@@ -4,6 +4,7 @@
 #include "JSystem/JAudio/Interface/JAIStream.h"
 #include "JSystem/JAudio/Interface/JAIStreamDataMgr.h"
 #include "JSystem/JAudio/Interface/JAISound.h"
+#include "JSystem/JAudio/System/JASAramStream.h"
 #include "JSystem/JAudio/System/JASHeapCtrl.h"
 #include "JSystem/JAudio/System/JASAudioThread.h"
 
@@ -60,7 +61,7 @@ bool JAIStream::prepare_prepareStream_()
     u32 aramSize;
     switch (_290)
     {
-    case 0:
+    case 0: {
         JAIStreamAramMgr *streamAramMgr = mStreamMgr->getStreamAramMgr();
 #line 100
         JUT_ASSERT(streamAramMgr);
@@ -76,7 +77,8 @@ bool JAIStream::prepare_prepareStream_()
             increasePrepareCount_JAISound_();
         }
         break;
-    case 1:
+    }
+    case 1: {
         if (audible_ != NULL)
         {
             JASSoundParams *soundParams = audible_->getOuterParams(0);
@@ -92,7 +94,8 @@ bool JAIStream::prepare_prepareStream_()
             _290 = 2;
         }
         break;
-    case 2:
+    }
+    case 2: {
         if (_2c5 != 0)
         {
             _2c5 = 0;
@@ -103,6 +106,7 @@ bool JAIStream::prepare_prepareStream_()
             increasePrepareCount_JAISound_();
         }
         break;
+    }
     case 3:
         return true;
     case 4:
@@ -110,7 +114,6 @@ bool JAIStream::prepare_prepareStream_()
         JUT_WARNING_F2("%s", "PC must not pass here.");
         break;
     }
-
     return false;
 }
 
@@ -123,6 +126,7 @@ void JAIStream::prepare_()
     switch (status_.state.unk)
     {
     case 6:
+#line 171
         JUT_ASSERT(false)
         break;
     case 0:
@@ -179,7 +183,7 @@ void JAIStream::JAIStreamMgr_mixOut_(const JASSoundParams &soundParams, JAISound
             }
         }
     }
-    for (int i = 0; i < JASAramStream::CHANNEL_MAX; i++)
+    for (u32 i = 0; i < CHANNEL_MAX; i++)
     {
         mInner.mAramStream.setPitch(mixParams->mPitch);
         if (mChilds[i] != NULL)

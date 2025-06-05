@@ -104,7 +104,7 @@ void *JASTaskThread::run() {
 
 void JASTaskThread::pause(bool doPause)
 {
-    JASCriticalSection cs;
+    JAS_CS_START
     if (doPause)
     {
         mDoSleep = true;
@@ -115,4 +115,5 @@ void JASTaskThread::pause(bool doPause)
         }
         mDoSleep = false;
     }
+    JAS_CS_END
 }

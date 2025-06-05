@@ -1,6 +1,7 @@
 #ifndef JAUDIO_JASDSP_H
 #define JAUDIO_JASDSP_H
 
+#include "dolphin/dsp.h"
 #include "types.h"
 
 #include "JSystem/JUtility/JUTAssert.h"
@@ -20,7 +21,7 @@ namespace JASDsp
         u16 _0A;             // _0A
         u16 _0C;             // _0C
         u16 _0E;             // _0E
-        u16 mFilterTable[8]; // _10
+        s16 mFilterTable[8]; // _10
 
         // u16 _12;  // _12
         // u16 _14;  // _14
@@ -34,9 +35,9 @@ namespace JASDsp
     struct FxlineConfig_
     {
         u8 _00;              // _00
-        s16 _02;             // _02
+        u16 _02;             // _02
         s16 _04;             // _04
-        s16 _06;             // _06
+        u16 _06;             // _06
         s16 _08;             // _08
         u32 mBufCount;       // _0C
         s16 mFilterTable[8]; // _10
@@ -44,15 +45,11 @@ namespace JASDsp
 
     struct TChannel
     {
-        /**
-         * @fabricated
-         * probably mixer
-         */
-        struct TChannel_0x10
+        struct Mixer
         {
-            u16 _00;
+            u16 busConnect;
             s16 _02;
-            u16 _04;
+            s16 _04;
             u16 _06;
         };
 
@@ -97,20 +94,22 @@ namespace JASDsp
         u16 _0A;                 // _0A
         u16 mPauseFlag;          // _0C
         u16 mMixerInitDelayMax;  // _0E
-        TChannel_0x10 _10[4];    // _10 (unknown length)
+        Mixer _10[4];            // _10
         u8 _30[0x20];            // _30
         u16 _50;                 // _50
         u16 _52;                 // _52
         u16 _54;                 // _54
         u16 _56;                 // _56
         u16 _58;                 // _58
-        u8 _5C[4];               // _5C
+        u8 _5A[6];               // _5A
         u16 _60;                 // _60
         u16 _62;                 // _62
         u16 _64;                 // _64
         u16 _66;                 // _66
         u32 _68;                 // _68
-        u8 _6C[0xC];             // _6C
+        u8 _6C[0x70 - 0x6c];     // _6C
+        int _70;                 // _70
+        int _74;                 // _74
         u16 _78[4];              // _78
         u16 _80[0x14];           // _80
         u16 _A8[4];              // _A8
@@ -129,11 +128,11 @@ namespace JASDsp
         u32 _11C;                // _11C
         s16 mFir8FilterParam[8]; // _120
         u8 _130[0x18];           // _130
-        s16 mIirFilterParam[4];  // _148
-        s16 mDistFilter;         // _150
+        s16 mIirFilterParam[8];  // _148
+        u8 _158[0x180 - 0x158];
     };
 
-    void boot(void (*)(void *));
+    void boot(DSPCallback);
     void releaseHalt(u32);
     void finishWork(u16);
     void syncFrame(u32, u32, u32);
@@ -145,26 +144,30 @@ namespace JASDsp
     bool setFXLine(u8, s16 *, JASDsp::FxlineConfig_ *);
 
     // unused/inlined:
-    void getDSPHandleNc(int);
+    TChannel *getDSPHandleNc(int);
     void setFilterTable(s16 *, s16 *, u32);
     void flushBuffer();
     void flushChannelAll();
     void cacheChannelAll();
     Fxline &getFXHandle(u8);
-    void getFXHandleNc(u8);
+    Fxline &getFXHandleNc(u8);
     void changeFXLineParam(u8, u8, u32);
-
-    extern u8 *CH_BUF;
-    extern Fxline *FX_BUF;
-    extern f32 sDSPVolume;
-    extern const s16 SEND_TABLE[12];
-    extern const u16 DSPADPCM_FILTER[32];
-    extern const u16 DSPRES_FILTER[640];
-
 } // namespace JASDsp
 
 struct JASDSPChannel
 {
+    enum CallbackType {
+        CB_PLAY,
+        CB_START,
+        CB_STOP,
+        CB_TIMER,
+    };
+    enum Status {
+        STATUS_ACTIVE,
+        STATUS_INACTIVE,
+        STATUS_RELEASE
+    };
+
     typedef s32 (*Callback)(u32, JASDsp::TChannel *, void *);
     JASDSPChannel();
     void free();
@@ -182,26 +185,28 @@ struct JASDSPChannel
 
     // unused/inlined:
     static JASDSPChannel *getLowestActiveChannel();
-    void getNumUse();
-    void getNumFree();
-    void getNumBreak();
+    int getNumUse();
+    int getNumFree();
+    int getNumBreak();
+    u16 getBlockCounter() const;
+    u16 getRemainSamples() const;
 
-    u8 getStatus() const { return _00; }
+    u8 getStatus() const { return mStatus; }
 
-    u32 _00;
-    s16 _04;
-    u32 _08;
+    int mStatus;
+    s16 mPriority;
+    u32 mFlags;
     u32 _0C;
-    Callback _10;
-    void *_14;
-    JASDsp::TChannel *_18;
+    Callback mCb;
+    void *mCbData;
+    JASDsp::TChannel *mHandle;
 
     static JASDSPChannel *sDspChannels;
 };
 
-u16 DSP_CreateMap2(u32);
+extern u16 DSP_CreateMap2(u32);
 
 // unused/inlined:
-void DSP_CreateMap();
+extern void DSP_CreateMap();
 
 #endif

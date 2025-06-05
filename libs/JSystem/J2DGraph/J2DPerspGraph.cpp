@@ -40,7 +40,7 @@ void J2DPerspGraph::setPort()
 
 void J2DPerspGraph::setLookat()
 {
-    f32 tanTheta = tan(mFovY * PI / 360.0f);
+    f32 tanTheta = tan(mFovY * F_PI / 360.0f);
     mZPos        = (mBounds.getHeight() / 2) / tanTheta;
     makeLookat();
 }

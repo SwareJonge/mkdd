@@ -21,7 +21,8 @@ bool JASAudioReseter::start(u32 param_0, bool stop) {
         return false;
     }
     mThreadStopFlag = stop;
-    JASCriticalSection critical;
+
+    JAS_CS_START
     if (!JASDriver::registerDspSyncCallback(callback, this)) {
 #line 40
         JUT_WARNING_F2("%s", "Failed JASAudioReseter start\n");
@@ -32,6 +33,7 @@ bool JASAudioReseter::start(u32 param_0, bool stop) {
         mDoneFlag = false;
         return true;
     }
+    JAS_CS_END
 }
 
 void JASAudioReseter::resume() {

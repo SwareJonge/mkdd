@@ -1,6 +1,7 @@
 #include "JSystem/JAudio/Interface/JAISe.h"
 #include "JSystem/JAudio/Interface/JAISeMgr.h"
 #include "JSystem/JAudio/Interface/JAIAudience.h"
+#include "JSystem/JAudio/System/JASTrack.h"
 
 // sym not correct here
 
@@ -52,7 +53,7 @@ void JAISe::startTrack_(const JASSoundParams &params)
 {
 #line 72
     JUT_ASSERT(inner_.track.getStatus() != JASTrack::STATUS_RUN)
-    if (inner_.track.getStatus() == 2)
+    if (inner_.track.getStatus() == JASTrack::STATUS_STOPPED)
     {
         inner_.track.init();
     }
@@ -88,7 +89,7 @@ void JAISe::JAISeCategoryMgr_mixOut_(bool p1, const JASSoundParams &params, JAIS
                 switch (inner_.track.getStatus())
                 {
       
-                case 2:
+                case JASTrack::STATUS_STOPPED:
                     if (status_._1.flags.flag1)
                     {
                         startTrack_(params);
@@ -98,9 +99,10 @@ void JAISe::JAISeCategoryMgr_mixOut_(bool p1, const JASSoundParams &params, JAIS
                         stop_JAISound_();
                     }
                     break;
-                case 1:
+                case JASTrack::STATUS_RUN:
                     inner_.track.pause(status_.isPaused() || activity._0.flags.flag2);
                     inner_.track.mute(status_.isMute() || activity._0.flags.flag1);
+                    break;
                 }
             }
             else

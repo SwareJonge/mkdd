@@ -8,10 +8,9 @@ template <size_t N>
 class JASBankTable : public JASBankList
 {
 public:
-    JASBank *getBank(u32 index) { return mArray.get(index); }
-    virtual JASBank *getBank(u32 index) const { return mArray.get(index); }
     void registBank(u32 index, JASBank *bank) { mArray.set(index, bank); }
-
+    virtual JASBank *getBank(u32 index) const { return mArray.get(index); }
+    JASBank *getBank(u32 index) { return mArray.get(index); }
 private:
     JASPtrArray<JASBank, N> mArray;
 };

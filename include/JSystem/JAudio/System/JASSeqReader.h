@@ -6,6 +6,8 @@
 class JASSeqReader
 {
 public:
+    JASSeqReader() { init(); }
+
     void init();
     void init(void *base);
     bool call(u32 offset);

@@ -157,24 +157,24 @@ void JAUSection::disposeUserDisposers_()
 void JAUSection::releaseAllBank_() 
 {
     for (u32 i = 0; i < 255; i++) {
-        if (data_.registeredBankTables.test(i))
-        {
-            JASCriticalSection cs;
+        if (data_.registeredBankTables.test(i)) {
+            JAS_CS_START
             JASBank *bank = JASGlobalInstance<JASDefaultBankTable>::getInstance()->getBank(i);
 #line 195
             JUT_ASSERT(bank);
             JASChannel::sendBankDisposeMsg(bank);
             JASGlobalInstance<JASDefaultBankTable>::getInstance()->registBank(i, NULL);
+            JAS_CS_END
         }
     }
 
-    for (u32 i = 0; i < 255; i++)
-    {
-        if (data_.registeredWaveBankTables.test(i))
-        {
+    for (u32 i = 0; i < 255; i++) {
+        if (data_.registeredWaveBankTables.test(i)) {
+#line 205
             JASWaveBank *waveBank = sectionHeap_->getWaveBankTable().getWaveBank(i);
             JUT_ASSERT(waveBank);
             JUT_ASSERT(! waveBank->isLoading());
+
             for (u32 j = 0; j < waveBank->getArcCount(); j++) {
                 JASWaveArc *archive = waveBank->getWaveArc(j);
                 archive->erase();
@@ -346,37 +346,38 @@ u8* JAUSection::newStaticSeqDataBlock_(JAISoundID soundID, u32 size)
     JUT_ASSERT(isOpen());
     JUT_ASSERT(isBuilding());
     JUT_ASSERT(size);
-    {
-        TPushCurrentHeap push(getHeap_());
-        JAUSeqDataBlock *seqDataBlock = new JAUSeqDataBlock();
-        if (!seqDataBlock)
-        {            
-            return NULL;
-        }
-        JSULink<JAUSeqDataBlock> *link = new JSULink<JAUSeqDataBlock>(seqDataBlock);
-        if (!link)
-        {
-            JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
-            return NULL;
-        }
-        u8 *addr = new (0x20) u8[size];
-        if (!addr)
-        {
-            JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
-            return NULL;
-        }
-        seqDataBlock->region.addr = addr;
-        seqDataBlock->region.size = size;
-        seqDataBlock->soundID_ = soundID;
-
-        JASCriticalSection cs;
-        if (data_.seqDataBlocks_.appendDynamicSeqDataBlock(seqDataBlock))
-        {
-            data_._28.append(link);
-            return addr;
-        }
-        JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
+    
+    TPushCurrentHeap push(getHeap_());
+    JAUSeqDataBlock *seqDataBlock = new JAUSeqDataBlock();
+    if (!seqDataBlock) {
+        return NULL;
     }
+
+    JSULink<JAUSeqDataBlock> *link = new JSULink<JAUSeqDataBlock>(seqDataBlock);
+    if (!link) {
+#line 430
+        JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
+        return NULL;
+    }
+
+    u8 *addr = new (0x20) u8[size];
+    if (!addr) {
+        JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
+        return NULL;
+    }
+    seqDataBlock->region.addr = addr;
+    seqDataBlock->region.size = size;
+    seqDataBlock->soundID_ = soundID;
+
+    JAS_CS_START
+    if (data_.seqDataBlocks_.appendDynamicSeqDataBlock(seqDataBlock)) {
+        data_._28.append(link);
+        return addr;
+    }
+    
+    JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
+    JAS_CS_END
+    
     return NULL;
 }
 
@@ -709,12 +710,13 @@ bool JAUSectionHeap::newDynamicSeqBlock(u32 size) {
         seqDataBlock->region.size = size;
         seqDataBlock->soundID_.setAnonymous();
 
-        JASCriticalSection cs;
+        JAS_CS_START
         if (sectionHeap_->sectionHeapData_.dynamicSeqBlocks_.appendDynamicSeqDataBlock(seqDataBlock))
         {
             return true;
         }
         JUT_WARNING_F2("%s", "created UNUSED object in Heap\n");
+        JAS_CS_END
     }
     
     return false;

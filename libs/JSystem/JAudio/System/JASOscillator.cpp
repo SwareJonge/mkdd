@@ -123,7 +123,7 @@ void JASOscillator::update() {
 
     if (_1C == 2) return;
 
-    const Point* table;
+    const Point *table;
     if (_1C == 1) {
         table = mData->mTable;
     } else {
@@ -140,7 +140,7 @@ void JASOscillator::update() {
         _08 = _10;
         _14++;
         _0C = _08;
-        const s16* ps = &table[_14]._0;
+        const s16 *ps = &table[_14]._0;
         switch(ps[0]) {
         case 0xf:
             _1C = 0;

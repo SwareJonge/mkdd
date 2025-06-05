@@ -215,7 +215,7 @@ public:
         return *this;
     }
 
-    T &operator*() { return *getObject(); }
+    T *operator*() const { return getObject(); }
 
     T *operator->() const { return mTree->getObject(); }
 

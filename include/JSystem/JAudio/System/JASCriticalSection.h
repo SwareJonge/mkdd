@@ -3,6 +3,18 @@
 
 #include "dolphin/os.h"
 
+// starts a critical section scope
+#define JAS_CS_START { \
+    JASCriticalSection cs;
+
+// ends a critical section scope
+#define JAS_CS_END }
+
+#define JAS_CS(code) \
+    JAS_CS_START \
+    code \
+    JAS_CS_END
+
 class JASCriticalSection
 {
 public:
@@ -10,7 +22,7 @@ public:
     ~JASCriticalSection() { OSRestoreInterrupts(mInterruptState); };
 
 private:
-    u32 mInterruptState;
+    BOOL mInterruptState;
 };
 
 #endif

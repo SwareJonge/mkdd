@@ -2,26 +2,22 @@
 #define JAUDIO_JASWAVEARCLOADER_H
 
 #include "JSystem/JAudio/System/JASHeap.h"
+#include "JSystem/JAudio/System/JASDisposer.h"
+
 #include "dolphin/os/OSMutex.h"
 
-struct JASDisposer
-{
-    JASDisposer() {}
-    virtual ~JASDisposer() {}
-    virtual void onDispose();
-};
 
 #define DIR_MAX 64
 
-struct JASWaveArcLoader
+namespace JASWaveArcLoader
 {
-    static JASHeap *getRootHeap();
-    static void setCurrentDir(const char *);
-    static char *getCurrentDir();
+    JASHeap *getRootHeap();
+    void setRootHeap(JASHeap *);
+    void setCurrentDir(const char *);
+    char *getCurrentDir();
 
-    static char sCurrentDir[DIR_MAX];
-    static JASHeap *sAramHeap;
-};
+    extern JASHeap *sAramHeap;
+}
 
 struct JASWaveArc : JASDisposer
 {
@@ -35,28 +31,34 @@ struct JASWaveArc : JASDisposer
     void erase();
     void setEntryNum(s32);
     void setFileName(const char *);
+    bool isLoading() const;
 
-    virtual ~JASWaveArc();
-    virtual void onDispose();
-    virtual void onLoadDone();
-    virtual void onEraseDone();
+    virtual ~JASWaveArc();        // 08
+    virtual void onDispose();     // 0C
+    virtual void onLoadDone() {}  // 10
+    virtual void onEraseDone() {} // 14
 
+    // Inline/Unused
+    void execLoad();
+    void activate();
+    void loadBlock(JASHeap *heap);
+    
     struct loadToAramCallbackParams // not official struct name
     {
         JASWaveArc *mWavArc; // 0
-        long mEntryNum;      // 4
+        s32 mEntryNum;       // 4
         u32 mBase;           // 8
         u32 _c;              // C
     };
 
     JASHeap mHeap;    // 04
-    u32 _48;          // 48
-    volatile s32 _4c; // 4C
-    int mEntryNum;    // 50
-    u32 mFileLength;  // 54
-    u16 _58;          // 58
-    u16 _5a;          // 5A
-    OSMutex mMutex;   // 5C
+    u32 _48;          // 4C
+    volatile s32 _4c; // 50
+    s32 mEntryNum;    // 54
+    u32 mFileLength;  // 58
+    u16 _58;          // 5C
+    u16 _5a;          // 5E
+    OSMutex mMutex;   // 60
 };
 
 #endif

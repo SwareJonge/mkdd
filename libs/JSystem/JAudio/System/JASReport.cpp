@@ -12,7 +12,7 @@ static int sLineMax;
 static int sLineCount;
 static int sTop;
 
-void JASReport(const char * str, ...) {
+void JASReport(const char *str, ...) {
     if(sBuffer) {
         va_list vl;
         va_start(vl, str);

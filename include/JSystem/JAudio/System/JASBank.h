@@ -19,8 +19,8 @@ public:
     JASWaveBank *getWaveBank() const { return mWaveBank; }
     void assignWaveBank(JASWaveBank *waveBank) { mWaveBank = waveBank; }
 
-    static JASChannel *noteOn(const JASBank *pBank, int, u8, u8, u16, JASChannel::Callback channelCb, void *);
-    static JASChannel *noteOnOsc(int, u8, u8, u16, JASChannel::Callback channelCb, void *);
+    static JASChannel *noteOn(const JASBank *pBank, u32, u8, u8, u16, JASChannel::Callback channelCb, void *);
+    static JASChannel *noteOnOsc(u32, u8, u8, u16, JASChannel::Callback channelCb, void *);
 
 private:
     JASWaveBank *mWaveBank; // 04

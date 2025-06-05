@@ -18,7 +18,7 @@ void JASInstRand::effect(int, int, JASSoundParams *params) const
         params->mPitch *= val;
         break;
     case 2:
-        params->mPan += val - 0.5;
+        params->mPan += val - 0.5; // yes, they forgot the f
         break;
     case 3:
         params->mFxMix += val;

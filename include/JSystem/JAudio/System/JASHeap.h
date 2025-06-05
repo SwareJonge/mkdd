@@ -1,6 +1,8 @@
 #ifndef JAUDIO_JASHEAP_H
 #define JAUDIO_JASHEAP_H
 
+#include "dolphin/os/OSMutex.h"
+#include "dolphin/os/OSThread.h"
 #include <JSystem/JKernel/JKRHeap.h>
 
 class JASDisposer;
@@ -10,6 +12,7 @@ class JASHeap
 {
 public:
     JASHeap(JASDisposer *disposer = NULL);
+    ~JASHeap() {}
     void initRootHeap(void *, u32);
     bool alloc(JASHeap *, u32);
     bool allocTail(JASHeap *, u32);
@@ -18,17 +21,31 @@ public:
     JASHeap *getTailHeap();
     u32 getTailOffset();
     u32 getCurOffset();
-    ~JASHeap();
 
     void *getBase() { return mBase; }
     bool isAllocated() { return mBase; }
 
+    // Inline/Unused
+    void dump();
+    void dump(int);
+
     JSUTree<JASHeap> mTree; // 00
-    OSMutex mMutex;         // 1C
+    mutable OSMutex mMutex; // 1C
     JASDisposer *mDisposer; // 34
     u8 *mBase;              // 38
     u32 mSize;              // 3C
     JASHeap *_40;           // 40
+};
+
+class JASSolidHeap { // Unused class
+public:
+    JASSolidHeap();
+    JASSolidHeap(u8 *, u32);
+    void init(u8 *, u32);
+    void alloc(u32);
+    void freeLast();
+    void freeAll();
+    u32 getRemain();
 };
 
 namespace JASThreadingModel
@@ -54,16 +71,14 @@ namespace JASThreadingModel
         };
     };
 
-    //template <typename T>
+    template <typename A0>
     struct ObjectLevelLockable
-    {
-        // Should be templated on the chunk memory but couldn't initialize it inside the class itself
-        // template <typename A0>
+    {        
         struct Lock
         {
-            Lock(OSMutex *mutex)
+            Lock(const A0 &obj)
             {
-                mMutex = mutex;
+                mMutex = &obj.mMutex;
                 OSLockMutex(mMutex);
             }
 

@@ -229,8 +229,10 @@ bool JAISeq::JAISound_tryDie_()
     }
     fader_.forceOut();
     status_.state.flags.flag1 = 1;
-    JASCriticalSection cs;
+    
+    JAS_CS_START
     inner_.outputTrack.stopSeq();
+    JAS_CS_END
     return false;
 }
 
@@ -342,4 +344,3 @@ JAITempoMgr *JAISeq::getTempoMgr()
 }
 
 #include "JSystem/JAudio/JASFakeMatch6.h"
-

@@ -1,6 +1,7 @@
 #ifndef JAUDIO_JASTRACK_H
 #define JAUDIO_JASTRACK_H
 
+#include "JSystem/JGadget/linklist.h"
 #include "types.h"
 
 #include "JSystem/JAudio/System/JASBankTable.h"
@@ -39,19 +40,22 @@ public:
 class JASTrack : public JASPoolAllocObject_MultiThreaded<JASTrack>
 {
 public:
-    static const u32 MAX_CHILDREN = 16;
+    static const int MAX_CHILDREN = 16;
+    static const u32 TIMED_PARAMS = 6;
+    static const u32 CHANNEL_MGR_MAX = 4;
+    static const u32 OSC_NUM = 2;
     static const s32 STATUS_FREE = 0;
     static const s32 STATUS_RUN = 1;
     static const s32 STATUS_STOPPED = 2;
 
-    class MoveParam_
+    struct MoveParam_
     {
-        MoveParam_(); // 0x800a0270
-
+        MoveParam_() : mValue(0.0f), mTarget(0.0f), mCount(0) {}
         f32 mValue;  // 00
         f32 mTarget; // 04
         u32 mCount;  // 08
     };
+
     class TChannelMgr : public JASPoolAllocObject_MultiThreaded<TChannelMgr>
     {
     public:
@@ -60,7 +64,7 @@ public:
         TChannelMgr(JASTrack *); // 0x800a3e4c
         void init();             // 0x800a3ec0
         void releaseAll();       // 0x800a3f30
-        void noteOff(u32, u16);  // 0x800a3fac
+        bool noteOff(u32, u16);  // 0x800a3fac
         void setPauseFlag(bool); // 0x800a4088
 
         JASChannel *mChannels[8];     // 00
@@ -69,11 +73,17 @@ public:
         JASSoundParams *mSoundParams; // 48
         JASTrack *mTrack;             // 4c
     };
-    class TList : JGadget::TLinkList<JASTrack, -0x240>
+    class TList : public JGadget::TLinkList<JASTrack, -0x248>
     {
+    public:
+        TList() : mCallbackRegistered(false) {}
+
         void append(JASTrack *); // 0x800a3c3c
         void seqMain();          // 0x800a3cf0
-        virtual ~TList();        // 0x800a42d8
+        static s32 cbSeqMain(void *);
+        ~TList() {}
+    private: 
+        bool mCallbackRegistered;
     };
 
     JASTrack *getChild(u32 index) const
@@ -94,21 +104,21 @@ public:
     void stopSeq();                                                            // 0x800a0c64
     void start();                                                              // 0x800a0ca8
     void close();                                                              // 0x800a0d60
-    void connectChild(u32, JASTrack *);                                        // 0x800a10e4
+    bool connectChild(u32, JASTrack *);                                        // 0x800a10e4
     void closeChild(u32);                                                      // 0x800a1190
     JASTrack *openChild(u32 trk_no);                                                       // 0x800a12ec
     void connectBus(int, int);                                                 // 0x800a1820
     void setLatestKey(u8);                                                     // 0x800a18b0
-    s32 noteOn(u32, u32, u32);                                                // 0x800a18ec
-    s32 gateOn(u32, u32, f32, u32);                                           // 0x800a1ac0
-    s32 noteOff(u32, u16);                                                    // 0x800a1cf8
-    void checkNoteStop(u32) const;                                             // 0x800a1db8
+    int noteOn(u32, u32, u32);                                                // 0x800a18ec
+    int gateOn(u32, u32, f32, u32);                                           // 0x800a1ac0
+    int noteOff(u32, u16);                                                    // 0x800a1cf8
+    bool checkNoteStop(u32) const;                                             // 0x800a1db8
     void overwriteOsc(JASChannel *);                                           // 0x800a1e74
     void updateTimedParam();                                                   // 0x800a1f28
     void updateTrack(f32);                                                     // 0x800a2014
     void updateTempo();                                                        // 0x800a21b4
     void updateSeq(bool, f32);                                                 // 0x800a2250
-    void seqTimeToDspTime(f32);                                                // 0x800a2578
+    u32 seqTimeToDspTime(f32);                                                // 0x800a2578
     void setParam(u32, f32, u32);                                              // 0x800a2614
     void noteOffAll(u16);                                                      // 0x800a26d0
     void mute(bool);                                                           // 0x800a29a0
@@ -121,35 +131,35 @@ public:
     void writePort(u32, u16);                                                  // 0x800a2bc8
     u16 readPort(u32);                                                        // 0x800a2c2c
     void pause(bool);                                                          // 0x800a2c50
-    void getTransposeTotal() const;                                            // 0x800a2d38
-    void isMute() const;                                                       // 0x800a2ea8
+    int getTransposeTotal() const;                                            // 0x800a2d38
+    bool isMute() const;                                                       // 0x800a2ea8
     void setTempo(u16);                                                        // 0x800a3028
     void setTempoRate(f32);                                                    // 0x800a30b8
     void setTimebase(u16);                                                     // 0x800a3148
-    void channelUpdateCallback(u32, JASChannel *, JASDsp::TChannel *, void *); // 0x800a31d8
-    void getRootTrack();                                                       // 0x800a3350
-    void tickProc();                                                           // 0x800a3368
-    void seqMain();                                                            // 0x800a3afc
+    static void channelUpdateCallback(u32, JASChannel *, JASDsp::TChannel *, void *); // 0x800a31d8
+    JASTrack *getRootTrack();                                                  // 0x800a3350
+    int tickProc();                                                           // 0x800a3368
+    int seqMain();                                                            // 0x800a3afc
 
     // Inline/Unused
     // void JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreaded<TChannelMgr>>::Lock::~InterruptsDisable();
-    // void inherit(const JASTrack &);
+    void inherit(const JASTrack &);
     // void setAutoMixingMode();
     // void getVolume() const;
     // void getPitch() const;
     // void getPan() const;
     // void getFxmix() const;
     // void getDolby() const;
-    // void channelStart(TChannelMgr *, unsigned long, unsigned long, unsigned long);
+    JASChannel *channelStart(TChannelMgr *, unsigned long, unsigned long, unsigned long);
     // void setOscParam(unsigned long, const JASOscillator::Data &);
-    // void setChannelPauseFlag(bool);
-    // void updateChannel(JASChannel *, JASDsp::TChannel *);
+    void setChannelPauseFlag(bool);
+    void updateChannel(JASChannel *, JASDsp::TChannel *);
     // void getChannelCount() const;
     // void JGadget::TLinkList<JASTrack, -584>::~TLinkList();
     // void JASGlobalInstance<JASDefaultBankTable>::~JASGlobalInstance();
     JASTrack *getParent() { return mParent; }
     JASSeqCtrl* getSeqCtrl() { return &mSeqCtrl; }
-    s32 getStatus() const { return mStatus; }
+    int getStatus() const { return *(int*)&mStatus; } // this has to be a fakematch, but volatile is required in the JASTrack TU
     u32 getChannelMgrCount() const { return mChannelMgrCount; }
 
     u8 getBendSense() const { return mBendSense; }
@@ -199,24 +209,34 @@ public:
     }
 
     // Data
-    static JASOscillator::Point sAdsTable[12];    // 0x80369df0
-    static JASOscillator::Data sEnvOsc;           // 0x80369e08
-    static JASOscillator::Data sPitchEnvOsc;      // 0x80369e20
+    static const JASOscillator::Point sAdsTable[4];    // 0x80369df0
+    static const JASOscillator::Data sEnvOsc;           // 0x80369e08
+    static const JASOscillator::Data sPitchEnvOsc;      // 0x80369e20
     static JASDefaultBankTable sDefaultBankTable; // 0x803fac24
     static TList sTrackList;                      // 0x803fb070
 
     JASSeqCtrl mSeqCtrl;               // 000
     JASTrackPort mTrackPort;           // 05c
     JASRegisterParam mRegisterParam;   // 080
-    MoveParam_ mMoveParam[6];          // 09c, volume, pitch, fxmix, pan, dolby, distFilter
+    union {
+        struct {
+            MoveParam_ volume;
+            MoveParam_ pitch;
+            MoveParam_ fxmix;
+            MoveParam_ pan;
+            MoveParam_ dolby;
+            MoveParam_ distFilter;
+        } params;
+        MoveParam_ array[6];
+    } mMove;          // 09c, volume, pitch, fxmix, pan, dolby, distFilter
     JASOscillator::Data mOscParam[2];  // 0e4
     JASOscillator::Point mOscPoint[4]; // 114
     JASTrack *mParent;                 // 12c
     JASTrack *mChildren[MAX_CHILDREN]; // 130
-    TChannelMgr *mChannelMgrs[4];      // 170
-    TChannelMgr mDefaultChannelMgr;    // 180
-    int mChannelMgrCount;              // 1d0
-    JASDefaultBankTable *mBankTable;   // 1d4
+    TChannelMgr *mChannelMgrs[4];          // 170
+    TChannelMgr mDefaultChannelMgr;        // 180
+    u32 mChannelMgrCount;                  // 1d0
+    const JASBankList *mBankTable;   // 1d4
     f32 _1d8;                          // 1d8
     f32 _1dc;                          // 1dc
     f32 mVibDepth;                     // 1e0
@@ -245,7 +265,7 @@ public:
     u16 mMixConfig[6];                 // 234
     // TODO
 
-    int mStatus; // 240, not volatile here?
+    volatile int mStatus; // 240
     struct
     {
         bool pause : 1;
@@ -257,7 +277,7 @@ public:
         bool flag6 : 1;
         bool flag7 : 1;
     } mFlags;          // 216
-    u8 _mkdd_pad[0x8]; //
+    JGadget::TLinkListNode mNode;
 }; // Size: 0x250
 
 #endif

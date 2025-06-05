@@ -8,11 +8,11 @@ namespace JMath {
     f32 TAtanTable<1024, f32>::alignmentHack(f32 x) const { // needed to get the right order for the f32s and doubles
         f32 ret = 0.0f;
         if(x == 0.0f)
-            ret = HALF_PI;
+            ret = F_HALF_PI;
         else if(x == 0.5f)
             ret = 1024.0f;
         else if(x == 1024.0f)
-            ret = -HALF_PI;
+            ret = -F_HALF_PI;
 
         return ret;
     }

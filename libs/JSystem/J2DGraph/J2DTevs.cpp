@@ -97,7 +97,7 @@ void J2DTexMtx::calc()
 
 void J2DTexMtx::getTextureMtx(const J2DTextureSRTInfo& info, Vec pos, Mtx mtx)
 {
-    f32 theta = (info.mRotationDeg * PI) / 180.0f;
+    f32 theta = (info.mRotationDeg * F_PI) / 180.0f;
     mtx[0][0] = info.mScaleX * cosf(theta);
     mtx[0][1] = -info.mScaleX * sinf(theta);
     mtx[0][2] = 0.0f;
@@ -116,7 +116,7 @@ void J2DTexMtx::getTextureMtx(const J2DTextureSRTInfo& info, Vec pos, Mtx mtx)
 
 void J2DTexMtx::getTextureMtxMaya(const J2DTextureSRTInfo& info, Mtx mtx)
 {
-    f32 theta = (info.mRotationDeg * PI) / 180.0f;
+    f32 theta = (info.mRotationDeg * F_PI) / 180.0f;
     mtx[0][0] = info.mScaleX * cosf(theta);
     mtx[0][1] = info.mScaleY * sinf(theta);
     mtx[0][2] = 0.0f;

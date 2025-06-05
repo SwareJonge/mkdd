@@ -272,7 +272,7 @@ u32 JASSeqParser::readReg(JASTrack *track, u32 reg) const {
         }
         break;
     case 0x61:
-        result = track->getSeqCtrl()->getSeqReader()->getLoopCount();
+        result = track->getSeqCtrl()->getSeqReader().getLoopCount();
         break;
     case 0x62:
         result = track->getTimebase();

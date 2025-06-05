@@ -45,6 +45,8 @@ public:
     typedef void (*Callback)(u32, JASChannel *channel, JASDsp::TChannel *dspChannel, void *);
 
     static const u16 BUSOUT_CPUCH = 6;
+    static const u32 OSC_NUM = 2;
+    static const int BANK_NUM = 16;
 
     enum CallbackType
     {
@@ -56,9 +58,10 @@ public:
 
     enum Status
     {
-        STATUS_INACTIVE, // 0
-        STATUS_ACTIVE,   // 1
-        STATUS_RELEASE,  // 2
+        STATUS_STOP,    // 0
+        STATUS_PLAYING, // 1
+        STATUS_PLAY = 1,
+        STATUS_RELEASE, // 2
     };
 
     struct PanVector
@@ -131,36 +134,38 @@ public:
     void setSkipSamples(u32 skips) { mSkipSamples = skips; }
     bool isDolbyMode() { return mMixConfig[0].whole == 0xffff; }
 
-    int mStatus;                   // 000
-    bool mPauseFlag;               // 004
-    JASDSPChannel *mDspCh;         // 008
-    Callback mCallback;            // 00c
-    void *mCallbackData;           // 010
-    u32 mUpdateTimer;              // 014
-    const void *mBankDisposeID;    // 018
-    JASOscillator mOscillators[2]; // 01c
-    JASLfo mVibrate;               // 05c
-    JASLfo mTremolo;               // 074
-    MixConfig mMixConfig[6];       // 08c
-    u16 mPriority;                 // 098
-    JASChannelParams mParams;      // 09c
-    JASSoundParams mSoundParams;   // 0b4
-    s16 mKey;                      // 0c8
-    u16 mVelocity;                 // 0ca
-    f32 mKeySweep;                 // 0cc
-    f32 mKeySweepTarget;           // 0d0
-    u32 mKeySweepCount;            // 0d4
-    u32 mSkipSamples;              // 0d8
-    struct
-    {
-        u32 _0;
-        JASWaveInfo _4;
-    } _dc;    // 0dc
-    int _104; // 104
+    // Inline/Unused
+    void copyOsc(u32, JASOscillator::Data *);
+
+    int mStatus;                         // 000
+    bool mPauseFlag;                     // 004
+    JASDSPChannel *mDspCh;               // 008
+    Callback mCb;                        // 00c
+    void *mCbData;                       // 010
+    u32 mUpdateTimer;                    // 014
+    const void *mBankDisposeID;          // 018
+    JASOscillator mOscillators[OSC_NUM]; // 01c
+    JASLfo mVibrate;                     // 05c
+    JASLfo mTremolo;                     // 074
+    MixConfig mMixConfig[BUSOUT_CPUCH];  // 08c
+    u16 mPriority;                       // 098
+    JASChannelParams mParams;            // 09c
+    JASSoundParams mSoundParams;         // 0b4
+    s16 mKey;                            // 0c8
+    u16 mVelocity;                       // 0ca
+    f32 mKeySweep;                       // 0cc
+    f32 mKeySweepTarget;                 // 0d0
+    u32 mKeySweepCount;                  // 0d4
+    u32 mSkipSamples;                    // 0d8
+    struct {                             // 0dc
+        u32 _0;            // 00, 0dc
+        JASWaveInfo mInfo; // 04, 0e0
+        int mPtr;          // 28, 104
+    } mWaveData;
 
     static OSMessageQueue sBankDisposeMsgQ;
-    static OSMessage sBankDisposeMsg[16];
-    static OSMessage sBankDisposeList[16];
+    static OSMessage sBankDisposeMsg[BANK_NUM];
+    static OSMessage sBankDisposeList[BANK_NUM];
     static int sBankDisposeListSize;
 };
 

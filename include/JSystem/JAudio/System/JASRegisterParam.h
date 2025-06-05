@@ -8,10 +8,19 @@ class JASRegisterParam
 public:
     enum RegID
     {
-        REG0,
-        REG1,
-        REG2,
-        REG3,
+        REG3 = 3,
+        REGID32 = 32,
+        REGID33,
+        REGID34,
+        REGID35,
+        REGID36,
+        REGID37,
+        REGID38,
+        REGID39,
+        REGID40,
+        REGID41,
+
+        NORMAL_REGID_MAX = 14,
     };
 
     JASRegisterParam();
@@ -19,7 +28,7 @@ public:
     void write(RegID, u32);
     u32 read(RegID);
 
-    u16 _0[14];
+    u16 mRegs[NORMAL_REGID_MAX];
 };
 
 #endif

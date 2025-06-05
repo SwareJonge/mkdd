@@ -13,7 +13,6 @@ struct JASWaveInfo
 
     u8 _00;         // 00
     u8 _01;         // 01
-    u8 _02;         // 02
     f32 _04;        // 04
     int _08;        // 08
     int _0c;        // 0c

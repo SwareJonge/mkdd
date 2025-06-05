@@ -6,10 +6,16 @@
 #include "JSystem/JUtility/JUTAssert.h"
 #include "JSystem/JAudio/System/JASHeap.h"
 
+#include "dolphin/os/OSMutex.h"
 #include "types.h"
+
 
 struct JASGenericMemPool
 {
+    struct TNextOnFreeList {
+        u8 _0[4];
+    };
+
     JASGenericMemPool();
     ~JASGenericMemPool();
     void newMemPool(u32 n, int count);
@@ -23,7 +29,7 @@ struct JASGenericMemPool
     void *mRunner;
     int mFreeMemCount;
     int mTotalMemCount;
-    u32 _c;
+    u32 mUsedMemCount;
 };
 
 template <typename T>
@@ -54,11 +60,21 @@ struct JASMemPool : public JASGenericMemPool
     }
 };
 
-template <u32 ChunkSize, typename T>
+template<u32 ChunkSize, template<typename> class T>
 class JASMemChunkPool
 {
-
-    typedef JASMemChunkPool<ChunkSize,T> TJASMemChunkPool;
+public:
+    JASMemChunkPool() {
+        OSInitMutex(&mMutex);
+        mChunk = NULL;
+        bool ret = createNewChunk();
+#line 315
+        JUT_ASSERT(ret);
+    }
+    
+    typedef JASMemChunkPool<ChunkSize, T> TJASMemChunkPool;
+    typedef typename T<TJASMemChunkPool>::Lock TLock;
+    friend class T<TJASMemChunkPool>::Lock;
 
     struct MemoryChunk
     {
@@ -121,7 +137,7 @@ class JASMemChunkPool
 public:
     void free(void *ptr)
     {
-        T::Lock lock(&mMutex); // takes *this
+        TLock lock(*this); // takes *this
         MemoryChunk *chunk = mChunk;
         MemoryChunk *prevChunk = NULL;
         while (chunk != NULL)
@@ -174,7 +190,7 @@ public:
 
     void *alloc(u32 size)
     {
-        T::Lock lock(&mMutex); // takes *this
+        TLock lock(*this); // takes *this
         u32 freeSize = mChunk->getFreeSize();
         if (freeSize < size)
         {
@@ -191,7 +207,7 @@ public:
     }
 
 private:
-    OSMutex mMutex;      // 00
+    mutable OSMutex mMutex;
     MemoryChunk *mChunk; // 18
 };
 
@@ -216,28 +232,34 @@ struct JASPoolAllocObject
         return memPool_.isActive();
     }
 
+private:
     static JASMemPool<T> memPool_;
 };
 
 template <typename T>
 struct JASMemPool_MultiThreaded : public JASGenericMemPool
 {
-    typedef JASMemPool_MultiThreaded<T> JASMemPool_MultiThreadedT;
-
+    typedef JASMemPool_MultiThreaded<T> TJASMemPool_MultiThreaded;
+    typedef typename JASThreadingModel::InterruptsDisable<TJASMemPool_MultiThreaded>::Lock TLock;
+    
     void newMemPool(int count)
     {
-        JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreadedT>::Lock lock(*this);
+        TLock lock(*this);
         JASGenericMemPool::newMemPool(sizeof(T), count);
     }
 
     void *alloc(u32 n)
     {
-        JASThreadingModel::InterruptsDisable<JASMemPool_MultiThreadedT>::Lock lock(*this);
+        TLock lock(*this);
         return JASGenericMemPool::alloc(n);
     }
 
-    JASMemPool_MultiThreaded<T>() : JASGenericMemPool() { }
-    ~JASMemPool_MultiThreaded<T>() {}
+    void free(void* ptr, u32 n) {
+        TLock lock(*this);
+        JASGenericMemPool::free(ptr, n);
+    }
+
+    
 };
 
 
@@ -255,10 +277,9 @@ struct JASPoolAllocObject_MultiThreaded
     }
     static void operator delete(void *mem, u32 n)
     {
-        BOOL inter = OSDisableInterrupts();
         memPool_.free(mem, n);
-        OSRestoreInterrupts(inter);
     }
+private:
     static JASMemPool_MultiThreaded<T> memPool_;
 };
 

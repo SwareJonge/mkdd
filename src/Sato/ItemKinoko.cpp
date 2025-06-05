@@ -80,7 +80,7 @@ void ItemKinoko::initEquip()
     mPos.zero();
 
     mMulti->ParamInit(sBuildRotAngle);
-    _2b0 = PI * (2.0f * ItemObj::getItemRnd()->get_ufloat_1() - 1.0f);
+    _2b0 = F_PI * (2.0f * ItemObj::getItemRnd()->get_ufloat_1() - 1.0f);
 
     QuaternionReset(&_34);
 }

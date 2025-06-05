@@ -34,12 +34,12 @@ public:
     this->pPrev_ = nullptr;
   }
 
-  ~TLinkListNode() {
+  /*~TLinkListNode() {
     // Seemingly not present in earlier versions of JSystem
     #line 77
     JGADGET_ASSERT(pNext_==NULL);
     JGADGET_ASSERT(pPrev_==NULL);
-  }
+  }*/
 
   TLinkListNode* getNext() const {
     return this->pNext_;
@@ -192,7 +192,9 @@ class TLinkList : public TNodeLinkList {
 public:
   class iterator {
   public:
+    iterator() {}
     iterator(TNodeLinkList::iterator it) : mIt(it) {  }
+    iterator& operator=(const iterator& other) { this->mIt = other.mIt; return *this; }
 
     friend bool operator==(iterator lhs, iterator rhs) { return (lhs.mIt == rhs.mIt); }
     friend bool operator!=(iterator lhs, iterator rhs) { return !(lhs == rhs); }

@@ -123,10 +123,11 @@ void updateDac() {
         sMixFuncs[sMixMode](sDmaDacBuffer[dacp], frameSamples, extMixCallback);
     }
 
-    {
-        JASCriticalSection cs;
-        DCStoreRange(sDmaDacBuffer[dacp], getDacSize() * 2);
-    }
+    
+    JAS_CS_START
+    DCStoreRange(sDmaDacBuffer[dacp], getDacSize() * 2);
+    JAS_CS_END
+    
 
     lastRspMadep = sDmaDacBuffer[dacp];
     dacp++;
@@ -249,14 +250,14 @@ u32 getFrameSamples() {
     return sSubFrames * 0x50;
 }
 
-void mixMonoTrack(s16* dest, u32 size, JASMixCallBack callback) {
+void mixMonoTrack(s16 *dest, u32 size, JASMixCallBack callback) {
     JASProbe::start(5, "MONO-MIX");
-    s16* src = callback(size);
+    s16 *src = callback(size);
     if (!src) {
         return;
     }
     JASProbe::stop(5);
-    s16* destPtr = dest;
+    s16 *destPtr = dest;
     for (u32 i = size; i != 0; i--) {
         destPtr[0] = JASCalc::clamp<s16, s32>(destPtr[0] + *src);
         destPtr[1] = JASCalc::clamp<s16, s32>(destPtr[1] + *src);
@@ -265,14 +266,14 @@ void mixMonoTrack(s16* dest, u32 size, JASMixCallBack callback) {
     }    
 }
 
-void mixMonoTrackWide(s16* dest, u32 size, JASMixCallBack callback) {
+void mixMonoTrackWide(s16 *dest, u32 size, JASMixCallBack callback) {
     JASProbe::start(5, "MONO(W)-MIX");
-    s16* src = callback(size);
+    s16 *src = callback(size);
     if (!src) {
         return;
     }
     JASProbe::stop(5);
-    s16* destPtr = dest;
+    s16 *destPtr = dest;
     for (u32 i = size; i != 0; i--) {
         s32 val    = destPtr[0] + src[0];
         destPtr[0] = JASCalc::clamp<s16, s32>(val);
@@ -284,17 +285,17 @@ void mixMonoTrackWide(s16* dest, u32 size, JASMixCallBack callback) {
     }
 }
 
-void mixExtraTrack(s16* dest, u32 size, JASMixCallBack callback) {
+void mixExtraTrack(s16 *dest, u32 size, JASMixCallBack callback) {
     JASProbe::start(5, "DSPMIX");
-    s16* src1 = callback(size);
+    s16 *src1 = callback(size);
     if (!src1) {
         return;
     }
     JASProbe::stop(5);
 
     JASProbe::start(6, "MIXING");
-    s16* destPtr = dest;
-    s16* src2    = src1 + getFrameSamples();
+    s16 *destPtr = dest;
+    s16 *src2    = src1 + getFrameSamples();
     for (u32 i = size; i != 0; i--) {
         destPtr[0] = JASCalc::clamp<s16, s32>(destPtr[0] + src2[0]);
         destPtr[1] = JASCalc::clamp<s16, s32>(destPtr[1] + src1[0]);
@@ -305,14 +306,14 @@ void mixExtraTrack(s16* dest, u32 size, JASMixCallBack callback) {
     JASProbe::stop(6);
 }
 
-void mixInterleaveTrack(s16* dest, u32 size, JASMixCallBack callback)
+void mixInterleaveTrack(s16 *dest, u32 size, JASMixCallBack callback)
 {
-    s16* src = callback(size);
+    s16 *src = callback(size);
     if (!src) {
         return;
     }
-    s16* destPtr = dest;
-    s16* srcPtr  = src;
+    s16 *destPtr = dest;
+    s16 *srcPtr  = src;
     for (u32 i = size * 2; i != 0; i--) {
         destPtr[0] = JASCalc::clamp<s16, s32>(destPtr[0] + srcPtr[0]);
         destPtr += 1;

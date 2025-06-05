@@ -1,6 +1,7 @@
 #ifndef JAUDIO_JASDRIVER_H
 #define JAUDIO_JASDRIVER_H
 
+#include "JSystem/JAudio/System/JASCallback.h"
 #include <dolphin/ai.h>
 
 enum JASMixMode
@@ -18,6 +19,7 @@ enum JASOutputRate
     OutputRate_48kHz
 };
 
+typedef s32 (*JASDriverCallBack)(void*);
 typedef s16 *(*JASMixCallBack)(s32);
 typedef void (*JASDACCallBack)(s16 *, u32);
 typedef void (*JASMixFunc)(s16 *, u32, JASMixCallBack);
@@ -41,25 +43,25 @@ namespace JASDriver
     void waitSubFrame();
     void setSubFrames(u32);
     void setNumDSPBuffer(u8);
-    void registerDacCallback(void (*)(s16 *, u32));
-    void registDSPBufCallback(void (*)(s16 *, u32));
+    void registerDacCallback(JASDACCallBack);
+    void registDSPBufCallback(JASDACCallBack);
 
     // JASDriverIF
     void setDSPLevel(f32);
-    void getChannelLevel_dsp();
+    u16 getChannelLevel_dsp();
     f32 getDSPLevel();
     void setOutputMode(u32);
     u32 getOutputMode();
     void waitSubFrame();
-    void rejectCallback(s32 (*) (void *), void *);
-    bool registerDspSyncCallback(s32 (*) (void *), void *);
-    bool registerSubFrameCallback(s32 (*) (void *), void *);
+    int rejectCallback(JASDriverCallBack, void *);
+    bool registerDspSyncCallback(JASDriverCallBack, void *);
+    bool registerSubFrameCallback(JASDriverCallBack, void *);
     void subframeCallback();
     void DSPSyncCallback();
     void updateDacCallback();
     void setChannelLevel(f32);
     f32 getChannelLevel();
-    void registerUpdateDacCallback(s32 (*) (void *), void *);
+    void registerUpdateDacCallback(JASDriverCallBack, void *);
 };
 
 #endif

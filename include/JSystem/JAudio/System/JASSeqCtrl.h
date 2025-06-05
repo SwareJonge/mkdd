@@ -29,12 +29,12 @@ public:
     void interrupt(IntrType);
     void setIntrMask(u32);
     void clrIntrMask(u32);
-    int retIntr();
+    bool retIntr();
     int findIntr();
     void checkIntr();
     void timerProcess();
 
-    const JASSeqReader *getSeqReader() const { return &mReader; }
+    const JASSeqReader &getSeqReader() const { return mReader; }
     void *getBase() { return mReader.getBase(); }
     void *getAddr(u32 offset) { return mReader.getAddr(offset); }
     u8 getByte(u32 offset) const { return mReader.getByte(offset); }
@@ -67,10 +67,10 @@ public:
     s32 mWaitTime;         // 40
     void *_44;             // 44
     u32 mIntrTable;        // 48
-    u16 _4c;               // 4c
-    u16 _4e;               // 4e
+    u16 mIntrBits;         // 4c
+    u16 mIntrMask;         // 4e
     u8 _50;                // 50
-    u8 _51;                // 51
+    bool _51;                // 51
     u16 _52;               // 52
     u32 _54;               // 54
     u32 _58;               // 58

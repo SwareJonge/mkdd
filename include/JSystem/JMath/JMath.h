@@ -42,13 +42,13 @@ namespace JMath
     template <typename T>
     struct TAngleConstant_
     {
-        static const f32 RADIAN_DEG090() { return HALF_PI; }
-        static const f32 RADIAN_DEG180() { return PI; }
-        static const f32 RADIAN_DEG360() { return TAU; }
+        static const f32 RADIAN_DEG090() { return F_HALF_PI; }
+        static const f32 RADIAN_DEG180() { return F_PI; }
+        static const f32 RADIAN_DEG360() { return F_TAU; }
         static const f32 RADIAN_TO_DEGREE_FACTOR() { return 180.0f / RADIAN_DEG180(); }
     };
 
-    template <int length, typename T>
+    template <int N, typename T>
     struct TSinCosTable
     {
         TSinCosTable() { init(); }
@@ -64,16 +64,22 @@ namespace JMath
         /**
          * elements are pairs of {sine, cosine}
          */
-        f32 sinShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].first; }
-        f32 cosShort(s16 v) const { return mTable[static_cast<u16>(v) >> 5].second; }
-        f32 sinLap(f32 x) const { 
-            // TP Debug is 8192 and 0x1fff?
+        f32 sinShort(s16 v) const { return mTable[static_cast<u16>(v) >> (16U - N)].first; }
+        f32 cosShort(s16 v) const { return mTable[static_cast<u16>(v) >> (16U - N)].second; }
+        f32 sinLap(f32 x) const {
             if (x < 0.0f) {
-                return -mTable[static_cast<u16>(x * -2048.0f) & 0x7ff].first;
+                return -mTable[static_cast<u16>(-(T)(1 << N) * x) & ((1 << N) - 1)].first;
             }
-            return mTable[static_cast<u16>(x * 2048.0f) & 0x7ff].first;
+            return mTable[static_cast<u16>((T)(1 << N) * x) & ((1 << N) - 1)].first;
         }
         
+        f32 sinRadian(f32 x) const { 
+            if (x < 0.0f) {
+                return -mTable[static_cast<u16>(-(T)(1 << N) / TAngleConstant_<T>::RADIAN_DEG360() * x) & ((1 << N) - 1)].first;
+            }
+            return mTable[static_cast<u16>((T)(1 << N) / TAngleConstant_<T>::RADIAN_DEG360() * x) & ((1 << N) - 1)].first;
+        }
+
         std::pair<f32, f32> mTable[2048];
     };
 
@@ -123,7 +129,7 @@ namespace JMath
                 }
                 else
                 {
-                    return HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
+                    return F_HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
                 }
             }
             else
@@ -131,11 +137,11 @@ namespace JMath
                 x = -x;
                 if (x < y)
                 {
-                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + HALF_PI;
+                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + F_HALF_PI;
                 }
                 else
                 {
-                    return PI - (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]);
+                    return F_PI - (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]);
                 }
             }
         }
@@ -148,18 +154,18 @@ namespace JMath
                 x = -x;
                 if (x >= y)
                 {
-                    return (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]) + -PI;
+                    return (x == 0.0f ? 0.0f : mTable[(int)((y * 1024.0f) / x + 0.5f)]) + -F_PI;
                 }
                 else
                 {
-                    return -HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
+                    return -F_HALF_PI - (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]);
                 }
             }
             else
             {
                 if (x < y)
                 {
-                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + -HALF_PI;
+                    return (y == 0.0f ? 0.0f : mTable[(int)((x * 1024.0f) / y + 0.5f)]) + -F_HALF_PI;
                 }
                 else
                 {
@@ -245,6 +251,8 @@ inline f32 JMAAbs(f32 input) { return __fabsf(input); }
 inline f32 JMAAtan2Radian(f32 y, f32 x) { return JMath::atanTable_.atan2Radian(y, x); };
 
 inline f32 JMASSinLap(f32 x) { return JMath::sincosTable_.sinLap(x); }
+
+inline f32 JMASinRadian(f32 x) { return JMath::sincosTable_.sinRadian(x); }
 
 inline f32 JMACosShort(s16 v) { return JMath::sincosTable_.cosShort(v); }
 inline f32 JMASinShort(s16 v) { return JMath::sincosTable_.sinShort(v); }

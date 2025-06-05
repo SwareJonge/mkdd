@@ -92,7 +92,7 @@ void *JASAudioThread::run() {
 
 void JASAudioThread::DMACallback() {
 #line 152
-    JASAudioThread* pAudioThread = getInstance();
+    JASAudioThread *pAudioThread = getInstance();
     JUT_ASSERT(pAudioThread);
 
     JASProbe::stop(4);
@@ -105,7 +105,7 @@ void JASAudioThread::DMACallback() {
 
 void JASAudioThread::DSPCallback(void*) {
 #line 169
-    JASAudioThread* pAudioThread = getInstance();
+    JASAudioThread *pAudioThread = getInstance();
     JUT_ASSERT(pAudioThread);
 
 	while (DSPCheckMailFromDSP() == 0) { }

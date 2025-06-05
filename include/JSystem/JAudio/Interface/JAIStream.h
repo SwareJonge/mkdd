@@ -43,7 +43,7 @@ public:
     s32 mEntryID;                                  // 294
     int mCategory;                                 // 298
     u32 mAramAddr;                                 // 29C
-    JAISoundChild *mChilds[6];                     // 2A0
+    JAISoundChild *mChilds[CHANNEL_MAX];           // 2A0
     JAIStreamMgr *mStreamMgr;                      // 2B8
     JAISoundStrategyMgr__unknown<JAIStream> *_2bc; // 2BC
     JAISoundStrategyMgr<JAIStream> *mStrategyMgr;  // 2C0

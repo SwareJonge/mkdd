@@ -18,7 +18,7 @@ enum JASInstTarget
 // fabricated
 struct JASVelo
 {
-    u32 _0;
+    int _0;
     u32 _4;
     f32 _8;
     f32 _c;
@@ -27,7 +27,7 @@ struct JASVelo
 class JASInstParam : public JASSoundParams
 {
 public:
-    JASInstParam()
+    JASInstParam() : JASSoundParams()
     {
         _14 = 0;
         _18 = 0;
@@ -76,11 +76,15 @@ public:
     class TKeymap
     {
     public:
-        TKeymap() {}
+        TKeymap() {
+            mHighKey = -1;
+            mVeloRegionCount = 0;
+            mVelomap = NULL;
+        }
         ~TKeymap();                                        // 0x800975f4
         void setVeloRegionCount(u32 count, JKRHeap *heap); // 0x80097648
         JASVelo *getVeloRegion(int index);                 // 0x800976f0
-        void getVeloRegion(int index) const;               // 0x80097784
+        JASVelo *getVeloRegion(int index) const;           // 0x80097784
 
         void setHighKey(int high) {
             mHighKey = high;
@@ -106,17 +110,17 @@ public:
     void setPitch(f32 pitch) { mPitch = pitch; }
 
     // Inline/Unused
-    // void searchKeymap(int) const;
-    // void getEffect(int);
-    // void getOsc(int);
-    // void getKeyRegion(int) const;
+    void searchKeymap(int) const;
+    void getEffect(int);
+    void getOsc(int);
+    TKeymap *getKeyRegion(int) const;
 private:
-    f32 mVolume;         // 00
-    f32 mPitch;          // 08
-    u8 _c[0x8];          // 0C
-    u8 _14[0x10];        // 14
-    TKeymap *mKeyMap;    // 24
-    u32 mKeyRegionCount; // 28
+    f32 mVolume;                        // 04
+    f32 mPitch;                         // 08
+    JASOscillator::Data *mOsc[OSC_MAX]; // 0C
+    JASInstEffect *mEffect[EFFECT_MAX]; // 14
+    TKeymap *mKeymap;                   // 24
+    u32 mKeyRegionCount;                // 28
 };
 
 class JASInstRand : public JASInstEffect
@@ -157,8 +161,8 @@ public:
     JASInstSense() : JASInstEffect()
     {
         mType = 0;
-        _08 = 0;
-        _09 = 60;
+        mTrigger = 0;
+        mCenterKey = 60;
         _0C = 1.0f;
         _10 = 1.0f;
     }
@@ -167,8 +171,8 @@ public:
     virtual void effect(int, int, JASSoundParams *params) const;
 
 private:
-    u8 _08;
-    u8 _09;
+    u8 mTrigger;
+    u8 mCenterKey;
     f32 _0C;
     f32 _10;
 };

@@ -1020,7 +1020,7 @@ void Course::calcShaking()
     mShakeYNorm.set(mYNorm);
     mShakeZNorm.set(mZNorm);
     mShakeXNorm.set(mXNorm);
-    f32 angleRad = TAU * ((mShakeMaxAngle * angle) / 360.0f);
+    f32 angleRad = F_TAU * ((mShakeMaxAngle * angle) / 360.0f);
 
     if (mShakeAngleFlag != 0)
     {

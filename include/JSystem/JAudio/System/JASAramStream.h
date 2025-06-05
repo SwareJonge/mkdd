@@ -16,7 +16,8 @@ class JASAramStream
 {
 public:
     typedef void (*StreamCallback)(u32, JASAramStream *, void *);
-    static const u32 CHANNEL_MAX = 6;
+    static const int CHANNEL_MAX = 6;
+
     enum CallbackType
     {
         CB_START, // 0
@@ -36,7 +37,7 @@ public:
         u32 tag;        // 00
         u8 _4[5];       // 04
         u8 format;      // 09
-        u8 bits;        // 0A
+        u16 bits;       // 0A
         u16 channels;   // 0C
         u16 loop;       // 0E
         int _10;        // 10
@@ -85,6 +86,12 @@ public:
     void channelStart();
     void channelStop(u16);
 
+    // Inline/Unused
+    void setLoadThread(JASTaskThread *);
+    void setBusSetting(u32, u16);
+    bool prepare(const char *path, int);
+    //void getBlockSamples() const;
+
     void setPitch(f32 pitch) { mPitch = pitch; }
     void setVolume(f32 volume)
     {
@@ -118,26 +125,26 @@ public:
         }
     }
 
-    void setChannelVolume(int channel, f32 volume)
+    void setChannelVolume(u32 channel, f32 volume)
     {
 #line 288
         JUT_ASSERT(channel < CHANNEL_MAX);
         mChannelVolume[channel] = volume;
     }
 
-    void setChannelPan(int channel, f32 pan)
+    void setChannelPan(u32 channel, f32 pan)
     {
         JUT_ASSERT(channel < CHANNEL_MAX);
         mChannelPan[channel] = pan;
     }
 
-    void setChannelFxmix(int channel, f32 fxMix)
+    void setChannelFxmix(u32 channel, f32 fxMix)
     {
         JUT_ASSERT(channel < CHANNEL_MAX);
         mChannelFxMix[channel] = fxMix;
     }
 
-    void setChannelDolby(int channel, f32 dolby)
+    void setChannelDolby(u32 channel, f32 dolby)
     {
         JUT_ASSERT(channel < CHANNEL_MAX);
         mChannelDolby[channel] = dolby;
@@ -156,17 +163,17 @@ public:
     u8 _0ae;                            // 0AE
     int _0b0;                           // 0B0
     int _0b4;                           // 0B4
-    u32 _0b8;                           // 0B8
+    u32 mReadSample;                    // 0B8
     int _0bc;                           // 0BC
     bool _0c0;                          // 0C0
     u32 _0c4;                           // 0C4
-    f32 _0c8;                           // 0C8
+    volatile f32 _0c8;                  // 0C8
     DVDFileInfo mDvdFileInfo;           // 0CC
-    u32 _108;                           // 108
-    int _10c;                           // 10C
+    u32 mAramBlockCount;                // 108
+    u32 mAramBlock;                     // 10C
     u32 mBlock;                         // 110
-    u8 _114;                            // 114
-    u32 _118;                           // 118
+    bool mCancelled;                    // 114
+    u32 mFreeBlockCount;                // 118
     int _11c;                           // 11C
     int _120;                           // 120
     int _124;                           // 124
@@ -175,14 +182,14 @@ public:
     s16 _130[CHANNEL_MAX];              // 130
     s16 _13c[CHANNEL_MAX];              // 13C
     int _148;                           // 148
-    u32 _14c;                           // 14C
-    StreamCallback mCallback;           // 150
-    void *mCallbackData;                // 154
-    u16 _158;                           // 158
+    u32 mAramBufSize;                   // 14C
+    StreamCallback mCb;                 // 150
+    void *mCbData;                      // 154
+    u16 mFormat;                        // 158
     u16 mChannelNum;                    // 15A
     u32 mBufCount;                      // 15C
-    u32 _160;                           // 160
-    u32 _164;                           // 164
+    u32 mBlockCount;                    // 160
+    u32 mSampleRate;                    // 164
     bool mLoop;                         // 168
     u32 mLoopStart;                     // 16C
     u32 mLoopEnd;                       // 170
@@ -198,6 +205,8 @@ public:
     static u8 *sReadBuffer;
     static u32 sBlockSize;
     static u32 sChannelMax;
+    static bool sSystemPauseFlag;
+    static bool sFatalErrorFlag;
 };
 
 #endif

@@ -31,14 +31,32 @@ class JASBasicWaveBank : public JASWaveBank
 public:
     struct TWaveHandle : public JASWaveHandle
     {
-        ~TWaveHandle();
+        TWaveHandle() { 
+            mHeap = NULL;
+            mWaveID = 0;
+        }
+        ~TWaveHandle() {}
         int getWavePtr() const;
-        TWaveHandle() { mHeap = NULL; }
         const JASWaveInfo *getWaveInfo() const { return &mInfo; }
         bool compareHeap(JASHeap *heap) const { return mHeap == heap; }
 
         JASWaveInfo mInfo; // 04
-        JASHeap *mHeap;    // 28
+        JASHeap *mHeap;    // 2C
+        u32 mWaveID;       // 30
+    };
+
+    struct TWaveInfo {
+        TWaveInfo()
+        {
+            mNext = NULL;
+            mPrev = NULL;
+        }
+
+        ~TWaveInfo() { }
+
+        TWaveHandle mHandle; // _00
+        TWaveInfo* mNext;    // _34
+        TWaveInfo* mPrev;    // _38
     };
 
     struct TGroupWaveInfo
@@ -49,13 +67,14 @@ public:
             _4 = -1;
         }
 
-        u16 _0;
+        u32 _0;
         int _4;
     };
 
-    struct TWaveGroup : JASWaveArc
+    struct TWaveGroup : public JASWaveArc
     {
-        TWaveGroup();
+        TWaveGroup() {}
+        TWaveGroup(JASBasicWaveBank *);
         virtual ~TWaveGroup();
         void setWaveCount(u32, JKRHeap *);
         virtual void onLoadDone();
@@ -64,9 +83,9 @@ public:
 
         void setWaveInfo(int index, u32, const JASWaveInfo &waveInfo);
 
-        JASBasicWaveBank *mBank;        // 74
-        TGroupWaveInfo *mCtrlWaveArray; // 78
-        u16 mWaveCount;                 // 7C
+        JASBasicWaveBank *mBank;    // 74
+        TWaveInfo *mCtrlWaveArray;  // 78
+        u32 mWaveCount;             // 7C
 
         u32 getWaveCount() const { return mWaveCount; }
     };
@@ -82,36 +101,41 @@ public:
     JASWaveArc *getWaveArc(u32 group) { return getWaveGroup(group); }
     u32 getArcCount() const { return mGroupCount; }
 
-    OSMutex mMutex;              // 04
-    TWaveHandle *mWaveTable;     // 1C
-    TWaveGroup *mWaveGroupArray; // 20
-    u16 mHandleCount;            // 24
-    u16 mGroupCount;             // 26
-    u8 _28[0x2c - 0x28];
+    mutable OSMutex mMutex;       // 04
+    TWaveInfo **mWaveTable;       // 1C
+    u32 mHandleCount;             // 24
+    TWaveGroup **mWaveGroupArray; // 20
+    u32 mGroupCount;              // 28
     static u32 mNoLoad;
 }; // Size: 0x2c
 
 class JASSimpleWaveBank : public JASWaveBank, public JASWaveArc
 {
 public:
-    struct TWaveHandle
+    struct TWaveHandle : public JASWaveHandle
     {
-        ~TWaveHandle();
-        void getWavePtr() const;
-        TWaveHandle();
-        void getWaveInfo() const;
+        TWaveHandle() { 
+            mHeap = NULL;
+        }
+        ~TWaveHandle() {}
+        int getWavePtr() const;
+        const JASWaveInfo *getWaveInfo() const { return &mInfo; }
+        bool compareHeap(JASHeap *heap) const { return mHeap == heap; }
+
+        JASWaveInfo mInfo; // 04
+        JASHeap *mHeap;    // 2C
     };
 
     JASSimpleWaveBank();
-    ~JASSimpleWaveBank();
+    virtual ~JASSimpleWaveBank();
     void setWaveTableSize(u32, JKRHeap *);
     JASWaveHandle *getWaveHandle(u32) const;
     void setWaveInfo(u32, const JASWaveInfo &);
     JASWaveArc *getWaveArc(u32);
-    u32 getArcCount() const;
+    virtual u32 getArcCount() const { return 1; }
 
-    u32 _78;
-    u32 _7C;
+    TWaveHandle *mWaveTable;
+    u32 mWaveCount;
 };
 
 #endif
