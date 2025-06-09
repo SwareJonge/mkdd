@@ -125,6 +125,7 @@ public:
     JAISoundParamsMove *getParams() { return &mParams; }
     bool isActive() const { return getNumActiveSe() > 0; }
 
+    static JAISeMgr *getInstance() { return sInstance; }
 private:
     JAISoundActivity mActivity;                     // 004
     JAIAudience *mAudience;                         // 008

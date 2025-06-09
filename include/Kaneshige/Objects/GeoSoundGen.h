@@ -1,7 +1,7 @@
 #ifndef GEOSOUNDGEN_H
 #define GEOSOUNDGEN_H
 
-#include "Inagaki/SoundMgr.h"
+#include "Inagaki/GameMapSoundMgr.h"
 #include "JSystem/JSupport/JSUList.h"
 #include "Sato/GeographyObj.h"
 #include "Sato/StateObserver.h"

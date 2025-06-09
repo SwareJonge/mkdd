@@ -1,5 +1,6 @@
 #include "Inagaki/GameAudioCommon.h"
 #include "Inagaki/GameAudioMain.h"
+#include "JSystem/JAudio/JAUAudience.h"
 
 namespace GameAudio
 {

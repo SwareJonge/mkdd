@@ -2,7 +2,7 @@
 #define KARTSOUND_H
 
 #include "Kaneshige/Course/CrsGround.h"
-#include "Inagaki/KartSoundMgr.h"
+#include "Inagaki/GameSoundMgr.h"
 
 class KartBody;
 

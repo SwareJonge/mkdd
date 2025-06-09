@@ -31,6 +31,15 @@ public:
     f32 getRate() const { return mRate; }
     f32 getShadowRate() const { return getRate(); }
 
+    bool isKind2() const { // fabricated
+        bool ret = false;
+        if (isInside()) {
+            ret = mArea->getKind() == 2;
+        }
+        return ret;
+
+    }
+
 private:
     JGeometry::TVec3f mPos;
     Course::Area *mArea;

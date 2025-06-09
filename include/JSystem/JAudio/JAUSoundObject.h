@@ -25,7 +25,7 @@ public:
     //void startSoundIndex(int, unsigned char);
     //void stopSound(int soundID, u32); // unused, not sure
 
-    u32 _C;
+    u32 _C; // size of object?
     u8 _10;
     JGeometry::TVec3<f32> *mSoundPos; // 14
 };

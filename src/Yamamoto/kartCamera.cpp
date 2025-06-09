@@ -1,4 +1,5 @@
 #include "Inagaki/GameAudioMain.h"
+#include "Inagaki/GameAudioCamera.h"
 #include "Kaneshige/RaceMgr.h"
 #include "Osako/system.h"
 #include "Yamamoto/kartCamera.h"

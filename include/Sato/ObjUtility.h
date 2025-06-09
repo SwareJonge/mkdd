@@ -3,7 +3,7 @@
 
 #include <JSystem/JGeometry.h>
 #include "Sato/ObjCollision.h"
-#include "Inagaki/SoundMgr.h"
+#include "Inagaki/GameSoundMgr.h"
 
 #include "types.h"
 

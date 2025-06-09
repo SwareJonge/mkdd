@@ -21,97 +21,6 @@ namespace JGeometry {
         {
             JMath::gekko_ps_copy12(this, pSrc);
         }
-        
-        // I guess these could be removed
-        /*inline void setInline(const SMatrix34C<T> &rSrc)
-        {
-            register const SMatrix34C<T> *pSrc = &rSrc;
-            register SMatrix34C<T> *pDest = this;
-            register f32 rzztz;
-            register f32 rxzyz;
-            register f32 rzyty;
-            register f32 rxyyy;
-            register f32 rzxtx;
-            register f32 rxxyx;
-
-            __asm {
-                // clang-format off
-                psq_l     rxxyx, 0(pSrc), 0, 0
-                psq_l     rzxtx, 8(pSrc), 0, 0
-                psq_l     rxyyy, 0x10(pSrc), 0, 0
-                psq_l     rzyty, 0x18(pSrc), 0, 0
-                psq_l     rxzyz, 0x20(pSrc), 0, 0
-                psq_l     rzztz, 0x28(pSrc), 0, 0
-                psq_st    rxxyx, 0(pDest), 0, 0
-                psq_st    rzxtx, 8(pDest), 0, 0
-                psq_st    rxyyy, 0x10(pDest), 0, 0
-                psq_st    rzyty, 0x18(pDest), 0, 0
-                psq_st    rxzyz, 0x20(pDest), 0, 0
-                psq_st    rzztz, 0x28(pDest), 0, 0
-                // clang-format on
-            }
-            ;
-        }
-
-        inline void setInline(const MtxPtr rSrc)
-        {
-            register const MtxPtr pSrc = rSrc;
-            register SMatrix34C<T> *pDest = this;
-            register f32 rzztz;
-            register f32 rxzyz;
-            register f32 rzyty;
-            register f32 rxyyy;
-            register f32 rzxtx;
-            register f32 rxxyx;
-
-            __asm {
-                // clang-format off
-                psq_l     rxxyx, 0(pSrc), 0, 0
-                psq_l     rzxtx, 8(pSrc), 0, 0
-                psq_l     rxyyy, 0x10(pSrc), 0, 0
-                psq_l     rzyty, 0x18(pSrc), 0, 0
-                psq_l     rxzyz, 0x20(pSrc), 0, 0
-                psq_l     rzztz, 0x28(pSrc), 0, 0
-                psq_st    rxxyx, 0(pDest), 0, 0
-                psq_st    rzxtx, 8(pDest), 0, 0
-                psq_st    rxyyy, 0x10(pDest), 0, 0
-                psq_st    rzyty, 0x18(pDest), 0, 0
-                psq_st    rxzyz, 0x20(pDest), 0, 0
-                psq_st    rzztz, 0x28(pDest), 0, 0
-                // clang-format on
-            }
-            ;
-        }
-
-        inline void setInline_2(MtxPtr rSrc)
-        {
-            register MtxPtr pSrc = rSrc;
-            register SMatrix34C<T> *pDest = this;
-            register f32 rzztz;
-            register f32 rxzyz;
-            register f32 rzyty;
-            register f32 rxyyy;
-            register f32 rzxtx;
-            register f32 rxxyx;
-
-            __asm {
-                // clang-format off
-                psq_l     rxxyx, 0(pSrc), 0, 0
-                psq_l     rzxtx, 8(pSrc), 0, 0
-                psq_l     rxyyy, 0x10(pSrc), 0, 0
-                psq_st    rxxyx, 0(pDest), 0, 0
-                psq_l     rzyty, 0x18(pSrc), 0, 0
-                psq_st    rzxtx, 8(pDest), 0, 0
-                psq_l     rxzyz, 0x20(pSrc), 0, 0
-                psq_st    rxyyy, 0x10(pDest), 0, 0
-                psq_l     rzztz, 0x28(pSrc), 0, 0
-                psq_st    rzyty, 0x18(pDest), 0, 0
-                psq_st    rxzyz, 0x20(pDest), 0, 0
-                psq_st    rzztz, 0x28(pDest), 0, 0
-                // clang-format on
-            }
-            ;
-        }*/
 
         T &ref(u32 i, u32 j) { return mMtx[i][j]; }
 
@@ -125,8 +34,8 @@ namespace JGeometry {
             return (const Mtx *)mMtx;
         }
 
-        operator MtxPtr() const { return (MtxPtr)mMtx; }        
-
+        operator MtxPtr() const { return (MtxPtr)mMtx; }
+        
         T mMtx[3][4];
     };
 

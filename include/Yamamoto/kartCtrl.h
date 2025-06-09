@@ -2,7 +2,7 @@
 #define KARTCTRL_H
 
 #include "types.h"
-#include "Inagaki/KartSoundMgr.h"
+#include "Inagaki/GameSoundMgr.h"
 #include "Kaneshige/CenterLine.h"
 #include "Sato/RivalKart.h"
 

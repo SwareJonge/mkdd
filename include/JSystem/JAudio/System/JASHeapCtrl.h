@@ -22,9 +22,12 @@ struct JASGenericMemPool
     void free(void *p, u32 n);
     void *alloc(u32 n);
 
-    bool isActive() {
+    /*bool isActive() {
         return mTotalMemCount != mFreeMemCount;
-    }
+    }*/
+
+    int getFreeMemCount() const { return mFreeMemCount; }
+    int getTotalMemCount() const { return mTotalMemCount; }
 
     void *mRunner;
     int mFreeMemCount;
@@ -39,6 +42,16 @@ struct JASMemPool : public JASGenericMemPool
     ~JASMemPool<T>() {}
 
     typedef JASMemPool<T> JASMemPoolT;
+
+    int getTotalMemCount() const {
+        JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
+        return JASGenericMemPool::getTotalMemCount();
+    }
+
+    int getFreeMemCount() const {
+        JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
+        return JASGenericMemPool::getFreeMemCount();
+    }
 
     void newMemPool(int count) {
         JASThreadingModel::SingleThreaded<JASMemPoolT>::Lock(*this);
@@ -231,6 +244,9 @@ struct JASPoolAllocObject
     static bool isActive() {
         return memPool_.isActive();
     }
+
+    static u32 getFreeMemCount() { return memPool_.getFreeMemCount(); }
+    static u32 getTotalMemCount() { return memPool_.getTotalMemCount(); }
 
 private:
     static JASMemPool<T> memPool_;

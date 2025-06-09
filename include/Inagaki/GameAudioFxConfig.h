@@ -7,24 +7,23 @@
 
 // maybe merge with GameAudioMain?
 
-namespace GameAudio
+namespace GameAudio {
+extern JASDsp::FxlineConfig_ Non[4];
+extern JASDsp::FxlineConfig_ Hall[4];
+extern JASDsp::FxlineConfig_ Room[4];
+extern JASDsp::FxlineConfig_ Canyon[4];
+
+class FxLineConfig 
 {
-    extern JASDsp::FxlineConfig_ Non[4];
-    extern JASDsp::FxlineConfig_ Hall[4];
-    extern JASDsp::FxlineConfig_ Room[4];
-    extern JASDsp::FxlineConfig_ Canyon[4];
+public:
+    FxLineConfig(JKRHeap *heap);
+    void set(u8 lineNum);
 
-    class FxLineConfig 
-    {
-    public:
-        FxLineConfig(JKRHeap *heap);
-        void set(u8 lineNum);
-
-    private:
-        u8 mNum;
-        JASDsp::FxlineConfig_ *mConfig[4];
-        s16 *mBuf[4];
-    };
+private:
+    u8 mNum;
+    JASDsp::FxlineConfig_ *mConfig[4];
+    s16 *mBuf[4];
+};
 }
 
 #endif

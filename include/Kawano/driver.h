@@ -1,7 +1,7 @@
 #ifndef DRIVER_H
 #define DRIVER_H
 
-#include "Inagaki/CharacterSoundMgr.h"
+#include "Inagaki/GameSoundMgr.h"
 
 #include "Kaneshige/ExModel.h"
 #include "Kaneshige/KartInfo.h"

@@ -1,9 +1,7 @@
 #ifndef JGEOMETRY_VEC_H
 #define JGEOMETRY_VEC_H
 
-#include <JSystem/JGeometry/Util.h>
-#include "JSystem/JGeometry/Vec.h"
-#include "types.h"
+#include "JSystem/JGeometry/Util.h"
 
 namespace JGeometry {
     inline void setTVec3f(register const f32 *src, register f32 *dst)

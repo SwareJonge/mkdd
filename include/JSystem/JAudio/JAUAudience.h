@@ -195,6 +195,15 @@ public:
         _30.zero();
     }
 
+    void setMtx(const Mtx in) {
+        JGeometry::TPos3f m;
+        _48.set(_3c);
+        mMtx.set(in);
+        m.setPositionFromLookAt(mMtx);
+        m.getTrans(_3c);
+        _30.sub(_3c, _48);
+    }
+
     JGeometry::TPos3f mMtx;
     JGeometry::TVec3f _30;
     JGeometry::TVec3f _3c;
@@ -258,7 +267,17 @@ public:
         
     }
 
+    bool isActive() const { return Audible::getTotalMemCount() != Audible::getFreeMemCount(); };
+
     int getMaxChannels() { return numPlayers_; }
+
+    void setMaxChannels(int numPlayers) {
+#line 627
+        JUT_ASSERT(numPlayers <= MAX_PLAYERS);
+        JUT_ASSERT(numPlayers >= 1);
+        JUT_ASSERT(! isActive());
+        numPlayers_ = numPlayers;
+    }
 
     f32 calcVolume_(f32 p1) const {
         if (p1 > this->setting_._04) {
@@ -430,7 +449,21 @@ public:
         }
         return new Audible();
     }
-    
+
+    void setAudienceMtx(MtxPtr m, int playerNumber, bool doReset) {
+#line 756
+        JUT_ASSERT(playerNumber >= 0);
+        JUT_ASSERT(playerNumber < numPlayers_);
+        if (doReset) {
+            state[playerNumber].resetMtx(m);
+        }
+        else {
+            state[playerNumber].setMtx(m);
+        }
+    }
+
+    static const int MAX_PLAYERS = N;
+
     int numPlayers_;
     State state[N];
 };
@@ -474,7 +507,6 @@ public:
         
     }
     ~JAUDopplerAudience() {
-       ;
     }
 
 };

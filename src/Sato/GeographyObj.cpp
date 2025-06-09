@@ -1,6 +1,5 @@
 #include "Sato/GeographyObj.h"
 
-#include "Inagaki/SoundMgr.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/ExModel.h"
 #include "Sato/GeographyObjMgr.h"

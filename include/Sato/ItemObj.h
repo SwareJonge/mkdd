@@ -2,7 +2,7 @@
 #define ITEMOBJ_H
 
 #include <JSystem/JGeometry.h>
-#include "Inagaki/SoundMgr.h"
+#include "Inagaki/GameSoundMgr.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/DarkAnmMgr.h"
 #include "Osako/shadowModel.h"
