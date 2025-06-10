@@ -40,12 +40,12 @@ void RockSoundMgr::loop() {
 }
 
 void RockSoundMgr::frameWork() {
-    if (_48)
+    if (mKillSw)
         return;
 }
 
 void RockSoundMgr::setRollSe(f32 rate) {
-    if (_48) {
+    if (mKillSw) {
         return;
     }
 
@@ -58,14 +58,14 @@ void RockSoundMgr::setRollSe(f32 rate) {
     f32 pitch = (rate * 2.0f + 0.5f);
     JAISoundHandle *handle = startSoundCustom(0x4000a + _64, 0);
     if (handle && (*handle)) {
-        u8 camNo = Main::getAudio()->getCamera()->_8;
+        u8 camNo = Main::getAudio()->getCamera()->getSceneMax();
         (*handle)->getAuxiliary().moveVolume(GA_MULTI_VOLUME[camNo - 1] * volume, 0);
         (*handle)->getAuxiliary().movePitch(pitch, 0);
     }
 }
 
 void RockSoundMgr::setBoundSe(f32 rate) {
-    if (_48) {
+    if (mKillSw) {
         return;
     }
 
@@ -78,21 +78,21 @@ void RockSoundMgr::setBoundSe(f32 rate) {
     f32 pitch = (rate + 0.5f);
     JAISoundHandle *handle = startSound(0x40007 + _64);
     if (handle && (*handle)) {
-        u8 camNo = Main::getAudio()->getCamera()->_8;
+        u8 camNo = Main::getAudio()->getCamera()->getSceneMax();
         (*handle)->getAuxiliary().moveVolume(GA_MULTI_VOLUME[camNo - 1] * volume, 0);
         (*handle)->getAuxiliary().movePitch(pitch, 0);
     }
 }
 
 void RockSoundMgr::setBrokenSe() {
-    if (_48) {
+    if (mKillSw) {
         return;
     }
 
     JAISoundHandle *handle = startSound(0x4000d + _64);
     if (handle && (*handle)) {
-        u8 camNo = Main::getAudio()->getCamera()->_8;
-        (*handle)->getAuxiliary().moveVolume(GA_MULTI_VOLUME[camNo - 1], 0);
+        u8 sceneMax = Main::getAudio()->getCamera()->getSceneMax();
+        (*handle)->getAuxiliary().moveVolume(GA_MULTI_VOLUME[sceneMax - 1], 0);
     }
 }
 

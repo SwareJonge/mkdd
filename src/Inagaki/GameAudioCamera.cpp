@@ -23,7 +23,7 @@ namespace GameAudio {
 
 CameraMgr::CameraMgr(u32 p1, CustomAudience<4> *audience) {
     _4 = p1;
-    _8 = 1;
+    mSceneMax = 1;
     mCamInfo = new (JASDram, 0) CameraInfo[_4];
     mAudience = audience;
 
@@ -45,7 +45,7 @@ void CameraMgr::setCameraInfo(u32 cameraNo, Vec v, Mtx m,  CrsArea *pArea) {
     
     mCamInfo[cameraNo].setCam(v, m);
 
-    if (cameraNo < _8) {
+    if (cameraNo < mSceneMax) {
         mAudience->setAudienceMtx(m, cameraNo, false);
         if (ShoreSoundMgr::smStart) {
             ShoreSoundMgr::getAudience()->setAudienceMtx(m, cameraNo, false);
@@ -59,7 +59,7 @@ void CameraMgr::setCameraInfo(u32 cameraNo, Vec v, Mtx m,  CrsArea *pArea) {
 }
 
 void CameraMgr::setSceneMax(u32 numPlayers) {
-    _8 = numPlayers;
+    mSceneMax = numPlayers;
     JAISeMgr::getInstance()->stopAudibleSoundsSync();
     mAudience->setMaxChannels(numPlayers);
     ShoreSoundMgr::getAudience()->setMaxChannels(numPlayers);

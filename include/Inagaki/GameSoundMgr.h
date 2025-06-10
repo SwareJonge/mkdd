@@ -33,10 +33,12 @@ public:
     void setEcho(JAISoundHandle *handlePtr, f32 mix);
     JAISoundHandle *startSoundCustom(u32 soundID, u32 p2);
 
+    static void setKillSwAll(bool killSw);
+
     static T *smStart;
     static T *smEnd;
 
-    u8 _48;
+    bool mKillSw;
     u8 _49;
     u8 _4a[0x58 - 0x4a];
     T *mNext; // 58
@@ -61,10 +63,10 @@ SoundMgr<T>::SoundMgr(Vec *pos, JKRHeap *heap, u8 p3) : JAUDopplerSoundObject((J
     smEnd = (T*)this;
 
     if (Parameters::getDemoMode() != 0) {
-        _48 = 1;
+        mKillSw = true;
     }
     else {
-        _48 = 0;
+        mKillSw = false;
     }
 }
 
@@ -84,7 +86,7 @@ void SoundMgr<T>::loop() {
 
 template<class T>
 void SoundMgr<T>::setSe(u32 id) {
-    if (_48)
+    if (mKillSw)
         return;
     startSoundCustom(id, 0);
 }
@@ -116,6 +118,13 @@ JAISoundHandle *SoundMgr<T>::startSoundCustom(u32 soundID, u32 p2) {
         }
     }
     return handle;
+}
+
+template<class T>
+void SoundMgr<T>::setKillSwAll(bool killSw) {
+    for (T *mgr = smStart; mgr != nullptr; mgr = mgr->mNext) {
+        mgr->mKillSw = killSw;
+    }
 }
 
 template <typename T>

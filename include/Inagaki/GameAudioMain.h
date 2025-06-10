@@ -4,6 +4,8 @@
 #include <JSystem/JKernel/JKRHeap.h>
 #include <JSystem/JAudio/JAUSectionHeap.h>
 
+#include "Inagaki/GameAudioAudience.h"
+#include "JSystem/JAudio/Interface/JAISound.h"
 #include "kartEnums.h"
 #include "Inagaki/GameAudioFxConfig.h"
 #include "Inagaki/GameSoundTable.h"
@@ -46,7 +48,7 @@ public:
     void setPause(PAUSE_STATUS);
     void startSequenceBgm(u32);
     void stopSequenceBgm(u32);
-    void getPlayingSequenceID();
+    u32 getPlayingSequenceID();
     void prepareStreamBgm(u32);
     void startStreamBgm(u32);
     void stopStreamBgm(u32);
@@ -91,31 +93,47 @@ public:
     // void setSeVolume(f32);
     // void checkReset();
 
+    void setFxLine(u8 lineNum) { // fabricated
+        mConfig->set(lineNum);
+    }
 
+    void set_50(int val) { // fabricated
+        _50 = val;
+    }
 
     CameraMgr *getCamera() {
 #line 157
         JUT_ASSERT_MSG(mCamera, "GameAudioMain : ÉJÉÅÉâÇ™èâä˙âªÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒÅB\n");
         return mCamera;
     }
-    // static sJAudio; // TODO: type
+    
     static Main *getAudio() { return msBasic; };
 
 private:
+    static Main sJAudio;
     static Main *msBasic;
 
     CustomMgr *mMgr;              // 00
-    u8 _04[0xC - 0x4];            //
+    CustomAudience<4> *mAudience; // 04
+    u8 _08[0xC - 0x8];            //
     CustomSoundTable *mTable;     // 0C
     u8 _10[4];                    //
     JAUSectionHeap *mSectionHeap; // 14
-    u8 _18[0x44 - 0x18];          //
+    u8 _18[0x24 - 0x18];          //
+    JAISoundHandle _24[4];        //
+    JAISoundHandle _34[4];        //
     FxLineConfig *mConfig;        // 44
     u8 _48[4];                    //
     PAUSE_STATUS mPauseStatus;    // 4C
-    u8 _50[0x64 - 0x50];          //
+    int _50;                      //
+    u8 _54[0x64 - 0x54];          //
     CameraMgr *mCamera;           // 64
-    u8 _68[0xa8 - 0x68];          //
+    JAISoundHandle _68;           //
+    JAISoundHandle _6c;           //
+    JAISoundHandle _70;           //
+    u8 _74[0xa8 - 0x74];          //
+    JAISoundHandle _84[4];        // 
+    u8 _94[0xa8 - 0x94];          //
 
 }; // Size: 0xa8
 
@@ -135,19 +153,19 @@ namespace Parameters
     u8 getPlayerMode();
     int getEngineType(u8);
     int getCharacterType(u8);
-    int getRaceCourse();
+    ECourseID getRaceCourse();
     f32 getChibiPitch(u32);
-    int getNetworkCubes();
+    u8 getNetworkCubes();
     bool getChibiFlag(u8);
     u8 getDemoMode();
-    int getMirrorSwitch();
+    bool getMirrorSwitch();
     extern f32 sChibiPitch[4];
     extern u8 sDemoMode;
-    extern u8 sMirrorSwitch;
+    extern bool sMirrorSwitch;
     extern u8 sKartType[8];
     extern u8 sChrType[8];
     extern u8 sEngType[8];
-    extern u8 sKartChibiFlag[8];
+    extern bool sKartChibiFlag[8];
     extern u8 sPlayerMode;
     extern u8 sRaceMode;
     extern u8 sNetworkCubes;

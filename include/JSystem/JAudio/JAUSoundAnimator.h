@@ -155,7 +155,6 @@ protected:
     f32 loopStartFrame_;                 // 20
     f32 loopEndFrame_;                   // 24
     int _28;                             // 28
-
 };
 
 #endif

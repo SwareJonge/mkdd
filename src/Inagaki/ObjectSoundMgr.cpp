@@ -26,13 +26,13 @@ void ObjectSoundMgr::loop() {
 }
 
 void ObjectSoundMgr::frameWork() {
-    if (_48)
+    if (mKillSw)
         return;
     _68 = 1;
 }
 
 void ObjectSoundMgr::setSe(u32 seID) {
-    if (_48)
+    if (mKillSw)
         return;
 
     JAISoundHandle *handle = startSoundCustom(Common::changeRandomId(seID, 0), 0);
@@ -40,7 +40,7 @@ void ObjectSoundMgr::setSe(u32 seID) {
 }
 
 void ObjectSoundMgr::setSeWithVelocityVP(u32 soundID, f32 p2, f32 p3) {
-    if (_48)
+    if (mKillSw)
         return;
 
     JAISoundHandle *handle = startSoundCustom(soundID, 0);
@@ -58,7 +58,7 @@ void ObjectSoundMgr::setSeWithVelocityVP(u32 soundID, f32 p2, f32 p3) {
 }
 
 void ObjectSoundMgr::setSeWithVelocityV(u32 soundID, f32 p2, f32 p3) {
-    if (_48)
+    if (mKillSw)
         return;
 
     if (p2 < 0.1f)
@@ -76,7 +76,7 @@ void ObjectSoundMgr::setSeWithVelocityV(u32 soundID, f32 p2, f32 p3) {
 }
 
 void ObjectSoundMgr::setSeWithVelocityP(u32 soundID, f32 p2) {
-    if (_48)
+    if (mKillSw)
         return;
 
     if (p2 < 0.01f)

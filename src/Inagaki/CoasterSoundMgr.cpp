@@ -16,7 +16,7 @@ CoasterSoundMgr::CoasterSoundMgr(Vec *pos, JKRHeap *heap) : SoundWithEchoMgr<Coa
 CoasterSoundMgr::~CoasterSoundMgr() {}
 
 void CoasterSoundMgr::frameWork(f32 p1) {
-    if (_48)
+    if (mKillSw)
         return;
 
     checkScream(p1);
@@ -26,7 +26,7 @@ void CoasterSoundMgr::frameWork(f32 p1) {
 }
 
 void CoasterSoundMgr::setEngineSound(f32 p1) {
-    if (_48)
+    if (mKillSw)
         return;
 
     if (p1 < 1.0f)

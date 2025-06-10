@@ -25,7 +25,7 @@ GameAudio::ShoreSoundMgr::~ShoreSoundMgr() {}
 void GameAudio::ShoreSoundMgr::loop() {}
 
 void GameAudio::ShoreSoundMgr::frameWork() {
-    if (_48)
+    if (mKillSw)
         return;
     _5c = 1;
 }

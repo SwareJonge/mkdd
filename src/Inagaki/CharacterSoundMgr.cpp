@@ -45,7 +45,7 @@ void CharacterSoundMgr::init() {
 void CharacterSoundMgr::loop() {
 #line 152
     JUT_ASSERT_MSG(mSoundPos, "CharacterSoundMgr::loop　disable中です！！！！！\n");
-    if (_48)
+    if (mKillSw)
         return;
 
     JAUDopplerSoundObject::process();
@@ -58,7 +58,7 @@ void CharacterSoundMgr::loop() {
 void CharacterSoundMgr::frameWork(f32 p1, f32) {
     KartSoundMgr *kartSound = getKartSound();
 
-    if (_48 != 0 || kartSound->_66 == 2) {
+    if (mKillSw != 0 || kartSound->_66 == 2) {
         return;
     }
     mAnimator->updateAnimation(p1, *mSoundPos, mStarter);
@@ -138,7 +138,7 @@ void CharacterSoundMgr::setVoice(u8 voiceID) {
     soundID += 0x30000 + charIdx * 0x29;
     _6c = Common::changeRandomId(soundID, _6c);
 
-    if (_48 || kartSound->_66 == 2) {
+    if (mKillSw || kartSound->_66 == 2) {
         return;
     }
 
@@ -216,7 +216,7 @@ void CharacterSoundMgr::setVoice(u8 voiceID) {
 
     if (!(*handle)->getAudible()) {
         u32 unk = 0;            
-        u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
+        u32 cam8 = Main::getAudio()->getCamera()->getSceneMax(); // number of cameras?
         u8 kartCount = kartSound->mKartCount;
         if (cam8 > 1 && cam8 > kartCount) {
             unk = (1 << kartCount) ^ 0xf; // what
@@ -233,7 +233,7 @@ void CharacterSoundMgr::setSe(u32 seID) {
     JAISoundHandle *handle;
     KartSoundMgr *kartSound = getKartSound();
     
-    if (_48 != 0 || kartSound->_66 == 2)
+    if (mKillSw != 0 || kartSound->_66 == 2)
         return;
 
     if (kartSound && kartSound->_8d == 3 && Main::getAudio()->getSoundTable()->getSwBit(seID) & 0x8000000) {
@@ -241,7 +241,7 @@ void CharacterSoundMgr::setSe(u32 seID) {
     }
 
     u32 unk = 0;
-    u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
+    u32 cam8 = Main::getAudio()->getCamera()->getSceneMax(); // number of cameras?
     u8 kartCount = kartSound->mKartCount;
     if (cam8 > 1 && cam8 > kartCount) {
         unk = 1 << kartCount ^ 0xf; // what
@@ -327,7 +327,7 @@ bool CustomAnimationSoundStarter::startSound(JAISoundID soundID, JAISoundHandle 
     if (*handlePtr) {
         u32 unk = 0;
     
-        u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
+        u32 cam8 = Main::getAudio()->getCamera()->getSceneMax(); // number of cameras?
         if (cam8 > 1 && cam8 > _4) {
             unk = 1 << _4 ^ 0xf; // what
         }

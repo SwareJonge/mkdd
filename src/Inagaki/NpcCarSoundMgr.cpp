@@ -28,7 +28,7 @@ NpcCarSoundMgr::NpcCarSoundMgr(Vec *pos, u8 p3, JKRHeap *heap) : SoundWithEchoMg
 NpcCarSoundMgr::~NpcCarSoundMgr() {}
 
 void NpcCarSoundMgr::frameWork(f32 p1, bool p2) {
-    if (_48)
+    if (mKillSw)
         return;
 
     setHornSound(p2);
@@ -76,7 +76,7 @@ void NpcCarSoundMgr::setHornSound(bool p1) {
 }
 
 void NpcCarSoundMgr::setSe(u32 soundID) {
-    if (_48)
+    if (mKillSw)
         return;
 
     if (getHandleSoundID(soundID))

@@ -62,10 +62,12 @@ public:
     void setCameraInfo(u32, Vec, Mtx,  CrsArea *);
     void setSceneMax(u32);
 
+    u32 getSceneMax() const { return mSceneMax; }
+
 //private:
     CustomAudience<4> *mAudience;
     u32 _4;
-    u32 _8;
+    u32 mSceneMax;
     CameraInfo *mCamInfo;
 }; // Size: 0x10
 

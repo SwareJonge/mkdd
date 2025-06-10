@@ -15,7 +15,7 @@ MapSoundObjectMgr::MapSoundObjectMgr(Vec *pos, Type type, JKRHeap *heap) : Sound
 MapSoundObjectMgr::~MapSoundObjectMgr() {}
 
 void MapSoundObjectMgr::frameWork() {
-    if (_48) {
+    if (mKillSw) {
         return;
     }
     
@@ -115,7 +115,7 @@ void MapSoundObjectMgr::frameWork() {
 }
 
 int MapSoundObjectMgr::getPlayerGoalRank() {
-    u32 n = Main::getAudio()->getCamera()->_8;
+    u32 n = Main::getAudio()->getCamera()->getSceneMax();
     KartSoundMgr *soundMgr = KartSoundMgr::smStart;
     for (int i = 0; soundMgr && i < n; i++, soundMgr = soundMgr->mNext) {
         if (soundMgr->_63 == 3) {

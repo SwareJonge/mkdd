@@ -34,7 +34,7 @@ void Main::startSequenceBgm(u32) {}
 
 void Main::stopSequenceBgm(u32) {}
 
-void Main::getPlayingSequenceID() {}
+u32 Main::getPlayingSequenceID() {}
 
 void Main::prepareStreamBgm(u32) {}
 
