@@ -1,4 +1,5 @@
 #include "Kaneshige/DarkAnmMgr.h"
+#include "kartEnums.h"
 
 
 // NG = Normal Ghost
@@ -140,7 +141,7 @@ DarkAnmPlayer::DarkAnmPlayer(ECharID driverID, EGhostKind ghostKind) {
     case KOOPATROOPA:
     case WARIO:
     case BOWSER:
-    case BOWSERJR:
+    case BOWSER_JR:
     case KING_BOO:
     case PETEY:
         setKartColorData(ghostKind, &sKoopaNormColor, &sKoopaNGNormColor, &sKoopaSGNormColor, &sKoopaBlackColor, &sKoopaGreenColor, &sKoopaRedColor, &sKoopaNightColor);
@@ -151,8 +152,8 @@ DarkAnmPlayer::DarkAnmPlayer(ECharID driverID, EGhostKind ghostKind) {
     case WALUIGI:
     case YOSHI:
     case BIRDO:
-    case DONKEYKONG:
-    case DONKEYJR:
+    case DONKEY_KONG:
+    case DIDDY_KONG:
     case TOAD:
     case TOADETTE:
         setKartColorData(ghostKind,&sPeachNormColor,

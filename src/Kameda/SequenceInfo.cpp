@@ -386,13 +386,13 @@ EKartID SequenceInfo::getDemoKart(ECharID charID) {
     switch (charID) {
     case BABY_MARIO:
     case BABY_LUIGI:
-    case DONKEYJR: {
+    case DIDDY_KONG: {
         demoKart = GOO_GOO_BUGGY;
         break;
     }
     case PARATROOPA:
     case KOOPATROOPA:
-    case BOWSERJR: {
+    case BOWSER_JR: {
         demoKart = KOOPA_DASHER;
         break;
     }
@@ -416,7 +416,7 @@ EKartID SequenceInfo::getDemoKart(ECharID charID) {
         demoKart = TURBO_YOSHI;
         break;
     }
-    case DONKEYKONG: {
+    case DONKEY_KONG: {
         demoKart = DK_JUMBO;
         break;        
     }

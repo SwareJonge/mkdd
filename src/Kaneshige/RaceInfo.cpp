@@ -32,7 +32,7 @@ ECharID RaceInfo::sAwardDebugDriver1IDTable[] = {
     PEACH};
 ECharID RaceInfo::sAwardDebugDriver2IDTable[] = {
     LUIGI,
-    BOWSERJR,
+    BOWSER_JR,
     DAISY};
 
 RaceInfo::RaceInfo()

@@ -87,16 +87,16 @@ const KartInfo::SCharDB KartInfo::cWaluigiCharDB = {
     0
 };
 const KartInfo::SCharDB KartInfo::cDonkeyCharDB = {
-    DONKEYKONG,
-    DONKEYJR,
+    DONKEY_KONG,
+    DIDDY_KONG,
     2,
     DK_JUMBO,
     2,
     0
 };
 const KartInfo::SCharDB KartInfo::cDonkeyJrCharDB = {
-    DONKEYJR,
-    DONKEYKONG,
+    DIDDY_KONG,
+    DONKEY_KONG,
     0,
     BARREL_TRAIN,
     2,
@@ -120,14 +120,14 @@ const KartInfo::SCharDB KartInfo::cCatherineCharDB = {
 };
 const KartInfo::SCharDB KartInfo::cKoopaCharDB = {
     BOWSER,
-    BOWSERJR,
+    BOWSER_JR,
     2,
     KOOPA_KING,
     1,
     0
 };
 const KartInfo::SCharDB KartInfo::cKoopaJrCharDB = {
-    BOWSERJR,
+    BOWSER_JR,
     BOWSER,
     0,
     BULLET_BLASTER,
@@ -180,7 +180,7 @@ const KartInfo::SKartDB KartInfo::cMonkeyKartDB = {
     HEAVY,
     4,
     1,
-    DONKEYKONG,
+    DONKEY_KONG,
     0
 };
 const KartInfo::SKartDB KartInfo::cLizardKartDB = {
@@ -244,7 +244,7 @@ const KartInfo::SKartDB KartInfo::cDiddyKartDB = {
     LIGHT,
     6,
     0,
-    DONKEYJR,
+    DIDDY_KONG,
     0
 };
 const KartInfo::SKartDB KartInfo::cCatherineKartDB = {
@@ -292,7 +292,7 @@ const KartInfo::SKartDB KartInfo::cKoopaJrKartDB = {
     LIGHT,
     4,
     2,
-    BOWSERJR,
+    BOWSER_JR,
     0
 };
 const KartInfo::SKartDB KartInfo::cKinopioKartDB = {
@@ -400,16 +400,16 @@ const KartInfo::SCharDB * KartInfo::getCharDB(ECharID charID) {
     case BIRDO:
         charDB = &cCatherineCharDB;
         break;
-    case DONKEYKONG:
+    case DONKEY_KONG:
         charDB = &cDonkeyCharDB;
         break;
-    case DONKEYJR:
+    case DIDDY_KONG:
         charDB = &cDonkeyJrCharDB;
         break;
     case BOWSER:
         charDB = &cKoopaCharDB;
         break;
-    case BOWSERJR:
+    case BOWSER_JR:
         charDB = &cKoopaJrCharDB;
         break;
     case TOAD:
