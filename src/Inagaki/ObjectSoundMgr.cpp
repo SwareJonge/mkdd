@@ -1,5 +1,7 @@
 #include "Inagaki/GameAudioCommon.h"
 #include "Inagaki/GameSoundMgr.h"
+#include "JSystem/JAudio/Interface/JAISound.h"
+#include "JSystem/JAudio/System/JASCalc.h"
 #include "JSystem/JUtility/JUTAssert.h"
 #include "Kaneshige/Course/CrsArea.h"
 
@@ -37,13 +39,57 @@ void ObjectSoundMgr::setSe(u32 seID) {
     setInitialEcho(handle);
 }
 
-void ObjectSoundMgr::setSeWithVelocityVP(u32, f32, f32) {
+void ObjectSoundMgr::setSeWithVelocityVP(u32 soundID, f32 p2, f32 p3) {
+    if (_48)
+        return;
 
+    JAISoundHandle *handle = startSoundCustom(soundID, 0);
+    if (handle && (*handle)) {
+        if (p2 > 1.0f) {
+            p2 = 1.0f;
+        }
+        else if (p2 < 0.0f) {
+            p2 = 0.0f;
+        }
+        (*handle)->getAuxiliary().moveVolume((1.0f - p3) * p2 + p3, 0);
+        (*handle)->getAuxiliary().movePitch((1.0f - p3) * p2 + p3, 0);
+    }
+    setInitialEcho(handle);
 }
 
-void ObjectSoundMgr::setSeWithVelocityV(u32, f32, f32) {}
+void ObjectSoundMgr::setSeWithVelocityV(u32 soundID, f32 p2, f32 p3) {
+    if (_48)
+        return;
 
-void ObjectSoundMgr::setSeWithVelocityP(u32, f32) {}
+    if (p2 < 0.1f)
+        return;
 
+    JAISoundHandle *handle = startSoundCustom(soundID, 0);
+    if (handle && (*handle)) {
+        if (p2 > 1.0f) {
+            p2 = 1.0f;
+        }
 
+        (*handle)->getAuxiliary().moveVolume((1.0f - p3) * p2 + p3, 0);
+    }
+    setInitialEcho(handle);
+}
+
+void ObjectSoundMgr::setSeWithVelocityP(u32 soundID, f32 p2) {
+    if (_48)
+        return;
+
+    if (p2 < 0.01f)
+        return;
+
+    JAISoundHandle *handle = startSoundCustom(soundID, 0);
+    if (handle && (*handle)) {
+        if (p2 > 1.0f) {
+            p2 = 1.0f;
+        }
+
+        (*handle)->getAuxiliary().movePitch((p2 + 0.5f), 0);
+    }
+    setInitialEcho(handle);
+}
 }
