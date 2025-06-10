@@ -1039,7 +1039,7 @@ config.libs = [
             Object(NonMatching, "Inagaki/KartSoundMgr.cpp"),
             Object(Matching, "Inagaki/NpcCarSoundMgr.cpp"),
             Object(Matching, "Inagaki/ObjectSoundMgr.cpp"),
-            Object(NonMatching, "Inagaki/RockSoundMgr.cpp"),
+            Object(Matching, "Inagaki/RockSoundMgr.cpp"),
             Object(NonMatching, "Inagaki/GameSoundTable.cpp"),
             Object(NonMatching, "Inagaki/ShoreSoundMgr.cpp"),
             Object(NonMatching, "Inagaki/CircleSoundMgr.cpp"),
