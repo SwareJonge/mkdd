@@ -1,5 +1,6 @@
 #include "Inagaki/GameAudioMain.h"
 #include "kartEnums.h"
+#include "types.h"
 
 namespace GameAudio {
 const f32 GA_PLAY_SE_VOLUME_1P = 1.0f;
@@ -55,11 +56,11 @@ namespace Parameters {
 
     int getRaceCourse() {}
 
-    int getChibiPitch(u32) {}
+    f32 getChibiPitch(u32) {}
 
     int getNetworkCubes() {}
 
-    int getChibiFlag(u8) {}
+    bool getChibiFlag(u8) {}
 
     u8 getDemoMode() {}
 

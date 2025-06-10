@@ -1029,7 +1029,7 @@ config.libs = [
         "Inagaki",
         [],
         [
-            Object(NonMatching, "Inagaki/CharacterSoundMgr.cpp"),
+            Object(Equivalent, "Inagaki/CharacterSoundMgr.cpp"),
             Object(Equivalent, "Inagaki/GameAudioCamera.cpp"),
             Object(Matching, "Inagaki/GameAudioCommon.cpp"),
             Object(Matching, "Inagaki/GameAudioHostIO.cpp"),

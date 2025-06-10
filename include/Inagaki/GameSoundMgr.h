@@ -30,6 +30,7 @@ public:
     virtual void setSe(u32 id);
     virtual void loop();
 
+    void setEcho(JAISoundHandle *handlePtr, f32 mix);
     JAISoundHandle *startSoundCustom(u32 soundID, u32 p2);
 
     static T *smStart;
@@ -90,6 +91,13 @@ void SoundMgr<T>::setSe(u32 id) {
 
 template<class T>
 void SoundMgr<T>::init() {}
+
+template<class T>
+void SoundMgr<T>::setEcho(JAISoundHandle *handlePtr, f32 mix) {
+    if (handlePtr && (*handlePtr) && mix != 0.0f) {
+        ((*handlePtr))->getAuxiliary().moveFxMix(mix, 0);
+    }
+}
 
 template<class T>
 JAISoundHandle *SoundMgr<T>::startSoundCustom(u32 soundID, u32 p2) {
@@ -220,7 +228,11 @@ public:
     u8 mKartCount; // 62
     u8 _63[0x66 - 0x63];
     u8 _66;
-    u8 _67[0x134 - 0x67];
+    u8 _67[0x6c - 0x67];
+    f32 _6c;
+    u8 _70[0x8d - 0x70];
+    u8 _8d;
+    u8 _8e[0x134 - 0x8e];
 };
 
 class CharacterSoundMgr : public SoundMgr<CharacterSoundMgr> {
@@ -298,7 +310,6 @@ public:
 
 class NpcCarSoundMgr : public SoundWithEchoMgr<NpcCarSoundMgr> {
 public:
-    // Global
     NpcCarSoundMgr(Vec *, u8, JKRHeap *); // 0x80129994
     ~NpcCarSoundMgr();                    // 0x80129a10
     void frameWork(f32, bool);            // 0x80129a70

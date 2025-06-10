@@ -136,9 +136,9 @@ namespace Parameters
     int getEngineType(u8);
     int getCharacterType(u8);
     int getRaceCourse();
-    int getChibiPitch(u32);
+    f32 getChibiPitch(u32);
     int getNetworkCubes();
-    int getChibiFlag(u8);
+    bool getChibiFlag(u8);
     u8 getDemoMode();
     int getMirrorSwitch();
     extern f32 sChibiPitch[4];
