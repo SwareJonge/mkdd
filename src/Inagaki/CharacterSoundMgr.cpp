@@ -200,36 +200,39 @@ void CharacterSoundMgr::setVoice(u8 voiceID) {
 
     starter->startSound(_6c, handle, nullptr);
 
-    if (*handle) {
-        kartSound = getKartSound(); // ?
-        if (kartSound) {
-            setEcho(handle, kartSound->_6c);            
+    if (!(*handle)) {
+        return;
+    }
+
+    kartSound = getKartSound(); // ?
+    if (kartSound) {
+        setEcho(handle, kartSound->_6c);            
+    }
+
+    if (Parameters::getChibiFlag(_64)) {
+        JAISound *sound = handle->operator->();
+        sound->getAuxiliary().movePitch(Parameters::getChibiPitch(_6c), 0);
+    }
+
+    if (!(*handle)->getAudible()) {
+        u32 unk = 0;            
+        u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
+        u8 kartCount = kartSound->mKartCount;
+        if (cam8 > 1 && cam8 > kartCount) {
+            unk = (1 << kartCount) ^ 0xf; // what
         }
+        (*handle)->newAudible(JGeometry::TVec3f(*mSoundPos), &_18, unk, nullptr);
 
-        if (Parameters::getChibiFlag(_64)) {
-            JAISound *sound = handle->operator->();
-            sound->getAuxiliary().movePitch(Parameters::getChibiPitch(_6c), 0);
-        }
-
-        if (!(*handle)->getAudible()) {
-            u32 unk = 0;            
-            u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
-            u8 kartCount = kartSound->mKartCount;
-            if (cam8 > 1 && cam8 > kartCount) {
-                unk = 1 << kartCount ^ 0xf; // what
-            }
-            (*handle)->newAudible(JGeometry::TVec3f(*mSoundPos), &_18, unk, nullptr);
-
-            if (kartSound->_66) {
-                (*handle)->getAuxiliary().moveVolume(0.55f, 0);
-            }
+        if (kartSound->_66) {
+            (*handle)->getAuxiliary().moveVolume(0.55f, 0);
         }
     }
 }
 
 void CharacterSoundMgr::setSe(u32 seID) {
+    JAISoundHandle *handle;
     KartSoundMgr *kartSound = getKartSound();
-
+    
     if (_48 != 0 || kartSound->_66 == 2)
         return;
 
@@ -238,14 +241,13 @@ void CharacterSoundMgr::setSe(u32 seID) {
     }
 
     u32 unk = 0;
-    
     u32 cam8 = Main::getAudio()->getCamera()->_8; // number of cameras?
     u8 kartCount = kartSound->mKartCount;
     if (cam8 > 1 && cam8 > kartCount) {
         unk = 1 << kartCount ^ 0xf; // what
     } 
 
-    JAISoundHandle *handle = startSoundCustom(seID, unk);
+    handle = startSoundCustom(seID, unk);
 
     if (Parameters::getChibiFlag(_64)) {
         JAISound *sound = handle->operator->();
@@ -258,7 +260,8 @@ void CharacterSoundMgr::setSe(u32 seID) {
 }
 
 bool CharacterSoundMgr::isSpeak() {
-    if ((*this)[0]) {
+    JAISoundHandles *handles = this;
+    if ((*handles)[0]) {
         return true;
     }
     return false;

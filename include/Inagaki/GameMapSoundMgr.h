@@ -42,7 +42,7 @@ public:
 
     MapSoundObjectMgr(Vec *, Type, JKRHeap *); // 0x8012f6c8
     void frameWork(); // 0x8012f788
-    void getPlayerGoalRank(); // 0x8012fb20
+    int getPlayerGoalRank(); // 0x8012fb20
     // Inline
     virtual ~MapSoundObjectMgr(); // 0x8012f728
 
