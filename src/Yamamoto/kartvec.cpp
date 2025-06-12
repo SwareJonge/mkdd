@@ -129,21 +129,27 @@ void KartMath::CrossToPolar(JGeometry::TVec3f *vec1, JGeometry::TVec3f *vec2, f3
     *pAng2 = std::atan2f(divZ, divX);
 }
 
-void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 x, f32 y, f32 z)
+void KartMath::PolarToCross(VecPtr base, VecPtr out, f32 distance, f32 elevation, f32 azimuth)
 {
-    // angle in ??? convert radian to euler?
-    s16 angleY = 16384.0f * ((180.0f * y) / 3.141f) / 90.0f;
-    s16 angleZ = 16384.0f * ((180.0f * z) / 3.141f) / 90.0f;
+    // modifies the VecPtr `out` to be the vector sum of:
+    // VecPtr `base`
+    //   and
+    // the vector defined by the spherical coordinates `(distance, elevation, azimuth)`
+    
+    // get sin and cos using lookups
+    s16 lookup_elevation = 16384.0f * ((180.0f * elevation) / 3.141f) / 90.0f;
+    s16 lookup_azimuth = 16384.0f * ((180.0f * azimuth) / 3.141f) / 90.0f;
 
-    f32 cosY = JMASCos(angleY);
-    f32 sinZ = JMASSin(angleZ);
+    f32 cos_elevation = JMASCos(lookup_elevation);
+    f32 sin_azimuth = JMASSin(lookup_azimuth);
 
-    f32 cosZ = JMASCos(angleZ);
-    f32 sinY = JMASSin(angleY);
-
-    out->x = base->x + x * cosY * sinZ;
-    out->y = base->y + x * sinY;
-    out->z = base->z + x * cosY * cosZ;
+    f32 cos_azimuth = JMASCos(lookup_azimuth);
+    f32 sin_elevation = JMASSin(lookup_elevation);
+    
+    // convert spherical coords to cartesian coords and add components
+    out->x = base->x + distance * cos_elevation * sin_azimuth;
+    out->y = base->y + distance * sin_elevation;
+    out->z = base->z + distance * cos_elevation * cos_azimuth;
 }
 
 f32 KartMath::lu(Mtx33 m, int *pivot)
