@@ -28,8 +28,10 @@ public:
     void DoDonkyCannonCrl();   // 0x80303934
     void DoRainbowCannonCrl(); // 0x80303b80
     void DoAfterCannonCrl();   // 0x80303dd4
-private:
-    u8 _0[0x1c];           //
+
+    u8 _0[0x8];            //
+    u8 mFlags;             // 08
+    u8 _9[0x1c - 0x9];     //
     JGeometry::TVec3f _1c; //
     JGeometry::TVec3f _28; //
     JGeometry::TVec3f _34; //

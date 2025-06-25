@@ -73,9 +73,11 @@ public:
     void Init(int);
 
     // Inline
+    KartCrash *getCrash() { return mKartCrash; }
     KartDossin *getDossin() { return mKartDossin; }
     KartScene *getScene() { return mKartScene; }
     KartCheck *getChecker() { return mKartCheck; }
+    KartCannon *getCannon() { return mKartCannon; }
     KartStrat *getStrat() { return mKartStrat; }
     KartThunder *getThunder() { return mKartThunder; }
     KartDamage *getDamage() { return mKartDamage; }

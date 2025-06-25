@@ -147,7 +147,7 @@ void KartDamage::SetDamageAnime()
         GetKartCtrl()->getKartAnime(body->mMynum)->mFlags &= ~0x80000;
     }
 
-    if (body->getThunder()->_4 & 1)
+    if (body->getThunder()->mFlags & 1)
         return;
 
     if (GetKartCtrl()->CheckCamera(body->mMynum))

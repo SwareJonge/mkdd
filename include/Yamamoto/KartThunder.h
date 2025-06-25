@@ -22,13 +22,13 @@ public:
     // Inline
     f32 getScale() { return mScale; }
 
-    KartBody *mBody;
-    u8 _4;
-    u8 _5;
-    u16 _6;
-    f32 mScale;
-    f32 _c;
-    f32 _10;
+    KartBody *mBody; // 00
+    u8 mFlags;       // 04
+    u8 mState;       // 05 
+    u16 mTimer;      // 06
+    f32 mScale;      // 08
+    f32 _c;          //
+    f32 _10;         //
 }; // 14
 
 #endif // KARTTHUNDER_H

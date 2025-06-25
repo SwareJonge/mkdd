@@ -144,7 +144,7 @@ void KartDisp::MakeDispBodyPos()
     sus3->_b8 = sus3->_b4;
     sus4->_b8 = sus4->_b4;
 
-    if (body->getThunder()->_4 & 1)
+    if (body->getThunder()->mFlags & 1)
     {
         f32 offset = ThunderOffet[body->mIdx].x * (1.0f - body->getThunder()->getScale());
         sus1->_188[1][3] += offset;
@@ -166,7 +166,7 @@ void KartDisp::MakeDispBodyPos()
     body->_1a0[1][3] += (fVar6 * body->_1a0[1][1]);
     body->_1a0[2][3] += (fVar6 * body->_1a0[2][1]);
 
-    if (body->getThunder()->_4 & 1)
+    if (body->getThunder()->mFlags & 1)
     {
         MatrixScale(body->_1a0, body->getThunder()->getScale());
 
@@ -218,7 +218,7 @@ void KartDisp::MakeSusMatrix(int i)
     fVal20 = TireOpData[idx][i]._20;
 
     PSMTXCopy(body->_110, yNorm);
-    if (body->getThunder()->_4 & 1)
+    if (body->getThunder()->mFlags & 1)
         MatrixScale(yNorm, body->getThunder()->getScale());
 
     GetKartCtrl()->RotZMatrix(zNorm, angle);
@@ -474,7 +474,7 @@ void KartDisp::MakeBodyDispMatrix()
     body->mShadowModel->setBaseTRMtx(body->_1a0);
     body->mShadowModel->setPosY(body->mBodyGround.getHeight());
 
-    if (body->getThunder()->_4 & 1)
+    if (body->getThunder()->mFlags & 1)
         body->mShadowModel->setScale(body->getThunder()->getScale(), body->getThunder()->getScale());
     else
         body->mShadowModel->setScale(body->_568, body->_568);
