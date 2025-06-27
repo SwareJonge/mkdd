@@ -5,6 +5,7 @@
 
 enum ECourseID
 {
+    CRS_ID_INV = 0,
     TEST_1 = 0x1,
     TEST_2 = 0x2,
     TEST_3 = 0x3,

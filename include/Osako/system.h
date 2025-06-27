@@ -134,6 +134,8 @@ namespace System
     System::getDisplay()->getFader()
 #define SYSTEM_GetFaderStatus() \
     System::getDisplay()->getFader()->getStatus()
+#define SYSTEM_SetFaderStatus(status, unk) \
+    System::getDisplay()->getFader()->setStatus(status, unk)
 #define SYSTEM_StartFadeIn(duration) \
     System::getDisplay()->startFadeIn(duration)
 #define SYSTEM_StartFadeOut(duration) \
