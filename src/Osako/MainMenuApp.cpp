@@ -25,6 +25,41 @@
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
 
+
+MainMenuApp *MainMenuApp::mspMainMenuApp;
+
+MainMenuApp *MainMenuApp::create() {
+    if (mspMainMenuApp == nullptr) {
+        mspMainMenuApp = NEW_APP MainMenuApp();
+    } 
+    return mspMainMenuApp;
+}
+
+void MainMenuApp::call() {
+    AppMgr::setNextApp(AppMgr::mcMainMenu);
+}
+
+MainMenuApp::MainMenuApp() : GameApp(0, "Menu", nullptr) {
+    _14 = 0;
+    _18 = 0;
+    _c = 0;
+    mCursorPos = 0;
+    mDebugMode = 0;
+    mPlayerCount = 1;
+    mTestMode = 0;
+    mGameMode = 0;
+    mBattleMode = 0;
+    mGameFlagIdx = 0;
+    mSecretKartId = 0;
+    mCupIdx = 0;
+    mLevelIdx = 0;
+    mRankIdx = 0;
+}
+
+MainMenuApp::~MainMenuApp() {
+    mspMainMenuApp = nullptr;
+}
+
 static const char *scpaDebugMode[] = {
     "Race",
     "Test",
@@ -96,58 +131,24 @@ static const char *scpaLevelName[] = {
     "Mirror"
 };
 
-MainMenuApp *MainMenuApp::mspMainMenuApp;
-
-MainMenuApp *MainMenuApp::create() {
-    if (mspMainMenuApp == nullptr) {
-        mspMainMenuApp = NEW_APP MainMenuApp();
-    } 
-    return mspMainMenuApp;
-}
-
-void MainMenuApp::call() {
-    AppMgr::setNextApp(AppMgr::mcMainMenu);
-}
-
-MainMenuApp::MainMenuApp() : GameApp(0, "Menu", nullptr) {
-    _14 = 0;
-    _18 = 0;
-    _c = 0;
-    _1c = 0;
-    _1d = 0;
-    _1e = 1;
-    _1f = 0;
-    _20 = 0;
-    _21 = 0;
-    mGameFlagIdx = 0;
-    mSecretKartId = 0;
-    mCupIdx = 0;
-    mLevelIdx = 0;
-    _26 = 0;
-}
-
-MainMenuApp::~MainMenuApp() {
-    mspMainMenuApp = nullptr;
-}
-
 void MainMenuApp::up() {
-    switch (_1c) {
+    switch (mCursorPos) {
     case 0: {
-        switch(_1d) {
+        switch(mDebugMode) {
         case 1:
-            _1c = 2;
+            mCursorPos = 2;
             break;
         case 0: {
-            if (_20 == 3) {
-                _1c = 4;
+            if (mGameMode == 3) {
+                mCursorPos = 4;
             }
             else {
-                _1c = 3;
+                mCursorPos = 3;
             }
             break;
         }  
         case 2:
-            _1c = 7;
+            mCursorPos = 7;
             break;
         }
         break;
@@ -155,19 +156,19 @@ void MainMenuApp::up() {
     case 1:
     case 2:
     case 5:
-        _1c = 0;
+        mCursorPos = 0;
         break;
     case 3:
-        _1c = 1;
+        mCursorPos = 1;
         break;
     case 4:
-        _1c = 3;
+        mCursorPos = 3;
         break;
     case 6:
-        _1c = 5;
+        mCursorPos = 5;
         break;
     case 7:
-        _1c = 6;
+        mCursorPos = 6;
         break;
     default:
         break;
@@ -175,44 +176,44 @@ void MainMenuApp::up() {
 }
 
 void MainMenuApp::down() {
-    switch (_1c) {
+    switch (mCursorPos) {
     case 0: {
-        switch(_1d) {
+        switch(mDebugMode) {
         case 1:
-            _1c = 2;
+            mCursorPos = 2;
             break;
         case 0: {
-            _1c = 1;
+            mCursorPos = 1;
             break;
         }  
         case 2:
-            _1c = 5;
+            mCursorPos = 5;
             break;
         }
         break;
     }
     case 1:
-        _1c = 3;
+        mCursorPos = 3;
         break;
     case 2:
     case 4:
     case 7:
-        _1c = 0;
+        mCursorPos = 0;
         break;
     case 3: {
-        if (_20 == 3) {
-            _1c = 4;
+        if (mGameMode == 3) {
+            mCursorPos = 4;
         }
         else {
-            _1c = 0;
+            mCursorPos = 0;
         }
         break;
     }
     case 5:
-        _1c = 6;
+        mCursorPos = 6;
         break;
     case 6:
-        _1c = 7;
+        mCursorPos = 7;
         break;
     default:
         break;
@@ -220,50 +221,50 @@ void MainMenuApp::down() {
 }
 
 void MainMenuApp::left() {
-    switch(_1c) {
+    switch(mCursorPos) {
     case 0: {
-        if (--_1d < 0) {
-            _1d = 2;
+        if (--mDebugMode < 0) {
+            mDebugMode = 2;
         }
         break;
     }
     case 1: {
-        if (--_1e <= 0) {
-            _1e = 8;
+        if (--mPlayerCount <= 0) {
+            mPlayerCount = 8;
         }
-        if ((_20 == 0) && (_1e != 1)) {
-            _20 = 1;
+        if ((mGameMode == 0) && (mPlayerCount != 1)) {
+            mGameMode = 1;
         }
-        if (_20 == 1) {
-            if  (_1e > 2) {
-                _20 = 2;
+        if (mGameMode == 1) {
+            if  (mPlayerCount > 2) {
+                mGameMode = 2;
             }
         }
         break;
     }
     case 2: {
-        if (--_1f < 0) {
-            _1f = 4;
+        if (--mTestMode < 0) {
+            mTestMode = 4;
         }
         break;
     }
     case 3: {
-        if (--_20 < 0) {
-            _20 = 3;
+        if (--mGameMode < 0) {
+            mGameMode = 3;
         }
-        if ((_20 == 1) && (_1e > 2)) {
-            _20 = 3;
+        if ((mGameMode == 1) && (mPlayerCount > 2)) {
+            mGameMode = 3;
         }
-        if (_20 == 0) {
-            if (_1e != 1) {
-                _20 = 3;
+        if (mGameMode == 0) {
+            if (mPlayerCount != 1) {
+                mGameMode = 3;
             }
         }
         break;
     }
     case 4:{
-        if (--_21 < 0) {
-            _21 = 3;
+        if (--mBattleMode < 0) {
+            mBattleMode = 3;
         }
         break;
     }
@@ -280,8 +281,8 @@ void MainMenuApp::left() {
         break;
     }
     case 7: {
-        if (--_26 < 0) {
-            _26 = 2;
+        if (--mRankIdx < 0) {
+            mRankIdx = 2;
 
         }
         break;
@@ -292,50 +293,50 @@ void MainMenuApp::left() {
 }
 
 void MainMenuApp::right() {
-switch(_1c) {
+switch(mCursorPos) {
     case 0: {
-        if (++_1d >= 3) {
-            _1d = 0;
+        if (++mDebugMode >= 3) {
+            mDebugMode = 0;
         }
         break;
     }
     case 1: {
-        if (++_1e > 8) {
-            _1e = 1;
+        if (++mPlayerCount > 8) {
+            mPlayerCount = 1;
         }
-        if ((_20 == 0) && (_1e != 1)) {
-            _20 = 1;
+        if ((mGameMode == 0) && (mPlayerCount != 1)) {
+            mGameMode = 1;
         }
-        if (_20 == 1) {
-            if  (_1e > 2) {
-                _20 = 2;
+        if (mGameMode == 1) {
+            if  (mPlayerCount > 2) {
+                mGameMode = 2;
             }
         }
         break;
     }
     case 2: {
-        if (++_1f >= 5) {
-            _1f = 0;
+        if (++mTestMode >= 5) {
+            mTestMode = 0;
         }
         break;
     }
     case 3: {
-        if (++_20 >= 4) {
-            _20 = 0;
+        if (++mGameMode >= 4) {
+            mGameMode = 0;
         }
-        if ((_20 == 0) && (_1e != 1)) {
-            _20 = 1;
+        if ((mGameMode == 0) && (mPlayerCount != 1)) {
+            mGameMode = 1;
         }
-        if (_20 == 1) {
-            if (_1e > 2) {
-                _20 = 2;
+        if (mGameMode == 1) {
+            if (mPlayerCount > 2) {
+                mGameMode = 2;
             }
         }
         break;
     }
     case 4:{
-        if (++_21 >= 4) {
-            _21 = 0;
+        if (++mBattleMode >= 4) {
+            mBattleMode = 0;
         }
         break;
     }
@@ -352,8 +353,8 @@ switch(_1c) {
         break;
     }
     case 7: {
-        if (++_26 > 2) {
-            _26 = 0;
+        if (++mRankIdx > 2) {
+            mRankIdx = 0;
         }
         break;
     }
@@ -363,9 +364,9 @@ switch(_1c) {
 }
 
 void MainMenuApp::decide() {
-    switch(_1d) {
+    switch(mDebugMode) {
     case 1: {
-        switch(_1f) {
+        switch(mTestMode) {
         case 0:
             SceneApp::call();
             break;
@@ -403,22 +404,22 @@ void MainMenuApp::decide() {
         break;
     }
     case 0: {
-        switch (_20) {
+        switch (mGameMode) {
         case 0:
             gRaceInfo.setRace(TIME_ATTACK, 4, 4, 1, 1);
             break;
         case 1:
-            gRaceInfo.setRace(GRAND_PRIX, 8, _1e, _1e, _1e);
+            gRaceInfo.setRace(GRAND_PRIX, 8, mPlayerCount, mPlayerCount, mPlayerCount);
             break;
         case 2: {
             int count = 4;
-            if (_1e < 3)
-                count = _1e;
+            if (mPlayerCount < 3)
+                count = mPlayerCount;
             int status = 4;
-            if (_1e <= 4)
-                status = _1e;
-            gRaceInfo.setRace(VERSUS_RACE, _1e, _1e, count, status);
-            if (_1e == 3) {
+            if (mPlayerCount <= 4)
+                status = mPlayerCount;
+            gRaceInfo.setRace(VERSUS_RACE, mPlayerCount, mPlayerCount, count, status);
+            if (mPlayerCount == 3) {
                 gRaceInfo.setConsoleTarget(3, 0, true);
             }
             gRaceInfo.setItemSlotType(gSystemRecord.mItemSlotType);
@@ -426,28 +427,28 @@ void MainMenuApp::decide() {
         }
         case 3: {
             int count = 4;
-            if (_1e < 3)
-                count = _1e;
+            if (mPlayerCount < 3)
+                count = mPlayerCount;
             int status = 4;
-            if (_1e <= 4)
-                status = _1e;
+            if (mPlayerCount <= 4)
+                status = mPlayerCount;
 
-            switch (_21) {
+            switch (mBattleMode) {
             case 0:
-                gRaceInfo.setRace(BALLOON_BATTLE, _1e, _1e, count, status);
+                gRaceInfo.setRace(BALLOON_BATTLE, mPlayerCount, mPlayerCount, count, status);
                 break;
             case 1:
-                gRaceInfo.setRace(ROBBERY_BATTLE, _1e, _1e, count, status);
+                gRaceInfo.setRace(ROBBERY_BATTLE, mPlayerCount, mPlayerCount, count, status);
                 break;
             case 2:
-                gRaceInfo.setRace(BOMB_BATTLE, _1e, _1e, count, status);
+                gRaceInfo.setRace(BOMB_BATTLE, mPlayerCount, mPlayerCount, count, status);
                 break;
             case 3: {
-                gRaceInfo.setRace(ESCAPE_BATTLE, _1e, _1e, count, status);
+                gRaceInfo.setRace(ESCAPE_BATTLE, mPlayerCount, mPlayerCount, count, status);
                 break;
             }
             }
-            if (_1e == 3) {
+            if (mPlayerCount == 3) {
                 gRaceInfo.setConsoleTarget(3, 0, true);
             }
         }
@@ -457,7 +458,7 @@ void MainMenuApp::decide() {
         break;
     }
     case 2: {
-        switch(_1c) {
+        switch(mCursorPos) {
         case 5:
            gSystemRecord.unlockGame((SystemRecord::GameFlag)mGameFlagIdx);
            break;
@@ -466,72 +467,182 @@ void MainMenuApp::decide() {
            break;
         case 7: {
             GPRecord rec;            
-            rec.set(7, 5, 0, mLevelIdx, _26, 30, false, "OSK", RaceTime(123456));
+            rec.set(7, 5, 0, mLevelIdx, mRankIdx, 30, false, "OSK", RaceTime(123456));
             gSystemRecord.setGPRecord((ERaceGpCup)mCupIdx, (ERaceLevel)mLevelIdx, rec);
             break;
         }
         }
     }
     }
-
 }
 
 void MainMenuApp::cancel() {
+    AppMgr::deleteCurrentApp();
+    SequenceApp::call(Scene::SCENE_TITLE);
 }
 
-void MainMenuApp::draw() {\
+void MainMenuApp::draw() {
+    const JUTColor highlightColor(0xff, 0xff, 0xff, 0xff);
+    const JUTColor gray(0x80, 0x80, 0x80, 0x80);
+    const char *dash = "-";
     int x = 70;
-    System::getJ2DOrtho()->setPort();
     J2DPrint *print = System::getJ2DPrint();
-    print->setWhiteColor(0xffffffff);
+    
+    System::getJ2DOrtho()->setPort();
+    System::getJ2DPrint()->initiate();
+
+    print->setWhiteColor(highlightColor);
     print->initiate();
     print->print(80.0f, 80.0f, "Main Menu(kari)");
 
-    if (_1c == 1) {
-        print->print(35.0f,120.0f,"-");
+    if (mCursorPos == 0) {
+        print->print(35.0f,120.0f,dash);
     }
 
-    for (u8 i = 0; i < 3; i++) {
-        if (_1d == i) {
-            print->setWhiteColor(0xffffffff);
+    u8 i;
+    for (i = 0; i < 3; i++) {
+        if (mDebugMode == i) {
+            print->setWhiteColor(highlightColor);
             print->initiate();
         }
         else {
-            print->setWhiteColor(0x80808080);
+            print->setWhiteColor(gray);
             print->initiate();
         }
 
-        print->print(x, 145.0f, scpaDebugMode[i]);
-        x += print->getWidth(scpaDebugMode[i]) + 35;
+        print->print(x, 120.0f, scpaDebugMode[i]);
+        x += (int)print->getWidth(scpaDebugMode[i]);
+        x += 35;
     }
 
     x = 70;
-    switch(_1d) {
+    switch(mDebugMode) {
     case 0: {
-        print->setWhiteColor(0xffffffff);
+        print->setWhiteColor(highlightColor);
         print->initiate();
-        if (_1c == 1) {
-            print->print(35.0f,145.0f,"-");
+        if (mCursorPos == 1) {
+            print->print(35.0f,145.0f,dash);
         }
 
-        for (u8 i = 0; i < 9; i++) {
-            if (_1e == i) {
-                print->setWhiteColor(0xffffffff);
+        for (i = 1; i <= 8; i++) {
+            if (mPlayerCount == i) {
+                print->setWhiteColor(highlightColor);
                 print->initiate();
             }
             else {
-                print->setWhiteColor(0x80808080);
+                print->setWhiteColor(gray);
                 print->initiate();
             }
 
-            print->print(x, 145.0f, "%dP",scpaGameFlag[i]);
-            x += print->getWidth("%dP",scpaGameFlag[i]) + 35;
+            print->print(x, 145.0f, "%dP", i);
+            x += (int)print->getWidth("%dP", i);
+            x += 35;
+        }
+
+        x = 70;
+        print->setWhiteColor(highlightColor);
+        print->initiate();
+
+        if (mCursorPos == 3) {
+            print->print(35.0f,170.0f,dash);
+        }
+
+        for (i = 0; i < 4; i++) {
+            if (mGameMode == i) {
+                print->setWhiteColor(highlightColor);
+                print->initiate();
+            }
+            else {
+                print->setWhiteColor(gray);
+                print->initiate();
+            }
+
+            print->print(x,170.0f, scpaGameMode[i]);
+            x += (int)print->getWidth(scpaGameMode[i]);
+            x += 35;
+        }
+
+        if (mGameMode == 3) {
+            x = 0x46;
+            print->setWhiteColor(highlightColor);
+            print->initiate();
+            if (mCursorPos == 4) {
+                print->print(35.0f,195.0f,dash);
+            }
+
+            for (i = 0; i < 4; i++) {
+                if (mBattleMode == i) {
+                    print->setWhiteColor(highlightColor);
+                    print->initiate();
+                }
+                else {
+                    print->setWhiteColor(gray);
+                    print->initiate();
+                }
+                print->print(x, 195.0f,scpaBattleMode[i]);
+                x += (int)print->getWidth(scpaBattleMode[i]);
+                x += 35;
+            }
+        }
+        break;
+    }
+    case 1: {
+        print->setWhiteColor(highlightColor);
+        print->initiate();
+        if (mCursorPos == 2) {
+            print->print(35.0f,145.0f,dash);
+        }
+
+        for (i = 0; i < 5; i++) {
+            if (mTestMode == i) {
+                print->setWhiteColor(highlightColor);
+                print->initiate();
+            }
+            else {
+                print->setWhiteColor(gray);
+                print->initiate();
+            }
+            print->print(x, 145.0f, scpaTestMode[i]);
+            x += (int)print->getWidth(scpaTestMode[i]);
+            x += 35;
+        }
+        break;
+    }
+    case 2: {
+        print->setWhiteColor(highlightColor);
+        print->initiate();
+        if (mCursorPos == 5) {
+            print->print(35.0f,145.0f,dash);
+        }
+
+        print->print(70.0f,145.0f,"GameFlag");
+        print->print(250.0f,145.0f,scpaGameFlag[mGameFlagIdx]);
+        print->print(430.0f,145.0f,"%s", gSystemRecord.isGameUnlocked((SystemRecord::GameFlag)mGameFlagIdx) ? "On" : "Off");
+        if (mCursorPos == 6) {
+            print->print(35.0f,170.0f,dash);
+        }
+
+        print->print(70.0f,170.0f,"SecretKart");
+        print->print(250.0f,170.0f,scpaSecretKart[mSecretKartId]);
+        print->print(430.0f, 170.0f, "%s", gSystemRecord.isKartUnlocked(mSecretKartId) ? "On" : "Off");
+        if (mCursorPos == 7) {
+            print->print(35.0f, 195.0f, dash);
+        }
+
+        print->print(70.0f,195.0f,"GP rank %d", mRankIdx + 1);
+        print->print(250.0f, 195.0f, scpaCupName[mCupIdx]);
+        print->print(430.0f,195.0f,scpaLevelName[mLevelIdx]);
+        if (mCursorPos == 7) {
+            print->print(70.0f, 245.0f, "Select GPRecord with C stick.\nSelect rank with stick.\nPress A Button to decide.");
+        }
+        else {
+            print->print(70.0f,245.0f,"Press Y button to reverse all flags.");
         }
         break;
     }
     }
 
-    print->setWhiteColor(0xffffffff);
+    print->setWhiteColor(highlightColor);
     print->initiate();
 }
 
@@ -579,13 +690,12 @@ void MainMenuApp::calc() {
         }
         else if (gGamePad1P.testTrigger(KartGamePad::B)) {
             GetGameAudioMain()->startSystemSe(0x20004);
-            AppMgr::deleteCurrentApp();
-            SequenceApp::call(Scene::SCENE_TITLE);
+            cancel();
         }
         else if (gGamePad1P.testTrigger(KartGamePad::Y)) {
-            if (_1d == 2) {
+            if (mDebugMode == 2) {
                 GetGameAudioMain()->startSystemSe(0x20002);
-                switch (_1c) {
+                switch (mCursorPos) {
                 case 5: {
                     for (int i = 0; i < 9; i++) {
                         gSystemRecord.unlockGame((SystemRecord::GameFlag)i);
@@ -602,7 +712,7 @@ void MainMenuApp::calc() {
             }
         }
 
-        if (_1c == 7) {
+        if (mCursorPos == 7) {
             if (gGamePad1P.testTrigger(KartGamePad::CSTICK_UP)) {
                 if (--mLevelIdx < 0) {
                     mLevelIdx = 3;
@@ -635,7 +745,7 @@ void MainMenuApp::calc() {
     case 4: {
         if (ResMgr::isFinishLoadingArc(ResMgr::mcArcCourse)) {
             AppMgr::deleteCurrentApp();
-            if (_1d == 1 && _1f == 2) {
+            if (mDebugMode == 1 && mTestMode == 2) {
                 AwardApp::call();
             }
             else {

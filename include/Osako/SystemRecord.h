@@ -66,6 +66,9 @@ struct SystemRecord
         mSecretKart ^= (1 << kart);
     }
 
+    bool isGameUnlocked(GameFlag flag) { return mGameFlag & (1 << flag); }
+    bool isKartUnlocked(int kart) { return mSecretKart & (1 << kart); }
+
     bool isRumble() { return !(mOptions & 4); } 
     /*union
     {

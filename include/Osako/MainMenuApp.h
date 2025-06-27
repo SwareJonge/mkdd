@@ -30,17 +30,17 @@ private:
     int _10;          //
     int _14;          //
     int _18;          //
-    s8 _1c;           //
-    s8 _1d;           //
-    s8 _1e;           //
-    s8 _1f;           //
-    s8 _20;           //
-    s8 _21;           //
+    s8 mCursorPos;    // 1c
+    s8 mDebugMode;    // 1d
+    s8 mPlayerCount;  // 1e
+    s8 mTestMode;     // 1f
+    s8 mGameMode;     // 20
+    s8 mBattleMode;   // 21
     s8 mGameFlagIdx;  // 22
     s8 mSecretKartId; // 23
     s8 mCupIdx;       // 24
     s8 mLevelIdx;     // 25
-    s8 _26;           //
+    s8 mRankIdx;      // 26
 };
 
 #endif

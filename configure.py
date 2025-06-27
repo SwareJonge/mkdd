@@ -1210,7 +1210,7 @@ config.libs = [
             Object(Matching, "Osako/shadowModel.cpp"),
             Object(Matching, "Osako/GameApp.cpp"),
             Object(Matching, "Osako/main.cpp"),
-            Object(NonMatching, "Osako/MainMenuApp.cpp"),
+            Object(Matching, "Osako/MainMenuApp.cpp"),
             Object(NonMatching, "Osako/PlayerSelectApp.cpp"),
             Object(NonMatching, "Osako/MapSelectApp.cpp"),
             Object(Matching, "Osako/RaceApp.cpp"),
