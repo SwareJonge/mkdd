@@ -51,7 +51,7 @@ private:
     static KartAppEnum msNextGameApp;
     static KartAppEnum msNextNextGameApp;
     static KartAppEnum msPrevGameApp;
-    static GameApp * mspGameApp;
+    static GameApp *mspGameApp;
     static int msRequest;
     static u8 msDrawStallFrame;
     static u8 msCalcStallFrame;

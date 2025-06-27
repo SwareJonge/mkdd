@@ -26,21 +26,21 @@ public:
 
 private:
     static MainMenuApp *mspMainMenuApp;
-    int _C;
-    int _10;
-    int _14;
-    int _18;
-    s8 _1C;
-    s8 _1D;
-    s8 _1E;
-    s8 _1F;
-    s8 _20;
-    s8 _21;
-    s8 mGameFlagIdx;
-    s8 mSecretKartId;
-    s8 mCupIdx;
-    s8 mLevelIdx;
-    s8 _26;
+    int _c;           //
+    int _10;          //
+    int _14;          //
+    int _18;          //
+    s8 _1c;           //
+    s8 _1d;           //
+    s8 _1e;           //
+    s8 _1f;           //
+    s8 _20;           //
+    s8 _21;           //
+    s8 mGameFlagIdx;  // 22
+    s8 mSecretKartId; // 23
+    s8 mCupIdx;       // 24
+    s8 mLevelIdx;     // 25
+    s8 _26;           //
 };
 
 #endif

@@ -56,6 +56,8 @@ struct J2DPrint {
         mGlyphHeight = (height > 0.0f) ? height : 0.0f;
     }
 
+    inline void setWhiteColor(JUtility::TColor color) { mColorWhite = color; }
+
     inline void setCharColor(JUtility::TColor color) { mCharColor = color; }
 
     inline void setGradColor(JUtility::TColor color) { mGradientColor = color; }

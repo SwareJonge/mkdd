@@ -306,6 +306,11 @@ public:
         return this->mButtons.mTrigger & mask;
     }
 
+    bool testRepeat(u32 mask) const
+    {
+        return this->mButtons.mRepeat & mask;
+    }
+
     int getPortNum() const
     {
         return this->mPortNum;
