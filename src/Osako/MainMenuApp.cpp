@@ -61,73 +61,73 @@ MainMenuApp::~MainMenuApp() {
 }
 
 static const char *scpaDebugMode[] = {
-    "Race",
-    "Test",
+    "Race", 
+    "Test", 
     "Record"
 };
 
 static const char *scpaTestMode[] = {
-    "Scene",
-    "View",
-    "Award",
-    "Movie",
+    "Scene", 
+    "View", 
+    "Award", 
+    "Movie", 
     "Ending"
 };
 
 static const char *scpaGameMode[] = {
-    "TimeAttack",
-    "GrandPrix",
-    "Versus",
+    "TimeAttack", 
+    "GrandPrix", 
+    "Versus", 
     "Battle"
 };
 
 static const char *scpaBattleMode[] = {
-    "Balloon",
-    "Robbery",
-    "Bomb",
+    "Balloon", 
+    "Robbery", 
+    "Bomb", 
     "Escape"
 };
 
 static const char *scpaGameFlag[] = {
-    "Kinopio combi",
-    "Boss combi",
-    "Mirror",
-    "Special cup",
-    "All tour cup",
-    "Ending",
-    "Special ending",
-    "Mini Luigi",
+    "Kinopio combi", 
+    "Boss combi", 
+    "Mirror", 
+    "Special cup", 
+    "All tour cup", 
+    "Ending", 
+    "Special ending", 
+    "Mini Luigi", 
     "Mini Mario"
 };
 
 static const char *scpaSecretKart[] = {
-    "Baby luigi",
-    "Patapata",
-    "Diddy",
-    "KoopaJr",
-    "Kinopio",
-    "Kinopico",
-    "Luigi",
-    "Daisy",
-    "Catherine",
-    "Waluigi",
-    "Pakkun",
-    "Teressa",
+    "Baby luigi", 
+    "Patapata", 
+    "Diddy", 
+    "KoopaJr", 
+    "Kinopio", 
+    "Kinopico", 
+    "Luigi", 
+    "Daisy", 
+    "Catherine", 
+    "Waluigi", 
+    "Pakkun", 
+    "Teressa", 
     "Extra"
 };
 
 static const char *scpaCupName[] = {
-    "Mushroom",
-    "Flower",
-    "Star",
-    "Special",
+    "Mushroom", 
+    "Flower", 
+    "Star", 
+    "Special", 
     "Allcup"
 };
 
 static const char *scpaLevelName[] = {
-    "50cc",
-    "100cc",
-    "150cc",
+    "50cc", 
+    "100cc", 
+    "150cc", 
     "Mirror"
 };
 
@@ -496,7 +496,7 @@ void MainMenuApp::draw() {
     print->print(80.0f, 80.0f, "Main Menu(kari)");
 
     if (mCursorPos == 0) {
-        print->print(35.0f,120.0f,dash);
+        print->print(35.0f, 120.0f, dash);
     }
 
     u8 i;
@@ -521,7 +521,7 @@ void MainMenuApp::draw() {
         print->setWhiteColor(highlightColor);
         print->initiate();
         if (mCursorPos == 1) {
-            print->print(35.0f,145.0f,dash);
+            print->print(35.0f, 145.0f, dash);
         }
 
         for (i = 1; i <= 8; i++) {
@@ -544,7 +544,7 @@ void MainMenuApp::draw() {
         print->initiate();
 
         if (mCursorPos == 3) {
-            print->print(35.0f,170.0f,dash);
+            print->print(35.0f, 170.0f, dash);
         }
 
         for (i = 0; i < 4; i++) {
@@ -557,7 +557,7 @@ void MainMenuApp::draw() {
                 print->initiate();
             }
 
-            print->print(x,170.0f, scpaGameMode[i]);
+            print->print(x, 170.0f, scpaGameMode[i]);
             x += (int)print->getWidth(scpaGameMode[i]);
             x += 35;
         }
@@ -567,7 +567,7 @@ void MainMenuApp::draw() {
             print->setWhiteColor(highlightColor);
             print->initiate();
             if (mCursorPos == 4) {
-                print->print(35.0f,195.0f,dash);
+                print->print(35.0f, 195.0f, dash);
             }
 
             for (i = 0; i < 4; i++) {
@@ -579,7 +579,7 @@ void MainMenuApp::draw() {
                     print->setWhiteColor(gray);
                     print->initiate();
                 }
-                print->print(x, 195.0f,scpaBattleMode[i]);
+                print->print(x, 195.0f, scpaBattleMode[i]);
                 x += (int)print->getWidth(scpaBattleMode[i]);
                 x += 35;
             }
@@ -590,7 +590,7 @@ void MainMenuApp::draw() {
         print->setWhiteColor(highlightColor);
         print->initiate();
         if (mCursorPos == 2) {
-            print->print(35.0f,145.0f,dash);
+            print->print(35.0f, 145.0f, dash);
         }
 
         for (i = 0; i < 5; i++) {
@@ -612,31 +612,31 @@ void MainMenuApp::draw() {
         print->setWhiteColor(highlightColor);
         print->initiate();
         if (mCursorPos == 5) {
-            print->print(35.0f,145.0f,dash);
+            print->print(35.0f, 145.0f, dash);
         }
 
-        print->print(70.0f,145.0f,"GameFlag");
-        print->print(250.0f,145.0f,scpaGameFlag[mGameFlagIdx]);
-        print->print(430.0f,145.0f,"%s", gSystemRecord.isGameUnlocked((SystemRecord::GameFlag)mGameFlagIdx) ? "On" : "Off");
+        print->print(70.0f, 145.0f, "GameFlag");
+        print->print(250.0f, 145.0f, scpaGameFlag[mGameFlagIdx]);
+        print->print(430.0f, 145.0f, "%s", gSystemRecord.isGameUnlocked((SystemRecord::GameFlag)mGameFlagIdx) ? "On" : "Off");
         if (mCursorPos == 6) {
-            print->print(35.0f,170.0f,dash);
+            print->print(35.0f, 170.0f, dash);
         }
 
-        print->print(70.0f,170.0f,"SecretKart");
-        print->print(250.0f,170.0f,scpaSecretKart[mSecretKartId]);
+        print->print(70.0f, 170.0f, "SecretKart");
+        print->print(250.0f, 170.0f, scpaSecretKart[mSecretKartId]);
         print->print(430.0f, 170.0f, "%s", gSystemRecord.isKartUnlocked(mSecretKartId) ? "On" : "Off");
         if (mCursorPos == 7) {
             print->print(35.0f, 195.0f, dash);
         }
 
-        print->print(70.0f,195.0f,"GP rank %d", mRankIdx + 1);
+        print->print(70.0f, 195.0f, "GP rank %d", mRankIdx + 1);
         print->print(250.0f, 195.0f, scpaCupName[mCupIdx]);
-        print->print(430.0f,195.0f,scpaLevelName[mLevelIdx]);
+        print->print(430.0f, 195.0f, scpaLevelName[mLevelIdx]);
         if (mCursorPos == 7) {
             print->print(70.0f, 245.0f, "Select GPRecord with C stick.\nSelect rank with stick.\nPress A Button to decide.");
         }
         else {
-            print->print(70.0f,245.0f,"Press Y button to reverse all flags.");
+            print->print(70.0f, 245.0f, "Press Y button to reverse all flags.");
         }
         break;
     }
