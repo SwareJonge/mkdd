@@ -226,7 +226,11 @@ struct J3DMaterialTable
     J3DErrType entryTevRegAnimator(J3DAnmTevRegKey *);
     void removeTevRegAnimator(J3DAnmTevRegKey *);
 
-    void entryMatColorAnimator(J3DAnmColor *);
+    J3DErrType entryMatColorAnimator(J3DAnmColor *);
+    void removeMatColorAnimator(J3DAnmColor *);
+
+    J3DErrType entryTexNoAnimator(J3DAnmTexPattern *);
+    void removeTexNoAnimator(J3DAnmTexPattern *);
 
     J3DMaterial *getMaterialNodePointer(u16 idx) const { return mMaterials[idx]; }
     J3DTexture *getTexture() const { return mTextures; }

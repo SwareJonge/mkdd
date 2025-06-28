@@ -1294,7 +1294,7 @@ config.libs = [
             Object(NonMatching, "Sato/GeoObjPathMove.cpp"),
             Object(NonMatching, "Sato/EffectScreen.cpp"),
             Object(NonMatching, "Sato/stEfctRoad.cpp"),
-            Object(NonMatching, "Sato/AnmController.cpp"),
+            Object(Matching, "Sato/AnmController.cpp"),
             Object(Matching, "Sato/RivalKart.cpp"),
             Object(Matching, "Sato/StateObserver.cpp"),
             Object(NonMatching, "Sato/NeckCtrl.cpp"),

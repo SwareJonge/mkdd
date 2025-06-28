@@ -1,8 +1,11 @@
 #ifndef ANMCONTROLLER_H
 #define ANMCONTROLLER_H
 
+#include "JSystem/JSupport/JSUList.h"
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Kaneshige/ExModel.h"
 #include "Sato/J3DAnmObject.h"
+#include "types.h"
 
 struct MatAnmInfo
 {
@@ -66,11 +69,12 @@ public:
         changeMatAnm(0, true);
         mFlags = 0;
     }
-    virtual void setAnmProc() { mObj[mNowAnmNo].anmFrameProc(); } // 14
     virtual void frameProc() { doframe(mNowAnmNo); }          // 18
+    virtual void setAnmProc() { mObj[mNowAnmNo].anmFrameProc(); } // 14
+    
     virtual ~TAnmControlBase() {}                             // 1C
 
-    void doframe(u8 anmNo)
+    void doframe(const u8 anmNo)
     {
 #line 111
         JUT_MINMAX_ASSERT(0, anmNo, mMaxAnmNo);
@@ -92,7 +96,7 @@ public:
         return mObj[anm_no].getFrameCtrl();
     }
 
-private:
+protected:
     T *mObj;
 };
 
@@ -100,17 +104,104 @@ class AnmControlTrans : public TAnmControlBase<J3DAnmObjTrans>
 {
 public:
     AnmControlTrans() {}
-    //virtual ~AnmControlTrans() {}
+    virtual ~AnmControlTrans() {}
+
+    virtual void changeAnm(u8, bool) { } // TODO
+
+    virtual void setAnmProc() {
+        mObj[mNowAnmNo].mModel->getModelData()->getJointNodePointer(0)->setMtxCalc(mObj[mNowAnmNo].mCalc);
+        mObj[mNowAnmNo].anmFrameProc();
+        if (mFlags & 2) {
+            mObj[_1c].anmFrameProc();
+        }
+    }
+
+    virtual void frameProc();
 
     void registration(u8, J3DAnmTransform *, J3DMtxCalc *);
     void registrationBlend(u8, J3DAnmTransform *, J3DMtxCalc *);
     void changeBlendAnm(u8, u8, u8);
-    void frameProc();
 
     u8 _1c;
     u8 _1d;
     u8 _1e;
     u8 _1f;
+};
+
+class AnmControlMatColor : public TAnmControlBase<J3DAnmObjMatColor> {
+public:
+    AnmControlMatColor() { }
+
+    virtual void changeMatAnm(u8 anm_no, bool reset) {
+#line 190
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        mObj[anm_no].changeMatAnm(&mObj[mNowAnmNo]);
+        mNowAnmNo = anm_no;
+        if (reset) {
+            mObj[mNowAnmNo].resetFrame();
+        }
+    }
+};
+
+class AnmControlMatTexSRT : public TAnmControlBase<J3DAnmObjMatTexSRT> {
+public:
+    AnmControlMatTexSRT() { }
+
+    virtual void changeMatAnm(u8 anm_no, bool reset) {
+#line 206
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        mObj[anm_no].changeMatAnm(&mObj[mNowAnmNo]);
+        mNowAnmNo = anm_no;
+        if (reset) {
+            mObj[mNowAnmNo].resetFrame();
+        }
+    }
+};
+
+class AnmControlMatTexPattern : public TAnmControlBase<J3DAnmObjMatTexPattern> {
+public:
+    AnmControlMatTexPattern() {}
+
+    virtual void changeMatAnm(u8 anm_no, bool reset) {
+#line 223
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        mObj[anm_no].changeMatAnm(&mObj[mNowAnmNo]);
+        mNowAnmNo = anm_no;
+        if (reset) {
+            mObj[mNowAnmNo].resetFrame();
+        }
+    }
+};
+
+class AnmControlMatTevReg : public TAnmControlBase<J3DAnmObjMatTevReg> {
+public:
+    AnmControlMatTevReg() {
+
+    }
+    virtual void changeMatAnm(u8 anm_no, bool reset) {
+#line 246
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        mObj[anm_no].changeMatAnm(&mObj[mNowAnmNo]);
+        mNowAnmNo = anm_no;
+        if (reset) {
+            mObj[mNowAnmNo].resetFrame();
+        }
+    }
+};
+
+class MatAnmData {
+public:
+    MatAnmData() {
+        mpCtrlColor = nullptr;
+        mpCtrlSRT = nullptr;
+        mpCtrlPattern = nullptr;
+        mpCtrlTevReg = nullptr;
+    }
+
+    AnmControlMatColor *mpCtrlColor;        // 0
+    AnmControlMatTexSRT *mpCtrlSRT;         // 4
+    AnmControlMatTexPattern *mpCtrlPattern; // 8
+    AnmControlMatTevReg *mpCtrlTevReg;      // c
 };
 
 class AnmController
@@ -178,9 +269,9 @@ public:
     void StopTrans() { mTrans->resetFlag(); } // fabricated
 
     AnmControlTrans *mTrans;     // 4
-    void *_08;                   // AnmControlMatColor
+    AnmControlBase **mMat;
     JSUList<AnmControlBase> *mCtrls;
-    void *_10;                   // AnmControlMatColor, copy of _08? or other way around
+    MatAnmData *mMatData;
 
 }; // Size: 0x14
 

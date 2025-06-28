@@ -188,8 +188,7 @@ void NetGateApp::calc() {
         }
         break;
     }
-    case 8: 
-    {
+    case 8:  {
         switch (mpPrintMc->get_14Thing() ) {
         case 0:
             mState = 9;
@@ -203,18 +202,21 @@ void NetGateApp::calc() {
 
         break;
     }
-    case 9:
+    case 9: {
         if (NetGameMgr::ptr()->getState() != 0x14) {
             SYSTEM_StartFadeOut(15);
             mState = 10;
             mpPrintMc->closeWindow();
         }
         break;
-    case 10:
+    }
+    case 10: {
         if (SYSTEM_IsFadingOut()) {
             AppMgr::deleteCurrentApp();
             SequenceApp::call(Scene::SCENE_TITLE);
         }
+        break;
+    }
     }
     mpPrintMc->calc();
 }
