@@ -17,14 +17,27 @@ public:
     void changePad(u8);               // 0x801f9d48
 
     // Inline/Unused
-    // void decide();
-    // void cancel();
+    void decide();
+    void cancel();
     static PlayerSelectApp *ptr() { return mspPlayerSelectApp; }
 
 private:
     static PlayerSelectApp *mspPlayerSelectApp; // 0x804168e8
     static u32 msCallFlag;                      // 0x804168ec
-    // TODO
-};
+    
+    int _c;  //
+    int _10; //
+    int mCursorY; // 14
+    int mLevel;   // 18
+    int mKartCount; // 1c
+    struct {
+        s16 mKartIdx;
+        s16 mCharId1;
+        s16 mCharId2;
+        s8 mPadNo1;
+        s8 mPadNo2;
+        u8 _8;
+    } _20[8];
+}; // Size: 0x70
 
 #endif // PLAYERSELECTAPP_H

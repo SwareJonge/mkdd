@@ -1,6 +1,7 @@
 #ifndef RACEINFO_H
 #define RACEINFO_H
 
+#include "JSystem/JUtility/JUTAssert.h"
 #include "kartEnums.h"
 #include "types.h"
 
@@ -64,6 +65,12 @@ public:
     void setGpCup(ERaceGpCup cup) { mGpCup = cup; }
     void setRandomSeed(u32 value) { mRandomSeed = value; }
     void setItemSlotType(int type) { mItemSlotType = type; }
+
+    void setStartPosIdx(int kartNo, int id) {
+#line 95
+        JUT_MINMAX_ASSERT(0, kartNo, 8);
+        mStartPosIndex[kartNo] = id;
+    }
 
     void setRivalKartNo(int rivalNo, int kartNo) {
 #line 114
