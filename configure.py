@@ -1227,7 +1227,7 @@ config.libs = [
             Object(Matching, "Osako/systemData.cpp"),
             Object(NonMatching, "Osako/NetGameMgr.cpp"),
             Object(Matching, "Osako/SequenceApp.cpp"),
-            Object(NonMatching, "Osako/NetGateApp.cpp"),
+            Object(Matching, "Osako/NetGateApp.cpp"),
             Object(Matching, "Osako/TestViewApp.cpp"),
             Object(NonMatching, "Osako/shadowMgr.cpp"),
             Object(Matching, "Osako/shadowScr.cpp"),

@@ -14,7 +14,7 @@ public:
     };
 
     LANTitle(JKRArchive *); // 0x80216640
-    void calc(); // 0x8021682c
+    int calc(); // 0x8021682c
     void calcAnm(); // 0x80216a6c
     void draw(const J2DGrafContext *); // 0x80216b14
     void start(); // 0x80216b40
@@ -22,5 +22,8 @@ public:
     void selectIn();
     void selectOut();
     void unselect();
+
+private:
+    u8 _0[0x138];
 }; // class LANTitle
 #endif // LANTITLE_H

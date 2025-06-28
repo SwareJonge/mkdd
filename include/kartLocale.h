@@ -99,7 +99,7 @@ public:
         return msLanguage;
     }
 
-    static const char * getLanguageName() {
+    static const char *getLanguageName() {
         return mscpaLanguageName[(int)getLanguage()];
     }
 

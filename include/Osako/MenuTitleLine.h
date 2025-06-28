@@ -2,6 +2,8 @@
 #define MENUTITLELINE_H
 
 #include "JSystem/J2D/J2DPane.h"
+#include "JSystem/J2D/J2DPicture.h"
+#include "JSystem/J2D/J2DScreen.h"
 #include "JSystem/JKernel/JKRArchive.h"
 
 class MenuTitleLine

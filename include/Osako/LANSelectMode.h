@@ -90,13 +90,14 @@ public:
     
     LANSelectMode(JKRArchive *); // 0x8021462c
     void directView(int); // 0x802158b4
-    void calc(); // 0x80215c9c
+    int calc(); // 0x80215c9c
     void calcAnm(); // 0x80216028
     void draw(const J2DGrafContext *); // 0x802161ac
     void start(bool); // 0x80216214
     void setDisplayMax(); // 0x80216358    
     
-
+private: 
+    u8 _0[0x350];
 }; // class LANSelectMode
 
 extern const char *cpaGameModeTex[];

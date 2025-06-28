@@ -10,7 +10,7 @@ public:
     void waitEntry(); // 0x80217190
     void endReceipt(); // 0x80217660
     void setRaceInfo(); // 0x802176b4
-    void calc(); // 0x80217bb0
+    int calc(); // 0x80217bb0
     void calcAnm(); // 0x80217cb0
     void draw(const J2DGrafContext *); // 0x8021821c
     void start(); // 0x8021826c
@@ -22,5 +22,8 @@ public:
     void changeNumberTexture(int);
     void receiptEntry(int);
     void cancelEntry(int);
+
+private:
+    u8 _0[0x300];
 }; // class LANEntry
 #endif // LANENTRY_H
