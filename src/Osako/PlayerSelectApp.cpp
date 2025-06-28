@@ -217,41 +217,41 @@ void PlayerSelectApp::calc() {
     else if (gpaKartPad[0]->testRepeat(KartGamePad::MAINSTICK_LEFT)) {
         GetGameAudioMain()->startSystemSe(0x20000);
         if (gpaKartPad[0]->testButton(KartGamePad::L)) {
-            if (--_20[this->mCursorY].mCharId1 <= cCharIDNone) {
-                _20[this->mCursorY].mCharId1 = PETEY;
+            if (--_20[mCursorY].mCharId1 <= cCharIDNone) {
+                _20[mCursorY].mCharId1 = PETEY;
             }
         }
         else if (gpaKartPad[0]->testButton(KartGamePad::R)) {
-            if (--_20[this->mCursorY].mCharId2 <= cCharIDNone) {
-                _20[this->mCursorY].mCharId2 = PETEY;
+            if (--_20[mCursorY].mCharId2 <= cCharIDNone) {
+                _20[mCursorY].mCharId2 = PETEY;
             }
         }
         else {
-            if (--_20[this->mCursorY].mKartIdx < 0) {
-                _20[this->mCursorY].mKartIdx = PARADE_KART;
+            if (--_20[mCursorY].mKartIdx < 0) {
+                _20[mCursorY].mKartIdx = PARADE_KART;
             }
-            _20[this->mCursorY].mCharId1 = scaaCharPair[_20[this->mCursorY].mKartIdx][0];
-            _20[this->mCursorY].mCharId2 = scaaCharPair[_20[this->mCursorY].mKartIdx][1];
+            _20[mCursorY].mCharId1 = scaaCharPair[_20[mCursorY].mKartIdx][0];
+            _20[mCursorY].mCharId2 = scaaCharPair[_20[mCursorY].mKartIdx][1];
         }
     }
     else if (gpaKartPad[0]->testRepeat(KartGamePad::MAINSTICK_RIGHT)) {
         GetGameAudioMain()->startSystemSe(0x20000);
         if (gpaKartPad[0]->testButton(KartGamePad::L)) {
-            if (++_20[this->mCursorY].mCharId1 >= cCharIDMax) {
-                _20[this->mCursorY].mCharId1 = BABY_MARIO;
+            if (++_20[mCursorY].mCharId1 >= cCharIDMax) {
+                _20[mCursorY].mCharId1 = BABY_MARIO;
             }
         }
         else if (gpaKartPad[0]->testButton(KartGamePad::R)) {
-            if (++_20[this->mCursorY].mCharId2 >= cCharIDMax) {
-                _20[this->mCursorY].mCharId2 = BABY_MARIO;
+            if (++_20[mCursorY].mCharId2 >= cCharIDMax) {
+                _20[mCursorY].mCharId2 = BABY_MARIO;
             }
         }
         else {
-            if (++_20[this->mCursorY].mKartIdx >= cKartIDMax) {
-                _20[this->mCursorY].mKartIdx = RED_FIRE;
+            if (++_20[mCursorY].mKartIdx >= cKartIDMax) {
+                _20[mCursorY].mKartIdx = RED_FIRE;
             }
-            _20[this->mCursorY].mCharId1 = scaaCharPair[_20[this->mCursorY].mKartIdx][0];
-            _20[this->mCursorY].mCharId2 = scaaCharPair[_20[this->mCursorY].mKartIdx][1];
+            _20[mCursorY].mCharId1 = scaaCharPair[_20[mCursorY].mKartIdx][0];
+            _20[mCursorY].mCharId2 = scaaCharPair[_20[mCursorY].mKartIdx][1];
         }
     }
     else if (gpaKartPad[0]->testTrigger(KartGamePad::Y)) {
