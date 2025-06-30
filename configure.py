@@ -1276,7 +1276,7 @@ config.libs = [
             Object(NonMatching, "Sato/stEffectMgr.cpp"),
             Object(NonMatching, "Sato/stEfctExhaust.cpp"),
             Object(NonMatching, "Sato/ItemObjMgr.cpp"),
-            Object(NonMatching, "Sato/ItemGTurtle.cpp"),
+            Object(Matching, "Sato/ItemGTurtle.cpp"),
             Object(NonMatching, "Sato/ItemObj.cpp"),
             Object(NonMatching, "Sato/ItemBanana.cpp"),
             Object(Matching, "Sato/stEfctWeed.cpp"),

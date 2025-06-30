@@ -26,7 +26,7 @@ public:
     void calcRndItemKind(u32, u32 *, u32 *);    // 0x8027e620
     ItemColFlag calcColReaction(ItemObj *);     // 0x8027e6cc
     void moveColWall(CrsGround &);              // 0x8027e728
-    void checkKartColDisappear(int);            // 0x8027e774
+    const bool checkKartColDisappear(int);      // 0x8027e774
 
     static Vec sHandOffsetPos;            // 0x80413888
     static J3DAnmTexPattern *sTexPattern; // 0x80416d10

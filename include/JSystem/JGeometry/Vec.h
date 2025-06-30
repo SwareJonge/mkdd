@@ -72,6 +72,13 @@ namespace JGeometry {
             y = other.y;
         }
 
+        template <typename TY>
+        void setAll(TY val)
+        {
+            x = val;
+            y = val;
+        }
+
         void setMin(const TVec2<f32> &min)
         {
             if (x >= min.x)
@@ -248,12 +255,13 @@ namespace JGeometry {
             return *this;
         }
 
-        /*void operator+(const TVec3 &operand)
+        /*TVec3 operator+(const TVec3 &operand)
         {
-            add(operand);
-            return *this;
-        }*/
-
+            TVec3 tmp(*this);
+            tmp += operand;
+            return tmp;
+        }
+*/
         TVec3 operator*(f32 scalar) const
         {
             TVec3 scaled(*this);
@@ -303,6 +311,7 @@ namespace JGeometry {
         void scale(f32 scalar, const TVec3 &operand) { JMathInlineVEC::PSVECScale(&operand, this, scalar); }
 
         void scaleAdd(f32 scalar, const TVec3 &operand, const TVec3 &translate) { JMAVECScaleAdd(&operand, &translate, this, scalar); }
+        void scaleAdd(f32 scalar, const TVec3 &operand) { JMAVECScaleAdd(&operand, this, this, scalar); }
 
         void div(f32 divisor) { return scale(TUtilf::invert(divisor)); }
         void div(f32 divisor, const TVec3 &operand) { return scale(TUtilf::invert(divisor), operand); }

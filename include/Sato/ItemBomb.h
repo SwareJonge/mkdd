@@ -53,7 +53,7 @@ public:
     void initForceDisappear();                                            // 0x8025d39c
     void moveNormal(CrsGround &);                                         // 0x8025d3dc
     void moveCannon(CrsGround &);                                         // 0x8025d620
-    void checkKartColDisappear(int);                                      // 0x8025d670
+    const bool checkKartColDisappear(int);                                // 0x8025d670
     void setCurrentViewNo(u32);                                           // 0x8025d690
     void createEffect();                                                  // 0x8025d6f0
     void findAnyKart();                                                   // 0x8025d760

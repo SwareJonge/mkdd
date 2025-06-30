@@ -595,7 +595,7 @@ void ItemColReaction::setFlg(u32 flgId, u8 flgVal)
     mFlags[flgByte] = (mFlags[flgByte] & ~flgMask) | flgBits;
 }
 
-u8 ItemColReaction::tstFlg(u32 flgId)
+u32 ItemColReaction::tstFlg(u32 flgId)
 {
     u32 flgByte = flgId >> 1;
     u8 flgNibble = flgId & 1;
@@ -603,6 +603,6 @@ u8 ItemColReaction::tstFlg(u32 flgId)
     return (mFlags[flgByte] >> shiftAmt) & 0xf;
 }
 
-void GeoObjSupervisor::createModel(JKRSolidHeap *, unsigned long) {}
+void GeoObjSupervisor::createModel(JKRSolidHeap *, u32) {}
 
 #include "JSystem/JAudio/JASFakeMatch2.h"

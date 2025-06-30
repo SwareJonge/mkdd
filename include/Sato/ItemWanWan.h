@@ -40,7 +40,7 @@ public:
     void moveStraight();
     void getChainLength();
     void getFirstNodePos(JGeometry::TVec3f *);
-    void checkKartColDisappear(int);
+    const bool checkKartColDisappear(int);
     void separate();
     void getChainLocatorPos(JGeometry::TVec3f *, Mtx);
     f32 getForceEfctOffsetScale() const;

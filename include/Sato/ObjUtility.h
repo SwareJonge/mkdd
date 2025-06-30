@@ -27,7 +27,7 @@ namespace ObjUtility
     bool isPlayerDriver(const int &);                                                       // 0x8025edb0
     void getReflectVec(JGeometry::TVec3f, JGeometry::TVec3f, JGeometry::TVec3f *, bool);    // 0x8025eeb4
     void chkAvailableEnemyByDistande(bool *, f32);                                          // 0x8025f118
-    void concatSimpleFileName(char *, u8);                                                  // 0x8025f514
+    const char *concatSimpleFileName(char *, const u8);                                     // 0x8025f514
 
     // Inline/Unused
     void getKartDistance(int, const JGeometry::TVec3f &);

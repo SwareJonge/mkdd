@@ -11,7 +11,7 @@ public:
     ItemBanana(u32);                                                      // 0x8025186c
     void reset();                                                         // 0x8025190c
     const char *getBmdFileName();                                         // 0x802519e8
-    static void loadAnmData(J3DModelData *);                                     // 0x80251a10
+    static void loadAnmData(J3DModelData *);                              // 0x80251a10
     void createModel(JKRSolidHeap *, u32, u32);                           // 0x80251a88
     void getBckName(int);                                                 // 0x80251bf4
     void update();                                                        // 0x80251c40
@@ -30,7 +30,7 @@ public:
     void getItemBoundRatio() const;                                       // 0x80252b6c
     void setAllUseBoundsScale();                                          // 0x80252b74
     void setAllUseInitReleaseVelMag();                                    // 0x80252ba4
-    void checkKartColDisappear(int);                                      // 0x80252bbc
+    const bool checkKartColDisappear(int);                                // 0x80252bbc
     void initOccur(const JGeometry::TVec3f &, const JGeometry::TVec3f &); // 0x80252bec
     void doSound(u32);                                                    // 0x80252c24
 
@@ -86,7 +86,7 @@ public:
     void initDisappear();
     void doDisappear();
     void calcBaseRotQt();
-    void checkKartColDisappear(int);
+    const bool checkKartColDisappear(int);
     void createEfct(const JGeometry::TVec3f &);
     f32 getForceEfctOffsetScale() const;
     void initFall();

@@ -23,7 +23,7 @@ public:
 
     void init();
     void setFlg(u32 flgId, u8 flgVal);
-    u8 tstFlg(u32 flgId);
+    u32 tstFlg(u32 flgId);
 
 private:
     u8 mFlags[16];
@@ -161,6 +161,27 @@ public:
         if (mShadowMdl) {
             mShadowMdl->setVisibleAll();
         }
+    }
+
+    bool isBigItemKind() const { // fabricated, likely wrong name
+        bool ret = false;
+        switch (mKind) {
+        case 0xd4a:
+        case 0xe0d:
+        case 0xe78:
+        case 0xe7f:
+        case 0xfa1:
+        case 0xfa2:
+        case 0xfa3:
+        case 0xfa6:
+        case 0xfa7:
+        case 0x1197:
+        case 0x1389:
+        case 0x13ee:
+            ret = true;
+            break;
+        }
+        return ret;
     }
 
     // Vtable

@@ -9,18 +9,20 @@ class ItemMultiBase
 {
 public:
     ItemMultiBase(ItemObj *link) { mObj = link; }
+    ~ItemMultiBase() {}
 
     // Inline/Unused
     void getOffsetScale();
     void setDivestedStartPos(const JGeometry::TVec3f &);
 
+    // Vtable 0
     virtual void ParamInit(const JGeometry::TVec3<s16> &) = 0;
     virtual void DoEquipScaleUp(f32) = 0;
     virtual void MoveEquip() = 0;
     virtual void InitMoveDivested() = 0;
     virtual void MoveDivested() = 0;
 
-    ItemObj *mObj;
+    ItemObj *mObj; // 4
 };
 
 class ItemJuggle : public ItemMultiBase
@@ -31,7 +33,7 @@ public:
     void doHandJuggleEquip(const JGeometry::TVec3f &, Mtx);
     void doMoveJuggleEquip(const JGeometry::TVec3f &, Mtx, JGeometry::TVec3f, f32);
 
-    // Vtable
+    // Vtable 0
     virtual void ParamInit(const JGeometry::TVec3<s16> &); // 8
     virtual void DoEquipScaleUp(f32);                      // C
     virtual void MoveDivested();                           // 10
@@ -42,7 +44,7 @@ public:
     static f32 sJuggleRotRatio;
     static f32 sJuggleRotRatioSub;
 
-    u8 _4[0x60 - 0x8];
+    u8 _8[0x60 - 0x8];
 };
 
 class ItemBuild : public ItemMultiBase
@@ -64,7 +66,9 @@ public:
     virtual void InitMoveDivested();                       // 14
     virtual void MoveEquip();                              // 18
 
-    u8 _4[0x68 - 0x8];
+    u8 _8[0x35 - 0x8];
+    u8 _35;
+    u8 _36[0x68 - 0x36];
 };
 
 class ItemObjSuc : public ItemObj

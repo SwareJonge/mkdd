@@ -142,6 +142,11 @@ struct JPABaseEmitter
     int getDrawCount() const;
     void loadTexture(u8, _GXTexMapID);
 
+    void becomeInvalidEmitter() {
+        stopCreateParticle();
+        mMaxFrame = 1;
+    }
+
     void becomeContinuousParticle() { mMaxFrame = 0; }
 
     u32 getParticleNumber() const { return mAlivePtclBase.getNum() + mAlivePtclChld.getNum(); }
@@ -188,10 +193,10 @@ struct JPABaseEmitter
         mGlobalPScl.set(scale.x, scale.y);
     }
 
-    inline void setGlobalScale(f32 x, f32 y)
+    inline void setGlobalScale(f32 x)
     {
-        mGlobalPScl.x = x;
-        mGlobalPScl.y = y;
+        mGlobalScl.setAll(x);
+        mGlobalPScl.setAll(x);
     }
 
     inline void setAngle(f32 x, f32 y, f32 z)
@@ -220,12 +225,6 @@ struct JPABaseEmitter
         mLocalScl.x = x;
         mLocalScl.y = y;
         mLocalScl.z = z;
-    }
-
-    inline void setGlobalScale(f32 x)
-    {
-        mGlobalPScl.x = x;
-        mGlobalPScl.y = x;
     }
 
     inline void setColorRGB(u8 r, u8 g, u8 b)

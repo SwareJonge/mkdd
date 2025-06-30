@@ -3,6 +3,7 @@
 
 #include "JSystem/JUtility/TColor.h"
 #include "Kaneshige/Blurscreen.h"
+#include "Kaneshige/KartInfo.h"
 #include "Kaneshige/MaskScreen.h"
 #include "kartEnums.h"
 #include "JSystem/JKernel/JKRDisposer.h"

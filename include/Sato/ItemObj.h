@@ -3,6 +3,7 @@
 
 #include <JSystem/JGeometry.h>
 #include "Inagaki/GameSoundMgr.h"
+#include "JSystem/JGeometry/Vec.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Kaneshige/DarkAnmMgr.h"
 #include "Osako/shadowModel.h"
@@ -34,7 +35,12 @@ public:
 
     enum ItemColFlag
     {
-
+        cColFlag_0,
+        cColFlag_1,
+        cColFlag_2,
+        cColFlag_3,
+        cColFlag_4,
+        cColFlag_5,
     };
 
     enum cMultiType
@@ -94,9 +100,9 @@ public:
     virtual void moveNormal(CrsGround &) {}                                          // 9C
     virtual void moveRescue(CrsGround &);                                            // A0
     virtual void moveCannon(CrsGround &);                                            // A4
-    virtual void deleteEffect();                                                     // A8
+    virtual void deleteEffect() {}                                                   // A8
     virtual void executeEquipHandFunc() { doHandOneEquip(false, 0.0f); }             // AC
-    virtual void checkKartColDisappear(int);                                         // B0
+    virtual const bool checkKartColDisappear(int);                                   // B0
     virtual void selectSucChild();                                                   // B4
     virtual void doSucReleaseFunc(ItemObj *);                                        // B8
     virtual void doSucSpReleaseFunc(ItemObj *);                                      // BC
@@ -147,8 +153,8 @@ public:
     void getModelUpDir(JGeometry::TVec3f *);                                  // 0x8024ccb8
     void getModelFrDir(JGeometry::TVec3f *);                                  // 0x8024ccd4
     void rotationRad(f32 &, f32);                                             // 0x8024ccf0
-    void QuatRotX(f32, Quaternion *);                                         // 0x8024cd40
-    void QuatRotY(f32, Quaternion *);                                         // 0x8024cd84
+    static void QuatRotX(f32, Quaternion *);                                  // 0x8024cd40
+    static void QuatRotY(f32, Quaternion *);                                  // 0x8024cd84
     static bool IsSpecialItem(int);                                           // 0x8024cdc8
     void getCompVecLength(JGeometry::TVec3f &, f32 &);                        // 0x8024cdf8
     void setFrameNoColKart(u8, bool);                                         // 0x8024ced0
@@ -203,7 +209,7 @@ public:
     stRandom *getItemRnd();                                                   // 0x8025146c
     void setHandOffsetData();                                                 // 0x80251490
     void setHandOffsetPos(ItemHandOffsetData *);                              // 0x80251588
-    void getHandOffsetPos();                                                  // 0x802515ac
+    const JGeometry::TVec3f &getHandOffsetPos();                              // 0x802515ac
     f32 getThunderScale();                                                    // 0x802515e4
     void initMaxDivestedFrame();                                              // 0x802516bc
 
@@ -223,6 +229,10 @@ public:
     void setOrigDriverNum(u8 newDriverNum) { mOrigDriverNum = newDriverNum; }
     u32 getKind() const { return mItemKind; }
     const u8 getColorID() const { return mColorID; } // is extra const needed? fixes instruction swaps in ItemHeart.cpp
+    const u8 getItemColorID() const { return mColorID; }
+    
+    f32 getMaxVel() const { return mMaxVel; }
+
     u32 getItemID() const
     {
         if (mItemKind == 21)
@@ -272,9 +282,11 @@ public:
     // static f32 sDivPosLerpValue;
 
     // Inline
-    bool IsSuccessionItem() { return mItemKind > 0x10; }                        // 0x8024b30c
-    bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != nullptr; } // 0x8024b324
-    void doOccur() { doFall(); }                                                // 0x8024af68, ptmf shit
+    bool IsSuccessionItem() { return mItemKind > 0x10; }                                // 0x8024b30c
+    bool IsSuccessionChildItem() { return mSuccessionItemLink.getList() != nullptr; }   // 0x8024b324
+    void doOccur() { doFall(); }                                                        // 0x8024af68, ptmf shit
+
+    int get_1fc() const { return _1fc; }
 
     const JGeometry::TVec3f &getPos() const { return mPos; }
     const JGeometry::TVec3f getColPos() const { return mColPos; }
@@ -346,7 +358,8 @@ public:
     JGeometry::TVec3f _240;               //
     u8 _24c;                              //
     JGeometry::TVec3f mNormal;            // 250
-    u8 _25c[0x280 - 0x25c];               //
+    f32 mShadowOffsetScale;               // 25c
+    u8 _260[0x280 - 0x260];               //
     GameAudio::ObjectSoundMgr *mSoundMgr; // 280
     DarkAnmPlayer *mAnmPlayer;            // 284
     u8 _288[0x28c - 0x288];               //    
@@ -355,7 +368,7 @@ public:
     u8 mColorID;                          // 298
     u8 _299[0x2a8 - 0x299];               //
     u32 _2a8;                             //
-    u8 _2ac[0x2b0 - 0x2ac];               //
+    f32 mShadowScaleY;                    // 2ac
 }; // 2b0
 
 #endif

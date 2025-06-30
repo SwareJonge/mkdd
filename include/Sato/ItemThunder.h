@@ -24,7 +24,7 @@ public:
     void initFall();                                                // 0x80278b5c
     void doFall();                                                  // 0x80278b84
     void initForceDisappear();                                      // 0x80278c08
-    void checkKartColDisappear(int);                                // 0x80278c3c
+    const bool  checkKartColDisappear(int);                         // 0x80278c3c
     void setEffectThunder(int);                                     // 0x80278c50
     void deleteEffectThunder();                                     // 0x80278d14
     void doEffectThunder();                                         // 0x80278da4

@@ -64,13 +64,13 @@ public:
 class CLPointController
 {
 public:
-    CLPointController() {  reset(); }
+    CLPointController() { reset(); }
 
     void reset();
     void init_ByKartIndex(int);
     void init_ByCLPointPtr(CLPoint *);
-    void chkArriveAtFwPoint(const JGeometry::TVec3f &, f32);
-    void chkIsOverFwPoint(const JGeometry::TVec3f &);
+    bool chkArriveAtFwPoint(const JGeometry::TVec3f &, f32);
+    bool chkIsOverFwPoint(const JGeometry::TVec3f &);
     bool doNextChkIsOverFwPoint(const JGeometry::TVec3f &);
     void getLengthFromCLDir(const JGeometry::TVec3f &);
     void changeNextPoint();
