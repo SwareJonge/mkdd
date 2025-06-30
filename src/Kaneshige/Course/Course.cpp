@@ -229,7 +229,7 @@ void Course::loadCrsData(bool mirror)
         {
             AIPoint *aiPoint = aiPath->getPoint(point);
             CrsData::PointData *pointData = mCrsData->getPointData(path, point);
-            aiPoint->setPosition((Vec *)&pointData->pos);
+            aiPoint->setPosition(&pointData->pos);
         }
     }
     createArea();

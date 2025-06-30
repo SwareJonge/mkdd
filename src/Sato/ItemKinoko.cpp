@@ -2,18 +2,11 @@
 #include "Sato/ItemKinoko.h"
 #include "Sato/ItemSuccession.h"
 
-namespace // NOTE: this probably belongs in a header, this is likely the cause of all float slack stuff
-{
-    inline void QuaternionReset(Quaternion *pDest)
-    {
-        const Quaternion q = {0.0f, 0.0f, 0.0f, 1.0f};
-        *pDest = q;
-    }
-}
+#include "mathHelper.h"
 
 namespace
 {
-    JGeometry::TVec3<s16> sBuildRotAngle(0, 32836, 0);
+    JGeometry::TVec3s sBuildRotAngle(0, 32836, 0);
     f32 sScaleEquip = 1.0f;
     f32 sHeightOffset = 22.0f;
     f32 sGScaleEquip = 1.0f;

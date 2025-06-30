@@ -1304,7 +1304,7 @@ config.libs = [
             Object(Matching, "Sato/ItemFlyTurtle.cpp"),
             Object(NonMatching, "Sato/stEfctWater.cpp"),
             Object(NonMatching, "Sato/J3DEfctSplashDown.cpp"),
-            Object(NonMatching, "Sato/ItemYoshiEgg.cpp"),
+            Object(Matching, "Sato/ItemYoshiEgg.cpp"),
             Object(NonMatching, "Sato/RivalItemCtrl.cpp"),
             Object(NonMatching, "Sato/RivalBodyCtrl.cpp"),
             Object(NonMatching, "Sato/RivalSpeedCtrl.cpp"),

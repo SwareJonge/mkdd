@@ -20,6 +20,10 @@ public:
     void update() { mFrameCtrl.update(); }
     void resetFrame() { mFrameCtrl.reset(); }
     
+    void initFrameCtrl() {
+        initFrameCtrl(mAnmBase);
+    }
+
     J3DFrameCtrl *getFrameCtrl() { return &mFrameCtrl; }
     void setExModel(ExModel *model) { mModel = model; }
     void setRate(const float &rate) { mFrameCtrl.setRate(rate); }
@@ -54,6 +58,7 @@ public:
     }
 
     J3DAnmBase *getAnmBase() { return mAnmBase; }
+    void setAnmBase(J3DAnmBase *base) { mAnmBase = base; }
 
 }; // Size: 0x20
 

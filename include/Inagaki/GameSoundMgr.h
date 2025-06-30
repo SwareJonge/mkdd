@@ -156,10 +156,10 @@ template<class T>
 void SoundWithEchoMgr<T>::checkEcho() {
     bool alternator = false;
     JAISoundHandles *handle = this;
-    for (int i = 0; i < _10; i++) {
+    for (int i = 0; i < this->_10; i++) {
         if ((*handle)[i]) {
             if (!alternator) {
-                mEchoArea->search(2, *mSoundPos);                
+                mEchoArea->search(2, *this->mSoundPos);                
                 _5c = mEchoArea->getEchoRate() * 0.8f;
                 alternator = true;
             }
