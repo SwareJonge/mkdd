@@ -1104,7 +1104,7 @@ config.libs = [
         ["-inline off"],
         [
             Object(Matching, "Kaneshige/DrawBuffer.cpp"),
-            Object(Equivalent, "Kaneshige/Course/Course.cpp"),
+            Object(Matching, "Kaneshige/Course/Course.cpp"),
             Object(Matching, "Kaneshige/Course/CrsData.cpp"),
             Object(NonMatching, "Kaneshige/Course/CrsGround.cpp"),
             Object(Equivalent, "Kaneshige/ExModel.cpp"),
