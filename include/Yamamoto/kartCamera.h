@@ -43,6 +43,10 @@ public:
     // void InitLaunchView();
     // void InitLandView();
 
+    // MJB - These inlines used by KartCtrlInfo.
+    inline double GetClipperScale() { return mClipper.mClipperScale; }
+    inline double GetLodLen(){ return _198; }
+
     void SetTargetNum(u8);
     void SetClipper();
     void CheckClipper();
