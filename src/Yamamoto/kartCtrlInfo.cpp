@@ -159,7 +159,16 @@ void KartCtrl::GetBodyVel(int kartIndex, JGeometry::TVec3f *vecBodyVel) {
     vecBodyVel->z = kartBody->mVel.z * kartBody->_470;
 }
 
-bool KartCtrl::GetRightFTirePos(int, Vec *) {}
+// FIX: Add return statements for the following two functions:
+bool KartCtrl::GetLeftFTirePos(int kartIndex, Vec *vec) {
+    getKartBody(kartIndex);
+    GetTirePos(kartIndex, 1, vec);
+}
+
+bool KartCtrl::GetRightFTirePos(int kartIndex, Vec *vec) {
+    getKartBody(kartIndex);
+    GetTirePos(kartIndex, 0, vec);
+}
 
 void KartCtrl::GetLeftTirePos(int kartIndex, Vec *vec) {
     getKartBody(kartIndex);
