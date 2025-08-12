@@ -197,7 +197,10 @@ bool KartCtrl::CheckThunderBolt(int) {}
 
 void KartCtrl::GetTireRadius(int) {}
 
-void KartCtrl::IsBurn(int) {}
+bool KartCtrl::IsBurn(int kartIndex) {
+    const KartDamage *kartDamage = getKartBody(kartIndex)->getDamage();
+    return (u8)((kartDamage->mFlags & 0x180) != 0);
+}
 
 void KartCtrl::IsWallReact(int) {}
 
