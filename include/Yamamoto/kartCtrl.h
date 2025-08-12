@@ -1,6 +1,7 @@
 #ifndef KARTCTRL_H
 #define KARTCTRL_H
 
+#include "Kaneshige/Course/CrsGround.h"
 #include "types.h"
 #include "Inagaki/GameSoundMgr.h"
 #include "Kaneshige/CenterLine.h"
@@ -51,9 +52,9 @@ public:
     void GetPortPtr(int);
     void GetCamFovy(int);
     void GetCamAspect(int);
-    void GetBodyGround(int);
-    void GetRRTireGround(int);
-    void GetRLTireGround(int);
+    CrsGround *GetBodyGround(int);
+    int GetRRTireGround(int);
+    int GetRLTireGround(int);
     void GetBodyPos(int idx, JGeometry::TVec3f *ret);
     void GetBodyVel(int, JGeometry::TVec3f *);
     bool GetLeftFTirePos(int, Vec *);

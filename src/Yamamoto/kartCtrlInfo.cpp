@@ -111,11 +111,20 @@ void KartCtrl::GetCamFovy(int) {}
 
 void KartCtrl::GetCamAspect(int) {}
 
-void KartCtrl::GetBodyGround(int) {}
+CrsGround *KartCtrl::GetBodyGround(int kartIndex) {
+    return &getKartBody(kartIndex)->mBodyGround;
+}
 
-void KartCtrl::GetRRTireGround(int) {}
+// MJB - Regarding functions `GetRRTireGround` and `GetRLTireGround`:
+//       I believe the addition of `0x14` just accesses the protected field
+//       `_14` under the ExModel* for `mWheel`: `mKartSus[i]->mWheel->_14;`
+int KartCtrl::GetRRTireGround(int kartIndex) {
+    return *(int *)&getKartBody(kartIndex)->mKartSus[2] + 0x14; // Rear Right Tire Ground
+}
 
-void KartCtrl::GetRLTireGround(int) {}
+int KartCtrl::GetRLTireGround(int kartIndex) {
+    return *(int *)&getKartBody(kartIndex)->mKartSus[3] + 0x14; // Rear Left Tire Ground
+}
 
 void KartCtrl::GetBodyPos(int, JGeometry::TVec3<float> *) {}
 
