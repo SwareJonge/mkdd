@@ -110,9 +110,9 @@ f32 KartCtrl::GetItemStickY(int kartPadIndex) {
 
 f32 KartCtrl::GetItemStickX(int kartIndex) {
     if ((getKartBody(kartIndex)->mGameStatus & 0x1) != 0) {
-        return 0;
+        return 0.0f;
     }
-    return 0;
+    return 0.0f;
 }
 
 u32 KartCtrl::GetItemButton(int kartIndex) {
@@ -283,7 +283,7 @@ u8 KartCtrl::WhichNowDriver(int kartIndex) {
 
 bool KartCtrl::CheckCamera(int kartIndex) {
     KartBody *kartBody = getKartBody(kartIndex);
-    return -(uint)kartBody->mCameraNum + 100 != 0;
+    return 100 - kartBody->mCameraNum != 0;
 }
 
 int KartCtrl::GetCameraNum(int kartIndex) {
@@ -512,7 +512,7 @@ bool KartCtrl::CheckThunderBolt(int kartIndex) {
 }
 
 double KartCtrl::GetTireRadius(int kartIndex) {
-    return *(f32 *)(&getKartBody(kartIndex)->mKartSus[2]->_fc[0]);
+    return getKartBody(kartIndex)->mKartSus[2]->mTireRadius;
 }
 
 bool KartCtrl::IsBurn(int kartIndex) {

@@ -49,7 +49,8 @@ public:
     JGeometry::TVec3f _d8;
     JGeometry::TVec3f _e4;
     JGeometry::TVec3f _f0;
-    u8 _fc[0x10c - 0xfc];
+    f32 mTireRadius;
+    u8 _100[0x10c - 0x100];
     f32 _10c;
     f32 _110;
     u8 _114[0x124 - 0x114];
