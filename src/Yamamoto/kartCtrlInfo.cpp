@@ -5,11 +5,33 @@
 
 // comments inside functions are inline functions being called in that function
 
-void KartCtrl::SetPadClear(KartGamePad *) {}
+void KartCtrl::SetPadClear(KartGamePad *kartGamePad) {
+    kartGamePad->mButtons.mButton = 0;
+    kartGamePad->mButtons.mTrigger = 0;
+    kartGamePad->mButtons.mRelease = 0;
+    kartGamePad->mMainStick.mX = 0;
+    kartGamePad->mMainStick.mY = 0;
+    kartGamePad->mSubStick.mX = 0;
+    kartGamePad->mSubStick.mY = 0;
+    return;
+}
 
-void KartCtrl::SetWanWanPadClear(KartGamePad *) {}
+void KartCtrl::SetWanWanPadClear(KartGamePad *kartGamePad) {
+    kartGamePad->mButtons.mButton = 0;
+    kartGamePad->mButtons.mTrigger = 0;
+    kartGamePad->mButtons.mRelease = 0;
+    kartGamePad->mMainStick.mY = 0;
+    kartGamePad->mSubStick.mX = 0;
+    kartGamePad->mSubStick.mY = 0;
+    return;
+}
 
-void KartCtrl::SetGhostPadClear(KartGamePad *) {}
+void KartCtrl::SetGhostPadClear(KartGamePad *kartGamePad) {
+    kartGamePad->mButtons.clear();
+    kartGamePad->mMainStick.clear();
+    kartGamePad->mSubStick.clear();
+    return;
+}
 
 void KartCtrl::PadAllClear(int) {
     // void KartCtrl::getCoPad(int) {}
