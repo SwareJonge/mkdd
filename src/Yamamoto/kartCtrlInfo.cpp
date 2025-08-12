@@ -33,9 +33,19 @@ void KartCtrl::SetGhostPadClear(KartGamePad *kartGamePad) {
     return;
 }
 
-void KartCtrl::PadAllClear(int) {
+void KartCtrl::PadAllClear(int gamePadIndex) {
     // void KartCtrl::getCoPad(int) {}
     // void KartCtrl::getPad(int) {}
+    const KartBody *kartBody;
+
+    kartBody = getKartBody(gamePadIndex);
+    // Clear First Kart Player (Driver) Game Pad.
+    SetPadClear(getPad(gamePadIndex));
+    if ((kartBody->mGameStatus & 1) != 0) {
+        // Clear Second Kart Player (Passenger) Game Pad.
+        SetPadClear(getCoPad(gamePadIndex));
+    }
+    return;
 }
 
 void KartCtrl::DoContCtl(int) {}

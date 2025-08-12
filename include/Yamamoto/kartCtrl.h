@@ -135,7 +135,10 @@ public:
     // void GetCenterLineNum(int);
     // void RivalKart::GetTargetcnt();
 
-    bool HaveRabbit();
+    // Inlines for selecting GamePad for driver/passenger.
+    inline KartGamePad* getPad(int gamePadIndex) { return mGamePads[gamePadIndex][0]; }     // Driver
+    inline KartGamePad* getCoPad(int gamePadIndex) { return mGamePads[gamePadIndex][1]; }   // Passenger
+
 
     void AnimeInit(int idx) { getKartAnime(idx)->Init(); }
     void ApeendixInit(int idx)
