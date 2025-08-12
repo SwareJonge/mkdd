@@ -239,6 +239,38 @@ u32 KartCtrl::GetGameStatus(int idx) {
 
 void KartCtrl::SetTireDispRound(KartBody *, KartSus *, float) {}
 
+void KartCtrl::SetKartRpm(KartBody *kartBody, float unknownRPM1, float unknownRPM2) {
+    float unknownMultiplier = kartBody->_458 / 60.0f;
+
+    if (unknownMultiplier > 2.0f) {
+        unknownMultiplier = 2.0f;
+    }
+
+    // Presumably this checks if there was a collision...?
+    if (kartBody->getTouchNum() == 0) {
+        kartBody->mCarRPM = unknownRPM1;
+        unknownMultiplier = 2.0f;
+    }
+    else {
+        kartBody->mCarRPM = unknownRPM2;
+    }
+
+    // Ensure car RPM can't be negative.
+    if (kartBody->mCarRPM < 0) {
+        kartBody->mCarRPM = 0;
+    }
+
+    kartBody->mCarRPM *= 40.0f;
+    kartBody->mCarRPM *= unknownMultiplier;
+    kartBody->mCarRPM += 300.0f;
+
+    // Set upper bounds for car RPM.
+    if (kartBody->mCarRPM > 16300.0f) {
+        kartBody->mCarRPM = 16300.0f;
+    }
+    return;
+}
+
 bool KartCtrl::WhichDriver(int kartIndex) {
     return getKartBody(kartIndex)->mDriver != 0;
 }
