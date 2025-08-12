@@ -211,9 +211,24 @@ bool KartCtrl::IsBurn(int kartIndex) {
     return (u8)((kartDamage->mFlags & 0x180) != 0);
 }
 
-void KartCtrl::IsWallReact(int) {}
+bool KartCtrl::IsWallReact(int kartIndex) {
+    KartBody *kartBody = getKartBody(kartIndex);
+    const KartTumble *kartTumble = kartBody->getTumble();
+    
+    if ((kartTumble->_0[4] & 1) != 0) {
+        return true;
+    }
+    else {
+        return u8((kartBody->mCarStatus & 0x100000) != 0);
+    }
+}
 
-void KartCtrl::HaveBalloon(int) {}
+u32 KartCtrl::HaveBalloon(int kartIndex) {
+    getKartBody(kartIndex);
+    KartChecker *kartChecker = RCMGetKartChecker(kartIndex);
+    u32 haveBalloon = __cntlzw(kartChecker->getBalloonNumber());
+    return (haveBalloon >> 5) & 0xff;
+}
 
 int KartCtrl::GetDriftCnt(int) {}
 

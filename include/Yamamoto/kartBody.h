@@ -83,6 +83,7 @@ public:
     KartDamage *getDamage() { return mKartDamage; }
     KartGame *getGame() { return mKartGame; }    
     KartItem *getItem() { return mKartItem; }
+    KartTumble *getTumble() { return mKartTumble; }
 
     int getTouchNum() { return mTouchNum; }
 

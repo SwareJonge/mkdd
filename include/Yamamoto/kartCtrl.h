@@ -92,9 +92,9 @@ public:
     void SetObjectPos(int, JGeometry::TVec3f);
     bool CheckThunderBolt(int);
     void GetTireRadius(int);
-    void IsBurn(int);
-    void IsWallReact(int);
-    void HaveBalloon(int);
+    bool IsBurn(int);
+    bool IsWallReact(int);
+    u32 HaveBalloon(int);
     int GetDriftCnt(int);
     bool IsMiniGame();
     bool IsMiniGameEnd();

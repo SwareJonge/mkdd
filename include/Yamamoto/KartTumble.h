@@ -23,8 +23,8 @@ public:
     void DoShootCrashCrl();           // 0x80305bd0
     void DoTumbleCrl();               // 0x80305d3c
     void DoAfterTumbleCrl();          // 0x80305d64
-private:
     u8 _0[8];             //
+private:
     JGeometry::TVec3f _8; //
     u8 _14[0x18 - 0x14];  //
 };                        // 18
