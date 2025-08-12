@@ -399,7 +399,46 @@ f32 KartCtrl::GetKartBodyOffset(int kartIndex) {
     return 60.0f;
 }
 
-bool KartCtrl::CheckTandemItmRollingGet(int) {}
+bool KartCtrl::CheckTandemItmGet(int kartIndex) {
+    const ItemObj *kartEquipItem;
+    getKartBody(kartIndex);
+    ItemObjMgr *itemObjMgr = GetItemObjMgr();
+    u8 tandemDriverNum = ItemObjMgr::getNowTandemDriverNum(kartIndex);
+
+    if (tandemDriverNum == 0) {
+        kartEquipItem = itemObjMgr->getKartEquipItem(kartIndex, 0);
+        if (kartEquipItem != 0) {
+            return true;
+        }
+    }
+    else {
+        kartEquipItem = itemObjMgr->getKartEquipItem(kartIndex, 1);
+        if (kartEquipItem != 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool KartCtrl::CheckTandemItmRollingGet(int kartIndex) {
+    getKartBody(kartIndex);
+    ItemObjMgr *itemObjMgr = GetItemObjMgr();
+    u8 isRollingSlot = ItemObjMgr::getNowTandemDriverNum(kartIndex);
+    
+    if (isRollingSlot == 0) {
+        isRollingSlot = itemObjMgr->IsRollingSlot(kartIndex, 0);
+        if (isRollingSlot != 0) {
+            return true;
+        }
+    }
+    else {
+        isRollingSlot = itemObjMgr->IsRollingSlot(kartIndex, 1);
+        if (isRollingSlot != 0) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void KartCtrl::SetObjectPos(int camIndex, JGeometry::TVec3f vecObjectPos) {
     KartDemoCam *kartDemoCam = getKartCam(camIndex)->GetDemoCam();
