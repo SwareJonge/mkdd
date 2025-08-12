@@ -139,6 +139,7 @@ public:
     inline KartGamePad* getPad(int gamePadIndex) { return mGamePads[gamePadIndex][0]; }     // Driver
     inline KartGamePad* getCoPad(int gamePadIndex) { return mGamePads[gamePadIndex][1]; }   // Passenger
 
+    void HaveRabbit();
 
     void AnimeInit(int idx) { getKartAnime(idx)->Init(); }
     void ApeendixInit(int idx)

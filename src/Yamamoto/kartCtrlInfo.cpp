@@ -1,3 +1,4 @@
+#include "Kaneshige/RaceMgr.h"
 #include "Osako/kartPad.h"
 #include "Yamamoto/kartCtrl.h"
 
@@ -199,6 +200,30 @@ void KartStrat::DoStepSterr() {}
 
 void KartStrat::DoSterr() {}
 
-void KartStrat::DoAccel() {}
+void KartCtrl::HaveRabbit() {
+    const RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    int kartNumber = GetKartNumber();
+    KartBody *kartBody;
+    bool haveRabbit;
+    
+    if (raceMgr->getRaceMode() == 7) {
+        haveRabbit = false;
+        for (int i = 0; i < kartNumber; i++) {
+            kartBody = getKartBody(i);
+            if (kartBody->getItem()->_0[8] != 0) {
+                haveRabbit = true;
+            }
+        }
 
-bool KartCtrl::HaveRabbit() {}
+        // MJB - Shine thief's music controls, maybe...?
+        //       Rabbit might refer to the person with the shine...
+        if (haveRabbit && (kartBody->getItem()->_0[9] == 0)) {
+            getKartSound(kartBody->mMynum)->DoShineStartBGM();
+            kartBody->getItem()->_0[9] = 1;
+        } else if (!haveRabbit && (kartBody->getItem()->_0[9] != 0)) {
+            getKartSound(kartBody->mMynum)->DoShineStopBGM();
+            kartBody->getItem()->_0[9] = 0;
+        }
+    }
+    return;
+}
