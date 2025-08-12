@@ -583,6 +583,18 @@ u8 KartCtrl::CheckWinner() {
     return 1;
 }
 
+void KartCtrl::GetKartEffctVel(int kartIndex, JGeometry::TVec3f *vecKartEffectVel) {
+    const KartBody *kartBody = getKartBody(kartIndex);
+
+    if ((kartBody->mGameStatus & 0x2000) != 0) {
+        vecKartEffectVel->set(kartBody->mEffctVel);
+    }
+    else {
+        vecKartEffectVel->zero();
+    }
+    return;
+}
+
 // FIX - See below:
 // MJB - This code seems really strange... not only do the offsets not
 //       correlate to proper field members of the KartBody class itself,
