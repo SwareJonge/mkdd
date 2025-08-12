@@ -727,11 +727,222 @@ void KartCtrl::SetUpMiniTurbo(int kartIndex, unsigned char setupMiniTurbo) {
     getKartBody(kartIndex)->mMTState = setupMiniTurbo;
 }
 
-void KartStrat::DoStepAccel() {}
+void KartStrat::DoStepAccel() {
+    const KartGamePad *kartGamePadDriver;
+    const KartGamePad *kartGamePadPassenger;
+    const KartPad *kartPad;
+    KartSus *kartSus;
+    KartBody *kartBody;
+    u8 testButton;
+    float carRPM;
+    
+    kartBody = *(KartBody **)this;
+    u8 myNum = kartBody->mMynum;
 
-void KartStrat::DoStepSterr() {}
+    KartCtrl *kartCtrl = GetKartCtrl();
+    kartGamePadDriver = kartCtrl->GetDriveCont(myNum);
+    kartGamePadPassenger = GetKartCtrl()->GetCoDriveCont(myNum);
+
+    kartPad = GetKartCtrl()->getKartPad(myNum);
+    testButton = kartGamePadDriver->testButton(kartPad->mAccelBtn);
+    if (testButton != 0) {
+        kartBody->_3c8 = GetKartCtrl()->fcnvge(kartBody->_3c8, kartBody->_3d0, kartBody->_3d4, kartBody->_3d4);
+    } else {
+        GetKartCtrl()->ChaseFnumber(&kartBody->_3c8, 0.0f, 0.8f);
+    }
+
+    kartPad = GetKartCtrl()->getKartPad(myNum);
+    testButton = kartGamePadPassenger->testButton(kartPad->mAccelBtn);
+    if (testButton != 0) {
+        GetKartCtrl()->getKartAnime(myNum)->DoStartRunStartAnime(myNum);
+    } else {
+        GetKartCtrl()->getKartAnime(myNum)->DoStartRunEndAnime(myNum);
+    }
+
+    carRPM = 0.0f;
+    for (int i = 0; i < 4; i++) {
+        kartSus = GetKartCtrl()->getKartSus(i + myNum * 4);
+        kartSus->_278 += kartBody->_3c8;
+        kartSus->_278 -= GetKartCtrl()->LimmtNumber(kartSus->_278, 1.0f);
+        kartSus->_278 = GetKartCtrl()->LimmtNumber(kartSus->_278, kartBody->_3e4);
+        carRPM += kartSus->_278;
+    }
+    kartBody->mCarRPM = carRPM;
+    if (kartBody->mCarRPM < 0.0f) {
+        kartBody->mCarRPM = 0.0f;
+    }
+    kartBody->mCarRPM *= 40.0f;
+    kartBody->mCarRPM *= 2.0f;
+    kartBody->mCarRPM += 300.0f;
+    return;
+}
+
+void KartStrat::DoStepSterr() {
+    uint flagGameStatus;
+    const RaceMgr *raceMgr;
+    KartSus *kartSus1;
+    KartSus *kartSus2;
+    int i;
+    KartBody *kartBody;
+    uint myNum;
+    KartCtrl *kartCtrl;
+    float stepSterr;
+    float stepSterrUnknown;
+    
+    kartBody = *(KartBody **)this;
+    myNum = kartBody->mMynum;
+
+    raceMgr = RaceMgr::getCurrentManager();
+    kartCtrl = GetKartCtrl();
+    
+    i = myNum * 4;
+    kartSus1 = kartCtrl->getKartSus(i + 0);
+    kartCtrl = GetKartCtrl();
+    kartSus2 = kartCtrl->getKartSus(i + 1);
+    GetKartCtrl()->getKartSus(i + 2);
+    GetKartCtrl()->getKartSus(i + 3);
+
+    stepSterr = GetKartCtrl()->GetDriveCont(myNum)->getMainStickX();
+    flagGameStatus = kartBody->mGameStatus & 8;
+    stepSterrUnknown = 10.0f * stepSterr;
+
+    if (((flagGameStatus != 0) && (stepSterrUnknown < 4.0f)) && (stepSterrUnknown > -4.0f)) {
+        stepSterrUnknown = 0.0f;
+    }
+
+    stepSterr = 10.0f - stepSterrUnknown;
+
+    if (flagGameStatus != 0) {
+        stepSterr = GetKartCtrl()->fcnvge(kartBody->_38c, stepSterr, 0.4f, 0.4f);
+        kartBody->_38c = stepSterr;
+    } else {
+        stepSterr = GetKartCtrl()->fcnvge(kartBody->_38c, stepSterr, 1.8f, 1.8f);
+        kartBody->_38c = stepSterr;
+    }
+
+    kartBody->_388 = (kartBody->_38c - 10.0f) / 10.0f;
+    GetKartCtrl()->RotYMatrix33(kartSus1->_188, 0.680333f * kartBody->_388);
+    GetKartCtrl()->RotYMatrix33(kartSus2->_188, 0.680333f * kartBody->_388);
+
+    if (raceMgr->getRaceMode() != 8) {
+        GetKartCtrl()->getKartAnime(myNum)->DoDriveAnime(myNum);
+    }
+    return;
+}
 
 void KartStrat::DoSterr() {}
+
+void KartStrat::DoAccel() {
+    const KartGamePad *kartGamePad;
+    const KartPad *kartPad;
+    KartSound *kartSound;
+    KartSus *kartSus;
+    u8 checkCrash;
+    u8 accelButtonPressed;
+    float kartSpeed;
+    float unknownRPM1;
+    float unknownRPM2;
+    int index;
+    KartBody *kartBody;
+    int offset;
+    
+    kartBody = *(KartBody **)this;
+    index = kartBody->mMynum;
+    kartGamePad = GetKartCtrl()->GetDriveCont(index);
+    kartBody->_5c3 &= -6;
+
+    if ((kartBody->mGameStatus & 4) == 0) {
+        return;
+    }
+
+    checkCrash = GetKartCtrl()->getKartBody(index)->getChecker()->CheckCrash();
+    if (checkCrash != 0) {
+        return;
+    }
+
+    unknownRPM2 = kartBody->_3d0;
+    if ((kartBody->mCarStatus & 0x8000020) != 0) {
+        unknownRPM2 *= 0.2f;
+    }
+
+    accelButtonPressed = kartGamePad->testButton(GetKartCtrl()->getKartPad(index)->mAccelBtn);
+    if (accelButtonPressed != 0) {
+        kartBody->_3c8 = GetKartCtrl()->fcnvge(
+            kartBody->_3c8, unknownRPM2, kartBody->_3d4, kartBody->_3d4
+        );
+    }
+    else {
+        GetKartCtrl()->ChaseFnumber(&kartBody->_3c8, 0.0f, 0.1f);
+        if (kartBody->_3c8 < 0.5f) {
+            kartBody->_3c8 = 0.0f;
+        }
+    }
+
+    unknownRPM1 = 0.0f;
+    offset = index * 4;
+    unknownRPM2 = unknownRPM1;
+
+    for (int i = 0; i < 4; i++) {
+        kartSus = GetKartCtrl()->getKartSus(i + offset);
+        unknownRPM2 += kartSus->_110;
+    }
+
+    if ((kartBody->mBodyGround.getAttribute() != 6) && (kartBody->getTouchNum() != 0)) {
+        kartPad = GetKartCtrl()->getKartPad(index);
+        accelButtonPressed = kartGamePad->testButton(kartPad->mBtnB);
+
+        if (accelButtonPressed != 0) {
+            GetKartCtrl()->ChaseFnumber(&kartBody->_3cc, kartBody->_3d8, kartBody->_3dc);
+            kartBody->_5c3 |= 4;
+            if ((kartBody->_5c3 & 2) == 0) {
+                kartSound = GetKartCtrl()->getKartSound(index);
+                kartSound->DoBrakeSound();
+            }
+        } else {
+            goto lblDoAccelResetBitfield1;
+        }
+    } else {
+        lblDoAccelResetBitfield1:
+        kartBody->_3cc = 0.0f;
+    }
+    
+    for (int i = 0; i < 4; i++) {
+        kartSus = GetKartCtrl()->getKartSus(i + offset);
+        kartSus->_110 += kartBody->_3c8;
+        kartSus->_278 += kartBody->_3c8;
+        kartSus->_110 -= GetKartCtrl()->LimmtNumber(kartSus->_110, kartBody->_3e0);
+        kartSus->_278 -= GetKartCtrl()->LimmtNumber(kartSus->_278, 1.0f);
+        kartSus->_110 = GetKartCtrl()->LimmtNumber(kartSus->_110, kartBody->_3e4);
+        kartSus->_278 = GetKartCtrl()->LimmtNumber(kartSus->_278, kartBody->_3e4);
+        kartSus->_110 -= kartBody->_3cc;
+        unknownRPM1 += kartSus->_278;
+    }
+
+    JGeometry::TVec3f vecVelocity;
+    GetKartCtrl()->DevMatrixByVector(&vecVelocity, (Vec *)&kartBody->mVel.x, kartBody->_110);
+    kartSpeed = GetKartCtrl()->GetCarSpeed(kartBody->mMynum);
+
+    if (kartSpeed <= 50.0f) {
+        kartSpeed = GetKartCtrl()->GetCarSpeed(kartBody->mMynum);
+        if ((kartSpeed > 10.0f) && (kartBody->_510 > 2.44222f)) {
+            kartBody->_5c3 &= -6;
+            kartBody->_5c3 |= 2;
+        } else {
+            goto lblDoAccelResetBitfield2;
+        }
+    } else {
+    lblDoAccelResetBitfield2:
+        kartBody->_5c3 &= ~0x2;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        kartSus = GetKartCtrl()->getKartSus(i + offset);
+        GetKartCtrl()->SetTireDispRound(kartBody, kartSus, vecVelocity.z);
+    }
+    
+    GetKartCtrl()->SetKartRpm(kartBody, unknownRPM1, unknownRPM2);
+    return;
+}
 
 void KartCtrl::HaveRabbit() {
     const RaceMgr *raceMgr = RaceMgr::getCurrentManager();
