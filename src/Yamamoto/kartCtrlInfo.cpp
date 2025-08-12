@@ -258,6 +258,86 @@ int KartCtrl::GetCameraNum(int kartIndex) {
 
 bool KartCtrl::CheckItem(int) {}
 
+f32 KartCtrl::GetMaxSpeed(int kartIndex) {
+    KartBody *kartBody;
+    CrsGround::EAttr attrBodyGround;
+    float splashHeight;
+    float maxSpeed;
+    
+    kartBody = getKartBody(kartIndex);
+    attrBodyGround = kartBody->mBodyGround.getAttribute();
+    switch (attrBodyGround) {
+        case 0x13:
+            maxSpeed = kartBody->_3f0;
+            splashHeight = kartBody->mBodyGround.getSplashHeight();
+            if (splashHeight > 0) {
+                splashHeight = kartBody->mBodyGround.getSplashHeight();
+                if (kartBody->mPlayerPosMtx[1][3] - splashHeight < 0) {                
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+        case 0:
+        case 3:
+            maxSpeed = kartBody->_3f4;
+            splashHeight = kartBody->mBodyGround.getSplashHeight();
+            if (splashHeight > 0) {
+                splashHeight = kartBody->mBodyGround.getSplashHeight();
+                if (kartBody->mPlayerPosMtx[1][3] - splashHeight < 0) {                
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+        case 1:
+        case 4:
+        case 0xb:
+            maxSpeed = kartBody->_3fc;
+            splashHeight = kartBody->mBodyGround.getSplashHeight();
+            if (splashHeight > 0) {
+                splashHeight = kartBody->mBodyGround.getSplashHeight();
+                if (kartBody->mPlayerPosMtx[1][3] - splashHeight < 0) {                
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+        case 0xc:
+            maxSpeed = kartBody->_3f8;
+            splashHeight = kartBody->mBodyGround.getSplashHeight();
+            if (splashHeight > 0) {
+                splashHeight = kartBody->mBodyGround.getSplashHeight();
+                if (kartBody->mPlayerPosMtx[1][3] - splashHeight < 0) {                
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+        case 0x11:
+            // Presumably, slow down when in water, e.g. Peach Beach...?
+            maxSpeed = kartBody->_3f0;
+            splashHeight = kartBody->mBodyGround.getWaterHeight();
+            if ((kartBody->_1a0[1][3] - splashHeight) < -50.0f) {
+                maxSpeed *= 0.3f;
+            }
+            else {
+                splashHeight = kartBody->mBodyGround.getWaterHeight();
+                if ((kartBody->_1a0[1][3] - splashHeight) < 0) {
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+        default:
+            maxSpeed = kartBody->_3f0;
+            splashHeight = kartBody->mBodyGround.getSplashHeight();
+            if (splashHeight > 0) {
+                splashHeight = kartBody->mBodyGround.getSplashHeight();
+                if (kartBody->mPlayerPosMtx[1][3] - splashHeight < 0) {                
+                    maxSpeed *= 0.7f;
+                }
+            }
+            break;
+    }
+    return maxSpeed;
+}
+
 f32 KartCtrl::GetDownSlopeAcc(int kartIndex) {
     const KartBody *kartBody = getKartBody(kartIndex);
     float slopeNumerator = kartBody->_464;
