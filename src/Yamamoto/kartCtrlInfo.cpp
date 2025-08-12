@@ -50,6 +50,54 @@ void KartCtrl::PadAllClear(int gamePadIndex) {
     return;
 }
 
+void KartCtrl::DoContCtl(int index) {
+    KartBody *kartBody;
+    const RaceMgr *raceMgr;
+    KartCheck *kartCheck;
+    KartGamePad *kartGamePad;
+    RivalKart *rivalKart;
+    KartHandle *kartHandle;
+    
+    kartBody = getKartBody(index);
+    raceMgr = RaceMgr::getCurrentManager();
+    if (raceMgr->isMirror() != 0) {
+        kartGamePad = GetDriveCont(index);
+        kartGamePad->mMainStick.mX = -(kartGamePad->mMainStick.mX);
+        if ((kartBody->mGameStatus & 1) != 0) {
+            kartGamePad = GetCoDriveCont(index);
+            kartGamePad->mMainStick.mX = -(kartGamePad->mMainStick.mX);
+        }
+    }
+    DoContCopy(index);
+    kartCheck = kartBody->getChecker();
+    if (kartCheck->CheckAllClearKey() != 0) {
+        kartGamePad = GetDriveCont(index);
+        SetPadClear(kartGamePad);
+        kartGamePad = GetCoDriveCont(index);
+        SetPadClear(kartGamePad);
+        rivalKart = getKartEnemy(index);
+        rivalKart->ContempLate();
+    }
+    kartHandle = kartBody->getHandle();
+    kartHandle->WatchFrontalCollisionForce();
+    if ((kartBody->mCarStatus & 0x1000) != 0) {
+        kartGamePad = GetDriveCont(index);
+        SetWanWanPadClear(kartGamePad);
+        kartGamePad = GetCoDriveCont(index);
+        SetWanWanPadClear(kartGamePad);
+    }
+    else {
+        kartCheck = kartBody->getChecker();
+        if (kartCheck->CheckAllClearKeyT() != 0) {
+            kartGamePad = GetDriveCont(index);
+            SetPadClear(kartGamePad);
+            kartGamePad = GetCoDriveCont(index);
+            SetPadClear(kartGamePad);
+        }
+    }
+    return;
+}
+
 void KartCtrl::DoContCopy(int index) {
     u32 control;
     
