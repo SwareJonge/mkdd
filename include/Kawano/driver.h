@@ -121,6 +121,11 @@ public:
     static void *msAnmSabunList;
 
     GameAudio::CharacterSoundMgr* getGameAudioCharacterSoundMgr() { return mCharSoundMgr; }
+
+    int IsChange();
+    int IsChangeBack();
+    int IsChangeFront();
+
 private:
     u8 _8c[0x6c0 - 0x8c];
     GameAudio::CharacterSoundMgr *mCharSoundMgr; // _6C0

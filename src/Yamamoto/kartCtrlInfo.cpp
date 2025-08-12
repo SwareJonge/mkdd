@@ -214,11 +214,35 @@ bool KartCtrl::IsMiniGameEnd() {}
 
 bool KartCtrl::CheckWinner() {}
 
-void KartCtrl::GetKartEffctVel(int, JGeometry::TVec3<float> *) {}
 
-bool KartCtrl::CheckChange(int) {}
+// FIX - See below:
+// MJB - This code seems really strange... not only do the offsets not
+//       correlate to proper field members of the KartBody class itself,
+//       (specifically `mDriverModels` being index 2 and 3, not 0 and 1,
+//       meaning its out of bounds of the array), but the structure of
+//       the jumps don't make sense either...
+//
+//       It's like someone used explicit gotos, or the compiler optimised
+//       something in a weird way when it comes to values returned.
+//
+//       Yuck, yuck, yuck! - Work out nicer C code later.
+bool KartCtrl::CheckChange(int kartIndex) {
+    const KartBody* kartBody = getKartBody(kartIndex);
 
-bool KartCtrl::CheckMatchless(int) {}
+    if (kartBody->mDriverModels[2]->IsChange() != 0) {
+        goto lblCheckChangeTrue;    // return true;
+    }
+
+    if (kartBody->mDriverModels[3]->IsChange() == 0) {
+        goto lblCheckChangeFalse;    // return false;
+    }
+    
+lblCheckChangeTrue:
+    return true;
+
+lblCheckChangeFalse:
+    return false;
+}
 
 bool KartCtrl::CheckReverse(int) {}
 
