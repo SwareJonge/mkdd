@@ -450,6 +450,61 @@ f32 KartCtrl::GetKartBodyOffset(int kartIndex) {
     return 60.0f;
 }
 
+bool KartCtrl::MakeChangePossible(int index) {
+    KartBody *kartBody;
+    ItemObjMgr *itemObjMgr;
+    const ItemObj *itemObj;
+    u8 isRollingSlot;
+
+    kartBody = getKartBody(index);
+    itemObjMgr = GetItemObjMgr();
+    if ((kartBody->mGameStatus & 1) != 0) {
+        return false;
+    }
+    isRollingSlot = ItemObjMgr::getNowTandemDriverNum(index);
+    if (isRollingSlot == 0) {
+        if (((itemObjMgr->IsRollingSlot(index, 1) != 0) ||
+            (itemObjMgr->getKartEquipItem(index, 1) != (ItemObj *)0x0)) &&
+            (itemObjMgr->getKartEquipItem(index, 0) != (ItemObj *)0x0))
+        {
+            *((u32 *)(&kartBody->mCarStatus)) |= 0x40;       // 0x570
+        }
+    }
+    else {
+        isRollingSlot = itemObjMgr->IsRollingSlot(index, 0);
+        if (((isRollingSlot != 0) ||
+            (itemObjMgr->getKartEquipItem(index, 0) != (ItemObj *)0x0)) &&
+            (itemObjMgr->getKartEquipItem(index, 1) != (ItemObj *)0x0))
+        {
+            *((u32 *)(&kartBody->mCarStatus)) |= 0x40;       // 0x570
+        }
+    }
+    // FIX: 0x0 and 0x40 are reversed... need to swap them.
+    if ((kartBody->mCarStatus & 0x40) == 0) {
+        return false;
+    }
+    else {
+        if (isRollingSlot == 0) {
+            isRollingSlot = itemObjMgr->IsRollingSlot(index, 1);
+            if (((isRollingSlot != 0) ||
+                (itemObjMgr->getKartEquipItem(index, 1) != (ItemObj *)0x0)) &&
+                (itemObjMgr->getKartEquipItem(index, 0) == (ItemObj *)0x0))
+            {
+                return true;
+            }
+        } else {
+            isRollingSlot = itemObjMgr->IsRollingSlot(index, 0);
+            if (((isRollingSlot != 0) ||
+                (itemObjMgr->getKartEquipItem(index, 0) != (ItemObj *)0x0)) &&
+                (itemObjMgr->getKartEquipItem(index, 1) == (ItemObj *)0x0))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool KartCtrl::CheckTandemItmGet(int kartIndex) {
     const ItemObj *kartEquipItem;
     getKartBody(kartIndex);
