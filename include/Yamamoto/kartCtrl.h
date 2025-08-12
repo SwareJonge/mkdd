@@ -2,6 +2,7 @@
 #define KARTCTRL_H
 
 #include "Kaneshige/Course/CrsGround.h"
+#include "Kaneshige/KartLoader.h"
 #include "types.h"
 #include "Inagaki/GameSoundMgr.h"
 #include "Kaneshige/CenterLine.h"
@@ -52,9 +53,10 @@ public:
     void GetPortPtr(int);
     void GetCamFovy(int);
     void GetCamAspect(int);
+    // TODO: do these return references or pointers?
     CrsGround *GetBodyGround(int);
-    int GetRRTireGround(int);
-    int GetRLTireGround(int);
+    CrsGround *GetRRTireGround(int);
+    CrsGround *GetRLTireGround(int);
     void GetBodyPos(int idx, JGeometry::TVec3f *ret);
     void GetBodyVel(int, JGeometry::TVec3f *);
     bool GetLeftFTirePos(int, Vec *);
@@ -81,10 +83,11 @@ public:
     f32 GetDownSlopeAcc(int);
     f32 GetDownSlopeSpeed(int);
     f32 GetTireAngle(int);
-    bool GetTandemDir(int);
+    bool GetTandemDir(int); // unsure of return type
     f32 GetWaterHeight(int);
     bool CheckJugemuSignal();
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /*{ return getKartSound(idx)->mKartSoundMgr; }*/
+    GameAudio::CharacterSoundMgr *GetCharacterSoundMgr(int);
     f32 GetKartBodyOffset(int);
     bool MakeChangePossible(int);
     bool CheckTandemItmGet(int);
@@ -101,9 +104,9 @@ public:
     u8 CheckWinner();
     void GetKartEffctVel(int, JGeometry::TVec3f *);
     bool CheckChange(int);
-    void CheckMatchless(int);
+    bool CheckMatchless(int);
     bool CheckReverse(int);
-    double GetKartScale(int);
+    f32 GetKartScale(int);
     RivalKart *getKartEnemy(int);
     CLPoint *GetKartCenterPtr(int);
     void EnemyInit(int);
@@ -186,6 +189,7 @@ public:
     KartAnime *getKartAnime(int idx) { return mKartAnimes[idx]; }
     KartTarget *getKartTarget(int idx) { return mKartTargets[idx]; }
     KartDisp *getKartDisp(int idx) { return mKartDisps[idx]; }
+    KartLoader *getKartLoader(int idx) { return mKartLoaders[idx]; }
 
     void setKartPad(KartPad *pad, int idx) { mKartPads[idx] = pad; }
     void setKartCam(KartCam *cam, int idx) { mKartCams[idx] = cam; }
