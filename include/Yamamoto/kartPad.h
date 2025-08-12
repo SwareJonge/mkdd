@@ -38,7 +38,7 @@ public:
     u32 mBtnB2;
     u32 mTrigL;
     u32 mTrigR;
-    u8 _24[0x3c - 0x24];
+    u32 _24[6];    // MJB - unsure what this is... used by `KartCtrl::DoContCopy` and `KartCtrl::DoContPaste`
     f32 mItemStickY;
     f32 _40;
     f32 _44;

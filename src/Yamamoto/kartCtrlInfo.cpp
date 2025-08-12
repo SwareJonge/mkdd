@@ -49,11 +49,50 @@ void KartCtrl::PadAllClear(int gamePadIndex) {
     return;
 }
 
-void KartCtrl::DoContCtl(int) {}
+void KartCtrl::DoContCopy(int index) {
+    u32 control;
+    
+    control = GetDriveCont(index)->mButtons.mButton;
+    getKartPad(index)[0]._24[0] = control;
 
-void KartCtrl::DoContCopy(int) {}
+    control = GetCoDriveCont(index)->mButtons.mButton;
+    getKartPad(index)[0]._24[1] = control;
 
-void KartCtrl::DoContPaste(int) {
+    control = GetDriveCont(index)->mButtons.mTrigger;
+    getKartPad(index)[0]._24[2] = control;
+
+    control = GetCoDriveCont(index)->mButtons.mTrigger;
+    getKartPad(index)[0]._24[3] = control;
+
+    control = GetDriveCont(index)->mButtons.mRelease;
+    getKartPad(index)[0]._24[4] = control;
+    
+    control = GetCoDriveCont(index)->mButtons.mRelease;
+    getKartPad(index)[0]._24[5] = control;
+    return;
+}
+
+void KartCtrl::DoContPaste(int index) {
+    u32 value;
+
+    value = getKartPad(index)->_24[0];
+    GetDriveCont(index)->mButtons.mButton = value;
+
+    value = getKartPad(index)->_24[1];
+    GetCoDriveCont(index)->mButtons.mButton = value;
+
+    value = getKartPad(index)->_24[2];
+    GetDriveCont(index)->mButtons.mTrigger = value;
+
+    value = getKartPad(index)->_24[3];
+    GetCoDriveCont(index)->mButtons.mTrigger = value;
+
+    value = getKartPad(index)->_24[4];
+    GetDriveCont(index)->mButtons.mRelease = value;
+
+    value = getKartPad(index)->_24[5];
+    GetCoDriveCont(index)->mButtons.mRelease = value;
+    return;
 }
 
 f32 KartCtrl::GetItemStickY(int) {}
