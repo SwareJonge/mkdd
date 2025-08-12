@@ -258,9 +258,42 @@ int KartCtrl::GetCameraNum(int kartIndex) {
 
 bool KartCtrl::CheckItem(int) {}
 
-f32 KartCtrl::GetMaxSpeed(int) {}
+f32 KartCtrl::GetDownSlopeAcc(int kartIndex) {
+    const KartBody *kartBody = getKartBody(kartIndex);
+    float slopeNumerator = kartBody->_464;
+    
+    if (slopeNumerator < 0.0f && kartBody->_32c.y != 1.0f) {
+        slopeNumerator = -slopeNumerator;
+        
+        if (slopeNumerator <= 0.0872222f) {
+            return 0;
+        } else if (slopeNumerator >= 0.785f) {
+            slopeNumerator = 0.785f;
+        }
+        
+        slopeNumerator /= 0.785f;
+        return 0.2f * slopeNumerator + 1.0f;
+    }
+    
+    return 1.0f;
+}
 
-f32 KartCtrl::GetDownSlopeAcc(int) {}
+f32 KartCtrl::GetDownSlopeSpeed(int kartIndex) {
+    const KartBody *kartBody = getKartBody(kartIndex);
+    float slopeNumerator;
+
+    if (kartBody->_464 < 0.0f && kartBody->_32c.y != 1.0f) {
+        slopeNumerator = -kartBody->_464;
+        if (slopeNumerator <= 0.0523333f) {
+            return 0.0f;
+        } else if (slopeNumerator >= 0.174444f) {
+            slopeNumerator = 0.174444f;
+        }
+        slopeNumerator /= 0.174444f;
+        return 3.0f * slopeNumerator;
+    }
+    return 0.0f;
+}
 
 f32 KartCtrl::GetTireAngle(int kartIndex) {
     return getKartBody(kartIndex)->mTireAngle;
