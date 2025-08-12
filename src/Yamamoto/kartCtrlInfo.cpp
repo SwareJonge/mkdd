@@ -416,7 +416,26 @@ bool KartCtrl::GetTandemDir(int index) {
     return u8(isBack != 0);
 }
 
-f32 KartCtrl::GetWaterHeight(int) {}
+f32 KartCtrl::GetWaterHeight(int kartIndex) {
+    KartBody *kartBody = getKartBody(kartIndex);
+    float waterHeight;
+    float splashHeight;
+    
+    if (kartBody->mBodyGround.getAttribute() == 0x11) {
+        waterHeight = kartBody->mBodyGround.getWaterHeight();
+        waterHeight = kartBody->_1a0[1][3] - waterHeight;
+        return waterHeight;
+    }
+    else {
+        splashHeight = kartBody->mBodyGround.getSplashHeight();
+        waterHeight = 0.0f;
+        if (splashHeight > waterHeight) {
+            waterHeight = kartBody->mBodyGround.getSplashHeight();
+            waterHeight = kartBody->_1a0[1][3] - waterHeight;
+        }
+        return waterHeight;
+    }
+}
 
 bool KartCtrl::CheckJugemuSignal() { return (mBitfield >> 1) & 1; }
 
@@ -519,12 +538,50 @@ int KartCtrl::GetDriftCnt(int kartIndex) {
     return 0;
 }
 
-bool KartCtrl::IsMiniGame() {}
+bool KartCtrl::IsMiniGame() {
+    const RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    bool isMiniGame;
+    
+    if (
+        raceMgr->getRaceMode() == 4 ||
+        raceMgr->getRaceMode() == 5 ||
+        raceMgr->getRaceMode() == 6 ||
+        raceMgr->getRaceMode() == 7
+    ) {
+        isMiniGame = true;
+    } else {
+        isMiniGame = false;
+    }
+    return isMiniGame;
+}
 
-bool KartCtrl::IsMiniGameEnd() {}
+bool KartCtrl::IsMiniGameEnd() {
+    if (GetKartCtrl()->IsMiniGame()) {
+        const RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+        if (raceMgr->isRaceEnd() != 0) {
+            return true;
+        }
+    }
+    return false;
+}
 
-bool KartCtrl::CheckWinner() {}
-
+u8 KartCtrl::CheckWinner() {
+    const KartBody *kartBody;
+    const KartChecker *kartChecker;
+    int kartNumber = GetKartCtrl()->GetKartNumber();
+    int rank;
+    
+    for (int kartIndex = 0; kartIndex < kartNumber; kartIndex++) {
+        kartBody = GetKartCtrl()->getKartBody(kartIndex);
+        kartChecker = RCMGetKartChecker(kartBody->mMynum);
+        kartChecker->getRank();
+        rank = kartChecker->getRank();
+        if (rank == 1) {
+            return kartBody->mMynum;
+        }
+    }
+    return 1;
+}
 
 // FIX - See below:
 // MJB - This code seems really strange... not only do the offsets not
