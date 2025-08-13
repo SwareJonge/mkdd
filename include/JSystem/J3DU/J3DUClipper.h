@@ -34,7 +34,8 @@ struct J3DUClipper
     Vec mRightPlane;  // _10
     Vec mTopPlane;    // _1C
     Vec mBottomPlane; // _28
-    u8 _34[0x18];     // _34, unknown
+    u8 _34[0x14];     // _34, unknown
+    f32 mClipperScale;// _48
     f32 mFovY;        // _4C
     f32 mAspect;      // _50
     f32 mNear;        // _54

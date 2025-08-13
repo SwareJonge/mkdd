@@ -11,7 +11,7 @@ public:
     void Init(int);                // 0x80308560
     void DoRabbitMark();           // 0x803085b0
     void DoMatchlessTimer();       // 0x80308610
-    void CheckMatchlessTimer();    // 0x803087d8
+    bool CheckMatchlessTimer();    // 0x803087d8
     void SetMatchlessTimer();      // 0x803087ec
     void ClearMatchlessTimer();    // 0x80308840
     void DoDecBalloon();           // 0x80308884

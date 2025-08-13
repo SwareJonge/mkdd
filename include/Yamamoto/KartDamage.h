@@ -30,9 +30,9 @@ public:
     // Inline/Unused
     // void SetThunderDamageAnime();
     // void DoAfterDamageCrl();
-private:
     KartBody *mBody; // 0
     u16 mFlags;      // 4
+private:
     u8 _6;           // 6, unused?
     u8 mDamageState; // 7
     u16 mTimer;      // 8

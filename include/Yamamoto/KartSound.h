@@ -82,7 +82,7 @@ public:
     // void DoStrikedSound();
     // void DoCannonSound();
     // void DoJumpVoice();
-private:
+
     GameAudio::KartSoundMgr *mSoundMgr;
     KartBody *mBody;
     bool mWallSoundActive;

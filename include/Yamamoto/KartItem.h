@@ -42,7 +42,7 @@ public:
     // void DoBarrelReleaseDynamicDir();
     // void DoDriverItemAnime();
     // void DoDriverItemRelease();
-private:
+//private: // MJB - looks like _0 is used in KartCtrlInfo.
     u8 _0[0xc]; //
 
 }; // 0xc

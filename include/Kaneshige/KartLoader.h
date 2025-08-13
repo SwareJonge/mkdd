@@ -42,7 +42,7 @@ public:
         return getDriverTevRegKey(0, tevanmID) != nullptr;
     }
     
-    ExModel *getExModelDriver(int driver) {
+    DriverModel *getExModelDriver(int driver) {
 #line 80
         JUT_MINMAX_ASSERT(0, driver, 2); // line 80
         return mDriverModels[driver];

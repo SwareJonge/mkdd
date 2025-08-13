@@ -38,7 +38,13 @@ public:
     u32 mBtnB2;
     u32 mTrigL;
     u32 mTrigR;
-    u8 _24[0x3c - 0x24];
+    // Button States
+    u32 mDriverButton;
+    u32 mCoDriverButton;
+    u32 mDriverTrigger;
+    u32 mCoDriverTrigger;
+    u32 mDriverRelease;
+    u32 mCoDriverRelease;
     f32 mItemStickY;
     f32 _40;
     f32 _44;

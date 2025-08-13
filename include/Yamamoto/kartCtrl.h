@@ -1,6 +1,8 @@
 #ifndef KARTCTRL_H
 #define KARTCTRL_H
 
+#include "Kaneshige/Course/CrsGround.h"
+#include "Kaneshige/KartLoader.h"
 #include "types.h"
 #include "Inagaki/GameSoundMgr.h"
 #include "Kaneshige/CenterLine.h"
@@ -46,14 +48,15 @@ public:
     void DoContPaste(int);
     f32 GetItemStickY(int);
     f32 GetItemStickX(int);
-    void GetItemButton(int);
+    u32 GetItemButton(int);
     void DoLod();
     void GetPortPtr(int);
     void GetCamFovy(int);
     void GetCamAspect(int);
-    void GetBodyGround(int);
-    void GetRRTireGround(int);
-    void GetRLTireGround(int);
+    // TODO: do these return references or pointers?
+    CrsGround *GetBodyGround(int);
+    CrsGround *GetRRTireGround(int);
+    CrsGround *GetRLTireGround(int);
     void GetBodyPos(int idx, JGeometry::TVec3f *ret);
     void GetBodyVel(int, JGeometry::TVec3f *);
     bool GetLeftFTirePos(int, Vec *);
@@ -61,7 +64,7 @@ public:
     void GetLeftTirePos(int, Vec *);
     void GetRightTirePos(int, Vec *);
     void GetTirePos(int, int, Vec *);
-    void GeTireG(int);
+    f32 GeTireG(int);
     f32 GetCarSpeed(int);
     f32 GetCarRpm(int);
     f32 GetKartRpm(int);
@@ -71,7 +74,7 @@ public:
     u32 GetGameStatus(int);
     void SetTireDispRound(KartBody *, KartSus *, f32);
     void SetKartRpm(KartBody *, f32, f32);
-    u8 WhichDriver(int);
+    bool WhichDriver(int);
     u8 WhichNowDriver(int);
     bool CheckCamera(int);
     int GetCameraNum(int);
@@ -80,24 +83,25 @@ public:
     f32 GetDownSlopeAcc(int);
     f32 GetDownSlopeSpeed(int);
     f32 GetTireAngle(int);
-    f32 GetTandemDir(int);
+    bool GetTandemDir(int); // unsure of return type
     f32 GetWaterHeight(int);
     bool CheckJugemuSignal();
     GameAudio::KartSoundMgr *GetKartSoundMgr(int idx); /*{ return getKartSound(idx)->mKartSoundMgr; }*/
+    GameAudio::CharacterSoundMgr *GetCharacterSoundMgr(int);
     f32 GetKartBodyOffset(int);
-    void MakeChangePossible(int);
+    bool MakeChangePossible(int);
     bool CheckTandemItmGet(int);
     bool CheckTandemItmRollingGet(int);
     void SetObjectPos(int, JGeometry::TVec3f);
     bool CheckThunderBolt(int);
-    void GetTireRadius(int);
-    void IsBurn(int);
-    void IsWallReact(int);
-    void HaveBalloon(int);
+    double GetTireRadius(int);
+    bool IsBurn(int);
+    bool IsWallReact(int);
+    u32 HaveBalloon(int);
     int GetDriftCnt(int);
     bool IsMiniGame();
     bool IsMiniGameEnd();
-    bool CheckWinner();
+    u8 CheckWinner();
     void GetKartEffctVel(int, JGeometry::TVec3f *);
     bool CheckChange(int);
     bool CheckMatchless(int);
@@ -135,7 +139,11 @@ public:
     // void GetCenterLineNum(int);
     // void RivalKart::GetTargetcnt();
 
-    bool HaveRabbit();
+    // Inlines for selecting GamePad for driver/passenger.
+    inline KartGamePad* getPad(int gamePadIndex) { return mGamePads[gamePadIndex][0]; }     // Driver
+    inline KartGamePad* getCoPad(int gamePadIndex) { return mGamePads[gamePadIndex][1]; }   // Passenger
+
+    void HaveRabbit();
 
     void AnimeInit(int idx) { getKartAnime(idx)->Init(); }
     void ApeendixInit(int idx)
@@ -181,6 +189,7 @@ public:
     KartAnime *getKartAnime(int idx) { return mKartAnimes[idx]; }
     KartTarget *getKartTarget(int idx) { return mKartTargets[idx]; }
     KartDisp *getKartDisp(int idx) { return mKartDisps[idx]; }
+    KartLoader *getKartLoader(int idx) { return mKartLoaders[idx]; }
 
     void setKartPad(KartPad *pad, int idx) { mKartPads[idx] = pad; }
     void setKartCam(KartCam *cam, int idx) { mKartCams[idx] = cam; }
