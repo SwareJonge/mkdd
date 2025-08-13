@@ -13,7 +13,7 @@ void KartCrash::DoMatchlessTimer() {
     // void KartDrawer::flashOn() {}
 }
 
-void KartCrash::CheckMatchlessTimer() {}
+bool KartCrash::CheckMatchlessTimer() {}
 
 void KartCrash::SetMatchlessTimer() {}
 

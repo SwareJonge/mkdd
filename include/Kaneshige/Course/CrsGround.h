@@ -34,6 +34,7 @@ public:
         Attr_Puller,
         Attr_Water,
         Attr_18,
+        Attr_19,
         Attr_55 = 0x37,
         Attr_71 = 0x47,
         Attr_255 = 0xff,

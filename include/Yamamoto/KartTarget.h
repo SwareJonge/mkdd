@@ -17,7 +17,6 @@ public:
     void DoSearchTarget(int);
     void DoSearchRescueTarget(CLPoint *);
 
-private:
     CLPoint *mCenter;
 };
 
