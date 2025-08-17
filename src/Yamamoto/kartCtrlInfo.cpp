@@ -124,6 +124,62 @@ u32 KartCtrl::GetItemButton(int kartIndex) {
 void KartCtrl::DoLod() {
     // void KartCam::GetClipperScale() {}
     // void KartCam::GetLodLen() {}
+    u32 kartNumber = GetKartCtrl()->GetKartNumber();
+    RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    JGeometry::TVec3f kartDistToCamera; // Couldn't find a way to make this a non-C style declaration without borking things...
+
+    for (u16 j = 0; j < raceMgr->getCameraNumber(); j++) {
+        KartCam *kartCam = getKartCam(j);
+        kartCam->SetVictoryScreenPort((u8)j);
+        for (s32 i = 0, cameraNumber = 0; i < (s32)kartNumber; i++, cameraNumber += 4) {
+            KartBody *kartBody = getKartBody(i);
+            KartDrawer *kartDrawer = RaceMgr::getManager()->getKartDrawer(i);
+            raceMgr->getKartInfo(i)->getKartID();
+
+            if (getKartBody(i)->getChecker()->CheckIndication() != 0) {
+                f32 clipperScale = kartCam->GetLodLen();
+                if (kartCam->GetCameraMode() == 2) {
+                    clipperScale = 18000.0f;
+                }
+
+                kartDistToCamera.sub(kartBody->mPos, *kartCam->GetCameraPos());
+                if (kartDistToCamera.x > clipperScale || kartDistToCamera.x < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else if (kartCam->mClipper.mLeftPlane.x > clipperScale || kartCam->mClipper.mLeftPlane.x < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else if (kartCam->mClipper.mLeftPlane.y > clipperScale || kartCam->mClipper.mLeftPlane.y < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else {
+                    kartDrawer->setLODLevel(j, 0);
+                }
+
+                clipperScale = kartCam->GetClipperScale();
+                kartBody->mBodyModel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                clipperScale = 0.85f * kartCam->GetClipperScale();
+                kartBody->mExModels[0]->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                kartBody->mExModels[1]->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                getKartSus(cameraNumber + 0)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 1)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 2)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 3)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                if ((kartBody->mGameStatus & 0x1000) != 0) {
+                    getKartSus(cameraNumber + 0)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 1)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 2)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 3)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                    getKartSus(cameraNumber + 0)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 1)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 2)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 3)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                }
+            }
+        }
+    }
+    return;
 }
 
 void KartCtrl::GetPortPtr(int) {}
