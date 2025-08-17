@@ -259,8 +259,8 @@ void KartCam::DoPort(int camNo)
     JUT_MINMAX_ASSERT(0, mPtr, 9);
 
     SetFovyData();
-    _198 = viewdata[mPtr]._18;
-    _19c = viewdata[mPtr]._1c;
+    mLodLen = viewdata[mPtr]._18;
+    mClipperScale = viewdata[mPtr]._1c;
     _17c = viewdata[mPtr]._20;
     _180 = viewdata[mPtr]._24;
     SetClipper();

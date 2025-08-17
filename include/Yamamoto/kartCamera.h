@@ -44,8 +44,8 @@ public:
     // void InitLandView();
 
     // MJB - These inlines used by KartCtrlInfo.
-    inline f32 GetClipperScale() { return mClipper.mClipperScale; }
-    inline f32 GetLodLen(){ return _198; }
+    inline f32 GetClipperScale() { return mClipperScale; }
+    inline f32 GetLodLen(){ return mLodLen; }
 
     void SetTargetNum(u8);
     void SetClipper();
@@ -202,8 +202,8 @@ public:
     f32 _18c;                         //
     f32 _190;                         //
     f32 _194;                         //
-    f32 _198;                         //
-    f32 _19c;                         //
+    f32 mLodLen;                      // 198
+    f32 mClipperScale;                // 19c
     f32 _1a0;                         //
     f32 _1a4;                         //
     f32 _1a8;                         //
