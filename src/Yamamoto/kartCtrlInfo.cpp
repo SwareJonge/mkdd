@@ -290,7 +290,9 @@ int KartCtrl::GetCameraNum(int kartIndex) {
     return getKartBody(kartIndex)->mCameraNum;
 }
 
-bool KartCtrl::CheckItem(int) {}
+bool KartCtrl::CheckItem(const int kartIndex) {
+    return u8((getKartBody(kartIndex)->mCarStatus & 0x80000000) != 0);
+}
 
 f32 KartCtrl::GetMaxSpeed(int kartIndex) {
     f32 maxSpeed;
