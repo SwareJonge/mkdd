@@ -91,7 +91,7 @@ public:
 
     KartLoader *mKartLoader;
     KartSus *mKartSus[4];
-    void *mBodyModel;
+    ExModel *mBodyModel;
     DriverModel *mDriverModels[2];
     ExModel *mExModels[2];
     KartShadowModel *mShadowModel;
