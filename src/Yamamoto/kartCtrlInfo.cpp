@@ -696,11 +696,9 @@ bool KartCtrl::CheckReverse(int kartIndex) {
 
 f32 KartCtrl::GetKartScale(int kartIndex) {
     KartBody *kartBody = getKartBody(kartIndex);
-      
-    if ((kartBody->getThunder()->mFlags & 1) != 0) {
-        return kartBody->getThunder()->mScale;
-    }
-    return 1.0f;
+    return (kartBody->getThunder()->mFlags & 1) != 0
+        ? kartBody->getThunder()->mScale    // You've been... THUNDERSTRUCK!
+        : 1.0f;
 }
 
 RivalKart *KartCtrl::getKartEnemy(int kartIndex) {
