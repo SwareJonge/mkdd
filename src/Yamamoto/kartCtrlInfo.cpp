@@ -296,7 +296,35 @@ u32 KartCtrl::GetGameStatus(int idx) {
     return getKartBody(idx)->mGameStatus;
 }
 
-void KartCtrl::SetTireDispRound(KartBody *, KartSus *, f32) {}
+void KartCtrl::SetTireDispRound(KartBody *kartBody, KartSus *kartSus, f32 reverse) {
+    f32 tireDisp = 0.02f * kartSus->_110;
+    f32 speed = 2.16f * kartBody->mSpeed;
+
+    if (kartBody->_458 < 1.0f) {
+        speed = 0.0f;
+        tireDisp = 0.0f;
+    }
+
+    if (reverse < 0.0f) {
+        speed = -speed;
+    }
+
+    tireDisp += 0.02f * speed;
+
+    if (kartBody->mGameStatus & 0x200) {
+        tireDisp = 0.0f;
+    } else if (tireDisp > 0.436111f) {
+        tireDisp = 0.436111f;
+    } else if (tireDisp < -0.436111f) {
+        tireDisp = -0.436111f;
+    }
+
+    kartSus->_10c += tireDisp;
+    if (kartSus->_10c > 3.14 || kartSus->_10c < -3.14) {
+        kartSus->_10c = 0.0f;
+    }
+    return;
+}
 
 void KartCtrl::SetKartRpm(KartBody *kartBody, f32 unknownRPM1, f32 unknownRPM2) {
     f32 unknownMultiplier = kartBody->_458 / 60.0f;
