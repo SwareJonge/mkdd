@@ -793,7 +793,150 @@ void KartStrat::DoStepSterr() {
     }
 }
 
-void KartStrat::DoSterr() {}
+void KartStrat::DoSterr() {
+    // I should be able to init this to `s32 offset = myNum * 4;`,
+    // but for some reason the output assembly is wrong when I do this...?
+    s32 offset;
+    
+    KartBody *kartBody = mBody;
+    u32 myNum = kartBody->mMynum;
+    RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    KartCtrl *kartCtrl = GetKartCtrl();
+    offset = myNum * 4;
+
+    // Based on the variables stored below, we only need to modify the front
+    // tires as they indicate the direction the kart is being steered.
+    KartSus *kartSus1 = kartCtrl->getKartSus(offset);
+    KartSus *kartSus2 = GetKartCtrl()->getKartSus(offset + 1);
+    GetKartCtrl()->getKartSus(offset + 2);
+    GetKartCtrl()->getKartSus(offset + 3);
+
+    KartGamePad *kartGamePad = GetKartCtrl()->GetDriveCont(myNum);
+    f32 steeringInput = 1.8f;
+    
+    if ((kartBody->mGameStatus & 4) == 0) {
+        return;
+    }
+    if ((kartBody->mCarStatus & 2) != 0) {
+        kartBody->_4a4 = -steeringInput;
+        steeringInput = (kartGamePad->getMainStickX() - steeringInput) * 0.5f;
+
+        if (steeringInput > -0.65f) {
+            steeringInput *= 0.05f;
+        } else if (steeringInput <= -1.4f) {
+            steeringInput *= 1.35f;
+        } else if (steeringInput <= -1.3f) {
+            steeringInput *= 1.3f;
+        } else if (steeringInput <= -1.0f) {
+            steeringInput *= 1.2f;
+        } else if (steeringInput <= -0.9f) {
+            steeringInput *= 1.15f;
+        }
+        kartBody->mSterrFrame = steeringInput;
+
+    } else if ((kartBody->mCarStatus & 1) != 0) {
+        kartBody->_4a4 = steeringInput;
+        steeringInput = (kartGamePad->getMainStickX() + steeringInput) * 0.5f;
+        
+        if (steeringInput < 0.65f) {
+            steeringInput *= 1.15f;
+        } else if (steeringInput >= 1.4f) {
+            steeringInput *= 1.35f;
+        } else if (steeringInput >= 1.3f) {
+            steeringInput *= 1.3f;
+        } else if (steeringInput >= 1.0f) {
+            steeringInput *= 1.2f;
+        } else if (steeringInput >= 0.9f) {
+            steeringInput *= 1.15f;
+        }
+        kartBody->mSterrFrame = steeringInput;
+
+    } else {
+        if (kartBody->_4a4 != 0.0f) {
+            GetKartCtrl()->ChaseFnumber(&kartBody->_4a4, 0.0f, 0.45f);
+            steeringInput = (kartBody->_4a4 + kartGamePad->getMainStickX()) * 0.5f;
+        } else {
+            steeringInput = kartGamePad->getMainStickX();
+        }
+        
+        kartBody->mSterrFrame = steeringInput;
+    }
+
+    if (steeringInput > 1.0f) {
+        steeringInput = 1.0f;
+    }
+    if (steeringInput < -1.0f) {
+        steeringInput = -1.0f;
+    }
+
+    f32 inputStrength = 0.3f;
+    f32 steeringSensitivity = kartGamePad->getMainStickX();
+    if (steeringSensitivity != 0.0f) {
+        if (steeringSensitivity < 0.0f) {
+            steeringSensitivity = -steeringSensitivity;
+        }
+        inputStrength *= steeringSensitivity;
+        if (inputStrength <= 0.01f) {
+            inputStrength = 0.01f;
+        }
+    }
+
+    steeringSensitivity = 20.0f - (kartBody->mSpeed * 0.13333334f);
+    if (steeringSensitivity <= 1.0f) {
+        steeringSensitivity = 1.0f;
+    }
+    if (steeringSensitivity >= 20.0f) {
+        steeringSensitivity = 20.0f;
+    }
+
+    if ((kartBody->mCarStatus & 3) == 0) {
+        steeringSensitivity = 11.0f;
+        if (GetKartCtrl()->GetCarSpeed(myNum) <= 30.0f) {
+            steeringSensitivity = 14.0f;
+        }
+    }
+
+    GetKartCtrl()->ChaseFnumber(&kartBody->mTireAngle, (3.141f * (-steeringInput * steeringSensitivity)) / 180.0f, inputStrength);
+    if (raceMgr->getRaceMode() == 8 || kartBody->getChecker()->CheckCrash() == 1) {
+        kartBody->mTireAngle = 0.0f;
+    }
+
+    GetKartCtrl()->RotYMatrix33(kartSus1->_128, kartBody->mTireAngle);
+    GetKartCtrl()->RotYMatrix33(kartSus2->_128, kartBody->mTireAngle);
+
+    inputStrength = kartGamePad->getMainStickX();
+    myNum = kartBody->mGameStatus & 8;
+
+    f32 speedAdjustment = inputStrength * 10.0f;
+    if (((myNum != 0) && (speedAdjustment < 4.0f)) && (speedAdjustment > -4.0f)) {
+        speedAdjustment = 0.0f;
+    }
+
+    inputStrength = 10.0f - speedAdjustment;
+    if (myNum != 0) {
+        kartBody->_38c = GetKartCtrl()->fcnvge(kartBody->_38c, inputStrength, 0.4f, 0.4f);
+    } else {
+        kartBody->_38c = GetKartCtrl()->fcnvge(kartBody->_38c, inputStrength, 1.8f, 1.8f);
+    }
+
+    kartBody->_388 = (kartBody->_38c - 10.0f) / 10.0f;
+    GetKartCtrl()->RotYMatrix33(kartSus1->_188, kartBody->_388 * 0.680333f);
+    GetKartCtrl()->RotYMatrix33(kartSus2->_188, kartBody->_388 * 0.680333f);
+
+    if (raceMgr->getRaceMode() != 8) {
+        // Wait... what? Why...? Why duplicate code??? Why, I say... WHY?!
+        if (steeringInput < 0.0f) {
+            steeringInput = 10.0f - (10.0f * steeringInput);
+        } else {
+            steeringInput = 10.0f - (10.0f * steeringInput);
+        }
+
+        kartBody->_384 = GetKartCtrl()->fcnvge(kartBody->_384, steeringInput, 0.85f, 0.85f);
+        kartBody->mFrame = (kartBody->_384 - 10.0f) / 10.0f;
+    }
+    
+    return;
+}
 
 void KartStrat::DoAccel() {    
     KartBody *kartBody = mBody;
