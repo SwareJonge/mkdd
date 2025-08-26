@@ -880,7 +880,7 @@ void KartStrat::DoSterr() {
         steeringInput = (kartGamePad->getMainStickX() + steeringInput) * 0.5f;
         
         if (steeringInput < 0.65f) {
-            steeringInput *= 1.15f;
+            steeringInput *= 0.05f;
         } else if (steeringInput >= 1.4f) {
             steeringInput *= 1.35f;
         } else if (steeringInput >= 1.3f) {
