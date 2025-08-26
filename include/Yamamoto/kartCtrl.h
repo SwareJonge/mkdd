@@ -50,7 +50,7 @@ public:
     f32 GetItemStickX(int);
     u32 GetItemButton(int);
     void DoLod();
-    void GetPortPtr(int);
+    int GetPortPtr(int);
     void GetCamFovy(int);
     void GetCamAspect(int);
     // TODO: do these return references or pointers?

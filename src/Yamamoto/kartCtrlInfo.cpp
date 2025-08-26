@@ -182,7 +182,48 @@ void KartCtrl::DoLod() {
     return;
 }
 
-void KartCtrl::GetPortPtr(int) {}
+int KartCtrl::GetPortPtr(int portNumber) {
+    u8 offset;
+    switch (RaceMgr::getCurrentManager()->getCameraNumber()) {
+        case 1:
+            offset = 0;
+            break;
+
+        case 2:
+            if (RaceMgr::getCurrentManager()->isSubScrExist()) {
+                switch (portNumber) {
+                    case 0: offset = 0; break;
+                    case 1: offset = 7; break;
+                    default: break;
+                }
+            } else {
+                switch (portNumber) {
+                    case 0: offset = 1; break;
+                    case 1: offset = 2; break;
+                    default: break;
+                }
+            }
+            break;
+
+        case 3:
+        case 4:
+            switch (portNumber) {
+                case 0: offset = 3; break;
+                case 1: offset = 4; break;
+                case 2: offset = 5; break;
+                case 3: offset = 6; break;
+                default: break;
+            }
+            break;
+
+        default:
+            offset = 0;
+            break;
+    }
+
+    // FIX: This return type is probably incorrect.
+    return (int)&viewdata + (offset & 0xff) * 0x28;
+}
 
 void KartCtrl::GetCamFovy(int camIndex) {
     getKartCam(camIndex)->GetFovy();
