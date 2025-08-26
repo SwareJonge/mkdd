@@ -222,7 +222,7 @@ int KartCtrl::GetPortPtr(int portNumber) {
     }
 
     // FIX: This return type is probably incorrect.
-    return (int)&viewdata + (offset & 0xff) * 0x28;
+    return (int)&viewdata[offset];
 }
 
 void KartCtrl::GetCamFovy(int camIndex) {
