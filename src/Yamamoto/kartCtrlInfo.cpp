@@ -8,6 +8,7 @@
 #include "Yamamoto/kartCtrl.h"
 
 #include "Jsystem/JAudio/JASFakeMatch2.h"
+#include "Yamamoto/kartParams.h"
 #include "kartEnums.h"
 
 // comments inside functions are inline functions being called in that function
@@ -282,7 +283,20 @@ void KartCtrl::GetRightTirePos(int kartIndex, Vec *vec) {
     GetTirePos(kartIndex, 2, vec);
 }
 
-void KartCtrl::GetTirePos(int, int, Vec *) {}
+int KartCtrl::GetTirePos(int kartIndex, int kartTireIndex, Vec *kartTireVect) {
+    KartBody* kartBody = getKartBody(kartIndex);
+    RaceMgr::getCurrentManager();
+    
+    u32 idx = kartBody->mIdx;
+    u32 kartOffset = kartTireIndex;
+    
+    kartTireVect->x = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[0][3] - kartBody->_2fc.x * kartBody->mKartSus[kartOffset]->mTireRadius);
+    kartTireVect->y = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[1][3] - kartBody->_2fc.y * kartBody->mKartSus[kartOffset]->mTireRadius) 
+        + tireOffsetPos[idx];
+    kartTireVect->z = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[2][3] - kartBody->_2fc.z * kartBody->mKartSus[kartOffset]->mTireRadius);
+    
+    return (u8)(kartBody->mKartSus[kartOffset]->_124 & 1);
+}
 
 f32 KartCtrl::GeTireG(int kartIndex) {
     return getKartBody(kartIndex)->mTireG.x;
