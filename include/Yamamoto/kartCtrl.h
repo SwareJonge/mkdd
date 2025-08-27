@@ -50,7 +50,7 @@ public:
     f32 GetItemStickX(int);
     u32 GetItemButton(int);
     void DoLod();
-    void GetPortPtr(int);
+    int GetPortPtr(int);
     void GetCamFovy(int);
     void GetCamAspect(int);
     // TODO: do these return references or pointers?
@@ -63,7 +63,7 @@ public:
     bool GetRightFTirePos(int, Vec *);
     void GetLeftTirePos(int, Vec *);
     void GetRightTirePos(int, Vec *);
-    void GetTirePos(int, int, Vec *);
+    int GetTirePos(int, int, Vec *);
     f32 GeTireG(int);
     f32 GetCarSpeed(int);
     f32 GetCarRpm(int);

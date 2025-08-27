@@ -8,6 +8,7 @@
 #include "Yamamoto/kartCtrl.h"
 
 #include "Jsystem/JAudio/JASFakeMatch2.h"
+#include "Yamamoto/kartParams.h"
 #include "kartEnums.h"
 
 // comments inside functions are inline functions being called in that function
@@ -124,9 +125,106 @@ u32 KartCtrl::GetItemButton(int kartIndex) {
 void KartCtrl::DoLod() {
     // void KartCam::GetClipperScale() {}
     // void KartCam::GetLodLen() {}
+    u32 kartNumber = GetKartCtrl()->GetKartNumber();
+    RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    JGeometry::TVec3f kartDistToCamera; // Couldn't find a way to make this a non-C style declaration without borking things...
+
+    for (u16 j = 0; j < raceMgr->getCameraNumber(); j++) {
+        KartCam *kartCam = getKartCam(j);
+        kartCam->SetVictoryScreenPort((u8)j);
+        for (s32 i = 0, cameraNumber = 0; i < (s32)kartNumber; i++, cameraNumber += 4) {
+            KartBody *kartBody = getKartBody(i);
+            KartDrawer *kartDrawer = RaceMgr::getManager()->getKartDrawer(i);
+            raceMgr->getKartInfo(i)->getKartID();
+
+            if (getKartBody(i)->getChecker()->CheckIndication() != 0) {
+                f32 clipperScale = kartCam->GetLodLen();
+                if (kartCam->GetCameraMode() == 2) {
+                    clipperScale = 18000.0f;
+                }
+
+                kartDistToCamera.sub(kartBody->mPos, *kartCam->GetCameraPos());
+                if (kartDistToCamera.x > clipperScale || kartDistToCamera.x < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else if (kartCam->mClipper.mLeftPlane.x > clipperScale || kartCam->mClipper.mLeftPlane.x < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else if (kartCam->mClipper.mLeftPlane.y > clipperScale || kartCam->mClipper.mLeftPlane.y < -clipperScale) {
+                    kartDrawer->setLODLevel(j, 1);
+                } else {
+                    kartDrawer->setLODLevel(j, 0);
+                }
+
+                clipperScale = kartCam->GetClipperScale();
+                kartBody->mBodyModel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                clipperScale = 0.85f * kartCam->GetClipperScale();
+                kartBody->mExModels[0]->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                kartBody->mExModels[1]->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                getKartSus(cameraNumber + 0)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 1)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 2)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                getKartSus(cameraNumber + 3)->mWheel->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                if ((kartBody->mGameStatus & 0x1000) != 0) {
+                    getKartSus(cameraNumber + 0)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 1)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 2)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 3)->mShock->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+
+                    getKartSus(cameraNumber + 0)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 1)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 2)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                    getKartSus(cameraNumber + 3)->mArm->clipBySphere(j, kartCam->GetClipper(), kartCam->GetMtx(), clipperScale);
+                }
+            }
+        }
+    }
+    return;
 }
 
-void KartCtrl::GetPortPtr(int) {}
+int KartCtrl::GetPortPtr(int portNumber) {
+    u8 offset;
+    switch (RaceMgr::getCurrentManager()->getCameraNumber()) {
+        case 1:
+            offset = 0;
+            break;
+
+        case 2:
+            if (RaceMgr::getCurrentManager()->isSubScrExist()) {
+                switch (portNumber) {
+                    case 0: offset = 0; break;
+                    case 1: offset = 7; break;
+                    default: break;
+                }
+            } else {
+                switch (portNumber) {
+                    case 0: offset = 1; break;
+                    case 1: offset = 2; break;
+                    default: break;
+                }
+            }
+            break;
+
+        case 3:
+        case 4:
+            switch (portNumber) {
+                case 0: offset = 3; break;
+                case 1: offset = 4; break;
+                case 2: offset = 5; break;
+                case 3: offset = 6; break;
+                default: break;
+            }
+            break;
+
+        default:
+            offset = 0;
+            break;
+    }
+
+    // FIX: This return type is probably incorrect.
+    return (int)&viewdata[offset];
+}
 
 void KartCtrl::GetCamFovy(int camIndex) {
     getKartCam(camIndex)->GetFovy();
@@ -185,7 +283,20 @@ void KartCtrl::GetRightTirePos(int kartIndex, Vec *vec) {
     GetTirePos(kartIndex, 2, vec);
 }
 
-void KartCtrl::GetTirePos(int, int, Vec *) {}
+int KartCtrl::GetTirePos(int kartIndex, int kartTireIndex, Vec *kartTireVect) {
+    KartBody* kartBody = getKartBody(kartIndex);
+    RaceMgr::getCurrentManager();
+    
+    u32 idx = kartBody->mIdx;
+    u32 kartOffset = kartTireIndex;
+    
+    kartTireVect->x = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[0][3] - kartBody->_2fc.x * kartBody->mKartSus[kartOffset]->mTireRadius);
+    kartTireVect->y = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[1][3] - kartBody->_2fc.y * kartBody->mKartSus[kartOffset]->mTireRadius) 
+        + tireOffsetPos[idx];
+    kartTireVect->z = (kartBody->mKartSus[kartOffset]->mWheel->getBaseTRMtx()[2][3] - kartBody->_2fc.z * kartBody->mKartSus[kartOffset]->mTireRadius);
+    
+    return (u8)(kartBody->mKartSus[kartOffset]->_124 & 1);
+}
 
 f32 KartCtrl::GeTireG(int kartIndex) {
     return getKartBody(kartIndex)->mTireG.x;
@@ -240,7 +351,35 @@ u32 KartCtrl::GetGameStatus(int idx) {
     return getKartBody(idx)->mGameStatus;
 }
 
-void KartCtrl::SetTireDispRound(KartBody *, KartSus *, f32) {}
+void KartCtrl::SetTireDispRound(KartBody *kartBody, KartSus *kartSus, f32 reverse) {
+    f32 tireDisp = 0.02f * kartSus->_110;
+    f32 speed = 2.16f * kartBody->mSpeed;
+
+    if (kartBody->_458 < 1.0f) {
+        speed = 0.0f;
+        tireDisp = 0.0f;
+    }
+
+    if (reverse < 0.0f) {
+        speed = -speed;
+    }
+
+    tireDisp += 0.02f * speed;
+
+    if (kartBody->mGameStatus & 0x200) {
+        tireDisp = 0.0f;
+    } else if (tireDisp > 0.436111f) {
+        tireDisp = 0.436111f;
+    } else if (tireDisp < -0.436111f) {
+        tireDisp = -0.436111f;
+    }
+
+    kartSus->_10c += tireDisp;
+    if (kartSus->_10c > 3.14 || kartSus->_10c < -3.14) {
+        kartSus->_10c = 0.0f;
+    }
+    return;
+}
 
 void KartCtrl::SetKartRpm(KartBody *kartBody, f32 unknownRPM1, f32 unknownRPM2) {
     f32 unknownMultiplier = kartBody->_458 / 60.0f;
@@ -290,7 +429,9 @@ int KartCtrl::GetCameraNum(int kartIndex) {
     return getKartBody(kartIndex)->mCameraNum;
 }
 
-bool KartCtrl::CheckItem(int) {}
+bool KartCtrl::CheckItem(const int kartIndex) {
+    return u8((getKartBody(kartIndex)->mCarStatus & 0x80000000) != 0);
+}
 
 f32 KartCtrl::GetMaxSpeed(int kartIndex) {
     f32 maxSpeed;
@@ -610,11 +751,9 @@ bool KartCtrl::CheckReverse(int kartIndex) {
 
 f32 KartCtrl::GetKartScale(int kartIndex) {
     KartBody *kartBody = getKartBody(kartIndex);
-      
-    if ((kartBody->getThunder()->mFlags & 1) != 0) {
-        return kartBody->getThunder()->mScale;
-    }
-    return 1.0f;
+    return (kartBody->getThunder()->mFlags & 1) != 0
+        ? kartBody->getThunder()->mScale    // You've been... THUNDERSTRUCK!
+        : 1.0f;
 }
 
 RivalKart *KartCtrl::getKartEnemy(int kartIndex) {
@@ -709,7 +848,150 @@ void KartStrat::DoStepSterr() {
     }
 }
 
-void KartStrat::DoSterr() {}
+void KartStrat::DoSterr() {
+    // I should be able to init this to `s32 offset = myNum * 4;`,
+    // but for some reason the output assembly is wrong when I do this...?
+    s32 offset;
+    
+    KartBody *kartBody = mBody;
+    u32 myNum = kartBody->mMynum;
+    RaceMgr *raceMgr = RaceMgr::getCurrentManager();
+    KartCtrl *kartCtrl = GetKartCtrl();
+    offset = myNum * 4;
+
+    // Based on the variables stored below, we only need to modify the front
+    // tires as they indicate the direction the kart is being steered.
+    KartSus *kartSus1 = kartCtrl->getKartSus(offset);
+    KartSus *kartSus2 = GetKartCtrl()->getKartSus(offset + 1);
+    GetKartCtrl()->getKartSus(offset + 2);
+    GetKartCtrl()->getKartSus(offset + 3);
+
+    KartGamePad *kartGamePad = GetKartCtrl()->GetDriveCont(myNum);
+    f32 steeringInput = 1.8f;
+    
+    if ((kartBody->mGameStatus & 4) == 0) {
+        return;
+    }
+    if ((kartBody->mCarStatus & 2) != 0) {
+        kartBody->_4a4 = -steeringInput;
+        steeringInput = (kartGamePad->getMainStickX() - steeringInput) * 0.5f;
+
+        if (steeringInput > -0.65f) {
+            steeringInput *= 0.05f;
+        } else if (steeringInput <= -1.4f) {
+            steeringInput *= 1.35f;
+        } else if (steeringInput <= -1.3f) {
+            steeringInput *= 1.3f;
+        } else if (steeringInput <= -1.0f) {
+            steeringInput *= 1.2f;
+        } else if (steeringInput <= -0.9f) {
+            steeringInput *= 1.15f;
+        }
+        kartBody->mSterrFrame = steeringInput;
+
+    } else if ((kartBody->mCarStatus & 1) != 0) {
+        kartBody->_4a4 = steeringInput;
+        steeringInput = (kartGamePad->getMainStickX() + steeringInput) * 0.5f;
+        
+        if (steeringInput < 0.65f) {
+            steeringInput *= 0.05f;
+        } else if (steeringInput >= 1.4f) {
+            steeringInput *= 1.35f;
+        } else if (steeringInput >= 1.3f) {
+            steeringInput *= 1.3f;
+        } else if (steeringInput >= 1.0f) {
+            steeringInput *= 1.2f;
+        } else if (steeringInput >= 0.9f) {
+            steeringInput *= 1.15f;
+        }
+        kartBody->mSterrFrame = steeringInput;
+
+    } else {
+        if (kartBody->_4a4 != 0.0f) {
+            GetKartCtrl()->ChaseFnumber(&kartBody->_4a4, 0.0f, 0.45f);
+            steeringInput = (kartBody->_4a4 + kartGamePad->getMainStickX()) * 0.5f;
+        } else {
+            steeringInput = kartGamePad->getMainStickX();
+        }
+        
+        kartBody->mSterrFrame = steeringInput;
+    }
+
+    if (steeringInput > 1.0f) {
+        steeringInput = 1.0f;
+    }
+    if (steeringInput < -1.0f) {
+        steeringInput = -1.0f;
+    }
+
+    f32 inputStrength = 0.3f;
+    f32 steeringSensitivity = kartGamePad->getMainStickX();
+    if (steeringSensitivity != 0.0f) {
+        if (steeringSensitivity < 0.0f) {
+            steeringSensitivity = -steeringSensitivity;
+        }
+        inputStrength *= steeringSensitivity;
+        if (inputStrength <= 0.01f) {
+            inputStrength = 0.01f;
+        }
+    }
+
+    steeringSensitivity = 20.0f - (kartBody->mSpeed * 0.13333334f);
+    if (steeringSensitivity <= 1.0f) {
+        steeringSensitivity = 1.0f;
+    }
+    if (steeringSensitivity >= 20.0f) {
+        steeringSensitivity = 20.0f;
+    }
+
+    if ((kartBody->mCarStatus & 3) == 0) {
+        steeringSensitivity = 11.0f;
+        if (GetKartCtrl()->GetCarSpeed(myNum) <= 30.0f) {
+            steeringSensitivity = 14.0f;
+        }
+    }
+
+    GetKartCtrl()->ChaseFnumber(&kartBody->mTireAngle, (3.141f * (-steeringInput * steeringSensitivity)) / 180.0f, inputStrength);
+    if (raceMgr->getRaceMode() == 8 || kartBody->getChecker()->CheckCrash() == 1) {
+        kartBody->mTireAngle = 0.0f;
+    }
+
+    GetKartCtrl()->RotYMatrix33(kartSus1->_128, kartBody->mTireAngle);
+    GetKartCtrl()->RotYMatrix33(kartSus2->_128, kartBody->mTireAngle);
+
+    inputStrength = kartGamePad->getMainStickX();
+    myNum = kartBody->mGameStatus & 8;
+
+    f32 speedAdjustment = inputStrength * 10.0f;
+    if (((myNum != 0) && (speedAdjustment < 4.0f)) && (speedAdjustment > -4.0f)) {
+        speedAdjustment = 0.0f;
+    }
+
+    inputStrength = 10.0f - speedAdjustment;
+    if (myNum != 0) {
+        kartBody->_38c = GetKartCtrl()->fcnvge(kartBody->_38c, inputStrength, 0.4f, 0.4f);
+    } else {
+        kartBody->_38c = GetKartCtrl()->fcnvge(kartBody->_38c, inputStrength, 1.8f, 1.8f);
+    }
+
+    kartBody->_388 = (kartBody->_38c - 10.0f) / 10.0f;
+    GetKartCtrl()->RotYMatrix33(kartSus1->_188, kartBody->_388 * 0.680333f);
+    GetKartCtrl()->RotYMatrix33(kartSus2->_188, kartBody->_388 * 0.680333f);
+
+    if (raceMgr->getRaceMode() != 8) {
+        // Wait... what? Why...? Why duplicate code??? Why, I say... WHY?!
+        if (steeringInput < 0.0f) {
+            steeringInput = 10.0f - (10.0f * steeringInput);
+        } else {
+            steeringInput = 10.0f - (10.0f * steeringInput);
+        }
+
+        kartBody->_384 = GetKartCtrl()->fcnvge(kartBody->_384, steeringInput, 0.85f, 0.85f);
+        kartBody->mFrame = (kartBody->_384 - 10.0f) / 10.0f;
+    }
+    
+    return;
+}
 
 void KartStrat::DoAccel() {    
     KartBody *kartBody = mBody;

@@ -112,7 +112,7 @@ extern BodyOp *BodyOpData[21];
 // extern UNK floorThunderDepth;
 // extern UNK bridgeDepth;
 // extern UNK bridgeThunderDepth;
-// extern UNK tireOffsetPos;
+extern f32 tireOffsetPos[21];
 
 // Other Params
 
