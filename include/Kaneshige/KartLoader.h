@@ -107,7 +107,7 @@ public:
         JUT_MINMAX_ASSERT(0, tevanmID, 2); // line 200
         return mWheelRTevRegKey[tevanmID];
     }
-private:
+
     int mKartNum;                               // 0
     const KartInfo *mKartInfo;                  // 4
     void *mDemoBmd;                             // 8
