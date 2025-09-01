@@ -125,6 +125,7 @@ public:
     ObjColBase *getBounds(u8 idx) { return mBounds[idx]; }
     void setBounds(ObjColBase *bounds, u8 idx) { mBounds[idx] = bounds; } 
 
+    void getVelocity(JGeometry::TVec3f *vel) const { *vel = mVel; }
     void getPosition(JGeometry::TVec3f *pos) const { *pos = mPos; }
     void clrObjFlagCheckGeoHitting() { mGeoObjFlag &= ~1; }
     void clrObjFlagCheckItemHitting() { mGeoObjFlag &= ~2; }
