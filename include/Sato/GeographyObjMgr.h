@@ -1,6 +1,7 @@
 #ifndef GEOGRAPHYOBJMGR_H
 #define GEOGRAPHYOBJMGR_H
 
+#include "JSystem/JGeometry/Vec.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Sato/GeographyObj.h"
@@ -41,7 +42,7 @@ public:
     GeographyObj *createSubObj(u32 id);
     GeographyObj *createPrevDrawSubObj(u32 id);
 
-    f32 getKartHitDepthNormalObj(int kart_index) const { return mHitDepth[kart_index]; }
+    f32 getKartHitDepthNormalObj(int kart_index) const { return mKartHitDepth[kart_index]; }
     static void createMgr(const CrsData &crsData) { gMgr = new GeographyObjManager(crsData); }
     static GeographyObjManager *getGeographyObjManager() { return gMgr; }
 
@@ -51,22 +52,34 @@ public:
     bool isEscapeBattle() const { return mIsEscapeBattle; }
     bool isBombBattle() const { return mIsBombBattle; }
 
-    void* getGeoHitTable() const { return mGeoHitTable; }
+    void *getGeoHitTable() const { return mGeoHitTable; }
+
+
+    inline GeographyObj **getKartReactHitObjectList(int myNum) {
+        return &mKartHittingList[myNum][0];
+    }
+    inline const JGeometry::TVec3f *getKartHitRefVecNormalObj(int myNum) const {
+        return &mKartHitRefVec[myNum];
+    }
 
     static GeographyObjManager *gMgr;
 
-    u8 _18[0x2A8 - 0x18];   //
-    f32 mHitDepth[8];       // 2A8
-    u8 _328[0x3FC - 0x2C8]; //
-    TJugem *mJugem[4];      // 3FC
-    u8 _40C[0x491 - 0x40C]; //
-    bool mIsBalloonBattle;  // 491
-    bool mIsBombBattle;     // 492
-    bool mIsRobberyBattle;  // 493
-    bool mIsEscapeBattle;   // 494
-    u8 _495[0x49C - 0x495]; // 495
-    void* mGeoHitTable;     // 49C
-    u8 _4A0[0x4A4 - 0x4A0]; // 4A0
+    u8 _18[0x10];               // 18
+    GeographyObj *mKartHittingList[8][20]; // 28
+    f32 mKartHitDepth[8];       // 2a8
+    JGeometry::TVec3f mKartHitRefVec[8]; // 2c8
+    u8 _328[0x348 - 0x328];     // 328
+    bool mKartHitItemBox[8];    // 348
+    u8 _350[0xAC];              // 350
+    TJugem *mJugem[4];          // 3FC
+    u8 _40C[0x491 - 0x40C];     // 40C
+    bool mIsBalloonBattle;      // 491
+    bool mIsBombBattle;         // 492
+    bool mIsRobberyBattle;      // 493
+    bool mIsEscapeBattle;       // 494
+    u8 _495[0x49C - 0x495];     // 495
+    void* mGeoHitTable;         // 49C
+    u8 _4A0[0x4A4 - 0x4A0];     // 4A0
 
 }; // size 0x4A4
 
