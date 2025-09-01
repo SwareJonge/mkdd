@@ -9,7 +9,6 @@
 #include "Yamamoto/kartBody.h"
 #include "Yamamoto/kartCtrl.h"
 #include <std/math.h>
-#include <utility>
 
 #include "types.h"
 
@@ -18,7 +17,7 @@
 void KartDossin::Init(int kartBodyIndex) {
     mBody = GetKartCtrl()->getKartBody(kartBodyIndex);
     _14 = 0;
-    flattenedKartTimer = 0;
+    mKartFlattenedTimer = 0;
     _15 = 0;
     _16 = 0;
     _1c = 1.0f;
@@ -29,11 +28,11 @@ void KartDossin::Init(int kartBodyIndex) {
 
 
 void KartDossin::DoDossinTimer() {
-    if (flattenedKartTimer == 0) {
+    if (mKartFlattenedTimer == 0) {
         return;
     }
 
-    flattenedKartTimer--;
+    mKartFlattenedTimer--;
     return;
 }
 
@@ -73,7 +72,7 @@ void KartDossin::MakeDossin(GeographyObj *geographyObj) {
 
     kartBody->mCarStatus |= 0x80000000;
     GetKartCtrl()->getKartSound(kartBody->mMynum)->DoAllVoice(0xc);
-    geoObj = geographyObj;
+    mGeoObj = geographyObj;
     return;
 }
 
@@ -81,9 +80,7 @@ void KartDossin::MakeDossin(GeographyObj *geographyObj) {
 bool KartDossin::DoDossin() {
     KartBody* kartBody = mBody;
 
-    // Might be able to remove need to cast...
-    // Need more info about underlying function/class declarations first.
-    GeographyObj *geographyObj = *(GeographyObj **)&GetGeoObjMgr()->getKartReactHitObjectList(kartBody->mMynum)->_18[16];
+    GeographyObj *geographyObj = GetGeoObjMgr()->getKartReactHitObjectList(kartBody->mMynum)[10];
     if (geographyObj == nullptr) {
         return false;
     }
@@ -122,7 +119,7 @@ bool KartDossin::DoDossin() {
             MakeDossin(geographyObj);
         } else {
             f32 speed = GetKartCtrl()->GetCarSpeed(kartBody->mMynum);
-            if (speed > 80.0f && flattenedKartTimer == 0) {
+            if (speed > 80.0f && mKartFlattenedTimer == 0) {
                 kartBody->getCrash()->MakeHalfSpin(0);
             }
             kartBody->ObjectReflection(&normalVec);
@@ -130,7 +127,7 @@ bool KartDossin::DoDossin() {
     }
 
     if (kartBody->mCarStatus & 0x01000000) {
-        flattenedKartTimer = 180; // 0xB4
+        mKartFlattenedTimer = 180; // 0xB4
     }
 
     return true;
@@ -236,7 +233,7 @@ void KartDossin::DoDossinCrl() {
 
         case 1:
             DoKeep();
-            geoObj->getVelocity(&mVelocity);
+            mGeoObj->getVelocity(&mVelocity);
 
             if (mVelocity.y <= 0.0f) {
                 mVelocity.zero();
@@ -248,7 +245,7 @@ void KartDossin::DoDossinCrl() {
             mVelocity.zero();
             _20 = 0.0f;
 
-            if (geoObj->tstUserFlg1(kartBody->mMynum)) {
+            if (mGeoObj->tstUserFlg1(kartBody->mMynum)) {
                 DoClear();
                 _16 = 0;
                 _15 = 2;
