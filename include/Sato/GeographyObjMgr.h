@@ -52,6 +52,7 @@ public:
     bool isEscapeBattle() const { return mIsEscapeBattle; }
     bool isBombBattle() const { return mIsBombBattle; }
 
+    void *getGeoHitTable() const { return mGeoHitTable; }
 
 
     // FIX: These two routines need to be rewritten.
