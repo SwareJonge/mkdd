@@ -14,27 +14,27 @@ public:
     void Init(int);                  // 0x80303f70
     void DoDossinTimer();            // 0x80303fd8
     void MakeDossin(GeographyObj *); // 0x80303ff0
-    void DoDossin();                 // 0x803041c4
+    bool DoDossin();                 // 0x803041c4
     void DoKeep();                   // 0x80304410
     void DoClear();                  // 0x803044d4
     void DoCheck();                  // 0x80304548
-    void DoReturn();                 // 0x803045a4
-    void DoShake();                  // 0x80304610
-    void DoCheckEnd();               // 0x80304694
+    bool DoReturn();                 // 0x803045a4
+    bool DoShake();                  // 0x80304610
+    bool DoCheckEnd();               // 0x80304694
     void DoDossinCrl();              // 0x803046f8
     void DoAfterDossinCrl();         // 0x803048b8
 
     KartBody *mBody;
-    u8 _4[0x4];
-    JGeometry::TVec3f _8;
+    GeographyObj *geoObj;
+    JGeometry::TVec3f mVelocity;
     u8 _14;
     u8 _15;
     u16 _16;
-    u16 _18;
+    u16 flattenedKartTimer;    // _18
     f32 _1c;
     f32 _20;
-    u8 _24[0x2c - 0x24];
-
+    f32 _24;
+    f32 _28;
 }; // 2c
 
 #endif // KARTDOSSIN_H
