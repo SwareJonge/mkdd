@@ -25,12 +25,12 @@ public:
     void DoAfterDossinCrl();         // 0x803048b8
 
     KartBody *mBody;
-    GeographyObj *geoObj;
+    GeographyObj *mGeoObj;
     JGeometry::TVec3f mVelocity;
     u8 _14;
     u8 _15;
     u16 _16;
-    u16 flattenedKartTimer;    // _18
+    u16 mKartFlattenedTimer;         // _18
     f32 _1c;
     f32 _20;
     f32 _24;
