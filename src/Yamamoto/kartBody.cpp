@@ -1,6 +1,7 @@
 #include "Yamamoto/kartBody.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
+#include "Sato/GeographyObjMgr.h"
 
 // settingPtr2
 // settingMiniPtr2
