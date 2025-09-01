@@ -12,8 +12,6 @@
 
 #include "types.h"
 
-// comments inside functions are inline functions being called in that function
-
 void KartDossin::Init(int kartBodyIndex) {
     mBody = GetKartCtrl()->getKartBody(kartBodyIndex);
     _14 = 0;
@@ -23,9 +21,7 @@ void KartDossin::Init(int kartBodyIndex) {
     _1c = 1.0f;
     _20 = 0.0f;
     mVelocity.zero();
-    return;
 }
-
 
 void KartDossin::DoDossinTimer() {
     if (mKartFlattenedTimer == 0) {
@@ -33,9 +29,7 @@ void KartDossin::DoDossinTimer() {
     }
 
     mKartFlattenedTimer--;
-    return;
 }
-
 
 void KartDossin::MakeDossin(GeographyObj *geographyObj) {
     KartBody *kartBody = mBody;
@@ -49,8 +43,8 @@ void KartDossin::MakeDossin(GeographyObj *geographyObj) {
     kartBody->getDossin()->_15 = 0;
     kartBody->getDossin()->_16 = 0;
 
-    kartBody->mCarStatus |= 0x200000000uLL;         // 0x570
-    kartBody->mCarStatus &= 0xFFFFFFFF7F4FDFFFuLL;  // 0x574
+    kartBody->mCarStatus |= 0x200000000uLL; // 0x570
+    kartBody->mCarStatus &= ~0x80B02000uLL; // 0x574
     kartBody->getDamage()->ClrAllDamage();
 
     if (GetKartCtrl()->getKartAnime(kartBody->mMynum)->IsDamage(kartBody->mMynum) == true) {
@@ -73,9 +67,7 @@ void KartDossin::MakeDossin(GeographyObj *geographyObj) {
     kartBody->mCarStatus |= 0x80000000;
     GetKartCtrl()->getKartSound(kartBody->mMynum)->DoAllVoice(0xc);
     mGeoObj = geographyObj;
-    return;
 }
-
 
 bool KartDossin::DoDossin() {
     KartBody* kartBody = mBody;
@@ -133,7 +125,6 @@ bool KartDossin::DoDossin() {
     return true;
 }
 
-
 void KartDossin::DoKeep() {
     KartBody *kartBody = mBody;
     
@@ -160,14 +151,12 @@ void KartDossin::DoKeep() {
         kartSus->_278 = 0.0f;
     }
     _1c = 0.3f;
-    return;
 }
-
 
 void KartDossin::DoClear() {
     KartBody *kartBody = mBody;
     
-    _14 &= 0xfe;
+    _14 &= ~1;
     _14 |= 2;
 
     GetKartCtrl()->getKartSound(kartBody->mMynum)->DoKartsetSeSound(0x1007b);
@@ -179,7 +168,6 @@ void KartDossin::DoClear() {
     return;
 }
 
-
 void KartDossin::DoCheck() {
     KartBody *kartBody = mBody;
 
@@ -190,14 +178,12 @@ void KartDossin::DoCheck() {
     }
 }
 
-
 bool KartDossin::DoReturn() {
     _24 = 0.7f;
     _28 = 0.0f;
     _1c = GetKartCtrl()->fcnvge(_1c, 1.3f, 0.5f, 0.5f);
     return (u8)(_1c >= 1.3f);
 }
-
 
 // This is the popping up animation from AFTER the player gets squashed.
 bool KartDossin::DoShake() {
@@ -207,19 +193,16 @@ bool KartDossin::DoShake() {
     return (u8)(_24 == 0.0f);
 }
 
-
 bool KartDossin::DoCheckEnd() {
-    mBody->mCarStatus &= 0x7FFFFFFFFFFFFFFDuLL;
+    mBody->mCarStatus &= ~0x280000000uLL;
     _1c = 1.0f;
     _15 = 0;
     mVelocity.zero();
     return true;
 }
 
-
 void KartDossin::DoDossinCrl() {
     KartBody *kartBody = mBody;
-    u8 check = 0;
 
     switch (_15) {
         case 0:

@@ -1423,7 +1423,7 @@ config.libs = [
             Object(Matching, "Yamamoto/KartTaeget.cpp"),
             Object(NonMatching, "Yamamoto/KartRescue.cpp"),
             Object(NonMatching, "Yamamoto/KartCannon.cpp"),
-            Object(NonMatching, "Yamamoto/KartDossin.cpp"),
+            Object(Matching, "Yamamoto/KartDossin.cpp"),
             Object(NonMatching, "Yamamoto/KartTumble.cpp"),
             Object(NonMatching, "Yamamoto/KartChecker.cpp"),
             Object(Matching, "Yamamoto/KartDamage.cpp"),
