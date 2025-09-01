@@ -1,6 +1,7 @@
 #ifndef GEOGRAPHYOBJMGR_H
 #define GEOGRAPHYOBJMGR_H
 
+#include "JSystem/JGeometry/Vec.h"
 #include "JSystem/JKernel/JKRHeap.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Sato/GeographyObj.h"
@@ -51,11 +52,21 @@ public:
     bool isEscapeBattle() const { return mIsEscapeBattle; }
     bool isBombBattle() const { return mIsBombBattle; }
 
-    void* getGeoHitTable() const { return mGeoHitTable; }
+
+
+    // FIX: These two routines need to be rewritten.
+    // Variables are still unknown, so offsets are used temporarily.
+    inline GeographyObjManager *getKartReactHitObjectList(int myNum) {
+        return (GeographyObjManager *)&_28[myNum * 0x50];
+    }
+    inline JGeometry::TVec3f *getKartHitRefVecNormalObj(int myNum) const {
+        return (JGeometry::TVec3f *)&_328[myNum * 0xc];
+    }
 
     static GeographyObjManager *gMgr;
 
-    u8 _18[0x2A8 - 0x18];   //
+    u8 _18[0x10];           // 18
+    u8 _28[0x2A8 - 0x28];   // 28
     f32 mHitDepth[8];       // 2A8
     u8 _328[0x3FC - 0x2C8]; //
     TJugem *mJugem[4];      // 3FC
