@@ -1,6 +1,8 @@
 #ifndef OBJCOLLISION_H
 #define OBJCOLLISION_H
 
+#include "JSystem/J3D/J3DModel.h"
+#include "JSystem/JGeometry/Vec.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Sato/stMath.h"
 
@@ -14,6 +16,7 @@ public:
         SPHERE,
         CYLINDER,
         CUBE,
+        KIND_3, // used for jump1
     };
 
     void initialize();
@@ -129,6 +132,14 @@ private:
 class ExObjColBase : public ObjColBase
 {
 public:
+    ExObjColBase(J3DModelData *mdlData, JGeometry::TVec3f scale, CKind kind) : ObjColBase(mdlData, scale, kind) {
+        mAttr = 1;
+        mMaterial = 0;
+        mAttrIndex = 0;
+        mVelocity.zero();
+        mIsDashPlane = 0;
+    }
+
     void setBottom(f32);
     void setWallParam(int);
 
@@ -166,6 +177,10 @@ public:
     u32 getAttrIndex() const {
         return mAttrIndex;
     }
+
+    void setAttr(u32 attr) {
+        mAttr = attr;
+    }
     
 protected:
     stPlaneParam mSidePlanes[4];   // _24
@@ -188,6 +203,8 @@ protected:
 class ObjColJump1 : public ExObjColBase
 {
 public:
+    ObjColJump1(J3DModelData *mdlData, JGeometry::TVec3f scale) : ExObjColBase(mdlData, scale, ObjColBase::KIND_3) {}
+
     virtual void makeParameter(J3DModelData *, Mtx m);
     f32 SearchWall(JGeometry::TVec3f, JGeometry::TVec3f);
     virtual void Search(JGeometry::TVec3f, JGeometry::TVec3f);

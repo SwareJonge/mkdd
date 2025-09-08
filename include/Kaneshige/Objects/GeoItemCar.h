@@ -7,6 +7,7 @@
 #include "Kaneshige/Objects/GeoCar.h"
 #include "Sato/J3DAnmObject.h"
 #include "dolphin/mtx.h"
+#include "types.h"
 
 class GeoItemCar : public GeoCar
 {
@@ -31,12 +32,17 @@ public:
     static bool hitItemBoxProc(int, JPABaseEmitter **);      // 0x801c2a50
     // Inline
     static f32 getColRadius() { return 150.0f; }                                   // 0x801c264c
-    static f32 getSwingHeight(f32 x, s16 v) { return sSwingAmp * JMASSin(v) + x; } // 0x801c2720
+    static f32 getSwingHeight(f32 x, s16 v) { return JMASSin(v) * sSwingAmp + x; } // 0x801c2720
+    static f32 getSwingHeight(s16 v) { // fabricated
+        f32 s = JMASSin(v); 
+        return s * sSwingAmp; 
+    }
+    static s16 getSwingVel() { return sSwingVel; }
     // Inline/Unused
     // static u32 sCreateNum;
 
 private:
-    static const Vec sTireOfsTable[4]; // 0x80379018
+    static const Vec sTireOfsTable[4];         // 0x80379018
     static f32 sSwingAmp;                      // 0x804146b0
     static s16 sSwingVel;                      // 0x804146b4
     static J3DAnmTextureSRTKey *sBtkAnm;       // 0x80416448

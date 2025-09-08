@@ -278,8 +278,8 @@ public:
     bool IsRollingSlot(int);                                                       // 0x802412b8
     bool IsRollingSlot(int, u8);                                                   // 0x8024131c
     bool IsAvailableRollingSlot(int, u32);                                         // 0x80241360
-    void startItemShuffleSingle(int, bool);                                        // 0x80241534
-    void startItemShuffleDouble(int);                                              // 0x80241608
+    void startItemShuffleSingle(const int, const bool);                                        // 0x80241534
+    void startItemShuffleDouble(const int);                                              // 0x80241608
     ItemObj::ItemHandOffsetData &getHandOffsetData(ItemObj *);                     // 0x802416d0
     int getRobberyItemNum(int, u8);                                                // 0x80241928
     void removeMiniGameList(ItemObj *);                                            // 0x80241970

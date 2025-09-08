@@ -36,6 +36,8 @@ public:
 
     void setKartHitItemBoxTrigger(const int kart_index);
 
+    void setNewItemBoxObj(GeographyObj *obj);
+
     TJugem *getJugem(int camera_index) const;
     TBalloonManager *getBalloonMgr(int kart_index) const;
 

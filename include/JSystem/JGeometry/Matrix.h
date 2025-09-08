@@ -47,7 +47,7 @@ namespace JGeometry {
     public:
         void identity() // TODO: OK?
         {
-            const T zero = (T)0;
+            const f32 zero = 0;
             this->ref(2, 3) = zero;
             this->ref(1, 3) = zero;
             this->ref(0, 3) = zero;
@@ -60,7 +60,7 @@ namespace JGeometry {
             this->ref(2, 0) = zero;
             this->ref(1, 0) = zero;
 
-            const T one = TUtil<T>::one();
+            const f32 one = TUtilf::one();
             this->ref(2, 2) = one;
             this->ref(1, 1) = one;
             this->ref(0, 0) = one;

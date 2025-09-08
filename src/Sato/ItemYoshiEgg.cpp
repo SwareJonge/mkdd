@@ -314,7 +314,7 @@ void ItemYoshiEgg::calcCreateItem(u32 *outKinds) {
         outKinds[egg]    = calcRndItemKind(listSize, sTmpKindList, sTmpRatioList);
 
         //--------------------------------------------------------------
-        // 4?b.  Mark whether we just produced one of the ÅgrareÅh kinds
+        // 4?b.  Mark whether we just produced one of the "rare" kinds
         //--------------------------------------------------------------
         if (sCreateItemKind[3] == outKinds[egg])      // table index 3  (stack flag 0)
             used[0] = 1;

@@ -51,7 +51,7 @@ namespace JGeometry {
             return y;
         }
 
-        T one() { return (T)1; }
+        static T one() { return (T)1; }
 
         // TODO: probably uses seomthing from TSinCosTable
         /*static f32 asin(f32 val) NO_INLINE

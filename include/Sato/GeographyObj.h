@@ -5,11 +5,13 @@
 #include <JSystem/JKernel/JKRHeap.h>
 #include <JSystem/JGeometry/Vec.h>
 
+#include "JSystem/JSupport/JSUList.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
 #include "Sato/AnmController.h"
 #include "Sato/ItemObj.h"
+#include "Sato/ObjCollision.h"
 #include "Sato/stMath.h"
 
 // TODO: Remove Forward declarations
@@ -27,6 +29,11 @@ public:
 
 private:
     u8 mFlags[16];
+};
+
+struct GeoAnmTableEntry {
+    u32 _0; // unused?
+    const char *fileName;
 };
 
 class GeoObjSupervisor
@@ -109,8 +116,6 @@ public:
     static T *New(CrsData::SObject &object) { return new T(object); }
     template<class T>
     static T *NewS(CrsData::SObject &object) { return new T(object); }
-    template<class T>
-    static T *ExNew(CrsData::SObject &object) { return new T(object); }
 
     void NewAnmCtrl() {
         if (mAnmCtrl == nullptr) {
@@ -139,6 +144,8 @@ public:
     void setObjFlagCheckItemHitting() { mGeoObjFlag |= 2; }    
     void setObjFlagSimpleDraw() { mObjFlag |= 1; }
     void setObjFlagMainResource() { mObjFlag |= 2; }
+    void setObjFlagNorm() { mObjFlag |= 4; }
+    void setObjFlagShadow() { mObjFlag |= 8; }
     void setObjFlagNoCollision() { mObjFlag |= 0x80; }
     void setObjFlagLODBias() { mObjFlag |= 0x100; }
     void setObjFlagHidding() { mGeoObjFlag |= 0x20; }
@@ -152,11 +159,18 @@ public:
     bool tstObjFlagHidding() const { return mGeoObjFlag & 0x20; }
 
     bool tstIsHitKartFlg(int kartNo) const { return (mIsHitKartFlags & (1 << kartNo)) != 0; }
-
+    bool tstHitKartSoundFlg(int kartNo) const { return (mIsHitKartSoundFlg & (1 << kartNo)) != 0; }
+    
     ItemObj *getColItemObj() const { return mColItemObj; }
     u32 getKind() const { return mKind; }
     ItemColReaction &getItemReaction() { return mReaction; }
     const u8 &getAllBoundsNum() const { return mBoundsNum; }
+
+    void hideAllShadow() {
+        if (mShadowMdl) {
+            mShadowMdl->clrVisibleAll();
+        }
+    }
 
     void showShadow() {
         if (mShadowMdl) {
@@ -214,8 +228,8 @@ public:
     virtual u32 getJ3DModelDataTevStageNum() const { return 0x20000; }                              // 50
     virtual void createColModel(J3DModelData *);                                                    // 54
     virtual void createBoundsSphere(J3DModelData *);                                                // 58
-    virtual void *getAnmTbl() { return nullptr; }                                                   // 5C
-    virtual u32 getSizeAnmTbl() { return 0; }                                                       // 60
+    virtual GeoAnmTableEntry *getAnmTbl() { return nullptr; }                                                   // 5C
+    virtual u16 getSizeAnmTbl() { return 0; }                                                       // 60
     virtual GeoObjSupervisor *getSupervisor() { return nullptr; }                                   // 64
     virtual void getItemThrowDirPow(JGeometry::TVec3f *, f32 *, const ItemObj &);                   // 68
     virtual void getKartThrowDirPow(JGeometry::TVec3f *, f32 *, int);                               // 6C
@@ -265,6 +279,32 @@ protected:
     GameAudio::ObjectSoundMgr *mSoundMgr; // 144
     u8 mUserFlg1;                         // 148
 }; // Size: 0x14c
+
+class ExGeographyObj : public GeographyObj {
+public:
+    ExGeographyObj(const CrsData::SObject &object) : GeographyObj(object), _15c(0.0f), mExLinks(this) {
+        _150.zero();
+    }
+
+    ~ExGeographyObj() {}
+    // TODO: check return types
+    virtual bool Search_Bound(const JGeometry::TVec3f &) { return false; }
+    virtual bool Search_BoundRadius(const JGeometry::TVec3f &, f32) { return false; }
+    virtual void Search(const JGeometry::TVec3f &, const JGeometry::TVec3f &) {}
+    virtual void AddVel(const JGeometry::TVec3f &, const JGeometry::TVec3f &) {}
+    virtual void Search_Wall(const JGeometry::TVec3f &, f32) { }
+    virtual void draw(Mtx) {}
+    virtual f32 getMaxHeight() const { return 0.0f; }
+    virtual void lockDisplayList() {}
+
+    template<class T>
+    static T *ExNew(CrsData::SObject &object) { return new T(object); }
+
+    ExObjColBase *mExBounds;
+    JGeometry::TVec3f _150;
+    f32 _15c;
+    JSULink<GeographyObj> mExLinks; // 160
+};
 
 // TODO: Move to Shiraiwa?
 
