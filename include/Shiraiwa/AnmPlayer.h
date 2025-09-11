@@ -7,11 +7,16 @@
 class TAnmInfo
 {
 public:
-    const char *mBckName;        // 0
-    AnmControlTrans *mTransAnm; // 4
+    s8 get_12() { return _12; } // fabricated, but needed to get lbzx instead of lbz addi
+
+    const char *mBckName;       // 0
+    J3DAnmTransform *mTransAnm; // 4
     J3DMtxCalc *mCalcAnm;       // 8
     int mAnmCnt;                // C
-    bool mHasBlendColor;        // 10
+    u8 mBlendFrameCnt;          // 10
+    u8 _11;                     // 
+    s8 _12;                     //
+
 }; // Size: 0x14
 
 class TAnmPlayer
@@ -26,18 +31,20 @@ public:
     void reset();                                                                  // 0x802980bc
     void update();                                                                 // 0x80298248
     void firstEndCheck(u8);                                                        // 0x80298604
-    void isCurAnmReachEnd();                                                       // 0x802986c0
-    void checkFrameEnd();                                                          // 0x8029878c
-    void isFitBlendFrame();                                                        // 0x802988e4
-    void isGoArroundLoop();                                                        // 0x80298ab0
+    bool isCurAnmReachEnd();                                                       // 0x802986c0
+    bool checkFrameEnd();                                                          // 0x8029878c
+    bool isFitBlendFrame();                                                        // 0x802988e4
+    bool isGoArroundLoop();                                                        // 0x80298ab0
 
     u8 getCurAnmNumber() const { return mController->getNowTransNo(); }
 
-    AnmController *mController;
-    int _8;
-    u8 _c;
+    AnmController *mController; // 4
+    TAnmInfo *mAnmInfo;         // 8
+    u8 mMaxAnm;                 // c
     u8 _d;
     u16 _e;
     u8 _10;
-}; // Size: 0x14
+    s8 _11;
+    f32 _14;
+}; // Size: 0x18
 #endif // ANMPLAYER_H

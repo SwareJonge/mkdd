@@ -197,10 +197,7 @@ void ItemFlyTurtle::initRelease() {
     mCLPointController->init_ByKartIndex(mOwnerNum);
     mMoveState = 0;
 
-    if(mController.IsAvailableTrans()) {
-        mController.SetAllWeight(1);
-        mController.ChangeTransAnm(1, true);
-    }
+    mController.ChangeTransAnm(1);
 
     mMaxVel = sMaxVel;
     setInitReleaseParam();

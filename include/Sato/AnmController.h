@@ -31,6 +31,7 @@ public:
     u8 getNowAnmNo() const { return mNowAnmNo; }
 
     bool tstFlgAnmStop() const { return mFlags & 1; }
+    bool tstFlgAnm2() const { return mFlags & 2; }
     void resetFlag() { mFlags &= ~1; }
 
     u8 mFlags;                     // 4
@@ -106,7 +107,13 @@ public:
     AnmControlTrans() {}
     virtual ~AnmControlTrans() {}
 
-    virtual void changeAnm(u8, bool) { } // TODO
+    virtual void changeAnm(u8 anm_no, bool reset) { 
+        JUT_MINMAX_ASSERT(0, anm_no, mMaxAnmNo);
+        mNowAnmNo = anm_no;
+        if (reset) {
+            mObj[mNowAnmNo].resetFrame();
+        }
+    }
 
     virtual void setAnmProc() {
         mObj[mNowAnmNo].mModel->getModelData()->getJointNodePointer(0)->setMtxCalc(mObj[mNowAnmNo].mCalc);
@@ -213,8 +220,7 @@ public:
     void SetAnimation();                                     // 0x8026f8d4
     void Reset();                                            // 0x8026f950
     void ResetMat();                                         // 0x8026f99c
-    void ResetAnm() // fabricated but causes TAnmControlBase<J3DAnmObjTrans>::resetAnm() to be ordered correctly in GeoCannon, also inlines into a matching AnmController::reset()
-    {
+    void ResetAnm() { // fabricated but causes TAnmControlBase<J3DAnmObjTrans>::resetAnm() to be ordered correctly in GeoCannon, also inlines into a matching AnmController::reset()
         if (mTrans != nullptr) {
             mTrans->resetAnm();
         }
@@ -230,8 +236,7 @@ public:
 
     virtual ~AnmController() {}
 
-    void InitRegistration(u8 anm_no, ExModel *model)
-    {
+    void InitRegistration(u8 anm_no, ExModel *model) {
         mTrans = new AnmControlTrans();
         mTrans->initAnm(anm_no, model);
     }
@@ -240,21 +245,23 @@ public:
         mTrans->registrationBlend(anm_no, transform, mtxCalc);
     }
 
-    void SetAllWeight(u8 AnmNo) // fabricated?
-    {
+    void ChangeTransAnm(u8 AnmNo) { // fabricated
+        if (mTrans == nullptr) {
+            return;
+        }
 #line 338
         JUT_MINMAX_ASSERT(0, AnmNo, mTrans->mMaxAnmNo);
         J3DAnmObjTrans *transObj = mTrans->getObj(AnmNo);
         if (transObj->_28 & 1) {
-            transObj->mCalc->setWeight(0, 1.0f);
-            for(u8 i = AnmNo; i < 4; i++) {
-                transObj->mCalc->setWeight(i, 0.0f);
+            transObj->setWeight(0, 1.0f);
+            for(u8 i = 1; i < 4; i++) {
+                transObj->setWeight(i, 0.0f);
             }
         }
+        mTrans->changeAnm(AnmNo, true); //  TODO: additional parameter?
     }
 
-    void ChangeBlendTransAnm(u8 AnmNo, u8 p2, u8 p3)
-    {
+    void ChangeBlendTransAnm(u8 AnmNo, u8 p2, u8 p3) {
         if (mTrans == nullptr)
             return;
 #line 353
@@ -262,11 +269,15 @@ public:
         mTrans->changeBlendAnm(AnmNo, p2, p3);
     }
     u8 getNowTransNo() const { return mTrans->getNowAnmNo();  }
+    J3DAnmObjTrans *getObj(u8 AnmNo) { return mTrans->getObj(AnmNo); }
+    J3DFrameCtrl *getCurFrameCtrl() { return mTrans->getObj(getNowTransNo())->getFrameCtrl(); }
     J3DFrameCtrl *getFrameCtrl(u8 AnmNo) { return mTrans->getFrameCtrl(AnmNo);  }
+    
     void ChangeTransAnm(u8 AnmNo, bool p2) { mTrans->changeAnm(AnmNo, p2); } // fabricated
     void RegisterTrans(u8 AnmNo, J3DAnmTransform *transform, J3DMtxCalc *calc) { mTrans->registration(AnmNo, transform, calc); } // fabricated
     bool IsAvailableTrans() const { return mTrans != nullptr; }
     void StopTrans() { mTrans->resetFlag(); } // fabricated
+    bool IsTransAnm2() const { return mTrans->tstFlgAnm2(); }
 
     AnmControlTrans *mTrans;     // 4
     AnmControlBase **mMat;

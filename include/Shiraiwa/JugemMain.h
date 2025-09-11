@@ -68,7 +68,7 @@ public:
 
     u8 _158[0x178 - 0x158];   //
     TAnmPlayer mAnmPlayer;    // 178
-    u8 _18c[0x244 - 0x18c];   //
+    u8 _190[0x244 - 0x190];   //
     u32 mDemoPattern;         // 244
     u8 _248;                  //
     u8 mKartNum;              // 249
