@@ -1396,7 +1396,7 @@ config.libs = [
             Object(NonMatching, "Shiraiwa/MapObjVentilator.cpp"),
             Object(NonMatching, "Shiraiwa/MapObjYoshiHeli.cpp"),
             Object(NonMatching, "Shiraiwa/ShineArrow.cpp"),
-            Object(NonMatching, "Shiraiwa/ZCaptureMgr.cpp"),
+            Object(Matching, "Shiraiwa/ZCaptureMgr.cpp"),
             Object(Matching, "Shiraiwa/WipeCurtain.cpp"),
             Object(NonMatching, "Shiraiwa/JugemDemo.cpp"),
             Object(NonMatching, "Shiraiwa/SecretScene.cpp")
