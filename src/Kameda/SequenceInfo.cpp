@@ -79,7 +79,7 @@ void SequenceInfo::init() {
     _364 = 0;
     mGhostFlags = 1;
     mGameFlag = 0;
-    _36a = 0;
+    mSecretKart = 0;
     rndDemo(0);
     setRandomSeed();
     rndAllCupCourse();
@@ -343,7 +343,7 @@ void SequenceInfo::setSecretGameAppear(SystemRecord::GameFlag flag) {
 }
 
 void SequenceInfo::setSecretKartAppear(SystemRecord::SecretKartID secretKart) {
-    _36a |= 1 << secretKart;
+    mSecretKart |= 1 << secretKart;
     gSystemRecord.mSecretKart |= 1 << secretKart;
 }
 

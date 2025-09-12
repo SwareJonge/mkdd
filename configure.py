@@ -1399,7 +1399,7 @@ config.libs = [
             Object(Matching, "Shiraiwa/ZCaptureMgr.cpp"),
             Object(Matching, "Shiraiwa/WipeCurtain.cpp"),
             Object(NonMatching, "Shiraiwa/JugemDemo.cpp"),
-            Object(NonMatching, "Shiraiwa/SecretScene.cpp")
+            Object(Matching, "Shiraiwa/SecretScene.cpp")
         ]
     ),
     GameLib(

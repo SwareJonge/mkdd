@@ -30,10 +30,23 @@ union JPAColor // fabricated
     GXColor cgx;
 };
 
-struct JPADrawInfo
-{
+class JPADrawInfo {
+public:
+    JPADrawInfo(Mtx src, f32 fovY, f32 aspect) {
+        PSMTXCopy(src, mCamMtx);
+        C_MTXLightPerspective(mPrjMtx, fovY, aspect, 0.5f, -0.5f, 0.5f, 0.5f);
+    }
+
+    JPADrawInfo(Mtx src, f32 top, f32 bottom, f32 left, f32 right) {
+        PSMTXCopy(src, mCamMtx);
+        C_MTXLightOrtho(mPrjMtx, top, bottom, left, right, 0.5f, 0.5f, 0.5f, 0.5f);
+    }
+
     Mtx mCamMtx;
     Mtx mPrjMtx;
+
+    void getCamMtx(Mtx dst) const { PSMTXCopy(mCamMtx, dst); }
+    void getPrjMtx(Mtx dst) const { PSMTXCopy(mPrjMtx, dst); }
 };
 
 enum JPAEmitterFlags

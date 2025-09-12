@@ -18,6 +18,8 @@ class CharacterSelect3D // oh great, unnamed classes
 public:
     enum CHARACTER_STATUS
     {
+        STATUS_0,
+        STATUS_1
         // TODO
     };
 
@@ -28,17 +30,24 @@ public:
     void draw(int, f32, JGeometry::TVec3f, JGeometry::TVec3f);                        // 0x80184e60
     void calc();                                                                      // 0x801851d0
     void setCharacter(int, int, ECharID, JGeometry::TVec3f, JGeometry::TVec3f, f32);  // 0x80185b58
-    void setCharacterStatus(int, int, CHARACTER_STATUS);                              // 0x80185d20
+    void setCharacterStatus(int player, int position, CHARACTER_STATUS);              // 0x80185d20
     void setKart(int, EKartID, JGeometry::TVec3f, JGeometry::TVec3f, f32);            // 0x80185ef0
     void isCancel(int);                                                               // 0x80186054
     void isNext(int);                                                                 // 0x801860a8
-    void getCameraMatrix();                                                           // 0x801860fc
-    void getFovy();                                                                   // 0x80186104
+    MtxPtr getCameraMatrix();                                                           // 0x801860fc
+    f32 getFovy();                                                                    // 0x80186104
     void calcCharacter(int, int, ECharID, JGeometry::TVec3f, JGeometry::TVec3f, f32); // 0x80186114
     void drawKart(EKartID);                                                           // 0x80186938
     void calcRotTrans(Mtx, JGeometry::TVec3f, JGeometry::TVec3f);                     // 0x80186b90
 
     static CharacterSelect3D *ptr() { return mCharacterSelect3D; }
+
+    static CharacterSelect3D *create(JKRHeap *heap) {
+        if (mCharacterSelect3D == nullptr) {
+            mCharacterSelect3D = new (heap, 0) CharacterSelect3D(heap);
+        }
+        return mCharacterSelect3D;
+    }
 
     static f32 mCharacterDefScale[20];            // 0x80372ec0
     static f32 mKartDefScale[21];                 // 0x80372f10

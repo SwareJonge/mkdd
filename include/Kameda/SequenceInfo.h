@@ -12,7 +12,6 @@
 class SequenceInfo
 {
 public:
-public:
     void init(); // 0x801515f0
     void setRandomSeed(); // 0x80151760
     u32 getRandom(); // 0x80151790
@@ -25,7 +24,7 @@ public:
     void setSecretFlag(); // 0x80152110
     void setSecretGameAppear(SystemRecord::GameFlag); // 0x80152890
     void setSecretKartAppear(SystemRecord::SecretKartID); // 0x801528bc
-    void rndDemo(unsigned long); // 0x801528e8
+    void rndDemo(u32); // 0x801528e8
     EKartID getDemoKart(ECharID); // 0x80152a4c
     void rndAllCupCourse(); // 0x80152b10
     static const int RANKPOINT[8]; // 0x8036f410
@@ -92,6 +91,34 @@ public:
     void setRaceLevel(ERaceLevel level) { mLevel = level; }
     void setGhostFlag(u8 flags) { mGhostFlags = flags; }
 
+    void lockGame(int i) { // fabricated
+        mGameFlag &= ~(1 << i);
+    }
+
+    void lockKart(int i) { // fabricated
+        mSecretKart &= ~(1 << i);
+    }
+
+    bool tstGameUnlocked(int i) {
+        return (mGameFlag & (1 << i)) != 0;
+    }
+
+    bool tstSecretKartUnlocked(int i) {
+        return (mSecretKart & (1 << i)) != 0;
+    }
+
+    bool checkAnyGameUnlocked() {
+        return mGameFlag != 0;
+    }
+
+    bool checkAnySecretKartUnlocked() {
+        return mSecretKart != 0;
+    }
+
+    bool checkAnyUnlocked() { // fabricated
+        return mGameFlag != 0 || mSecretKart != 0;
+    }
+
 private:
     JMARandFast mRnd;          // 00
     int mStartNo[8];           // 004
@@ -132,7 +159,7 @@ private:
     u8 _360;                   //
     int _364;                  //
     u16 mGameFlag;             // 368
-    u16 _36a;                  //
+    u16 mSecretKart;           // 36a
     struct {
         ECharID char1;
         ECharID char2;

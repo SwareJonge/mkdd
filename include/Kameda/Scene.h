@@ -10,6 +10,7 @@ class J2DOrthoGraph;
 
 class Scene
 {
+protected:
     JKRArchive *mArchive;
     J2DOrthoGraph *mOrtho;
 

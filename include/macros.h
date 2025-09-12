@@ -44,6 +44,9 @@
 #define FLAG_ON(V, F) (((V) & (F)) == 0)
 #define FLAG_OFF(V, F) (((V) & (F)))
 
+// inserts empty bytes for unknown sections in classes/structs
+#define PLACEHOLDER_BYTES(start, end) u8 _##start[end - start]
+
 // Codewarrior tricks for matching decomp
 // (Functions are given prototypes for -requireprotos)
 #ifdef __MWERKS__

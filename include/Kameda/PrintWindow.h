@@ -16,6 +16,8 @@ public:
     J2DTextBox *getTextBox();
     J2DTextBox::TFontSize getBaseFontSize();
 
+    // TODO: many inlines
+
 //private:
     u8 _0[0x2e8];
     u32 _2e8;

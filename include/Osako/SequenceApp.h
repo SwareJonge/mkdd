@@ -1,6 +1,7 @@
 #ifndef SEQUENCEAPP_H
 #define SEQUENCEAPP_H
 
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Osako/GameApp.h"
 #include "Kameda/Scene.h"
 
@@ -24,8 +25,20 @@ public:
     // Inline/Unused
     int checkReady(Scene::SceneType);
 
+
     // Inline
+
+    void setState(u32 state) { 
+        mState = state;
+    }
+
     static SequenceApp *ptr() { return mspSequenceApp; }
+    void setNextScene(Scene::SceneType next) {
+#line 55
+        JUT_ASSERT(next < Scene::SCENE_MAX);
+        msNextScene = next;
+        mState = 0;
+    }
 
 private:
     static Scene::SceneType msScene;     // 0x80414868

@@ -62,7 +62,7 @@ template <typename T>
 class StateObserverT : public StateObserver
 {
 public:
-    // TODO
+    ~StateObserverT() {}
 };
 
 #endif
