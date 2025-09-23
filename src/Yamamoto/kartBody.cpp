@@ -1,6 +1,7 @@
 #include "Yamamoto/kartBody.h"
 
 #include "JSystem/JAudio/JASFakeMatch2.h"
+#include "Kaneshige/SysDebug.h"
 #include "Sato/GeographyObjMgr.h"
 
 // settingPtr2
@@ -10,10 +11,12 @@
 
 // comments inside functions are inline functions being called in that function
 
-void KartBody::DegubBody(unsigned long) {
-    // void SysDebug::checkNaNVector(Vec *, unsigned long) {}
-
-    //void SysDebug::checkNaNMatrix(float (*) [4], unsigned long) {}
+void KartBody::DegubBody(unsigned long unknown) {
+    SysDebug::checkNaNMatrix(_110, unknown);
+    SysDebug::checkNaNVector(&mVel, unknown);
+    SysDebug::checkNaNVector(&mWg, unknown);
+    SysDebug::checkNaNVector(&_2cc, unknown);
+    SysDebug::checkNaNVector(&_2d8, unknown);
 }
 
 void KartBody::MakeMassBody(float, float, float, float) {}
