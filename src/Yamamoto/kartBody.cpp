@@ -19,7 +19,18 @@ void KartBody::DegubBody(unsigned long unknown) {
     SysDebug::checkNaNVector(&_2d8, unknown);
 }
 
-void KartBody::MakeMassBody(float, float, float, float) {}
+void KartBody::MakeMassBody(f32 f1, f32 f2, f32 f3, f32 f4) {
+    f32 massBodyMultiplier = f2 * f3 * f4 * f1 * 8.0f;
+    _3a4 = massBodyMultiplier;
+    massBodyMultiplier = (massBodyMultiplier / 12.0f) * 4.0f;
+    _230.set(
+        massBodyMultiplier * (f3 * f3 + f4 * f4),
+        massBodyMultiplier * (f4 * f4 + f2 * f2),
+        massBodyMultiplier * (f2 * f2 + f3 * f3)
+    );
+    return;
+}
+
 
 void KartBody::MakeRigidVertexBody(float, float, float, float) {}
 
