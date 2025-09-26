@@ -32,7 +32,10 @@ void KartBody::MakeMassBody(f32 f1, f32 f2, f32 f3, f32 f4) {
 }
 
 
-void KartBody::MakeRigidVertexBody(float, float, float, float) {}
+void KartBody::MakeRigidVertexBody(f32 f1, f32 f2, f32 f3, f32 f4) {
+    MakeMassBody(f1, f2, f3, f4);
+}
+
 
 void KartBody::SetUpRigidBodyPose(JGeometry::TVec3<float> *, JGeometry::TVec3<float> *) {
     //void std::atan2f(float, float) {}
