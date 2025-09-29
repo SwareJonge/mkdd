@@ -51,7 +51,7 @@ public:
     void FrameWork(f32, KartSus *, KartSus *);
     void DoBodyAction();
     void DoElementForce();
-    void CheckBalloon();
+    bool CheckBalloon();
     void SetRank();
     void RankWatchMan();
     void ItemWatchMan(ItemObj *);

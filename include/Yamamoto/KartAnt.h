@@ -24,7 +24,7 @@ public:
     void DoAfterAntCrl(); // 0x803131fc
     // Inline/Unused
     // void MakeAnt(GeographyObj *);
-private:
+// private:
     u8 _0;
     KartBody *mBody;
     TMapObjAntLion *mAntLion;
