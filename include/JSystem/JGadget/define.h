@@ -31,6 +31,10 @@ extern "C"
 
 #ifdef JGADGET_DEBUG
 
+#define JGADGET_WARN(msg)                                                      \
+	(JGadget_outMessage(JGadget_outMessage::warning, __FILE__, __LINE__)       \
+	 << (msg))
+
 #define JGADGET_ASSERTWARN(cond) \
     ((cond) || ((JGadget_outMessage(JGadget_outMessage::warning, __FILE__, __LINE__) << (#cond)), false))
 
@@ -45,6 +49,8 @@ extern "C"
     JUT_ASSERT(cond);
 
 #else
+
+#define JGADGET_WARN(msg) ((void)0)
 
 #define JGADGET_ASSERTWARN(cond) \
     ((cond) || (false))

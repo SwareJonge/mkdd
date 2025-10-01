@@ -28,6 +28,7 @@ public:
     void setDetailFlg() { mFlags |= 0x10; }
     void setVisibleAll() { mFlags |= 0xf; }
     void setVisible(u32 cnsNo) { mFlags |= (1 << cnsNo);  }
+    u8 getFlags() const { return mFlags; }
 
 private:
     u8 mFlags; // 0x8c
