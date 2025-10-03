@@ -222,7 +222,7 @@ public:
     virtual void viewCalc(u32);                                                                     // 34
     virtual void simpleDraw(u32);                                                                   // 38
     virtual void setCurrentViewNo(u32);                                                             // 3C
-    virtual MotorManager::MotorType getMotorType() const { return MotorManager::MotorType_1; }                                                  // 40, probably an Enum
+    virtual u32 getMotorType() const { return MotorManager::MotorType_1; }                          // 40, probably an Enum
     virtual u32 getSoundID() const;                                                                 // 44, probably a define
     virtual const char *getBmdFileName() { return nullptr; }                                        // 48
     virtual const char *getShadowBmdFileName() { return nullptr; }                                  // 4C

@@ -779,7 +779,7 @@ void KartBody::ObjectWallReflection(GeographyObj* geoObj) {
     if ((mCarStatus & 0x200100000) == 0) {
         if (hitDepth > 3.0f) {
             if (GetKartCtrl()->getKartSound(myNum)->mWallSoundActive == false) {
-                getStrat()->DoMotor(geoObj->getMotorType());
+                getStrat()->DoMotor((MotorManager::MotorType)geoObj->getMotorType());
                 GetKartCtrl()->getKartSound(myNum)->DoWallObjectSound(geoObj->getSoundID());
             }
         }
@@ -811,7 +811,7 @@ bool KartBody::StarReact(GeographyObj *geoObj) {
     }
 
     GetKartCtrl()->getKartSound(myNum)->mWallSoundActive = true;
-    getStrat()->DoMotor(geoObj->getMotorType());
+    getStrat()->DoMotor((MotorManager::MotorType)geoObj->getMotorType());
     GetKartCtrl()->getKartSound(myNum)->DoKartsetSeSound(0x1005a);
     JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown12, mMynum, mPos, 0);
     return true;
