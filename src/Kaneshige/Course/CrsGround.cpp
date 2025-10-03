@@ -41,7 +41,7 @@ void CrsGround::reset() {
     }
 
     mAttrIdx = 0;
-    mMaterial = 0xff;
+    mMaterial = Mat_255;
     mDepth = -1.0f;
 }
 
