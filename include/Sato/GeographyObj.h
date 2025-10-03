@@ -6,6 +6,7 @@
 #include <JSystem/JGeometry/Vec.h>
 
 #include "JSystem/JSupport/JSUList.h"
+#include "Kameda/MotorManager.h"
 #include "Kaneshige/Course/CrsData.h"
 #include "Kaneshige/Course/CrsGround.h"
 #include "Osako/shadowModel.h"
@@ -221,7 +222,7 @@ public:
     virtual void viewCalc(u32);                                                                     // 34
     virtual void simpleDraw(u32);                                                                   // 38
     virtual void setCurrentViewNo(u32);                                                             // 3C
-    virtual u32 getMotorType() const { return 1; }                                                  // 40, probably an Enum
+    virtual MotorManager::MotorType getMotorType() const { return MotorManager::MotorType_1; }                                                  // 40, probably an Enum
     virtual u32 getSoundID() const;                                                                 // 44, probably a define
     virtual const char *getBmdFileName() { return nullptr; }                                        // 48
     virtual const char *getShadowBmdFileName() { return nullptr; }                                  // 4C
@@ -250,7 +251,7 @@ public:
         return mBoundsGlPos[num];
     }
 
-protected:
+public:
     JGeometry::TVec3f mPos;               // 04
     JGeometry::TPos3f mRotMtx;            // 10
     JGeometry::TVec3f mScale;             // 40

@@ -43,6 +43,7 @@ public:
     enum EMat
     {
         // TODO
+        Mat_255 = 0xff,
     };
 
     CrsGround(Course *course = nullptr);
@@ -75,14 +76,16 @@ public:
     f32 getWaterHeight();                                                                                                                         // 0x801a37e8
     bool isShaking() const;                                                                                                                       // 0x801a3848
     bool isAttributeCollision();                                                                                                                  // 0x801a38a8
-    void getWallNormal(JGeometry::TVec3f *, JGeometry::TVec3f *);                                                                                 // 0x801a38f4
+    f32 getWallNormal(JGeometry::TVec3f *, JGeometry::TVec3f *);                                                                                 // 0x801a38f4
     void addPullerVelocity();                                                                                                                     // 0x801a3e9c
 
     // Inlines
     void getVelocity(JGeometry::TVec3f *dest) const { dest->set(mVelocity); }
-    int getMaterial() const { return mMaterial; }
+    EMat getMaterial() const { return mMaterial; }
     u32 getAttrIndex() const { return mAttrIdx; }
     EAttr getAttribute() const { return mAttribute; }
+    GeographyObj *getObject() const { return mGeoObj; }
+
 
     bool isObject() const { return mGeoObj != nullptr; }
     bool exceptValley(bool except) {
@@ -91,20 +94,20 @@ public:
 
     static f32 getOverLevel() { return 50.0f; }
 
-private:
+public:
     Course *mCourse;
     JGeometry::TVec3f mWorldPos;
     JGeometry::TVec3f _10;
     bool mExceptVally;
     u8 _1d;
     CrsData::Ground *mGround;
-    void *mGeoObj;
+    GeographyObj *mGeoObj;
     JGeometry::TVec3f mNormal;
     JGeometry::TVec3f mVelocity;
     JGeometry::TVec3f mWallNormal;
     EAttr mAttribute;
     u32 mAttrIdx;
-    int mMaterial;
+    EMat mMaterial;
     f32 mHeight;
     f32 mDepth;
 };

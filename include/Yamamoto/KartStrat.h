@@ -60,7 +60,7 @@ public:
     void DashSpSpeedCtrl(f32);
     void CompulsionDash(JGeometry::TVec3f *);
     void DoDash();
-    void DoStatusCrl();
+    int DoStatusCrl();
     // KartCtrlInfo
     void DoStepAccel();
     void DoStepSterr();

@@ -251,9 +251,9 @@ void KartCtrl::GetBodyPos(int kartIndex, JGeometry::TVec3f *vecBodyPos) {
 
 void KartCtrl::GetBodyVel(int kartIndex, JGeometry::TVec3f *vecBodyVel) {
     KartBody *kartBody = getKartBody(kartIndex);
-    vecBodyVel->x = kartBody->mVel.x * kartBody->_470;
-    vecBodyVel->y = kartBody->mVel.y * kartBody->_470;
-    vecBodyVel->z = kartBody->mVel.z * kartBody->_470;
+    vecBodyVel->x = kartBody->mVel.x * kartBody->mSpeedScale;
+    vecBodyVel->y = kartBody->mVel.y * kartBody->mSpeedScale;
+    vecBodyVel->z = kartBody->mVel.z * kartBody->mSpeedScale;
 }
 
 // FIX: Add return statements for the following two functions:
