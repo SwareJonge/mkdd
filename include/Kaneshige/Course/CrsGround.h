@@ -94,7 +94,7 @@ public:
 
     static f32 getOverLevel() { return 50.0f; }
 
-public:
+private:
     Course *mCourse;
     JGeometry::TVec3f mWorldPos;
     JGeometry::TVec3f _10;
