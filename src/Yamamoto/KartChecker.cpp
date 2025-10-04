@@ -327,6 +327,5 @@ bool KartCheck::CheckDraw(u32 cameraIdx, int targetNum) {
 }
 
 bool KartCheck::CheckIndication() {
-    // Extract bit 13 from game status
-    return (mBody->mGameStatus >> 13) & 1;
+    return mBody->mGameStatus & 0x2000;
 }
