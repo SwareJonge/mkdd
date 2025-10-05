@@ -16,7 +16,7 @@ bool KartCheck::CheckCrash()
     } else if ((mBody->getDossin()->_14 & 3) != 0) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -103,7 +103,7 @@ bool KartCheck::CheckSpecialDyn() {
         return true;
     }
     
-    return (mBody->getRescue()->mFlags >> 5) & 1;
+    return (mBody->getRescue()->mFlags & 0x20);
 }
 
 bool KartCheck::CheckSpecialDyn2() {
@@ -123,7 +123,7 @@ bool KartCheck::CheckSpecialDyn2() {
         return true;
     }
     
-    return (mBody->getRescue()->mFlags >> 5) & 1;
+    return (mBody->getRescue()->mFlags & 0x20);
 }
 
 bool KartCheck::CheckBodyHit(int kartIdx1, int kartIdx2) {
