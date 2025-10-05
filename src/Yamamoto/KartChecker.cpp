@@ -13,9 +13,11 @@ bool KartCheck::CheckCrash()
     // Check crash status bits in mCarStatus (high: 0x3001, low: 0x500000)
     if ((mBody->mCarStatus & 0x0000300100500000ULL) != 0) {
         return true;
-    } else {
-        return (u8)((mBody->getDossin()->_14 & 3) != 0);
+    } else if ((mBody->getDossin()->_14 & 3) != 0) {
+        return true;
     }
+    
+    return false;
 }
 
 bool KartCheck::CheckCheange(int kartIdx) {
@@ -76,8 +78,12 @@ bool KartCheck::CheckCheange(int kartIdx) {
     if ((GetKartCtrl()->getKartAnime(kartIdx)->mFlags & 0x4000) != 0) {
         return true;
     }
+
+    if (GetKartCtrl()->getKartAnime(kartIdx)->IsRocket(kartIdx) == 1){
+        return true;
+    }
     
-    return (u8)(GetKartCtrl()->getKartAnime(kartIdx)->IsRocket(kartIdx) == 1);
+    return false;
 }
 
 bool KartCheck::CheckSpecialDyn() {
@@ -266,7 +272,11 @@ bool KartCheck::CheckPartsClearKey(int kartIdx) {
         return true;
     }
     
-    return (u8)(GetKartCtrl()->getKartAnime(kartIdx)->IsDangerPlusAnime(kartIdx) != 0);
+    if (GetKartCtrl()->getKartAnime(kartIdx)->IsDangerPlusAnime(kartIdx) != 0){
+        return true;
+    }
+    
+    return false;
 }
 
 bool KartCheck::CheckOnlyTandemPartsClearKey(int kartIdx) {
@@ -302,8 +312,12 @@ bool KartCheck::CheckOnlyTandemPartsClearKey(int kartIdx) {
     if (GetKartCtrl()->getKartAnime(kartIdx)->IsRocket(kartIdx) == 1) {
         return true;
     }
+
+    if (GetKartCtrl()->getKartAnime(kartIdx)->IsDangerPlusAnime(kartIdx) != 0) {
+        return true;
+    }
     
-    return (u8)(GetKartCtrl()->getKartAnime(kartIdx)->IsDangerPlusAnime(kartIdx) != 0);
+    return false;
 }
 
 bool KartCheck::CheckPlayer() {
