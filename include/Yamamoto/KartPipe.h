@@ -22,7 +22,7 @@ public:
     void DoCheckEnd();     // 0x80312914
     void DoPipeCrl();      // 0x803129a4
     void DoAfterPipeCrl(); // 0x80312b8c
-private:
+// private:
     JugemPoint *mPoint; // 00
     KartBody *mBody;    // 04
     u8 mFlags;          // 08

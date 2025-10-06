@@ -93,7 +93,7 @@ void KartGame::DoBodyAction() {}
 
 void KartGame::DoElementForce() {}
 
-void KartGame::CheckBalloon() {}
+bool KartGame::CheckBalloon() {}
 
 void KartGame::SetRank() {}
 
