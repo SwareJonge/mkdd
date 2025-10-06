@@ -41,7 +41,7 @@ void CrsGround::reset() {
     }
 
     mAttrIdx = 0;
-    mMaterial = 0xff;
+    mMaterial = Mat_255;
     mDepth = -1.0f;
 }
 
@@ -262,7 +262,9 @@ bool CrsGround::isAttributeCollision() {
     return ret;
 }
 
-void CrsGround::getWallNormal(JGeometry::TVec3f *, JGeometry::TVec3f *) {}
+f32 CrsGround::getWallNormal(JGeometry::TVec3f *inVec1, JGeometry::TVec3f *inVec2) {
+    
+}
 
 void CrsGround::addPullerVelocity() {
     if (getAttribute() == Attr_Puller) {

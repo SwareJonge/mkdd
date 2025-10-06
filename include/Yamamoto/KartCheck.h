@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+class KartBody;
+
 class KartCheck
 {
 public:
@@ -23,7 +25,8 @@ public:
     bool CheckIndication();
 
 private:
-    u8 _0[0x8];
+    KartBody* mBody;    // 0x0 (Inferred from assembly: stw this, 0x0(r30))
+    u8 mField4;         // 0x4 (Inferred from assembly: stb r0, 0x4(r30), where r0=0)
 
 }; // 0x8
 
