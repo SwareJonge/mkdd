@@ -86,6 +86,9 @@ public:
     KartTumble *getTumble() { return mKartTumble; }
     KartHandle *getHandle() { return mKartHandle; }
     KartLoader *getKartLoader() { return mKartLoader; }
+    KartPipe *getPipe() { return mKartPipe; }
+    KartAnt *getAnt() { return mKartAnt; }
+    KartRescue *getRescue() { return mKartRescue; }
 
     int getTouchNum() { return mTouchNum; }
 

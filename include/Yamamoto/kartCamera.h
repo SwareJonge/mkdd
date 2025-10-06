@@ -90,6 +90,7 @@ public:
     void InitPipeView();
     void PipeView();
 
+    u8 GetTargetNum() { return mTargetIdx; };
     f32 GetFovy() { return mFovY; }
     void SetFovy(f32 fov) { mFovY = fov; }
     u8 GetCameraMode() { return mMode; }
