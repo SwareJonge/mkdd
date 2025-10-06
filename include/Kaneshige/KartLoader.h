@@ -108,6 +108,11 @@ public:
         return mWheelRTevRegKey[tevanmID];
     }
 
+    inline KartShadowModel *getShadowModel() {
+        return &mShadowModel;
+    }
+
+
     int mKartNum;                               // 0
     const KartInfo *mKartInfo;                  // 4
     void *mDemoBmd;                             // 8

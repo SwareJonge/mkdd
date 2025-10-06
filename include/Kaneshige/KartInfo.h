@@ -53,7 +53,9 @@ public:
         ECharID getPartnerID() const { return (mCharDB) ? (ECharID)mCharDB->defaultPartnerID : cCharIDNone; }
         
         int getPlayerKind() const { return convPlayerKind(mKartGamePad); }
-
+        
+        // MJB - Why these are declared here I have absolutely no clue...
+        int getWeight() const { return (mCharDB) ? mCharDB->weight : 0; }
         bool isAvailable() const;
         static int convPlayerKind(KartGamePad *);
     private:
@@ -119,6 +121,9 @@ public:
     bool isRealPlayerKart() const { return getPlayerKind(0) == 1; }
     bool isGhostKart() const { return getPlayerKind(0) == 4; }
     bool isPlayerKart() const { return !isComKart(); }
+    bool isTagMode() const { return (mKartCharacters) != 0; }
+    void getDriverWeight(int) const;
+    int getWeight() const { return (mKartDB) ? mKartDB->weight : 3; }
 
     static const SCharDB cBabyMarioCharDB;
     static const SCharDB cBabyLuigiCharDB;

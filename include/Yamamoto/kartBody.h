@@ -45,17 +45,17 @@ public:
     void DoForceOnly(JGeometry::TVec3f *, JGeometry::TVec3f *);
     void DoGForce();
     void CalcMovement(JGeometry::TVec3f *, JGeometry::TVec3f *, JGeometry::TVec3f *, JGeometry::TVec3f *);
-    void DoCalcWgVel();
+    int DoCalcWgVel();
     void DoPose();
     void DoCalcMassMatrix(Mtx44, f32, JGeometry::TVec3f *, JGeometry::TVec3f *);
     void WallFriction(JGeometry::TVec3f *, f32, JGeometry::TVec3f *, JGeometry::TVec3f *, JGeometry::TVec3f *, f32);
     void GroundReflection(JGeometry::TVec3f *, JGeometry::TVec3f *, f32, f32, f32);
     void RigidReflectionAnime(KartBody *, KartBody *, f32, f32);
-    void RigidReflectionPower(KartBody *, KartBody *, f32 *, f32 *);
+    bool RigidReflectionPower(KartBody *, KartBody *, f32 *, f32 *);
     void RigidReflection(KartBody *, KartBody *, JGeometry::TVec3f *, JGeometry::TVec3f *, f32, f32, f32);
     void ObjectReflection(JGeometry::TVec3f *);
     void ObjectWallReflection(GeographyObj *);
-    void StarReact(GeographyObj *);
+    bool StarReact(GeographyObj *);
     void CheckObjectReflection();
     void CheckRoofReflection();
     void WallReflection(JGeometry::TVec3f *, f32, f32, f32);
@@ -86,9 +86,11 @@ public:
     KartTumble *getTumble() { return mKartTumble; }
     KartHandle *getHandle() { return mKartHandle; }
     KartLoader *getKartLoader() { return mKartLoader; }
+    KartRescue *getRescue() { return mKartRescue; }
     KartPipe *getPipe() { return mKartPipe; }
     KartAnt *getAnt() { return mKartAnt; }
-    KartRescue *getRescue() { return mKartRescue; }
+    KartSus *getSus(int index) { return mKartSus[index]; }
+
 
     int getTouchNum() { return mTouchNum; }
 
@@ -215,7 +217,7 @@ public:
     f32 _464;
     f32 _468;
     f32 _46c;
-    f32 _470;
+    f32 mSpeedScale;
     f32 _474;
     f32 mTireAngle;
     f32 _47c;

@@ -84,6 +84,14 @@ public:
 
     static SysDebug *getManager() { return sManager; }
 
+    static inline SysDebug *checkNaNMatrix(Mtx mtx, unsigned long unknown) {
+        checkInvalidMatrix(mtx, unknown);
+    }
+
+    static inline SysDebug *checkNaNVector(Vec *vec, unsigned long unknown) {
+        checkInvalidVector(vec, unknown);
+    }
+
 private:
     static const GXColor cUserBarColorTable[8]; // 0x803780c0
     static SysDebug *sManager;

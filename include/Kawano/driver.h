@@ -137,9 +137,12 @@ public:
     int IsChangeBack();
     int IsChangeFront();
 
+public:
+    u8 _8c[0xfc - 0x8c];
+    f32 _fc[11];
+    u8 _128[0x6c0 - 0x128];
 private:
-    u8 _8c[0x6c0 - 0x8c];
-    GameAudio::CharacterSoundMgr *mCharSoundMgr; // _6C0
+    GameAudio::CharacterSoundMgr *mCharSoundMgr; // _6C0    //0d1728
     u8 _6C4[0x7a8 - 0x6c4];
 }; // Size: 0x7a8
 

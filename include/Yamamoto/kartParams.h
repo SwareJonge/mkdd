@@ -3,6 +3,8 @@
 
 #include <JSystem/JGeometry/Vec.h>
 
+#include "JSystem/JGeometry/Matrix.h"
+#include "dolphin/mtx.h"
 #include "types.h"
 
 struct ArmOp
@@ -25,7 +27,24 @@ struct TireOp
     f32 _0, _4, _8, _c, _10, _14, _18, _1c, _20, _24, _28, _2c, _30;
 }; // 34
 
+struct CubeParam
+{
+    JGeometry::TVec3f _0[8];
+}; // 60
 
+struct TireParamData
+{
+    f32 _0, _4, _8, _c, _10, _14, _18, _1c, _20, _24;
+}; // 28
+
+struct BodyParamData 
+{
+    f32  _0,  _4,  _8,  _c, _10, _14, _18, _1c, 
+        _20, _24, _28, _2c, _30, _34, _38, _3c, 
+        _40, _44, _48, _4c, _50, _54, _58, _5c,
+        _60, _64, _68, _6c, _70, _74, _78, _7c;
+    f32 _80, _84, _88, _8c, _90, _94, _98, _9c; // MJB - These may not exist...
+};
 
 
 // Fit Params
@@ -97,7 +116,28 @@ extern DumpOp *DumpOpData[21];
 // extern UNK kinopioBodyOp;
 // extern UNK demoBodyOp;
 extern BodyOp *BodyOpData[21];
-// extern UNK CubeParamsData;
+// extern CubePos cubeMarioPos;
+// extern CubePos cubeDonkyPos;
+// extern CubePos cubeYossyPos;
+// extern CubePos cubeHokoNokoPos;
+// extern CubePos cubePeachPos;
+// extern CubePos cubeBabyPos;
+// extern CubePos cubeWarioPos;
+// extern CubePos cubeKuppaPos;
+// extern CubePos cubeMarioPos;
+// extern CubePos didyMiniPos;
+// extern CubePos cubeYossyPos;
+// extern CubePos cubeNokoNokoPos;
+// extern CubePos cubePeachPos;
+// extern CubePos cubeBabyPos;
+// extern CubePos cubeWluiziPos;
+// extern CubePos cubeBabyPos;
+// extern CubePos kinopioMiniPos;
+// extern CubePos kinopioMiniPos;
+// extern CubePos cubePukknPos;
+// extern CubePos cubePukknPos;
+// extern CubePos demoNormalPos;
+extern CubeParam *CubeParamsData[21];
 // extern UNK marioCamOp;
 // extern UNK donkyCamOp;
 // extern UNK yossyCamOp;
@@ -116,13 +156,13 @@ extern f32 tireOffsetPos[21];
 
 // Other Params
 
-// extern UNK normalBody;
-// extern UNK bigBody;
-// extern UNK miniBody;
-// extern UNK warioBody;
-// extern UNK kuppaBody;
-// extern UNK kinoBody;
-// extern UNK peachBody;
+// extern BodyParamData *normalBody;
+// extern BodyParamData *bigBody;
+// extern BodyParamData *miniBody;
+// extern BodyParamData *warioBody;
+// extern BodyParamData *kuppaBody;
+// extern BodyParamData *kinoBody;
+// extern BodyParamData *peachBody;
 // extern UNK normalSus;
 // extern UNK malioSus;
 // extern UNK nokonokoSus;
@@ -142,6 +182,10 @@ extern JGeometry::TVec2f ThunderOffet[21];
 extern f32 SusDushDive[21];
 extern f32 SetEngineClassData[3];
 // extern UNK SusParamsData;
-// extern UNK TireParamsData;
-// extern UNK BodyParamsData;
+extern TireParamData *TireParamsData[21];
+extern BodyParamData *BodyParamsData[21];
+
+extern char **settingMiniPtr2[21];
+extern char **settingPtr2[21];
+
 #endif // KARTPARAMS_H

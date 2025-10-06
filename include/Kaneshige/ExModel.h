@@ -86,7 +86,7 @@ public:
     static bool sDrawingOnlyUpdZMat;   // 0x80416399
     static const f32 sExModelInvalidLODBias; // 0x80419d90
 
-protected:
+public:
     // Vtable 0x0
     u16 mLevelCnt;             // 04
     J3DModelData **mModelData; // 08
