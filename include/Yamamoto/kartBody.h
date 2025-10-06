@@ -94,6 +94,10 @@ public:
 
     int getTouchNum() { return mTouchNum; }
 
+    // Unused
+    void WallFallReflection(JGeometry::TVec3f *v1, JGeometry::TVec3f *v2);
+    void GroundBoundReflection(CrsGround, JGeometry::TVec3f *);
+
     KartLoader *mKartLoader;
     KartSus *mKartSus[4];
     ExModel *mBodyModel;

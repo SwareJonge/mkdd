@@ -1406,7 +1406,7 @@ config.libs = [
         "Yamamoto",
         ["-inline off"],
         [
-            Object(NonMatching, "Yamamoto/kartBody.cpp"),
+            Object(Equivalent, "Yamamoto/kartBody.cpp"),
             Object(Matching, "Yamamoto/kartCamera.cpp"),
             Object(Matching, "Yamamoto/kartCtrl.cpp"),
             Object(NonMatching, "Yamamoto/kartSus.cpp"),
@@ -1425,7 +1425,7 @@ config.libs = [
             Object(NonMatching, "Yamamoto/KartCannon.cpp"),
             Object(Matching, "Yamamoto/KartDossin.cpp"),
             Object(NonMatching, "Yamamoto/KartTumble.cpp"),
-            Object(NonMatching, "Yamamoto/KartChecker.cpp"),
+            Object(Matching, "Yamamoto/KartChecker.cpp"),
             Object(Matching, "Yamamoto/KartDamage.cpp"),
             Object(Matching, "Yamamoto/KartStar.cpp"),
             Object(Matching, "Yamamoto/KartTire.cpp"),

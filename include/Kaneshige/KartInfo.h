@@ -5,6 +5,7 @@
 #include <dolphin/os.h>
 #include <JSystem/JUtility/JUTDbg.h>
 
+#include "JSystem/JUtility/JUTAssert.h"
 #include "Osako/kartPad.h"
 #include "types.h"
 
@@ -113,6 +114,12 @@ public:
         return mKartCharacters[driverNo].getCharID();
     }
 
+    int getDriverWeight(int driverNo) const {
+#line 148
+        JUT_MINMAX_ASSERT(0, driverNo, 2);
+        return mKartCharacters[driverNo].getWeight();
+    }
+
     EKartID getKartID() const { return (mKartDB) ? mKartDB->id : cKartIDNone; }
     EKartWeight getKartWeight() const { return mKartDB ? mKartDB->weight : UNK_3; }
     int getWheelNumber() const { return mKartDB ? mKartDB->wheelCount : 0; }
@@ -122,7 +129,6 @@ public:
     bool isGhostKart() const { return getPlayerKind(0) == 4; }
     bool isPlayerKart() const { return !isComKart(); }
     bool isTagMode() const { return (mKartCharacters) != 0; }
-    void getDriverWeight(int) const;
     int getWeight() const { return (mKartDB) ? mKartDB->weight : 3; }
 
     static const SCharDB cBabyMarioCharDB;
