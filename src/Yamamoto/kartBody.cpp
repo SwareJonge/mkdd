@@ -1,3 +1,4 @@
+#include "Yamamoto/kartBody.h"
 #include "JSystem/JAudio/JASFakeMatch2.h"
 #include "JSystem/JGeometry/Vec.h"
 #include "Kameda/MotorManager.h"
@@ -20,11 +21,238 @@
 #include "kartEnums.h"
 #include "types.h"
 #include <std/math.h>
-
+#include "mathHelper.h"
 // settingPtr2
 // settingMiniPtr2
 
 // body settings
+static const char *marioBody[2] = {
+    "/setting/i_mario_car.set",
+    "/setting/i_mario_car.set"
+};
+
+static const char *babymarioBody[2] = {
+    "/setting/a_babymario_car.set",
+    "/setting/a_babymario_car.set"
+};
+
+static const char *nokonokoBody[2] = {
+    "/setting/c_nokonoko_car.set",
+    "/setting/c_nokonoko_car.set"
+};
+
+static const char *peachBody[2] = {
+    "/setting/k_peach_car.set",
+    "/setting/k_peach_car.set"
+};
+
+static const char *yossyBody[2] = {
+    "/setting/m_yoshi_car.set",
+    "/setting/m_yoshi_car.set"
+};
+
+static const char *warioBody[2] = {
+    "/setting/p_wario_car.set",
+    "/setting/p_wario_car.set"
+};
+
+static const char *donkyBody[2] = {
+    "/setting/q_donkey_car.set",
+    "/setting/q_donkey_car.set"
+};
+
+static const char *kuppaBody[2] = {
+    "/setting/r_koopa_car.set",
+    "/setting/r_koopa_car.set"
+};
+
+static const char *luigiBody[2] = {
+    "/setting/j_luigi_car.set",
+    "/setting/j_luigi_car.set"
+};
+
+static const char *babyluigiBody[2] = {
+    "/setting/b_babyluigi_car.set",
+    "/setting/b_babyluigi_car.set"
+};
+
+static const char *daisyBody[2] = {
+    "/setting/l_daisy_car.set",
+    "/setting/l_daisy_car.set"
+};
+
+static const char *catherineBody[2] = {
+    "/setting/n_catherine_car.set",
+    "/setting/n_catherine_car.set"
+};
+
+static const char *patapataBody[2] = {
+    "/setting/d_patapata_car.set",
+    "/setting/d_patapata_car.set"
+};
+
+static const char *diddykongBody[2] = {
+    "/setting/e_diddykong_car.set",
+    "/setting/e_diddykong_car.set"
+};
+
+static const char *waluigiBody[2] = {
+    "/setting/o_waluigi_car.set",
+    "/setting/o_waluigi_car.set"
+};
+
+static const char *koopajrBody[2] = {
+    "/setting/f_koopajr_car.set",
+    "/setting/f_koopajr_car.set"
+};
+
+static const char *kinopioBody[2] = {
+    "/setting/g_kinopio_car.set",
+    "/setting/g_kinopio_car.set"
+};
+
+static const char *kinopiogirlBody[2] = {
+    "/setting/h_kinopiogirl_car.set",
+    "/setting/h_kinopiogirl_car.set"
+};
+
+static const char *pakkunBody[2] = {
+    "/setting/s_pakkun_car.set",
+    "/setting/s_pakkun_car.set"
+};
+
+static const char *teresaBody[2] = {
+    "/setting/t_teresa_car.set",
+    "/setting/t_teresa_car.set"
+};
+
+static const char *extraBody[2] = {
+    "/setting/u_extra_car.set",
+    "/setting/u_extra_car.set"
+};
+
+static const char *marioBodyMini[2] = {
+    "/setting/i_mario_car_mini.set",
+    "/setting/i_mario_car_mini.set"
+};
+
+static const char *babymarioBodyMini[2] = {
+    "/setting/a_babymario_car_mini.set",
+    "/setting/a_babymario_car_mini.set"
+};
+
+static const char *nokonokoBodyMini[2] = {
+    "/setting/c_nokonoko_car_mini.set",
+    "/setting/c_nokonoko_car_mini.set"
+};
+
+static const char *peachBodyMini[2] = {
+    "/setting/k_peach_car_mini.set",
+    "/setting/k_peach_car_mini.set"
+};
+
+static const char *yossyBodyMini[2] = {
+    "/setting/m_yoshi_car_mini.set",
+    "/setting/m_yoshi_car_mini.set"
+};
+
+static const char *warioBodyMini[2] = {
+    "/setting/p_wario_car_mini.set",
+    "/setting/p_wario_car_mini.set"
+};
+
+static const char *donkyBodyMini[2] = {
+    "/setting/q_donkey_car_mini.set",
+    "/setting/q_donkey_car_mini.set"
+};
+
+static const char *kuppaBodyMini[2] = {
+    "/setting/r_koopa_car_mini.set",
+    "/setting/r_koopa_car_mini.set"
+};
+
+static const char *luigiBodyMini[2] = {
+    "/setting/j_luigi_car_mini.set",
+    "/setting/j_luigi_car_mini.set"
+};
+
+static const char *babyluigiBodyMini[2] = {
+    "/setting/b_babyluigi_car_mini.set",
+    "/setting/b_babyluigi_car_mini.set"
+};
+
+static const char *daisyBodyMini[2] = {
+    "/setting/l_daisy_car_mini.set",
+    "/setting/l_daisy_car_mini.set"
+};
+
+static const char *catherineBodyMini[2] = {
+    "/setting/n_catherine_car_mini.set",
+    "/setting/n_catherine_car_mini.set"
+};
+
+static const char *patapataBodyMini[2] = {
+    "/setting/d_patapata_car_mini.set",
+    "/setting/d_patapata_car_mini.set"
+};
+
+static const char *diddykongBodyMini[2] = {
+    "/setting/e_diddykong_car_mini.set",
+    "/setting/e_diddykong_car_mini.set"
+};
+
+static const char *waluigiBodyMini[2] = {
+    "/setting/o_waluigi_car_mini.set",
+    "/setting/o_waluigi_car_mini.set"
+};
+
+static const char *koopajrBodyMini[2] = {
+    "/setting/f_koopajr_car_mini.set",
+    "/setting/f_koopajr_car_mini.set"
+};
+
+static const char *kinopioBodyMini[2] = {
+    "/setting/g_kinopio_car_mini.set",
+    "/setting/g_kinopio_car_mini.set"
+};
+
+static const char *kinopiogirlBodyMini[2] = {
+    "/setting/h_kinopiogirl_car_mini.set",
+    "/setting/h_kinopiogirl_car_mini.set"
+};
+
+static const char *pakkunBodyMini[2] = {
+    "/setting/s_pakkun_car_mini.set",
+    "/setting/s_pakkun_car_mini.set"
+};
+
+static const char *teresaBodyMini[2] = {
+    "/setting/t_teresa_car_mini.set",
+    "/setting/t_teresa_car_mini.set"
+};
+
+static const char *extraBodyMini[2] = {
+    "/setting/u_extra_car_mini.set",
+    "/setting/u_extra_car_mini.set"
+};
+
+static const char **settingPtr2[21] = {
+    marioBody, donkyBody, yossyBody, nokonokoBody,
+    peachBody, babymarioBody, warioBody, kuppaBody,
+    luigiBody, diddykongBody, catherineBody, patapataBody,
+    daisyBody, babyluigiBody, waluigiBody, koopajrBody,
+    kinopioBody, kinopiogirlBody, teresaBody, pakkunBody,
+    extraBody
+};
+
+static const char **settingMiniPtr2[21] = {
+    marioBodyMini, donkyBodyMini, yossyBodyMini, nokonokoBodyMini,
+    peachBodyMini, babymarioBodyMini, warioBodyMini, kuppaBodyMini,
+    luigiBodyMini, diddykongBodyMini, catherineBodyMini, patapataBodyMini,
+    daisyBodyMini, babyluigiBodyMini, waluigiBodyMini, koopajrBodyMini,
+    kinopioBodyMini, kinopiogirlBodyMini, teresaBodyMini, pakkunBodyMini,
+    extraBodyMini
+};
 
 // comments inside functions are inline functions being called in that function
 
@@ -330,16 +558,9 @@ void KartBody::DoPose() {
         GetKartCtrl()->SetPosMatrix(_110, &vecPos);
         wgVel = mIdx;
 
-        bool boundsOK = false;
-        if ((wgVel >= 0) && (wgVel < 0x16)) {
-            boundsOK = true;
-        }
-
-        if (!boundsOK) {
-            JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "kartBody.cpp", 0x348, "range over: %d <= mIdx=%d < %d", 0, wgVel, 0x16);
-            OSPanic("kartBody.cpp", 0x348, "Halt");
-        }
-
+#line 840
+        JUT_MINMAX_ASSERT(0, mIdx, 22);
+        
         PSMTXCopy(_110, mPlayerPosMtx);
 
         f32 kartBodyOffset = GetKartCtrl()->GetKartBodyOffset(mMynum);
@@ -414,7 +635,6 @@ void KartBody::WallFriction(JGeometry::TVec3f *wallFriction, f32 mass, JGeometry
     }
 }
 
-// FIX: Registers f2 and f3 are flipped.
 void KartBody::GroundReflection(JGeometry::TVec3f *inVecOne, JGeometry::TVec3f *inVecTwo, f32 f1, f32 f2, f32 f3) { 
     JGeometry::TVec3f vec0x5c;   // 0x5C
     JGeometry::TVec3f vec0x50;   // 0x50
@@ -445,11 +665,12 @@ void KartBody::GroundReflection(JGeometry::TVec3f *inVecOne, JGeometry::TVec3f *
         return;
     }
 
-    fVar7 = fVar1 / _3a4;
-    if (((mCarStatus & 0x100000) == 0) && (fVar7 > 65.0f)) {
-        fVar7 = 65.0f;
+    f32 yScale = fVar1 / _3a4;
+    if (((mCarStatus & 0x100000) == 0) && (yScale > 65.0f)) {
+        yScale = 65.0f;
     }
-    vec0x50.set(vec0x38.x * fVar1, fVar7 * _3a4 * vec0x38.y, vec0x38.z * fVar1); 
+    yScale = (yScale * _3a4);
+    vec0x50.set(vec0x38.x * fVar1, vec0x38.y * yScale, vec0x38.z * fVar1); 
     GetKartCtrl()->MulMatrixByVector(&vec0x5c, &vec0x50, mPlayerPosMtx);
     DoForce(inVecOne, &vec0x5c);
     if (f2 > 0.0f) {
@@ -469,6 +690,20 @@ void KartBody::GroundReflection(JGeometry::TVec3f *inVecOne, JGeometry::TVec3f *
         getStrat()->DoVelCrl((_3f0 / 2.16f) / mSpeedScale);
     }
     GetKartCtrl()->MulMatrixByVector(&_2c0, &mWg, mPlayerPosMtx);
+}
+
+void KartBody::WallFallReflection(JGeometry::TVec3f *v1, JGeometry::TVec3f *v2) {
+    // UNUSED, but seems to be the candidate function that first made use of 15.0f
+    // entirely fabricated, probably not close to the original at all
+    JGeometry::TVec3f wallNormalVec;
+
+    _2a8.zero();
+    f32 angle = v1->dot(*v2);
+
+    WallReflection(&wallNormalVec, _40c, _408, angle);
+    if ((angle > 15.0f) && ((mGameStatus & 0x200) == 0)) {
+        JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown5, mMynum, *v1, 2);
+    }
 }
 
 void KartBody::RigidReflectionAnime(KartBody *kartBodyOne, KartBody *kartBodyTwo, f32 f3, f32 f4) {
@@ -692,8 +927,8 @@ void KartBody::RigidReflection(KartBody *kartBodyOne, KartBody *kartBodyTwo, JGe
             fVar2 = 3.0f;
         }
 
-        // FIX: Registers used here are wrong.
-        u16 uVar1 = (u16)(fVar2 / 3.0f) / 0xc;
+        u16 uVar1 = (u16)(fVar2 / 3.0f);
+        uVar1 /= 0xc;
         if (uVar1 > 0xc) {
             uVar1 = 0xc;
         }
@@ -708,8 +943,6 @@ void KartBody::RigidReflection(KartBody *kartBodyOne, KartBody *kartBodyTwo, JGe
 }
 
 void KartBody::ObjectReflection(JGeometry::TVec3f *vecObj) {
-    f32 dVar1;
-    f32 fVar2;
     
     _29c.x = vecObj->x;
     _29c.y = vecObj->y;
@@ -717,18 +950,17 @@ void KartBody::ObjectReflection(JGeometry::TVec3f *vecObj) {
     _29c.z = vecObj->z;
     
     if ((mCarStatus & 0x200100000) == 0) {
-        fVar2 = vecObj->length();
-        dVar1 = fVar2;
-        if (dVar1 > 20.0f) {
+        f32 objLen = vecObj->length();
+        if (objLen > 20.0f) {
             JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown6, mMynum, mPos, 0);
-            if (dVar1 > 40.0f) {
+            if (objLen > 40.0f) {
                 getStrat()->DoPowerMotor(1.0f, 10, 0);
-            } else if (dVar1 > 30.0f) {
+            } else if (objLen > 30.0f) {
                 getStrat()->DoPowerMotor(1.0f, 8, 0);
-            } else if (dVar1 > 20.0f) {
+            } else if (objLen > 20.0f) {
                 getStrat()->DoPowerMotor(1.0f, 5, 0);
             }
-        } else if (dVar1 >= 10.0f) {
+        } else if (objLen >= 10.0f) {
             getStrat()->DoPowerMotor(1.0f, 3, 0);
         }
         
@@ -741,7 +973,6 @@ void KartBody::ObjectReflection(JGeometry::TVec3f *vecObj) {
         objReflection.scale(_3a4);
         DoForce(&mPos, &objReflection);
     }
-    return;
 }
 
 void KartBody::ObjectWallReflection(GeographyObj* geoObj) {
@@ -978,6 +1209,10 @@ void KartBody::WallReflection(JGeometry::TVec3f *inVec, f32 f2, f32 f3, f32 f4) 
     DoForce(&mPos, &unknownVec);
 }
 
+void KartBody::GroundBoundReflection(CrsGround crsGround, JGeometry::TVec3f *wallVertex) {
+    // UNUSED
+}
+
 void KartBody::GroundVertexReflection(int index, CrsGround crsGround, JGeometry::TVec3f *inVec, u8 *someFlag){
     JGeometry::TVec3f crsNormal;
     
@@ -1030,22 +1265,17 @@ void KartBody::WallVertexReflection(CrsGround crsGround, JGeometry::TVec3f *wall
         angle = _2f0.angle(wallNormalVec);
         if (((mCarStatus & 0x100000) == 0) && (getTouchNum() != 0)) {
             if (_458 > 30.0f) {
-                if ((angle > 1.046666f) && (angle < 2.09333299f)) {
+                if ((angle > 1.046666f) && (angle < 2.0933299f)) {
                     *unknownBool1 = 1;
                 }
             }
-            else if ((angle > 0.348888f) && (angle < 2.791111f)) {
+            else if ((angle > 0.348888f) && (angle < 2.79111f)) {
                 *unknownBool1 = 1;
             }
         }
     }
 }
 
-// FIX: There are a number of things wrong with this function.
-//      1. A number of registers have been swapped or are wrong.
-//      2. Array offsets are incorrect in a number of places, with
-//         some being negative as well. This is due to point 3:
-//      3. TireOpData and CubeParamsData probably have the wrong data types.
 void KartBody::CheckVertexReflection() {
     TireOp *tireOpData;
 
@@ -1058,27 +1288,18 @@ void KartBody::CheckVertexReflection() {
     u8 local_157 = 0;
     u8 local_158 = 0;
     
-    bool checkSpecialDyn = false;
-    if ((mIdx >= 0) && (mIdx < 0x16)) {
-        checkSpecialDyn = true;
-    }
-    if (!checkSpecialDyn) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "kartBody.cpp", 0x79a, "range over: %d <= mIdx=%d < %d", 0, mIdx, 0x16);
-        OSPanic("kartBody.cpp", 0x79a, "Halt");
-    }
+#line 1946
+    JUT_MINMAX_ASSERT(0, mIdx, 22);
     for (int i = 0; i < 8; i++) {
         if (i >= 4) {
-            tireOpData = TireOpData[mIdx];
             vec2.set(
-                // FIX: Offsets are wrong here... how are they negative?
-                tireOpData[i]._2c + tireOpData[i]._30,
-                CubeParamsData[mIdx][i]._0->y,
-                tireOpData[i]._28);
+                TireOpData[mIdx][i - 4]._10 + TireOpData[mIdx][i - 4]._c,
+                CubeParamsData[mIdx]->_0[i].y,
+                TireOpData[mIdx][i - 4]._14);
         } else {
-            tireOpData = TireOpData[mIdx];
-            vec2.set(tireOpData[i]._10 + tireOpData[i]._c,
-                    CubeParamsData[mIdx][i]._0->y,
-                    tireOpData[i]._14);
+            vec2.set(TireOpData[mIdx][i]._10 + TireOpData[mIdx][i]._c,
+                    CubeParamsData[mIdx]->_0[i].y,
+                    TireOpData[mIdx][i]._14);
         }
         PSMTXMultVec(_1a0, &vec2, &vec1);
         crsGround.search(vec1, _1d0[i]);
@@ -1106,13 +1327,13 @@ void KartBody::CheckVertexReflection() {
         mCarStatus &= ~0x400;
     }
 
-    if (local_158 == 1) {
+    if (local_156 == 1) {
         mCarStatus |= 0x20;
     } else {
         mCarStatus &= ~0x20;
     }
 
-    if (local_156 == 1) {
+    if (local_158 == 1) {
         mCarStatus |= 0x10000000;
     } else {
         mCarStatus &= ~0x10000000;
@@ -1126,7 +1347,7 @@ void KartBody::CheckVertexReflection() {
     return;
 }
 
-bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *kartTwo) {
+bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *enemy) {
     JGeometry::TVec3f collisionVec;     // 0x44
     JGeometry::TVec3f tvec5;            // 0x38
     JGeometry::TVec3f kartOnePrevPos;   // 0x2c
@@ -1135,13 +1356,13 @@ bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *kartTwo) {
     JGeometry::TVec3f kartTwoPos;       // 0x08
     
     kartOnePrevPos.set(kartOne->mPrevPos);
-    kartTwoPrevPos.set(kartTwo->mPrevPos);
+    kartTwoPrevPos.set(enemy->mPrevPos);
 
-    f32 unknownSum = kartOne->_3a8 + kartTwo->_3a8;  // MJB - is this the width of both karts?
+    f32 unknownSum = kartOne->_3a8 + enemy->_3a8;  // MJB - is this the width of both karts?
     f32 kartOverlapPrevPosX = (kartOnePrevPos.x - kartTwoPrevPos.x);
 
     bool bodyWasHit;
-    if (!getChecker()->CheckBodyHit(kartOne->mMynum, kartTwo->mMynum) == 0) {
+    if (!getChecker()->CheckBodyHit(kartOne->mMynum, enemy->mMynum) == 0) {
         bodyWasHit = false;
     } else {
         if ((kartOverlapPrevPosX > unknownSum) || (kartOverlapPrevPosX < -unknownSum)) {
@@ -1156,7 +1377,7 @@ bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *kartTwo) {
 
             if (kartOverlapPrevPosX <= (unknownSum * unknownSum)) {
                 kartOnePos.set(kartOne->mPos);
-                kartTwoPos.set(kartTwo->mPos);
+                kartTwoPos.set(enemy->mPos);
 
                 collisionVec.sub(kartTwoPos, kartOnePos);
                 unknownSum -= collisionVec.length();
@@ -1175,38 +1396,35 @@ bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *kartTwo) {
                         kartOverlapPrevPosX = 1.0f;
                     }
                     
-                    if ((kartOne->mGameStatus & 2) != 0 || (kartTwo->mGameStatus & 2) != 0) {
+                    if ((kartOne->mGameStatus & 2) != 0 || (enemy->mGameStatus & 2) != 0) {
                         if ((kartOne->mCarStatus & 0x1000000000) == 0) {
-                            if ((kartTwo->mCarStatus & 0x1000000000) == 0) {
-                                kartTwo->mCarStatus |= 0x1000000000;
-                                JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown4, kartTwo->mMynum, kartOnePos, 2);
+                            if ((enemy->mCarStatus & 0x1000000000) == 0) {
+                                enemy->mCarStatus |= 0x1000000000;
+                                JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown4, enemy->mMynum, kartOnePos, 2);
                             }
                         }
                     } else {
                         if ((kartOne->mCarStatus & 0x1000000000) == 0) {
-                            if ((kartTwo->mCarStatus & 0x1000000000) == 0) {
-                                kartTwo->mCarStatus |= 0x1000000000;
-                                JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown4, kartTwo->mMynum, kartOnePos, 2);
+                            if ((enemy->mCarStatus & 0x1000000000) == 0) {
+                                enemy->mCarStatus |= 0x1000000000;
+                                JPEffectPerformer::setEffect(JPEffectPerformer::Effect_Unknown4, enemy->mMynum, kartOnePos, 2);
                             }
                         }
                     }
-                    GetKartCtrl()->getKartSound(kartTwo->mMynum)->DoKartHitSound(kartOverlapPrevPosX);
+                    GetKartCtrl()->getKartSound(enemy->mMynum)->DoKartHitSound(kartOverlapPrevPosX);
                 } else {
-                    GetKartCtrl()->getKartSound(kartTwo->mMynum)->DoKartHitSound(0.3f);
+                    GetKartCtrl()->getKartSound(enemy->mMynum)->DoKartHitSound(0.3f);
                 }
 
-                RigidReflection(kartOne, kartTwo, &tvec5, &collisionVec, kartOne->_41c, kartOne->_418, unknownSum);
-                kartTwo->mCarStatus |= 0x10;
+                RigidReflection(kartOne, enemy, &tvec5, &collisionVec, kartOne->_41c, kartOne->_418, unknownSum);
+                enemy->mCarStatus |= 0x10;
+#line 2105
+                JUT_MINMAX_ASSERT(0, enemy->mMynum, 8);
 
-                if (kartTwo->mMynum >= 8) {
-                    JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "kartBody.cpp", 0x839, "range over: %d <= enemy->mMynum=%d < %d", 0, kartTwo->mMynum, 8);
-                    OSPanic("kartBody.cpp", 0x839, "Halt");
-                }
-
-                if ((kartOne->mCarStatus & 0x4004) != 0 && (kartTwo->mCarStatus & 0x65000) == 0) {
-                    kartOne->_5b8[kartTwo->mMynum] = 1;
-                } else if ((kartOne->mCarStatus & 0x40000) != 0 && (kartTwo->mCarStatus & 0x65000) == 0) {
-                    kartOne->_5b8[kartTwo->mMynum] = 1;
+                if ((kartOne->mCarStatus & 0x4004) != 0 && (enemy->mCarStatus & 0x65000) == 0) {
+                    kartOne->_5b8[enemy->mMynum] = 1;
+                } else if ((kartOne->mCarStatus & 0x40000) != 0 && (enemy->mCarStatus & 0x65000) == 0) {
+                    kartOne->_5b8[enemy->mMynum] = 1;
                 }
                 bodyWasHit = true;
             } else {
@@ -1220,20 +1438,15 @@ bool KartBody::CheckBodyHit(KartBody *kartOne, KartBody *kartTwo) {
 
 void KartBody::InitBodySetting() {
     u8 kartDriver = mDriver;
-    if (kartDriver >= 2) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "kartBody.cpp", 0x859, "range over: %d <= mDriver=%d < %d", 0, kartDriver, 2);
-        OSPanic("kartBody.cpp", 0x859, "Halt");
-    }
+#line 2137
+    JUT_MINMAX_ASSERT(0, mDriver, 2);
 
     u8 kartClass = mClass;
-
     // TODO: Verify what gets stored in mSettingPtrs.
     f32 *unknownSettings = (f32 *)mSettingPtrs[mDriver];
-    if (kartClass >= 3) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "kartBody.cpp", 0x85f, "range over: %d <= mClass=%d < %d", 0, kartClass, 3);
-        OSPanic("kartBody.cpp", 0x85f, "Halt");
-    }
-
+#line 2143
+    JUT_MINMAX_ASSERT(0, mClass, 3);
+    
     _3d0 = unknownSettings[0x18];
     _3d8 = unknownSettings[0x1b];
     _3d4 = unknownSettings[0x19];
@@ -1484,24 +1697,20 @@ void KartBody::InitBodyParam() {
         mSettingPtrs[1] = (u8 *)ResMgr::getPtr(ResMgr::mcArcMRAM, settingPtr2[index][1]);
     }
 
-    f32 fVar1 = 10.0f;
-    f32 fVar2 = 1.8f;
     _32c.set(0.0f, 1.0f, 0.0f);
     _368.set(0.0f, 1.0f, 0.0f);
     _54c = 0.02f * mMynum;
     _550 = 0.0174444f * mMynum;
-    _384 = fVar1;
-    _38c = fVar1;
+    _384 = 10.0f;
+    _38c = 10.0f;
     _5b0 = 0;
     _5b1 = 0;
     InitBodySetting();
-    fVar1 = 0.313f;
     _3e0 = TireParamsData[mIdx]->_0;
     _3e4 = TireParamsData[mIdx]->_4;
-    mSpeedScale = fVar1;
-    _474 = fVar1;
-    BodyParamData *bodyParamsData = BodyParamsData[mIdx];
-    _320.set(bodyParamsData->_1c, bodyParamsData->_20, bodyParamsData->_24);
+    mSpeedScale = 0.313f;
+    _474 = 0.313f;
+    _320.set(BodyParamsData[mIdx]->_1c, BodyParamsData[mIdx]->_20, BodyParamsData[mIdx]->_24);
     MakeRigidVertexBody(BodyParamsData[mIdx]->_10, _320.x, _320.y, _320.z);
     _3a0 = -BodyParamsData[mIdx]->_18;
     _3b4 = BodyParamsData[mIdx]->_6c;
@@ -1544,18 +1753,6 @@ void KartBody::InitBodyParam() {
     }
 }
 
-void KartInfo::getDriverWeight(int characterIndex) const {
-    bool characterInRange = false;
-    if ((characterIndex >= 0) && (characterIndex < 2)) {
-        characterInRange = true;
-    }
-    if (!characterInRange) {
-        JUTAssertion::showAssert_f(JUTAssertion::getSDevice(), "KartInfo.h", 0x94, "range over: %d <= driverNo=%d < %d", 0, characterIndex, 2);
-        OSPanic("KartInfo.h", 0x94, "Halt");
-    }
-    mKartCharacters[characterIndex].getWeight();
-}
-
 void KartBody::Init(int index) {
     Mtx mtxPose = {
         { 1.0f, 0.0f, 0.0f, 0.0f },
@@ -1563,130 +1760,128 @@ void KartBody::Init(int index) {
         { 0.0f, 0.0f, 1.0f, 0.0f }
     };
     
-    f32 initValue = 0.0f;
-    
-    mFrame = initValue;
-    _384 = initValue;
-    _388 = initValue;
-    _38c = initValue;
-    mLiftframe = initValue;
-    _394 = initValue;
-    _398 = initValue;
-    _39c = initValue;
-    _3a0 = initValue;
-    _3a4 = initValue;
-    _3a8 = initValue;
-    _3ac = initValue;
-    _3b0 = initValue;
-    _3b4 = initValue;
-    _3b8 = initValue;
-    _3bc = initValue;
-    _3c0 = initValue;
-    _3c4 = initValue;
-    _3c8 = initValue;
-    _3cc = initValue;
-    _3d0 = initValue;
-    _3d4 = initValue;
-    _3d8 = initValue;
-    _3dc = initValue;
-    _3e0 = initValue;
-    _3e4 = initValue;
-    _3e8 = initValue;
-    _3ec = initValue;
-    _3f0 = initValue;
-    _3f4 = initValue;
-    _3f8 = initValue;
-    _3fc = initValue;
-    _400 = initValue;
-    _404 = initValue;
-    _408 = initValue;
-    _40c = initValue;
-    _410 = initValue;
-    _414 = initValue;
-    _418 = initValue;
-    _41c = initValue;
-    _420 = initValue;
-    _424 = initValue;
-    _428 = initValue;
-    _42c = initValue;
-    _430 = initValue;
-    _434 = initValue;
-    _438 = initValue;
-    _43c = initValue;
-    _440 = initValue;
-    mSpeed = initValue;
-    _448 = initValue;
-    mCarRPM = initValue;
-    mKartRPM = initValue;
-    _454 = initValue;
-    _458 = initValue;
-    _45c = initValue;
-    _460 = initValue;
-    _464 = initValue;
-    _468 = initValue;
-    _46c = initValue;
-    mSpeedScale = initValue;
-    _474 = initValue;
-    mTireAngle = initValue;
-    _47c = initValue;
-    _484 = initValue;
-    _498 = initValue;
-    _49c = initValue;
-    _4a0 = initValue;
-    _4a8 = initValue;
-    _4ac = initValue;
-    _4b0 = initValue;
-    _4b4 = initValue;
-    _4b8 = initValue;
-    _4bc = initValue;
-    _4c0 = initValue;
-    _4c4 = initValue;
-    _4c8 = initValue;
-    _4cc = initValue;
-    _4d4 = initValue;
-    _4d8 = initValue;
-    _4dc = initValue;
-    _4e0 = initValue;
-    _4e4 = initValue;
-    _4e8 = initValue;
-    _4ec = initValue;
-    _4f0 = initValue;
-    _52c = initValue;
-    _4f4 = initValue;
-    _4f8 = initValue;
-    mBtnMinusLiftSterr = initValue;
-    _504 = initValue;
-    mYawSterr = initValue;
-    _50c = initValue;
-    _508 = initValue;
-    _540 = initValue;
-    _514 = initValue;
-    _518 = initValue;
-    _51c = initValue;
-    _520 = initValue;
-    _524 = initValue;
-    _528 = initValue;
-    _530 = initValue;
-    _534 = initValue;
-    _538 = initValue;
-    _53c = initValue;
-    _4a4 = initValue;
-    _4d0 = initValue;
-    _544 = initValue;
-    _548 = initValue;
-    _554 = initValue;
-    _558 = initValue;
-    _54c = initValue;
-    _550 = initValue;
-    mSterrNorm = initValue;
-    _55c = initValue;
-    _48c = initValue;
-    _560 = initValue;
-    _564 = initValue;
+    mFrame = 0.0f;
+    _384 = 0.0f;
+    _388 = 0.0f;
+    _38c = 0.0f;
+    mLiftframe = 0.0f;
+    _394 = 0.0f;
+    _398 = 0.0f;
+    _39c = 0.0f;
+    _3a0 = 0.0f;
+    _3a4 = 0.0f;
+    _3a8 = 0.0f;
+    _3ac = 0.0f;
+    _3b0 = 0.0f;
+    _3b4 = 0.0f;
+    _3b8 = 0.0f;
+    _3bc = 0.0f;
+    _3c0 = 0.0f;
+    _3c4 = 0.0f;
+    _3c8 = 0.0f;
+    _3cc = 0.0f;
+    _3d0 = 0.0f;
+    _3d4 = 0.0f;
+    _3d8 = 0.0f;
+    _3dc = 0.0f;
+    _3e0 = 0.0f;
+    _3e4 = 0.0f;
+    _3e8 = 0.0f;
+    _3ec = 0.0f;
+    _3f0 = 0.0f;
+    _3f4 = 0.0f;
+    _3f8 = 0.0f;
+    _3fc = 0.0f;
+    _400 = 0.0f;
+    _404 = 0.0f;
+    _408 = 0.0f;
+    _40c = 0.0f;
+    _410 = 0.0f;
+    _414 = 0.0f;
+    _418 = 0.0f;
+    _41c = 0.0f;
+    _420 = 0.0f;
+    _424 = 0.0f;
+    _428 = 0.0f;
+    _42c = 0.0f;
+    _430 = 0.0f;
+    _434 = 0.0f;
+    _438 = 0.0f;
+    _43c = 0.0f;
+    _440 = 0.0f;
+    mSpeed = 0.0f;
+    _448 = 0.0f;
+    mCarRPM = 0.0f;
+    mKartRPM = 0.0f;
+    _454 = 0.0f;
+    _458 = 0.0f;
+    _45c = 0.0f;
+    _460 = 0.0f;
+    _464 = 0.0f;
+    _468 = 0.0f;
+    _46c = 0.0f;
+    mSpeedScale = 0.0f;
+    _474 = 0.0f;
+    mTireAngle = 0.0f;
+    _47c = 0.0f;
+    _484 = 0.0f;
+    _498 = 0.0f;
+    _49c = 0.0f;
+    _4a0 = 0.0f;
+    _4a8 = 0.0f;
+    _4ac = 0.0f;
+    _4b0 = 0.0f;
+    _4b4 = 0.0f;
+    _4b8 = 0.0f;
+    _4bc = 0.0f;
+    _4c0 = 0.0f;
+    _4c4 = 0.0f;
+    _4c8 = 0.0f;
+    _4cc = 0.0f;
+    _4d4 = 0.0f;
+    _4d8 = 0.0f;
+    _4dc = 0.0f;
+    _4e0 = 0.0f;
+    _4e4 = 0.0f;
+    _4e8 = 0.0f;
+    _4ec = 0.0f;
+    _4f0 = 0.0f;
+    _52c = 0.0f;
+    _4f4 = 0.0f;
+    _4f8 = 0.0f;
+    mBtnMinusLiftSterr = 0.0f;
+    _504 = 0.0f;
+    mYawSterr = 0.0f;
+    _50c = 0.0f;
+    _508 = 0.0f;
+    _540 = 0.0f;
+    _514 = 0.0f;
+    _518 = 0.0f;
+    _51c = 0.0f;
+    _520 = 0.0f;
+    _524 = 0.0f;
+    _528 = 0.0f;
+    _530 = 0.0f;
+    _534 = 0.0f;
+    _538 = 0.0f;
+    _53c = 0.0f;
+    _4a4 = 0.0f;
+    _4d0 = 0.0f;
+    _544 = 0.0f;
+    _548 = 0.0f;
+    _554 = 0.0f;
+    _558 = 0.0f;
+    _54c = 0.0f;
+    _550 = 0.0f;
+    mSterrNorm = 0.0f;
+    _55c = 0.0f;
+    _48c = 0.0f;
+    _560 = 0.0f;
+    _564 = 0.0f;
     _568 = 1.0f;
-    mSterrFrame = initValue;
-    mSterrFrameChase = initValue;
-    _510 = initValue;
+    mSterrFrame = 0.0f;
+    mSterrFrameChase = 0.0f;
+    _510 = 0.0f;
     _230.zero();
     for (int i = 0; i < 8; i++) {
         _1d0[i].zero();

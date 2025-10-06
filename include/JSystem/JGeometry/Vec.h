@@ -245,7 +245,13 @@ namespace JGeometry {
 
         void setMax(const TVec3 &other);
         void setMin(const TVec3 &other);
-        void setNormal(const TVec3 &, const TVec3 &, const TVec3 &);
+        void setNormal(const TVec3 &vA, const TVec3 &vB, const TVec3 &vC) {
+            TVec3 edge1, edge2;
+            edge1.sub(vB, vA);
+            edge2.sub(vC, vB);
+            cross(edge2, edge1);
+            normalize();
+        }
 
         void zero() { x = y = z = 0; }        
 
@@ -313,8 +319,8 @@ namespace JGeometry {
         void scaleAdd(f32 scalar, const TVec3 &operand, const TVec3 &translate) { JMAVECScaleAdd(&operand, &translate, this, scalar); }
         void scaleAdd(f32 scalar, const TVec3 &operand) { JMAVECScaleAdd(&operand, this, this, scalar); }
 
-        void div(f32 divisor) { return scale(TUtilf::invert(divisor)); }
-        void div(f32 divisor, const TVec3 &operand) { return scale(TUtilf::invert(divisor), operand); }
+        void div(f32 divisor) { scale(TUtilf::invert(divisor)); }
+        void div(f32 divisor, const TVec3 &operand) { scale(TUtilf::invert(divisor), operand); }
 
         f32 squared() const { return JMathInlineVEC::PSVECSquareMag(this); }
         f32 squaredZX() const { return dotZX(*this); }
