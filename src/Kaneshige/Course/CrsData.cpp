@@ -89,7 +89,7 @@ CrsData::CrsData(CrsData::SColHeader *bco, CrsData::SOblHeader *bol) {
                 break;
             }
 
-            snprintf(matData->name, 0x10, "™%s%d", matName, mat[i].soundID);
+            snprintf(matData->name, 0x10, "â˜†%s%d", matName, mat[i].soundID);
         }
     }
     else {

@@ -64,7 +64,7 @@ void RaceSceneLight::calc() {
     mViewMtx = mTargetCam->GetMtx();  
 }
 
-RaceKartLight::RaceKartLight(RaceSceneLight *sceneLight, int kartIdx) : LtObjDiffuse("ÉJÅ[ÉgÉâÉCÉg", sceneLight->getViewNo()), mAmbient("ÉJÅ[ÉgÉAÉìÉrÉGÉìÉg", TCOLOR_BLACK) {
+RaceKartLight::RaceKartLight(RaceSceneLight *sceneLight, int kartIdx) : LtObjDiffuse("„Ç´„Éº„Éà„É©„Ç§„Éà", sceneLight->getViewNo()), mAmbient("„Ç´„Éº„Éà„Ç¢„É≥„Éì„Ç®„É≥„Éà", TCOLOR_BLACK) {
     KartInfo *kartInfo = RaceMgr::getManager()->getKartInfo(kartIdx);
     mSceneLight = sceneLight;
     mViewMtx = mSceneLight->getTargetCamera()->GetMtx();
@@ -184,7 +184,7 @@ void RaceKartLight::draw() {
     mAmbient.draw();
 }
 
-RaceBalloonLight::RaceBalloonLight(u32 viewNo) : LtObjDiffuse("Ç”Ç§ÇπÇÒ", viewNo) {
+RaceBalloonLight::RaceBalloonLight(u32 viewNo) : LtObjDiffuse("„Åµ„ÅÜ„Åõ„Çì", viewNo) {
     mColor.set(0xff, 0xff, 0xff, 0xff);
     mTargetCam = RCMGetCamera(viewNo);
     mOffsetPos.set(0.0f, 0.0f, 0.0f);
@@ -228,7 +228,7 @@ void RaceBalloonLight::calc() {
     mViewMtx = mTargetCam->GetMtx();
 }
 
-RaceCupLight::RaceCupLight(RaceSceneLight *sceneLight) : LtObjDiffuse("ÉJÉbÉvÉâÉCÉg", sceneLight->getViewNo()), mAmbient("ÉJÉbÉvÉAÉìÉrÉGÉìÉg", JUtility::TColor(0x8c, 0x8c, 0x8c, 0)) {
+RaceCupLight::RaceCupLight(RaceSceneLight *sceneLight) : LtObjDiffuse("„Ç´„ÉÉ„Éó„É©„Ç§„Éà", sceneLight->getViewNo()), mAmbient("„Ç´„ÉÉ„Éó„Ç¢„É≥„Éì„Ç®„É≥„Éà", JUtility::TColor(0x8c, 0x8c, 0x8c, 0)) {
     setLoadNo(7);
     setTagName(0x43555030 + sceneLight->getViewNo()); // CUP0
     setManualDraw();
@@ -246,7 +246,7 @@ void RaceCupLight::draw() {
     mAmbient.draw();
 }
 
-MenuSceneLight::MenuSceneLight(Mtx m) : LtObjDiffuse("ëO", 0) {
+MenuSceneLight::MenuSceneLight(Mtx m) : LtObjDiffuse("Ââç", 0) {
     mViewMtx = m;
     mColor.set(0xff, 0xff, 0xff, 0xff);
 
@@ -316,7 +316,7 @@ MenuSubLight *MenuSubLight::createAndAppend(JKRHeap *heap, int id, MenuSceneLigh
     return sub;
 }
 
-MenuSubLight::MenuSubLight(int id, MenuSceneLight *scenLight, u8 loadNo) : LtObjDiffuse("ÉTÉu", 0) {
+MenuSubLight::MenuSubLight(int id, MenuSceneLight *scenLight, u8 loadNo) : LtObjDiffuse("„Çµ„Éñ", 0) {
 #line 792
     JUT_MINMAX_ASSERT(0, id, 2);
     mId = id;

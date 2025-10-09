@@ -337,7 +337,7 @@ void ItemYoshiEgg::calcCreateItem(u32 *outKinds) {
         }
 
         //--------------------------------------------------------------
-        // 4?d.  Next round will draw from the three ÅgcommonÅh entries
+        // 4?d.  Next round will draw from the three ‚Äúcommon‚Äù entries
         //       plus whatever we have just appended (0?2 entries)
         //--------------------------------------------------------------
         listSize = appended + 3;     // 3 mandatory + newly added

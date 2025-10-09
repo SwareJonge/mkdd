@@ -160,9 +160,6 @@ if not is_windows():
 if not config.non_matching:
     config.asm_dir = None
 
-# Disable sjiswrap
-config.shift_jis = False
-
 # Tool versions
 config.binutils_tag = "2.42-1"
 config.compilers_tag = "20250812"

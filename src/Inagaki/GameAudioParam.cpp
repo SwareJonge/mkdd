@@ -147,14 +147,14 @@ u8 getPlayerMode() {
 int getEngineType(u8 kart) {
     // I wonder if this was copy pasted...
 #line 399
-    JUT_ASSERT_MSG(kart < 8, "getCharactorType : kart‚Ì’l‚ª8ˆÈã‚É‚È‚Á‚Ä‚¢‚Ü‚·I\n");
+    JUT_ASSERT_MSG(kart < 8, "getCharactorType : kartã®å€¤ãŒ8ä»¥ä¸Šã«ãªã£ã¦ã„ã¾ã™ï¼\n");
     return sEngType[kart];
 }
 
 int getCharacterType(u8 kart) {
     // Value of kart is now 8 or higher
 #line 406
-    JUT_ASSERT_MSG(kart < 8, "getCharactorType : kart‚Ì’l‚ª8ˆÈã‚É‚È‚Á‚Ä‚¢‚Ü‚·I\n");
+    JUT_ASSERT_MSG(kart < 8, "getCharactorType : kartã®å€¤ãŒ8ä»¥ä¸Šã«ãªã£ã¦ã„ã¾ã™ï¼\n");
     return sChrType[kart];
 }
 

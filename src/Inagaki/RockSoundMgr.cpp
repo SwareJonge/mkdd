@@ -34,7 +34,7 @@ void RockSoundMgr::init() {
 
 void RockSoundMgr::loop() {
 #line 119
-    JUT_ASSERT_MSG(mSoundPos, "RockSoundMgr::loop@disable’†‚Å‚·IIIII\n");
+    JUT_ASSERT_MSG(mSoundPos, "RockSoundMgr::loopã€€disableä¸­ã§ã™ï¼ï¼ï¼ï¼ï¼\n");
     SoundMgr::loop();
     _5c = 0;
 }
