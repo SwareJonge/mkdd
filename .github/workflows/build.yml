@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    container: ghcr.io/swarejonge/mkdd-build:main
+    container: ghcr.io/doldecomp/mkdd-build:main
 
     runs-on: ubuntu-latest
     strategy:
