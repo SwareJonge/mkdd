@@ -15,7 +15,7 @@ namespace JASDvd
         if (sThread != 0)
         {
 #line 32
-            JUT_CRITICAL_WARNING_F("%s", "JASDvd::createThread ‚ª‚Q‰ñŒÄ‚Ño‚³‚ê‚Ü‚µ‚½");
+            JUT_CRITICAL_WARNING_F("%s", "JASDvd::createThread ãŒï¼’å›å‘¼ã³å‡ºã•ã‚Œã¾ã—ãŸ");
             return false;
         }
         sThread = new (JASDram, 0) JASTaskThread(threadPriority, msgCount, stackSize);

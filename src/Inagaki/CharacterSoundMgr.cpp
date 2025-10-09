@@ -44,7 +44,7 @@ void CharacterSoundMgr::init() {
 
 void CharacterSoundMgr::loop() {
 #line 152
-    JUT_ASSERT_MSG(mSoundPos, "CharacterSoundMgr::loop@disable’†‚Å‚·IIIII\n");
+    JUT_ASSERT_MSG(mSoundPos, "CharacterSoundMgr::loopã€€disableä¸­ã§ã™ï¼ï¼ï¼ï¼ï¼\n");
     if (mKillSw)
         return;
 
@@ -130,7 +130,7 @@ void CharacterSoundMgr::setVoice(u8 voiceID) {
         charIdx = 0x12;
         break;
     default:
-        JUT_REPORT_MSG("CharacterSoundMgr::setVoice •s³‚ÈƒLƒƒƒ‰ƒNƒ^[ID‚Å‚·\n");
+        JUT_REPORT_MSG("CharacterSoundMgr::setVoice ä¸æ­£ãªã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼IDã§ã™\n");
         return;
     }
 

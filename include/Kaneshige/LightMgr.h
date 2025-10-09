@@ -48,7 +48,7 @@ private:
 class LtObjAmbient : public LightObj
 {
 public:
-    LtObjAmbient(JUTColor color) : LightObj("ƒAƒ“ƒrƒGƒ“ƒg", 0xffffffff)
+    LtObjAmbient(JUTColor color) : LightObj("ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆ", 0xffffffff)
     {
         GXColor gxColor = color;
         mColor.set(gxColor);
