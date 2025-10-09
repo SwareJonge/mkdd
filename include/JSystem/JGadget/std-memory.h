@@ -18,7 +18,7 @@ struct TAllocator {
         DeallocateRaw(mem);
     }
 
-    void DeallocateRaw(T* mem) {
+    void DeallocateRaw(void* mem) {
         delete mem;
     }
 

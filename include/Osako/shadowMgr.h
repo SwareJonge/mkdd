@@ -51,6 +51,18 @@ public:
         return 0xff;
     }
 
+    JUTColor getShadowColor() {
+        return mShadowColor;
+    }
+
+    u8 getDepth(int index) {
+        return mDepth[index];
+    }
+    
+    u8 getDepthMode() {
+        return mDepthMode;
+    }
+
     static ShadowManager* mspShadowManager;
 
 private:
@@ -60,10 +72,10 @@ private:
     List _48;
     
     JUTColor mShadowColor;
-    unsigned char mDepth[2];
-    unsigned char mDepthMode;
-    unsigned char _5f;
-    unsigned char mIsMirror;
+    u8 mDepth[2];
+    u8 mDepthMode;
+    u8 _5f;
+    bool mIsMirror;
 }; // Size: 0x64
 
 #endif // SHADOWMGR_H

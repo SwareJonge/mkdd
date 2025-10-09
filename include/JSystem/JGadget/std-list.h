@@ -87,6 +87,8 @@ struct TList {
         const TNode_* p_;
     };
 
+    ~TList() { clear(); }
+
     TList(const TAllocator<T>& alloc = TAllocator<T>())
 	{
         oAllocator_ = alloc;
@@ -147,6 +149,25 @@ struct TList {
         ++oSize_;
         return iterator(newNode);
     }
+
+    iterator erase(iterator what)
+	{
+		TNode_* p       = what.p_;
+		TNode_* next       = p->pNext_;
+		p->pPrev_->pNext_ = next;
+		next->pPrev_        = p->pPrev_;
+		DestroyNode_(p);
+		oSize_--;
+		return iterator(next);
+	}
+
+	iterator erase(iterator start, iterator end)
+	{
+		while (start != end) {
+			start = erase(start);
+		}
+		return start;
+	}
     
     void push_back(const T& what) { 
         insert(end(), what); 
@@ -157,6 +178,8 @@ struct TList {
 
     iterator end() { return iterator(&this->oEnd_); }
     const_iterator end() const { return const_iterator(&this->oEnd_); }
+
+    iterator clear() { return erase(begin(), end()); }
 
 private:
     TAllocator<T> oAllocator_; // 0
