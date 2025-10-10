@@ -97,6 +97,7 @@ Select an object from the left sidebar to begin diffing. Changes to the project 
 ![](assets/objdiff.png)
 
 ## Credits
+- [SwareJonge](https://github.com/SwareJonge) for originally starting this project, and for guiding many people in their first contributions towards a decomp.
 - [Seeky](https://github.com/SeekyCt) for ppcdis, without it this project wouldn't have been where it is now
 ### Matching
 Used code from the following repositories(JSystem, SDK)
