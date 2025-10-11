@@ -97,7 +97,9 @@ Select an object from the left sidebar to begin diffing. Changes to the project 
 ![](assets/objdiff.png)
 
 ## Credits
-- [Seeky](https://github.com/SeekyCt) for ppcdis, without it this project wouldn't have been where it is now
+- [SwareJonge](https://github.com/SwareJonge) for originally starting this project, and for guiding many people in their first contributions towards a decomp.
+- [Seeky](https://github.com/SeekyCt) for ppcdis, without it this project wouldn't have been where it is now.
+- [encounter](https://github.com/encounter) for their amazing tools (decomp-toolkit, ObjDiff, et al.) which have so helped not only this project, but the entire decomp community.
 ### Matching
 Used code from the following repositories(JSystem, SDK)
 * [Metroid Prime Decomp](https://github.com/PrimeDecomp/prime)
@@ -107,7 +109,7 @@ Used code from the following repositories(JSystem, SDK)
 * [Syati](https://github.com/PMArkive/Syati-pretransfer)
 * [Twilight Princess Decomp](https://github.com/zeldaret/tp)
 
-And many thanks to the people who helped me match some game functions(sorry if i forgot someone)
+And many thanks to the people who helped me match some game functions (sorry if anyone is forgotten.)
 * [Chippy](https://github.com/1superchip)
 * [kiwi](https://github.com/kiwi515)
 * [Seeky](https://github.com/SeekyCt)
