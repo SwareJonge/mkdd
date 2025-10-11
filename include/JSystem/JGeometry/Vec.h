@@ -336,8 +336,7 @@ namespace JGeometry {
             TVec3 crossp;
             crossp.cross(*this, vec2);
             f32 len = crossp.length();
-            f32 dp = dot(vec2);
-            f32 ang = TUtilf::atan2(len, dp);
+            f32 ang = TUtilf::atan2(len, dot(vec2));
 
             return TUtilf::abs(ang);
         }

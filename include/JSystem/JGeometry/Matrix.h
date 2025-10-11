@@ -4,6 +4,7 @@
 #include <JSystem/JGeometry/Vec.h>
 #include <JSystem/JGeometry/Quat.h>
 
+#include "JSystem/JGeometry/Util.h"
 #include "types.h"
 
 namespace JGeometry {
@@ -121,7 +122,59 @@ namespace JGeometry {
         void setEulerY(f32 val);
         void setEulerZ(f32 val);
 
-        void getQuat(TQuat4f &rDest) const;
+        void getQuat(TQuat4f &rDest) const { // Non matching
+            f32 z,y,x;
+            x = this->mMtx[0][0];
+            y = this->mMtx[1][1];
+            z = this->mMtx[2][2]; 
+            // Case 1: trace is positive, straightforward calculation
+            f32 len = x+y+z;
+            if (len >= 0.0f) {
+                len = TUtilf::sqrt( len + 1.0f);
+                f32 invS = 0.5f / len;
+
+                rDest.w = 0.5f * len;
+                rDest.x = (this->mMtx[2][1] - this->mMtx[1][2]) * invS;
+                rDest.y = (this->mMtx[0][2] - this->mMtx[2][0]) * invS;
+                rDest.z = (this->mMtx[1][0] - this->mMtx[0][1]) * invS;
+                return;
+            }
+            // Otherwise, find which major diagonal element has the greatest value
+            f32 maxDiagxyz = x >= y ? x : y;
+            maxDiagxyz = maxDiagxyz >= z ? maxDiagxyz : z;
+
+            if (maxDiagxyz == x) {
+                // Case: mMtx[0][0] is the largest
+                len = TUtilf::sqrt(x - (y + z) + 1.0f); 
+
+                f32 invS = 0.5f / len;
+
+                rDest.x = 0.5f * len;
+                rDest.y = (this->mMtx[0][1] + this->mMtx[1][0]) * invS;
+                rDest.z = (this->mMtx[2][0] + this->mMtx[0][2]) * invS;
+                rDest.w = (this->mMtx[2][1] - this->mMtx[1][2]) * invS;   
+            }
+            else if (maxDiagxyz == y) {
+                // Case: mMtx[1][1] is the largest
+                f32 s = TUtilf::sqrt((y - (z + x)) + 1.0f);
+                f32 invS = 0.5f / s;
+
+                rDest.y = 0.5f * s;
+                rDest.z = (this->mMtx[1][2] + this->mMtx[2][1]) * invS;
+                rDest.x = (this->mMtx[0][1] + this->mMtx[1][0]) * invS;
+                rDest.w = (this->mMtx[0][2] - this->mMtx[2][0]) * invS;
+            }
+            else {
+                f32 s = TUtilf::sqrt((z - (y + x)) + 1.0f);
+                f32 invS = 0.5f / s;
+
+                rDest.z = 0.5f * s;
+                rDest.x = (this->mMtx[2][0] + this->mMtx[0][2]) * invS;
+                rDest.y = (this->mMtx[1][2] + this->mMtx[2][1]) * invS;
+                rDest.w = (this->mMtx[1][0] - this->mMtx[0][1]) * invS;                
+            }
+        }
+
         void setQuat(const TQuat4f &rSrc);
 
         void getScale(TVec3f &rDest) const;

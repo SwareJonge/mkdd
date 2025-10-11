@@ -79,7 +79,7 @@ SoundMgr<T>::~SoundMgr() {
 template<class T>
 void SoundMgr<T>::loop() {
 #line 139
-    JUT_ASSERT_MSG(mSoundPos, "SoundMgr::loop@disable’†‚Å‚·IIIII\n");
+    JUT_ASSERT_MSG(mSoundPos, "SoundMgr::loopã€€disableä¸­ã§ã™ï¼ï¼ï¼ï¼ï¼\n");
     JAUDopplerSoundObject::process();
     _49 = 0;
 }

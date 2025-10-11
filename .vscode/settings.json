@@ -1,10 +1,10 @@
 {
   "[c]": {
-    "files.encoding": "shiftjis",
+    "files.encoding": "utf8",
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
   },
   "[cpp]": {
-    "files.encoding": "shiftjis",
+    "files.encoding": "utf8",
     "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
   },
   "[python]": {
@@ -14,6 +14,8 @@
   "files.trimFinalNewlines": true,
   "files.associations": {
     "*.inc": "c",
+    "*.pch": "c",
+    "*.pch++": "cpp",
     ".clangd": "yaml"
   },
   // Disable C/C++ IntelliSense, use clangd instead

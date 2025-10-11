@@ -68,6 +68,15 @@ extern "C"
     f32 PSVECSquareDistance(const Vec *a, const Vec *b);
     f32 PSVECDistance(const Vec *a, const Vec *b);
 
+    void PSQUATMultiply(const Quaternion*, const Quaternion*, Quaternion*);
+    void PSQUATScale(const Quaternion*, Quaternion*, f32);
+    f32 PSQUATDotProduct(const Quaternion*, const Quaternion*);
+    void PSQUATNormalize(const Quaternion*, Quaternion*);
+    void PSQUATInverse(const Quaternion*, Quaternion*);
+    void C_QUATMtx(Quaternion*, const Mtx);
+    void C_QUATLerp(const Quaternion*, const Quaternion*, Quaternion*, f32);
+    void C_QUATSlerp(const Quaternion*, const Quaternion*, Quaternion*, f32);
+
     void PSMTX44MultVec(const Mtx44 m, const Vec *src, Vec *dst);
     void PSMTX44MultVecArray(const Mtx44 m, const Vec *srcBase, Vec *dstBase, u32 count);
     void PSMTX44MultVecSR(const Mtx44 m, const Vec *src, Vec *dst);

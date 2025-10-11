@@ -35,7 +35,7 @@ CameraMgr::CameraMgr(u32 p1, CustomAudience<4> *audience) {
 void CameraMgr::setCameraInfo(u32 cameraNo, Vec v, Mtx m,  CrsArea *pArea) {
     // The camera number is invalid
 #line 34
-    JUT_ASSERT_MSG(cameraNo < _4, "GameAudioCamera : カメラナンバーが不正です。\n");
+    JUT_ASSERT_MSG(cameraNo < _4, "GameAudioCamera : 繧ｫ繝｡繝ｩ繝翫Φ繝舌�ｼ縺御ｸ肴ｭ｣縺ｧ縺吶�\n");
     u8 areaKind = 0;
     if (!pArea->isKind2()) {
         CrsArea area;

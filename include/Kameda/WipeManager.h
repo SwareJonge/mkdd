@@ -37,8 +37,7 @@ class WipeHioNode : public HioNode
 {
 public:
     virtual ~WipeHioNode() {}
-    // no idea if the \\ is a workaround
-    WipeHioNode() : HioNode("ÉèÉCÉvï\\\é¶", &mParam, 0, 0) {}
+    WipeHioNode() : HioNode("„ÉØ„Ç§„ÉóË°®Á§∫", &mParam, 0, 0) {}
 
     WipeParam mParam;
 };

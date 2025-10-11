@@ -34,7 +34,7 @@ bool JASHeap::alloc(JASHeap *mother, u32 param_1) {
     JUT_ASSERT(mother != 0);
     JASMutexLock lock(&mMutex);
     if (isAllocated()) {
-        JUT_REPORT_MSG("[JASHeap::alloc] ���łɃq�[�v�͊m�ۂ���Ă��܂��B���������Ă���ɂ��Ă��������B\n");
+        JUT_REPORT_MSG("[JASHeap::alloc] すでにヒープは確保されています。初期化してからにしてください。\n");
         return 0;
     }
     if (!mother->isAllocated()) {
@@ -77,7 +77,7 @@ bool JASHeap::alloc(JASHeap *mother, u32 param_1) {
     }
     if (!local_43) {
 #ifdef DEBUG
-        OSReport("[JASHeap::alloc] �}�U�[������������Ȃ��̂Ŋm�ۂł��܂���B\n");
+        OSReport("[JASHeap::alloc] マザーメモリが足りないので確保できません。\n");
 #endif
         return 0;
     }
