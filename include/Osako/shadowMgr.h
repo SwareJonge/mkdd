@@ -3,10 +3,12 @@
 
 #include "JSystem/JUtility/TColor.h"
 #include "JSystem/JGadget/std-list.h"
+#include "JSystem/JKernel/JKRDisposer.h"
 #include "Osako/shadowModel.h"
 #include "types.h"
 
-class ShadowManager {
+class ShadowManager : public JKRDisposer 
+{
 public:
     ShadowManager();
 
@@ -49,16 +51,31 @@ public:
         return 0xff;
     }
 
+    JUTColor getShadowColor() {
+        return mShadowColor;
+    }
+
+    u8 getDepth(int index) {
+        return mDepth[index];
+    }
+    
+    u8 getDepthMode() {
+        return mDepthMode;
+    }
+
     static ShadowManager* mspShadowManager;
 
-//private:
-    u8 _00[0x58];
+private:
+    List _18;
+    List _28;
+    List _38;
+    List _48;
+    
     JUTColor mShadowColor;
     u8 mDepth[2];
     u8 mDepthMode;
     u8 _5f;
     bool mIsMirror;
-    u8 _61[3]; // i thought operator new always gets aligned by 4?
 }; // Size: 0x64
 
 #endif // SHADOWMGR_H

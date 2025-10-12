@@ -18,12 +18,23 @@ struct TAllocator {
         DeallocateRaw(mem);
     }
 
-    void DeallocateRaw(T* mem) {
+    void DeallocateRaw(void* mem) {
         delete mem;
     }
 
+    void construct(T* p, const T& value)
+	{
+		// clang-format off
+		JGADGET_ASSERT(p!=0);
+		// clang-format on
+		(void)::new (p) T(value);
+	}
+
     void destroy(T* p) {
-        JUT_ASSERT(p!=0);
+        // clang-format off
+		JGADGET_ASSERT(p!=0);
+		// clang-format on
+		p->~T();
     }
 
     u8 mAllocator; // 00

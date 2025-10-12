@@ -19,7 +19,7 @@ void ShadowScreen::draw()
 {
     ShadowManager *shadowMgr = ShadowManager::ptr();
     
-    u8 mode = shadowMgr->mDepthMode;
+    u8 mode = shadowMgr->getDepthMode();
     switch (mode)
     {
     case 1:
@@ -33,7 +33,7 @@ void ShadowScreen::draw()
     GXSetCurrentMtx(0);
     GXSetProjection(mProjMtx, GX_ORTHOGRAPHIC);
     GXSetNumChans(1);
-    GXSetChanMatColor(GX_COLOR0A0, shadowMgr->mShadowColor);
+    GXSetChanMatColor(GX_COLOR0A0, shadowMgr->getShadowColor());
     GXSetChanCtrl(GX_COLOR0A0, GX_FALSE, GX_SRC_REG, GX_SRC_REG, 0, GX_DF_NONE, GX_AF_NONE);
     GXSetZMode(GX_FALSE, GX_NEVER, GX_FALSE);
 
@@ -58,14 +58,14 @@ void ShadowScreen::draw()
         GXEnd();
         break;
     case 1:
-        GXColorS10 color = {0, 0, 0, (shadowMgr->mDepth[1] & 0xfc) - 0xff};
+        GXColorS10 color = {0, 0, 0, (shadowMgr->getDepth(1) & 0xfc) - 0xff};
 
         GXSetNumTevStages(1);
         GXSetNumTexGens(1);
         GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, 60, GX_FALSE, 125);
         GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
         GXSetTevColorS10(GX_TEVREG0, color);
-        GXSetTevColor(GX_TEVREG1, shadowMgr->mShadowColor);
+        GXSetTevColor(GX_TEVREG1, shadowMgr->getShadowColor());
         GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C1);
         GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
         GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_TEXA, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);

@@ -24,6 +24,11 @@ public:
         _95 = 0;
     }
 
+    ShadowKind getShadowKind() const { return mKind; }
+    u8 getAlpha() const { return _94; }
+    u8 getFlag95() const { return _95; }
+    void setFlag95(bool flag) { _95 = flag; }
+
     virtual bool createModel(JKRSolidHeap *, u32, u32); // 0x801f7154, override
 private:
     ShadowKind mKind;
